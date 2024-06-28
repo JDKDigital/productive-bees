@@ -1,0 +1,20 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:gobber",
+  "parent2": "productivebees:netherite",
+  "offspring": "productivebees:nether_gobber",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gobber"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:netherite"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:nether_gobber"
+    }
+  ]
+}

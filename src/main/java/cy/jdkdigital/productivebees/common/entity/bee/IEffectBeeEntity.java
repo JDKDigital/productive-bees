@@ -1,5 +1,7 @@
 package cy.jdkdigital.productivebees.common.entity.bee;
 
+import cy.jdkdigital.productivebees.util.GeneAttribute;
+import cy.jdkdigital.productivebees.util.GeneValue;
 import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -9,8 +11,8 @@ import java.util.Map;
 
 public interface IEffectBeeEntity
 {
-    default int getEffectCooldown(int temper) {
-        return temper > 0 ? 400 / temper : 400;
+    default int getEffectCooldown(GeneValue temper) {
+        return !temper.equals(GeneValue.TEMPER_PASSIVE) ? 400 / temper.getValue() : 400;
     }
 
     default void attackTarget(LivingEntity target) {

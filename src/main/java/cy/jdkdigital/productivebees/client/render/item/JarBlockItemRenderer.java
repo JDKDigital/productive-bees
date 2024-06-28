@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
+import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.common.item.JarBlockItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -13,6 +14,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -38,8 +40,9 @@ public class JarBlockItemRenderer extends BlockEntityWithoutLevelRenderer {
             String entityType = null;
 
             // Very hacky
-            if (itemStack.getTag() != null) {
-                ListTag listTag = itemStack.getTag().getCompound("BlockEntityTag").getCompound("inv").getList("Items", 10);
+            if (BeeCage.isFilled(itemStack)) {
+                var tag = itemStack.get(DataComponents.CUSTOM_DATA).copyTag();
+                ListTag listTag = tag.getCompound("BlockEntityTag").getCompound("inv").getList("Items", 10);
                 if (listTag.size() == 1) {
                     if (listTag.getCompound(0).getCompound("tag").contains("entity")) {
                         entityType = listTag.getCompound(0).getCompound("tag").getString("entity");

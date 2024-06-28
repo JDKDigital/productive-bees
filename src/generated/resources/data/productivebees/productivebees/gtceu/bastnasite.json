@@ -3,7 +3,7 @@
   "secondaryColor": "#ab904e",
   "tertiaryColor": "#a77742",
   "particleColor": "#c7a85e",
-  "flowerTag": "forge:storage_blocks/raw_bastnasite",
+  "flowerTag": "c:storage_blocks/raw_bastnasite",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "beeTexture": "productivebees:textures/entity/bee/bastnasite/bee",
   "size": 0.8,
@@ -11,7 +11,7 @@
   "conditions": [
     {
       "modid": "gtceu",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#c:storage_blocks/citrine",
+      "required": false
+    },
+    {
+      "id": "silentgems:citrine_glowrose",
+      "required": false
+    },
+    {
+      "id": "gemsnjewels:citrine_block",
+      "required": false
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "type": "thermal:chiller",
+  "ingredient": {
+    "fluid": "productivebees:honey",
+    "amount": 1000
+  },
+  "result": [
+    {
+      "item": "minecraft:honey_block"
+    }
+  ],
+  "energy": 2000,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thermal"
+    }
+  ]
+}

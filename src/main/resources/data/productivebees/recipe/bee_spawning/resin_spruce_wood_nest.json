@@ -1,0 +1,9 @@
+{
+  "type": "productivebees:bee_spawning",
+  "ingredient": {
+    "item": "productivebees:spruce_wood_nest"
+  },
+  "results": [
+    "productivebees:resin_bee"
+  ]
+}

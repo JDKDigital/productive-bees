@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:dragon_egg"
+    },
+    {
+      "item": "minecraft:beehive"
+    }
+  ],
+  "result": {
+    "id": "productivebees:dragon_egg_hive"
+  }
+}

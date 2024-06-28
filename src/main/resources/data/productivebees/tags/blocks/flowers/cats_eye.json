@@ -1,9 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    {
-      "id": "#forge:storage_blocks/cats_eye",
-      "required": false
-    }
-  ]
-}

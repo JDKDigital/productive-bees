@@ -8,7 +8,7 @@
   "conditions": [
     {
       "modid": "ad_astra",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

@@ -9,17 +9,17 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:gems/jade",
-        "type": "forge:tag_empty"
+        "tag": "c:gems/jade",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     },
     {
       "value": {
         "tag": "productivebees:flowers/jade",
-        "type": "forge:tag_empty"
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "productivebees:wax_block"
+    }
+  ],
+  "result": {
+    "id": "productivebees:wax",
+    "count": 9
+  }
+}

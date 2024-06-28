@@ -1,0 +1,10 @@
+{
+  "type": "productivebees:bee_spawning",
+  "ingredient": {
+    "item": "productivebees:bumble_bee_nest"
+  },
+  "biomes": "#c:is_plains",
+  "results": [
+    "productivebees:bumble_bee"
+  ]
+}

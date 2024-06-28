@@ -1,7 +1,7 @@
 {
   "primaryColor": "#4aa7ef",
   "secondaryColor": "#804f40",
-  "flowerTag": "forge:storage_blocks/manasteel",
+  "flowerTag": "c:storage_blocks/manasteel",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "selfbreed": false,
   "invulnerability": [
@@ -10,7 +10,7 @@
   "conditions": [
     {
       "modid": "botania",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

@@ -1,22 +1,20 @@
 package cy.jdkdigital.productivebees.common.item;
 
-import cy.jdkdigital.productivebees.client.render.item.AmberItemRenderer;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 public class AmberItem extends BlockItem
 {
@@ -25,37 +23,27 @@ public class AmberItem extends BlockItem
     }
 
     @Override
-    public Component getName(ItemStack stack) {
-        CompoundTag tag = stack.getTag();
-        if (tag != null && tag.contains("BlockEntityTag") && tag.getCompound("BlockEntityTag").contains("EntityData")) {
-            return Component.translatable("productivebees.amber.name.contained_entity", Component.literal(tag.getCompound("BlockEntityTag").getCompound("EntityData").getString("name")));
-        }
-        return super.getName(stack);
-    }
-
-    @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
-        super.appendHoverText(stack, level, list, flag);
-
-        list.add(Component.translatable("productivebees.amber.tooltip.heating").withStyle(ChatFormatting.DARK_RED));
-        CompoundTag tag = stack.getTag();
-        if (tag != null && tag.contains("BlockEntityTag") && tag.getCompound("BlockEntityTag").contains("EntityData")) {
-            list.add(Component.translatable("productivebees.amber.tooltip.contained_entity", Component.literal(tag.getCompound("BlockEntityTag").getCompound("EntityData").getString("name")).withStyle(ChatFormatting.GOLD)).withStyle(ChatFormatting.WHITE));
-        }
-    }
-
-    @Override
-    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        consumer.accept(new IClientItemExtensions()
-        {
-            final BlockEntityWithoutLevelRenderer myRenderer = new AmberItemRenderer();
-
-            @Override
-            public BlockEntityWithoutLevelRenderer getCustomRenderer()
-            {
-                return myRenderer;
+    public Component getName(ItemStack pStack) {
+        if (pStack.has(DataComponents.ENTITY_DATA)) {
+            CompoundTag tag = pStack.get(DataComponents.ENTITY_DATA).copyTag();
+            if (tag.contains("BlockEntityTag") && tag.getCompound("BlockEntityTag").contains("EntityData")) {
+                return Component.translatable("productivebees.amber.name.contained_entity", Component.literal(tag.getCompound("BlockEntityTag").getCompound("EntityData").getString("name")));
             }
-        });
+        }
+        return super.getName(pStack);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
+        super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
+
+        pTooltipComponents.add(Component.translatable("productivebees.amber.tooltip.heating").withStyle(ChatFormatting.DARK_RED));
+        if (pStack.has(DataComponents.ENTITY_DATA)) {
+            CompoundTag tag = pStack.get(DataComponents.ENTITY_DATA).copyTag();
+            if (tag.contains("BlockEntityTag") && tag.getCompound("BlockEntityTag").contains("EntityData")) {
+                pTooltipComponents.add(Component.translatable("productivebees.amber.tooltip.contained_entity", Component.literal(tag.getCompound("BlockEntityTag").getCompound("EntityData").getString("name")).withStyle(ChatFormatting.GOLD)).withStyle(ChatFormatting.WHITE));
+            }
+        }
     }
 
     public static ItemStack getFakeAmberItem(EntityType<?> entityType) {
@@ -66,7 +54,7 @@ public class AmberItem extends BlockItem
         thing.put("EntityData", entityTag);
         CompoundTag tag = new CompoundTag();
         tag.put("BlockEntityTag", thing);
-        stack.setTag(tag);
+        stack.set(DataComponents.ENTITY_DATA, CustomData.of(tag));
         return stack;
     }
 }

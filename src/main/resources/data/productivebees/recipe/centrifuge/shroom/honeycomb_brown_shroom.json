@@ -1,0 +1,23 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:brown_shroom"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "minecraft:brown_mushroom"
+      },
+      "chance": 70
+    },
+    {
+      "item": {
+        "tag": "c:wax"
+      }
+    }
+  ]
+}

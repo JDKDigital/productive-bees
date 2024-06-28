@@ -1,14 +1,14 @@
 {
   "primaryColor": "#616669",
   "secondaryColor": "#804f40",
-  "flowerTag": "forge:storage_blocks/tungsten",
+  "flowerTag": "c:storage_blocks/tungsten",
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/tungsten",
-        "type": "forge:tag_empty"
+        "tag": "c:storage_blocks/tungsten",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

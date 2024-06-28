@@ -48,11 +48,11 @@ public class SugarCaneNest extends SolitaryNest
 
     @SuppressWarnings("deprecation")
     @Override
-    public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
-        BlockState soil = worldIn.getBlockState(pos.below());
+    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+        BlockState soil = level.getBlockState(pos.below());
         if (soil.getBlock() == Blocks.SUGAR_CANE || soil.getBlock() instanceof SugarCaneNest) {
             return true;
         }
-        return ((SugarCaneBlock) Blocks.SUGAR_CANE).canSurvive(state, worldIn, pos);
+        return Blocks.SUGAR_CANE.defaultBlockState().canSurvive(level, pos);
     }
 }

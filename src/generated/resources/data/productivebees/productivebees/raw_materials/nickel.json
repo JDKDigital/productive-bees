@@ -1,14 +1,14 @@
 {
   "primaryColor": "#D8CC93",
   "secondaryColor": "#804f40",
-  "flowerTag": "forge:storage_blocks/nickel",
+  "flowerTag": "c:storage_blocks/nickel",
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/nickel",
-        "type": "forge:tag_empty"
+        "tag": "c:storage_blocks/nickel",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

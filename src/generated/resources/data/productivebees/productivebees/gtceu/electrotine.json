@@ -3,7 +3,7 @@
   "secondaryColor": "#7dc1ea",
   "tertiaryColor": "#001c36",
   "particleColor": "#e3f0f8",
-  "flowerTag": "forge:storage_blocks/raw_electrotine",
+  "flowerTag": "c:storage_blocks/raw_electrotine",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "beeTexture": "productivebees:textures/entity/bee/electrotine/bee",
   "size": 0.8,
@@ -11,7 +11,7 @@
   "conditions": [
     {
       "modid": "gtceu",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

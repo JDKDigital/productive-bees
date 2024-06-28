@@ -4,6 +4,8 @@ import cy.jdkdigital.productivebees.common.entity.bee.IEffectBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
+import cy.jdkdigital.productivebees.util.GeneAttribute;
+import cy.jdkdigital.productivebees.util.GeneValue;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -29,7 +31,7 @@ public class CreeperBee extends ProductiveBee implements IEffectBeeEntity
 
     public CreeperBee(EntityType<? extends Bee> entityType, Level world) {
         super(entityType, world);
-        beeAttributes.put(BeeAttributes.TEMPER, 2);
+        setAttributeValue(GeneAttribute.TEMPER, GeneValue.TEMPER_AGGRESSIVE);
     }
 
     @Override

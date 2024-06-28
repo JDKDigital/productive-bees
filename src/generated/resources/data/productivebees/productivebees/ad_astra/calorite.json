@@ -2,14 +2,14 @@
   "primaryColor": "#c44249",
   "secondaryColor": "#470d2f",
   "particleColor": "#df6d5c",
-  "flowerTag": "forge:storage_blocks/calorite",
+  "flowerTag": "c:storage_blocks/calorite",
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/calorite",
-        "type": "forge:tag_empty"
+        "tag": "c:storage_blocks/calorite",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

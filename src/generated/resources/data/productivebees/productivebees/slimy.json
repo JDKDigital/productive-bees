@@ -1,8 +1,8 @@
 {
   "primaryColor": "#2ff757",
-  "secondaryColor": "#6238757",
+  "secondaryColor": "#623875",
   "particleColor": "#2ff757",
-  "flowerTag": "productivebees:flowers/swamp_flowers",
+  "flowerTag": "productivebees:flowers/swamp",
   "nestingPreference": "productivebees:nests/slimy_nests",
   "beeTexture": "productivebees:textures/entity/bee/slimy/bee",
   "slimy": true,

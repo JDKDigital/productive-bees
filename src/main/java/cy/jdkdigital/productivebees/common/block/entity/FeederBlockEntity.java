@@ -7,7 +7,6 @@ import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivelib.common.block.entity.CapabilityBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -16,6 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.animal.Bee;
@@ -33,6 +33,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.phys.AABB;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
@@ -40,7 +43,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FeederBlockEntity extends CapabilityBlockEntity
+public class FeederBlockEntity extends CapabilityBlockEntity implements MenuProvider
 {
     public Block baseBlock;
     private int tickCounter = 0;
@@ -131,7 +134,7 @@ public class FeederBlockEntity extends CapabilityBlockEntity
         super.loadPacketNBT(tag, provider);
 
         if (tag.contains("baseBlock")) {
-            baseBlock = BuiltInRegistries.BLOCK.get(new ResourceLocation(tag.getString("baseBlock")));
+            baseBlock = BuiltInRegistries.BLOCK.get(ResourceLocation.parse(tag.getString("baseBlock")));
         }
     }
 
@@ -166,5 +169,10 @@ public class FeederBlockEntity extends CapabilityBlockEntity
                 setChanged();
             }
         };
+    }
+
+    @Override
+    public IItemHandler getItemHandler() {
+        return inventoryHandler;
     }
 }

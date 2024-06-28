@@ -1,5 +1,5 @@
 {
-    "parent": "item/generated",
+    "parent": "minecraft:item/generated",
     "textures": {
         "layer0": "productivebees:item/spawn_egg",
         "layer1": "productivebees:item/spawn_egg_overlay"

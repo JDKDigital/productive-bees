@@ -3,7 +3,7 @@
   "secondaryColor": "#dfde97",
   "tertiaryColor": "#bebd49",
   "particleColor": "#fbf9d8",
-  "flowerTag": "forge:storage_blocks/raw_tricalcium_phosphate",
+  "flowerTag": "c:storage_blocks/raw_tricalcium_phosphate",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "beeTexture": "productivebees:textures/entity/bee/tricalcium_phosphate/bee",
   "size": 0.8,
@@ -11,7 +11,7 @@
   "conditions": [
     {
       "modid": "gtceu",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

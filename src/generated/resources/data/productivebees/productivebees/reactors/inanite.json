@@ -2,17 +2,17 @@
   "primaryColor": "#bd0d62",
   "secondaryColor": "#db046c",
   "particleColor": "#ed2b89",
-  "flowerTag": "forge:storage_blocks/inanite",
+  "flowerTag": "c:storage_blocks/inanite",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "size": 0.8,
   "selfbreed": false,
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/inanite",
-        "type": "forge:tag_empty"
+        "tag": "c:storage_blocks/inanite",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

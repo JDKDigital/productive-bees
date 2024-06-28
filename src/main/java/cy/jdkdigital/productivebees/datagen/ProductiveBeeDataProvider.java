@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.datagen;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.datagen.recipe.provider.RecipeProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -25,9 +26,9 @@ public class ProductiveBeeDataProvider
         ExistingFileHelper helper = event.getExistingFileHelper();
 
         gen.addProvider(event.includeServer(), new BeeProvider(output));
-//        gen.addProvider(event.includeClient(), new BlockstateProvider(output));
-//        gen.addProvider(event.includeServer(), new BlockLootProvider(output, List.of(new LootTableProvider.SubProviderEntry(BlockLootProvider.LootProvider::new, LootContextParamSets.BLOCK))));
-//        gen.addProvider(event.includeServer(), new RecipeProvider(output));
+        gen.addProvider(event.includeClient(), new BlockstateProvider(output));
+        gen.addProvider(event.includeServer(), new BlockLootProvider(output, List.of(new LootTableProvider.SubProviderEntry(BlockLootProvider.LootProvider::new, LootContextParamSets.BLOCK)), provider));
+        gen.addProvider(event.includeServer(), new RecipeProvider(output, provider));
         BlockTagProvider blockTags = new BlockTagProvider(output, provider, helper);
         gen.addProvider(event.includeServer(), blockTags);
         gen.addProvider(event.includeServer(), new ItemTagProvider(output, provider, blockTags.contentsGetter(), helper));

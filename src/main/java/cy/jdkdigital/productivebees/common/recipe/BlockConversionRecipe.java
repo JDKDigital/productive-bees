@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.HolderLookup;
@@ -14,12 +14,8 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -35,7 +31,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class BlockConversionRecipe implements Recipe<Container>
+public class BlockConversionRecipe implements Recipe<RecipeInput>
 {
     public final List<Supplier<BeeIngredient>> bees;
     public Ingredient input;
@@ -58,7 +54,7 @@ public class BlockConversionRecipe implements Recipe<Container>
     }
 
     @Override
-    public boolean matches(Container inv, Level worldIn) {
+    public boolean matches(RecipeInput inv, Level worldIn) {
         if (inv instanceof BeeHelper.BlockStateInventory && bees.size() > 0) {
             String beeName = ((BeeHelper.BlockStateInventory) inv).getIdentifier(0);
             BlockState blockState = ((BeeHelper.BlockStateInventory) inv).getState();
@@ -82,7 +78,7 @@ public class BlockConversionRecipe implements Recipe<Container>
 
     @Nonnull
     @Override
-    public ItemStack assemble(Container inv, HolderLookup.Provider pRegistries) {
+    public ItemStack assemble(RecipeInput inv, HolderLookup.Provider pRegistries) {
         return ItemStack.EMPTY;
     }
 
@@ -123,7 +119,7 @@ public class BlockConversionRecipe implements Recipe<Container>
                                 Ingredient.CODEC.fieldOf("input").orElse(Ingredient.EMPTY).forGetter(recipe -> recipe.input),
                                 BlockState.CODEC.fieldOf("from").orElse(Blocks.AIR.defaultBlockState()).forGetter(recipe -> recipe.stateFrom),
                                 BlockState.CODEC.fieldOf("to").forGetter(recipe -> recipe.stateTo),
-                                Codec.FLOAT.fieldOf("chance").forGetter(recipe -> recipe.chance),
+                                Codec.FLOAT.fieldOf("chance").orElse(1f).forGetter(recipe -> recipe.chance),
                                 Ingredient.CODEC.optionalFieldOf("from_display").forGetter(recipe -> recipe.fromDisplay),
                                 Ingredient.CODEC.optionalFieldOf("to_display").forGetter(recipe -> recipe.toDisplay),
                                 Codec.BOOL.fieldOf("pollinates").orElse(false).forGetter(recipe -> recipe.pollinates)
@@ -157,7 +153,7 @@ public class BlockConversionRecipe implements Recipe<Container>
                 BlockState from = readBlockState(buffer.readNbt());
                 BlockState to = readBlockState(buffer.readNbt());
 
-                return new BlockConversionRecipe(bees, input, from, to, buffer.readInt(), Optional.of(Ingredient.CONTENTS_STREAM_CODEC.decode(buffer)), Optional.of(Ingredient.CONTENTS_STREAM_CODEC.decode(buffer)), buffer.readBoolean());
+                return new BlockConversionRecipe(bees, input, from, to, buffer.readFloat(), Optional.of(Ingredient.CONTENTS_STREAM_CODEC.decode(buffer)), Optional.of(Ingredient.CONTENTS_STREAM_CODEC.decode(buffer)), buffer.readBoolean());
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error reading block conversion recipe from packet. ", e);
                 throw e;
@@ -189,7 +185,7 @@ public class BlockConversionRecipe implements Recipe<Container>
     private static BlockState readBlockState(@Nullable CompoundTag tag) {
         if (tag == null) return Blocks.AIR.defaultBlockState();
 
-        ResourceLocation resourcelocation = new ResourceLocation(tag.getString("Name"));
+        ResourceLocation resourcelocation = ResourceLocation.parse(tag.getString("Name"));
         Block block = BuiltInRegistries.BLOCK.get(resourcelocation);
         BlockState blockstate = block.defaultBlockState();
         if (tag.contains("Properties", 10)) {

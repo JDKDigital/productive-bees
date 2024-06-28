@@ -1,0 +1,23 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:crystalline",
+  "parent2": "productivebees:neon_cuckoo_bee",
+  "offspring": "productivebees:iridium",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:crystalline"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:iridium"
+    },
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "ftbic"
+      }
+    }
+  ]
+}

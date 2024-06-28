@@ -1,9 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    {
-      "id": "#forge:storage_blocks/euclase",
-      "required": false
-    }
-  ]
-}

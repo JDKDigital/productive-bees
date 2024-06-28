@@ -7,10 +7,7 @@ import cy.jdkdigital.productivebees.common.block.entity.AmberBlockEntity;
 import cy.jdkdigital.productivebees.compat.sussy.SussyCompatHandler;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
-import cy.jdkdigital.productivebees.util.BeeAttributes;
-import cy.jdkdigital.productivebees.util.BeeEffect;
-import cy.jdkdigital.productivebees.util.BeeHelper;
-import cy.jdkdigital.productivebees.util.ColorUtil;
+import cy.jdkdigital.productivebees.util.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -89,44 +86,42 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
 
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType pSpawnType, @Nullable SpawnGroupData pSpawnGroupData) {
-        String type = "";
         if (pSpawnGroupData != null) {
             RandomSource random = level.getRandom();
-            // TODO 1.21 reimplement
-            ProductiveBees.LOGGER.info("finalize spawn of config bee " + pSpawnGroupData);
-//            type = tag.contains("type") ? tag.getString("type") : tag.contains("EntityTag") ? tag.getCompound("EntityTag").getString("type") : "";
-//
-//            if (type.equals("productivebees:ghostly") && random.nextFloat() < 0.02f) {
-//                this.setCustomName(Component.literal("BooBee"));
-//            } else if (type.equals("productivebees:blitz") && random.nextFloat() < 0.02f) {
-//                this.setCustomName(Component.literal("King BitzBee"));
-//            } else if (type.equals("productivebees:basalz") && random.nextFloat() < 0.02f) {
-//                this.setCustomName(Component.literal("Queen BazBee"));
-//            } else if (type.equals("productivebees:blizz") && random.nextFloat() < 0.02f) {
-//                this.setCustomName(Component.literal("Shiny BizBee"));
-//            } else if (type.equals("productivebees:redstone") && random.nextFloat() < 0.01f) {
-//                this.setCustomName(Component.literal("Redastone Bee"));
-//            } else if (type.equals("productivebees:destabilized_redstone") && random.nextFloat() < 0.10f) {
-//                this.setCustomName(Component.literal("Destabilized RedaStone Bee"));
-//            } else if (type.equals("productivebees:compressed_iron") && random.nextFloat() < 0.05f) {
-//                this.setCustomName(Component.literal("Depressed Iron Bee"));
-//            } else if (type.equals("productivebees:sponge") && random.nextFloat() < 0.05f) {
-//                this.setCustomName(Component.literal("SpongeBee BlockPants"));
-//            } else if (type.equals("productivebees:infinity") && random.nextFloat() < 0.25f) {
-//                this.setCustomName(Component.literal("Infinibee"));
-//            } else if (type.equals("productivebees:allergy") && random.nextFloat() < 0.25f) {
-//                this.setCustomName(Component.literal("Beenadryl Buzz"));
-//            } else if (type.equals("productivebees:gregstar") && random.nextFloat() < 0.25f) {
-//                this.setCustomName(Component.literal("Monsieur Greg"));
-//            } else if (type.equals("productivebees:water") && random.nextFloat() < 0.05f) {
-//                switch (random.nextInt(5)) {
-//                    case 0 -> this.setCustomName(Component.literal("Wet Bee"));
-//                    case 1 -> this.setCustomName(Component.literal("Splashy Bee"));
-//                    case 2 -> this.setCustomName(Component.literal("Fishy Bee"));
-//                    case 3 -> this.setCustomName(Component.literal("Moist Bee"));
-//                    case 4 -> this.setCustomName(Component.literal("Dripping Bee"));
-//                }
-//            }
+
+            var type = this.getBeeType().toString();
+
+            if (type.equals("productivebees:ghostly") && random.nextFloat() < 0.02f) {
+                this.setCustomName(Component.literal("BooBee"));
+            } else if (type.equals("productivebees:blitz") && random.nextFloat() < 0.02f) {
+                this.setCustomName(Component.literal("King BitzBee"));
+            } else if (type.equals("productivebees:basalz") && random.nextFloat() < 0.02f) {
+                this.setCustomName(Component.literal("Queen BazBee"));
+            } else if (type.equals("productivebees:blizz") && random.nextFloat() < 0.02f) {
+                this.setCustomName(Component.literal("Shiny BizBee"));
+            } else if (type.equals("productivebees:redstone") && random.nextFloat() < 0.01f) {
+                this.setCustomName(Component.literal("Redastone Bee"));
+            } else if (type.equals("productivebees:destabilized_redstone") && random.nextFloat() < 0.10f) {
+                this.setCustomName(Component.literal("Destabilized RedaStone Bee"));
+            } else if (type.equals("productivebees:compressed_iron") && random.nextFloat() < 0.05f) {
+                this.setCustomName(Component.literal("Depressed Iron Bee"));
+            } else if (type.equals("productivebees:sponge") && random.nextFloat() < 0.05f) {
+                this.setCustomName(Component.literal("SpongeBee BlockPants"));
+            } else if (type.equals("productivebees:infinity") && random.nextFloat() < 0.25f) {
+                this.setCustomName(Component.literal("Infinibee"));
+            } else if (type.equals("productivebees:allergy") && random.nextFloat() < 0.25f) {
+                this.setCustomName(Component.literal("Beenadryl Buzz"));
+            } else if (type.equals("productivebees:gregstar") && random.nextFloat() < 0.25f) {
+                this.setCustomName(Component.literal("Monsieur Greg"));
+            } else if (type.equals("productivebees:water") && random.nextFloat() < 0.05f) {
+                switch (random.nextInt(5)) {
+                    case 0 -> this.setCustomName(Component.literal("Wet Bee"));
+                    case 1 -> this.setCustomName(Component.literal("Splashy Bee"));
+                    case 2 -> this.setCustomName(Component.literal("Fishy Bee"));
+                    case 3 -> this.setCustomName(Component.literal("Moist Bee"));
+                    case 4 -> this.setCustomName(Component.literal("Dripping Bee"));
+                }
+            }
         }
 
         return super.finalizeSpawn(level, difficulty, pSpawnType, pSpawnGroupData);
@@ -142,7 +137,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                 attackCooldown = 0;
             }
             if (attackCooldown == 0 && isAngry() && this.getTarget() != null && this.getTarget().distanceToSqr(this) < 4.0D) {
-                attackCooldown = getEffectCooldown(getAttributeValue(BeeAttributes.TEMPER));
+                attackCooldown = getEffectCooldown(getAttributeValue(GeneAttribute.TEMPER));
                 attackTarget(this.getTarget());
             }
 
@@ -175,7 +170,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             }
 
             // Kill unconfigured bees
-            if (tickCount > 100 && getBeeType().isEmpty() && isAlive()) {
+            if (tickCount > 100 && getBeeType() == null && isAlive()) {
                 this.kill();
             }
         }
@@ -196,7 +191,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     public boolean doHurtTarget(Entity entity) {
         AttributeInstance attackDamage = this.getAttribute(Attributes.ATTACK_DAMAGE);
         if (attackDamage != null && getDamage() != 2.0) {
-            attackDamage.addTransientModifier(new AttributeModifier("Extra Damage", getDamage(), AttributeModifier.Operation.ADD_VALUE));
+            attackDamage.addTransientModifier(new AttributeModifier(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "extra_damage"), getDamage(), AttributeModifier.Operation.ADD_VALUE));
         }
         return super.doHurtTarget(entity);
     }
@@ -212,7 +207,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         };
 
         if (hasParticleColor()) {
-            particle.setColor(getParticleColor());
+            particle.setColor(ColorUtil.getCacheColor(getParticleColor()));
         } else {
             particle.setColor(new float[]{0.92F, 0.782F, 0.72F});
         }
@@ -275,8 +270,8 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         this.entityData.set(TYPE, data);
     }
 
-    public String getBeeType() {
-        return this.entityData.get(TYPE);
+    public ResourceLocation getBeeType() {
+        return ResourceLocation.parse(this.entityData.get(TYPE));
     }
 
     @Override
@@ -304,50 +299,49 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
 
     public void setDefaultAttributes() {
         if (!hasBeeAttributes()) {
-            super.setDefaultAttributes();
+            var attributes = this.getData(ProductiveBees.ATTRIBUTE_HANDLER);
             CompoundTag nbt = getNBTData();
             if (nbt.contains(("productivity"))) {
-                setAttributeValue(BeeAttributes.PRODUCTIVITY, nbt.getInt("productivity"));
+                attributes.setAttributeValue(GeneAttribute.PRODUCTIVITY, GeneValue.byName(nbt.getString("productivity")));
             }
             if (nbt.contains(("temper"))) {
-                setAttributeValue(BeeAttributes.TEMPER, nbt.getInt("temper"));
+                attributes.setAttributeValue(GeneAttribute.TEMPER, GeneValue.byName(nbt.getString("temper")));
             }
             if (nbt.contains(("endurance"))) {
-                setAttributeValue(BeeAttributes.ENDURANCE, nbt.getInt("endurance"));
+                attributes.setAttributeValue(GeneAttribute.ENDURANCE, GeneValue.byName(nbt.getString("endurance")));
             }
             if (nbt.contains(("behavior"))) {
-                setAttributeValue(BeeAttributes.BEHAVIOR, nbt.getInt("behavior"));
+                attributes.setAttributeValue(GeneAttribute.BEHAVIOR, GeneValue.byName(nbt.getString("behavior")));
             }
             if (nbt.contains(("weather_tolerance"))) {
-                setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, nbt.getInt("weather_tolerance"));
+                attributes.setAttributeValue(GeneAttribute.WEATHER_TOLERANCE, GeneValue.byName(nbt.getString("weather_tolerance")));
             }
-        } else {
-            super.setDefaultAttributes();
+            this.setData(ProductiveBees.ATTRIBUTE_HANDLER, attributes);
         }
     }
 
     @Override
-    public float[] getColor(int tintIndex, float partialTicks) {
+    public int getColor(int tintIndex, float partialTicks) {
         CompoundTag nbt = getNBTData();
         if (nbt.contains("primaryColor")) {
             if (nbt.getBoolean("colorCycle") && !nbt.getString("renderer").contains("crystal")) {
                 return ColorUtil.getCycleColor(nbt.getInt("primaryColor"),nbt.getInt("tertiaryColor"), tickCount, partialTicks);
             }
-            return ColorUtil.getCacheColor(tintIndex == 0 ? nbt.getInt("primaryColor") : nbt.getInt("secondaryColor"));
+            return tintIndex == 0 ? nbt.getInt("primaryColor") : nbt.getInt("secondaryColor");
         }
         return super.getColor(tintIndex, partialTicks);
     }
 
-    public float[] getParticleColor() {
-        return ColorUtil.getCacheColor(getNBTData().getInt("particleColor"));
+    public int getParticleColor() {
+        return getNBTData().getInt("particleColor");
     }
 
-    public float[] getTertiaryColor(float partialTicks) {
+    public int getTertiaryColor(float partialTicks) {
         CompoundTag nbt = getNBTData();
         if (nbt.getBoolean("colorCycle") && nbt.getString("renderer").contains("crystal")) {
             return ColorUtil.getCycleColor(nbt.getInt("primaryColor"), nbt.getInt("tertiaryColor"), tickCount, partialTicks);
         }
-        return ColorUtil.getCacheColor(nbt.getInt("tertiaryColor"));
+        return nbt.getInt("tertiaryColor");
     }
 
     public boolean isColored() {
@@ -395,7 +389,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         if (this.getFlowerType().equals("entity_types")) {
             CompoundTag nbt = this.getNBTData();
             if (nbt != null && nbt.contains("flowerTag")) {
-                TagKey<EntityType<?>> entityTag = ModTags.getEntityTag(new ResourceLocation(nbt.getString("flowerTag")));
+                TagKey<EntityType<?>> entityTag = ModTags.getEntityTag(ResourceLocation.parse(nbt.getString("flowerTag")));
 
                 if (level().getBlockEntity(pos) instanceof AmberBlockEntity amberBlockEntity) {
                     var entity = amberBlockEntity.getCachedEntity();
@@ -429,13 +423,13 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         CompoundTag nbt = getNBTData();
         if (nbt != null && this.getFlowerType().equals("blocks")) {
             if (nbt.contains("flowerTag")) {
-                TagKey<Block> flowerTag = ModTags.getBlockTag(new ResourceLocation(nbt.getString("flowerTag")));
+                TagKey<Block> flowerTag = ModTags.getBlockTag(ResourceLocation.parse(nbt.getString("flowerTag")));
                 return flowerBlock.is(flowerTag);
             } else if (nbt.contains("flowerBlock")) {
                 return BuiltInRegistries.BLOCK.getKey(flowerBlock.getBlock()).toString().equals(nbt.getString("flowerBlock"));
             } else if (nbt.contains("flowerFluid") && !flowerBlock.getFluidState().isEmpty()) {
                 if (nbt.getString("flowerFluid").contains("#")) {
-                    TagKey<Fluid> flowerFluid = ModTags.getFluidTag(new ResourceLocation(nbt.getString("flowerFluid").replace("#", "")));
+                    TagKey<Fluid> flowerFluid = ModTags.getFluidTag(ResourceLocation.parse(nbt.getString("flowerFluid").replace("#", "")));
                     return flowerBlock.getFluidState().is(flowerFluid);
                 } else {
                     return BuiltInRegistries.FLUID.getKey(flowerBlock.getFluidState().getType()).toString().equals(nbt.getString("flowerFluid"));
@@ -453,11 +447,11 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         CompoundTag nbt = getNBTData();
         if (nbt != null && this.getFlowerType().equals("blocks")) {
             if (nbt.contains("flowerTag")) {
-                TagKey<Item> flowerTag = ModTags.getItemTag(new ResourceLocation(nbt.getString("flowerTag")));
+                TagKey<Item> flowerTag = ModTags.getItemTag(ResourceLocation.parse(nbt.getString("flowerTag")));
                 return flowerItem.is(flowerTag);
             }
             if (nbt.contains("flowerItem")) {
-                return flowerItem.is(BuiltInRegistries.ITEM.get(new ResourceLocation(nbt.getString("flowerItem"))));
+                return flowerItem.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse(nbt.getString("flowerItem"))));
             }
         }
         if (flowerItem.getItem() instanceof BlockItem blockItem && BeeHelper.hasBlockConversionRecipe(this, blockItem.getBlock().defaultBlockState())) {
@@ -478,9 +472,9 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         }
 
         if (id.startsWith("#")) {
-            return Ingredient.of(ModTags.getItemTag(new ResourceLocation(id.substring(1))));
+            return Ingredient.of(ModTags.getItemTag(ResourceLocation.parse(id.substring(1))));
         }
-        return Ingredient.of(BuiltInRegistries.ITEM.get(new ResourceLocation(id)));
+        return Ingredient.of(BuiltInRegistries.ITEM.get(ResourceLocation.parse(id)));
     }
 
     @Override
@@ -492,7 +486,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     public TagKey<Block> getNestingTag() {
         CompoundTag nbt = getNBTData();
         if (nbt != null && nbt.contains("nestingPreference")) {
-            return ModTags.getBlockTag(new ResourceLocation(nbt.getString("nestingPreference")));
+            return ModTags.getBlockTag(ResourceLocation.parse(nbt.getString("nestingPreference")));
         }
         return super.getNestingTag();
     }
@@ -523,7 +517,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     @Override
     public void addAdditionalSaveData(@Nonnull CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putString("type", getBeeType());
+        compound.putString("type", getBeeType().toString());
         compound.putInt("breathCollectionCooldown", breathCollectionCooldown);
     }
 

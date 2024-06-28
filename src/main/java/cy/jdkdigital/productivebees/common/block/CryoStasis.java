@@ -72,50 +72,9 @@ public class CryoStasis extends CapabilityContainerBlock
         return RenderShape.MODEL;
     }
 
-    @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (!level.isClientSide() && level.getBlockEntity(pos) instanceof CryoStasisBlockEntity blockEntity) {
-            openGui((ServerPlayer) player, blockEntity);
-        }
-        return InteractionResult.SUCCESS;
-    }
-
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new CryoStasisBlockEntity(pos, state);
-    }
-
-    @Override
-    public void appendHoverText(ItemStack stack, @Nullable BlockGetter blockGetter, List<Component> tooltips, TooltipFlag flag) {
-        super.appendHoverText(stack, blockGetter, tooltips, flag);
-
-        tooltips.add(Component.translatable("productivebees.indexer.tooltip.redstone").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.ITALIC));
-    }
-
-    public void openGui(ServerPlayer player, CryoStasisBlockEntity tileEntity) {
-        player.openMenu(tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
-    }
-
-    @Override
-    public boolean hasAnalogOutputSignal(BlockState state) {
-        return true;
-    }
-
-    @Override
-    public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
-        AtomicInteger value = new AtomicInteger();
-        if (level.getBlockEntity(pos) instanceof GeneIndexerBlockEntity blockEntity) {
-            blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(h -> {
-                int filledSlots = 0;
-                for (int i = 0; i < h.getSlots(); i++) {
-                    if (!h.getStackInSlot(i).isEmpty()) {
-                        filledSlots++;
-                    }
-                }
-                value.set((int) Math.floor(15 * ((float) filledSlots / h.getSlots())));
-            });
-        }
-        return value.get();
     }
 }

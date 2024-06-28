@@ -1,8 +1,10 @@
 package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.common.advancements.criterion.*;
-import net.minecraft.advancements.CriteriaTriggers;
+import cy.jdkdigital.productivebees.common.advancements.criterion.CalmBeeTrigger;
+import cy.jdkdigital.productivebees.common.advancements.criterion.CatchBeeTrigger;
+import cy.jdkdigital.productivebees.common.advancements.criterion.FishBeeTrigger;
+import cy.jdkdigital.productivebees.common.advancements.criterion.SaddleBeeTrigger;
 import net.minecraft.advancements.CriterionTrigger;
 import net.neoforged.neoforge.registries.DeferredHolder;
 

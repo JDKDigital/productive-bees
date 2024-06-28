@@ -8,8 +8,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -76,31 +76,21 @@ public class Bottler extends CapabilityContainerBlock
         return RenderShape.MODEL;
     }
 
-    @SuppressWarnings("deprecation")
-    @Nonnull
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (!world.isClientSide()) {
-            final BlockEntity tileEntity = world.getBlockEntity(pos);
-
-            if (tileEntity != null) {
-                ItemStack heldItem = player.getItemInHand(hand);
-                boolean itemUsed = false;
-
-                if (heldItem.getItem() instanceof BucketItem) {
-                    if (FluidUtil.interactWithFluidHandler(player, hand, world, pos, null)) {
-                        itemUsed = true;
-                    }
-                }
-
-                if (!itemUsed) {
-                    if (tileEntity instanceof BottlerBlockEntity) {
-                        openGui((ServerPlayer) player, (BottlerBlockEntity) tileEntity);
-                    }
-                }
-            }
+    protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
+        if (!pLevel.isClientSide() && pLevel.getBlockEntity(pPos) instanceof BottlerBlockEntity bottlerBlockEntity) {
+            pPlayer.openMenu(bottlerBlockEntity, pPos);
+            return InteractionResult.SUCCESS_NO_ITEM_USED;
         }
-        return InteractionResult.SUCCESS;
+        return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);
+    }
+
+    @Override
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+        if (!pLevel.isClientSide() && pLevel.getBlockEntity(pPos) instanceof BottlerBlockEntity && FluidUtil.interactWithFluidHandler(pPlayer, pHand, pLevel, pPos, null)) {
+            return ItemInteractionResult.SUCCESS;
+        }
+        return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
     }
 
     @Override
@@ -112,9 +102,5 @@ public class Bottler extends CapabilityContainerBlock
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new BottlerBlockEntity(pos, state);
-    }
-
-    public void openGui(ServerPlayer player, BottlerBlockEntity blockEntity) {
-        player.openMenu(player, blockEntity);
     }
 }

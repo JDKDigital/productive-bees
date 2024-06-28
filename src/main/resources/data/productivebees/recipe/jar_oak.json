@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GPG",
+    "G G",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "tag": "c:glass_panes"
+    },
+    "P": {
+      "item": "minecraft:oak_button"
+    }
+  },
+  "result": {
+    "id": "productivebees:jar_oak"
+  }
+}

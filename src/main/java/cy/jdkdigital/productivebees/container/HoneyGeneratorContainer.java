@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.common.block.HoneyGenerator;
 import cy.jdkdigital.productivebees.common.block.entity.HoneyGeneratorBlockEntity;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
+import cy.jdkdigital.productivelib.container.AbstractContainer;
 import cy.jdkdigital.productivelib.container.ManualSlotItemHandler;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
@@ -14,7 +15,6 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
@@ -68,7 +68,7 @@ public class HoneyGeneratorContainer extends AbstractContainer
             public int get(int i) {
                 return i == 0 ?
                         tileEntity.fluidId :
-                        tileEntity.fluidInventory.getFluidInTank(0).getAmount();
+                        tileEntity.fluidHandler.getFluidInTank(0).getAmount();
             }
 
             @Override
@@ -77,9 +77,9 @@ public class HoneyGeneratorContainer extends AbstractContainer
                     case 0:
                         tileEntity.fluidId = value;
                     case 1:
-                        FluidStack fluid = tileEntity.fluidInventory.getFluidInTank(0);
+                        FluidStack fluid = tileEntity.fluidHandler.getFluidInTank(0);
                         if (fluid.isEmpty()) {
-                            tileEntity.fluidInventory.fill(new FluidStack(BuiltInRegistries.FLUID.byId(tileEntity.fluidId), value), IFluidHandler.FluidAction.EXECUTE);
+                            tileEntity.fluidHandler.fill(new FluidStack(BuiltInRegistries.FLUID.byId(tileEntity.fluidId), value), IFluidHandler.FluidAction.EXECUTE);
                         } else {
                             fluid.setAmount(value);
                         }

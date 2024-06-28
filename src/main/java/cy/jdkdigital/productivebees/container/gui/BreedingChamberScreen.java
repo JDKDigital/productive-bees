@@ -5,12 +5,13 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.ingredient.BeeRenderer;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
-import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredient;
-import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredientFactory;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.container.BreedingChamberContainer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -26,7 +27,7 @@ import java.util.function.Supplier;
 
 public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamberContainer>
 {
-    private static final ResourceLocation GUI_TEXTURE = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/breeding_chamber.png");
+    private static final ResourceLocation GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/breeding_chamber.png");
 
     public BreedingChamberScreen(BreedingChamberContainer container, Inventory inv, Component titleIn) {
         super(container, inv, titleIn);
@@ -54,7 +55,7 @@ public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamb
 
         // Bee output tooltip
         if (this.menu.blockEntity.chosenRecipe != null && minecraft != null) {
-            BeeIngredient beeIngredient = this.menu.blockEntity.chosenRecipe.offspring.get();
+            BeeIngredient beeIngredient = this.menu.blockEntity.chosenRecipe.value().offspring.get();
             Entity bee = null;
             if (beeIngredient != null) {
                 bee = beeIngredient.getCachedEntity(minecraft.level);
@@ -108,7 +109,7 @@ public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamb
         // Draw output bee
         if (minecraft != null) {
             if (this.menu.blockEntity.chosenRecipe != null) {
-                BeeIngredient beeIngredient = this.menu.blockEntity.chosenRecipe.offspring.get();
+                BeeIngredient beeIngredient = this.menu.blockEntity.chosenRecipe.value().offspring.get();
 
                 if (beeIngredient != null) {
                     BeeRenderer.render(guiGraphics, getGuiLeft() + 134 - 13, getGuiTop() + 17, beeIngredient, minecraft);
@@ -117,15 +118,13 @@ public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamb
                 ItemStack cage1 = this.menu.blockEntity.inventoryHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1);
                 ItemStack cage2 = this.menu.blockEntity.inventoryHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2);
                 if (BeeCage.isFilled(cage1) && BeeCage.isFilled(cage2)) {
-                    CompoundTag tag1 = cage1.getTag();
-                    CompoundTag tag2 = cage2.getTag();
-                    if (tag1 != null) {
-                        var beeData = BeeIngredientFactory.getIngredient(tag1.contains("type") ? tag1.getString("type") : tag1.getString("entity"));
-                        if (tag1.getString("name").equals(tag2.getString("name")) && (!tag1.getBoolean("isProductiveBee") || (beeData.get() != null && (beeData.get().getCachedEntity(this.menu.blockEntity.getLevel()) instanceof ProductiveBee pBee) && pBee.canSelfBreed()))) {
-                            Supplier<BeeIngredient> beeIngredient = BeeIngredientFactory.getIngredient(tag1.getString("type"));
-                            if (beeIngredient.get() != null) {
-                                BeeRenderer.render(guiGraphics, getGuiLeft() + 134 - 13, getGuiTop() + 17, beeIngredient.get(), minecraft);
-                            }
+                    CompoundTag tag1 = cage1.get(DataComponents.CUSTOM_DATA).copyTag();
+                    CompoundTag tag2 = cage2.get(DataComponents.CUSTOM_DATA).copyTag();
+                    var beeData = BeeIngredientFactory.getIngredient(tag1.contains("type") ? tag1.getString("type") : tag1.getString("entity"));
+                    if (tag1.getString("name").equals(tag2.getString("name")) && (!tag1.getBoolean("isProductiveBee") || (beeData.get() != null && (beeData.get().getCachedEntity(this.menu.blockEntity.getLevel()) instanceof ProductiveBee pBee) && pBee.canSelfBreed()))) {
+                        Supplier<BeeIngredient> beeIngredient = BeeIngredientFactory.getIngredient(tag1.getString("type"));
+                        if (beeIngredient.get() != null) {
+                            BeeRenderer.render(guiGraphics, getGuiLeft() + 134 - 13, getGuiTop() + 17, beeIngredient.get(), minecraft);
                         }
                     }
                 }

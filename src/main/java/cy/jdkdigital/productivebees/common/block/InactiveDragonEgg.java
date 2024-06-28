@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -23,32 +24,31 @@ public class InactiveDragonEgg extends DragonEggBlock
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult rayTraceResult) {
-        ItemStack heldItem = player.getItemInHand(hand);
-        if (!world.isClientSide && heldItem.getItem() == Items.DRAGON_BREATH) {
-            BlockPos posUp = pos.above(2);
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+        if (!pLevel.isClientSide && pStack.getItem() == Items.DRAGON_BREATH) {
+            BlockPos posUp = pPos.above(2);
             for (int i = 0; i < 42; ++i) {
-                double rnd = world.random.nextDouble();
-                float xSpeed = (world.random.nextFloat() - 0.5F) * 0.2F;
-                float ySpeed = (world.random.nextFloat() - 0.5F) * 0.2F;
-                float zSpeed = (world.random.nextFloat() - 0.5F) * 0.2F;
-                double x = Mth.lerp(rnd, posUp.getX(), pos.getX()) + (world.random.nextDouble() - 0.5D) + 0.5D;
-                double y = Mth.lerp(rnd, posUp.getY(), pos.getY()) + world.random.nextDouble() - 0.5D;
-                double z = Mth.lerp(rnd, posUp.getZ(), pos.getZ()) + (world.random.nextDouble() - 0.5D) + 0.5D;
-                world.addParticle(ParticleTypes.PORTAL, x, y, z, xSpeed, ySpeed, zSpeed);
+                double rnd = pLevel.random.nextDouble();
+                float xSpeed = (pLevel.random.nextFloat() - 0.5F) * 0.2F;
+                float ySpeed = (pLevel.random.nextFloat() - 0.5F) * 0.2F;
+                float zSpeed = (pLevel.random.nextFloat() - 0.5F) * 0.2F;
+                double x = Mth.lerp(rnd, posUp.getX(), pPos.getX()) + (pLevel.random.nextDouble() - 0.5D) + 0.5D;
+                double y = Mth.lerp(rnd, posUp.getY(), pPos.getY()) + pLevel.random.nextDouble() - 0.5D;
+                double z = Mth.lerp(rnd, posUp.getZ(), pPos.getZ()) + (pLevel.random.nextDouble() - 0.5D) + 0.5D;
+                pLevel.addParticle(ParticleTypes.PORTAL, x, y, z, xSpeed, ySpeed, zSpeed);
             }
 
-            CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, heldItem);
+            CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) pPlayer, pPos, pStack);
 
             // Transform to real dragon egg
-            world.setBlockAndUpdate(pos, Blocks.DRAGON_EGG.defaultBlockState());
+            pLevel.setBlockAndUpdate(pPos, Blocks.DRAGON_EGG.defaultBlockState());
 
-            if (!player.isCreative()) {
-                heldItem.shrink(1);
+            if (!pPlayer.isCreative()) {
+                pStack.shrink(1);
             }
 
-            return InteractionResult.SUCCESS;
+            return ItemInteractionResult.SUCCESS;
         }
-        return InteractionResult.PASS;
+        return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
     }
 }

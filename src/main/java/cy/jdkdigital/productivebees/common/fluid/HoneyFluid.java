@@ -23,12 +23,12 @@ import javax.annotation.Nullable;
 
 public abstract class HoneyFluid extends BaseFlowingFluid
 {
-    public static final ResourceLocation STILL = new ResourceLocation(ProductiveBees.MODID, "block/honey/still");
-    public static final ResourceLocation FLOWING = new ResourceLocation(ProductiveBees.MODID, "block/honey/flow");
-    public static final ResourceLocation OVERLAY = new ResourceLocation(ProductiveBees.MODID, "block/honey/overlay");
+    public static final ResourceLocation STILL = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "block/honey/still");
+    public static final ResourceLocation FLOWING = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "block/honey/flow");
+    public static final ResourceLocation OVERLAY = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "block/honey/overlay");
 
     protected HoneyFluid() {
-        super(new ForgeFlowingFluid.Properties(
+        super(new BaseFlowingFluid.Properties(
                 ModFluids.HONEY_FLUID_TYPE,
                 ModFluids.HONEY,
                 ModFluids.HONEY_FLOWING

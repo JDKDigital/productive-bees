@@ -1,10 +1,10 @@
 package cy.jdkdigital.productivebees.gen.feature;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.recipe.BeeSpawningRecipe;
-import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModFeatures;
 import cy.jdkdigital.productivebees.util.BeeHelper;
@@ -12,6 +12,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.LevelSimulatedReader;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -25,12 +26,14 @@ import java.util.stream.Stream;
 public class WoodNestDecorator extends TreeDecorator {
     public static final WoodNestDecorator INSTANCE = new WoodNestDecorator();
 
-    public static final Codec<WoodNestDecorator> CODEC = Codec.unit(WoodNestDecorator::new);
+//    public static final Codec<WoodNestDecorator> CODEC = Codec.unit(WoodNestDecorator::new);
+    public static final MapCodec<WoodNestDecorator> CODEC = BlockState.CODEC.fieldOf("nest")
+            .xmap(WoodNestDecorator::new, p_69971_ -> p_69971_.nest);
 
     private static final Direction[] SPAWN_DIRECTIONS = Direction.Plane.HORIZONTAL.stream().filter((direction) -> direction != Direction.SOUTH.getOpposite()).toArray(Direction[]::new);
 
     private BlockState nest;
-    private List<BeeSpawningRecipe> recipes;
+    private List<RecipeHolder<BeeSpawningRecipe>> recipes;
 
     public WoodNestDecorator() {
     }
@@ -52,7 +55,7 @@ public class WoodNestDecorator extends TreeDecorator {
         return this.nest;
     }
 
-    public void setBeeRecipes(List<BeeSpawningRecipe> recipe) {
+    public void setBeeRecipes(List<RecipeHolder<BeeSpawningRecipe>> recipe) {
         this.recipes = recipe;
     }
 
@@ -79,9 +82,9 @@ public class WoodNestDecorator extends TreeDecorator {
                     pLevel.getBlockEntity(nestPos, ModBlockEntityTypes.SOLITARY_NEST.get()).ifPresent((nestBlockEntity) -> {
                         ProductiveBees.LOGGER.debug("Spawned wood nest at " + nestPos + " " + this.nest);
                         if (!this.recipes.isEmpty() && !nestBlockEntity.isFull()) {
-                            BeeSpawningRecipe spawningRecipe = this.recipes.get(random.nextInt(this.recipes.size()));
-                            if (!spawningRecipe.output.isEmpty()) {
-                                BeeIngredient beeIngredient = spawningRecipe.output.get(random.nextInt(spawningRecipe.output.size())).get();
+                            RecipeHolder<BeeSpawningRecipe> spawningRecipe = this.recipes.get(random.nextInt(this.recipes.size()));
+                            if (!spawningRecipe.value().output.isEmpty()) {
+                                BeeIngredient beeIngredient = spawningRecipe.value().output.get(random.nextInt(spawningRecipe.value().output.size())).get();
 
                                 try {
                                     CompoundTag bee = BeeHelper.getBeeAsCompoundTag(beeIngredient);

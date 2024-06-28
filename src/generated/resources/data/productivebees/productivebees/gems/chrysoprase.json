@@ -9,17 +9,17 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:gems/chrysoprase",
-        "type": "forge:tag_empty"
+        "tag": "c:gems/chrysoprase",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     },
     {
       "value": {
         "tag": "productivebees:flowers/chrysoprase",
-        "type": "forge:tag_empty"
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

@@ -4,6 +4,8 @@ import cy.jdkdigital.productivebees.common.block.entity.AmberBlockEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
+import cy.jdkdigital.productivebees.util.GeneAttribute;
+import cy.jdkdigital.productivebees.util.GeneValue;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -28,7 +30,7 @@ public class RancherBee extends ProductiveBee
 
     public RancherBee(EntityType<? extends Bee> entityType, Level world) {
         super(entityType, world);
-        beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, 1);
+        setAttributeValue(GeneAttribute.WEATHER_TOLERANCE, GeneValue.WEATHER_TOLERANCE_RAIN);
     }
 
     @Override

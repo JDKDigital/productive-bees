@@ -2,7 +2,7 @@
   "primaryColor": "#4d494d",
   "secondaryColor": "#804f40",
   "particleColor": "#4d494d",
-  "flowerTag": "forge:storage_blocks/netherite",
+  "flowerTag": "c:storage_blocks/netherite",
   "attackResponse": "fire",
   "size": 0.7,
   "fireproof": true,

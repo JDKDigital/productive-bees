@@ -9,17 +9,17 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:gems/coral",
-        "type": "forge:tag_empty"
+        "tag": "c:gems/coral",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     },
     {
       "value": {
         "tag": "productivebees:flowers/coral",
-        "type": "forge:tag_empty"
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

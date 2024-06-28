@@ -1,0 +1,25 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:redstone"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": {
+        "tag": "c:dusts/redstone"
+      },
+      "min": 1,
+      "max": 2,
+      "chance": 50
+    },
+    {
+      "item": {
+        "tag": "c:wax"
+      }
+    }
+  ]
+}

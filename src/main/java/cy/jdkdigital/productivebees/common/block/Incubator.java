@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.block;
 
 import com.mojang.serialization.MapCodec;
+import cy.jdkdigital.productivebees.common.block.entity.HoneyGeneratorBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.IncubatorBlockEntity;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivelib.common.block.CapabilityContainerBlock;
@@ -53,20 +54,12 @@ public class Incubator extends CapabilityContainerBlock
         return new IncubatorBlockEntity(pos, state);
     }
 
-    @SuppressWarnings("deprecation")
-    @Nonnull
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (!world.isClientSide()) {
-            final BlockEntity tileEntity = world.getBlockEntity(pos);
-            if (tileEntity instanceof IncubatorBlockEntity) {
-                openGui((ServerPlayer) player, (IncubatorBlockEntity) tileEntity);
-            }
+    protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
+        if (!pLevel.isClientSide() && pLevel.getBlockEntity(pPos) instanceof IncubatorBlockEntity incubatorBlockEntity) {
+            pPlayer.openMenu(incubatorBlockEntity, pPos);
+            return InteractionResult.SUCCESS_NO_ITEM_USED;
         }
-        return InteractionResult.SUCCESS;
-    }
-
-    public void openGui(ServerPlayer player, IncubatorBlockEntity blockEntity) {
-        player.openMenu(blockEntity, packetBuffer -> packetBuffer.writeBlockPos(blockEntity.getBlockPos()));
+        return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);
     }
 }

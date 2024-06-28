@@ -6,7 +6,7 @@ import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.common.recipe.BeeBreedingRecipe;
 import cy.jdkdigital.productivebees.common.recipe.TimedRecipeInterface;
-import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.container.BreedingChamberContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
@@ -17,13 +17,14 @@ import cy.jdkdigital.productivelib.common.block.entity.CapabilityBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.common.block.entity.UpgradeableBlockEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Inventory;
@@ -36,20 +37,23 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
-public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements UpgradeableBlockEntity, IRecipeProcessingBlockEntity
+public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements MenuProvider, UpgradeableBlockEntity, IRecipeProcessingBlockEntity
 {
     public int recipeProgress = 0;
     public int recipeLookupCooldown = 0;
     public boolean isRunning = false;
-    private List<BeeBreedingRecipe> currentBreedingRecipes = new ArrayList<>();
-    public BeeBreedingRecipe chosenRecipe;
+    private List<RecipeHolder<BeeBreedingRecipe>> currentBreedingRecipes = new ArrayList<>();
+    public RecipeHolder<BeeBreedingRecipe> chosenRecipe;
 
     public IItemHandlerModifiable inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(6, this)
     {
@@ -87,7 +91,7 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
 
     protected IItemHandlerModifiable upgradeHandler = new InventoryHandlerHelper.UpgradeHandler(4, this);
 
-    public IEnergyStorage energyHandler = new EnergyStorage(10000);
+    public EnergyStorage energyHandler = new EnergyStorage(10000);
 
     public BreedingChamberBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.BREEDING_CHAMBER.get(), pos, state);
@@ -104,7 +108,7 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
         isRunning = running;
     }
 
-    private void setRecipe(BeeBreedingRecipe recipe) {
+    private void setRecipe(RecipeHolder<BeeBreedingRecipe> recipe) {
         chosenRecipe = recipe;
         if (level != null) {
             level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
@@ -112,7 +116,7 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
     }
 
     @Override
-    public TimedRecipeInterface getCurrentRecipe() {
+    public RecipeHolder<BeeBreedingRecipe> getCurrentRecipe() {
         return chosenRecipe;
     }
 
@@ -121,9 +125,10 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
         return recipeProgress;
     }
 
-    public int getProcessingTime(TimedRecipeInterface recipe) {
+    @Override
+    public int getProcessingTime(RecipeHolder<? extends TimedRecipeInterface> recipe) {
         return (int) (
-                (recipe != null ? recipe.getProcessingTime() : 6000) * getProcessingTimeModifier()
+                (recipe != null ? recipe.value().getProcessingTime() : 6000) * getProcessingTimeModifier()
         );
     }
 
@@ -187,7 +192,7 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
     }
 
     private boolean canProcessInput(IItemHandlerModifiable invHandler, boolean firstRun) {
-        int energy = energyHandler.map(IEnergyStorage::getEnergyStored).orElse(0);
+        int energy = energyHandler.getEnergyStored();
 
         var cage1 = invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1);
         var cage2 = invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2);
@@ -195,8 +200,8 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
         var bee1Data = BeeReloadListener.INSTANCE.getData(BeeCage.getBeeType(cage1));
         var bee2Data = BeeReloadListener.INSTANCE.getData(BeeCage.getBeeType(cage2));
 
-        var bee1IsBaby = BeeCage.isFilled(cage1) && cage1.getTag().contains("Age") && cage1.getTag().getInt("Age") < 0;
-        var bee2IsBaby = BeeCage.isFilled(cage2) && cage2.getTag().contains("Age") && cage2.getTag().getInt("Age") < 0;
+        var bee1IsBaby = BeeCage.isFilled(cage1) && cage1.get(DataComponents.CUSTOM_DATA).getUnsafe().contains("Age") && cage1.get(DataComponents.CUSTOM_DATA).copyTag().getInt("Age") < 0;
+        var bee2IsBaby = BeeCage.isFilled(cage2) && cage2.get(DataComponents.CUSTOM_DATA).getUnsafe().contains("Age") && cage2.get(DataComponents.CUSTOM_DATA).copyTag().getInt("Age") < 0;
 
         if (bee1IsBaby || bee2IsBaby) {
             return false;
@@ -233,7 +238,7 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
 
     private boolean completeBreeding(IItemHandlerModifiable invHandler) {
         if (level != null && chosenRecipe != null && invHandler.getStackInSlot(BreedingChamberContainer.SLOT_OUTPUT).isEmpty() && invHandler.getStackInSlot(BreedingChamberContainer.SLOT_CAGE).getItem() instanceof BeeCage && canProcessInput(invHandler, false)) {
-            BeeIngredient beeIngredient = chosenRecipe.offspring.get();
+            BeeIngredient beeIngredient = chosenRecipe.value().offspring.get();
 
             Entity offspring = beeIngredient.getBeeEntity().create(level);
             if (offspring instanceof Bee bee) {
@@ -275,9 +280,9 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
         super.loadPacketNBT(tag, provider);
 
         if (tag.contains("ChosenRecipe") && level != null) {
-            Optional<RecipeHolder<?>> recipe = level.getRecipeManager().byKey(new ResourceLocation(tag.getString("ChosenRecipe")));
-            if (recipe.isPresent() && recipe.get().value() instanceof BeeBreedingRecipe breedingRecipe) {
-                setRecipe(breedingRecipe);
+            Optional<RecipeHolder<?>> recipe = level.getRecipeManager().byKey(ResourceLocation.parse(tag.getString("ChosenRecipe")));
+            if (recipe.isPresent() && recipe.get().value() instanceof BeeBreedingRecipe) {
+                setRecipe((RecipeHolder<BeeBreedingRecipe>) recipe.get());
             }
         }
 
@@ -290,7 +295,7 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
         super.savePacketNBT(tag, provider);
 
         if (chosenRecipe != null) {
-            tag.putString("ChosenRecipe", chosenRecipe.getId().toString());
+            tag.putString("ChosenRecipe", chosenRecipe.id().toString());
         }
         tag.putInt("RecipeProgress", recipeProgress);
         tag.putBoolean("IsRunning", isRunning);
@@ -306,5 +311,15 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
     @Override
     public AbstractContainerMenu createMenu(final int windowId, final Inventory playerInventory, final Player player) {
         return new BreedingChamberContainer(windowId, playerInventory, this);
+    }
+
+    @Override
+    public IItemHandler getItemHandler() {
+        return inventoryHandler;
+    }
+
+    @Override
+    public EnergyStorage getEnergyHandler() {
+        return energyHandler;
     }
 }

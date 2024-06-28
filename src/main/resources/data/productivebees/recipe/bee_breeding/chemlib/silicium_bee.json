@@ -1,0 +1,20 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:fluorine",
+  "parent2": "productivebees:phosphorus",
+  "offspring": "productivebees:silicium",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:fluorine"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:phosphorus"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:silicium"
+    }
+  ]
+}

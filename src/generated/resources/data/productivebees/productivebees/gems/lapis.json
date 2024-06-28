@@ -4,7 +4,7 @@
   "tertiaryColor": "#1b3588",
   "particleColor": "#3537bc",
   "particleType": "pop",
-  "flowerTag": "forge:storage_blocks/lapis",
+  "flowerTag": "c:storage_blocks/lapis",
   "size": 0.8,
   "useGlowLayer": false,
   "renderer": "default_crystal"

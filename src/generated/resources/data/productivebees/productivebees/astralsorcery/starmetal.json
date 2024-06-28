@@ -8,7 +8,7 @@
   "conditions": [
     {
       "modid": "astralsorcery",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

@@ -2,15 +2,15 @@
   "primaryColor": "#f4ffc3",
   "secondaryColor": "#804f40",
   "particleColor": "#dde8ae",
-  "flowerTag": "forge:storage_blocks/lumium",
+  "flowerTag": "c:storage_blocks/lumium",
   "blinding": true,
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/lumium",
-        "type": "forge:tag_empty"
+        "tag": "c:storage_blocks/lumium",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

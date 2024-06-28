@@ -1,0 +1,41 @@
+{
+  "type": "tconstruct:casting_table",
+  "cast": {
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:obsidian",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "count": 1,
+    "id": "productivebees:spawn_egg_configurable_bee"
+  },
+  "cast_consumed": true,
+  "fluid": {
+    "name": "tconstruct:molten_hepatizon",
+    "amount": 1152
+  },
+  "result": {
+    "id": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:hepatizon"
+      }
+    }
+  },
+  "cooling_time": 87,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "tconstruct"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:obsidian"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:hepatizon"
+    }
+  ]
+}

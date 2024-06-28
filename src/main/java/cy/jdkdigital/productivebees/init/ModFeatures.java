@@ -10,13 +10,11 @@ import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguratio
 import net.minecraft.world.level.levelgen.feature.configurations.ReplaceBlockConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
-@EventBusSubscriber(modid = ProductiveBees.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ModFeatures
 {
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(Registries.FEATURE, ProductiveBees.MODID);
@@ -45,11 +43,11 @@ public class ModFeatures
     public static final DeferredHolder<Feature<?>, WoodSolitaryNestFeature> JUNGLE_WOOD_NEST_FEATURE = FEATURES.register("jungle_wood_nest", () -> new WoodSolitaryNestFeature("jungle_wood_nest", ReplaceBlockConfiguration.CODEC));
     public static final DeferredHolder<Feature<?>, WoodSolitaryNestFeature> ACACIA_WOOD_NEST_FEATURE = FEATURES.register("acacia_wood_nest", () -> new WoodSolitaryNestFeature("acacia_wood_nest", ReplaceBlockConfiguration.CODEC));
 
-    public static DeferredHolder<TreeDecoratorType<?>, TreeDecoratorType<NetherBeehiveDecorator>> NETHER_BEEHIVE = TREE_DECORATORS.register("nether_beehive", () -> new TreeDecoratorType<>(NetherBeehiveDecorator.CODEC));
-    public static DeferredHolder<TreeDecoratorType<?>, TreeDecoratorType<WoodNestDecorator>> WOOD_NEST = TREE_DECORATORS.register("wood_nest", () -> new TreeDecoratorType<>(WoodNestDecorator.CODEC));
+    public static DeferredHolder<TreeDecoratorType<?>, TreeDecoratorType<NetherBeehiveDecorator>> NETHER_BEEHIVE = TREE_DECORATORS.register("nether_beehive", () ->  new TreeDecoratorType<>(NetherBeehiveDecorator.CODEC));
+    public static DeferredHolder<TreeDecoratorType<?>, TreeDecoratorType<WoodNestDecorator>> WOOD_NEST = TREE_DECORATORS.register("wood_nest", () ->  new TreeDecoratorType<>(WoodNestDecorator.CODEC));
 
     public static final DeferredHolder<Feature<?>, GlowstoneNestFeature> GLOWSTONE_NEST_BLOB = FEATURES.register("glowstone_nest_blob", () -> new GlowstoneNestFeature(GlowstoneNestFeature.CODEC));
-    public static final DeferredHolder<Feature<?>, OreFeature> NETHER_QUARTZ_NEST_ORE = FEATURES.register("nether_quartz_nest_ore", () -> new OreFeature(OreConfiguration.CODEC)); // TODO
+    public static final DeferredHolder<Feature<?>, OreFeature> NETHER_QUARTZ_NEST_ORE = FEATURES.register("nether_quartz_nest_ore", () -> new OreFeature(OreConfiguration.CODEC));
     public static final DeferredHolder<Feature<?>, SolitaryNestTreeFeature> SOLITARY_NEST_TREE = FEATURES.register("solitary_nest_tree", () -> new SolitaryNestTreeFeature(TreeConfiguration.CODEC));
     public static final DeferredHolder<Feature<?>, DecoratedHugeFungusFeature> DECORATED_HUGE_FUNGUS = FEATURES.register("decorated_huge_fungus", () -> new DecoratedHugeFungusFeature(DecoratedHugeFungusConfiguration.CODEC));
 

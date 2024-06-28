@@ -1,15 +1,20 @@
 {
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "condition": "forge:loot_table_id",
+      "condition": "neoforge:loot_table_id",
       "loot_table_id": "minecraft:gameplay/sniffer_digging"
     }
   ],
   "type": "productivelib:ingredient_modifier",
   "chance": 0.15,
   "addition": {
-    "type": "forge:nbt",
-    "item": "productivebees:spawn_egg_configurable_bee",
-    "nbt": "{EntityTag:{type:\"productivebees:sussy\"}}"
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:sussy",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "count": 1,
+    "id": "productivebees:spawn_egg_configurable_bee"
   }
 }

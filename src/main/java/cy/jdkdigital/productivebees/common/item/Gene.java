@@ -1,35 +1,27 @@
 package cy.jdkdigital.productivebees.common.item;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.init.ModDataComponents;
 import cy.jdkdigital.productivebees.init.ModItems;
-import cy.jdkdigital.productivebees.util.BeeAttribute;
-import cy.jdkdigital.productivebees.util.BeeAttributes;
-import cy.jdkdigital.productivebees.util.ColorUtil;
+import cy.jdkdigital.productivebees.util.*;
 import net.minecraft.ChatFormatting;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class Gene extends Item
 {
-    public static final String ATTRIBUTE_KEY = "productivebees_gene_attribute";
-    public static final String VALUE_KEY = "productivebees_gene_value";
-    public static final String PURITY_KEY = "productivebees_gene_purity";
-
     public static float color(ItemStack itemStack) {
-        return switch (getAttributeName(itemStack)) {
-            case "productivity" -> 0.1F;
-            case "endurance" -> 0.2F;
-            case "temper" -> 0.3F;
-            case "behavior" -> 0.4F;
-            case "weather_tolerance" -> 0.5F;
-            default -> 0.0F;
+        return switch (Gene.getAttribute(itemStack)) {
+            case TYPE -> 0.0F;
+            case PRODUCTIVITY -> 0.1F;
+            case ENDURANCE -> 0.2F;
+            case TEMPER -> 0.3F;
+            case BEHAVIOR -> 0.4F;
+            case WEATHER_TOLERANCE -> 0.5F;
         };
     }
 
@@ -37,73 +29,78 @@ public class Gene extends Item
         super(properties);
     }
 
-    public static ItemStack getStack(BeeAttribute<Integer> attribute, int value) {
+    public static ItemStack getStack(GeneAttribute attribute, String value) {
         return getStack(attribute, value, 1);
     }
 
-    public static ItemStack getStack(BeeAttribute<Integer> attribute, int value, int count) {
+    public static ItemStack getStack(GeneAttribute attribute, String value, int count) {
         return getStack(attribute, value, count, ProductiveBees.random.nextInt(40) + 15);
     }
 
-    public static ItemStack getStack(BeeAttribute<Integer> attribute, int value, int count, int purity) {
-        return getStack(attribute.toString(), value, count, purity);
+    public static ItemStack getStack(String type, int purity) {
+        return getStack(GeneAttribute.TYPE, type, 1, purity);
     }
 
-    public static ItemStack getStack(String type, int value) {
-        return getStack(type, 0, 1, value);
+    public static ItemStack getStack(GeneAttribute attribute, GeneValue value, int count, int purity) {
+        return getStack(attribute, value.getSerializedName(), count, purity);
     }
 
-    public static ItemStack getStack(String attribute, int value, int count, int purity) {
+    public static ItemStack getStack(GeneAttribute attribute, String value, int count, int purity) {
         ItemStack result = new ItemStack(ModItems.GENE.get(), count);
-        setAttribute(result, attribute, value, purity);
+        setGenes(result, attribute, value, purity);
         return result;
     }
 
-    public static void setAttribute(ItemStack stack, String attributeId, int value, int purity) {
-        stack.getOrCreateTag().putString(ATTRIBUTE_KEY, attributeId);
-        stack.getOrCreateTag().putInt(VALUE_KEY, value);
-        stack.getOrCreateTag().putInt(PURITY_KEY, purity);
+    public static ItemStack getStack(GeneGroup geneGroup, int count) {
+        ItemStack result = new ItemStack(ModItems.GENE.get(), count);
+        setGenes(result, geneGroup);
+        return result;
     }
 
-    @Nullable
-    public static BeeAttribute<Integer> getAttribute(ItemStack stack) {
-        String name = getAttributeName(stack);
-        return BeeAttributes.getAttributeByName(name);
+    public static void setGenes(ItemStack stack, GeneAttribute attribute, String value, int purity) {
+        stack.set(ModDataComponents.GENE_GROUP, new GeneGroup(attribute, value, purity));
     }
 
-    public static String getAttributeName(ItemStack stack) {
-        CompoundTag tag = stack.getTag();
-        return tag != null ? tag.getString(ATTRIBUTE_KEY) : "";
+    public static void setGenes(ItemStack stack, GeneGroup geneGroup) {
+        stack.set(ModDataComponents.GENE_GROUP, geneGroup);
     }
 
-    public static Integer getValue(ItemStack stack) {
-        CompoundTag tag = stack.getTag();
-        return tag != null ? tag.getInt(VALUE_KEY) : 0;
+    public static GeneGroup getGenes(ItemStack stack) {
+        return stack.has(ModDataComponents.GENE_GROUP) ? stack.get(ModDataComponents.GENE_GROUP) : null;
+    }
+
+    public static GeneAttribute getAttribute(ItemStack stack) {
+        return stack.has(ModDataComponents.GENE_GROUP) ? stack.get(ModDataComponents.GENE_GROUP).attribute() : GeneAttribute.TYPE;
+    }
+
+    public static String getValue(ItemStack stack) {
+        return stack.has(ModDataComponents.GENE_GROUP) ? stack.get(ModDataComponents.GENE_GROUP).value() : "";
     }
 
     public static Integer getPurity(ItemStack stack) {
-        CompoundTag tag = stack.getTag();
-        return tag != null ? tag.getInt(PURITY_KEY) : 0;
+        return stack.has(ModDataComponents.GENE_GROUP) ? stack.get(ModDataComponents.GENE_GROUP).purity() : 0;
     }
+//
+//    public static void setPurity(ItemStack stack, int purity) {
+//        stack.set(ModDataComponents.GENE_PURITY, purity);
+//    }
 
-    public static void setPurity(ItemStack stack, int purity) {
-        stack.getOrCreateTag().putInt(PURITY_KEY, purity);
+    public static GeneGroup getGene(ItemStack geneStack) {
+        return geneStack.get(ModDataComponents.GENE_GROUP);
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> list, TooltipFlag flag) {
-        super.appendHoverText(stack, world, list, flag);
+    public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
+        super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
 
-        Integer value = getValue(stack);
+        GeneAttribute attribute = getAttribute(pStack);
+        String value = getValue(pStack);
 
-        BeeAttribute<Integer> attribute = getAttribute(stack);
-
-        if (attribute != null && BeeAttributes.keyMap.containsKey(attribute) && BeeAttributes.keyMap.get(attribute).containsKey(value)) {
-            Component translatedValue = Component.translatable(BeeAttributes.keyMap.get(attribute).get(value)).withStyle(ColorUtil.getAttributeColor(value));
-            list.add((Component.translatable("productivebees.information.attribute." + getAttributeName(stack), translatedValue)).withStyle(ChatFormatting.DARK_GRAY).append(Component.literal(" (" + getPurity(stack) + "%)")));
+        if (attribute != null && GeneValue.byName(value) != null) {
+            Component translatedValue = Component.translatable("productivebees.information.attribute." + value).withStyle(ColorUtil.getAttributeColor(GeneValue.byName(value)));
+            pTooltipComponents.add((Component.translatable("productivebees.information.attribute." + attribute.getSerializedName(), translatedValue)).withStyle(ChatFormatting.DARK_GRAY).append(Component.literal(" (" + getPurity(pStack) + "%)")));
         } else {
-            String type = getAttributeName(stack);
-            list.add(Component.translatable("productivebees.information.attribute.type", type).withStyle(ChatFormatting.GOLD).append(Component.literal(" (" + getPurity(stack) + "%)")));
+            pTooltipComponents.add(Component.translatable("productivebees.information.attribute.type", value).withStyle(ChatFormatting.GOLD).append(Component.literal(" (" + getPurity(pStack) + "%)")));
         }
     }
 }

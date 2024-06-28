@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CHC",
+    "HBH",
+    "CHC"
+  ],
+  "key": {
+    "B": {
+      "item": "productivebees:upgrade_base"
+    },
+    "H": {
+      "tag": "c:storage_blocks/iron"
+    },
+    "C": {
+      "tag": "c:storage_blocks/honeycombs"
+    }
+  },
+  "result": {
+    "id": "productivebees:upgrade_range"
+  }
+}

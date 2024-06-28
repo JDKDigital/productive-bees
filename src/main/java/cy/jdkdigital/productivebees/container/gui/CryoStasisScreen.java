@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees.container.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.common.block.entity.CryoStasisBlockEntity;
 import cy.jdkdigital.productivebees.container.CryoStasisContainer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
@@ -23,7 +22,7 @@ public class CryoStasisScreen extends AbstractContainerScreen<CryoStasisContaine
     int scrollOff;
     private EditBox searchBox;
 
-    private static final ResourceLocation GUI_TEXTURE = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/cryo_stasis.png");
+    private static final ResourceLocation GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/cryo_stasis.png");
 
     public CryoStasisScreen(CryoStasisContainer container, Inventory inv, Component titleIn) {
         super(container, inv, titleIn);

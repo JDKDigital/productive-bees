@@ -1,20 +1,19 @@
 package cy.jdkdigital.productivebees.common.recipe;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.init.ModDataComponents;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
-import net.minecraft.world.item.crafting.CraftingRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
@@ -23,11 +22,9 @@ import java.util.List;
 
 public class ConfigurableHoneycombRecipe implements CraftingRecipe
 {
-    public final ResourceLocation id;
     public final Integer count;
 
-    public ConfigurableHoneycombRecipe(ResourceLocation id, Integer count) {
-        this.id = id;
+    public ConfigurableHoneycombRecipe(Integer count) {
         this.count = count;
     }
 
@@ -42,18 +39,18 @@ public class ConfigurableHoneycombRecipe implements CraftingRecipe
     }
 
     @Override
-    public boolean matches(CraftingContainer inv, Level worldIn) {
+    public boolean matches(CraftingInput inv, Level level) {
         List<ItemStack> stacks = getItemsInInventory(inv);
 
         // Honeycombs must match the defined number in the prototype recipe and have the same NBT data
-        CompoundTag type = null;
+        ResourceLocation type = null;
         if (stacks.size() == count) {
             for (ItemStack itemstack : stacks) {
-                if (!itemstack.isEmpty() && itemstack.getItem().equals(ModItems.CONFIGURABLE_HONEYCOMB.get()) && itemstack.hasTag()) {
+                if (!itemstack.isEmpty() && itemstack.getItem().equals(ModItems.CONFIGURABLE_HONEYCOMB.get()) && itemstack.has(ModDataComponents.BEE_TYPE)) {
                     if (type == null) {
-                        type = itemstack.getTag();
+                        type = itemstack.get(ModDataComponents.BEE_TYPE);
                     }
-                    if (type != null && !type.equals(itemstack.getTag())) {
+                    if (type != null && !type.equals(itemstack.get(ModDataComponents.BEE_TYPE))) {
                         return false;
                     }
                 } else {
@@ -67,7 +64,7 @@ public class ConfigurableHoneycombRecipe implements CraftingRecipe
 
     @Nonnull
     @Override
-    public ItemStack assemble(CraftingContainer inv, RegistryAccess registryAccess) {
+    public ItemStack assemble(CraftingInput inv, HolderLookup.Provider registryAccess) {
         List<ItemStack> stacks = getItemsInInventory(inv);
 
         if (stacks.size() > 0) {
@@ -75,16 +72,16 @@ public class ConfigurableHoneycombRecipe implements CraftingRecipe
 
             ItemStack outStack = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
 
-            outStack.setTag(inStack.getTag());
+            outStack.set(ModDataComponents.BEE_TYPE, inStack.get(ModDataComponents.BEE_TYPE));
 
             return outStack;
         }
         return ItemStack.EMPTY;
     }
 
-    private List<ItemStack> getItemsInInventory(CraftingContainer inv) {
+    private List<ItemStack> getItemsInInventory(CraftingInput inv) {
         List<ItemStack> stacks = new ArrayList<>();
-        for (int j = 0; j < inv.getContainerSize(); ++j) {
+        for (int j = 0; j < inv.size(); ++j) {
             ItemStack itemstack = inv.getItem(j);
             if (!itemstack.isEmpty()) {
                 stacks.add(itemstack);
@@ -100,7 +97,7 @@ public class ConfigurableHoneycombRecipe implements CraftingRecipe
 
     @Nonnull
     @Override
-    public ItemStack getResultItem(RegistryAccess registryAccess) {
+    public ItemStack getResultItem(HolderLookup.Provider registryAccess) {
         return new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
     }
 
@@ -115,50 +112,49 @@ public class ConfigurableHoneycombRecipe implements CraftingRecipe
 
     @Nonnull
     @Override
-    public ResourceLocation getId() {
-        return this.id;
-    }
-
-    @Nonnull
-    @Override
     public RecipeSerializer<?> getSerializer() {
         return ModRecipeTypes.CONFIGURABLE_HONEYCOMB.get();
     }
 
-    public static class Serializer<T extends ConfigurableHoneycombRecipe> implements RecipeSerializer<T>
+    public static class Serializer implements RecipeSerializer<ConfigurableHoneycombRecipe>
     {
-        final ConfigurableHoneycombRecipe.Serializer.IRecipeFactory<T> factory;
+        private static final MapCodec<ConfigurableHoneycombRecipe> CODEC = RecordCodecBuilder.mapCodec(
+                builder -> builder.group(
+                                Codec.INT.fieldOf("count").orElse(4).forGetter(recipe -> recipe.count)
+                        )
+                        .apply(builder, ConfigurableHoneycombRecipe::new)
+        );
 
-        public Serializer(ConfigurableHoneycombRecipe.Serializer.IRecipeFactory<T> factory) {
-            this.factory = factory;
+        public static final StreamCodec<RegistryFriendlyByteBuf, ConfigurableHoneycombRecipe> STREAM_CODEC = StreamCodec.of(
+                ConfigurableHoneycombRecipe.Serializer::toNetwork, ConfigurableHoneycombRecipe.Serializer::fromNetwork
+        );
+
+        @Override
+        public MapCodec<ConfigurableHoneycombRecipe> codec() {
+            return CODEC;
         }
 
         @Override
-        public T fromJson(ResourceLocation id, JsonObject json) {
-            return this.factory.create(id, 4);
+        public StreamCodec<RegistryFriendlyByteBuf, ConfigurableHoneycombRecipe> streamCodec() {
+            return STREAM_CODEC;
         }
 
-        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
+        public static ConfigurableHoneycombRecipe fromNetwork(@Nonnull RegistryFriendlyByteBuf buffer) {
             try {
-                return this.factory.create(id, buffer.readInt());
+                return new ConfigurableHoneycombRecipe(buffer.readInt());
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error reading config honeycomb recipe from packet. " + id, e);
+                ProductiveBees.LOGGER.error("Error reading config honeycomb recipe from packet. ", e);
                 throw e;
             }
         }
 
-        public void toNetwork(@Nonnull FriendlyByteBuf buffer, T recipe) {
+        public static void toNetwork(@Nonnull RegistryFriendlyByteBuf buffer, ConfigurableHoneycombRecipe recipe) {
             try {
                 buffer.writeInt(recipe.count);
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error writing config honeycomb recipe to packet. " + recipe.getId(), e);
+                ProductiveBees.LOGGER.error("Error writing config honeycomb recipe to packet. ", e);
                 throw e;
             }
-        }
-
-        public interface IRecipeFactory<T extends ConfigurableHoneycombRecipe>
-        {
-            T create(ResourceLocation id, Integer count);
         }
     }
 }

@@ -1,6 +1,6 @@
 {
   "primaryColor": "#161616",
-  "secondaryColor": "#6238757",
+  "secondaryColor": "#623875",
   "particleColor": "#cc00fa",
   "particleType": "portal",
   "flowerTag": "productivebees:flowers/ender",
@@ -10,7 +10,7 @@
   "conditions": [
     {
       "modid": "thermal",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#c:storage_blocks/sodalite",
+      "required": false
+    },
+    {
+      "id": "silentgems:sodalite_glowrose",
+      "required": false
+    },
+    {
+      "id": "gemsnjewels:sodalite_block",
+      "required": false
+    }
+  ]
+}

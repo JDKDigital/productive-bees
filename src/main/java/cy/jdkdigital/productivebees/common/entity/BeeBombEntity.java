@@ -8,8 +8,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -72,22 +70,23 @@ public class BeeBombEntity extends ThrowableItemProjectile
                     }
                 }
 
-                for (Tag bee : bees) {
-                    Bee beeEntity = BeeCage.getEntityFromStack((CompoundTag) bee, level(), true);
-                    if (beeEntity != null) {
-                        beeEntity.setPos(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5);
-                        if (isAngry) {
-                            if (entity instanceof Player player) {
-                                beeEntity.setPersistentAngerTarget(entity.getUUID());
-                                beeEntity.setTarget(player);
-                            } else {
-                                beeEntity.setRemainingPersistentAngerTime(400 + this.random.nextInt(400));
-                            }
-                        }
-
-                        level().addFreshEntity(beeEntity);
-                    }
-                }
+                // TODO 1.21 reimplement
+//                for (Tag bee : bees) {
+//                    Bee beeEntity = BeeCage.getEntityFromStack(bee, level(), true);
+//                    if (beeEntity != null) {
+//                        beeEntity.setPos(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5);
+//                        if (isAngry) {
+//                            if (entity instanceof Player player) {
+//                                beeEntity.setPersistentAngerTarget(entity.getUUID());
+//                                beeEntity.setTarget(player);
+//                            } else {
+//                                beeEntity.setRemainingPersistentAngerTime(400 + this.random.nextInt(400));
+//                            }
+//                        }
+//
+//                        level().addFreshEntity(beeEntity);
+//                    }
+//                }
             }
             this.discard();
         }

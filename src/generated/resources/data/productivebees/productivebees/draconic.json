@@ -2,7 +2,7 @@
   "primaryColor": "#1c1c1c",
   "secondaryColor": "#5f2525",
   "particleColor": "#cc00fa",
-  "flowerTag": "productivebees:flowers/draconic_flowers",
+  "flowerTag": "productivebees:flowers/draconic",
   "nestingPreference": "productivebees:nests/draconic_nests",
   "beeTexture": "productivebees:textures/entity/bee/draconic/bee",
   "draconic": true,

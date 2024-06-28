@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.block;
 
 import com.mojang.serialization.MapCodec;
+import cy.jdkdigital.productivebees.common.block.entity.BottlerBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.CentrifugeBlockEntity;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivelib.common.block.CapabilityContainerBlock;
@@ -8,6 +9,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -87,28 +89,21 @@ public class Centrifuge extends CapabilityContainerBlock
         return RenderShape.MODEL;
     }
 
-    @SuppressWarnings("deprecation")
-    @Nonnull
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (!world.isClientSide()) {
-            ItemStack heldItem = player.getItemInHand(hand);
-            boolean itemUsed = false;
-
-            if (heldItem.getItem().equals(Items.BUCKET)) {
-                if (FluidUtil.interactWithFluidHandler(player, hand, world, pos, null)) {
-                    itemUsed = true;
-                }
-            }
-
-            if (!itemUsed) {
-                final BlockEntity tileEntity = world.getBlockEntity(pos);
-                if (tileEntity instanceof CentrifugeBlockEntity) {
-                    openGui((ServerPlayer) player, (CentrifugeBlockEntity) tileEntity);
-                }
-            }
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+        if (!pLevel.isClientSide() && FluidUtil.interactWithFluidHandler(pPlayer, pHand, pLevel, pPos, null)) {
+            return ItemInteractionResult.SUCCESS;
         }
-        return InteractionResult.SUCCESS;
+        return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
+        if (!pLevel.isClientSide() && pLevel.getBlockEntity(pPos) instanceof CentrifugeBlockEntity centrifugeBlockEntity) {
+            pPlayer.openMenu(centrifugeBlockEntity, pPos);
+            return InteractionResult.SUCCESS_NO_ITEM_USED;
+        }
+        return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);
     }
 
     @Override

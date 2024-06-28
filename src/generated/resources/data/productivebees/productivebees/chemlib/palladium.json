@@ -6,18 +6,18 @@
   "conditions": [
     {
       "modid": "chemlib",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     },
     {
-      "tag": "forge:raw_materials/palladium",
-      "type": "forge:tag_empty"
+      "tag": "c:raw_materials/palladium",
+      "type": "neoforge:tag_empty"
     },
     {
       "value": {
         "modid": "gtceu",
-        "type": "forge:mod_loaded"
+        "type": "neoforge:mod_loaded"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

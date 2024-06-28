@@ -1,0 +1,23 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:zombie"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "minecraft:rotten_flesh"
+      },
+      "chance": 60
+    },
+    {
+      "item": {
+        "tag": "c:wax"
+      }
+    }
+  ]
+}

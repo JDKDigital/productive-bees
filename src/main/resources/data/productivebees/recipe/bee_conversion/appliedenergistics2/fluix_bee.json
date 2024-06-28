@@ -1,0 +1,22 @@
+{
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:spacial",
+  "result": "productivebees:fluix",
+  "item": {
+    "item": "ae2:fluix_pearl"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "ae2"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:spacial"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:fluix"
+    }
+  ]
+}

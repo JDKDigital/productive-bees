@@ -17,7 +17,7 @@ public class SussyATM
 {
     public static boolean isBlockValid(ServerLevel level, BlockPos pos) {
         ResourceLocation block = BuiltInRegistries.BLOCK.getKey(level.getBlockState(pos).getBlock());
-        return block.equals(new ResourceLocation("allthemodium:suspicious_soul_sand")) || block.equals(new ResourceLocation("allthemodium:suspicious_clay"));
+        return block.equals(ResourceLocation.parse("allthemodium:suspicious_soul_sand")) || block.equals(ResourceLocation.parse("allthemodium:suspicious_clay"));
     }
 
     public static List<ResourceKey<LootTable>> getLootTables(ServerLevel level, BlockPos pos) {
@@ -26,9 +26,9 @@ public class SussyATM
 
         List<ResourceKey<LootTable>> possibleTables = new ArrayList<>();
         if (IN_ANCIENT_CITY.matches(level, pos.getX(), pos.getY(), pos.getZ())) {
-            possibleTables.add(ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation("allthemodium:arch")));
+            possibleTables.add(ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.parse("allthemodium:arch")));
         } else if (IN_BASTION.matches(level, pos.getX(), pos.getY(), pos.getZ())) {
-            possibleTables.add(ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation("allthemodium:arch2")));
+            possibleTables.add(ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.parse("allthemodium:arch2")));
         }
         return possibleTables;
     }

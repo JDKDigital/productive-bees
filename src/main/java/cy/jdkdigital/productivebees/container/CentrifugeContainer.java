@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.common.block.Centrifuge;
 import cy.jdkdigital.productivebees.common.block.entity.CentrifugeBlockEntity;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
+import cy.jdkdigital.productivelib.container.AbstractContainer;
 import cy.jdkdigital.productivelib.container.ManualSlotItemHandler;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
@@ -47,7 +48,7 @@ public class CentrifugeContainer extends AbstractContainer
             public int get(int i) {
                 return i == 0 ?
                         blockEntity.fluidId :
-                        blockEntity.fluidInventory.getFluidInTank(0).getAmount();
+                        blockEntity.fluidHandler.getFluidInTank(0).getAmount();
             }
 
             @Override
@@ -56,9 +57,9 @@ public class CentrifugeContainer extends AbstractContainer
                     case 0:
                         blockEntity.fluidId = value;
                     case 1:
-                        FluidStack fluid = blockEntity.fluidInventory.getFluidInTank(0);
+                        FluidStack fluid = blockEntity.fluidHandler.getFluidInTank(0);
                         if (fluid.isEmpty()) {
-                            blockEntity.fluidInventory.fill(new FluidStack(BuiltInRegistries.FLUID.byId(blockEntity.fluidId), value), IFluidHandler.FluidAction.EXECUTE);
+                            blockEntity.fluidHandler.fill(new FluidStack(BuiltInRegistries.FLUID.byId(blockEntity.fluidId), value), IFluidHandler.FluidAction.EXECUTE);
                         }
                         else {
                             fluid.setAmount(value);

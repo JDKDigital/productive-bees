@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#c:storage_blocks/fluorite",
+      "required": false
+    },
+    {
+      "id": "mekanism:fluorite_ore",
+      "required": false
+    },
+    {
+      "id": "#c:ores/fluorite",
+      "required": false
+    }
+  ]
+}

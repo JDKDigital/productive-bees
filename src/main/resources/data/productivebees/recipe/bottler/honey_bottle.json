@@ -1,0 +1,13 @@
+{
+  "type": "productivebees:bottler",
+  "fluid": {
+    "id": "productivebees:honey",
+    "amount": 250
+  },
+  "ingredient": {
+    "item": "minecraft:glass_bottle"
+  },
+  "result": {
+    "id": "minecraft:honey_bottle"
+  }
+}

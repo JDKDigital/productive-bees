@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#c:storage_blocks/uranium",
+      "required": false
+    },
+    {
+      "id": "#c:ores/uranium",
+      "required": false
+    },
+    {
+      "id": "#c:storage_blocks/yellorium",
+      "required": false
+    },
+    {
+      "id": "#c:ores/yellorite",
+      "required": false
+    }
+  ]
+}

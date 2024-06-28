@@ -9,10 +9,10 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:slimeball/ender",
-        "type": "forge:tag_empty"
+        "tag": "c:slimeball/ender",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

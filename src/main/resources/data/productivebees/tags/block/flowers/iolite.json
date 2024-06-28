@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#c:storage_blocks/iolite",
+      "required": false
+    },
+    {
+      "id": "silentgems:iolite_glowrose",
+      "required": false
+    },
+    {
+      "id": "gemsnjewels:iolite_block",
+      "required": false
+    }
+  ]
+}

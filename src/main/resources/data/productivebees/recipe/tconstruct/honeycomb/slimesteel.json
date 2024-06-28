@@ -1,0 +1,30 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": [
+    {
+      "type": "productivebees:component",
+      "components": {
+        "productivebees:bee_type": "productivebees:slimesteel"
+      },
+      "items": "productivebees:configurable_honeycomb"
+    }
+  ],
+  "result": {
+    "fluid": "tconstruct:molten_slimesteel",
+    "amount": 48
+  },
+  "temperature": 900,
+  "time": 21,
+  "byproducts": [
+    {
+      "fluid": "productivebees:honey",
+      "amount": 100
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "tconstruct"
+    }
+  ]
+}

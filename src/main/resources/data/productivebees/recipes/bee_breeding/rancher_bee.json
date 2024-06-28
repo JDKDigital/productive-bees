@@ -1,8 +1,0 @@
-{
-  "type": "productivebees:bee_breeding",
-  "parent1": "productivebees:lumber_bee",
-  "parent2": "productivebees:sweat_bee",
-  "offspring": [
-    "productivebees:rancher_bee"
-  ]
-}

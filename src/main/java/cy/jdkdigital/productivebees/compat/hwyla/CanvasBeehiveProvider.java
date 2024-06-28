@@ -12,7 +12,7 @@ import snownee.jade.api.config.IPluginConfig;
 
 public class CanvasBeehiveProvider implements IBlockComponentProvider
 {
-    public static final ResourceLocation UID = new ResourceLocation(ProductiveBees.MODID, "canvas_beehive");
+    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "canvas_beehive");
 
     static final CanvasBeehiveProvider INSTANCE = new CanvasBeehiveProvider();
 

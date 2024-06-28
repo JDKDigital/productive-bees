@@ -1,25 +1,21 @@
 package cy.jdkdigital.productivebees.common.recipe;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.item.BeeBomb;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
-import net.minecraft.world.item.crafting.CraftingRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
@@ -28,11 +24,9 @@ import java.util.List;
 
 public class BeeBombBeeCageRecipe implements CraftingRecipe
 {
-    public final ResourceLocation id;
     public final ItemStack beeBomb;
 
-    public BeeBombBeeCageRecipe(ResourceLocation id, ItemStack beeBomb) {
-        this.id = id;
+    public BeeBombBeeCageRecipe(ItemStack beeBomb) {
         this.beeBomb = beeBomb;
     }
 
@@ -42,12 +36,12 @@ public class BeeBombBeeCageRecipe implements CraftingRecipe
     }
 
     @Override
-    public boolean matches(CraftingContainer inv, Level worldIn) {
+    public boolean matches(CraftingInput inv, Level worldIn) {
         // Valid if inv contains 1 bee bomb and any number of bee cages up to 10 (configurable)
         ItemStack beeBombStack = null;
         int beeCount = 0;
         int bombBeeCount = 0;
-        for (int j = 0; j < inv.getContainerSize(); ++j) {
+        for (int j = 0; j < inv.size(); ++j) {
             ItemStack itemstack = inv.getItem(j);
             if (!itemstack.isEmpty()) {
                 if (beeBombStack == null && (itemstack.getItem().equals(ModItems.BEE_BOMB.get()) || itemstack.getItem().equals(ModItems.BEE_BOMB_ANGRY.get()))) {
@@ -80,12 +74,12 @@ public class BeeBombBeeCageRecipe implements CraftingRecipe
 
     @Nonnull
     @Override
-    public ItemStack assemble(CraftingContainer inv, RegistryAccess registryAccess) {
+    public ItemStack assemble(CraftingInput inv, HolderLookup.Provider provider) {
         // Combine bee cages with bee bomb
         ItemStack bomb = null;
         List<ItemStack> beeCages = new ArrayList<>();
 
-        for (int j = 0; j < inv.getContainerSize(); ++j) {
+        for (int j = 0; j < inv.size(); ++j) {
             ItemStack itemstack = inv.getItem(j);
             if (!itemstack.isEmpty()) {
                 if (itemstack.getItem().equals(ModItems.BEE_BOMB.get()) || itemstack.getItem().equals(ModItems.BEE_BOMB_ANGRY.get())) {
@@ -116,7 +110,7 @@ public class BeeBombBeeCageRecipe implements CraftingRecipe
 
     @Nonnull
     @Override
-    public ItemStack getResultItem(RegistryAccess registryAccess) {
+    public ItemStack getResultItem(HolderLookup.Provider provider) {
         return this.beeBomb;
     }
 
@@ -129,18 +123,13 @@ public class BeeBombBeeCageRecipe implements CraftingRecipe
 
         ItemStack cage = new ItemStack(ModItems.BEE_CAGE.get());
 
-        CompoundTag nbt = new CompoundTag();
-        nbt.putString("entity", EntityType.getKey(EntityType.BEE).toString());
-        cage.setTag(nbt);
+        // TODO 1.21 reimplement bee bombs
+//        CompoundTag nbt = new CompoundTag();
+//        nbt.putString("entity", EntityType.getKey(EntityType.BEE).toString());
+//        cage.setTag(nbt);
         list.add(Ingredient.of(cage));
 
         return list;
-    }
-
-    @Nonnull
-    @Override
-    public ResourceLocation getId() {
-        return this.id;
     }
 
     @Nonnull
@@ -149,40 +138,45 @@ public class BeeBombBeeCageRecipe implements CraftingRecipe
         return ModRecipeTypes.BEE_CAGE_BOMB.get();
     }
 
-    public static class Serializer<T extends BeeBombBeeCageRecipe> implements RecipeSerializer<T>
+    public static class Serializer implements RecipeSerializer<BeeBombBeeCageRecipe>
     {
-        final BeeBombBeeCageRecipe.Serializer.IRecipeFactory<T> factory;
+        private static final MapCodec<BeeBombBeeCageRecipe> CODEC = RecordCodecBuilder.mapCodec(
+                builder -> builder.group(
+                                ItemStack.CODEC.fieldOf("bee_bomb").forGetter(recipe -> recipe.beeBomb)
+                        )
+                        .apply(builder, BeeBombBeeCageRecipe::new)
+        );
 
-        public Serializer(BeeBombBeeCageRecipe.Serializer.IRecipeFactory<T> factory) {
-            this.factory = factory;
+        public static final StreamCodec<RegistryFriendlyByteBuf, BeeBombBeeCageRecipe> STREAM_CODEC = StreamCodec.of(
+                BeeBombBeeCageRecipe.Serializer::toNetwork, BeeBombBeeCageRecipe.Serializer::fromNetwork
+        );
+
+        @Override
+        public MapCodec<BeeBombBeeCageRecipe> codec() {
+            return CODEC;
         }
 
         @Override
-        public T fromJson(ResourceLocation id, JsonObject json) {
-            return this.factory.create(id, new ItemStack(ModItems.BEE_BOMB.get()));
+        public StreamCodec<RegistryFriendlyByteBuf, BeeBombBeeCageRecipe> streamCodec() {
+            return STREAM_CODEC;
         }
 
-        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
+        public static BeeBombBeeCageRecipe fromNetwork(@Nonnull RegistryFriendlyByteBuf buffer) {
             try {
-                return this.factory.create(id, buffer.readItem());
+                return new BeeBombBeeCageRecipe(ItemStack.STREAM_CODEC.decode(buffer));
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error reading bee bomb cage recipe from packet. " + id, e);
+                ProductiveBees.LOGGER.error("Error reading bee bomb cage recipe from packet. ", e);
                 throw e;
             }
         }
 
-        public void toNetwork(@Nonnull FriendlyByteBuf buffer, T recipe) {
+        public static void toNetwork(@Nonnull RegistryFriendlyByteBuf buffer, BeeBombBeeCageRecipe recipe) {
             try {
-                buffer.writeItem(recipe.beeBomb);
+                ItemStack.STREAM_CODEC.encode(buffer, recipe.beeBomb);
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error writing bee bomb cage recipe to packet. " + recipe.getId(), e);
+                ProductiveBees.LOGGER.error("Error writing bee bomb cage recipe to packet. ", e);
                 throw e;
             }
-        }
-
-        public interface IRecipeFactory<T extends BeeBombBeeCageRecipe>
-        {
-            T create(ResourceLocation id, ItemStack beeBomb);
         }
     }
 }

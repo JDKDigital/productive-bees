@@ -1,0 +1,52 @@
+{
+  "type": "botanicadds:gaia_plate",
+  "group": "infuser",
+  "result": {
+    "id": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:gaiasteel"
+      }
+    }
+  },
+  "mana": 2000000,
+  "ingredients": [
+    {
+      "components": {
+        "minecraft:entity_data": {
+          "type": "productivebees:elementium",
+          "id": "productivebees:configurable_bee"
+        }
+      },
+      "count": 1,
+      "id": "productivebees:spawn_egg_configurable_bee"
+    },
+    {
+      "tag": "botania:dragonstone_gems"
+    },
+    {
+      "item": "botania:gaia_ingot"
+    },
+    {
+      "item": "botanicadds:gaiasteel_ingot"
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "botanicadds"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "botania"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gaiasteel"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:elementium"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:blutonium",
+  "result": "productivebees:magentite",
+  "item": {
+    "tag": "c:storage_blocks/magentite"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:storage_blocks/magentite"
+      }
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:blutonium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:magentite"
+    }
+  ]
+}

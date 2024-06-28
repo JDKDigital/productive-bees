@@ -1,0 +1,9 @@
+{
+  "type": "productivebees:bee_spawning",
+  "ingredient": {
+    "item": "productivebees:dark_oak_wood_nest"
+  },
+  "results": [
+    "productivebees:yellow_black_carpenter_bee"
+  ]
+}

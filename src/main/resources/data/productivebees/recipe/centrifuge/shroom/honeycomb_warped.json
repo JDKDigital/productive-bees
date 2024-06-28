@@ -1,0 +1,23 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:warped"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "minecraft:warped_fungus"
+      },
+      "chance": 70
+    },
+    {
+      "item": {
+        "tag": "c:wax"
+      }
+    }
+  ]
+}

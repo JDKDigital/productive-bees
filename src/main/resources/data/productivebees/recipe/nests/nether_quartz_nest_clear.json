@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "productivebees:nether_quartz_nest"
+    }
+  ],
+  "result": {
+    "id": "productivebees:nether_quartz_nest"
+  }
+}

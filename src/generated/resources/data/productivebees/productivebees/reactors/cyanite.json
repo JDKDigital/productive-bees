@@ -2,15 +2,15 @@
   "primaryColor": "#72c2d4",
   "secondaryColor": "#60b2c4",
   "particleColor": "#92c6d1",
-  "flowerTag": "forge:storage_blocks/cyanite",
+  "flowerTag": "c:storage_blocks/cyanite",
   "size": 0.8,
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/cyanite",
-        "type": "forge:tag_empty"
+        "tag": "c:storage_blocks/cyanite",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

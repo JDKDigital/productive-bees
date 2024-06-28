@@ -1,0 +1,20 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:diamond",
+  "parent2": "productivebees:emeraldite",
+  "offspring": "productivebees:pendorite",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:diamond"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:emeraldite"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:pendorite"
+    }
+  ]
+}

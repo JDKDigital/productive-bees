@@ -2,16 +2,16 @@
   "primaryColor": "#1929d4",
   "secondaryColor": "#0c1899",
   "particleColor": "#2b38bd",
-  "flowerTag": "forge:storage_blocks/blutonium",
+  "flowerTag": "c:storage_blocks/blutonium",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "size": 0.8,
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/blutonium",
-        "type": "forge:tag_empty"
+        "tag": "c:storage_blocks/blutonium",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

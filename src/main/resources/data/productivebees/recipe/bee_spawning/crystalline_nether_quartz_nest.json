@@ -1,0 +1,19 @@
+{
+  "type": "productivebees:bee_spawning",
+  "ingredient": {
+    "item": "productivebees:nether_quartz_nest"
+  },
+  "results": [
+    "productivebees:crystalline"
+  ],
+  "spawn_item": {
+    "tag": "c:gems/quartz"
+  },
+  "biomes": "#minecraft:is_nether",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:crystalline"
+    }
+  ]
+}

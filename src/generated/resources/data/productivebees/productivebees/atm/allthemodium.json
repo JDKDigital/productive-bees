@@ -1,7 +1,7 @@
 {
   "primaryColor": "#f2f24f",
   "secondaryColor": "#d0581f",
-  "flowerTag": "forge:storage_blocks/allthemodium",
+  "flowerTag": "c:storage_blocks/allthemodium",
   "selfbreed": false,
   "breedingItem": "allthemodium:vibranium_ingot",
   "breedingItemCount": 4,
@@ -11,7 +11,7 @@
   "conditions": [
     {
       "modid": "allthemodium",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

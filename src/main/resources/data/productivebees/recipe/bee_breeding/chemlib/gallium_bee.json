@@ -1,0 +1,20 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:zinc",
+  "parent2": "productivebees:germanium",
+  "offspring": "productivebees:gallium",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:zinc"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:germanium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gallium"
+    }
+  ]
+}

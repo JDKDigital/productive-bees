@@ -1,0 +1,72 @@
+{
+  "type": "gtceu:electromagnetic_separator",
+  "duration": 200,
+  "inputs": {
+    "item": [
+      {
+        "content": {
+          "type": "gtceu:sized",
+          "count": 1,
+          "ingredient": {
+            "components": {
+              "minecraft:entity_data": {
+                "type": "productivebees:gold",
+                "id": "productivebees:configurable_bee"
+              }
+            },
+            "count": 1,
+            "id": "productivebees:spawn_egg_configurable_bee"
+          }
+        },
+        "chance": 1,
+        "tierChanceBoost": 0
+      }
+    ]
+  },
+  "outputs": {
+    "item": [
+      {
+        "content": {
+          "type": "gtceu:sized",
+          "count": 1,
+          "ingredient": {
+            "components": {
+              "minecraft:entity_data": {
+                "type": "productivebees:vanadium_magnetite",
+                "id": "productivebees:configurable_bee"
+              }
+            },
+            "count": 1,
+            "id": "productivebees:spawn_egg_configurable_bee"
+          }
+        },
+        "chance": 1,
+        "tierChanceBoost": 0
+      }
+    ]
+  },
+  "tickInputs": {
+    "eu": [
+      {
+        "content": 24,
+        "chance": 1,
+        "tierChanceBoost": 0
+      }
+    ]
+  },
+  "tickOutputs": {},
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "gtceu"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gold"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:vanadium_magnetite"
+    }
+  ]
+}

@@ -1,14 +1,14 @@
 {
   "primaryColor": "#D5BB4F",
   "secondaryColor": "#804f40",
-  "flowerTag": "forge:storage_blocks/electrum",
+  "flowerTag": "c:storage_blocks/electrum",
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/electrum",
-        "type": "forge:tag_empty"
+        "tag": "c:storage_blocks/electrum",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

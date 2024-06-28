@@ -8,6 +8,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -44,19 +45,20 @@ public class BeeBomb extends Item
     public static void addBee(ItemStack stack, ItemStack cage) {
         ListTag bees = getBees(stack);
 
-        bees.add(cage.getTag());
-
-        stack.getOrCreateTag().put(BEES_KEY, bees);
+        // TODO 1.21 reimplement with data components
+//        bees.add(cage.getTag());
+//
+//        stack.getOrCreateTag().put(BEES_KEY, bees);
     }
 
     public static ListTag getBees(ItemStack stack) {
-        CompoundTag tag = stack.getTag();
+//        CompoundTag tag = stack.getTag();
         Tag bees = new ListTag();
-        if (tag != null) {
-            if (tag.get(BEES_KEY) instanceof ListTag) {
-                bees = tag.get(BEES_KEY);
-            }
-        }
+//        if (tag != null) {
+//            if (tag.get(BEES_KEY) instanceof ListTag) {
+//                bees = tag.get(BEES_KEY);
+//            }
+//        }
         return (ListTag) bees;
     }
 
@@ -78,23 +80,23 @@ public class BeeBomb extends Item
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> list, TooltipFlag flag) {
-        super.appendHoverText(stack, world, list, flag);
+    public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
+        super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
 
-        ListTag beeList = BeeBomb.getBees(stack);
+        ListTag beeList = BeeBomb.getBees(pStack);
         if (!beeList.isEmpty()) {
             if (Screen.hasShiftDown()) {
-                list.add(Component.translatable("productivebees.hive.tooltip.bees").withStyle(ChatFormatting.DARK_AQUA));
+                pTooltipComponents.add(Component.translatable("productivebees.hive.tooltip.bees").withStyle(ChatFormatting.DARK_AQUA));
                 for (Tag bee : beeList) {
                     String beeType = ((CompoundTag) bee).getString("entity");
                     if (beeType.startsWith("productivebees:")) {
-                        list.add(Component.translatable("entity.productivebees." + ProductiveBee.getBeeName(beeType) + "_bee"));
+                        pTooltipComponents.add(Component.translatable("entity.productivebees." + ProductiveBee.getBeeName(ResourceLocation.parse(beeType)) + "_bee"));
                     } else {
-                        list.add(Component.literal(beeType));
+                        pTooltipComponents.add(Component.literal(beeType));
                     }
                 }
             } else {
-                list.add(Component.translatable("productivebees.information.hold_shift").withStyle(ChatFormatting.WHITE));
+                pTooltipComponents.add(Component.translatable("productivebees.information.hold_shift").withStyle(ChatFormatting.WHITE));
             }
         }
     }

@@ -1,0 +1,19 @@
+{
+  "type": "productivebees:bee_spawning",
+  "ingredient": {
+    "item": "productivebees:glowstone_nest"
+  },
+  "results": [
+    "productivebees:glowing"
+  ],
+  "spawn_item": {
+    "tag": "c:dusts/glowstone"
+  },
+  "biomes": "#minecraft:is_nether",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:glowing"
+    }
+  ]
+}

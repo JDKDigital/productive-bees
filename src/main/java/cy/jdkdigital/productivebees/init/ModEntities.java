@@ -9,20 +9,19 @@ import cy.jdkdigital.productivebees.common.entity.bee.hive.*;
 import cy.jdkdigital.productivebees.common.entity.bee.solitary.*;
 import cy.jdkdigital.productivebees.common.item.SpawnEgg;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.util.FastColor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
-@EventBusSubscriber(modid = ProductiveBees.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ModEntities
 {
     public static final UUID WANNA_BEE_UUID = UUID.nameUUIDFromBytes("pb_wanna_bee".getBytes(StandardCharsets.UTF_8));
@@ -73,7 +72,7 @@ public class ModEntities
 
         DeferredHolder<EntityType<?>, EntityType<E>> entity = registry.register(name, () -> builder.build(ProductiveBees.MODID + ":" + name));
 
-        DeferredHolder<Item, ? extends Item> spawnEgg = ProductiveBees.ITEMS.register("spawn_egg_" + name, () -> new SpawnEgg(entity::get, secondaryColor, primaryColor, new Item.Properties()));
+        DeferredHolder<Item, ? extends Item> spawnEgg = ProductiveBees.ITEMS.register("spawn_egg_" + name, () -> new SpawnEgg(entity::get, FastColor.ARGB32.color(255, primaryColor), FastColor.ARGB32.color(255, secondaryColor), new Item.Properties()));
         if (name.equals("configurable_bee")) {
             ModItems.CONFIGURABLE_SPAWN_EGG = spawnEgg;
         }

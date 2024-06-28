@@ -3,7 +3,7 @@ package cy.jdkdigital.productivebees.common.recipe;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import net.minecraft.core.Holder;
@@ -13,12 +13,8 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.neoforged.neoforge.common.util.Lazy;
@@ -29,7 +25,7 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
-public class BeeSpawningRecipe implements Recipe<Container>
+public class BeeSpawningRecipe implements Recipe<RecipeInput>
 {
     static StreamCodec<RegistryFriendlyByteBuf, HolderSet<Biome>> BIOME_STREAM = ByteBufCodecs.holderSet(Registries.BIOME);
 
@@ -46,7 +42,7 @@ public class BeeSpawningRecipe implements Recipe<Container>
     }
 
     @Override
-    public boolean matches(Container inv, Level worldIn) {
+    public boolean matches(RecipeInput inv, Level worldIn) {
         return false;
     }
 
@@ -60,7 +56,7 @@ public class BeeSpawningRecipe implements Recipe<Container>
 
     @Nonnull
     @Override
-    public ItemStack assemble(Container inv, HolderLookup.Provider pRegistries) {
+    public ItemStack assemble(RecipeInput inv, HolderLookup.Provider pRegistries) {
         return ItemStack.EMPTY;
     }
 
@@ -94,7 +90,7 @@ public class BeeSpawningRecipe implements Recipe<Container>
                         Ingredient.CODEC.fieldOf("ingredient").forGetter(recipe -> recipe.ingredient),
                         Ingredient.CODEC.fieldOf("spawn_item").orElse(Ingredient.of(ModItems.HONEY_TREAT.get())).forGetter(recipe -> recipe.spawnItem),
                         BeeIngredient.LIST_CODEC.fieldOf("results").forGetter(recipe -> recipe.output),
-                        Biome.LIST_CODEC.fieldOf("biomes").forGetter(recipe -> recipe.biomes)
+                        Biome.LIST_CODEC.fieldOf("biomes").orElse(HolderSet.empty()).forGetter(recipe -> recipe.biomes)
                 )
                 .apply(builder, BeeSpawningRecipe::new)
         );

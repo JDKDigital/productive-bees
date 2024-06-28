@@ -22,7 +22,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -33,7 +32,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
-import java.util.function.Supplier;
 
 public class ExpansionBox extends Block implements EntityBlock
 {
@@ -61,7 +59,7 @@ public class ExpansionBox extends Block implements EntityBlock
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new ExpansionBoxBlockEntity(this, pos, state);
+        return new ExpansionBoxBlockEntity(pos, state);
     }
 
     public void updateState(Level level, BlockPos pos, BlockState state, boolean isRemoved) {
@@ -103,19 +101,6 @@ public class ExpansionBox extends Block implements EntityBlock
     }
 
     public void updateStateWithDirection(Level level, BlockPos pos, BlockState state, VerticalHive directionProperty, Direction facing) {
-        // unregister any hives thinking this is their expansion box which are not facing here
-//        ProductiveBees.LOGGER.info("updateStateWithDirection " + facing + " " + directionProperty + " " + pos);
-//        for (Direction direction : BlockStateProperties.FACING.getPossibleValues()) {
-//            ProductiveBees.LOGGER.info("check direction " + direction);
-//            if (!direction.equals(facing)) {
-//                var hiveState = level.getBlockState(pos.relative(direction));
-//                if (hiveState.getBlock() instanceof AdvancedBeehive hive) {
-//                    ProductiveBees.LOGGER.info("other hive state " + hiveState);
-//                    ProductiveBees.LOGGER.info("facing " + hiveState.getValue(BeehiveBlock.FACING));
-//                    ProductiveBees.LOGGER.info("expanded " + hiveState.getValue(AdvancedBeehive.EXPANDED));
-//                }
-//            }
-//        }
         level.setBlockAndUpdate(pos, state.setValue(AdvancedBeehive.EXPANDED, directionProperty).setValue(BeehiveBlock.FACING, facing));
     }
 
@@ -164,18 +149,20 @@ public class ExpansionBox extends Block implements EntityBlock
         return removed;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public InteractionResult use(final BlockState state, final Level level, final BlockPos pos, final Player player, final InteractionHand handIn, final BlockHitResult hit) {
-        if (!level.isClientSide) {
+    protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
+        if (!pLevel.isClientSide) {
             // Open the attached beehive, if there is one
-            if (!state.getValue(AdvancedBeehive.EXPANDED).equals(VerticalHive.NONE)) {
-                var dir = state.getValue(AdvancedBeehive.EXPANDED).getExpandedCardinalDirection(state.getValue(BeehiveBlock.FACING)).getOpposite();
-                if (level.getBlockEntity(pos.relative(dir)) instanceof AdvancedBeehiveBlockEntity hiveBlockEntity) {
-                    ((AdvancedBeehive) level.getBlockState(pos.relative(dir)).getBlock()).openGui((ServerPlayer) player, hiveBlockEntity);
+            if (!pState.getValue(AdvancedBeehive.EXPANDED).equals(VerticalHive.NONE)) {
+                var dir = pState.getValue(AdvancedBeehive.EXPANDED).getExpandedCardinalDirection(pState.getValue(BeehiveBlock.FACING)).getOpposite();
+                if (pLevel.getBlockEntity(pPos.relative(dir)) instanceof AdvancedBeehiveBlockEntity hiveBlockEntity) {
+                    var hiveState = pLevel.getBlockState(pPos.relative(dir));
+                    pLevel.sendBlockUpdated(pPos.relative(dir), hiveState, hiveState, 3);
+                    pPlayer.openMenu(hiveBlockEntity, pPos.relative(dir));
+                    return InteractionResult.SUCCESS_NO_ITEM_USED;
                 }
             }
         }
-        return InteractionResult.SUCCESS;
+        return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);
     }
 }

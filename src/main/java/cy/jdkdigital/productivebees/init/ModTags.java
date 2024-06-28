@@ -29,11 +29,11 @@ public class ModTags
     public static final TagKey<Block> WOOD_NESTS = getBlockTag("nests/wood_nests");
     public static final TagKey<Block> BUMBLE_BEE_NESTS = getBlockTag("nests/bumble_bee");
 
-    public static final TagKey<Block> FOREST_FLOWERS = getBlockTag("flowers/forest_flowers");
-    public static final TagKey<Block> ARID_FLOWERS = getBlockTag("flowers/arid_flowers");
-    public static final TagKey<Block> SWAMP_FLOWERS = getBlockTag("flowers/swamp_flowers");
-    public static final TagKey<Block> SNOW_FLOWERS = getBlockTag("flowers/snow_flowers");
-    public static final TagKey<Block> RIVER_FLOWERS = getBlockTag("flowers/river_flowers");
+    public static final TagKey<Block> FOREST_FLOWERS = getBlockTag("flowers/forest");
+    public static final TagKey<Block> ARID_FLOWERS = getBlockTag("flowers/arid");
+    public static final TagKey<Block> SWAMP_FLOWERS = getBlockTag("flowers/swamp");
+    public static final TagKey<Block> SNOW_FLOWERS = getBlockTag("flowers/snow");
+    public static final TagKey<Block> RIVER_FLOWERS = getBlockTag("flowers/river");
     public static final TagKey<Block> QUARRY = getBlockTag("flowers/quarry");
     public static final TagKey<Block> LUMBER = getBlockTag("flowers/lumber");
     public static final TagKey<Block> DUPE_BLACKLIST = getBlockTag("dupe_blacklist");
@@ -44,20 +44,20 @@ public class ModTags
     public static final TagKey<Block> CANVAS_BOXES_BLOCK = getBlockTag("canvas_expansion_boxes");
     public static final TagKey<Block> NOT_FLOWERS = getBlockTag("not_flowers_for_spawning_nests");
 
-    public static final TagKey<EntityType<?>> RANCHABLES = getEntityTag(new ResourceLocation(ProductiveBees.MODID, "ranchables"));
-    public static final TagKey<EntityType<?>> EXTERNAL_CAN_POLLINATE = getEntityTag(new ResourceLocation(ProductiveBees.MODID, "external_can_pollinate"));
-    public static final TagKey<EntityType<?>> BEE_ENCASE_BLACKLIST = getEntityTag(new ResourceLocation(ProductiveBees.MODID, "bee_encase_blacklist"));
+    public static final TagKey<EntityType<?>> RANCHABLES = getEntityTag(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "ranchables"));
+    public static final TagKey<EntityType<?>> EXTERNAL_CAN_POLLINATE = getEntityTag(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "external_can_pollinate"));
+    public static final TagKey<EntityType<?>> BEE_ENCASE_BLACKLIST = getEntityTag(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "bee_encase_blacklist"));
 
-    public static final TagKey<Fluid> HONEY = FluidTags.create(new ResourceLocation("forge", "honey"));
+    public static final TagKey<Fluid> HONEY = FluidTags.create(ResourceLocation.fromNamespaceAndPath("c", "honey"));
 
-    public static final TagKey<Item> CANVAS_HIVES = getItemTag(new ResourceLocation(ProductiveBees.MODID, "canvas_beehives"));
-    public static final TagKey<Item> CANVAS_BOXES = getItemTag(new ResourceLocation(ProductiveBees.MODID, "canvas_expansion_boxes"));
-    public static final TagKey<Item> HIVES = getItemTag(new ResourceLocation(ProductiveBees.MODID, "advanced_beehives"));
-    public static final TagKey<Item> BOXES = getItemTag(new ResourceLocation(ProductiveBees.MODID, "expansion_boxes"));
-    public static final TagKey<Item> WANNABEE_LOOT_BLACKLIST = getItemTag(new ResourceLocation(ProductiveBees.MODID, "wannabee_loot_blacklist"));
+    public static final TagKey<Item> CANVAS_HIVES = getItemTag(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "canvas_beehives"));
+    public static final TagKey<Item> CANVAS_BOXES = getItemTag(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "canvas_expansion_boxes"));
+    public static final TagKey<Item> HIVES = getItemTag(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "advanced_beehives"));
+    public static final TagKey<Item> BOXES = getItemTag(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "expansion_boxes"));
+    public static final TagKey<Item> WANNABEE_LOOT_BLACKLIST = getItemTag(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "wannabee_loot_blacklist"));
 
     public static TagKey<Block> getBlockTag(String name) {
-        return getBlockTag(new ResourceLocation(ProductiveBees.MODID, name));
+        return getBlockTag(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, name));
     }
 
     public static TagKey<Block> getBlockTag(ResourceLocation resourceLocation) {
@@ -89,18 +89,20 @@ public class ModTags
         return TagKey.create(Registries.BIOME, name);
     }
 
-    public static class Forge {
-        public static final TagKey<Item> COMBS = getItemTag(new ResourceLocation("forge", "storage_blocks/honeycombs"));
-        public static final TagKey<Item> HONEYCOMBS = getItemTag(new ResourceLocation("forge", "honeycombs"));
-        public static final TagKey<Item> HONEY_BUCKETS = getItemTag(new ResourceLocation("forge", "buckets/honey"));
-        public static final TagKey<Item> EGGS = getItemTag(new ResourceLocation("forge", "eggs"));
-        public static final TagKey<Item> FISHING_RODS = getItemTag(new ResourceLocation("forge", "rods/fishing"));
-        public static final TagKey<Item> WAX = getItemTag(new ResourceLocation("forge", "wax"));
-        public static final TagKey<Item> WITHER_SKULL_FRAGMENTS = getItemTag(new ResourceLocation("forge", "fragments/wither_skull"));
-        public static final TagKey<Item> SILICON = getItemTag(new ResourceLocation("forge", "silicon"));
-        public static final TagKey<Item> SOURCE_GEM = getItemTag(new ResourceLocation("forge", "gems/source"));
-        public static final TagKey<Item> CAMPFIRES = getItemTag(new ResourceLocation("forge", "campfires"));
-        public static final TagKey<Item> HIVES = getItemTag(new ResourceLocation("forge", "hives"));
-        public static final TagKey<Item> DYES = getItemTag(new ResourceLocation("forge", "dyes"));
+    public static class Common
+    {
+        public static final TagKey<Item> COMBS = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "storage_blocks/honeycombs"));
+        public static final TagKey<Item> HONEYCOMBS = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "honeycombs"));
+        public static final TagKey<Item> HONEY_BUCKETS = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "buckets/honey"));
+        public static final TagKey<Item> EGGS = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "eggs"));
+        public static final TagKey<Item> FISHING_RODS = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "rods/fishing"));
+        public static final TagKey<Item> WAX = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "wax"));
+        public static final TagKey<Item> WITHER_SKULL_FRAGMENTS = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "fragments/wither_skull"));
+        public static final TagKey<Item> SILICON = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "silicon"));
+        public static final TagKey<Item> SOURCE_GEM = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "gems/source"));
+        public static final TagKey<Item> CAMPFIRES = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "campfires"));
+        public static final TagKey<Item> HIVES = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "hives"));
+        public static final TagKey<Item> DYES = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "dyes"));
+        public static final TagKey<Item> SHEARS = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "tools/shears"));
     }
 }

@@ -1,17 +1,25 @@
 package cy.jdkdigital.productivebees.common.item;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
+import cy.jdkdigital.productivebees.init.ModDataComponents;
 import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.util.GeneAttribute;
+import cy.jdkdigital.productivebees.util.GeneGroup;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GeneBottle extends Item
 {
-    private static final String GENES_KEY = "productivebees_genes";
-
     public GeneBottle(Properties properties) {
         super(properties);
     }
@@ -28,39 +36,35 @@ public class GeneBottle extends Item
 
     public static void setGenes(ItemStack stack, Entity target) {
         CompoundTag nbt = new CompoundTag();
+        var name = target.getName().getString();
         if (target.hasCustomName()) {
-            nbt.putString("name", target.getCustomName().getString());
-        } else {
-            nbt.putString("name", target.getName().getString());
-        }
-        target.saveWithoutId(nbt);
-
-        if (nbt.getString("type").isEmpty()) {
-            nbt.putString("type", "" + target.getEncodeId());
+            name = target.getCustomName().getString();
         }
 
-        stack.getOrCreateTag().put(GENES_KEY, nbt);
+        var type = target.getEncodeId();
+        if (target instanceof ProductiveBee pBee) {
+            type = pBee.getBeeType().toString();
+        }
+
+        var geneList = new ArrayList<GeneGroup>();
+        var data = target.getData(ProductiveBees.ATTRIBUTE_HANDLER);
+        for (GeneAttribute attribute: GeneAttribute.values()) {
+            if (!attribute.equals(GeneAttribute.TYPE)) {
+                geneList.add(new GeneGroup(attribute, data.getAttributeValue(attribute).getSerializedName(), target.level().random.nextInt(40) + 15));
+            }
+        }
+
+        int typePurity = ProductiveBeesConfig.BEE_ATTRIBUTES.typeGenePurity.get();
+        geneList.add(new GeneGroup(GeneAttribute.TYPE, type, target.level().random.nextInt(Math.max(0, typePurity - 5)) + 10));
+        stack.set(ModDataComponents.GENE_GROUP_LIST, geneList);
+        stack.set(ModDataComponents.BEE_NAME, name);
     }
 
     @Nullable
-    public static CompoundTag getGenes(ItemStack stack) {
-        if (!getGenesTag(stack).isEmpty()) {
-            return getGenesTag(stack);
+    public static List<GeneGroup> getGenes(ItemStack stack) {
+        if (stack.has(ModDataComponents.GENE_GROUP_LIST)) {
+            return stack.get(ModDataComponents.GENE_GROUP_LIST);
         }
         return null;
     }
-
-    public static CompoundTag getGenesTag(ItemStack stack) {
-        CompoundTag tag = stack.getTag();
-        return tag != null ? (CompoundTag) tag.get(GENES_KEY) : new CompoundTag();
-    }
-
-//    @Override
-//    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
-//        if (this.allowedIn(group)) {
-//            if () {
-//                items.add(getStack(block));
-//            }
-//        }
-//    }
 }

@@ -2,21 +2,21 @@
   "primaryColor": "#ffc9a7",
   "secondaryColor": "#ff762c",
   "particleColor": "#ffc9a7",
-  "flowerTag": "forge:storage_blocks/spectrum",
+  "flowerTag": "c:storage_blocks/spectrum",
   "conditions": [
     {
       "value": {
-        "tag": "forge:gems/spectrum",
-        "type": "forge:tag_empty"
+        "tag": "c:gems/spectrum",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     },
     {
       "value": {
-        "tag": "forge:storage_blocks/spectrum",
-        "type": "forge:tag_empty"
+        "tag": "c:storage_blocks/spectrum",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

@@ -18,7 +18,7 @@ public class WoodNest extends SolitaryNest
     public WoodNest(String color, Properties properties) {
         super(properties);
         this.registerDefaultState(this.defaultBlockState().setValue(AXIS, Direction.Axis.Y));
-        this.color = TextColor.parseColor(color).getValue();
+        this.color = TextColor.parseColor(color).result().get().getValue();
     }
 
     public BlockState rotate(BlockState state, Rotation rotation) {

@@ -9,17 +9,17 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:gems/black_opal",
-        "type": "forge:tag_empty"
+        "tag": "c:gems/black_opal",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     },
     {
       "value": {
         "tag": "productivebees:flowers/black_opal",
-        "type": "forge:tag_empty"
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

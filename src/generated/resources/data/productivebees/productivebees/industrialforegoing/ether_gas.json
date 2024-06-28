@@ -3,7 +3,7 @@
   "secondaryColor": "#70b4c2",
   "particleColor": "#b5f3ff",
   "flowerType": "entity_types",
-  "flowerTag": "forge:withers",
+  "flowerTag": "c:withers",
   "beeTexture": "productivebees:textures/entity/bee/ether_gas/bee",
   "size": 0.5,
   "selfbreed": false,
@@ -11,7 +11,7 @@
   "conditions": [
     {
       "modid": "industrialforegoing",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

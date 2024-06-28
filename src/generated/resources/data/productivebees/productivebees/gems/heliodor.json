@@ -9,17 +9,17 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:gems/heliodor",
-        "type": "forge:tag_empty"
+        "tag": "c:gems/heliodor",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     },
     {
       "value": {
         "tag": "productivebees:flowers/heliodor",
-        "type": "forge:tag_empty"
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

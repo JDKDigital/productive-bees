@@ -5,6 +5,7 @@ import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
@@ -39,11 +40,11 @@ public class HeatedCentrifuge extends PoweredCentrifuge
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, BlockGetter pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
-        super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
+    public void appendHoverText(ItemStack pStack, Item.TooltipContext pContext, List<Component> pTootipComponents, TooltipFlag pTooltipFlag) {
+        super.appendHoverText(pStack, pContext, pTootipComponents, pTooltipFlag);
 
-        pTooltip.add(Component.translatable("productivebees.heated_centrifuge.tooltip").withStyle(ChatFormatting.GOLD));
-        pTooltip.add(Component.translatable("productivebees.heated_centrifuge.tooltip2").withStyle(ChatFormatting.DARK_RED));
+        pTootipComponents.add(Component.translatable("productivebees.heated_centrifuge.tooltip").withStyle(ChatFormatting.GOLD));
+        pTootipComponents.add(Component.translatable("productivebees.heated_centrifuge.tooltip2").withStyle(ChatFormatting.DARK_RED));
     }
 
     @SuppressWarnings("deprecation")

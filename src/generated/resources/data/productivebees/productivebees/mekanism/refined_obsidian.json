@@ -1,11 +1,11 @@
 {
   "primaryColor": "#5e5077",
   "secondaryColor": "#372856",
-  "flowerTag": "forge:storage_blocks/refined_obsidian",
+  "flowerTag": "c:storage_blocks/refined_obsidian",
   "conditions": [
     {
       "modid": "mekanism",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

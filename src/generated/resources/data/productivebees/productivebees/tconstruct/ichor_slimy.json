@@ -9,10 +9,10 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:slimeball/ichor",
-        "type": "forge:tag_empty"
+        "tag": "c:slimeball/ichor",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

@@ -10,7 +10,7 @@
   "conditions": [
     {
       "modid": "create_enchantment_industry",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

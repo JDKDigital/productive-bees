@@ -1,0 +1,41 @@
+{
+  "type": "bloodmagic:altar",
+  "input": {
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:hematophagous",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "count": 1,
+    "id": "productivebees:spawn_egg_configurable_bee"
+  },
+  "output": {
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:regenerative",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "count": 1,
+    "id": "productivebees:spawn_egg_configurable_bee"
+  },
+  "upgradeLevel": 3,
+  "altarSyphon": 10000,
+  "consumptionRate": 30,
+  "drainRate": 50,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "bloodmagic"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:hematophagous"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:regenerative"
+    }
+  ]
+}

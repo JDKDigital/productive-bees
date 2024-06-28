@@ -3,7 +3,7 @@
   "secondaryColor": "#5f2525",
   "tertiaryColor": "#cc00fa",
   "particleColor": "#cc00fa",
-  "flowerTag": "forge:storage_blocks/draconium",
+  "flowerTag": "c:storage_blocks/draconium",
   "nestingPreference": "productivebees:nests/draconic_nests",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "selfbreed": false,
@@ -16,7 +16,7 @@
   "conditions": [
     {
       "modid": "draconicevolution",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

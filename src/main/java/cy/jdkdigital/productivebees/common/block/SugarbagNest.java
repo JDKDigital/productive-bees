@@ -38,21 +38,21 @@ public class SugarbagNest extends BeehiveBlock
         return new SugarbagNestBlockEntity(pos, state);
     }
 
-    @Override
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
-        ItemStack itemstack = player.getItemInHand(handIn);
-        int i = state.getValue(HONEY_LEVEL);
-        if (i >= 5) {
-            if (itemstack.getItem() == Items.SHEARS) {
-                worldIn.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.BEEHIVE_SHEAR, SoundSource.NEUTRAL, 1.0F, 1.0F);
-                popResource(worldIn, pos, new ItemStack(ModItems.SUGARBAG_HONEYCOMB.get(), 3));
-                itemstack.hurtAndBreak(1, player, (entity) -> {
-                    entity.broadcastBreakEvent(handIn);
-                });
-                this.resetHoneyLevel(worldIn, state, pos);
-                return InteractionResult.SUCCESS;
-            }
-        }
-        return super.use(state, worldIn, pos, player, handIn, hit);
-    }
+//    @Override
+//    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+//        ItemStack itemstack = player.getItemInHand(handIn);
+//        int i = state.getValue(HONEY_LEVEL);
+//        if (i >= 5) {
+//            if (itemstack.getItem() == Items.SHEARS) {
+//                worldIn.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.BEEHIVE_SHEAR, SoundSource.NEUTRAL, 1.0F, 1.0F);
+//                popResource(worldIn, pos, new ItemStack(ModItems.SUGARBAG_HONEYCOMB.get(), 3));
+//                itemstack.hurtAndBreak(1, player, (entity) -> {
+//                    entity.broadcastBreakEvent(handIn);
+//                });
+//                this.resetHoneyLevel(worldIn, state, pos);
+//                return InteractionResult.SUCCESS;
+//            }
+//        }
+//        return super.use(state, worldIn, pos, player, handIn, hit);
+//    }
 }

@@ -1,0 +1,61 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "components": {
+        "minecraft:entity_data": {
+          "type": "productivebees:apatite",
+          "id": "productivebees:configurable_bee"
+        }
+      },
+      "count": 1,
+      "id": "productivebees:spawn_egg_configurable_bee"
+    },
+    {
+      "item": "thermal_extra:soul_sand_dust"
+    },
+    {
+      "item": "thermal_extra:soul_sand_dust"
+    },
+    {
+      "components": {
+        "minecraft:entity_data": {
+          "type": "productivebees:invar",
+          "id": "productivebees:configurable_bee"
+        }
+      },
+      "count": 1,
+      "id": "productivebees:spawn_egg_configurable_bee"
+    }
+  ],
+  "result": {
+    "id": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:soul_infused"
+      }
+    }
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thermal"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thermal_extra"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:apatite"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:invar"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:soul_infused"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:crystalline",
+  "parent2": "productivebees:mason_bee",
+  "offspring": "productivebees:gold",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:crystalline"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gold"
+    }
+  ]
+}

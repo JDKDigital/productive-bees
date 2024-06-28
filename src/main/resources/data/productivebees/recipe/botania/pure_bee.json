@@ -1,0 +1,40 @@
+{
+  "type": "botania:petal_apothecary",
+  "ingredients": [
+    {
+      "tag": "botania:petals/white"
+    },
+    {
+      "tag": "botania:petals/white"
+    },
+    {
+      "tag": "botania:petals/white"
+    },
+    {
+      "item": "productivebees:honey_treat"
+    }
+  ],
+  "output": {
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:pure",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "count": 1,
+    "id": "productivebees:spawn_egg_configurable_bee"
+  },
+  "reagent": {
+    "item": "minecraft:bee_spawn_egg"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "botania"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:pure"
+    }
+  ]
+}

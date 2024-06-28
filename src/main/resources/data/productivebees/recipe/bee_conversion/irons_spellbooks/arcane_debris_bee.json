@@ -1,0 +1,18 @@
+{
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:netherite",
+  "result": "productivebees:arcane_debris",
+  "item": {
+    "item": "irons_spellbooks:arcane_debris"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:netherite"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:arcane_debris"
+    }
+  ]
+}

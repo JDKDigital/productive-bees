@@ -1,0 +1,53 @@
+{
+  "type": "alchemistry:dissolver",
+  "group": "alchemistry:dissolver",
+  "input": {
+    "ingredient": {
+      "components": {
+        "minecraft:entity_data": {
+          "type": "productivebees:thorium",
+          "id": "productivebees:configurable_bee"
+        }
+      },
+      "count": 1,
+      "id": "productivebees:spawn_egg_configurable_bee"
+    }
+  },
+  "output": {
+    "rolls": 1,
+    "weighted": false,
+    "groups": [
+      {
+        "probability": 100,
+        "results": [
+          {
+            "item": "productivebees:spawn_egg_configurable_bee",
+            "nbt": {
+              "EntityTag": {
+                "type": "productivebees:astatine"
+              }
+            }
+          },
+          {
+            "count": 4,
+            "item": "chemlib:uranium"
+          }
+        ]
+      }
+    ]
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "alchemistry"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:thorium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:astatine"
+    }
+  ]
+}

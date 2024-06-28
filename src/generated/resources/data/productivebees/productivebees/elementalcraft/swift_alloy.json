@@ -2,14 +2,14 @@
   "primaryColor": "#ebb760",
   "secondaryColor": "#c58114",
   "particleColor": "#ebb760",
-  "flowerTag": "forge:storage_blocks/swift_alloy",
+  "flowerTag": "c:storage_blocks/swift_alloy",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "size": 0.6,
   "selfbreed": false,
   "conditions": [
     {
       "modid": "elementalcraft",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

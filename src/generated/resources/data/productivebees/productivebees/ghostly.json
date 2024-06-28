@@ -1,6 +1,6 @@
 {
   "primaryColor": "#eeeeee",
-  "flowerTag": "productivebees:flowers/souled_flowers",
+  "flowerTag": "productivebees:flowers/souled",
   "nestingPreference": "productivebees:nests/soul_sand_nests",
   "beeTexture": "productivebees:textures/entity/bee/ghostly/bee",
   "createComb": false,

@@ -1,0 +1,39 @@
+{
+  "type": "naturesaura:altar",
+  "input": {
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:iron",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "count": 1,
+    "id": "productivebees:spawn_egg_configurable_bee"
+  },
+  "output": {
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:infused_iron",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "count": 1,
+    "id": "productivebees:spawn_egg_configurable_bee"
+  },
+  "aura": 15000,
+  "time": 80,
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:iron"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:infused_iron"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "naturesaura"
+    }
+  ]
+}

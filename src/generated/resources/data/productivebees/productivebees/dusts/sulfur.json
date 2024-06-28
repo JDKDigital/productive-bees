@@ -7,10 +7,10 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:dusts/sulfur",
-        "type": "forge:tag_empty"
+        "tag": "c:dusts/sulfur",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

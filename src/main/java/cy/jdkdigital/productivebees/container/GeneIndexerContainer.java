@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.container;
 import cy.jdkdigital.productivebees.common.block.GeneIndexer;
 import cy.jdkdigital.productivebees.common.block.entity.GeneIndexerBlockEntity;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
+import cy.jdkdigital.productivelib.container.AbstractContainer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;

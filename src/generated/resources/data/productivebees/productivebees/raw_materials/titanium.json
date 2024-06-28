@@ -1,14 +1,14 @@
 {
   "primaryColor": "#D0D1DA",
   "secondaryColor": "#804f40",
-  "flowerTag": "forge:storage_blocks/titanium",
+  "flowerTag": "c:storage_blocks/titanium",
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/titanium",
-        "type": "forge:tag_empty"
+        "tag": "c:storage_blocks/titanium",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

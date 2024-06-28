@@ -1,14 +1,12 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "type": "forge:nbt",
-        "item": "productivebees:configurable_honeycomb",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:bacon"
-            }
-        }
+    "type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:bacon"
     },
+    "items": "productivebees:configurable_honeycomb"
+  },
     "outputs": [
         {
             "item": {
@@ -20,7 +18,7 @@
         },
         {
             "item": {
-                "tag": "forge:wax"
+                "tag": "c:wax"
             }
         },
         {

@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.util;
 
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -13,9 +14,9 @@ import java.util.stream.IntStream;
 
 public class BeeEffect implements INBTSerializable<CompoundTag>
 {
-    private Map<MobEffect, Integer> effects = new HashMap<>();
+    private Map<Holder<MobEffect>, Integer> effects = new HashMap<>();
 
-    public BeeEffect(Map<MobEffect, Integer> effects) {
+    public BeeEffect(Map<Holder<MobEffect>, Integer> effects) {
         this.effects = effects;
     }
 
@@ -23,7 +24,7 @@ public class BeeEffect implements INBTSerializable<CompoundTag>
         deserializeNBT(provider, tag);
     }
 
-    public Map<MobEffect, Integer> getEffects() {
+    public Map<Holder<MobEffect>, Integer> getEffects() {
         return effects;
     }
 
@@ -34,7 +35,7 @@ public class BeeEffect implements INBTSerializable<CompoundTag>
         tag.putInt("i", effects.size());
         getEffects().forEach((effect, duration) -> {
             CompoundTag effectTag = new CompoundTag();
-            effectTag.putString("effect", "" + BuiltInRegistries.MOB_EFFECT.getKey(effect));
+            effectTag.putString("effect", "" + BuiltInRegistries.MOB_EFFECT.getKey(effect.value()));
             effectTag.putInt("duration", duration);
 
             tag.put("effect_" + (tag.size() - 1), effectTag);
@@ -51,9 +52,9 @@ public class BeeEffect implements INBTSerializable<CompoundTag>
                 CompoundTag effectTag = tag.getCompound("effect_" + i);
                 String effectName = effectTag.getString("effect");
 
-                MobEffect effect = BuiltInRegistries.MOB_EFFECT.get(new ResourceLocation(effectName));
+                MobEffect effect = BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.parse(effectName));
 
-                this.effects.put(effect, effectTag.getInt("duration"));
+                this.effects.put(Holder.direct(effect), effectTag.getInt("duration"));
             }
         );
     }

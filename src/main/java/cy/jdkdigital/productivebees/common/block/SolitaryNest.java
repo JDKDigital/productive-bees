@@ -2,13 +2,14 @@ package cy.jdkdigital.productivebees.common.block;
 
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableMap;
+import com.mojang.serialization.MapCodec;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.entity.SolitaryNestBlockEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.item.HoneyTreat;
 import cy.jdkdigital.productivebees.common.recipe.BeeSpawningRecipe;
-import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
@@ -17,21 +18,24 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Mirror;
@@ -53,6 +57,7 @@ import java.util.function.Supplier;
 
 public class SolitaryNest extends AdvancedBeehiveAbstract
 {
+    public static final MapCodec<SolitaryNest> CODEC = simpleCodec(SolitaryNest::new);
     public static Supplier<Map<Block, Block>> BLOCK_TO_NEST = Suppliers.memoize(() -> ImmutableMap.<Block, Block>builder()
             .put(Blocks.GRASS_BLOCK, ModBlocks.BUMBLE_BEE_NEST.get())
             .put(Blocks.OAK_LOG, ModBlocks.OAK_WOOD_NEST.get())
@@ -79,12 +84,18 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
             .put(Blocks.SNOW_BLOCK, ModBlocks.SNOW_NEST.get())
             .put(Blocks.GRAVEL, ModBlocks.GRAVEL_NEST.get())
         .build());
-    static Map<String, List<BeeSpawningRecipe>> recipes = new HashMap<>();
+    static Map<String, List<RecipeHolder<BeeSpawningRecipe>>> recipes = new HashMap<>();
 
     public SolitaryNest(Properties properties) {
         super(properties);
         this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.FACING, Direction.NORTH));
     }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
+    }
+
 
     @Nullable
     @Override
@@ -97,10 +108,10 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
     }
 
     public static Entity getNestingBeeType(SolitaryNest block, Level level, Holder<Biome> biome, RandomSource random) {
-        List<BeeSpawningRecipe> spawningRecipes = getSpawningRecipes(block, level, biome, ItemStack.EMPTY);
+        List<RecipeHolder<BeeSpawningRecipe>> spawningRecipes = getSpawningRecipes(block, level, biome, ItemStack.EMPTY);
         if (!spawningRecipes.isEmpty()) {
-            BeeSpawningRecipe spawningRecipe = spawningRecipes.get(random.nextInt(spawningRecipes.size()));
-            BeeIngredient beeIngredient = spawningRecipe.output.get(random.nextInt(spawningRecipe.output.size())).get();
+            RecipeHolder<BeeSpawningRecipe> spawningRecipe = spawningRecipes.get(random.nextInt(spawningRecipes.size()));
+            BeeIngredient beeIngredient = spawningRecipe.value().output.get(random.nextInt(spawningRecipe.value().output.size())).get();
             if (beeIngredient != null) {
                 Entity bee = beeIngredient.getBeeEntity().create(level);
                 if (bee instanceof ConfigurableBee) {
@@ -115,17 +126,17 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
         return null;
     }
 
-    public static List<BeeSpawningRecipe> getSpawningRecipes(SolitaryNest block, Level level, Holder<Biome> biome, ItemStack heldItem) {
-        List<BeeSpawningRecipe> spawningRecipes = new ArrayList<>();
-        String cacheKey = BuiltInRegistries.ITEM.getKey(heldItem.getItem()) + "_" + ForgeRegistries.BLOCKS.getKey(block) + "_" + level.registryAccess().registryOrThrow(Registries.BIOME).getKey(biome.value());
+    public static List<RecipeHolder<BeeSpawningRecipe>> getSpawningRecipes(SolitaryNest block, Level level, Holder<Biome> biome, ItemStack heldItem) {
+        List<RecipeHolder<BeeSpawningRecipe>> spawningRecipes = new ArrayList<>();
+        String cacheKey = BuiltInRegistries.ITEM.getKey(heldItem.getItem()) + "_" + BuiltInRegistries.BLOCK.getKey(block) + "_" + level.registryAccess().registryOrThrow(Registries.BIOME).getKey(biome.value());
         // Get and cache recipes for nest type
         if (!recipes.containsKey(cacheKey)) {
-            Map<ResourceLocation, BeeSpawningRecipe> allRecipes = new HashMap<>(level.getRecipeManager().byType(ModRecipeTypes.BEE_SPAWNING_TYPE.get()));
+            List<RecipeHolder<BeeSpawningRecipe>> allRecipes = level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.BEE_SPAWNING_TYPE.get());
             ItemStack nestItem = new ItemStack(block);
-            for (Map.Entry<ResourceLocation, BeeSpawningRecipe> entry : allRecipes.entrySet()) {
-                BeeSpawningRecipe recipe = entry.getValue();
+            for (RecipeHolder<BeeSpawningRecipe> entry : allRecipes) {
+                BeeSpawningRecipe recipe = entry.value();
                 if (recipe.matches(nestItem, heldItem, biome)) {
-                    spawningRecipes.add(recipe);
+                    spawningRecipes.add(entry);
                 }
             }
             recipes.put(cacheKey, spawningRecipes);
@@ -165,19 +176,18 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (!world.isClientSide()) {
-            SolitaryNestBlockEntity tileEntity = (SolitaryNestBlockEntity) world.getBlockEntity(pos);
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+        if (!pLevel.isClientSide()) {
+            SolitaryNestBlockEntity tileEntity = (SolitaryNestBlockEntity) pLevel.getBlockEntity(pPos);
 
-            ItemStack heldItem = player.getItemInHand(hand);
-            if (tileEntity != null && !heldItem.isEmpty()) {
-                if (heldItem.getItem() instanceof HoneyTreat && HoneyTreat.hasGene(heldItem)) {
-                    return InteractionResult.PASS;
+            if (tileEntity != null && !pStack.isEmpty()) {
+                if (pStack.getItem() instanceof HoneyTreat && HoneyTreat.hasGene(pStack)) {
+                    return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
                 }
 
                 boolean itemUse = false;
                 int currentCooldown = tileEntity.getNestTickCooldown();
-                if (tileEntity.canRepopulate(heldItem)) {
+                if (tileEntity.canRepopulate(pStack)) {
                     itemUse = true;
                     if (currentCooldown <= 0) {
                         tileEntity.setNestCooldown(ProductiveBeesConfig.GENERAL.nestSpawnCooldown.get());
@@ -187,25 +197,25 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
                 }
 
                 if (itemUse) {
-                    world.levelEvent(2005, pos, 0);
-                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, heldItem);
+                    pLevel.levelEvent(2005, pPos, 0);
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) pPlayer, pPos, pStack);
 
-                    if (!player.isCreative()) {
-                        heldItem.shrink(1);
+                    if (!pPlayer.isCreative()) {
+                        pStack.shrink(1);
                     }
+                    return ItemInteractionResult.SUCCESS;
                 }
             }
         }
 
-        return super.use(state, world, pos, player, hand, hit);
+        return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-        super.appendHoverText(stack, worldIn, tooltip, flagIn);
-
-        if (stack.hasTag() && stack.getTag().getInt("spawnCount") >= ProductiveBeesConfig.BEES.cuckooSpawnCount.get()) {
-            tooltip.add(Component.translatable("productivebees.hive.tooltip.nest_inactive").withStyle(ChatFormatting.BOLD));
+    public void appendHoverText(ItemStack pStack, Item.TooltipContext pContext, List<Component> pTootipComponents, TooltipFlag pTooltipFlag) {
+        super.appendHoverText(pStack, pContext, pTootipComponents, pTooltipFlag);
+        if (pStack.has(DataComponents.BLOCK_ENTITY_DATA) && pStack.get(DataComponents.BLOCK_ENTITY_DATA).getUnsafe().getInt("spawnCount") >= ProductiveBeesConfig.BEES.cuckooSpawnCount.get()) {
+            pTootipComponents.add(Component.translatable("productivebees.hive.tooltip.nest_inactive").withStyle(ChatFormatting.BOLD));
         }
     }
 }

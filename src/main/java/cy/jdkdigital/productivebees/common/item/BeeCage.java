@@ -9,6 +9,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
@@ -27,15 +28,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.neoforged.fml.ModList;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public class BeeCage extends Item
@@ -45,13 +45,14 @@ public class BeeCage extends Item
     }
 
     public static boolean isFilled(ItemStack itemStack) {
-        CompoundTag tag = itemStack.getTag();
-        return !itemStack.isEmpty() && itemStack.getItem() instanceof BeeCage && tag != null && tag.contains("entity");
+        var data = itemStack.get(DataComponents.CUSTOM_DATA);
+        return !itemStack.isEmpty() && itemStack.getItem() instanceof BeeCage && data != null && data.getUnsafe().contains("entity");
     }
 
     public static String getBeeType(ItemStack itemStack) {
-        CompoundTag tag = itemStack.getTag();
-        if (!itemStack.isEmpty() && itemStack.getItem() instanceof BeeCage && tag != null && tag.contains("entity")) {
+        var data = itemStack.get(DataComponents.CUSTOM_DATA);
+        if (!itemStack.isEmpty() && itemStack.getItem() instanceof BeeCage && data != null && data.getUnsafe().contains("entity")) {
+            var tag = data.copyTag();
             var type = tag.getString("entity");
             if (type.equals("productivebees:configurable_bee")) {
                 type = tag.getString("type");
@@ -116,8 +117,13 @@ public class BeeCage extends Item
     @Nonnull
     @Override
     public InteractionResult interactLivingEntity(ItemStack itemStack, Player player, LivingEntity targetIn, InteractionHand hand) {
-        if (targetIn.getCommandSenderWorld().isClientSide() || (!(targetIn instanceof Bee target) || !targetIn.isAlive()) || (isFilled(itemStack))) {
+        if ((!(targetIn instanceof Bee target) || !targetIn.isAlive()) || (isFilled(itemStack))) {
             return InteractionResult.PASS;
+        }
+
+        if (targetIn.getCommandSenderWorld().isClientSide()) {
+            player.swing(hand);
+            return InteractionResult.SUCCESS;
         }
 
         boolean addToInventory = true;
@@ -168,24 +174,25 @@ public class BeeCage extends Item
         nbt.putBoolean("isProductiveBee", target instanceof ProductiveBee);
 
         String modId = BuiltInRegistries.ENTITY_TYPE.getKey(target.getType()).getNamespace();
-        String modName = ModList.get().getModObjectById(modId).get().getClass().getSimpleName();
+        String modName = ModList.get().getModContainerById(modId).get().getClass().getSimpleName();
 
         if (modId.equals("minecraft")) {
             modName = "Minecraft";
         }
         nbt.putString("mod", modName);
 
-        cageStack.setTag(nbt);
+        cageStack.set(DataComponents.CUSTOM_DATA, CustomData.of(nbt));
     }
 
     @Nullable
     public static Bee getEntityFromStack(ItemStack stack, Level world, boolean withInfo) {
-        return getEntityFromStack(stack.getTag(), world, withInfo);
+        return getEntityFromStack(stack.get(DataComponents.CUSTOM_DATA), world, withInfo);
     }
 
     @Nullable
-    public static Bee getEntityFromStack(@Nullable CompoundTag tag, Level world, boolean withInfo) {
-        if (tag != null) {
+    public static Bee getEntityFromStack(CustomData data, Level world, boolean withInfo) {
+        if (data != null) {
+            var tag = data.copyTag();
             EntityType<?> type = EntityType.byString(tag.getString("entity")).orElse(null);
             if (type != null) {
                 Entity entity = type.create(world);
@@ -211,28 +218,29 @@ public class BeeCage extends Item
             return Component.translatable(this.getDescriptionId());
         }
 
-        String entityId = stack.getTag().getString("name");
+        String entityId = stack.get(DataComponents.CUSTOM_DATA).copyTag().getString("name");
         return Component.translatable(this.getDescriptionId()).append(Component.literal(" (" + entityId + ")"));
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> list, TooltipFlag flag) {
-        super.appendHoverText(stack, world, list, flag);
+    public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
+        super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
 
-        CompoundTag tag = stack.getTag();
-        if (tag != null && !tag.equals(new CompoundTag())) {
+        var data = pStack.get(DataComponents.CUSTOM_DATA);
+        if (data != null && !data.getUnsafe().equals(new CompoundTag())) {
+            var tag = data.copyTag();
             if (Screen.hasShiftDown()) {
                 boolean hasStung = tag.getBoolean("HasStung");
                 if (hasStung) {
-                    list.add(Component.translatable("productivebees.information.health.dying").withStyle(ChatFormatting.RED).withStyle(ChatFormatting.ITALIC));
+                    pTooltipComponents.add(Component.translatable("productivebees.information.health.dying").withStyle(ChatFormatting.RED).withStyle(ChatFormatting.ITALIC));
                 }
-                BeeHelper.populateBeeInfoFromTag(tag, list);
+                BeeHelper.populateBeeInfoFromTag(tag, pTooltipComponents);
 
                 if (tag.contains("HivePos")) {
-                    list.add(Component.translatable("productivebees.information.cage_release"));
+                    pTooltipComponents.add(Component.translatable("productivebees.information.cage_release"));
                 }
             } else {
-                list.add(Component.translatable("productivebees.information.hold_shift").withStyle(ChatFormatting.WHITE));
+                pTooltipComponents.add(Component.translatable("productivebees.information.hold_shift").withStyle(ChatFormatting.WHITE));
             }
         }
     }

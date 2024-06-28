@@ -7,10 +7,10 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:salts",
-        "type": "forge:tag_empty"
+        "tag": "c:salts",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

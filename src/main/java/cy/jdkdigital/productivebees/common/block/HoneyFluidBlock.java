@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 public class HoneyFluidBlock extends LiquidBlock
 {
     public HoneyFluidBlock(Supplier<? extends BaseFlowingFluid> supplier, Properties properties) {
-        super(supplier, properties);
+        super(supplier.get(), properties);
     }
 
     @Override

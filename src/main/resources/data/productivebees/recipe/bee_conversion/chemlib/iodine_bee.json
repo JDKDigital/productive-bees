@@ -1,0 +1,14 @@
+{
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:potassium",
+  "result": "productivebees:iodine",
+  "item": {
+    "item": "minecraft:dried_kelp_block"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:iodine"
+    }
+  ]
+}

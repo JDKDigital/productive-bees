@@ -1,0 +1,18 @@
+{
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:slimy",
+  "result": "productivebees:pink_slimy",
+  "item": {
+    "item": "industrialforegoing:pink_slime"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:slimy"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:pink_slimy"
+    }
+  ]
+}

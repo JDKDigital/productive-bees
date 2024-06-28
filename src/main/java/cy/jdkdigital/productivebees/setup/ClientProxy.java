@@ -13,7 +13,6 @@ import javax.annotation.Nullable;
 @EventBusSubscriber(Dist.CLIENT)
 public class ClientProxy
 {
-    // TODO check if this is still needed
     @Nullable
     public static MultiBufferSource buffer;
 

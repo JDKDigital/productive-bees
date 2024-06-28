@@ -2,9 +2,12 @@ package cy.jdkdigital.productivebees.common.item;
 
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
+import cy.jdkdigital.productivebees.init.ModDataComponents;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -24,35 +27,23 @@ public class SpawnEgg extends DeferredSpawnEggItem
         super(entityType, primaryColor, secondaryColor, properties);
     }
 
-    @Nonnull
-    @Override
-    public EntityType<?> getType(CompoundTag compound) {
-        if (compound != null && compound.contains("EntityTag", 10)) {
-            CompoundTag entityTag = compound.getCompound("EntityTag");
-
-            if (entityTag.contains("id", 8)) {
-                return EntityType.byString(entityTag.getString("id")).orElse(getDefaultType());
-            }
-        }
-        return getDefaultType();
-    }
-
     @Override
     public Optional<Mob> spawnOffspringFromSpawnEgg(Player pPlayer, Mob pMob, EntityType<? extends Mob> pEntityType, ServerLevel pServerLevel, Vec3 pPos, ItemStack pStack) {
+        // Called when spawn egg is used on mob
         Optional<Mob> result = super.spawnOffspringFromSpawnEgg(pPlayer, pMob, pEntityType, pServerLevel, pPos, pStack);
 
-        if (result.isEmpty() && pMob instanceof ConfigurableBee) {
-            EntityType<?> entityType = this.getType(pStack.getTag());
-            return Optional.of((Mob) entityType.create(pServerLevel));
+        if (result.isPresent() && pStack.has(ModDataComponents.BEE_TYPE) && result.get() instanceof ConfigurableBee cBee) {
+            cBee.setBeeType(pStack.get(ModDataComponents.BEE_TYPE).toString());
+            return Optional.of(cBee);
         }
 
         return result;
     }
 
     public int getColor(int tintIndex, ItemStack stack) {
-        CompoundTag tag = stack.getTagElement("EntityTag");
-        if (tag != null && tag.contains("type")) {
-            CompoundTag nbt = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
+        var data = stack.get(DataComponents.ENTITY_DATA);
+        if (data != null) {
+            CompoundTag nbt = BeeReloadListener.INSTANCE.getData(ResourceLocation.parse(data.getUnsafe().getString("type")));
             if (nbt != null) {
                 return tintIndex == 0 ? nbt.getInt("primaryColor") : nbt.getInt("secondaryColor");
             }
@@ -63,11 +54,12 @@ public class SpawnEgg extends DeferredSpawnEggItem
     @Nonnull
     @Override
     public Component getName(ItemStack stack) {
-        CompoundTag tag = stack.getTagElement("EntityTag");
-        if (tag != null && tag.contains("type")) {
-            CompoundTag nbt = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
+        var data = stack.get(DataComponents.ENTITY_DATA);
+        if (data != null) {
+            var beeType = ResourceLocation.parse(data.getUnsafe().getString("type"));
+            CompoundTag nbt = BeeReloadListener.INSTANCE.getData(beeType);
             if (nbt != null) {
-                String name = Component.translatable("entity.productivebees." + ProductiveBee.getBeeName(tag.getString("type")) + "_bee").getString();
+                String name = Component.translatable("entity.productivebees." + ProductiveBee.getBeeName(beeType) + "_bee").getString();
                 return Component.translatable("item.productivebees.spawn_egg_configurable", name);
             }
         }

@@ -2,22 +2,22 @@
   "primaryColor": "#d73e4a",
   "secondaryColor": "#710626",
   "particleColor": "#ff7883",
-  "flowerTag": "forge:storage_blocks/cinnabar",
+  "flowerTag": "c:storage_blocks/cinnabar",
   "size": 0.6,
   "conditions": [
     {
       "value": {
-        "tag": "forge:gems/cinnabar",
-        "type": "forge:tag_empty"
+        "tag": "c:gems/cinnabar",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     },
     {
       "value": {
-        "tag": "forge:storage_blocks/cinnabar",
-        "type": "forge:tag_empty"
+        "tag": "c:storage_blocks/cinnabar",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

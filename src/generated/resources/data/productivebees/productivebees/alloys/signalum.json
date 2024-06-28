@@ -2,14 +2,14 @@
   "primaryColor": "#e7917d",
   "secondaryColor": "#804f40",
   "particleColor": "#b56f60",
-  "flowerTag": "forge:storage_blocks/signalum",
+  "flowerTag": "c:storage_blocks/signalum",
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/signalum",
-        "type": "forge:tag_empty"
+        "tag": "c:storage_blocks/signalum",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IHI",
+    "IFI",
+    "III"
+  ],
+  "key": {
+    "H": {
+      "tag": "c:buckets/honey"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "F": {
+      "item": "minecraft:furnace"
+    }
+  },
+  "result": {
+    "id": "productivebees:honey_generator"
+  }
+}

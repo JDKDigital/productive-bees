@@ -1,0 +1,20 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:thorium",
+  "parent2": "productivebees:radioactive",
+  "offspring": "productivebees:polonium",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:thorium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:radioactive"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:polonium"
+    }
+  ]
+}

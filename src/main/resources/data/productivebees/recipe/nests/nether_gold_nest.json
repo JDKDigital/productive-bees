@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:diamond_sword"
+    },
+    {
+      "item": "minecraft:nether_gold_ore"
+    }
+  ],
+  "result": {
+    "id": "productivebees:nether_gold_nest"
+  }
+}

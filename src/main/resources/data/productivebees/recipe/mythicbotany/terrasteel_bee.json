@@ -1,0 +1,51 @@
+{
+  "type": "mythicbotany:infuser",
+  "group": "infuser",
+  "output": {
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:terrasteel"
+      }
+    }
+  },
+  "mana": 500000,
+  "ingredients": [
+    {
+      "components": {
+        "minecraft:entity_data": {
+          "type": "productivebees:manasteel",
+          "id": "productivebees:configurable_bee"
+        }
+      },
+      "count": 1,
+      "id": "productivebees:spawn_egg_configurable_bee"
+    },
+    {
+      "item": "botania:mana_diamond"
+    },
+    {
+      "item": "botania:mana_pearl"
+    }
+  ],
+  "fromColor": 4892655,
+  "toColor": 4836381,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "mythicbotany"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "botania"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:alfsteel"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:elementium"
+    }
+  ]
+}

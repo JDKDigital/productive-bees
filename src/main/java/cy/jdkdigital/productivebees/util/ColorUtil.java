@@ -14,7 +14,7 @@ public class ColorUtil
 
     public static Integer getCacheColor(String color) {
         if (!stringColorCache.containsKey(color)) {
-            stringColorCache.put(color, TextColor.parseColor(color).getValue());
+            stringColorCache.put(color, TextColor.parseColor(color).result().get().getValue());
         }
         return stringColorCache.get(color);
     }
@@ -36,14 +36,9 @@ public class ColorUtil
         return f;
     }
 
-    public static float[] getCycleColor(int color, int color2, int tickCount, float partialTicks) {
+    public static int getCycleColor(int color, int color2, int tickCount, float partialTicks) {
         float f3 = ((float)(tickCount % 25) + partialTicks) / 25.0F;
-        float[] afloat1 = ColorUtil.getCacheColor(color);
-        float[] afloat2 = ColorUtil.getCacheColor(color2);
-        var f = afloat1[0] * (1.0F - f3) + afloat2[0] * f3;
-        var f1 = afloat1[1] * (1.0F - f3) + afloat2[1] * f3;
-        var f2 = afloat1[2] * (1.0F - f3) + afloat2[2] * f3;
-        return new float[]{f, f1, f2};
+        return (int) (color * (1.0F - f3) + color2 * f3);
     }
 
     public static ChatFormatting getBeeTypeColor(String type) {
@@ -54,14 +49,26 @@ public class ColorUtil
         };
     }
 
-    public static ChatFormatting getAttributeColor(int level) {
+    public static ChatFormatting getAttributeColor(GeneValue level) {
         return switch (level) {
-            case -3 -> ChatFormatting.GOLD;
-            case -2 -> ChatFormatting.DARK_RED;
-            case -1 -> ChatFormatting.YELLOW;
-            case 1 -> ChatFormatting.BLUE;
-            case 2 -> ChatFormatting.LIGHT_PURPLE;
-            case 3 -> ChatFormatting.RED;
+            case TEMPER_NORMAL -> ChatFormatting.BLUE;
+            case PRODUCTIVITY_MEDIUM -> ChatFormatting.BLUE;
+            case ENDURANCE_NORMAL -> ChatFormatting.BLUE;
+            case TEMPER_AGGRESSIVE -> ChatFormatting.LIGHT_PURPLE;
+            case PRODUCTIVITY_HIGH -> ChatFormatting.LIGHT_PURPLE;
+            case WEATHER_TOLERANCE_RAIN -> ChatFormatting.LIGHT_PURPLE;
+            case ENDURANCE_MEDIUM -> ChatFormatting.LIGHT_PURPLE;
+            case BEHAVIOR_NOCTURNAL -> ChatFormatting.LIGHT_PURPLE;
+            case TEMPER_HOSTILE -> ChatFormatting.RED;
+            case PRODUCTIVITY_VERY_HIGH -> ChatFormatting.RED;
+            case WEATHER_TOLERANCE_ANY -> ChatFormatting.RED;
+            case ENDURANCE_STRONG -> ChatFormatting.RED;
+            case BEHAVIOR_METATURNAL -> ChatFormatting.RED;
+            case TEMPER_PASSIVE -> ChatFormatting.GREEN;
+            case PRODUCTIVITY_NORMAL -> ChatFormatting.GREEN;
+            case WEATHER_TOLERANCE_NONE -> ChatFormatting.GREEN;
+            case ENDURANCE_WEAK -> ChatFormatting.GREEN;
+            case BEHAVIOR_DIURNAL -> ChatFormatting.GREEN;
             default -> ChatFormatting.GREEN;
         };
     }

@@ -16,7 +16,7 @@ import java.util.List;
 
 public class IncubatorScreen extends AbstractContainerScreen<IncubatorContainer>
 {
-    private static final ResourceLocation GUI_TEXTURE = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/incubator.png");
+    private static final ResourceLocation GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/incubator.png");
 
     public IncubatorScreen(IncubatorContainer container, Inventory inv, Component titleIn) {
         super(container, inv, titleIn);

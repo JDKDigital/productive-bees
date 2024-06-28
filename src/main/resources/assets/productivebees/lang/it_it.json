@@ -618,7 +618,7 @@
  "productivebees.top.solitary.egg_count": "Uova: %s",
  "productivebees.top.solitary.repopulation_countdown": "Conto alla rovescia per Ripopolazione %s\nUsa delizie aggiuntive per accelerare.",
  "productivebees.top.solitary.repopulation_countdown_inactive": "Nido vuoto. Usa una Delizia di Miele su di esso per attirare api.",
- "config.jade.plugin_productivebees.productive_bee": "Api Produttive",
+ "config.jade.plugin_productivebees.bee": "Api Produttive",
  "config.jade.plugin_productivebees.solitary_nest": "Nido Solitario",
  "config.jade.plugin_productivebees.jar": "Barattolo di Api",
  "config.jade.plugin_productivebees.bee_attributes": "Attributi",

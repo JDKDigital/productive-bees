@@ -24,17 +24,17 @@ public class BlockTagProvider extends BlockTagsProvider
         ModBlocks.HIVELIST.forEach((modid, strings) -> {
             strings.forEach((name, type) -> {
                 name = modid.equals(ProductiveBees.MODID) ? name : modid + "_" + name;
-                hives.addOptional(new ResourceLocation(ProductiveBees.MODID, "advanced_" + name + "_beehive"));
-                boxes.addOptional(new ResourceLocation(ProductiveBees.MODID, "expansion_box_" + name));
+                hives.addOptional(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "advanced_" + name + "_beehive"));
+                boxes.addOptional(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "expansion_box_" + name));
             });
             hives.addTag(ModTags.CANVAS_HIVES_BLOCK);
             boxes.addTag(ModTags.CANVAS_BOXES_BLOCK);
         });
 
         var canvasHives = tag(ModTags.CANVAS_HIVES_BLOCK);
-        ModBlocks.hiveStyles.forEach(style -> canvasHives.addOptional(new ResourceLocation(ProductiveBees.MODID, "advanced_" + style + "_canvas_beehive")));
+        ModBlocks.hiveStyles.forEach(style -> canvasHives.addOptional(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "advanced_" + style + "_canvas_beehive")));
         var canvasBoxes = tag(ModTags.CANVAS_BOXES_BLOCK);
-        ModBlocks.hiveStyles.forEach(style -> canvasBoxes.addOptional(new ResourceLocation(ProductiveBees.MODID, "expansion_box_" + style + "_canvas")));
+        ModBlocks.hiveStyles.forEach(style -> canvasBoxes.addOptional(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "expansion_box_" + style + "_canvas")));
     }
 
     @Override

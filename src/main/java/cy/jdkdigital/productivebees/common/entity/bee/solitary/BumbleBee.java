@@ -20,6 +20,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
@@ -118,10 +119,10 @@ public class BumbleBee extends SolitaryBee implements ItemSteerable, Saddleable
     }
 
     @Override
-    public void equipSaddle(@Nullable SoundSource soundCategory) {
+    public void equipSaddle(ItemStack stack, @Nullable SoundSource soundSource) {
         this.steering.setSaddle(true);
-        if (soundCategory != null) {
-            level().playSound(null, this, SoundEvents.PIG_SADDLE, soundCategory, 0.5F, 1.0F);
+        if (soundSource != null) {
+            level().playSound(null, this, SoundEvents.PIG_SADDLE, soundSource, 0.5F, 1.0F);
         }
     }
 

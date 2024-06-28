@@ -30,7 +30,7 @@ public class CageDispenseBehavior extends OptionalDispenseItemBehavior {
 
                 if (pBlockSource.level().addFreshEntity(entity)) {
                     if (stack.getItem().equals(ModItems.STURDY_BEE_CAGE.get())) {
-                        if (pBlockSource.blockEntity().addItem(new ItemStack(ModItems.STURDY_BEE_CAGE.get())) < 0) {
+                        if (!pBlockSource.blockEntity().insertItem(new ItemStack(ModItems.STURDY_BEE_CAGE.get())).isEmpty()) {
                             Block.popResource(pBlockSource.level(), pBlockSource.pos().above(), new ItemStack(ModItems.STURDY_BEE_CAGE.get()));
                         }
                     }

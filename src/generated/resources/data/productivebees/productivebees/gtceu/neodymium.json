@@ -1,7 +1,7 @@
 {
   "primaryColor": "#998784",
   "particleColor": "#ab9d9a",
-  "flowerTag": "forge:storage_blocks/neodymium",
+  "flowerTag": "c:storage_blocks/neodymium",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "beeTexture": "productivebees:textures/entity/bee/neodymium/bee",
   "size": 0.8,
@@ -9,14 +9,14 @@
   "conditions": [
     {
       "modid": "gtceu",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     },
     {
       "value": {
-        "tag": "forge:raw_materials/neodymium",
-        "type": "forge:tag_empty"
+        "tag": "c:raw_materials/neodymium",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

@@ -2,14 +2,14 @@
   "primaryColor": "#e9ba5d",
   "secondaryColor": "#9e4539",
   "particleColor": "#e9ba5d",
-  "flowerTag": "forge:storage_blocks/desh",
+  "flowerTag": "c:storage_blocks/desh",
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/desh",
-        "type": "forge:tag_empty"
+        "tag": "c:storage_blocks/desh",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

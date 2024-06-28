@@ -1,0 +1,20 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:water",
+  "parent2": "productivebees:phosphorus",
+  "offspring": "productivebees:sodium",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:water"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:phosphorus"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:sodium"
+    }
+  ]
+}

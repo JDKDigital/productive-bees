@@ -3,7 +3,7 @@
   "secondaryColor": "#e1c6d2",
   "tertiaryColor": "#774d67",
   "particleColor": "#fbd7e0",
-  "flowerTag": "forge:storage_blocks/raw_lepidolite",
+  "flowerTag": "c:storage_blocks/raw_lepidolite",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "beeTexture": "productivebees:textures/entity/bee/lepidolite/bee",
   "size": 0.8,
@@ -11,7 +11,7 @@
   "conditions": [
     {
       "modid": "gtceu",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

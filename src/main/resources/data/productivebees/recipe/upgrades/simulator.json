@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CEC",
+    "ABA",
+    "CAC"
+  ],
+  "key": {
+    "B": {
+      "item": "productivebees:upgrade_anti_teleport"
+    },
+    "E": {
+      "tag": "c:ender_pearls"
+    },
+    "A": {
+      "tag": "c:rods/blaze"
+    },
+    "C": {
+      "tag": "c:storage_blocks/honeycombs"
+    }
+  },
+  "result": {
+    "id": "productivebees:upgrade_simulator"
+  }
+}

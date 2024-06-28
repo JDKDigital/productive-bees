@@ -3,7 +3,7 @@
   "secondaryColor": "#100000",
   "particleColor": "#d06a1b",
   "particleType": "lava",
-  "flowerTag": "productivebees:flowers/magmatic_flowers",
+  "flowerTag": "productivebees:flowers/magmatic",
   "nestingPreference": "productivebees:nests/nether_brick_nests",
   "beeTexture": "productivebees:textures/entity/bee/magmatic/bee",
   "attackResponse": "lava",

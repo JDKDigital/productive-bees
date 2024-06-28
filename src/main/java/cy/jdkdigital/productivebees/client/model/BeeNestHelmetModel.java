@@ -18,11 +18,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.client.model.data.ModelData;
 import net.neoforged.neoforge.common.util.Lazy;
 
 public class BeeNestHelmetModel<T extends LivingEntity> extends HumanoidModel<T>
 {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(ProductiveBees.MODID, "bee_nest_diamond"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "bee_nest_diamond"), "main");
     public static final Lazy<HumanoidModel<?>> INSTANCE = Lazy.of(() -> new BeeNestHelmetModel<>(Minecraft.getInstance().getEntityModels().bakeLayer(LAYER_LOCATION)));
 
     public BeeNestHelmetModel(ModelPart modelRoot) {
@@ -35,8 +36,8 @@ public class BeeNestHelmetModel<T extends LivingEntity> extends HumanoidModel<T>
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        super.renderToBuffer(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int color) {
+        super.renderToBuffer(poseStack, buffer, packedLight, packedOverlay, color);
 
         if (ClientProxy.buffer != null) {
             BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
@@ -49,7 +50,7 @@ public class BeeNestHelmetModel<T extends LivingEntity> extends HumanoidModel<T>
             poseStack.translate(-0.5F, 0, -0.5F);
             poseStack.mulPose(Axis.XP.rotationDegrees(5));
             poseStack.mulPose(Axis.ZP.rotationDegrees(1));
-            blockRenderer.renderSingleBlock(nest, poseStack, ClientProxy.buffer, packedLight, packedOverlay);
+            blockRenderer.renderSingleBlock(nest, poseStack, ClientProxy.buffer, packedLight, packedOverlay, ModelData.EMPTY, null);
             poseStack.popPose();
         }
     }

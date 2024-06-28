@@ -1,0 +1,19 @@
+{
+  "type": "productivebees:bottler",
+  "fluid": {
+    "id": "create:tea",
+    "amount": 250
+  },
+  "ingredient": {
+    "item": "minecraft:glass_bottle"
+  },
+  "result": {
+    "id": "create:builders_tea"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ]
+}

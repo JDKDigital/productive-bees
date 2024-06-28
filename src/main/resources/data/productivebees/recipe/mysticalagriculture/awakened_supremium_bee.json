@@ -1,0 +1,69 @@
+{
+  "type": "mysticalagriculture:awakening",
+  "essences": [
+    {
+      "item": "mysticalagriculture:air_essence",
+      "count": 20
+    },
+    {
+      "item": "mysticalagriculture:earth_essence",
+      "count": 20
+    },
+    {
+      "item": "mysticalagriculture:water_essence",
+      "count": 20
+    },
+    {
+      "item": "mysticalagriculture:fire_essence",
+      "count": 20
+    }
+  ],
+  "input": {
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:supremium",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "count": 1,
+    "id": "productivebees:spawn_egg_configurable_bee"
+  },
+  "ingredients": [
+    {
+      "item": "mysticalagriculture:awakened_supremium_block"
+    },
+    {
+      "item": "mysticalagriculture:awakened_supremium_block"
+    },
+    {
+      "item": "mysticalagriculture:awakened_supremium_block"
+    },
+    {
+      "item": "mysticalagriculture:awakened_supremium_block"
+    }
+  ],
+  "result": {
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:awakened_supremium",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "count": 1,
+    "id": "productivebees:spawn_egg_configurable_bee"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "mysticalagriculture"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:supremium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:awakened_supremium"
+    }
+  ]
+}

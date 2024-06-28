@@ -19,7 +19,7 @@ import snownee.jade.api.config.IPluginConfig;
 
 public class JarProvider implements IBlockComponentProvider, IServerDataProvider<BlockAccessor>
 {
-    public static final ResourceLocation UID = new ResourceLocation(ProductiveBees.MODID, "jar");
+    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "jar");
 
     static final JarProvider INSTANCE = new JarProvider();
 
@@ -45,11 +45,12 @@ public class JarProvider implements IBlockComponentProvider, IServerDataProvider
         }
     }
 
+    @Override
     public void appendServerData(CompoundTag tag, BlockAccessor blockAccessor) {
-        tag.getAllKeys().clear();
-        if (blockAccessor.getBlockEntity() instanceof JarBlockEntity jarBlockEntity) {
-            jarBlockEntity.savePacketNBT(tag);
-        }
+//        tag.getAllKeys().clear();
+//        if (blockAccessor.getBlockEntity() instanceof JarBlockEntity jarBlockEntity) {
+//            jarBlockEntity.savePacketNBT(tag, blockAccessor);
+//        }
     }
 
     @Override

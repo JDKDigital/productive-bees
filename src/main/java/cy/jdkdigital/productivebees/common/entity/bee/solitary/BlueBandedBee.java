@@ -3,6 +3,8 @@ package cy.jdkdigital.productivebees.common.entity.bee.solitary;
 import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBee;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
+import cy.jdkdigital.productivebees.util.GeneAttribute;
+import cy.jdkdigital.productivebees.util.GeneValue;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -15,7 +17,7 @@ public class BlueBandedBee extends SolitaryBee
     public BlueBandedBee(EntityType<? extends Bee> entityType, Level world) {
         super(entityType, world);
 
-        beeAttributes.put(BeeAttributes.TEMPER, 0);
+        setAttributeValue(GeneAttribute.TEMPER, GeneValue.TEMPER_PASSIVE);
     }
 
     public static AttributeSupplier.Builder getDefaultAttributes() {

@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#c:storage_blocks/tanzanite",
+      "required": false
+    },
+    {
+      "id": "gemsnjewels:tanzanite_block",
+      "required": false
+    }
+  ]
+}

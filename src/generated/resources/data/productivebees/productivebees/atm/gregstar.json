@@ -18,11 +18,11 @@
   "conditions": [
     {
       "modid": "allthetweaks",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     },
     {
       "modid": "gtceu",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

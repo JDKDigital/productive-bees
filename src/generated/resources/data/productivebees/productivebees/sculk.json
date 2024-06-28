@@ -1,5 +1,6 @@
 {
   "primaryColor": "#141414",
+  "secondaryColor": "#141414",
   "particleColor": "#141414",
   "flowerBlock": "minecraft:sculk_shrieker",
   "beeTexture": "productivebees:textures/entity/bee/sculk/bee",

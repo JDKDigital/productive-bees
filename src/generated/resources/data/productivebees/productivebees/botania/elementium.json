@@ -1,7 +1,7 @@
 {
   "primaryColor": "#dc5af8",
   "secondaryColor": "#804f40",
-  "flowerTag": "forge:storage_blocks/elementium",
+  "flowerTag": "c:storage_blocks/elementium",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "selfbreed": false,
   "invulnerability": [
@@ -10,7 +10,7 @@
   "conditions": [
     {
       "modid": "botania",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

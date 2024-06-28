@@ -12,9 +12,9 @@ import javax.annotation.Nonnull;
 
 public class FallingNectarParticle extends DripParticle
 {
-    public FallingNectarParticle(ClientLevel world, double x, double y, double z, Fluid fluid) {
-        super(world, x, y, z, fluid);
-        this.lifetime = (int) (16.0D / (world.random.nextDouble() * 0.8D + 0.2D));
+    public FallingNectarParticle(ClientLevel level, double x, double y, double z, Fluid fluid) {
+        super(level, x, y, z, fluid);
+        this.lifetime = (int) (16.0D / (level.random.nextDouble() * 0.8D + 0.2D));
         this.gravity = 0.007F;
     }
 

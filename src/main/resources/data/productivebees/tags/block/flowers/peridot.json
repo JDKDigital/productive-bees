@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#c:storage_blocks/peridot",
+      "required": false
+    },
+    {
+      "id": "silentgems:peridot_glowrose",
+      "required": false
+    },
+    {
+      "id": "gemsnjewels:peridot_block",
+      "required": false
+    }
+  ]
+}

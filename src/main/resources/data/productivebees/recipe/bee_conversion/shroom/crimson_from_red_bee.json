@@ -1,0 +1,18 @@
+{
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:red_shroom",
+  "result": "productivebees:crimson",
+  "item": {
+    "item": "minecraft:crimson_fungus"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:red_shroom"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:crimson"
+    }
+  ]
+}

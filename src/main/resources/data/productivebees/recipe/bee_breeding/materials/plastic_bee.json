@@ -1,0 +1,12 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:resin_bee",
+  "parent2": "productivebees:lumber_bee",
+  "offspring": "productivebees:plastic",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:plastic"
+    }
+  ]
+}

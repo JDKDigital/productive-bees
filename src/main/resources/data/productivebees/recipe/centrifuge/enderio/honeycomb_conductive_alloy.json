@@ -1,0 +1,34 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:conductive_alloy"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "enderio:conductive_alloy_nugget"
+      },
+      "min": 5,
+      "max": 7
+    },
+    {
+      "item": {
+        "tag": "c:wax"
+      }
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "enderio"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:conductive_alloy"
+    }
+  ]
+}

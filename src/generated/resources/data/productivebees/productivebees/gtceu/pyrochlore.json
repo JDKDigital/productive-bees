@@ -3,7 +3,7 @@
   "secondaryColor": "#4a3929",
   "tertiaryColor": "#2c1c10",
   "particleColor": "#5a4737",
-  "flowerTag": "forge:storage_blocks/raw_pyrochlore",
+  "flowerTag": "c:storage_blocks/raw_pyrochlore",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "beeTexture": "productivebees:textures/entity/bee/pyrochlore/bee",
   "size": 0.8,
@@ -11,7 +11,7 @@
   "conditions": [
     {
       "modid": "gtceu",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

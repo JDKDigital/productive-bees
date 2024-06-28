@@ -2,8 +2,8 @@ package cy.jdkdigital.productivebees.compat.harvest;
 
 import com.mojang.authlib.GameProfile;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
-import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.FarmerBee;
+import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -14,6 +14,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.common.util.FakePlayerFactory;
@@ -34,7 +35,9 @@ public class MinecraftHarvester
             return true;
         }
 
-        // TODO add support for melon and pumpkin again
+        if (block instanceof AttachedStemBlock) {
+            return true;
+        }
 
         // Cactus and sugarcane blocks taller than 1 are harvestable
         if (block instanceof CactusBlock || block instanceof SugarCaneBlock) {
@@ -65,7 +68,7 @@ public class MinecraftHarvester
                 var dropStack = cropBlock.getCloneItemStack(level, pos, cropBlockState);
                 dropStack.setCount(j + (i == 3 ? 1 : 0));
                 Block.popResource(level, pos, dropStack);
-                level.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + bee.level().random.nextFloat() * 0.4F);
+                level.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + level.random.nextFloat() * 0.4F);
                 level.setBlock(pos, cropBlockState.setValue(SweetBerryBushBlock.AGE, 1), 2);
             }
         } else {
@@ -81,7 +84,7 @@ public class MinecraftHarvester
                             ModList.get().isLoaded("reap")
             ) {
                 Player fakePlayer = FakePlayerFactory.get((ServerLevel) level, new GameProfile(FarmerBee.FARMER_BEE_UUID, "farmer_bee"));
-                CommonHooks.onRightClickBlock(fakePlayer, InteractionHand.MAIN_HAND, pos, new BlockHitResult(bee.getEyePosition(), bee.getMotionDirection(), pos, true));
+                CommonHooks.onRightClickBlock(fakePlayer, InteractionHand.MAIN_HAND, pos, new BlockHitResult(Vec3.ZERO, Direction.DOWN, pos, true));
             } else {
                 level.destroyBlock(pos, true);
             }

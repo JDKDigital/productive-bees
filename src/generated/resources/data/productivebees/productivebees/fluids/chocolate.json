@@ -6,10 +6,10 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:chocolate",
-        "type": "productivebees:fluid_tag_empty"
+        "tag": "c:chocolate",
+        "type": "productivelib:fluid_tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@EventBusSubscriber
 public class ProductiveBeesConfig
 {
     private static final ModConfigSpec.Builder CLIENT_BUILDER = new ModConfigSpec.Builder();
@@ -81,7 +80,6 @@ public class ProductiveBeesConfig
         public final ModConfigSpec.IntValue nestLocatorDistance;
         public final ModConfigSpec.IntValue nestSpawnCooldown;
         public final ModConfigSpec.BooleanValue centrifugeHopperMode;
-        public final ModConfigSpec.BooleanValue stripForgeCaps;
         public final ModConfigSpec.BooleanValue forceEnableFarmerBeeRightClickHarvest;
 
         public General(ModConfigSpec.Builder builder) {
@@ -154,10 +152,6 @@ public class ProductiveBeesConfig
             centrifugeHopperMode = builder
                     .comment("Centrifuges will pick up items thrown on it")
                     .define("centrifugeHopperMode", true);
-
-            stripForgeCaps = builder
-                    .comment("Having a lot of bees (or bee cages in an inventory) in a single chunk can overload the chunk with data. A lot of data is already stripped from the bees as they are saved, but this will also remove all Forge capabilities, which is data added to the bees by other mods. Turn off to keep the data.")
-                    .define("stripForgeCaps", false);
 
             forceEnableFarmerBeeRightClickHarvest = builder
                     .comment("Enable this if you have a right click harvest handler but none of the following mods: right_click_get_crops, croptopia, quark, harvest, simplefarming, reap")

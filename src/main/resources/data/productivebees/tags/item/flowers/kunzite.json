@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#c:storage_blocks/kunzite",
+      "required": false
+    },
+    {
+      "id": "gemsnjewels:kunzite_block",
+      "required": false
+    }
+  ]
+}

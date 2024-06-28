@@ -1,0 +1,36 @@
+{
+  "type": "productivebees:item_conversion",
+  "bee": "productivebees:radioactive",
+  "ingredients": [
+    {
+      "components": {
+        "minecraft:entity_data": {
+          "type": "productivebees:cyanite",
+          "id": "productivebees:configurable_bee"
+        }
+      },
+      "count": 1,
+      "id": "productivebees:spawn_egg_configurable_bee"
+    }
+  ],
+  "result": {
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:blutonium",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "count": 1,
+    "id": "productivebees:spawn_egg_configurable_bee"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:cyanite"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:blutonium"
+    }
+  ]
+}

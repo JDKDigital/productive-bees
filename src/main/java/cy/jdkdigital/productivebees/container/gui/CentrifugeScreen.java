@@ -1,9 +1,9 @@
 package cy.jdkdigital.productivebees.container.gui;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.common.block.PoweredCentrifuge;
 import cy.jdkdigital.productivebees.common.block.entity.PoweredCentrifugeBlockEntity;
 import cy.jdkdigital.productivebees.container.CentrifugeContainer;
+import cy.jdkdigital.productivebees.util.FluidContainerUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -18,9 +18,9 @@ import java.util.List;
 
 public class CentrifugeScreen extends AbstractContainerScreen<CentrifugeContainer>
 {
-    private static final ResourceLocation GUI_TEXTURE = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/centrifuge.png");
-    private static final ResourceLocation GUI_TEXTURE_POWERED = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/powered_centrifuge.png");
-    private static final ResourceLocation GUI_TEXTURE_HEATED = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/heated_centrifuge.png");
+    private static final ResourceLocation GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/centrifuge.png");
+    private static final ResourceLocation GUI_TEXTURE_POWERED = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/powered_centrifuge.png");
+    private static final ResourceLocation GUI_TEXTURE_HEATED = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/heated_centrifuge.png");
 
     public CentrifugeScreen(CentrifugeContainer container, Inventory inv, Component titleIn) {
         super(container, inv, titleIn);
@@ -38,7 +38,7 @@ public class CentrifugeScreen extends AbstractContainerScreen<CentrifugeContaine
         guiGraphics.drawString(font, this.title, -5, 6, 4210752, false);
         guiGraphics.drawString(font, this.playerInventoryTitle, -5, (this.getYSize() - 96 + 2), 4210752, false);
 
-        FluidStack fluidStack = this.menu.blockEntity.fluidInventory.getFluidInTank(0);
+        FluidStack fluidStack = this.menu.blockEntity.fluidHandler.getFluidInTank(0);
 
         // Fluid level tooltip
         if (isHovering(129, 16, 6, 54, mouseX, mouseY)) {
@@ -86,10 +86,10 @@ public class CentrifugeScreen extends AbstractContainerScreen<CentrifugeContaine
         }
 
         // Draw fluid tank
-        FluidStack fluidStack = this.menu.blockEntity.fluidInventory.getFluidInTank(0);
+        FluidStack fluidStack = this.menu.blockEntity.fluidHandler.getFluidInTank(0);
 
         if (fluidStack.getAmount() > 0) {
-            FluidContainerUtil.renderFluidTank(guiGraphics, this, fluidStack, this.menu.blockEntity.fluidInventory.getTankCapacity(0), 127, 17, 4, 52, 0);
+            FluidContainerUtil.renderFluidTank(guiGraphics, this, fluidStack, this.menu.blockEntity.fluidHandler.getTankCapacity(0), 127, 17, 4, 52, 0);
         }
     }
 }

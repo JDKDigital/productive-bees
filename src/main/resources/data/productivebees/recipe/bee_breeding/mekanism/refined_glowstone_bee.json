@@ -1,0 +1,20 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:osmium",
+  "parent2": "productivebees:glowing",
+  "offspring": "productivebees:refined_glowstone",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:osmium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:glowing"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:refined_glowstone"
+    }
+  ]
+}

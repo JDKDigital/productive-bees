@@ -184,11 +184,11 @@ public class ProductiveBeeModel<T extends ProductiveBee> extends AgeableListMode
     }
 
     @Override
-    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer renderBuffer, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer renderBuffer, int packedLightIn, int packedOverlayIn, int color) {
         matrixStackIn.pushPose();
         matrixStackIn.translate(0, 1.5 - beeSize * 1.5, 0);
         matrixStackIn.scale(beeSize, beeSize, beeSize);
-        super.renderToBuffer(matrixStackIn, renderBuffer, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        super.renderToBuffer(matrixStackIn, renderBuffer, packedLightIn, packedOverlayIn, color);
         matrixStackIn.popPose();
     }
 

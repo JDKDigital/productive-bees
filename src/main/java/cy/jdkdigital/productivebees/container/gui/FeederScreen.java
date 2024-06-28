@@ -12,8 +12,8 @@ import javax.annotation.Nonnull;
 
 public class FeederScreen extends AbstractContainerScreen<FeederContainer>
 {
-    private static final ResourceLocation GUI_TEXTURE = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/feeder.png");
-    private static final ResourceLocation GUI_TEXTURE_DOUBLE = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/feeder_double.png");
+    private static final ResourceLocation GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/feeder.png");
+    private static final ResourceLocation GUI_TEXTURE_DOUBLE = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/feeder_double.png");
 
     public FeederScreen(FeederContainer container, Inventory inv, Component titleIn) {
         super(container, inv, titleIn);
@@ -21,7 +21,7 @@ public class FeederScreen extends AbstractContainerScreen<FeederContainer>
 
     @Override
     public void render(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(guiGraphics);
+        this.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
         super.render(guiGraphics, mouseX, mouseY, partialTicks);
         this.renderTooltip(guiGraphics, mouseX, mouseY);
     }

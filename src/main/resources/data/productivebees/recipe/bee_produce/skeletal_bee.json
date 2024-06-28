@@ -1,0 +1,33 @@
+{
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:skeletal",
+  "results": [
+    {
+      "item": {
+        "type": "productivebees:component",
+        "components": {
+          "productivebees:bee_type": "productivebees:skeletal"
+        },
+        "items": "productivebees:configurable_honeycomb"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:bone"
+      },
+      "chance": 5
+    },
+    {
+      "item": {
+        "tag": "c:pollen"
+      },
+      "chance": 5
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:skeletal"
+    }
+  ]
+}

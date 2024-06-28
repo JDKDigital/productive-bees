@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WHW"
+  ],
+  "key": {
+    "W": {
+      "tag": "minecraft:logs_that_burn"
+    },
+    "H": {
+      "item": "minecraft:honey_block"
+    }
+  },
+  "result": {
+    "id": "productivebees:bee_cage",
+    "count": 16
+  }
+}

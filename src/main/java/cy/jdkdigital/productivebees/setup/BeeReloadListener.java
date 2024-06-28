@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.setup;
 
 import com.google.gson.*;
+import com.mojang.serialization.Codec;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.util.BeeCreator;
 import net.minecraft.nbt.CompoundTag;
@@ -11,11 +12,14 @@ import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.crafting.Recipe;
 import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.common.conditions.ConditionalOps;
 import net.neoforged.neoforge.common.conditions.ICondition;
+import net.neoforged.neoforge.common.conditions.WithConditions;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class BeeReloadListener extends SimpleJsonResourceReloadListener
 {
@@ -24,7 +28,7 @@ public class BeeReloadListener extends SimpleJsonResourceReloadListener
     public static final BeeReloadListener INSTANCE = new BeeReloadListener();
     public ICondition.IContext context;
 
-    private Map<String, CompoundTag> BEE_DATA = new HashMap<>();
+    private Map<ResourceLocation, CompoundTag> BEE_DATA = new HashMap<>();
     private Map<String, JsonObject> BEE_CONDITIONS = new HashMap<>();
 
     public BeeReloadListener() {
@@ -51,15 +55,24 @@ public class BeeReloadListener extends SimpleJsonResourceReloadListener
 
         RegistryOps<JsonElement> registryOps = this.makeConditionalOps();
 
-        Map<String, CompoundTag> data = new HashMap<>();
+        Map<ResourceLocation, CompoundTag> data = new HashMap<>();
         for (Map.Entry<ResourceLocation, JsonElement> entry : dataMap.entrySet()) {
             ResourceLocation id = entry.getKey();
             try {
-                var decoded = Recipe.CONDITIONAL_CODEC.parse(registryOps, entry.getValue()).getOrThrow(JsonParseException::new);
+                var enabled = true;
+                var jsonValue = entry.getValue().getAsJsonObject();
+                if (jsonValue.has("conditions")) {
+                    var conditions = ICondition.LIST_CODEC.decode(registryOps, jsonValue.getAsJsonArray("conditions"));
+                    for (ICondition condition: conditions.result().get().getFirst()) {
+                        if (!condition.test(context)) {
+                            enabled = false;
+                        }
+                    }
+                }
 
-                decoded.ifPresentOrElse(r -> {
-                    ResourceLocation simpleId = id.getPath().contains("/") ? new ResourceLocation(id.getNamespace(), id.getPath().substring(id.getPath().lastIndexOf("/") + 1)) : id;
-                    CompoundTag nbt = BeeCreator.create(simpleId, entry.getValue().getAsJsonObject());
+                if (enabled) {
+                    ResourceLocation simpleId = id.getPath().contains("/") ? ResourceLocation.fromNamespaceAndPath(id.getNamespace(), id.getPath().substring(id.getPath().lastIndexOf("/") + 1)) : id;
+                    CompoundTag nbt = BeeCreator.create(simpleId, jsonValue);
 
                     int i = id.getPath().lastIndexOf("/");
                     if (i > 0) {
@@ -70,14 +83,12 @@ public class BeeReloadListener extends SimpleJsonResourceReloadListener
                     }
 
                     data.remove(simpleId.toString());
-                    data.put(simpleId.toString(), nbt);
+                    data.put(simpleId, nbt);
 
                     ProductiveBees.LOGGER.debug("Adding to bee data " + simpleId);
-                }, () -> {
-                    ProductiveBees.LOGGER.debug("Skipping loading recipe {} as its conditions were not met", id);
-                });
+                }
             } catch (Exception e) {
-                ProductiveBees.LOGGER.debug("Skipping loading productive bee {} as its conditions were invalid", id);
+                ProductiveBees.LOGGER.debug("Skipping loading bee {} as its conditions were invalid", id);
                 throw e;
             }
         }
@@ -87,11 +98,16 @@ public class BeeReloadListener extends SimpleJsonResourceReloadListener
         profiler.popPush("BeeReloadListener");
     }
 
-    public CompoundTag getData(String id) {
+    public CompoundTag getData(ResourceLocation id) {
         return BEE_DATA.get(id);
     }
 
-    public Map<String, CompoundTag> getData() {
+    @Deprecated
+    public CompoundTag getData(String id) {
+        return BEE_DATA.get(ResourceLocation.parse(id));
+    }
+
+    public Map<ResourceLocation, CompoundTag> getData() {
         return BEE_DATA;
     }
 
@@ -99,7 +115,7 @@ public class BeeReloadListener extends SimpleJsonResourceReloadListener
         return BEE_CONDITIONS.get(id);
     }
 
-    public void setData(Map<String, CompoundTag> data) {
+    public void setData(Map<ResourceLocation, CompoundTag> data) {
         BEE_DATA = data;
         if (ModList.get().isLoaded("patchouli")) {
 //            ProductiveBeesPatchouli.setBeeFlags();

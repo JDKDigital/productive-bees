@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "hives",
+  "key": {
+    "H": {
+      "item": "productivebees:advanced_mangrove_beehive"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "PPP",
+    "PHP",
+    "PPP"
+  ],
+  "result": {
+    "count": 1,
+    "id": "productivebees:advanced_mangrove_canvas_beehive"
+  }
+}

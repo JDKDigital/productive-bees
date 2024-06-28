@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
-import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -47,7 +47,7 @@ public class BeeRenderer
 
             EntityRenderDispatcher entityRendererManager = minecraft.getEntityRenderDispatcher();
             MultiBufferSource.BufferSource buffer = minecraft.renderBuffers().bufferSource();
-            entityRendererManager.render(bee, 0, 0, 0.0D, minecraft.getFrameTime(), 1, postStack, buffer, 15728880);
+            entityRendererManager.render(bee, 0, 0, 0.0D, minecraft.getFrameTimeNs(), 1, postStack, buffer, 15728880);
             buffer.endBatch();
             postStack.popPose();
         }

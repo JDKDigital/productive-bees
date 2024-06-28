@@ -2,17 +2,17 @@
   "primaryColor": "#7d10b0",
   "secondaryColor": "#8f21c2",
   "particleColor": "#ad5bd4",
-  "flowerTag": "forge:storage_blocks/ludicrite",
+  "flowerTag": "c:storage_blocks/ludicrite",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "size": 0.8,
   "selfbreed": false,
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/ludicrite",
-        "type": "forge:tag_empty"
+        "tag": "c:storage_blocks/ludicrite",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

@@ -1,0 +1,32 @@
+{
+  "type": "productivebees:centrifuge",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:silicon"
+      }
+    }
+  ],
+  "ingredient": {
+    "type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:silicon"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": {
+        "tag": "c:wax"
+      }
+    },
+    {
+      "chance": 50,
+      "item": {
+        "tag": "c:silicon"
+      }
+    }
+  ]
+}

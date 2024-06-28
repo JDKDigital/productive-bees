@@ -2,33 +2,41 @@ package cy.jdkdigital.productivebees.util;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.init.ModDataComponents;
+import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.effect.MobEffect;
+import net.minecraft.util.FastColor;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class BeeCreator
 {
+//    public static MapCodec<BeeObject> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+//            Codec.STRING.fieldOf("primaryColor").forGetter(o -> o.primaryColor)
+//    ).apply(instance, BeeObject::new));
+
     public static CompoundTag create(ResourceLocation id, JsonObject json) {
         CompoundTag data = new CompoundTag();
 
         data.putString("id", id.toString());
 
-        DataResult<TextColor> primary = TextColor.parseColor(json.has("primaryColor") ? json.get("primaryColor").getAsString() : "#edc343");
-        DataResult<TextColor> secondary = TextColor.parseColor(json.has("secondaryColor") ? json.get("secondaryColor").getAsString() : "#804f40");
-        data.putInt("primaryColor", primary.getOrThrow().getValue());
-        data.putInt("secondaryColor", secondary.getOrThrow().getValue());
+        data.putInt("primaryColor", getColor(json, "primaryColor"));
+        data.putInt("secondaryColor", json.has("secondaryColor") ? getColor(json, "secondaryColor") : data.getInt("primaryColor"));
 
         if (json.has("description")) {
             data.putString("description", json.get("description").getAsString());
@@ -58,10 +66,10 @@ public class BeeCreator
             data.putString("beeTexture", json.get("beeTexture").getAsString());
         }
         if (json.has("particleColor")) {
-            data.putInt("particleColor", TextColor.parseColor(json.get("particleColor").getAsString()).getOrThrow().getValue());
+            data.putInt("particleColor", getColor(json, "particleColor"));
         }
 
-        data.putInt("tertiaryColor", json.has("tertiaryColor") ? TextColor.parseColor(json.get("tertiaryColor").getAsString()).getOrThrow().getValue() : data.getInt("primaryColor"));
+        data.putInt("tertiaryColor", json.has("tertiaryColor") ? getColor(json, "tertiaryColor") : data.getInt("primaryColor"));
 
         if (json.has("attackResponse")) {
             data.putString("attackResponse", json.get("attackResponse").getAsString());
@@ -118,38 +126,49 @@ public class BeeCreator
             }
         }
 
-        if (json.has("passiveEffects")) {
-            Map<MobEffect, Integer> effects = new HashMap<>();
-            for (JsonElement el : json.get("passiveEffects").getAsJsonArray()) {
-                JsonObject effect = el.getAsJsonObject();
-                effects.put(BuiltInRegistries.MOB_EFFECT.get(new ResourceLocation(effect.get("effect").getAsString())), effect.get("duration").getAsInt());
-            }
-            data.put("effect", new BeeEffect(effects).serializeNBT());
-        }
+        // TODO 1.21 reimplement or make this whole thing into a codec
+//        if (json.has("passiveEffects")) {
+//            Map<Holder<MobEffect>, Integer> effects = new HashMap<>();
+//            for (JsonElement el : json.get("passiveEffects").getAsJsonArray()) {
+//                JsonObject effect = el.getAsJsonObject();
+//                effects.put(Holder.direct(BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.parse(effect.get("effect").getAsString()))), effect.get("duration").getAsInt());
+//            }
+//            data.put("effect", new BeeEffect(effects).serializeNBT());
+//        }
 
         data.putBoolean("createComb", !json.has("createComb") || json.get("createComb").getAsBoolean());
 
         return data;
     }
 
-    public static void setTag(String type, ItemStack stack) {
-        CompoundTag tag = stack.getOrCreateTagElement("EntityTag");
-        tag.putString("type", type);
+    public static void setType(ResourceLocation type, ItemStack stack) {
+        stack.set(ModDataComponents.BEE_TYPE, type);
     }
 
-    public static ItemStack getSpawnEgg(String beeType) {
+    public static ItemStack getSpawnEgg(ResourceLocation beeType) {
         ItemStack egg;
         if (BeeReloadListener.INSTANCE.getData(beeType) != null) {
             egg = new ItemStack(ModItems.CONFIGURABLE_SPAWN_EGG.get());
-            setTag(beeType, egg);
+            var tag = new CompoundTag();
+            tag.putString("type", beeType.toString());
+            tag.putString("id", ModEntities.CONFIGURABLE_BEE.getId().toString());
+            egg.set(DataComponents.ENTITY_DATA, CustomData.of(tag));
         } else {
-            ResourceLocation name = new ResourceLocation(beeType);
-            if (name.getNamespace().equals(ProductiveBees.MODID)) {
-                egg = new ItemStack(BuiltInRegistries.ITEM.get(new ResourceLocation(name.getNamespace(), "spawn_egg_" + name.getPath())));
+            if (beeType.getNamespace().equals(ProductiveBees.MODID)) {
+                egg = new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath(beeType.getNamespace(), "spawn_egg_" + beeType.getPath())));
             } else {
-                egg = new ItemStack(BuiltInRegistries.ITEM.get(new ResourceLocation(name.getNamespace(), name.getPath() + "_spawn_egg")));
+                egg = new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath(beeType.getNamespace(), beeType.getPath() + "_spawn_egg")));
             }
         }
         return egg;
     }
+
+    private static Integer getColor(JsonObject json, String el) {
+        var c = json.get(el).getAsString().replace("#", "").split("(?<=\\G.{2})");
+        return FastColor.ARGB32.color(Integer.parseInt(c[0], 16), Integer.parseInt(c[1], 16), Integer.parseInt(c[2], 16));
+    }
+
+//    public record BeeObject(String primaryColor) {
+//
+//    }
 }

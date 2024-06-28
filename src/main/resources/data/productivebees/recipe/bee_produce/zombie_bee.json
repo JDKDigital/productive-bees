@@ -1,0 +1,28 @@
+{
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:zombie",
+  "results": [
+    {
+      "item": {
+        "type": "productivebees:component",
+        "components": {
+          "productivebees:bee_type": "productivebees:zombie"
+        },
+        "items": "productivebees:configurable_honeycomb"
+      },
+      "chance": 50
+    },
+    {
+      "item": {
+        "tag": "c:pollen"
+      },
+      "chance": 10
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:zombie"
+    }
+  ]
+}

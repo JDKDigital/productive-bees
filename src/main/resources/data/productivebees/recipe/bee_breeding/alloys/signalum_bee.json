@@ -1,0 +1,20 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:silver",
+  "parent2": "productivebees:copper",
+  "offspring": "productivebees:signalum",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:silver"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:copper"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:signalum"
+    }
+  ]
+}

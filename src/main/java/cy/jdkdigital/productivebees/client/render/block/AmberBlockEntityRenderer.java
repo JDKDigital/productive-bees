@@ -57,7 +57,7 @@ public class AmberBlockEntityRenderer implements BlockEntityRenderer<AmberBlockE
         EntityRenderDispatcher entityRenderDispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
         MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
         entityRenderDispatcher.setRenderShadow(false);
-        entityRenderDispatcher.render(entity, 0, 0, 0., Minecraft.getInstance().getFrameTime(), 1, matrixStack, buffer, combinedLightIn);
+        entityRenderDispatcher.render(entity, 0, 0, 0., Minecraft.getInstance().getFrameTimeNs(), 1, matrixStack, buffer, combinedLightIn);
         buffer.endBatch();
 
         matrixStack.popPose();

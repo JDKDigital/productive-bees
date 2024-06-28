@@ -8,7 +8,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import cy.jdkdigital.productivebees.common.recipe.BeeSpawningRecipe;
-import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
@@ -16,6 +16,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -99,9 +100,9 @@ public class GlowstoneNestFeature extends Feature<BlockStateConfiguration>
                     level.getBlockEntity(nestPos, ModBlockEntityTypes.SOLITARY_NEST.get()).ifPresent((nestBlockEntity) -> {
                         BlockState nestBlock = nestBlockEntity.getBlockState();
                         if (nestBlock.getBlock() instanceof SolitaryNest solitaryNest) {
-                            List<BeeSpawningRecipe> recipes = SolitaryNest.getSpawningRecipes(solitaryNest, level.getLevel(), level.getBiome(blockpos), ItemStack.EMPTY);
-                            BeeSpawningRecipe spawningRecipe = recipes.get(random.nextInt(recipes.size()));
-                            BeeIngredient beeIngredient = spawningRecipe.output.get(random.nextInt(spawningRecipe.output.size())).get();
+                            List<RecipeHolder<BeeSpawningRecipe>> recipes = SolitaryNest.getSpawningRecipes(solitaryNest, level.getLevel(), level.getBiome(blockpos), ItemStack.EMPTY);
+                            RecipeHolder<BeeSpawningRecipe> spawningRecipe = recipes.get(random.nextInt(recipes.size()));
+                            BeeIngredient beeIngredient = spawningRecipe.value().output.get(random.nextInt(spawningRecipe.value().output.size())).get();
                             try {
                                 CompoundTag bee = BeeHelper.getBeeAsCompoundTag(beeIngredient);
                                 nestBlockEntity.addOccupantFromTag(bee, random.nextInt(599), 600);

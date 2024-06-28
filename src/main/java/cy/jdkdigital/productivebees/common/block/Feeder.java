@@ -5,7 +5,6 @@ import cy.jdkdigital.productivebees.init.ModFluids;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.*;
@@ -69,8 +68,8 @@ public class Feeder extends SlabBlock implements EntityBlock
     }
 
     @Override
-    public boolean canPlaceLiquid(BlockGetter level, BlockPos pos, BlockState state, Fluid fluidIn) {
-        return state.getValue(TYPE) != SlabType.DOUBLE && (!state.getValue(BlockStateProperties.WATERLOGGED) && (fluidIn == Fluids.WATER || fluidIn.isSame(ModFluids.HONEY.get())));
+    public boolean canPlaceLiquid(@org.jetbrains.annotations.Nullable Player pPlayer, BlockGetter pLevel, BlockPos pPos, BlockState pState, Fluid pFluid) {
+        return pState.getValue(TYPE) != SlabType.DOUBLE && (!pState.getValue(BlockStateProperties.WATERLOGGED) && (pFluid == Fluids.WATER || pFluid.isSame(ModFluids.HONEY.get())));
     }
 
     @Override
@@ -81,10 +80,10 @@ public class Feeder extends SlabBlock implements EntityBlock
                 if (!level.isClientSide()) {
                     if (level.getBlockEntity(pos) instanceof FeederBlockEntity feederBlockEntity) {
                         var nbt = new CompoundTag();
-                        feederBlockEntity.savePacketNBT(nbt);
+                        feederBlockEntity.savePacketNBT(nbt, level.registryAccess());
                         level.setBlock(pos, state.setValue(BlockStateProperties.WATERLOGGED, true).setValue(HONEYLOGGED, isHoney), 3);
                         level.scheduleTick(pos, fluidState.getType(), fluidState.getType().getTickDelay(level));
-                        feederBlockEntity.loadPacketNBT(nbt);
+                        feederBlockEntity.loadPacketNBT(nbt, level.registryAccess());
                     }
                 }
                 return true;
@@ -162,12 +161,8 @@ public class Feeder extends SlabBlock implements EntityBlock
 
     @Override
     protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
-        if (!pLevel.isClientSide()) {
-            final BlockEntity tileEntity = pLevel.getBlockEntity(pos);
-
-            if (tileEntity instanceof FeederBlockEntity) {
-                openGui((ServerPlayer) pPlayer, (FeederBlockEntity) tileEntity);
-            }
+        if (!pLevel.isClientSide() && pLevel.getBlockEntity(pPos) instanceof FeederBlockEntity feederBlockEntity) {
+            pPlayer.openMenu(feederBlockEntity, pPos);
         }
         return InteractionResult.SUCCESS;
     }
@@ -175,9 +170,5 @@ public class Feeder extends SlabBlock implements EntityBlock
     @Nullable
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new FeederBlockEntity(pos, state);
-    }
-
-    public void openGui(ServerPlayer player, FeederBlockEntity tileEntity) {
-        player.openMenu(tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
     }
 }

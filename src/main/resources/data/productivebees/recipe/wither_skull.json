@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DDD",
+    "DDD",
+    "DDD"
+  ],
+  "key": {
+    "D": {
+      "item": "productivebees:wither_skull_chip"
+    }
+  },
+  "result": {
+    "id": "minecraft:wither_skeleton_skull"
+  }
+}

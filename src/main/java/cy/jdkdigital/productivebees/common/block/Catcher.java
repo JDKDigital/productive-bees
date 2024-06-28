@@ -6,8 +6,6 @@ import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivelib.common.block.CapabilityContainerBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
@@ -21,7 +19,7 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.neoforged.neoforge.common.IPlantable;
+import net.neoforged.neoforge.common.util.TriState;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -58,24 +56,19 @@ public class Catcher extends CapabilityContainerBlock
     }
 
     @Override
-    public boolean canSustainPlant(BlockState state, BlockGetter world, BlockPos pos, Direction direction, IPlantable plant) {
-        return !(plant instanceof BonemealableBlock) || plant instanceof TallFlowerBlock;
+    public TriState canSustainPlant(BlockState state, BlockGetter level, BlockPos soilPosition, net.minecraft.core.Direction facing, BlockState plant) {
+        return !(plant instanceof BonemealableBlock) || plant.getBlock() instanceof TallFlowerBlock ? TriState.TRUE : TriState.DEFAULT;
     }
 
-    @SuppressWarnings("deprecation")
-    @Nonnull
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (!world.isClientSide()) {
-            final BlockEntity tileEntity = world.getBlockEntity(pos);
-            if (tileEntity instanceof CatcherBlockEntity) {
-                openGui((ServerPlayer) player, (CatcherBlockEntity) tileEntity);
+    protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
+        if (!pLevel.isClientSide()) {
+            final BlockEntity tileEntity = pLevel.getBlockEntity(pPos);
+            if (tileEntity instanceof CatcherBlockEntity catcherBlockEntity) {
+                pPlayer.openMenu(catcherBlockEntity, pPos);
+                return InteractionResult.SUCCESS_NO_ITEM_USED;
             }
         }
-        return InteractionResult.SUCCESS;
-    }
-
-    public void openGui(ServerPlayer player, CatcherBlockEntity tileEntity) {
-        player.openMenu(tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
+        return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);
     }
 }

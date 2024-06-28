@@ -1,0 +1,30 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": [
+    {
+      "type": "productivebees:component",
+      "components": {
+        "productivebees:bee_type": "productivebees:hepatizon"
+      },
+      "items": "productivebees:configurable_honeycomb"
+    }
+  ],
+  "result": {
+    "fluid": "tconstruct:molten_hepatizon",
+    "amount": 48
+  },
+  "temperature": 1400,
+  "time": 26,
+  "byproducts": [
+    {
+      "fluid": "productivebees:honey",
+      "amount": 100
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "tconstruct"
+    }
+  ]
+}

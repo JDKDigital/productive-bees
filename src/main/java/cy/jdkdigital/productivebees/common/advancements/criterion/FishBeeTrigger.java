@@ -41,7 +41,7 @@ public class FishBeeTrigger extends SimpleCriterionTrigger<FishBeeTrigger.Trigge
         }
 
         public boolean test(Bee bee) {
-            String type = bee instanceof ConfigurableBee ? ((ConfigurableBee) bee).getBeeType() : bee.getEncodeId();
+            String type = bee instanceof ConfigurableBee ? ((ConfigurableBee) bee).getBeeType().toString() : bee.getEncodeId();
 
             return this.beeName.equals("any") || (type != null && type.equals(this.beeName));
         }

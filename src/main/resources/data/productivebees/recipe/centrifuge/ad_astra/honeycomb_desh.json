@@ -1,0 +1,31 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:desh"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": {
+        "tag": "c:raw_materials/desh"
+      },
+      "chance": 30
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:raw_materials/desh"
+      }
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:desh"
+    }
+  ]
+}

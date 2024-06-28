@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
@@ -13,12 +13,8 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.neoforged.neoforge.common.util.Lazy;
@@ -30,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public class BeeFishingRecipe implements Recipe<Container>
+public class BeeFishingRecipe implements Recipe<RecipeInput>
 {
 //    static StreamCodec<ByteBuf, Biome> BIOME_STREAM = ByteBufCodecs.fromCodec(Biome.NETWORK_CODEC);
     static StreamCodec<RegistryFriendlyByteBuf, HolderSet<Biome>> BIOME_STREAM = ByteBufCodecs.holderSet(Registries.BIOME);
@@ -48,7 +44,7 @@ public class BeeFishingRecipe implements Recipe<Container>
     }
 
     @Override
-    public boolean matches(Container inv, Level levelIn) {
+    public boolean matches(RecipeInput inv, Level levelIn) {
         return false;
     }
 
@@ -90,7 +86,7 @@ public class BeeFishingRecipe implements Recipe<Container>
 
     @Nonnull
     @Override
-    public ItemStack assemble(Container inv, HolderLookup.Provider pRegistries) {
+    public ItemStack assemble(RecipeInput inv, HolderLookup.Provider pRegistries) {
         return ItemStack.EMPTY;
     }
 
@@ -123,7 +119,7 @@ public class BeeFishingRecipe implements Recipe<Container>
                 builder -> builder.group(
                                 BeeIngredient.CODEC.fieldOf("bee").forGetter(recipe -> recipe.output),
                                 Biome.LIST_CODEC.fieldOf("biomes").forGetter(recipe -> recipe.biomes),
-                                Codec.FLOAT.fieldOf("chance").forGetter(recipe -> recipe.chance)
+                                Codec.FLOAT.fieldOf("chance").orElse(1f).forGetter(recipe -> recipe.chance)
                         )
                         .apply(builder, BeeFishingRecipe::new)
         );
@@ -159,7 +155,7 @@ public class BeeFishingRecipe implements Recipe<Container>
 
                 BIOME_STREAM.encode(buffer, recipe.biomes);
 
-                buffer.writeDouble(recipe.chance);
+                buffer.writeFloat(recipe.chance);
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error writing bee fishing recipe to packet. ", e);
                 throw e;

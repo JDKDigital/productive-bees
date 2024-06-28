@@ -62,7 +62,7 @@ public class JarBlockEntityRenderer implements BlockEntityRenderer<JarBlockEntit
         EntityRenderDispatcher entityrenderermanager = Minecraft.getInstance().getEntityRenderDispatcher();
         MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
         entityrenderermanager.setRenderShadow(false);
-        entityrenderermanager.render(bee, 0, 0, 0., Minecraft.getInstance().getFrameTime(), 1, matrixStack, buffer, 15728880);
+        entityrenderermanager.render(bee, 0, 0, 0., Minecraft.getInstance().getFrameTimeNs(), 1, matrixStack, buffer, 15728880);
         buffer.endBatch();
 
         matrixStack.popPose();

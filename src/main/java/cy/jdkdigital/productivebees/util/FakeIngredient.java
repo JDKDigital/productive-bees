@@ -4,20 +4,39 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
+import net.neoforged.neoforge.common.crafting.ICustomIngredient;
+import net.neoforged.neoforge.common.crafting.IngredientType;
 
 import java.util.stream.Stream;
 
-public class FakeIngredient extends Ingredient
+public class FakeIngredient implements ICustomIngredient
 {
     private final String blockName;
 
     public FakeIngredient(String blockName) {
-        super(Stream.of(new Ingredient.ItemValue(ItemStack.EMPTY)));
         this.blockName = blockName;
     }
 
     @Override
+    public boolean test(ItemStack stack) {
+        return false;
+    }
+
+    @Override
+    public Stream<ItemStack> getItems() {
+        return null;
+    }
+
+    @Override
+    public boolean isSimple() {
+        return false;
+    }
+
+    @Override
+    public IngredientType<?> getType() {
+        return null;
+    }
+
     public JsonElement toJson() {
         JsonArray jsonarray = new JsonArray();
 

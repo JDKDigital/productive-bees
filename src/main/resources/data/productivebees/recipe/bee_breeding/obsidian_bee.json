@@ -1,0 +1,16 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:magmatic",
+  "parent2": "productivebees:sweat_bee",
+  "offspring": "productivebees:obsidian",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:magmatic"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:obsidian"
+    }
+  ]
+}

@@ -1,28 +1,20 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
-import cy.jdkdigital.productivebees.common.block.CanvasExpansionBox;
+import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.NotNull;
 
 public class CanvasExpansionBoxBlockEntity extends ExpansionBoxBlockEntity implements CanvasBlockEntityInterface
 {
-    private final CanvasExpansionBox box;
     private int color = 16777215;
 
-    public CanvasExpansionBoxBlockEntity(CanvasExpansionBox box, BlockPos pos, BlockState state) {
-        super(box, pos, state);
-        this.box = box;
-    }
-
-    @Override
-    public BlockEntityType<?> getType() {
-        return box != null ? box.getBlockEntitySupplier().get() : super.getType();
+    public CanvasExpansionBoxBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntityTypes.CANVAS_EXPANSION_BOX.get(), pos, state);
     }
 
     public void setColor(int color) {
@@ -35,22 +27,22 @@ public class CanvasExpansionBoxBlockEntity extends ExpansionBoxBlockEntity imple
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
-        tag.putInt("color", color);
+    protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider provider) {
+        super.saveAdditional(pTag, provider);
+        pTag.putInt("color", color);
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
-        if (tag.contains("color")) {
-            this.color = tag.getInt("color");
+    public void loadAdditional(CompoundTag pTag, HolderLookup.Provider provider) {
+        super.loadAdditional(pTag, provider);
+        if (pTag.contains("color")) {
+            this.color = pTag.getInt("color");
         }
     }
 
     @Override
-    public @NotNull CompoundTag getUpdateTag() {
-        return saveWithId();
+    public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
+        return saveWithId(pRegistries);
     }
 
     @Override
@@ -59,8 +51,8 @@ public class CanvasExpansionBoxBlockEntity extends ExpansionBoxBlockEntity imple
     }
 
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-        super.onDataPacket(net, pkt);
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
+        super.onDataPacket(net, pkt, lookupProvider);
         if (level instanceof ClientLevel) {
             level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 0);
         }

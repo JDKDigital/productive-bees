@@ -1,7 +1,7 @@
 {
   "primaryColor": "#49cc1d",
   "secondaryColor": "#804f40",
-  "flowerTag": "forge:storage_blocks/terrasteel",
+  "flowerTag": "c:storage_blocks/terrasteel",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "selfbreed": false,
   "invulnerability": [
@@ -10,7 +10,7 @@
   "conditions": [
     {
       "modid": "botania",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

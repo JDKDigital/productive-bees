@@ -1,0 +1,53 @@
+{
+  "type": "alchemistry:dissolver",
+  "group": "alchemistry:dissolver",
+  "input": {
+    "ingredient": {
+      "components": {
+        "minecraft:entity_data": {
+          "type": "productivebees:ytterbium",
+          "id": "productivebees:configurable_bee"
+        }
+      },
+      "count": 1,
+      "id": "productivebees:spawn_egg_configurable_bee"
+    }
+  },
+  "output": {
+    "rolls": 1,
+    "weighted": false,
+    "groups": [
+      {
+        "probability": 100,
+        "results": [
+          {
+            "item": "productivebees:spawn_egg_configurable_bee",
+            "nbt": {
+              "EntityTag": {
+                "type": "productivebees:lutetium"
+              }
+            }
+          },
+          {
+            "count": 4,
+            "item": "chemlib:ytterbium"
+          }
+        ]
+      }
+    ]
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "alchemistry"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ytterbium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:lutetium"
+    }
+  ]
+}

@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.common.entity.bee;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
+import cy.jdkdigital.productivebees.capabilities.BeeCapabilities;
 import cy.jdkdigital.productivebees.common.block.Feeder;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
@@ -9,7 +10,6 @@ import cy.jdkdigital.productivebees.common.block.entity.AmberBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.FeederBlockEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.RancherBee;
 import cy.jdkdigital.productivebees.common.entity.bee.solitary.ResinBee;
-import cy.jdkdigital.productivebees.common.recipe.BeeNBTChangerRecipe;
 import cy.jdkdigital.productivebees.common.recipe.BlockConversionRecipe;
 import cy.jdkdigital.productivebees.common.recipe.ItemConversionRecipe;
 import cy.jdkdigital.productivebees.init.ModItems;
@@ -48,6 +48,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -72,7 +73,7 @@ import java.util.stream.Stream;
 
 public class ProductiveBee extends Bee implements IProductiveBee
 {
-    protected Map<BeeAttribute<Integer>, Object> beeAttributes = new HashMap<>();
+//    protected Map<GeneAttribute, GeneValue> beeAttributes = new HashMap<>();
 
     protected Predicate<Holder<PoiType>> beehiveInterests = (poi) -> poi.is(PoiTypeTags.BEE_HOME);
 
@@ -152,10 +153,8 @@ public class ProductiveBee extends Bee implements IProductiveBee
                 }
                 if (entities.size() > 0) {
                     entities.forEach(entity -> {
-                        for (Map.Entry<MobEffect, Integer> entry : effect.getEffects().entrySet()) {
-                            MobEffect potionEffect = entry.getKey();
-                            Integer duration = entry.getValue();
-                            entity.addEffect(new MobEffectInstance(potionEffect, duration));
+                        for (Map.Entry<Holder<MobEffect>, Integer> entry : effect.getEffects().entrySet()) {
+                            entity.addEffect(new MobEffectInstance(entry.getKey(), entry.getValue()));
                         }
                     });
                 }
@@ -165,30 +164,30 @@ public class ProductiveBee extends Bee implements IProductiveBee
         // Attribute improvement while leashed
         if (!level().isClientSide && isLeashed() && tickCount % ProductiveBeesConfig.BEE_ATTRIBUTES.leashedTicks.get() == 0) {
             // Rain tolerance improvements
-            int tolerance = getAttributeValue(BeeAttributes.WEATHER_TOLERANCE);
-            if (tolerance < 2 && level().random.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.toleranceChance.get()) {
-                if (tolerance < 1 && (level().isRaining() || level().isThundering())) {
-                    beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, 1);
-                } else if (tolerance == 1 && level().isThundering()) {
-                    beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, 2);
+            GeneValue tolerance = getAttributeValue(GeneAttribute.WEATHER_TOLERANCE);
+            if (tolerance.getValue() < 2 && level().random.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.toleranceChance.get()) {
+                if (tolerance.equals(GeneValue.WEATHER_TOLERANCE_NONE) && (level().isRaining() || level().isThundering())) {
+                    setAttributeValue(GeneAttribute.WEATHER_TOLERANCE, GeneValue.WEATHER_TOLERANCE_RAIN);
+                } else if (tolerance.equals(GeneValue.WEATHER_TOLERANCE_RAIN) && level().isThundering()) {
+                    setAttributeValue(GeneAttribute.WEATHER_TOLERANCE, GeneValue.WEATHER_TOLERANCE_ANY);
                 }
             }
             // Behavior improvement
-            int behavior = getAttributeValue(BeeAttributes.BEHAVIOR);
-            if (behavior < 2 && level().random.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.behaviorChance.get()) {
+            GeneValue behavior = getAttributeValue(GeneAttribute.BEHAVIOR);
+            if (behavior.getValue() < 2 && level().random.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.behaviorChance.get()) {
                 // If diurnal, it can change to nocturnal
-                if (behavior < 1 && level().isNight()) {
-                    beeAttributes.put(BeeAttributes.BEHAVIOR, level().random.nextFloat() < 0.85F ? 1 : 2);
+                if (behavior.equals(GeneValue.BEHAVIOR_DIURNAL) && level().isNight()) {
+                    setAttributeValue(GeneAttribute.BEHAVIOR, level().random.nextFloat() < 0.85F ? GeneValue.BEHAVIOR_NOCTURNAL : GeneValue.BEHAVIOR_METATURNAL);
                 }
                 // If nocturnal, it can become metaturnal or back to diurnal
-                else if (behavior == 1 && !level().isNight()) {
-                    beeAttributes.put(BeeAttributes.BEHAVIOR, level().random.nextFloat() < 0.9F ? 2 : 0);
+                else if (behavior.equals(GeneValue.BEHAVIOR_NOCTURNAL) && !level().isNight()) {
+                    setAttributeValue(GeneAttribute.BEHAVIOR, level().random.nextFloat() < 0.9F ? GeneValue.BEHAVIOR_METATURNAL : GeneValue.BEHAVIOR_DIURNAL);
                 }
             }
 
             // It might die when leashed outside
-            boolean isInDangerFromRain = tolerance < 1 && level().isRaining();
-            boolean isInDayCycleDanger = (behavior < 1 && level().isNight()) || (behavior == 1 && level().isDay());
+            boolean isInDangerFromRain = tolerance.equals(GeneValue.WEATHER_TOLERANCE_NONE) && level().isRaining();
+            boolean isInDayCycleDanger = (behavior.equals(GeneValue.BEHAVIOR_DIURNAL) && level().isNight()) || (behavior.equals(GeneValue.BEHAVIOR_NOCTURNAL) && level().isDay());
             if ((isInDangerFromRain || isInDayCycleDanger) && level().random.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.damageChance.get()) {
                 hurt(isInDangerFromRain ? this.level().damageSources().drown() : this.level().damageSources().generic(), (getMaxHealth() / 3) - 1);
             }
@@ -222,7 +221,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
 
     @Override
     public boolean isAngry() {
-        return super.isAngry() && getAttributeValue(BeeAttributes.TEMPER) > 0;
+        return super.isAngry() && !getAttributeValue(GeneAttribute.TEMPER).equals(GeneValue.TEMPER_PASSIVE);
     }
 
     @Override
@@ -335,11 +334,11 @@ public class ProductiveBee extends Bee implements IProductiveBee
 
     @Override
     public void setHasStung(boolean hasStung) {
-        if (hasStung && getAttributeValue(BeeAttributes.ENDURANCE) == 2) {
+        if (hasStung && getAttributeValue(GeneAttribute.ENDURANCE).equals(GeneValue.ENDURANCE_MEDIUM)) {
             // 50% chance to not lose stinger
             hasStung = level().random.nextBoolean();
         }
-        if (hasStung && getAttributeValue(BeeAttributes.ENDURANCE) == 3) {
+        if (hasStung && getAttributeValue(GeneAttribute.ENDURANCE).equals(GeneValue.ENDURANCE_STRONG)) {
             // 80% chance to not lose stinger
             hasStung = level().random.nextFloat() < .2;
         }
@@ -350,16 +349,16 @@ public class ProductiveBee extends Bee implements IProductiveBee
         }
     }
 
-    public String getBeeType() {
-        return getEncodeId();
+    public ResourceLocation getBeeType() {
+        return EntityType.getKey(this.getType());
     }
 
     public String getBeeName() {
         return getBeeName(getBeeType());
     }
 
-    public static String getBeeName(String beeType) {
-        String[] types = beeType.split("[:]");
+    public static String getBeeName(ResourceLocation beeType) {
+        String[] types = beeType.toString().split("[:]");
         String type = types[0];
         if (types.length > 1) {
             type = types[1];
@@ -367,58 +366,51 @@ public class ProductiveBee extends Bee implements IProductiveBee
         return type.replace("_bee", "");
     }
 
-    public Integer getAttributeValue(BeeAttribute<Integer> parameter) {
-        if (this.beeAttributes.get(parameter) != null) {
-            return (Integer) this.beeAttributes.get(parameter);
-        }
-        return 0;
+    public GeneValue getAttributeValue(GeneAttribute parameter) {
+        var attributes = this.getData(ProductiveBees.ATTRIBUTE_HANDLER);
+        return attributes.getAttributeValue(parameter);
     }
 
-    public void setAttributeValue(BeeAttribute<Integer> parameter, Integer value) {
+    public void setAttributeValue(GeneAttribute parameter, GeneValue geneValue) {
         // Give health boost based on endurance
-        if (parameter.equals(BeeAttributes.ENDURANCE)) {
-            AttributeInstance healthMod = this.getAttribute(Attributes.MAX_HEALTH);
-            if (healthMod != null && value != 1) {
-                healthMod.removeModifier(BeeAttributes.HEALTH_MOD_ID_WEAK);
-                healthMod.removeModifier(BeeAttributes.HEALTH_MOD_ID_MEDIUM);
-                healthMod.removeModifier(BeeAttributes.HEALTH_MOD_ID_STRONG);
-                healthMod.addPermanentModifier(BeeAttributes.HEALTH_MODS.get(value));
-            }
+        if (parameter.equals(GeneAttribute.ENDURANCE)) {
+//            AttributeInstance healthMod = this.getAttribute(Attributes.MAX_HEALTH);
+//            if (healthMod != null && geneValue.getValue() != 1) {
+//                healthMod.removeModifier(BeeAttributes.HEALTH_MOD_ID_WEAK);
+//                healthMod.removeModifier(BeeAttributes.HEALTH_MOD_ID_MEDIUM);
+//                healthMod.removeModifier(BeeAttributes.HEALTH_MOD_ID_STRONG);
+//                healthMod.addPermanentModifier(BeeAttributes.HEALTH_MODS.get(geneValue.getValue()));
+//            }
         }
 
-        this.beeAttributes.put(parameter, value);
+        var data = this.getData(ProductiveBees.ATTRIBUTE_HANDLER);
+        data.setAttributeValue(parameter, geneValue);
+        this.setData(ProductiveBees.ATTRIBUTE_HANDLER, data);
     }
 
-    public Map<BeeAttribute<Integer>, Object> getBeeAttributes() {
-        return beeAttributes;
+    public Map<GeneAttribute, GeneValue> getBeeAttributes() {
+        var cap = this.getCapability(BeeCapabilities.AttributeHandler.ENTITY);
+        return cap != null ? cap.getAttributes() : new HashMap<>();
     }
 
     public boolean hasBeeAttributes() {
-        return beeAttributes.containsKey(BeeAttributes.PRODUCTIVITY);
+        return this.hasData(ProductiveBees.ATTRIBUTE_HANDLER);
     }
 
     public void setDefaultAttributes() {
-        if (!hasBeeAttributes()) {
-            Random rand = new Random();
-            setAttributeValue(BeeAttributes.PRODUCTIVITY, rand.nextInt(3));
-            setAttributeValue(BeeAttributes.TEMPER, 1);
-            setAttributeValue(BeeAttributes.ENDURANCE, rand.nextInt(3));
-            setAttributeValue(BeeAttributes.BEHAVIOR, 0);
-            setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, 0);
-            setHealth(getMaxHealth());
-        }
+        this.getData(ProductiveBees.ATTRIBUTE_HANDLER);
     }
 
     public boolean canOperateDuringNight() {
-        return getAttributeValue(BeeAttributes.BEHAVIOR) > 0;
+        return !getAttributeValue(GeneAttribute.BEHAVIOR).equals(GeneValue.BEHAVIOR_DIURNAL);
     }
 
     public boolean canOperateDuringRain() {
-        return getAttributeValue(BeeAttributes.WEATHER_TOLERANCE) > 0;
+        return !getAttributeValue(GeneAttribute.WEATHER_TOLERANCE).equals(GeneValue.WEATHER_TOLERANCE_NONE);
     }
 
     public boolean canOperateDuringThunder() {
-        return getAttributeValue(BeeAttributes.WEATHER_TOLERANCE) == 2;
+        return getAttributeValue(GeneAttribute.WEATHER_TOLERANCE).equals(GeneValue.WEATHER_TOLERANCE_ANY);
     }
 
     public void setRenderStatic() {
@@ -431,7 +423,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
 
     @Override
     public boolean isInvulnerableTo(DamageSource source) {
-        return source.equals(this.level().damageSources().inWall()) || source.equals(this.level().damageSources().sweetBerryBush()) || (source.equals(this.level().damageSources().wither()) && getBeeType().contains("dye_bee")) || super.isInvulnerableTo(source);
+        return source.equals(this.level().damageSources().inWall()) || source.equals(this.level().damageSources().sweetBerryBush()) || (source.equals(this.level().damageSources().wither()) && getBeeType().getPath().contains("dye_bee")) || super.isInvulnerableTo(source);
     }
 
     @Nonnull
@@ -450,11 +442,11 @@ public class ProductiveBee extends Bee implements IProductiveBee
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
 
-        tag.putInt("bee_productivity", this.getAttributeValue(BeeAttributes.PRODUCTIVITY));
-        tag.putInt("bee_endurance", this.getAttributeValue(BeeAttributes.ENDURANCE));
-        tag.putInt("bee_temper", this.getAttributeValue(BeeAttributes.TEMPER));
-        tag.putInt("bee_behavior", this.getAttributeValue(BeeAttributes.BEHAVIOR));
-        tag.putInt("bee_weather_tolerance", this.getAttributeValue(BeeAttributes.WEATHER_TOLERANCE));
+//        tag.putString("bee_productivity", this.getAttributeValue(GeneAttribute.PRODUCTIVITY).getSerializedName());
+//        tag.putString("bee_endurance", this.getAttributeValue(GeneAttribute.ENDURANCE).getSerializedName());
+//        tag.putString("bee_temper", this.getAttributeValue(GeneAttribute.TEMPER).getSerializedName());
+//        tag.putString("bee_behavior", this.getAttributeValue(GeneAttribute.BEHAVIOR).getSerializedName());
+//        tag.putString("bee_weather_tolerance", this.getAttributeValue(GeneAttribute.WEATHER_TOLERANCE).getSerializedName());
 
         tag.putString("bee_type", this instanceof SolitaryBee ? "solitary" : "hive");
         tag.putFloat("MaxHealth", getMaxHealth());
@@ -468,12 +460,11 @@ public class ProductiveBee extends Bee implements IProductiveBee
         this.internalSetHasNectar(tag.getBoolean("HasNectar"));
 
         if (tag.contains("bee_productivity")) {
-            beeAttributes.clear();
-            setAttributeValue(BeeAttributes.PRODUCTIVITY, tag.getInt("bee_productivity"));
-            setAttributeValue(BeeAttributes.ENDURANCE, tag.contains("bee_endurance") ? tag.getInt("bee_endurance") : 1);
-            setAttributeValue(BeeAttributes.TEMPER, tag.getInt("bee_temper"));
-            setAttributeValue(BeeAttributes.BEHAVIOR, tag.getInt("bee_behavior"));
-            setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, tag.getInt("bee_weather_tolerance"));
+//            setAttributeValue(GeneAttribute.PRODUCTIVITY, GeneValue.byName(tag.getString("bee_productivity")));
+//            setAttributeValue(GeneAttribute.ENDURANCE, GeneValue.byName(tag.getString("bee_endurance")));
+//            setAttributeValue(GeneAttribute.TEMPER, GeneValue.byName(tag.getString("bee_temper")));
+//            setAttributeValue(GeneAttribute.BEHAVIOR, GeneValue.byName(tag.getString("bee_behavior")));
+//            setAttributeValue(GeneAttribute.WEATHER_TOLERANCE, GeneValue.byName(tag.getString("bee_weather_tolerance")));
         } else {
             setDefaultAttributes();
         }
@@ -536,23 +527,25 @@ public class ProductiveBee extends Bee implements IProductiveBee
         if (hasNectar() && savedFlowerPos != null) {
             BlockState flowerBlockState = level().getBlockState(savedFlowerPos);
             if (BeeHelper.hasBlockConversionRecipe(this, flowerBlockState)) {
-                BlockConversionRecipe recipe = BeeHelper.getBlockConversionRecipe(this, flowerBlockState);
-                if (recipe != null && level().random.nextInt(100) <= recipe.chance) {
-                    level().setBlock(savedFlowerPos, recipe.stateTo, 3);
-                    level().levelEvent(2005, savedFlowerPos, 0);
+                RecipeHolder<BlockConversionRecipe> recipe = BeeHelper.getBlockConversionRecipe(this, flowerBlockState);
+                if (recipe != null) {
+                    if (level().random.nextInt(100) <= recipe.value().chance) {
+                        level().setBlock(savedFlowerPos, recipe.value().stateTo, 3);
+                        level().levelEvent(2005, savedFlowerPos, 0);
+                    }
+                    // Set flag to prevent produce when trying to convert blocks
+                    setHasConverted(!recipe.value().pollinates);
                 }
-                // Set flag to prevent produce when trying to convert blocks
-                setHasConverted(!recipe.pollinates);
             } else {
                 BlockEntity blockEntity = level().getBlockEntity(savedFlowerPos);
                 if (blockEntity instanceof FeederBlockEntity feederBlockEntity) {
                     BlockEntity hiveBlockEntity = hivePos != null ? level().getBlockEntity(hivePos) : null;
                     for (ItemStack stack : feederBlockEntity.getInventoryItems()) {
                         if (stack.getItem() instanceof BlockItem blockItem) {
-                            BlockConversionRecipe blockRecipe = BeeHelper.getBlockConversionRecipe(this, blockItem.getBlock().defaultBlockState());
+                            RecipeHolder<BlockConversionRecipe> blockRecipe = BeeHelper.getBlockConversionRecipe(this, blockItem.getBlock().defaultBlockState());
                             if (blockRecipe != null && hiveBlockEntity instanceof AdvancedBeehiveBlockEntity beehiveBlockEntity) {
-                                if (level().random.nextInt(100) <= blockRecipe.chance) {
-                                    ItemStack output = new ItemStack(blockRecipe.stateTo.getBlock().asItem());
+                                if (level().random.nextInt(100) <= blockRecipe.value().chance) {
+                                    ItemStack output = new ItemStack(blockRecipe.value().stateTo.getBlock().asItem());
                                     if (beehiveBlockEntity.isSim()) {
                                         if (!output.equals(ItemStack.EMPTY) &&
                                                 beehiveBlockEntity.inventoryHandler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler itemHandler
@@ -564,24 +557,24 @@ public class ProductiveBee extends Bee implements IProductiveBee
                                         stack.shrink(1);
                                     }
                                 }
-                                setHasConverted(!blockRecipe.pollinates);
+                                setHasConverted(!blockRecipe.value().pollinates);
                                 return;
                             }
                         }
-                        ItemConversionRecipe itemRecipe = BeeHelper.getItemConversionRecipe(this, stack);
+                        RecipeHolder<ItemConversionRecipe> itemRecipe = BeeHelper.getItemConversionRecipe(this, stack);
                         if (itemRecipe != null && hiveBlockEntity instanceof AdvancedBeehiveBlockEntity beehiveBlockEntity) {
-                            if (level().random.nextInt(100) <= itemRecipe.chance) {
+                            if (level().random.nextInt(100) <= itemRecipe.value().chance) {
                                 if (beehiveBlockEntity.isSim()) {
                                     if (beehiveBlockEntity.inventoryHandler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler itemHandler
-                                            && itemHandler.addOutput(itemRecipe.output.copy()).getCount() == 0) {
+                                            && itemHandler.addOutput(itemRecipe.value().output.copy()).getCount() == 0) {
                                         stack.shrink(1);
                                     }
                                 } else {
-                                    Block.popResourceFromFace(level(), feederBlockEntity.getBlockPos(), Direction.UP, itemRecipe.output.copy());
+                                    Block.popResourceFromFace(level(), feederBlockEntity.getBlockPos(), Direction.UP, itemRecipe.value().output.copy());
                                     stack.shrink(1);
                                 }
                             }
-                            setHasConverted(!itemRecipe.pollinates);
+                            setHasConverted(!itemRecipe.value().pollinates);
                             return;
                         }
                         // TODO 1.21 BeeComponentChangerRecipe
@@ -609,8 +602,8 @@ public class ProductiveBee extends Bee implements IProductiveBee
         return "block";
     }
 
-    public float[] getColor(int tintIndex, float tickCount) {
-        return ColorUtil.getCacheColor(-1);
+    public int getColor(int tintIndex, float tickCount) {
+        return -1;
     }
 
     public boolean isColored() {
@@ -651,15 +644,17 @@ public class ProductiveBee extends Bee implements IProductiveBee
         }
 
         public boolean canBeeUse() {
-            if (ProductiveBee.this.hivePos != null && ProductiveBee.this.wantsToEnterHive() && ProductiveBee.this.hivePos.closerToCenterThan(ProductiveBee.this.position(), 2.0D)) {
-                BlockEntity blockEntity = ProductiveBee.this.level().getBlockEntity(ProductiveBee.this.hivePos);
-                if (blockEntity instanceof BeehiveBlockEntity beehiveblockentity) {
-                    if (!beehiveblockentity.isFull()) {
-                        return true;
-                    }
-
-                    ProductiveBee.this.hivePos = null;
+            if (
+                    ProductiveBee.this.hasHive() &&
+                    ProductiveBee.this.wantsToEnterHive() &&
+                    ProductiveBee.this.hivePos.closerToCenterThan(ProductiveBee.this.position(), 2.0D) &&
+                    ProductiveBee.this.level().getBlockEntity(ProductiveBee.this.hivePos) instanceof BeehiveBlockEntity beehiveblockentity
+            ) {
+                if (!beehiveblockentity.isFull()) {
+                    return true;
                 }
+
+                ProductiveBee.this.hivePos = null;
             }
             return false;
         }
@@ -770,7 +765,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
                 CompoundTag nbt = ((ConfigurableBee) ProductiveBee.this).getNBTData();
                 if (nbt != null) {
                     if (nbt.contains("flowerTag")) {
-                        var flowerTag = ModTags.getEntityTag(new ResourceLocation(nbt.getString("flowerTag")));
+                        var flowerTag = ModTags.getEntityTag(ResourceLocation.parse(nbt.getString("flowerTag")));
                         var amberBlocks = this.findNearestBlock(pos -> {
                             if (ProductiveBee.this.level().getBlockEntity(pos) instanceof AmberBlockEntity amberBlockEntity) {
                                 var entity = amberBlockEntity.getCachedEntity();
@@ -849,7 +844,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
             } catch (Exception e) {
                 String bee = ProductiveBee.this.getEncodeId();
                 if (ProductiveBee.this instanceof ConfigurableBee) {
-                    bee = ProductiveBee.this.getBeeType();
+                    bee = ProductiveBee.this.getBeeType().toString();
                 }
                 ProductiveBees.LOGGER.debug("Nesting tag for " + bee + " not found. Looking for " + nestTag);
             }
@@ -861,7 +856,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
         }
 
         private boolean isCloseEnough(BlockPos pos) {
-            if (ProductiveBee.this.closerThan(pos, 2)) {
+            if (ProductiveBee.this.closerThan(pos, 3)) {
                 return true;
             } else {
                 Path path = ProductiveBee.this.navigation.getPath();
@@ -870,7 +865,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
         }
 
         @Override
-        protected void blacklistTarget(BlockPos pos) {
+        public void blacklistTarget(BlockPos pos) {
             BlockEntity tileEntity = ProductiveBee.this.level().getBlockEntity(pos);
             TagKey<Block> nestTag = ProductiveBee.this.getNestingTag();
             if (tileEntity != null && tileEntity.getBlockState().is(nestTag)) {
@@ -944,10 +939,10 @@ public class ProductiveBee extends Bee implements IProductiveBee
     public class ProductiveTemptGoal extends TemptGoal
     {
         public ProductiveTemptGoal(PathfinderMob entity, double speed) {
-            super(entity, speed, Ingredient.EMPTY, false);
-            List<ItemStack> listOfStuff = Arrays.asList(Ingredient.of(ItemTags.FLOWERS).getItems());
-//            listOfStuff.addAll(Arrays.asList(ProductiveBee.this.getBreedingItem().getItems())); TODO
-            items = Ingredient.of(listOfStuff.stream());
+            super(entity, speed, Ingredient.of(ItemTags.FLOWERS), false);
+//            List<ItemStack> listOfStuff = Arrays.asList(Ingredient.of(ItemTags.FLOWERS).getItems());
+////            listOfStuff.addAll(Arrays.asList(ProductiveBee.this.getBreedingItem().getItems())); TODO
+//            items = Ingredient.of(listOfStuff.stream()); // public net.minecraft.world.entity.ai.goal.TemptGoal items
         }
     }
 

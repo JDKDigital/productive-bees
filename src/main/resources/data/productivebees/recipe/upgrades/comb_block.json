@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CWC",
+    "FBF",
+    "CWC"
+  ],
+  "key": {
+    "B": {
+      "item": "productivebees:upgrade_productivity_2"
+    },
+    "C": {
+      "item": "productivebees:draconic_chunk"
+    },
+    "W": {
+      "tag": "c:storage_blocks/wax"
+    },
+    "F": {
+      "item": "minecraft:item_frame"
+    }
+  },
+  "result": {
+    "id": "productivebees:upgrade_comb_block"
+  }
+}

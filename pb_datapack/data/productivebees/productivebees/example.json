@@ -48,9 +48,9 @@
     "/*conditions_comment*/": "Conditions for the bee. Follows the rules of recipe conditions. This example condition disables the bee",
     "conditions": [
         {
-            "type": "forge:not",
+            "type": "neoforge:not",
             "value": {
-                "type": "forge:mod_loaded",
+                "type": "neoforge:mod_loaded",
                 "modid": "productivebees"
             }
         }

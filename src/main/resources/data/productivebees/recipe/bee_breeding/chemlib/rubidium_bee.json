@@ -1,0 +1,20 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:lithium",
+  "parent2": "productivebees:potassium",
+  "offspring": "productivebees:rubidium",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:lithium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:potassium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:rubidium"
+    }
+  ]
+}

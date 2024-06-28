@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "productivebees:upgrade_filter"
+    }
+  ],
+  "result": {
+    "id": "productivebees:upgrade_filter"
+  }
+}

@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
-import cy.jdkdigital.productivebees.common.block.CanvasBeehive;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -14,13 +13,7 @@ public class CanvasBeehiveBlockEntity extends AdvancedBeehiveBlockEntity impleme
     private int color = 16777215;
 
     public CanvasBeehiveBlockEntity(BlockPos pos, BlockState state) {
-        super(pos, state);
-    }
-
-    @NotNull
-    @Override
-    public BlockEntityType<?> getType() {
-        return ModBlockEntityTypes.ADVANCED_HIVE.get();
+        super(ModBlockEntityTypes.CANVAS_ADVANCED_HIVE.get(), pos, state);
     }
 
     public void setColor(int color) {

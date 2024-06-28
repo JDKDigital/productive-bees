@@ -6,10 +6,10 @@ import cy.jdkdigital.productivebees.container.CryoStasisContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
+import cy.jdkdigital.productivebees.util.GeneAttribute;
 import cy.jdkdigital.productivelib.common.block.entity.CapabilityBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -26,10 +26,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,22 +88,22 @@ public class CryoStasisBlockEntity extends CapabilityBlockEntity implements Menu
     public static <E extends BlockEntity> void tick(Level level, BlockPos blockPos, BlockState blockState, CryoStasisBlockEntity blockEntity) {
         var input = blockEntity.inventoryHandler.getStackInSlot(blockEntity.SLOT_INPUT);
         if (!input.isEmpty() && BeeCage.isFilled(input)) {
-            var entity = BeeCage.getEntityFromStack(input.getTag(), level, true);
+            var entity = BeeCage.getEntityFromStack(input, level, true);
             if (entity != null) {
                 if (entity instanceof ProductiveBee pBee) {
-                    blockEntity.cryoBees.add(new BeeEntry(
-                            new ResourceLocation(pBee.getBeeType()),
-                            true, 1200,
-                            pBee.getAttributeValue(BeeAttributes.PRODUCTIVITY),
-                            pBee.getAttributeValue(BeeAttributes.WEATHER_TOLERANCE),
-                            pBee.getAttributeValue(BeeAttributes.BEHAVIOR),
-                            pBee.getAttributeValue(BeeAttributes.ENDURANCE),
-                            pBee.getAttributeValue(BeeAttributes.TEMPER)
-                    ));
+//                    blockEntity.cryoBees.add(new BeeEntry(
+//                            new ResourceLocation(pBee.getBeeType()),
+//                            true, 1200,
+//                            pBee.getAttributeValue(GeneAttribute.PRODUCTIVITY),
+//                            pBee.getAttributeValue(GeneAttribute.WEATHER_TOLERANCE),
+//                            pBee.getAttributeValue(GeneAttribute.BEHAVIOR),
+//                            pBee.getAttributeValue(GeneAttribute.ENDURANCE),
+//                            pBee.getAttributeValue(GeneAttribute.TEMPER)
+//                    ));
                 } else {
                     blockEntity.cryoBees.add(new BeeEntry(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()), false, 1200, 0, 0, 0, 0, 0));
                 }
-                input.shrink(1);
+//                input.shrink(1);
             }
         }
     }
@@ -145,7 +147,7 @@ public class CryoStasisBlockEntity extends CapabilityBlockEntity implements Menu
 
         public static BeeEntry fromNbt(CompoundTag tag) {
             return new BeeEntry(
-                    new ResourceLocation(tag.getString("id")),
+                    ResourceLocation.parse(tag.getString("id")),
                     tag.getBoolean("isProductive"),
                     tag.getInt("cooldown"),
                     tag.getInt("productivity"),
@@ -201,5 +203,10 @@ public class CryoStasisBlockEntity extends CapabilityBlockEntity implements Menu
         public Integer temper() {
             return temper;
         }
+    }
+
+    @Override
+    public IItemHandler getItemHandler() {
+        return inventoryHandler;
     }
 }

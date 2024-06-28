@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ICI",
+    "RBR"
+  ],
+  "key": {
+    "R": {
+      "tag": "c:ingots/redstone_alloy"
+    },
+    "I": {
+      "tag": "c:ingots/bismuth_brass"
+    },
+    "B": {
+      "item": "silents_mechanisms:alloy_machine_frame"
+    },
+    "C": {
+      "item": "productivebees:centrifuge"
+    }
+  },
+  "result": {
+    "id": "productivebees:powered_centrifuge"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "silents_mechanisms"
+    }
+  ]
+}

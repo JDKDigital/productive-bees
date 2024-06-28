@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S",
+    "W",
+    "W"
+  ],
+  "key": {
+    "S": {
+      "tag": "c:string"
+    },
+    "W": {
+      "tag": "c:wax"
+    }
+  },
+  "result": {
+    "id": "minecraft:candle"
+  }
+}

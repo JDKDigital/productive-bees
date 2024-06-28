@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "productivebees:coarse_dirt_nest"
+    }
+  ],
+  "result": {
+    "id": "productivebees:coarse_dirt_nest"
+  }
+}

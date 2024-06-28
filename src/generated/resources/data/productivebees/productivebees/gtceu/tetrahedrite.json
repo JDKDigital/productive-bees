@@ -3,7 +3,7 @@
   "secondaryColor": "#7d7f77",
   "tertiaryColor": "#474f44",
   "particleColor": "#a19e99",
-  "flowerTag": "forge:storage_blocks/raw_tetrahedrite",
+  "flowerTag": "c:storage_blocks/raw_tetrahedrite",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "beeTexture": "productivebees:textures/entity/bee/tetrahedrite/bee",
   "size": 0.8,
@@ -11,7 +11,7 @@
   "conditions": [
     {
       "modid": "gtceu",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

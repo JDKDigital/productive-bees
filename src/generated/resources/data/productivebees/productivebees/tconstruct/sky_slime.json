@@ -9,10 +9,10 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:slimeball/sky",
-        "type": "forge:tag_empty"
+        "tag": "c:slimeball/sky",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.datagen.recipe.builder;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mojang.serialization.JsonOps;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -39,7 +40,7 @@ public abstract class AbstractRecipeBuilder implements RecipeBuilder {
             if (chance != 100) {
                 output.addProperty("chance", chance);
             }
-            output.add("item", ingredient.toJson());
+            output.add("item", Ingredient.CODEC.encode(ingredient, JsonOps.INSTANCE, new JsonObject()).getOrThrow());
             return output;
         }
     }

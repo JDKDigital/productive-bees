@@ -1,7 +1,0 @@
-{
-  "biomes": "#forge:is_sandy",
-  "generation_stage": "TOP_LAYER_MODIFICATION",
-  "features": "productivebees:sand_nest",
-  "type": "productivebees:nest",
-  "maxTemperature": 100
-}

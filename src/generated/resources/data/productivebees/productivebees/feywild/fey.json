@@ -3,7 +3,7 @@
   "secondaryColor": "#666699",
   "particleColor": "#18abf5",
   "particleType": "pop",
-  "flowerTag": "forge:ores/fey_gem",
+  "flowerTag": "c:ores/fey_gem",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "beeTexture": "productivebees:textures/entity/bee/fey/bee",
   "createComb": false,
@@ -13,7 +13,7 @@
   "conditions": [
     {
       "modid": "feywild",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

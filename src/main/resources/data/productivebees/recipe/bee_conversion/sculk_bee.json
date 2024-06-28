@@ -1,0 +1,15 @@
+{
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:digger_bee",
+  "result": "productivebees:sculk",
+  "item": {
+    "item": "minecraft:sculk"
+  },
+  "chance": 30,
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:sculk"
+    }
+  ]
+}

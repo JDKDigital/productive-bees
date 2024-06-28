@@ -3,13 +3,13 @@
   "secondaryColor": "#383838",
   "tertiaryColor": "#b3b3b3",
   "particleColor": "#dcdcdc",
-  "flowerTag": "forge:storage_blocks/neutronium",
+  "flowerTag": "c:storage_blocks/neutronium",
   "beeTexture": "productivebees:textures/entity/bee/neutronium/bee",
   "selfbreed": false,
   "conditions": [
     {
       "modid": "gtceu",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

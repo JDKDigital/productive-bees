@@ -1,10 +1,12 @@
 package cy.jdkdigital.productivebees.common.block;
 
+import com.mojang.serialization.MapCodec;
 import cy.jdkdigital.productivebees.common.block.entity.AmberBlockEntity;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tags.BlockTags;
@@ -13,9 +15,10 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
@@ -34,9 +37,16 @@ import javax.annotation.Nonnull;
 
 public class Amber extends BaseEntityBlock
 {
+    public static final MapCodec<Amber> CODEC = simpleCodec(Amber::new);
+
     public Amber(Properties properties) {
         super(properties);
         this.registerDefaultState(this.defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH));
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Nullable
@@ -67,24 +77,24 @@ public class Amber extends BaseEntityBlock
     }
 
     @Override
-    public void setPlacedBy(Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @javax.annotation.Nullable LivingEntity player, @Nonnull ItemStack stack) {
+    public void setPlacedBy(Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nullable LivingEntity player, @Nonnull ItemStack stack) {
         // Read data from stack
         BlockEntity tileEntity = level.getBlockEntity(pos);
-        if (!level.isClientSide() && tileEntity instanceof AmberBlockEntity amberBlockEntity) {
-            CompoundTag tag = stack.getOrCreateTag();
-            amberBlockEntity.loadPacketNBT(tag);
+        if (!level.isClientSide() && tileEntity instanceof AmberBlockEntity amberBlockEntity && stack.has(DataComponents.ENTITY_DATA)) {
+            CompoundTag tag = stack.get(DataComponents.ENTITY_DATA).copyTag();
+            amberBlockEntity.loadPacketNBT(tag, level.registryAccess());
         }
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
         ItemStack stack = new ItemStack(ModBlocks.AMBER.get());
-        BlockEntity blockEntity = world.getBlockEntity(pos);
+        BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity instanceof AmberBlockEntity) {
             try {
                 CompoundTag tag = new CompoundTag();
-                tag.put("BlockEntityTag", blockEntity.saveWithoutMetadata());
-                stack.setTag(tag);
+                tag.put("BlockEntityTag", blockEntity.saveWithoutMetadata(level.registryAccess()));
+                stack.set(DataComponents.ENTITY_DATA, CustomData.of(tag));
             } catch (Exception e) {
                 // Crash can happen here if the server is shutting down as the client (WAILA) is trying to read the data
             }

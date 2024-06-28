@@ -1,0 +1,16 @@
+{
+  "type": "productivebees:block_conversion",
+  "bee": "productivebees:water",
+  "from": {
+    "Name": "minecraft:air"
+  },
+  "to": {
+    "Name": "minecraft:water"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:water"
+    }
+  ]
+}

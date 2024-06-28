@@ -3,7 +3,7 @@
   "secondaryColor": "#d8d2c2",
   "tertiaryColor": "#57411a",
   "particleColor": "#e5dfcf",
-  "flowerTag": "forge:storage_blocks/raw_barite",
+  "flowerTag": "c:storage_blocks/raw_barite",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "beeTexture": "productivebees:textures/entity/bee/barite/bee",
   "size": 0.8,
@@ -11,7 +11,7 @@
   "conditions": [
     {
       "modid": "gtceu",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

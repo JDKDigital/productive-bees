@@ -1,0 +1,30 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": [
+    {
+      "type": "productivebees:component",
+      "components": {
+        "productivebees:bee_type": "productivebees:amethyst_bronze"
+      },
+      "items": "productivebees:configurable_honeycomb"
+    }
+  ],
+  "result": {
+    "fluid": "tconstruct:molten_amethyst_bronze",
+    "amount": 60
+  },
+  "temperature": 700,
+  "time": 19,
+  "byproducts": [
+    {
+      "fluid": "productivebees:honey",
+      "amount": 100
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "tconstruct"
+    }
+  ]
+}

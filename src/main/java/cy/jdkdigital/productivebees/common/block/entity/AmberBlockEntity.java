@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivelib.common.block.entity.AbstractBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
@@ -87,7 +88,7 @@ public class AmberBlockEntity extends AbstractBlockEntity
 
     public void setEntity(Mob target) {
         var entityDataTag = target.saveWithoutId(new CompoundTag());
-        entityDataTag.putString("entityType", ForgeRegistries.ENTITY_TYPES.getKey(target.getType()).toString());
+        entityDataTag.putString("entityType", BuiltInRegistries.ENTITY_TYPE.getKey(target.getType()).toString());
         entityDataTag.putString("lootTable", target.getLootTable().toString());
         if (target.hasCustomName()) {
             entityDataTag.putString("name", target.getCustomName().getString());
@@ -95,7 +96,7 @@ public class AmberBlockEntity extends AbstractBlockEntity
             entityDataTag.putString("name", target.getName().getString());
         }
         this.entityTag = entityDataTag;
-        AdvancedBeehiveBlockEntityAbstract.removeIgnoredTags(this.entityTag, true);
+        AdvancedBeehiveBlockEntityAbstract.removeIgnoredTags(this.entityTag);
         if (this.entityTag.contains("ActiveEffects")) {
             this.entityTag.remove("ActiveEffects");
         }

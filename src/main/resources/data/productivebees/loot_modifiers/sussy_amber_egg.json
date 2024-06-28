@@ -1,7 +1,7 @@
 {
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "condition": "forge:loot_table_id",
+      "condition": "neoforge:loot_table_id",
       "loot_table_id": "minecraft:archaeology/ocean_ruin_cold"
     }
   ],
@@ -9,8 +9,13 @@
   "chance": 0.08,
   "replace": true,
   "addition": {
-    "type": "forge:nbt",
-    "item": "productivebees:spawn_egg_configurable_bee",
-    "nbt": "{EntityTag:{type:\"productivebees:amber\"}}"
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:amber",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "count": 1,
+    "id": "productivebees:spawn_egg_configurable_bee"
   }
 }

@@ -3,7 +3,7 @@
   "secondaryColor": "#b9a89f",
   "tertiaryColor": "#353231",
   "particleColor": "#c5b3a9",
-  "flowerTag": "forge:storage_blocks/raw_pyrolusite",
+  "flowerTag": "c:storage_blocks/raw_pyrolusite",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "beeTexture": "productivebees:textures/entity/bee/pyrolusite/bee",
   "size": 0.8,
@@ -11,7 +11,7 @@
   "conditions": [
     {
       "modid": "gtceu",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

@@ -3,7 +3,7 @@
   "secondaryColor": "#cdaa52",
   "tertiaryColor": "#450a04",
   "particleColor": "#cdaa52",
-  "flowerTag": "forge:storage_blocks/raw_bauxite",
+  "flowerTag": "c:storage_blocks/raw_bauxite",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "beeTexture": "productivebees:textures/entity/bee/bauxite/bee",
   "size": 0.8,
@@ -11,7 +11,7 @@
   "conditions": [
     {
       "modid": "gtceu",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

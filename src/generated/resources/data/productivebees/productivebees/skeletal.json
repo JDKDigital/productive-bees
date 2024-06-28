@@ -1,5 +1,6 @@
 {
   "primaryColor": "#c1c1c1",
+  "secondaryColor": "#c1c1c1",
   "flowerBlock": "minecraft:bone_block",
   "beeTexture": "productivebees:textures/entity/bee/skeletal/bee",
   "selfbreed": false,

@@ -3,6 +3,8 @@ package cy.jdkdigital.productivebees.common.entity.bee.hive;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
+import cy.jdkdigital.productivebees.util.GeneAttribute;
+import cy.jdkdigital.productivebees.util.GeneValue;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -33,15 +35,15 @@ public class CupidBee extends ProductiveBee
     private SetLoveModeGoal loveGoal;
 
     public static Predicate<Entity> predicate = (entity -> {
-        if (entity instanceof Animal) {
-            return !((Animal) entity).isInLove() && !((Animal) entity).isBaby();
+        if (entity instanceof Animal animal) {
+            return !animal.isInLove() && !animal.isBaby() && animal.getAge() == 0;
         }
         return false;
     });
 
     public CupidBee(EntityType<? extends Bee> entityType, Level world) {
         super(entityType, world);
-        beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, 1);
+        setAttributeValue(GeneAttribute.WEATHER_TOLERANCE, GeneValue.WEATHER_TOLERANCE_RAIN);
     }
 
     @Override
@@ -64,15 +66,6 @@ public class CupidBee extends ProductiveBee
         this.goalSelector.addGoal(2, new GoToBreedableGoal());
         this.loveGoal = new SetLoveModeGoal();
         this.goalSelector.addGoal(3, this.loveGoal);
-    }
-
-    @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData livingEntityData, @Nullable CompoundTag tag) {
-        if (level.getRandom().nextFloat() < 0.05f) {
-            this.setCustomName(Component.literal("Lena CuBee"));
-        }
-
-        return super.finalizeSpawn(level, difficulty, spawnReason, livingEntityData, tag);
     }
 
     public void tick() {

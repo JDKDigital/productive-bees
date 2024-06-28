@@ -2,15 +2,15 @@
   "primaryColor": "#dbaaa9",
   "secondaryColor": "#804f40",
   "particleColor": "#dbaaa9",
-  "flowerTag": "forge:storage_blocks/pig_iron",
+  "flowerTag": "c:storage_blocks/pig_iron",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/pig_iron",
-        "type": "forge:tag_empty"
+        "tag": "c:storage_blocks/pig_iron",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

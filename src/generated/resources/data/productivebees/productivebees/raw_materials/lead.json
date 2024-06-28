@@ -1,14 +1,14 @@
 {
   "primaryColor": "#677193",
   "secondaryColor": "#804f40",
-  "flowerTag": "forge:storage_blocks/lead",
+  "flowerTag": "c:storage_blocks/lead",
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/lead",
-        "type": "forge:tag_empty"
+        "tag": "c:storage_blocks/lead",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

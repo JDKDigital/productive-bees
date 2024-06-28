@@ -3,7 +3,7 @@
   "secondaryColor": "#b4b09a",
   "tertiaryColor": "#8d7c85",
   "particleColor": "#c3bfa6",
-  "flowerTag": "forge:storage_blocks/raw_chromite",
+  "flowerTag": "c:storage_blocks/raw_chromite",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "beeTexture": "productivebees:textures/entity/bee/chromite/bee",
   "size": 0.8,
@@ -11,7 +11,7 @@
   "conditions": [
     {
       "modid": "gtceu",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

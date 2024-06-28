@@ -2,19 +2,19 @@
   "primaryColor": "#00FF00",
   "secondaryColor": "#008000",
   "particleColor": "#7CFC00",
-  "flowerTag": "forge:storage_blocks/uraninite",
+  "flowerTag": "c:storage_blocks/uraninite",
   "size": 0.8,
   "conditions": [
     {
       "modid": "powah",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     },
     {
       "value": {
-        "tag": "forge:storage_blocks/uraninite",
-        "type": "forge:tag_empty"
+        "tag": "c:storage_blocks/uraninite",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

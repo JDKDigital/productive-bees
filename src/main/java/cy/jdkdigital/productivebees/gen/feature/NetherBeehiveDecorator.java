@@ -3,7 +3,7 @@ package cy.jdkdigital.productivebees.gen.feature;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.MapCodec;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredientFactory;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModFeatures;
 import cy.jdkdigital.productivebees.util.BeeHelper;
@@ -68,9 +68,6 @@ public class NetherBeehiveDecorator extends TreeDecorator {
                     int j = 2 + context.random().nextInt(2);
 
                     String type = BuiltInRegistries.BLOCK.getKey(nest.getBlock()).getPath().equals("warped_bee_nest") ? "warped" : "crimson";
-
-                    // TODO use components?
-//                    nest.applyComponents(DataComponentMap.builder().set(DataComponents.BEES, List.of(BeehiveBlockEntity.Occupant.create(0))).build());
 
                     for(int k = 0; k < j; ++k) {
                         try {

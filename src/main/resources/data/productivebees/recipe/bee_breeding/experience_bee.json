@@ -1,0 +1,20 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:emerald",
+  "parent2": "productivebees:lapis",
+  "offspring": "productivebees:experience",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:emerald"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:lapis"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:experience"
+    }
+  ]
+}

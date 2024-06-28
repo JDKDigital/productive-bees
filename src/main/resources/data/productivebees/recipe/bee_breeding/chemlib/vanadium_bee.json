@@ -1,0 +1,20 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:iron",
+  "parent2": "productivebees:titanium",
+  "offspring": "productivebees:vanadium",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:iron"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:titanium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:vanadium"
+    }
+  ]
+}

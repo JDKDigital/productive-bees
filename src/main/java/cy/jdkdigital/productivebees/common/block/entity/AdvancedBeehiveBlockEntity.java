@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
@@ -8,16 +9,16 @@ import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBee;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.common.item.FilterUpgradeItem;
 import cy.jdkdigital.productivebees.common.item.Gene;
-import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredient;
-import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredientFactory;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
-import cy.jdkdigital.productivebees.util.BeeAttribute;
-import cy.jdkdigital.productivebees.util.BeeAttributes;
+import cy.jdkdigital.productivebees.util.GeneAttribute;
 import cy.jdkdigital.productivebees.util.BeeHelper;
+import cy.jdkdigital.productivebees.util.GeneValue;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.common.block.entity.UpgradeableBlockEntity;
 import net.minecraft.core.BlockPos;
@@ -33,7 +34,9 @@ import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.BottleItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.BeehiveBlock;
@@ -42,11 +45,15 @@ import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -88,7 +95,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
     protected IItemHandlerModifiable upgradeHandler = new InventoryHandlerHelper.UpgradeHandler(4, this);
 
     public AdvancedBeehiveBlockEntity(BlockPos pos, BlockState state) {
-        this(ModBlockEntityTypes.EXPANSION_BOX.get(), pos, state);
+        this(ModBlockEntityTypes.ADVANCED_HIVE.get(), pos, state);
     }
 
     public AdvancedBeehiveBlockEntity(BlockEntityType<?> tileEntityType, BlockPos pos, BlockState state) {
@@ -158,19 +165,18 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                 int honeyLevel = state.getValue(BeehiveBlock.HONEY_LEVEL);
 
                 // Auto harvest if empty bottles are in
-                // TODO 1.21 reimplement
-//                if (honeyLevel >= 5) {
-//                    ItemStack bottles = itemStackHandler.getStackInSlot(AdvancedBeehiveContainer.SLOT_BOTTLE);
-//                    if (!bottles.isEmpty() && bottles.getItem() instanceof BottleItem) {
-//                        final ItemStack filledBottle = new ItemStack(Items.HONEY_BOTTLE);
-//                        boolean addedBottle = ((InventoryHandlerHelper.BlockEntityItemStackHandler) inv).addOutput(filledBottle).getCount() == 0;
-//                        if (addedBottle) {
-//                            itemStackHandler.addOutput(new ItemStack(Items.HONEYCOMB));
-//                            bottles.shrink(1);
-//                            level.setBlockAndUpdate(pos, state.setValue(BeehiveBlock.HONEY_LEVEL, honeyLevel - 5));
-//                        }
-//                    }
-//                }
+                if (honeyLevel >= 5) {
+                    ItemStack bottles = itemStackHandler.getStackInSlot(AdvancedBeehiveContainer.SLOT_BOTTLE);
+                    if (!bottles.isEmpty() && bottles.is(Items.GLASS_BOTTLE)) {
+                        final ItemStack filledBottle = new ItemStack(Items.HONEY_BOTTLE);
+                        boolean addedBottle = itemStackHandler.addOutput(filledBottle).getCount() == 0;
+                        if (addedBottle) {
+                            itemStackHandler.addOutput(new ItemStack(Items.HONEYCOMB));
+                            bottles.shrink(1);
+                            level.setBlockAndUpdate(pos, state.setValue(BeehiveBlock.HONEY_LEVEL, honeyLevel - 5));
+                        }
+                    }
+                }
 
                 // Insert or extract bees for simulated hives
                 if (blockEntity.isSim()) {
@@ -191,24 +197,27 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                             }
                         } else if (!blockEntity.isEmpty()) {
                             // grab a bee from the hive and add to the cage
-                            // TODO 1.21 reimplement
-//                            blockEntity.getCapability(CapabilityBee.BEE).ifPresent(inhabitantStorage -> {
-//                                if (inhabitantStorage.countInhabitants() > 0) {
-//                                    Inhabitant inhabitant = inhabitantStorage.getInhabitants().get(0);
-//                                    Entity entity = EntityType.loadEntityRecursive(inhabitant.nbt, level, (spawnedEntity) -> spawnedEntity);
-//                                    if (entity instanceof Bee beeEntity) {
-//                                        beeEntity.hivePos = blockEntity.worldPosition;
-//                                        ItemStack filledCage = new ItemStack(cageStack.getItem());
-//                                        BeeCage.captureEntity(beeEntity, filledCage);
-//                                        if (itemStackHandler.canFitStacks(List.of(new ItemStack(cageStack.getItem())))) {
-//                                            cageStack.shrink(1);
-//                                            itemStackHandler.addOutput(filledCage);
-//                                            inhabitantStorage.getInhabitants().remove(0);
-//                                            level.sendBlockUpdated(pos, state, state, 3);
-//                                        }
-//                                    }
-//                                }
-//                            });
+                            if (blockEntity.getOccupantCount() > 0) {
+                                final boolean[] hasRemoved = {false};
+                                blockEntity.stored.removeIf(beeData -> {
+                                    if (!hasRemoved[0]) {
+                                        Entity entity = beeData.toOccupant().createEntity(level, pos);
+                                        if (entity instanceof Bee beeEntity) {
+                                            beeEntity.hivePos = blockEntity.worldPosition;
+                                            ItemStack filledCage = new ItemStack(cageStack.getItem());
+                                            BeeCage.captureEntity(beeEntity, filledCage);
+                                            if (itemStackHandler.canFitStacks(List.of(new ItemStack(cageStack.getItem())))) {
+                                                cageStack.shrink(1);
+                                                itemStackHandler.addOutput(filledCage);
+                                                level.sendBlockUpdated(pos, state, state, 3);
+                                                hasRemoved[0] = true;
+                                                return true;
+                                            }
+                                        }
+                                    }
+                                    return false;
+                                });
+                            }
                         }
                     }
                 }
@@ -251,13 +260,14 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                 BeeHelper.getBeeProduce(level, beeEntity, (getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) + getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_4.get())) > 0, upgradeMod).forEach((stackIn) -> {
                     ItemStack stack = stackIn.copy();
                     if (!stack.isEmpty() && inventoryHandler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler itemStackHandler) {
-                        if (beeEntity instanceof ProductiveBee) {
-                            int productivity = ((ProductiveBee) beeEntity).getAttributeValue(BeeAttributes.PRODUCTIVITY);
-                            if (productivity > 0) {
+                        if (beeEntity.hasData(ProductiveBees.ATTRIBUTE_HANDLER)) {
+                            var data = beeEntity.getData(ProductiveBees.ATTRIBUTE_HANDLER);
+                            GeneValue productivity = data.getAttributeValue(GeneAttribute.PRODUCTIVITY);
+                            if (productivity.getValue() > 0) {
                                 if(stack.getCount() == 1) {
-                                    stack.grow(productivity);
+                                    stack.grow(productivity.getValue());
                                 } else {
-                                    float modifier = (1f / (productivity + 2f) + (productivity + 1f) / 2f) * stack.getCount();
+                                    float modifier = (1f / (productivity.getValue() + 2f) + (productivity.getValue() + 1f) / 2f) * stack.getCount();
                                     stack.grow(Math.round(modifier));
                                 }
                             }
@@ -283,41 +293,40 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                     List<Bee> bees = level.getEntitiesOfClass(Bee.class, (new AABB(this.worldPosition).inflate(5.0D, 5.0D, 5.0D)));
                     if (bees.size() < ProductiveBeesConfig.UPGRADES.breedingMaxNearbyEntities.get()) {
                         // Breed this bee with a random bee inside
-                        // TODO 1.21 reimplement
-//                        Inhabitant otherBeeInhabitant = getBeeList().get(level.random.nextInt(getOccupantCount()));
-//                        Entity otherBee = EntityType.loadEntityRecursive(otherBeeInhabitant.nbt, level, (spawnedEntity) -> spawnedEntity);
-//                        if (otherBee instanceof Bee) {
-//                            Entity offspring = BeeHelper.getBreedingResult(beeEntity, (Bee) otherBee, (ServerLevel) this.level);
-//                            if (offspring != null) {
-//                                if (offspring instanceof ProductiveBee && beeEntity instanceof ProductiveBee) {
-//                                    BeeHelper.setOffspringAttributes((ProductiveBee) offspring, (ProductiveBee) beeEntity, (Bee) otherBee);
-//                                }
-//                                if (offspring instanceof AgeableMob) {
-//                                    ((AgeableMob) offspring).setAge(-24000);
-//                                }
-//                                BlockPos frontPos = getBlockPos().relative(state.getValue(BeehiveBlock.FACING));
-//                                offspring.moveTo(frontPos.getX(), frontPos.getY() + 0.5F, frontPos.getZ(), 0.0F, 0.0F);
-//                                level.addFreshEntity(offspring);
-//                            }
-//                        }
+                        var otherBeeInhabitant = this.stored.get(level.random.nextInt(getOccupantCount()));
+                        Entity otherBee = otherBeeInhabitant.toOccupant().createEntity(level, getBlockPos());
+                        if (otherBee instanceof Bee) {
+                            Entity offspring = BeeHelper.getBreedingResult(beeEntity, (Bee) otherBee, (ServerLevel) this.level);
+                            if (offspring != null) {
+                                if (offspring instanceof ProductiveBee && beeEntity instanceof ProductiveBee) {
+                                    BeeHelper.setOffspringAttributes((ProductiveBee) offspring, (ProductiveBee) beeEntity, (Bee) otherBee);
+                                }
+                                if (offspring instanceof AgeableMob) {
+                                    ((AgeableMob) offspring).setAge(-24000);
+                                }
+                                BlockPos frontPos = getBlockPos().relative(state.getValue(BeehiveBlock.FACING));
+                                offspring.moveTo(frontPos.getX(), frontPos.getY() + 0.5F, frontPos.getZ(), 0.0F, 0.0F);
+                                level.addFreshEntity(offspring);
+                            }
+                        }
                     }
                 }
             }
 
             // Produce genes
             int samplerUpgrades = getUpgradeCount(ModItems.UPGRADE_BEE_SAMPLER.get());
-            if (samplerUpgrades > 0 && !beeEntity.isBaby() && beeEntity instanceof ProductiveBee && level.random.nextFloat() <= (ProductiveBeesConfig.UPGRADES.samplerChance.get() * samplerUpgrades)) {
-                Map<BeeAttribute<Integer>, Object> attributes = ((ProductiveBee) beeEntity).getBeeAttributes();
+            if (samplerUpgrades > 0 && !beeEntity.isBaby() && beeEntity instanceof ProductiveBee pBee && level.random.nextFloat() <= (ProductiveBeesConfig.UPGRADES.samplerChance.get() * samplerUpgrades)) {
+                Map<GeneAttribute, GeneValue> attributes = pBee.getBeeAttributes();
                 // Get a random number for which attribute to extract, if we hit the additional 2 it will extract a type gene instead
-                int attr = level.random.nextInt(attributes.size() + 2);
-                if (attr >= BeeAttributes.attributeList().size()) {
-                    // Type gene
-                    String type = beeEntity instanceof ConfigurableBee ? ((ConfigurableBee) beeEntity).getBeeType() : beeEntity.getEncodeId();
+                int attr = level.random.nextInt(GeneAttribute.values().length + 2);
+                if (attr >= GeneAttribute.values().length) {
+//                    // Type gene
+                    String type = beeEntity instanceof ConfigurableBee ? ((ConfigurableBee) beeEntity).getBeeType().toString() : beeEntity.getEncodeId();
                     ((InventoryHandlerHelper.BlockEntityItemStackHandler) inventoryHandler).addOutput(Gene.getStack(type, level.random.nextInt(4) + 1));
                 } else {
-                    BeeAttribute<Integer> attribute = BeeAttributes.map.get(BeeAttributes.attributeList().get(attr));
-                    Integer value = ((ProductiveBee) beeEntity).getAttributeValue(attribute);
-                    ((InventoryHandlerHelper.BlockEntityItemStackHandler) inventoryHandler).addOutput(Gene.getStack(attribute, value, 1, level.random.nextInt(4) + 1));
+                    GeneAttribute attribute = Arrays.stream(GeneAttribute.values()).toList().get(level.random.nextInt(GeneAttribute.values().length));
+                    GeneValue value = pBee.getAttributeValue(attribute);
+                    ((InventoryHandlerHelper.BlockEntityItemStackHandler) inventoryHandler).addOutput(Gene.getStack(attribute, value.getSerializedName(), 1, level.random.nextInt(4) + 1));
                 }
             }
         }

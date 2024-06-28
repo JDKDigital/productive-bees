@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 @SuppressWarnings("unused")
 public class ModItems
 {
-    public static final FoodProperties SUGARBAG = (new FoodProperties.Builder()).nutrition(3).saturationMod(0.2F).alwaysEat()
+    public static final FoodProperties SUGARBAG = (new FoodProperties.Builder()).nutrition(3).saturationModifier(0.2F).alwaysEdible()
             .effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 1200, 1), 0.2f)
             .effect(() -> new MobEffectInstance(MobEffects.ABSORPTION, 1200, 1), 0.1f)
             .effect(() -> new MobEffectInstance(MobEffects.HEAL, 1200, 1), 0.3f)
@@ -30,7 +30,7 @@ public class ModItems
 
     public static final List<DeferredHolder<Item, ? extends Item>> SPAWN_EGGS = Lists.newArrayList();
 
-    public static final DeferredHolder<Item, ? extends Item> HONEY_BUCKET = createItem("honey_bucket", () -> new BucketItem(ModFluids.HONEY, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
+    public static final DeferredHolder<Item, ? extends Item> HONEY_BUCKET = createItem("honey_bucket", () -> new BucketItem(ModFluids.HONEY.get(), new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
     public static final DeferredHolder<Item, ? extends Item> BEE_CAGE = createItem("bee_cage", () -> new BeeCage(new Item.Properties()));
     public static final DeferredHolder<Item, ? extends Item> STURDY_BEE_CAGE = createItem("sturdy_bee_cage", () -> new SturdyBeeCage(new Item.Properties().stacksTo(16)));
     public static final DeferredHolder<Item, ? extends Item> HONEY_TREAT = createItem("honey_treat", () -> new HoneyTreat(new Item.Properties()));

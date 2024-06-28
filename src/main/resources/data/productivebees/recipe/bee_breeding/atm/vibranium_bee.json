@@ -1,0 +1,20 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:netherite",
+  "parent2": "productivebees:draconic",
+  "offspring": "productivebees:vibranium",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:netherite"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:draconic"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:vibranium"
+    }
+  ]
+}

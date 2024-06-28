@@ -1,0 +1,20 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:osmium",
+  "parent2": "productivebees:obsidian",
+  "offspring": "productivebees:refined_obsidian",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:osmium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:obsidian"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:refined_obsidian"
+    }
+  ]
+}

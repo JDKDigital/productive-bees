@@ -16,7 +16,7 @@ public class CombBlock extends Block
 
     public CombBlock(Properties properties, String colorCode) {
         super(properties);
-        this.color = TextColor.parseColor(colorCode).getValue();
+        this.color = TextColor.parseColor(colorCode).result().get().getValue();
     }
 
     public int getColor() {

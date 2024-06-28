@@ -1,25 +1,20 @@
 package cy.jdkdigital.productivebees.common.recipe;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.item.HoneyTreat;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
-import cy.jdkdigital.productivebees.setup.BeeReloadListener;
+import cy.jdkdigital.productivebees.util.GeneAttribute;
+import cy.jdkdigital.productivebees.util.GeneGroup;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
-import net.minecraft.world.item.crafting.CraftingRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
@@ -30,11 +25,9 @@ import java.util.Map;
 
 public class HoneyTreatGeneRecipe implements CraftingRecipe
 {
-    public final ResourceLocation id;
     public final ItemStack honeyTreat;
 
-    public HoneyTreatGeneRecipe(ResourceLocation id, ItemStack honeyTreat) {
-        this.id = id;
+    public HoneyTreatGeneRecipe(ItemStack honeyTreat) {
         this.honeyTreat = honeyTreat;
     }
 
@@ -49,39 +42,41 @@ public class HoneyTreatGeneRecipe implements CraftingRecipe
     }
 
     @Override
-    public boolean matches(CraftingContainer inv, Level worldIn) {
+    public boolean matches(CraftingInput inv, Level worldIn) {
         // Valid if inv contains 1 honey treat and any number of genes
         // genes must not be mutually exclusive (2 levels of the same attribute are not allowed)
-        Map<String, Integer> addedGenes = new HashMap<>();
+        Map<GeneAttribute, String> addedGenes = new HashMap<>();
         ItemStack honeyTreatStack = null;
         boolean hasAddedGenes = false;
-        for (int j = 0; j < inv.getContainerSize(); ++j) {
+        boolean hasTypeGene = false;
+        for (int j = 0; j < inv.size(); ++j) {
             ItemStack itemstack = inv.getItem(j);
             if (!itemstack.isEmpty()) {
                 if (itemstack.getItem().equals(ModItems.HONEY_TREAT.get()) && honeyTreatStack == null) {
                     honeyTreatStack = itemstack;
                     // Read existing attributes from treat
-                    ListTag genes = HoneyTreat.getGenes(honeyTreatStack);
-                    for (Tag inbt : genes) {
-                        ItemStack insertedGene = ItemStack.of((CompoundTag) inbt);
-                        String attribute = Gene.getAttributeName(insertedGene);
-                        if (addedGenes.containsKey(attribute) && !addedGenes.get(attribute).equals(Gene.getValue(insertedGene))) {
+                    List<GeneGroup> genes = HoneyTreat.getGenes(honeyTreatStack);
+                    for (GeneGroup GeneGroup : genes) {
+                        GeneAttribute attribute = GeneGroup.attribute();
+                        if (addedGenes.containsKey(attribute) && !addedGenes.get(attribute).equals(GeneGroup.value())) {
                             return false;
                         }
-                        addedGenes.put(attribute, Gene.getValue(insertedGene));
+                        addedGenes.put(attribute, GeneGroup.value());
+                        if (attribute.equals(GeneAttribute.TYPE)) {
+                            hasTypeGene = true;
+                        }
                     }
                 } else if (itemstack.getItem().equals(ModItems.GENE.get())) {
-                    String attribute = Gene.getAttributeName(itemstack);
-                    boolean isTypeGene = BeeReloadListener.INSTANCE.getData(attribute) != null;
-
+                    GeneAttribute attribute = Gene.getAttribute(itemstack);
                     // Treats can have either 1 type gene or a mix of other genes
-                    if (isTypeGene) {
+                    if (attribute.equals(GeneAttribute.TYPE)) {
                         if (addedGenes.size() > 0 && !addedGenes.containsKey(attribute)) {
                             return false;
                         }
                         addedGenes.put(attribute, Gene.getValue(itemstack));
                         hasAddedGenes = true;
-                    } else {
+                        hasTypeGene = true;
+                    } else if (!hasTypeGene) {
                         if (addedGenes.containsKey(attribute) && !addedGenes.get(attribute).equals(Gene.getValue(itemstack))) {
                             // Disallow adding genes of the same type with different strengths
                             return false;
@@ -89,6 +84,8 @@ public class HoneyTreatGeneRecipe implements CraftingRecipe
                             addedGenes.put(attribute, Gene.getValue(itemstack));
                             hasAddedGenes = true;
                         }
+                    } else {
+                        return false;
                     }
                 } else {
                     return false;
@@ -103,12 +100,12 @@ public class HoneyTreatGeneRecipe implements CraftingRecipe
 
     @Nonnull
     @Override
-    public ItemStack assemble(CraftingContainer inv, RegistryAccess registryAccess) {
+    public ItemStack assemble(CraftingInput inv, HolderLookup.Provider registryAccess) {
         // Combine genes with honey treat
         ItemStack treat = null;
         List<ItemStack> genes = new ArrayList<>();
 
-        for (int j = 0; j < inv.getContainerSize(); ++j) {
+        for (int j = 0; j < inv.size(); ++j) {
             ItemStack itemstack = inv.getItem(j);
             if (!itemstack.isEmpty()) {
                 if (itemstack.getItem().equals(ModItems.HONEY_TREAT.get())) {
@@ -138,7 +135,7 @@ public class HoneyTreatGeneRecipe implements CraftingRecipe
 
     @Nonnull
     @Override
-    public ItemStack getResultItem(RegistryAccess registryAccess) {
+    public ItemStack getResultItem(HolderLookup.Provider registryAccess) {
         return this.honeyTreat;
     }
 
@@ -155,50 +152,49 @@ public class HoneyTreatGeneRecipe implements CraftingRecipe
 
     @Nonnull
     @Override
-    public ResourceLocation getId() {
-        return this.id;
-    }
-
-    @Nonnull
-    @Override
     public RecipeSerializer<?> getSerializer() {
         return ModRecipeTypes.GENE_TREAT.get();
     }
 
-    public static class Serializer<T extends HoneyTreatGeneRecipe> implements RecipeSerializer<T>
+    public static class Serializer implements RecipeSerializer<HoneyTreatGeneRecipe>
     {
-        final HoneyTreatGeneRecipe.Serializer.IRecipeFactory<T> factory;
+        private static final MapCodec<HoneyTreatGeneRecipe> CODEC = RecordCodecBuilder.mapCodec(
+                builder -> builder.group(
+                                ItemStack.CODEC.fieldOf("item").orElse(new ItemStack(ModItems.HONEY_TREAT.get())).forGetter(recipe -> recipe.honeyTreat)
+                        )
+                        .apply(builder, HoneyTreatGeneRecipe::new)
+        );
 
-        public Serializer(HoneyTreatGeneRecipe.Serializer.IRecipeFactory<T> factory) {
-            this.factory = factory;
+        public static final StreamCodec<RegistryFriendlyByteBuf, HoneyTreatGeneRecipe> STREAM_CODEC = StreamCodec.of(
+                HoneyTreatGeneRecipe.Serializer::toNetwork, HoneyTreatGeneRecipe.Serializer::fromNetwork
+        );
+
+        @Override
+        public MapCodec<HoneyTreatGeneRecipe> codec() {
+            return CODEC;
         }
 
         @Override
-        public T fromJson(ResourceLocation id, JsonObject json) {
-            return this.factory.create(id, new ItemStack(ModItems.HONEY_TREAT.get()));
+        public StreamCodec<RegistryFriendlyByteBuf, HoneyTreatGeneRecipe> streamCodec() {
+            return STREAM_CODEC;
         }
 
-        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
+        public static HoneyTreatGeneRecipe fromNetwork(@Nonnull RegistryFriendlyByteBuf buffer) {
             try {
-                return this.factory.create(id, buffer.readItem());
+                return new HoneyTreatGeneRecipe(ItemStack.STREAM_CODEC.decode(buffer));
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error reading honey treat gene recipe from packet. " + id, e);
+                ProductiveBees.LOGGER.error("Error reading honey treat gene recipe from packet. ", e);
                 throw e;
             }
         }
 
-        public void toNetwork(@Nonnull FriendlyByteBuf buffer, T recipe) {
+        public static void toNetwork(@Nonnull RegistryFriendlyByteBuf buffer, HoneyTreatGeneRecipe recipe) {
             try {
-                buffer.writeItem(recipe.honeyTreat);
+                ItemStack.STREAM_CODEC.encode(buffer, recipe.honeyTreat);
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error writing honey treat gene recipe to packet. " + recipe.getId(), e);
+                ProductiveBees.LOGGER.error("Error writing honey treat gene recipe to packet. ", e);
                 throw e;
             }
-        }
-
-        public interface IRecipeFactory<T extends HoneyTreatGeneRecipe>
-        {
-            T create(ResourceLocation id, ItemStack honeyTreat);
         }
     }
 }

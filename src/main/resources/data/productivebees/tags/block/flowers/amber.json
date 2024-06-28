@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#c:storage_blocks/amber",
+      "required": false
+    },
+    {
+      "id": "betterendforge:amber_block",
+      "required": false
+    }
+  ]
+}

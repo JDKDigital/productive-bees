@@ -2,15 +2,15 @@
   "primaryColor": "#267049",
   "secondaryColor": "#204c49",
   "particleColor": "#267049",
-  "flowerTag": "forge:storage_blocks/queens_slime",
+  "flowerTag": "c:storage_blocks/queens_slime",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/queens_slime",
-        "type": "forge:tag_empty"
+        "tag": "c:storage_blocks/queens_slime",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

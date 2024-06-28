@@ -4,10 +4,7 @@ import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.item.CombBlockItem;
 import cy.jdkdigital.productivebees.common.recipe.CentrifugeRecipe;
 import cy.jdkdigital.productivebees.container.HeatedCentrifugeContainer;
-import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
-import cy.jdkdigital.productivebees.init.ModBlocks;
-import cy.jdkdigital.productivebees.init.ModItems;
-import cy.jdkdigital.productivebees.init.ModTags;
+import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import net.minecraft.core.BlockPos;
@@ -19,9 +16,12 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.energy.EnergyStorage;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nullable;
@@ -58,12 +58,12 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
     public boolean canProcessItemStack(ItemStack stack) {
         var directProcess = super.canProcessItemStack(stack);
 
-        if (stack.is(ModTags.Forge.COMBS) && !directProcess) {
+        if (stack.is(ModTags.Common.COMBS) && !directProcess) {
             ItemStack singleComb;
             // config honeycomb
             if (stack.getItem() instanceof CombBlockItem) {
                 singleComb = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
-                singleComb.setTag(stack.getTag());
+                singleComb.set(ModDataComponents.BEE_TYPE, stack.get(ModDataComponents.BEE_TYPE));
             } else {
                 singleComb = BeeHelper.getRecipeOutputFromInput(level, stack.getItem());
             }
@@ -73,9 +73,9 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
         return directProcess;
     }
 
-    static Map<String, CentrifugeRecipe> blockRecipeMap = new HashMap<>();
+    static Map<String, RecipeHolder<CentrifugeRecipe>> blockRecipeMap = new HashMap<>();
     @Override
-    protected CentrifugeRecipe getRecipe(IItemHandlerModifiable inputHandler) {
+    protected RecipeHolder<CentrifugeRecipe> getRecipe(InventoryHandlerHelper.BlockEntityItemStackHandler inputHandler) {
         if (blockRecipeMap.size() > 5000) {
             blockRecipeMap.clear();
         }
@@ -83,17 +83,17 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
         String cacheKey = BuiltInRegistries.ITEM.getKey(input.getItem()).toString() + (!input.getComponents().isEmpty() ? input.getComponents().stream().map(TypedDataComponent::toString).reduce((s, s2) -> s + s2) : "");
 
         var directRecipe = super.getRecipe(inputHandler);
-        if (input.is(ModTags.Forge.COMBS) && directRecipe == null) {
+        if (input.is(ModTags.Common.COMBS) && directRecipe == null) {
             if (!blockRecipeMap.containsKey(cacheKey)) {
                 ItemStack singleComb;
                 // config honeycomb
                 if (input.getItem() instanceof CombBlockItem) {
                     singleComb = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
-                    singleComb.setTag(input.getTag());
+                    singleComb.set(ModDataComponents.BEE_TYPE, input.get(ModDataComponents.BEE_TYPE));
                 } else {
                     singleComb = BeeHelper.getRecipeOutputFromInput(level, input.getItem());
                 }
-                IItemHandlerModifiable inv = new InventoryHandlerHelper.BlockEntityItemStackHandler(2);
+                var inv = new InventoryHandlerHelper.BlockEntityItemStackHandler(2);
                 // Look up recipe for the single comb that makes up the input comb block
                 inv.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, singleComb);
                 blockRecipeMap.put(cacheKey, super.getRecipe(inv));
@@ -104,13 +104,13 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
     }
 
     @Override
-    protected void completeRecipeProcessing(CentrifugeRecipe recipe, IItemHandlerModifiable invHandler, RandomSource random) {
+    protected void completeRecipeProcessing(RecipeHolder<CentrifugeRecipe> recipe, IItemHandlerModifiable invHandler, RandomSource random) {
         ItemStack input = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).copy();
-        if (input.is(ModTags.Forge.COMBS) && !recipe.ingredient.test(input)) {
+        if (input.is(ModTags.Common.COMBS) && !recipe.value().ingredient.test(input)) {
             ItemStack singleComb;
             if (input.getItem() instanceof CombBlockItem) {
                 singleComb = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get(), 4);
-                singleComb.setTag(input.getTag());
+                singleComb.set(ModDataComponents.BEE_TYPE, input.get(ModDataComponents.BEE_TYPE));
             } else {
                 singleComb = BeeHelper.getRecipeOutputFromInput(level, input.getItem());
             }
@@ -132,7 +132,22 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
 
     @Nullable
     @Override
-    public AbstractContainerMenu createMenu(final int windowId, final Inventory playerInventory) {
-        return new HeatedCentrifugeContainer(windowId, playerInventory, this);
+    public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
+        return new HeatedCentrifugeContainer(pContainerId, pPlayerInventory, this);
+    }
+
+    @Override
+    public IItemHandler getItemHandler() {
+        return inventoryHandler;
+    }
+
+    @Override
+    public EnergyStorage getEnergyHandler() {
+        return energyHandler;
+    }
+
+    @Override
+    public FluidTank getFluidHandler() {
+        return fluidHandler;
     }
 }

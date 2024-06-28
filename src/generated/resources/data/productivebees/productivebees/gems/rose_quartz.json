@@ -10,9 +10,9 @@
     {
       "value": {
         "tag": "productivebees:flowers/rose_quartz",
-        "type": "forge:tag_empty"
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

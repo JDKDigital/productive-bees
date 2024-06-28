@@ -9,7 +9,7 @@
   "conditions": [
     {
       "modid": "byg",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

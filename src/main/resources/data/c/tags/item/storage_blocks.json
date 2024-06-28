@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "#c:storage_blocks/honeycombs",
+    "#c:storage_blocks/wax"
+  ]
+}

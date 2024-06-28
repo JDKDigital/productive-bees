@@ -1,9 +1,9 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
-import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.item.HoneyTreat;
 import cy.jdkdigital.productivebees.common.recipe.TimedRecipeInterface;
 import cy.jdkdigital.productivebees.container.IncubatorContainer;
@@ -12,16 +12,17 @@ import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeCreator;
+import cy.jdkdigital.productivebees.util.GeneAttribute;
+import cy.jdkdigital.productivebees.util.GeneGroup;
 import cy.jdkdigital.productivelib.common.block.entity.CapabilityBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.common.block.entity.UpgradeableBlockEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.MenuProvider;
@@ -30,14 +31,18 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuProvider, UpgradeableBlockEntity, IRecipeProcessingBlockEntity
 {
@@ -50,7 +55,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
         public boolean isInputSlotItem(int slot, ItemStack item) {
             return
                 (slot == IncubatorContainer.SLOT_INPUT && item.getItem() instanceof BeeCage) ||
-                (slot == IncubatorContainer.SLOT_INPUT && item.is(ModTags.Forge.EGGS)) ||
+                (slot == IncubatorContainer.SLOT_INPUT && item.is(ModTags.Common.EGGS)) ||
                 (slot == IncubatorContainer.SLOT_CATALYST && item.getItem() instanceof HoneyTreat);
         }
     };
@@ -61,14 +66,14 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
 
     protected IItemHandlerModifiable upgradeHandler = new InventoryHandlerHelper.UpgradeHandler(4, this);
 
-    public IEnergyStorage energyHandler = new EnergyStorage(10000);
+    public EnergyStorage energyHandler = new EnergyStorage(10000);
 
     public IncubatorBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.INCUBATOR.get(), pos, state);
     }
 
     @Override
-    public TimedRecipeInterface getCurrentRecipe() {
+    public RecipeHolder<? extends TimedRecipeInterface> getCurrentRecipe() {
         return null;
     }
 
@@ -77,9 +82,10 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
         return recipeProgress;
     }
 
-    public int getProcessingTime(TimedRecipeInterface recipe) {
+    @Override
+    public int getProcessingTime(RecipeHolder<? extends TimedRecipeInterface> recipe) {
         return (int) (
-                (recipe != null ? recipe.getProcessingTime() : ProductiveBeesConfig.GENERAL.incubatorProcessingTime.get()) * getProcessingTimeModifier()
+                (recipe != null ? recipe.value().getProcessingTime() : ProductiveBeesConfig.GENERAL.incubatorProcessingTime.get()) * getProcessingTimeModifier()
         );
     }
 
@@ -99,10 +105,11 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
                 blockEntity.setRunning(true);
                 int totalTime = blockEntity.getProcessingTime(null);
 
-                if (++blockEntity.recipeProgress >= totalTime) {
-                    blockEntity.completeIncubation(blockEntity.inventoryHandler, level.random);
+                if (blockEntity.recipeProgress >= totalTime && blockEntity.completeIncubation(blockEntity.inventoryHandler, level.random)) {
                     blockEntity.recipeProgress = 0;
                     blockEntity.setChanged();
+                } else {
+                    blockEntity.recipeProgress = Math.min(totalTime, blockEntity.recipeProgress + 1);
                 }
             }
         } else {
@@ -125,12 +132,12 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
         ItemStack inItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_INPUT);
         ItemStack treatItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_CATALYST);
 
-        boolean eggProcessing = inItem.is(ModTags.Forge.EGGS);
+        boolean eggProcessing = inItem.is(ModTags.Common.EGGS);
         boolean cageProcessing = inItem.getItem() instanceof BeeCage && BeeCage.isFilled(inItem);
 
         return energy > ProductiveBeesConfig.GENERAL.incubatorPowerUse.get() // has enough power
                 && (eggProcessing || cageProcessing) // valid processing
-                && invHandler.getStackInSlot(IncubatorContainer.SLOT_OUTPUT).isEmpty() // output has room
+//                && invHandler.getStackInSlot(IncubatorContainer.SLOT_OUTPUT).isEmpty() // output has room
                 && treatItem.getItem().equals(ModItems.HONEY_TREAT.get())
                 && (
                     (cageProcessing && (treatItem.getCount() >= ProductiveBeesConfig.GENERAL.incubatorTreatUse.get() || (HoneyTreat.hasGene(treatItem) && !HoneyTreat.hasBeeType(treatItem)))) ||
@@ -138,60 +145,67 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
                 );
     }
 
-    private void completeIncubation(IItemHandlerModifiable invHandler, RandomSource random) {
+    private boolean completeIncubation(IItemHandlerModifiable invHandler, RandomSource random) {
         if (canProcessInput(invHandler)) {
-            ItemStack inItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_INPUT).copy();
+            ItemStack inItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_INPUT);
+            ItemStack catalystItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_CATALYST);
 
-            boolean eggProcessing = inItem.is(ModTags.Forge.EGGS);
+            boolean eggProcessing = inItem.is(ModTags.Common.EGGS);
             boolean cageProcessing = inItem.getItem() instanceof BeeCage;
 
+            ItemStack resultItem = ItemStack.EMPTY;
+            int shrinkCatalyst = 1;
+            int shrinkInput = 1;
             if (cageProcessing) {
-                ItemStack treat = invHandler.getStackInSlot(IncubatorContainer.SLOT_CATALYST);
-                if (HoneyTreat.hasGene(treat)) {
+                if (HoneyTreat.hasGene(catalystItem)) {
                     // Apply gene to the bee inside cage
                     var entity = BeeCage.getEntityFromStack(inItem, level, true);
                     if (entity instanceof ProductiveBee pBee) {
-                        HoneyTreat.applyGenesToBee(level, treat, pBee);
-                        var newBeeStack = new ItemStack(inItem.getItem());
-                        BeeCage.captureEntity(pBee, newBeeStack);
-                        invHandler.setStackInSlot(IncubatorContainer.SLOT_OUTPUT, newBeeStack);
-                        invHandler.getStackInSlot(IncubatorContainer.SLOT_INPUT).shrink(1);
-                        treat.shrink(1);
+                        HoneyTreat.applyGenesToBee(level, catalystItem, pBee);
+                        resultItem = new ItemStack(inItem.getItem());
+                        BeeCage.captureEntity(pBee, resultItem);
                     }
-                } else {
-                    CompoundTag nbt = inItem.getTag();
-                    if (nbt != null && nbt.contains("Age")) {
+                } else if (BeeCage.isFilled(inItem)) {
+                    CompoundTag nbt = inItem.get(DataComponents.CUSTOM_DATA).copyTag();
+                    if (nbt.contains("Age")) {
                         nbt.putInt("Age", 0);
                     }
-                    inItem.setCount(1);
-                    invHandler.setStackInSlot(IncubatorContainer.SLOT_OUTPUT, inItem);
-                    treat.shrink(ProductiveBeesConfig.GENERAL.incubatorTreatUse.get());
-                    invHandler.getStackInSlot(IncubatorContainer.SLOT_INPUT).shrink(1);
+                    resultItem = inItem.copy();
+                    resultItem.setCount(1);
+                    shrinkCatalyst = ProductiveBeesConfig.GENERAL.incubatorTreatUse.get();
                 }
             } else if (eggProcessing) {
-                ItemStack treatItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_CATALYST);
-
-                ListTag genes = HoneyTreat.getGenes(treatItem);
-                for (Tag inbt : genes) {
-                    ItemStack insertedGene = ItemStack.of((CompoundTag) inbt);
-                    String beeName = Gene.getAttributeName(insertedGene);
-                    if (!beeName.isEmpty()) {
-                        int purity = Gene.getPurity(insertedGene);
-                        if (((CompoundTag) inbt).contains("purity")) {
-                            purity = ((CompoundTag) inbt).getInt("purity");
-                        }
-                        if (random.nextInt(100) <= purity) {
-                            ItemStack egg = BeeCreator.getSpawnEgg(beeName);
-                            if (egg.getItem() instanceof SpawnEggItem) {
-                                invHandler.setStackInSlot(IncubatorContainer.SLOT_OUTPUT, egg);
+                try {
+                    List<GeneGroup> genes = HoneyTreat.getGenes(catalystItem);
+                    for (GeneGroup geneGroup : genes) {
+                        GeneAttribute geneAttribute = geneGroup.attribute();
+                        if (geneAttribute.equals(GeneAttribute.TYPE)) {
+                            int purity = geneGroup.purity();
+                            if (random.nextInt(100) <= purity) {
+                                ItemStack egg = BeeCreator.getSpawnEgg(ResourceLocation.parse(geneGroup.value()));
+                                if (egg.getItem() instanceof SpawnEggItem) {
+                                    resultItem = egg;
+                                }
                             }
                         }
                     }
+                } catch (Exception e) {
+                    ProductiveBees.LOGGER.warn("Failed to create bee spawn egg " + e.getMessage());
                 }
-                invHandler.getStackInSlot(IncubatorContainer.SLOT_INPUT).shrink(1);
-                treatItem.shrink(1);
+            }
+            ItemStack outItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_OUTPUT);
+            if (!resultItem.isEmpty() && (outItem.isEmpty() ||ItemStack.isSameItemSameComponents(outItem, resultItem)) && (outItem.isEmpty() || (outItem.getCount() + resultItem.getCount()) <= outItem.getMaxStackSize())) {
+                if (outItem.isEmpty()) {
+                    invHandler.setStackInSlot(IncubatorContainer.SLOT_OUTPUT, resultItem);
+                } else {
+                    outItem.grow(resultItem.getCount());
+                }
+                inItem.shrink(shrinkInput);
+                catalystItem.shrink(shrinkCatalyst);
+                return true;
             }
         }
+        return false;
     }
 
     @Override
@@ -234,5 +248,15 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
     @Override
     public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
         return new IncubatorContainer(pContainerId, pPlayerInventory, this);
+    }
+
+    @Override
+    public IItemHandler getItemHandler() {
+        return inventoryHandler;
+    }
+
+    @Override
+    public EnergyStorage getEnergyHandler() {
+        return energyHandler;
     }
 }

@@ -6,7 +6,13 @@
     "overrides": [
         {
             "predicate": {
-                "genetic": 1
+                "genetic": 0.5
+            },
+            "model": "productivebees:item/honey_treat_type"
+        },
+        {
+            "predicate": {
+                "genetic": 1.0
             },
             "model": "productivebees:item/honey_treat_genetic"
         }

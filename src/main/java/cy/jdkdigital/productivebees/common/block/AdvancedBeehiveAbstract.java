@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.common.block;
 
-import cy.jdkdigital.productivebees.capabilities.BeeCapabilities;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -8,7 +7,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
@@ -26,7 +24,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomData;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -41,7 +38,6 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 
 public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
@@ -61,33 +57,40 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
 
     @Override
     public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
-        return this.stored.size();
+        if (level.getBlockEntity(pos) instanceof AdvancedBeehiveBlockEntityAbstract beehiveBlockEntityAbstract) {
+            return beehiveBlockEntityAbstract.getOccupantCount();
+        }
+        return 0;
     }
 
     @Override
     public void appendHoverText(ItemStack pStack, Item.TooltipContext pContext, List<Component> pTootipComponents, TooltipFlag pTooltipFlag) {
         super.appendHoverText(pStack, pContext, pTootipComponents, pTooltipFlag);
 
-//        CompoundTag stateNBT = pStack.getTagElement("BlockStateTag");
-//        if (stateNBT != null) {
-//            if (stateNBT.contains("honey_level")) {
-//                String honeyLevel = stateNBT.getString("honey_level");
-//                pTootipComponents.add(Component.translatable("productivebees.hive.tooltip.honey_level", honeyLevel).withStyle(ChatFormatting.GOLD));
-//            }
-//        }
-        // TODO
-//        List<BeehiveBlockEntity.Occupant> occupants = pStack.get(DataComponents.BEES);
-//        if (occupants != null & !occupants.isEmpty()) {
-//            pTootipComponents.add(Component.translatable("productivebees.hive.tooltip.bees").withStyle(ChatFormatting.BOLD));
-//            for (int i = 0; i < occupants.size(); ++i) {
-//                CustomData tag = occupants.get(i).entityData();
-//                String name = tag.contains("Name") ? tag.getString("Name");
-//
-//                pTootipComponents.add(Component.literal(name).withStyle(ChatFormatting.GREEN));
-//            }
-//        } else {
-//            pTootipComponents.add(Component.translatable("productivebees.hive.tooltip.empty"));
-//        }
+        if (pStack.has(DataComponents.BLOCK_ENTITY_DATA)) {
+            CompoundTag stateNBT = pStack.get(DataComponents.BLOCK_ENTITY_DATA).getUnsafe();
+            if (stateNBT != null) {
+                if (stateNBT.contains("honey_level")) {
+                    String honeyLevel = stateNBT.getString("honey_level");
+                    pTootipComponents.add(Component.translatable("productivebees.hive.tooltip.honey_level", honeyLevel).withStyle(ChatFormatting.GOLD));
+                }
+            }
+        }
+
+        if (pStack.has(DataComponents.BEES)) {
+            List<BeehiveBlockEntity.Occupant> occupants = pStack.get(DataComponents.BEES);
+            if (occupants != null && !occupants.isEmpty()) {
+                pTootipComponents.add(Component.translatable("productivebees.hive.tooltip.bees").withStyle(ChatFormatting.BOLD));
+                for (int i = 0; i < occupants.size(); ++i) {
+                    var tag = occupants.get(i).entityData().getUnsafe();
+                    String name = tag.contains("Name") ? tag.getString("Name") : "";
+
+                    pTootipComponents.add(Component.literal(name).withStyle(ChatFormatting.GREEN));
+                }
+            } else {
+                pTootipComponents.add(Component.translatable("productivebees.hive.tooltip.empty"));
+            }
+        }
     }
 
     @Override

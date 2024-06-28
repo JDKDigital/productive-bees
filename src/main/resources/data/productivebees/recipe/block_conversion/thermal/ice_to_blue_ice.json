@@ -1,0 +1,17 @@
+{
+  "type": "productivebees:block_conversion",
+  "bee": "productivebees:blizz",
+  "from": {
+    "Name": "minecraft:ice"
+  },
+  "to": {
+    "Name": "minecraft:blue_ice"
+  },
+  "chance": 80,
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:blizz"
+    }
+  ]
+}

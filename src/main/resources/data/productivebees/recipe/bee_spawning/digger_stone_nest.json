@@ -1,0 +1,9 @@
+{
+  "type": "productivebees:bee_spawning",
+  "ingredient": {
+    "item": "productivebees:stone_nest"
+  },
+  "results": [
+    "productivebees:digger_bee"
+  ]
+}

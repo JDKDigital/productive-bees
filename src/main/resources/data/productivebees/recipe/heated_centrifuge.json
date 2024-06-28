@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    "UDU",
+    "CGC"
+  ],
+  "key": {
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "C": {
+      "tag": "c:storage_blocks/copper"
+    },
+    "D": {
+      "item": "productivebees:inactive_dragon_egg"
+    },
+    "U": {
+      "item": "productivebees:upgrade_time"
+    },
+    "G": {
+      "item": "productivebees:powered_centrifuge"
+    }
+  },
+  "result": {
+    "id": "productivebees:heated_centrifuge"
+  }
+}

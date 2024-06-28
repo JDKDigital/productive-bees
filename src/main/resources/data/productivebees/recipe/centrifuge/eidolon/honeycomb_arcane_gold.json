@@ -1,0 +1,34 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:arcane_gold"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "eidolon:arcane_gold_nugget"
+      },
+      "min": 3,
+      "max": 7
+    },
+    {
+      "item": {
+        "tag": "c:wax"
+      }
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:arcane_gold"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "eidolon"
+    }
+  ]
+}

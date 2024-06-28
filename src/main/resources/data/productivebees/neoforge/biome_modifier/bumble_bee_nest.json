@@ -1,0 +1,7 @@
+{
+  "biomes": "#c:is_plains",
+  "generation_stage": "TOP_LAYER_MODIFICATION",
+  "features": "productivebees:bumble_bee_nest",
+  "type": "productivebees:nest",
+  "maxTemperature": 100
+}

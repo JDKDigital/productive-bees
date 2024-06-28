@@ -3,11 +3,14 @@ package cy.jdkdigital.productivebees.container;
 import cy.jdkdigital.productivebees.common.block.Feeder;
 import cy.jdkdigital.productivebees.common.block.entity.FeederBlockEntity;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
+import cy.jdkdigital.productivelib.container.AbstractContainer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -28,9 +31,10 @@ public class FeederContainer extends AbstractContainer
         this.tileEntity = tileEntity;
         this.canInteractWithCallable = ContainerLevelAccess.create(tileEntity.getLevel(), tileEntity.getBlockPos());
 
-        this.tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-            addSlotBox(inv, 0, 62, tileEntity.isDouble() ? 26 : 35, 3, 18, tileEntity.isDouble() ? 2: 1, 18);
-        });
+        var inv = this.tileEntity.getLevel().getCapability(Capabilities.ItemHandler.BLOCK, this.tileEntity.getBlockPos(), null);
+        if (inv instanceof IItemHandler itemHandler) {
+            addSlotBox(itemHandler, 0, 62, tileEntity.isDouble() ? 26 : 35, 3, 18, tileEntity.isDouble() ? 2 : 1, 18);
+        }
 
         layoutPlayerInventorySlots(playerInventory, 0, 8, 84);
     }

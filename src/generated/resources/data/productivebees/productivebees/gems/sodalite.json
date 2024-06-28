@@ -9,10 +9,10 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:gems/sodalite",
-        "type": "forge:tag_empty"
+        "tag": "c:gems/sodalite",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

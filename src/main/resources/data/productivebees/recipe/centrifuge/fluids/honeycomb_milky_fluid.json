@@ -1,0 +1,17 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "item": "productivebees:honeycomb_milky"
+  },
+  "outputs": [
+    {
+      "item": {
+        "tag": "c:wax"
+      }
+    }
+  ],
+  "fluid": {
+    "amount": 100,
+    "id": "minecraft:milk"
+  }
+}

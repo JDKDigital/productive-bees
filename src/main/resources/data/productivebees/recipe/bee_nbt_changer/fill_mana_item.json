@@ -1,0 +1,26 @@
+{
+  "type": "productivebees:bee_nbt_changer",
+  "bee": "productivebees:mana",
+  "item": [
+    {
+      "item": "botania:mana_tablet"
+    },
+    {
+      "item": "botania:mana_ring"
+    }
+  ],
+  "attribute": "mana",
+  "method": "increment",
+  "value": 1000,
+  "max": 500000,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "botania"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:mana"
+    }
+  ]
+}

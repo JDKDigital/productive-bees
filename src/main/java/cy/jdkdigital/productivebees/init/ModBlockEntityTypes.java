@@ -13,9 +13,13 @@ public class ModBlockEntityTypes
 {
     public static Supplier<BlockEntityType<AdvancedBeehiveBlockEntity>> ADVANCED_HIVE;
     public static Supplier<BlockEntityType<ExpansionBoxBlockEntity>> EXPANSION_BOX;
+    public static Supplier<BlockEntityType<CanvasBeehiveBlockEntity>> CANVAS_ADVANCED_HIVE;
+    public static Supplier<BlockEntityType<CanvasExpansionBoxBlockEntity>> CANVAS_EXPANSION_BOX;
     public static void registerHiveBlockEntities() {
-        ADVANCED_HIVE = registerBlockEntity("advanced_hive", () -> createBlockEntityType(AdvancedBeehiveBlockEntity::new, ModBlocks.HIVES.values().stream().map(DeferredHolder::get).toList().toArray(new Block[0])));
-        EXPANSION_BOX = registerBlockEntity("expansion_box", () -> createBlockEntityType(ExpansionBoxBlockEntity::new, ModBlocks.EXPANSIONS.values().stream().map(DeferredHolder::get).toList().toArray(new Block[0])));
+        ADVANCED_HIVE = registerBlockEntity("advanced_hive", () -> createBlockEntityType(AdvancedBeehiveBlockEntity::new, ModBlocks.HIVES.values().stream().map(DeferredHolder::get).filter(block -> !block.getDescriptionId().contains("canvas")).toList().toArray(new Block[0])));
+        EXPANSION_BOX = registerBlockEntity("expansion_box", () -> createBlockEntityType(ExpansionBoxBlockEntity::new, ModBlocks.EXPANSIONS.values().stream().map(DeferredHolder::get).filter(block -> !block.getDescriptionId().contains("canvas")).toList().toArray(new Block[0])));
+        CANVAS_ADVANCED_HIVE = registerBlockEntity("canvas_advanced_hive", () -> createBlockEntityType(CanvasBeehiveBlockEntity::new, ModBlocks.CANVAS_HIVES.values().stream().map(DeferredHolder::get).toList().toArray(new Block[0])));
+        CANVAS_EXPANSION_BOX = registerBlockEntity("canvas_expansion_box", () -> createBlockEntityType(CanvasExpansionBoxBlockEntity::new, ModBlocks.CANVAS_EXPANSIONS.values().stream().map(DeferredHolder::get).toList().toArray(new Block[0])));
     }
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SolitaryNestBlockEntity>> SOLITARY_NEST = ProductiveBees.BLOCK_ENTITIES.register("solitary_nest", () ->

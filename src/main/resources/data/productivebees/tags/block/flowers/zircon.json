@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#c:storage_blocks/zircon",
+      "required": false
+    },
+    {
+      "id": "gemsnjewels:zircon_block",
+      "required": false
+    }
+  ]
+}

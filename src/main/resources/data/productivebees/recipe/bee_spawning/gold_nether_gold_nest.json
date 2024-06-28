@@ -1,0 +1,19 @@
+{
+  "type": "productivebees:bee_spawning",
+  "ingredient": {
+    "item": "productivebees:nether_gold_nest"
+  },
+  "results": [
+    "productivebees:gold"
+  ],
+  "spawn_item": {
+    "tag": "c:ingots/gold"
+  },
+  "biomes": "#minecraft:is_nether",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gold"
+    }
+  ]
+}

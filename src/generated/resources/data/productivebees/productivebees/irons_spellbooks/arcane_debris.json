@@ -8,7 +8,7 @@
   "conditions": [
     {
       "modid": "irons_spellbooks",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

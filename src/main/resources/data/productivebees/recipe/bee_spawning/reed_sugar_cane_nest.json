@@ -1,0 +1,9 @@
+{
+  "type": "productivebees:bee_spawning",
+  "ingredient": {
+    "item": "productivebees:sugar_cane_nest"
+  },
+  "results": [
+    "productivebees:reed_bee"
+  ]
+}

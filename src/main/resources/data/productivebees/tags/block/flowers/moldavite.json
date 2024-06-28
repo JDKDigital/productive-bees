@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#c:storage_blocks/moldavite",
+      "required": false
+    },
+    {
+      "id": "silentgems:moldavite_glowrose",
+      "required": false
+    }
+  ]
+}

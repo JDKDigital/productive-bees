@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -84,13 +85,12 @@ public class GeneIndexer extends CapabilityContainerBlock
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (!level.isClientSide()) {
-            if (level.getBlockEntity(pos) instanceof GeneIndexerBlockEntity blockEntity) {
-                openGui((ServerPlayer) player, blockEntity);
-            }
+    protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
+        if (!pLevel.isClientSide() && pLevel.getBlockEntity(pPos) instanceof GeneIndexerBlockEntity blockEntity) {
+            pPlayer.openMenu(blockEntity, pPos);
+            return InteractionResult.SUCCESS_NO_ITEM_USED;
         }
-        return InteractionResult.SUCCESS;
+        return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);
     }
 
     @Nullable
@@ -100,14 +100,10 @@ public class GeneIndexer extends CapabilityContainerBlock
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable BlockGetter blockGetter, List<Component> tooltips, TooltipFlag flag) {
-        super.appendHoverText(stack, blockGetter, tooltips, flag);
+    public void appendHoverText(ItemStack pStack, Item.TooltipContext pContext, List<Component> pTootipComponents, TooltipFlag pTooltipFlag) {
+        super.appendHoverText(pStack, pContext, pTootipComponents, pTooltipFlag);
 
-        tooltips.add(Component.translatable("productivebees.indexer.tooltip.redstone").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.ITALIC));
-    }
-
-    public void openGui(ServerPlayer player, GeneIndexerBlockEntity tileEntity) {
-        NetworkHooks.openScreen(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
+        pTootipComponents.add(Component.translatable("productivebees.indexer.tooltip.redstone").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.ITALIC));
     }
 
     @Override
@@ -117,18 +113,16 @@ public class GeneIndexer extends CapabilityContainerBlock
 
     @Override
     public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
-        AtomicInteger value = new AtomicInteger();
+        int value = 0;
         if (level.getBlockEntity(pos) instanceof GeneIndexerBlockEntity blockEntity) {
-            blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(h -> {
-                int filledSlots = 0;
-                for (int i = 0; i < h.getSlots(); i++) {
-                    if (!h.getStackInSlot(i).isEmpty()) {
-                        filledSlots++;
-                    }
+            int filledSlots = 0;
+            for (int i = 0; i < blockEntity.inventoryHandler.getSlots(); i++) {
+                if (!blockEntity.inventoryHandler.getStackInSlot(i).isEmpty()) {
+                    filledSlots++;
                 }
-                value.set((int) Math.floor(15 * ((float) filledSlots / h.getSlots())));
-            });
+            }
+            value = (int) Math.floor(15 * ((float) filledSlots / blockEntity.inventoryHandler.getSlots()));
         }
-        return value.get();
+        return value;
     }
 }

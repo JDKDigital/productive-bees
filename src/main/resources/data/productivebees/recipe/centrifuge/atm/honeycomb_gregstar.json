@@ -1,0 +1,21 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:gregstar"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [],
+  "fluid": {
+    "amount": 500,
+    "id": "productivebees:honey"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gregstar"
+    }
+  ]
+}

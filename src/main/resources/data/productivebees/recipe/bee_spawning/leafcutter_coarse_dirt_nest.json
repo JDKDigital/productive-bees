@@ -1,0 +1,9 @@
+{
+  "type": "productivebees:bee_spawning",
+  "ingredient": {
+    "item": "productivebees:coarse_dirt_nest"
+  },
+  "results": [
+    "productivebees:leafcutter_bee"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:chocolate_mining_bee",
+  "parent2": "productivebees:digger_bee",
+  "offspring": "productivebees:quarry_bee"
+}

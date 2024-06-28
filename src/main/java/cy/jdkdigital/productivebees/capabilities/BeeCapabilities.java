@@ -9,7 +9,7 @@ public final class BeeCapabilities
 {
     public static final class AttributeHandler
     {
-        public static final EntityCapability<IBeeAttributes, Void> ENTITY = EntityCapability.createVoid(new ResourceLocation(ProductiveBees.MODID, "attribute_handler"), IBeeAttributes.class);
+        public static final EntityCapability<IBeeAttributes, Void> ENTITY = EntityCapability.createVoid(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "attribute_handler"), IBeeAttributes.class);
 
         private AttributeHandler() {}
     }

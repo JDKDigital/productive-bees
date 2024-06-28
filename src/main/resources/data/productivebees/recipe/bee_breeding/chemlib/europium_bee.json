@@ -1,0 +1,20 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:samarium",
+  "parent2": "productivebees:gadolinium",
+  "offspring": "productivebees:europium",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:samarium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gadolinium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:europium"
+    }
+  ]
+}

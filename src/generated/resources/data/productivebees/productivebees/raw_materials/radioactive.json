@@ -16,9 +16,9 @@
     {
       "value": {
         "tag": "productivebees:flowers/radioactive",
-        "type": "forge:tag_empty"
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

@@ -1,14 +1,14 @@
 {
   "primaryColor": "#C98C52",
   "secondaryColor": "#804f40",
-  "flowerTag": "forge:storage_blocks/bronze",
+  "flowerTag": "c:storage_blocks/bronze",
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/bronze",
-        "type": "forge:tag_empty"
+        "tag": "c:storage_blocks/bronze",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

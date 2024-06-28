@@ -5,9 +5,12 @@ import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import cy.jdkdigital.productivebees.init.ModBlocks;
+import cy.jdkdigital.productivebees.init.ModDataComponents;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -40,8 +43,6 @@ import java.util.stream.Stream;
 
 public class NestLocator extends Item
 {
-    private static final String KEY = "productivebees_locator_nest";
-
     public NestLocator(Properties properties) {
         super(properties);
     }
@@ -51,37 +52,28 @@ public class NestLocator extends Item
             return Blocks.BEE_NEST.getName().getString();
         }
 
-        CompoundTag nbt = stack.getOrCreateTag().getCompound(KEY);
-
-        return nbt.contains("nestName") ? nbt.getString("nestName") : null;
+        var nestBlock = getNestBlock(stack);
+        return nestBlock != null ? nestBlock.getName().getString() : "";
     }
 
-    public static String getNestRegistryName(ItemStack stack) {
-        CompoundTag nbt = stack.getOrCreateTag().getCompound(KEY);
-
-        return nbt.contains("nest") ? nbt.getString("nest") : null;
+    public static ResourceLocation getNestRegistryName(ItemStack stack) {
+        return stack.get(ModDataComponents.NEST_BLOCK);
     }
 
     public static Block getNestBlock(ItemStack stack) {
-        String registryName = getNestRegistryName(stack);
+        ResourceLocation registryName = getNestRegistryName(stack);
         if (registryName != null) {
-            return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(registryName));
+            return BuiltInRegistries.BLOCK.get(registryName);
         }
         return null;
     }
 
     public static void setNestBlock(ItemStack stack, @Nullable Block nest, Player player) {
-        CompoundTag nbt = stack.getOrCreateTag().getCompound(KEY);
+        if (nest != null) {
+            stack.set(ModDataComponents.NEST_BLOCK, BuiltInRegistries.BLOCK.getKey(nest));
 
-        nbt.remove("nest");
-        if (nest != null && ForgeRegistries.BLOCKS.getKey(nest) != null) {
-            nbt.putString("nest", ForgeRegistries.BLOCKS.getKey(nest).toString());
-            nbt.putString("nestName", Component.translatable(nest.getDescriptionId()).getString());
-
-            player.displayClientMessage(Component.translatable("productivebees.nest_locator.tuned", nbt.getString("nestName")), false);
+            player.displayClientMessage(Component.translatable("productivebees.nest_locator.tuned", nest.getName().getString()), false);
         }
-
-        stack.getOrCreateTag().put(KEY, nbt);
     }
 
     public static boolean hasNest(ItemStack stack) {
@@ -89,24 +81,19 @@ public class NestLocator extends Item
     }
 
     public static BlockPos getPosition(ItemStack stack) {
-        CompoundTag nbt = stack.getOrCreateTag().getCompound(KEY);
-
-        return nbt.contains("position") ? BlockPos.of(nbt.getLong("position")) : null;
+        return hasPosition(stack) ? stack.get(ModDataComponents.POSITION) : null;
     }
 
     public static void setPosition(ItemStack stack, @Nullable BlockPos pos) {
-        CompoundTag nbt = stack.getOrCreateTag().getCompound(KEY);
-
         if (pos != null) {
-            nbt.putLong("position", pos.asLong());
+            stack.set(ModDataComponents.POSITION, pos);
         } else {
-            nbt.remove("position");
+            stack.remove(ModDataComponents.POSITION);
         }
-        stack.getOrCreateTag().put(KEY, nbt);
     }
 
     public static boolean hasPosition(ItemStack stack) {
-        return getPosition(stack) != null;
+        return stack.has(ModDataComponents.POSITION);
     }
 
     @Nonnull
@@ -124,9 +111,9 @@ public class NestLocator extends Item
                 setNestBlock(stack, Blocks.BEE_NEST, context.getPlayer());
             } else if (block instanceof SolitaryNest) {
                 setNestBlock(stack, block, context.getPlayer());
-            } else if (ForgeRegistries.BLOCKS.getKey(block).getPath().contains("warped")) {
+            } else if (BuiltInRegistries.BLOCK.getKey(block).getPath().contains("warped")) {
                 setNestBlock(stack, ModBlocks.WARPED_BEE_NEST.get(), context.getPlayer());
-            } else if (ForgeRegistries.BLOCKS.getKey(block).getPath().contains("crimson")) {
+            } else if (BuiltInRegistries.BLOCK.getKey(block).getPath().contains("crimson")) {
                 setNestBlock(stack, ModBlocks.CRIMSON_BEE_NEST.get(), context.getPlayer());
             } else {
                 // Set block if it's a component in crafting a nest
@@ -171,13 +158,13 @@ public class NestLocator extends Item
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag flagIn) {
-        super.appendHoverText(stack, world, tooltip, flagIn);
+    public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
+        super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
 
-        if (hasNest(stack)) {
-            tooltip.add(Component.translatable("productivebees.information.nestlocator.configured", getNestName(stack)).withStyle(ChatFormatting.GOLD));
+        if (hasNest(pStack)) {
+            pTooltipComponents.add(Component.translatable("productivebees.information.nestlocator.configured", getNestName(pStack)).withStyle(ChatFormatting.GOLD));
         } else {
-            tooltip.add(Component.translatable("productivebees.information.nestlocator.unconfigured").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable("productivebees.information.nestlocator.unconfigured").withStyle(ChatFormatting.GOLD));
         }
     }
 

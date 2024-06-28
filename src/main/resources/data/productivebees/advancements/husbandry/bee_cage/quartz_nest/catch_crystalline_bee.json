@@ -2,7 +2,7 @@
   "parent": "productivebees:husbandry/bee_cage/quartz_nest",
   "display": {
     "icon": {
-      "type": "forge:nbt",
+      "type": "neoforge:nbt",
       "item": "productivebees:configurable_honeycomb",
       "nbt": "{EntityTag: {type: \"productivebees:crystalline\"}}"
     },

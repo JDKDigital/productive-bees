@@ -2,14 +2,14 @@
   "primaryColor": "#ece386",
   "secondaryColor": "#586bb7",
   "particleColor": "#b598db",
-  "flowerTag": "forge:storage_blocks/bismuth",
+  "flowerTag": "c:storage_blocks/bismuth",
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/bismuth",
-        "type": "forge:tag_empty"
+        "tag": "c:storage_blocks/bismuth",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

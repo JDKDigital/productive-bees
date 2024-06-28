@@ -9,8 +9,8 @@ import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivelib.common.block.entity.CapabilityBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -18,6 +18,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
@@ -27,12 +30,12 @@ import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class GeneIndexerBlockEntity extends CapabilityBlockEntity
+public class GeneIndexerBlockEntity extends CapabilityBlockEntity implements MenuProvider
 {
     private int tickCounter = 0;
     private boolean needsReindexing = true;
     private boolean isRunning = true;
-    private final Map<String, Map<Integer, Integer>> index = new HashMap<>(); // Map<String(name of attribute or bee type), Map<Slot, Purity>>
+    private final Map<String, Map<Integer, Integer>> index = new HashMap<>();
 
     public final IItemHandlerModifiable inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(104, this)
     {
@@ -163,7 +166,7 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity
                 int purity = Gene.getPurity(stack);
                 if (purity < 100) {
                     // Create a list for each attribute variant having the same attribute but different purity
-                    String key = Gene.getAttributeName(stack) + "-" + Gene.getValue(stack);
+                    String key = Gene.getAttribute(stack) + "-" + Gene.getValue(stack);
 
                     // Initiate internal map
                     if (!blockEntity.index.containsKey(key)) {
@@ -199,7 +202,12 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity
 
     @Nullable
     @Override
-    public AbstractContainerMenu createMenu(final int windowId, final Inventory playerInventory) {
-        return new GeneIndexerContainer(windowId, playerInventory, this);
+    public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
+        return new GeneIndexerContainer(pContainerId, pPlayerInventory, this);
+    }
+
+    @Override
+    public IItemHandler getItemHandler() {
+        return inventoryHandler;
     }
 }

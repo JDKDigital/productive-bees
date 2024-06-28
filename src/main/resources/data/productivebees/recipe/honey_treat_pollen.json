@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:honeycomb"
+    },
+    {
+      "tag": "c:pollen"
+    },
+    {
+      "tag": "c:pollen"
+    }
+  ],
+  "result": {
+    "id": "productivebees:honey_treat"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:pollen"
+      }
+    }
+  ]
+}

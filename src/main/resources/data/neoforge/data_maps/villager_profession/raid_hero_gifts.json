@@ -1,0 +1,7 @@
+{
+  "values": {
+    "productivebees:beekeeper": {
+      "loot_table": "minecraft:gameplay/hero_of_the_village/beekeeper_gifts"
+    }
+  }
+}

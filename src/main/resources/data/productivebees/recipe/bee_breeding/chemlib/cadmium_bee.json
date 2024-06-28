@@ -1,0 +1,20 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:zinc",
+  "parent2": "productivebees:prismarine",
+  "offspring": "productivebees:cadmium",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:zinc"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:prismarine"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:cadmium"
+    }
+  ]
+}

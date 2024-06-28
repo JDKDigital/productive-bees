@@ -7,23 +7,24 @@ import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.items.IItemHandler;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class PoweredCentrifugeBlockEntity extends CentrifugeBlockEntity
 {
-    public IEnergyStorage energyHandler = new EnergyStorage(10000);
+    public EnergyStorage energyHandler = new EnergyStorage(10000);
 
     public PoweredCentrifugeBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.POWERED_CENTRIFUGE.get(), pos, state);
@@ -62,7 +63,22 @@ public class PoweredCentrifugeBlockEntity extends CentrifugeBlockEntity
 
     @Nullable
     @Override
-    public AbstractContainerMenu createMenu(final int windowId, final Inventory playerInventory) {
-        return new PoweredCentrifugeContainer(windowId, playerInventory, this);
+    public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
+        return new PoweredCentrifugeContainer(pContainerId, pPlayerInventory, this);
+    }
+
+    @Override
+    public IItemHandler getItemHandler() {
+        return inventoryHandler;
+    }
+
+    @Override
+    public EnergyStorage getEnergyHandler() {
+        return energyHandler;
+    }
+
+    @Override
+    public FluidTank getFluidHandler() {
+        return fluidHandler;
     }
 }

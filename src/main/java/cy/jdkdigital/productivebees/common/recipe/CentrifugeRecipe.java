@@ -1,46 +1,42 @@
 package cy.jdkdigital.productivebees.common.recipe;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
+import cy.jdkdigital.productivebees.init.ModFluids;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.common.recipe.TagOutputRecipe;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.IntArrayTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 
-public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Container>, TimedRecipeInterface
+public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<RecipeInput>, TimedRecipeInterface
 {
     public final Ingredient ingredient;
-    public final Pair<String, Integer> fluidOutput;
+    public final FluidStack fluidOutput;
     private final Integer processingTime;
 
-    public CentrifugeRecipe(Ingredient ingredient, List<ChancedOutput> itemOutput, Pair<String, Integer> fluidOutput, int processingTime) {
+    public CentrifugeRecipe(Ingredient ingredient, List<ChancedOutput> itemOutput, FluidStack fluidOutput, int processingTime) {
         super(itemOutput);
         this.ingredient = ingredient;
         this.fluidOutput = fluidOutput;
@@ -53,7 +49,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
     }
 
     @Override
-    public boolean matches(Container inv, Level worldIn) {
+    public boolean matches(RecipeInput inv, Level worldIn) {
         if (this.ingredient.getItems().length > 0) {
             ItemStack invStack = inv.getItem(InventoryHandlerHelper.INPUT_SLOT);
 
@@ -77,7 +73,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
 
     @Nonnull
     @Override
-    public ItemStack assemble(Container inv, HolderLookup.Provider pRegistries) {
+    public ItemStack assemble(RecipeInput inv, HolderLookup.Provider pRegistries) {
         return ItemStack.EMPTY;
     }
 
@@ -93,12 +89,12 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
     }
 
     @Nullable
-    public Pair<Fluid, Integer> getFluidOutputs() {
+    public Pair<Fluid, Integer> getFluidOutputs() { // TODO 1.21 use fluidstack
         if (fluidOutput != null) {
-            Fluid fluid = getPreferredFluidByMod(fluidOutput.getFirst());
+//            Fluid fluid = getPreferredFluidByMod(fluidOutput.getFirst());
 
-            if (fluid != Fluids.EMPTY) {
-                return Pair.of(fluid, fluidOutput.getSecond());
+            if (fluidOutput.getFluid() != Fluids.EMPTY) {
+                return Pair.of(fluidOutput.getFluid(), fluidOutput.getAmount());
             }
         }
 
@@ -119,102 +115,60 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
 
     public static class Serializer implements RecipeSerializer<CentrifugeRecipe>
     {
+        // TODO 1.21 support fluid tags
+        private static final MapCodec<CentrifugeRecipe> CODEC = RecordCodecBuilder.mapCodec(
+                builder -> builder.group(
+                                Ingredient.CODEC.fieldOf("ingredient").forGetter(recipe -> recipe.ingredient),
+                                Codec.list(ChancedOutput.CODEC).fieldOf("outputs").forGetter(recipe -> recipe.itemOutput),
+                                FluidStack.CODEC.fieldOf("fluid").orElse(new FluidStack(ModFluids.HONEY, 100)).forGetter(recipe -> recipe.fluidOutput),
+                                Codec.INT.fieldOf("processingTime").orElse(0).forGetter(recipe -> recipe.processingTime)
+                        )
+                        .apply(builder, CentrifugeRecipe::new)
+        );
+
+        public static final StreamCodec<RegistryFriendlyByteBuf, CentrifugeRecipe> STREAM_CODEC = StreamCodec.of(
+                CentrifugeRecipe.Serializer::toNetwork, CentrifugeRecipe.Serializer::fromNetwork
+        );
+
         @Override
-        public T fromJson(ResourceLocation id, JsonObject json) {
-            Ingredient ingredient;
-            if (GsonHelper.isArrayNode(json, "ingredient")) {
-                ingredient = Ingredient.fromJson(GsonHelper.getAsJsonArray(json, "ingredient"));
-            } else {
-                ingredient = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "ingredient"));
-            }
-
-            JsonArray jsonArray = GsonHelper.getAsJsonArray(json, "outputs");
-            Map<Ingredient, IntArrayTag> itemOutputs = new LinkedHashMap<>();
-            AtomicReference<Pair<String, Integer>> fluidOutputs = new AtomicReference<>();
-            jsonArray.forEach(el -> {
-                JsonObject jsonObject = el.getAsJsonObject();
-                if (jsonObject.has("item")) {
-                    int min = GsonHelper.getAsInt(jsonObject, "min", 1);
-                    int max = GsonHelper.getAsInt(jsonObject, "max", 1);
-                    int chance = GsonHelper.getAsInt(jsonObject, "chance", 100);
-                    IntArrayTag nbt = new IntArrayTag(new int[]{min, max, chance});
-
-                    Ingredient produce;
-                    if (GsonHelper.isArrayNode(jsonObject, "item")) {
-                        produce = Ingredient.fromJson(GsonHelper.getAsJsonArray(jsonObject, "item"));
-                    } else {
-                        produce = Ingredient.fromJson(GsonHelper.getAsJsonObject(jsonObject, "item"));
-                    }
-
-                    itemOutputs.put(produce, nbt);
-                } else if (jsonObject.has("fluid")) {
-                    int amount = GsonHelper.getAsInt(jsonObject, "amount", 250);
-
-                    JsonObject fluidJson = GsonHelper.getAsJsonObject(jsonObject, "fluid");
-                    String fluidResourceLocation = "";
-                    if (fluidJson.has("tag")) {
-                        fluidResourceLocation = GsonHelper.getAsString(fluidJson, "tag");
-                    } else if (fluidJson.has("fluid")) {
-                        fluidResourceLocation = GsonHelper.getAsString(fluidJson, "fluid");
-                    }
-
-                    fluidOutputs.set(Pair.of(fluidResourceLocation, amount));
-                }
-            });
-
-            int processingTime = json.has("processingTime") ? json.get("processingTime").getAsInt() : 0;
-
-            return this.factory.create(id, ingredient, itemOutputs, fluidOutputs.get(), processingTime);
+        public MapCodec<CentrifugeRecipe> codec() {
+            return CODEC;
         }
 
-        public static CentrifugeRecipe fromNetwork(@Nonnull FriendlyByteBuf buffer) {
+        @Override
+        public StreamCodec<RegistryFriendlyByteBuf, CentrifugeRecipe> streamCodec() {
+            return STREAM_CODEC;
+        }
+
+        public static CentrifugeRecipe fromNetwork(@Nonnull RegistryFriendlyByteBuf buffer) {
             try {
-                Ingredient ingredient = Ingredient.fromNetwork(buffer);
+                Ingredient ingredient = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
 
-                Map<Ingredient, IntArrayTag> itemOutput = new LinkedHashMap<>();
-                IntStream.range(0, buffer.readInt()).forEach(
-                        i -> itemOutput.put(Ingredient.fromNetwork(buffer), new IntArrayTag(new int[]{buffer.readInt(), buffer.readInt(), buffer.readInt()}))
-                );
+                List<ChancedOutput> itemOutput = new ArrayList<>();
+                IntStream.range(0, buffer.readInt()).forEach(i -> itemOutput.add(ChancedOutput.read(buffer)));
 
-                Pair<String, Integer> fluidOutput = null;
-                if (buffer.readBoolean()) {
-                    fluidOutput = Pair.of(buffer.readUtf(), buffer.readInt());
-                }
-
-                Map<ItemStack, Float> outputs = new LinkedHashMap<>();
-                outputs.forEach((itemStack, aFloat) -> {
-
-                });
-
-                return this.factory.create(id, ingredient, itemOutput, fluidOutput, buffer.readInt());
+                return new CentrifugeRecipe(ingredient, itemOutput, FluidStack.STREAM_CODEC.decode(buffer), buffer.readInt());
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error reading centrifuge recipe from packet. " + id, e);
+                ProductiveBees.LOGGER.error("Error reading centrifuge recipe from packet. ", e);
                 throw e;
             }
         }
 
-        public static void toNetwork(@Nonnull FriendlyByteBuf buffer, @Nonnull CentrifugeRecipe recipe) {
+        public static void toNetwork(@Nonnull RegistryFriendlyByteBuf buffer, @Nonnull CentrifugeRecipe recipe) {
             try {
-                recipe.ingredient.toNetwork(buffer);
-                buffer.writeInt(recipe.itemOutput.size());
+                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.ingredient);
 
-                recipe.itemOutput.forEach((key, value) -> {
-                    key.toNetwork(buffer);
-                    buffer.writeInt(value.get(0).getAsInt());
-                    buffer.writeInt(value.get(1).getAsInt());
-                    buffer.writeInt(value.get(2).getAsInt());
+                buffer.writeInt(recipe.itemOutput.size());
+                recipe.itemOutput.forEach(chancedRecipe -> {
+                    ChancedOutput.write(buffer, chancedRecipe);
                 });
 
-                buffer.writeBoolean(recipe.fluidOutput != null);
-                if (recipe.fluidOutput != null) {
-                    buffer.writeUtf(recipe.fluidOutput.getFirst());
-                    buffer.writeInt(recipe.fluidOutput.getSecond());
-                }
+                FluidStack.STREAM_CODEC.encode(buffer, recipe.fluidOutput);
 
                 buffer.writeInt(recipe.getProcessingTime());
 
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error writing centrifuge recipe to packet. " + recipe.getId(), e);
+                ProductiveBees.LOGGER.error("Error writing centrifuge recipe to packet.", e);
                 throw e;
             }
         }

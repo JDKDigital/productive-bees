@@ -1,0 +1,20 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:netherite",
+  "parent2": "productivebees:withered",
+  "offspring": "productivebees:allthemodium",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:netherite"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:withered"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:allthemodium"
+    }
+  ]
+}

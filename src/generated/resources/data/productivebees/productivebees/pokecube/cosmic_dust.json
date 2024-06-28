@@ -2,21 +2,21 @@
   "primaryColor": "#2394cc",
   "secondaryColor": "#0f0f66",
   "particleColor": "#2394cc",
-  "flowerTag": "forge:ores/cosmic",
+  "flowerTag": "c:ores/cosmic",
   "conditions": [
     {
       "value": {
-        "tag": "forge:gems/cosmicdust",
-        "type": "forge:tag_empty"
+        "tag": "c:gems/cosmicdust",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     },
     {
       "value": {
-        "tag": "forge:ores/cosmic",
-        "type": "forge:tag_empty"
+        "tag": "c:ores/cosmic",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

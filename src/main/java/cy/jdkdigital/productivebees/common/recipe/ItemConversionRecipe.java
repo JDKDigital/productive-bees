@@ -4,18 +4,14 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.util.Lazy;
 
@@ -24,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class ItemConversionRecipe implements Recipe<Container>
+public class ItemConversionRecipe implements Recipe<RecipeInput>
 {
     public final List<Supplier<BeeIngredient>> bees;
     public Ingredient ingredient;
@@ -41,7 +37,7 @@ public class ItemConversionRecipe implements Recipe<Container>
     }
 
     @Override
-    public boolean matches(Container inv, Level worldIn) {
+    public boolean matches(RecipeInput inv, Level worldIn) {
         if (inv instanceof BeeHelper.ItemInventory && bees.size() > 0) {
             String beeName = ((BeeHelper.ItemInventory) inv).getIdentifier(0);
             ItemStack inputItem = ((BeeHelper.ItemInventory) inv).getInput();
@@ -60,7 +56,7 @@ public class ItemConversionRecipe implements Recipe<Container>
 
     @Nonnull
     @Override
-    public ItemStack assemble(Container inv, HolderLookup.Provider pRegistries) {
+    public ItemStack assemble(RecipeInput inv, HolderLookup.Provider pRegistries) {
         return ItemStack.EMPTY;
     }
 
@@ -100,7 +96,7 @@ public class ItemConversionRecipe implements Recipe<Container>
                                 BeeIngredient.LIST_CODEC.fieldOf("bees").forGetter(recipe -> recipe.bees),
                                 Ingredient.CODEC.fieldOf("ingredients").forGetter(recipe -> recipe.ingredient),
                                 ItemStack.CODEC.fieldOf("result").forGetter(recipe -> recipe.output),
-                                Codec.FLOAT.fieldOf("chance").forGetter(recipe -> recipe.chance),
+                                Codec.FLOAT.fieldOf("chance").orElse(1f).forGetter(recipe -> recipe.chance),
                                 Codec.BOOL.fieldOf("pollinates").orElse(false).forGetter(recipe -> recipe.pollinates)
                         )
                         .apply(builder, ItemConversionRecipe::new)
@@ -129,7 +125,7 @@ public class ItemConversionRecipe implements Recipe<Container>
                     bees.add(Lazy.of(() -> source));
                 }
 
-                return new ItemConversionRecipe(bees, Ingredient.CONTENTS_STREAM_CODEC.decode(buffer), ItemStack.STREAM_CODEC.decode(buffer), buffer.readInt(), buffer.readBoolean());
+                return new ItemConversionRecipe(bees, Ingredient.CONTENTS_STREAM_CODEC.decode(buffer), ItemStack.STREAM_CODEC.decode(buffer), buffer.readFloat(), buffer.readBoolean());
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error reading item conversion recipe from packet. ", e);
                 throw e;

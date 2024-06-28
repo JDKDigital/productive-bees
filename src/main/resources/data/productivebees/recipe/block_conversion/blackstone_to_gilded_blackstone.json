@@ -1,0 +1,17 @@
+{
+  "type": "productivebees:block_conversion",
+  "bee": "productivebees:gold",
+  "from": {
+    "Name": "minecraft:blackstone"
+  },
+  "to": {
+    "Name": "minecraft:gilded_blackstone"
+  },
+  "chance": 100,
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gold"
+    }
+  ]
+}

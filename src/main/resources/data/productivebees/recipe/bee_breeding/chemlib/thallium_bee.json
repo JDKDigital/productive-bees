@@ -1,0 +1,20 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:sulfur",
+  "parent2": "productivebees:lead",
+  "offspring": "productivebees:thallium",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:sulfur"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:lead"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:thallium"
+    }
+  ]
+}

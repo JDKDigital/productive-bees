@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.container.gui;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.container.BottlerContainer;
+import cy.jdkdigital.productivebees.util.FluidContainerUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class BottlerScreen extends AbstractContainerScreen<BottlerContainer>
 {
-    private static final ResourceLocation GUI_TEXTURE = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/bottler.png");
+    private static final ResourceLocation GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/bottler.png");
 
     public BottlerScreen(BottlerContainer container, Inventory inv, Component titleIn) {
         super(container, inv, titleIn);
@@ -34,7 +35,7 @@ public class BottlerScreen extends AbstractContainerScreen<BottlerContainer>
         guiGraphics.drawString(font, this.playerInventoryTitle, 8, (this.getYSize() - 96 + 2), 4210752, false);
 
         // Draw fluid tank
-        FluidStack fluidStack = this.menu.blockEntity.fluidInventory.getFluidInTank(0);
+        FluidStack fluidStack = this.menu.blockEntity.fluidHandler.getFluidInTank(0);
 
         // Fluid level tooltip
         if (isHovering(139, 16, 6, 54, mouseX, mouseY)) {
@@ -56,10 +57,10 @@ public class BottlerScreen extends AbstractContainerScreen<BottlerContainer>
         guiGraphics.blit(GUI_TEXTURE, this.getGuiLeft(), this.getGuiTop(), 0, 0, this.getXSize(), this.getYSize());
 
         // Draw fluid tank
-        FluidStack fluidStack = this.menu.blockEntity.fluidInventory.getFluidInTank(0);
+        FluidStack fluidStack = this.menu.blockEntity.fluidHandler.getFluidInTank(0);
 
         if (fluidStack.getAmount() > 0) {
-            FluidContainerUtil.renderFluidTank(guiGraphics, this, fluidStack, this.menu.blockEntity.fluidInventory.getTankCapacity(0), 140, 17, 4, 52, 0);
+            FluidContainerUtil.renderFluidTank(guiGraphics, this, fluidStack, this.menu.blockEntity.fluidHandler.getTankCapacity(0), 140, 17, 4, 52, 0);
         }
     }
 }

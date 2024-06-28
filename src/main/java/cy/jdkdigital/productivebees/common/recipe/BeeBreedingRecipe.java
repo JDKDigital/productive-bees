@@ -4,15 +4,15 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
-import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
@@ -22,7 +22,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class BeeBreedingRecipe implements Recipe<Container>, TimedRecipeInterface
+public class BeeBreedingRecipe implements Recipe<RecipeInput>, TimedRecipeInterface
 {
     public final Supplier<BeeIngredient> parent1;
     public final Supplier<BeeIngredient> parent2;
@@ -40,7 +40,7 @@ public class BeeBreedingRecipe implements Recipe<Container>, TimedRecipeInterfac
     }
 
     @Override
-    public boolean matches(Container inv, Level worldIn) {
+    public boolean matches(RecipeInput inv, Level worldIn) {
         if (inv instanceof BeeHelper.IdentifierInventory) {
             String beeName1 = ((BeeHelper.IdentifierInventory) inv).getIdentifier(0);
             String beeName2 = ((BeeHelper.IdentifierInventory) inv).getIdentifier(1);
@@ -62,7 +62,7 @@ public class BeeBreedingRecipe implements Recipe<Container>, TimedRecipeInterfac
 
     @Nonnull
     @Override
-    public ItemStack assemble(Container inv, HolderLookup.Provider pRegistries) {
+    public ItemStack assemble(RecipeInput inv, HolderLookup.Provider pRegistries) {
         return ItemStack.EMPTY;
     }
 

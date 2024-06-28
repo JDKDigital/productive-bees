@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "productivebees:cherry_wood_nest"
+    }
+  ],
+  "result": {
+    "id": "productivebees:cherry_wood_nest"
+  }
+}

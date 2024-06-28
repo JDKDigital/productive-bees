@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#c:storage_blocks/gunpowder",
+      "required": false
+    },
+    "minecraft:coal_ore",
+    "minecraft:tnt"
+  ]
+}

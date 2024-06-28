@@ -1,0 +1,18 @@
+{
+  "type": "productivebees:block_conversion",
+  "bees": [
+    "productivebees:frosty"
+  ],
+  "from": {
+    "Name": "minecraft:water"
+  },
+  "to": {
+    "Name": "minecraft:ice"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:frosty"
+    }
+  ]
+}

@@ -25,19 +25,19 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBee, Productive
 {
     private static Map<String, ResourceLocation> resLocCache = new HashMap<>();
 
-    public static final ModelLayerLocation PB_MAIN_LAYER = new ModelLayerLocation(new ResourceLocation(ProductiveBees.MODID, "main"), "main");
-    public static final ModelLayerLocation PB_HOARDER_LAYER = new ModelLayerLocation(new ResourceLocation(ProductiveBees.MODID, "hoarder"), "main");
-    public static final ModelLayerLocation PB_RANCHER_LAYER = new ModelLayerLocation(new ResourceLocation(ProductiveBees.MODID, "rancher"), "main");
-    public static final ModelLayerLocation PB_THICC_LAYER = new ModelLayerLocation(new ResourceLocation(ProductiveBees.MODID, "thicc"), "main");
-    public static final ModelLayerLocation PB_DEFAULT_LAYER = new ModelLayerLocation(new ResourceLocation(ProductiveBees.MODID, "default"), "main");
-    public static final ModelLayerLocation PB_DEFAULT_CRYSTAL_LAYER = new ModelLayerLocation(new ResourceLocation(ProductiveBees.MODID, "default_crystal"), "main");
-    public static final ModelLayerLocation PB_DEFAULT_SHELL_LAYER = new ModelLayerLocation(new ResourceLocation(ProductiveBees.MODID, "default_shell"), "main");
-    public static final ModelLayerLocation PB_DEFAULT_FOLIAGE_LAYER = new ModelLayerLocation(new ResourceLocation(ProductiveBees.MODID, "default_foliage"), "main");
-    public static final ModelLayerLocation PB_ELVIS_LAYER = new ModelLayerLocation(new ResourceLocation(ProductiveBees.MODID, "elvis"), "main");
-    public static final ModelLayerLocation PB_SMALL_LAYER = new ModelLayerLocation(new ResourceLocation(ProductiveBees.MODID, "small"), "main");
-    public static final ModelLayerLocation PB_SLIM_LAYER = new ModelLayerLocation(new ResourceLocation(ProductiveBees.MODID, "slim"), "main");
-    public static final ModelLayerLocation PB_TINY_LAYER = new ModelLayerLocation(new ResourceLocation(ProductiveBees.MODID, "tiny"), "main");
-    public static final ModelLayerLocation PB_SLIMY_LAYER = new ModelLayerLocation(new ResourceLocation(ProductiveBees.MODID, "translucent_with_center"), "main");
+    public static final ModelLayerLocation PB_MAIN_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "main"), "main");
+    public static final ModelLayerLocation PB_HOARDER_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "hoarder"), "main");
+    public static final ModelLayerLocation PB_RANCHER_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "rancher"), "main");
+    public static final ModelLayerLocation PB_THICC_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "thicc"), "main");
+    public static final ModelLayerLocation PB_DEFAULT_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "default"), "main");
+    public static final ModelLayerLocation PB_DEFAULT_CRYSTAL_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "default_crystal"), "main");
+    public static final ModelLayerLocation PB_DEFAULT_SHELL_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "default_shell"), "main");
+    public static final ModelLayerLocation PB_DEFAULT_FOLIAGE_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "default_foliage"), "main");
+    public static final ModelLayerLocation PB_ELVIS_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "elvis"), "main");
+    public static final ModelLayerLocation PB_SMALL_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "small"), "main");
+    public static final ModelLayerLocation PB_SLIM_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "slim"), "main");
+    public static final ModelLayerLocation PB_TINY_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "tiny"), "main");
+    public static final ModelLayerLocation PB_SLIMY_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "translucent_with_center"), "main");
 
     protected boolean isChristmas;
     protected boolean isAprilFool;
@@ -70,12 +70,12 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBee, Productive
     }
 
     @Override
-    protected void setupRotations(ProductiveBee entity, PoseStack matrixStack, float f1, float f2, float f3) {
-        super.setupRotations(entity, matrixStack, f1, f2, f3);
+    protected void setupRotations(ProductiveBee pEntity, PoseStack pPoseStack, float pBob, float pYBodyRot, float pPartialTick, float pScale) {
+        super.setupRotations(pEntity, pPoseStack, pBob, pYBodyRot, pPartialTick, pScale);
 
-        if (isAprilFool || (entity instanceof ConfigurableBee configurableBee && configurableBee.getRenderTransform().equals("flipped"))) {
-            matrixStack.translate(0.0D, entity.getBbHeight() + 0.1F, 0.0D);
-            matrixStack.mulPose(Axis.ZP.rotationDegrees(180.0F));
+        if (isAprilFool || (pEntity instanceof ConfigurableBee configurableBee && configurableBee.getRenderTransform().equals("flipped"))) {
+            pPoseStack.translate(0.0D, pEntity.getBbHeight() + 0.1F, 0.0D);
+            pPoseStack.mulPose(Axis.ZP.rotationDegrees(180.0F));
         }
     }
 
@@ -122,7 +122,7 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBee, Productive
 
     public static ResourceLocation resLoc(String key) {
         if (!resLocCache.containsKey(key)) {
-            resLocCache.put(key, new ResourceLocation(key));
+            resLocCache.put(key, ResourceLocation.parse(key));
         }
         return resLocCache.get(key);
     }

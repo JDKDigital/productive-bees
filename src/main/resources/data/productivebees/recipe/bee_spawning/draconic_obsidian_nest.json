@@ -1,0 +1,19 @@
+{
+  "type": "productivebees:bee_spawning",
+  "ingredient": {
+    "item": "productivebees:obsidian_nest"
+  },
+  "results": [
+    "productivebees:draconic"
+  ],
+  "spawn_item": {
+    "item": "minecraft:dragon_breath"
+  },
+  "biomes": "#minecraft:is_end",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:draconic"
+    }
+  ]
+}

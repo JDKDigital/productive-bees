@@ -1,0 +1,20 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:yttrium",
+  "parent2": "productivebees:silicium",
+  "offspring": "productivebees:scandium",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:yttrium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:silicium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:scandium"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:pink_slimy"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": {
+        "tag": "c:wax"
+      }
+    },
+    {
+      "fluid": {
+        "tag": "c:pink_slime"
+      },
+      "amount": 100
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "productivebees:fluid_tag_empty",
+        "tag": "c:pink_slime"
+      }
+    }
+  ]
+}

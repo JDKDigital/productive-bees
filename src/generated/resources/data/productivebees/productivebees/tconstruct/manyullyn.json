@@ -2,15 +2,15 @@
   "primaryColor": "#ab6cd7",
   "secondaryColor": "#652e87",
   "particleColor": "#ab6cd7",
-  "flowerTag": "forge:storage_blocks/manyullyn",
+  "flowerTag": "c:storage_blocks/manyullyn",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/manyullyn",
-        "type": "forge:tag_empty"
+        "tag": "c:storage_blocks/manyullyn",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

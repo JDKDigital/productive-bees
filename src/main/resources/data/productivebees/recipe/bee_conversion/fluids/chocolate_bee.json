@@ -1,0 +1,18 @@
+{
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:sugarbag",
+  "result": "productivebees:chocolate",
+  "item": {
+    "item": "minecraft:cocoa_beans"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:sugarbag"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:chocolate"
+    }
+  ]
+}

@@ -8,7 +8,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
@@ -53,21 +55,15 @@ public class BreedingChamber extends CapabilityContainerBlock
         return new BreedingChamberBlockEntity(pos, state);
     }
 
-    @SuppressWarnings("deprecation")
-    @Nonnull
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (!level.isClientSide()) {
-            final BlockEntity tileEntity = level.getBlockEntity(pos);
-            if (tileEntity instanceof BreedingChamberBlockEntity) {
-                level.sendBlockUpdated(pos, state, state, 3);
-                openGui((ServerPlayer) player, (BreedingChamberBlockEntity) tileEntity);
+    protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
+        if (!pLevel.isClientSide()) {
+            if (pLevel.getBlockEntity(pPos) instanceof BreedingChamberBlockEntity breedingChamberBlockEntity) {
+                pLevel.sendBlockUpdated(pPos, pState, pState, 3);
+                pPlayer.openMenu(breedingChamberBlockEntity, pPos);
+                return InteractionResult.SUCCESS_NO_ITEM_USED;
             }
         }
-        return InteractionResult.SUCCESS;
-    }
-
-    public void openGui(ServerPlayer player, BreedingChamberBlockEntity tileEntity) {
-        NetworkHooks.openScreen(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
+        return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);
     }
 }

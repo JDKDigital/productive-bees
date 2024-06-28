@@ -2,15 +2,15 @@
   "primaryColor": "#eeb9a0",
   "secondaryColor": "#804f40",
   "particleColor": "#eeb9a0",
-  "flowerTag": "forge:storage_blocks/rose_gold",
+  "flowerTag": "c:storage_blocks/rose_gold",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/rose_gold",
-        "type": "forge:tag_empty"
+        "tag": "c:storage_blocks/rose_gold",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

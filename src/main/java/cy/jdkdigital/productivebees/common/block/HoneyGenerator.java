@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.block;
 
 import com.mojang.serialization.MapCodec;
+import cy.jdkdigital.productivebees.common.block.entity.BottlerBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.HoneyGeneratorBlockEntity;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivelib.common.block.CapabilityContainerBlock;
@@ -13,6 +14,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
@@ -20,7 +22,10 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -93,13 +98,13 @@ public class HoneyGenerator extends CapabilityContainerBlock
 
     @SuppressWarnings("deprecation")
     @Override
-    public BlockState rotate(BlockState state, Rotation rot) {
-        return state.setValue(HorizontalDirectionalBlock.FACING, rot.rotate(state.getValue(HorizontalDirectionalBlock.FACING)));
+    public BlockState rotate(BlockState state, LevelAccessor level, BlockPos pos, net.minecraft.world.level.block.Rotation direction) {
+        return state.setValue(HorizontalDirectionalBlock.FACING, direction.rotate(state.getValue(HorizontalDirectionalBlock.FACING)));
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public BlockState mirror(BlockState state, Mirror mirrorIn) {
+    public BlockState mirror(BlockState state, net.minecraft.world.level.block.Mirror mirrorIn) {
         return state.rotate(mirrorIn.getRotation(state.getValue(HorizontalDirectionalBlock.FACING)));
     }
 
@@ -131,35 +136,28 @@ public class HoneyGenerator extends CapabilityContainerBlock
         }
     }
 
-    @SuppressWarnings("deprecation")
-    @Nonnull
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (!world.isClientSide()) {
-            ItemStack heldItem = player.getItemInHand(hand);
-            boolean itemUsed = false;
-
-            if (heldItem.getItem() instanceof BucketItem) {
-                if (FluidUtil.interactWithFluidHandler(player, hand, world, pos, null)) {
-                    itemUsed = true;
-                }
-            }
-
-            if (!itemUsed) {
-                final BlockEntity tileEntity = world.getBlockEntity(pos);
-                if (tileEntity instanceof HoneyGeneratorBlockEntity) {
-                    openGui((ServerPlayer) player, (HoneyGeneratorBlockEntity) tileEntity);
-                }
-            }
+    protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
+        if (!pLevel.isClientSide() && pLevel.getBlockEntity(pPos) instanceof HoneyGeneratorBlockEntity honeyGeneratorBlockEntity) {
+            pPlayer.openMenu(honeyGeneratorBlockEntity, pPos);
+            return InteractionResult.SUCCESS_NO_ITEM_USED;
         }
-        return InteractionResult.SUCCESS;
+        return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);
+    }
+
+    @Override
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+        if (!pLevel.isClientSide() && pLevel.getBlockEntity(pPos) instanceof HoneyGeneratorBlockEntity && FluidUtil.interactWithFluidHandler(pPlayer, pHand, pLevel, pPos, null)) {
+            return ItemInteractionResult.SUCCESS;
+        }
+        return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
     }
 
     @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState newState, boolean something) {
         BlockEntity generatorTile = level.getBlockEntity(pos);
-        if (generatorTile instanceof HoneyGeneratorBlockEntity) {
-            ((HoneyGeneratorBlockEntity) generatorTile).refreshConnectedTileEntityCache();
+        if (generatorTile instanceof HoneyGeneratorBlockEntity honeyGeneratorBlockEntity) {
+            honeyGeneratorBlockEntity.refreshConnectedTileEntityCache();
         }
         super.onPlace(state, level, pos, newState, something);
     }
@@ -171,9 +169,5 @@ public class HoneyGenerator extends CapabilityContainerBlock
             ((HoneyGeneratorBlockEntity) generatorTile).refreshConnectedTileEntityCache();
         }
         return super.updateShape(state, direction, stae, level, pos, facingPos);
-    }
-
-    public void openGui(ServerPlayer player, HoneyGeneratorBlockEntity blockEntity) {
-        player.openMenu(blockEntity, packetBuffer -> packetBuffer.writeBlockPos(blockEntity.getBlockPos()));
     }
 }

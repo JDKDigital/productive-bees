@@ -3,14 +3,14 @@
   "secondaryColor": "#d5312b",
   "tertiaryColor": "#470d0f",
   "particleColor": "#fc3c32",
-  "flowerTag": "forge:storage_blocks/realgar",
+  "flowerTag": "c:storage_blocks/realgar",
   "beeTexture": "productivebees:textures/entity/bee/realgar/bee",
   "size": 0.8,
   "selfbreed": false,
   "conditions": [
     {
       "modid": "gtceu",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

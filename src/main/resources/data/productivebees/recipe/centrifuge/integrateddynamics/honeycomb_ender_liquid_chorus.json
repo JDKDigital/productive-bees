@@ -1,0 +1,33 @@
+{
+  "type": "productivebees:centrifuge",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "integrateddynamics"
+    }
+  ],
+  "ingredient": {
+    "type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:ender"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": {
+        "tag": "c:wax"
+      }
+    },
+    {
+      "chance": 20,
+      "item": {
+        "item": "minecraft:ender_pearl"
+      }
+    },
+    {
+      "amount": 50,
+      "id": "integrateddynamics:liquid_chorus"
+    }
+  ]
+}

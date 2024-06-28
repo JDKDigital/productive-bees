@@ -6,10 +6,10 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:silicon",
-        "type": "forge:tag_empty"
+        "tag": "c:silicon",
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ]
 }

@@ -12,7 +12,7 @@ import javax.annotation.Nonnull;
 
 public class GeneIndexerScreen extends AbstractContainerScreen<GeneIndexerContainer>
 {
-    private static final ResourceLocation GUI_TEXTURE = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/gene_indexer.png");
+    private static final ResourceLocation GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/gene_indexer.png");
 
     public GeneIndexerScreen(GeneIndexerContainer container, Inventory inv, Component titleIn) {
         super(container, inv, titleIn);
@@ -22,7 +22,7 @@ public class GeneIndexerScreen extends AbstractContainerScreen<GeneIndexerContai
 
     @Override
     public void render(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(guiGraphics);
+        this.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
         super.render(guiGraphics, mouseX, mouseY, partialTicks);
         try {
             this.renderTooltip(guiGraphics, mouseX, mouseY);
