@@ -6,8 +6,8 @@
   "beeTexture": "productivebees:textures/entity/bee/sculk/bee",
   "selfbreed": false,
   "attributes": {
-    "temper": 2,
-    "behavior": 1
+    "temper": "temper.aggressive",
+    "behavior": "behavior.nocturnal"
   },
   "passiveEffects": [
     {

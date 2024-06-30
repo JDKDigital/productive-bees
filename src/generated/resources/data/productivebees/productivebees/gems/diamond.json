@@ -7,6 +7,6 @@
   "size": 0.6,
   "renderer": "default_crystal",
   "attributes": {
-    "endurance": 2
+    "endurance": "endurance.medium"
   }
 }

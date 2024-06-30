@@ -6,6 +6,6 @@
   "createComb": false,
   "translucent": true,
   "attributes": {
-    "behavior": 1
+    "behavior": "behavior.nocturnal"
   }
 }

@@ -1,6 +1,6 @@
 {
   "type": "productivebees:block_conversion",
-  "bee": "productivebees:quartz_enriched_iron",
+  "bees": ["productivebees:quartz_enriched_iron"],
   "from": {
     "Name": "minecraft:iron_block"
   },

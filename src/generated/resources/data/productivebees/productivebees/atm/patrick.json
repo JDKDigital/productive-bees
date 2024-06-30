@@ -9,7 +9,7 @@
   "fireproof": true,
   "renderer": "thicc",
   "attributes": {
-    "endurance": 3
+    "endurance": "endurance.strong"
   },
   "conditions": [
     {

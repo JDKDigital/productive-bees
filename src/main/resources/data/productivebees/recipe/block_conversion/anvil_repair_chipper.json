@@ -1,6 +1,6 @@
 {
   "type": "productivebees:block_conversion",
-  "bee": "productivebees:iron",
+  "bees": ["productivebees:iron"],
   "from": {
     "Name": "minecraft:damaged_anvil"
   },

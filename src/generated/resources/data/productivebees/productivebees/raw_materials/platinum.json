@@ -3,7 +3,7 @@
   "secondaryColor": "#804f40",
   "flowerTag": "c:storage_blocks/platinum",
   "attributes": {
-    "endurance": 2
+    "endurance": "endurance.medium"
   },
   "conditions": [
     {

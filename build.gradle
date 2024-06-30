@@ -99,7 +99,7 @@ dependencies {
 
     implementation "local.libs:productivelib-${lib_version}"
 
-    jarJar(group: 'cy.jdkdigital.productivelib', name: 'productivelib', version: '[0.0.4,)') {
+    jarJar(group: 'cy.jdkdigital.productivelib', name: 'productivelib', version: '[0.0.5,)') {
         transitive(false)
     }
 

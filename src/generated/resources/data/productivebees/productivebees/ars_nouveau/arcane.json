@@ -8,7 +8,7 @@
   "size": 0.8,
   "renderer": "default_crystal",
   "attributes": {
-    "endurance": 2
+    "endurance": "endurance.medium"
   },
   "conditions": [
     {

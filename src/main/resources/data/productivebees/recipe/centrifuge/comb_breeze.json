@@ -1,0 +1,23 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:breeze"
+    },
+    "items": "productivebees:configurable_comb"
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "minecraft:breeze_rod"
+      },
+      "chance": 50
+    },
+    {
+      "item": {
+        "tag": "c:wax"
+      }
+    }
+  ]
+}

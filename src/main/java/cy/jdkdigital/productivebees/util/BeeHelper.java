@@ -452,28 +452,21 @@ public class BeeHelper
 
     public static void setOffspringAttributes(ProductiveBee newBee, ProductiveBee parent1, AgeableMob parent2) {
         Map<GeneAttribute, GeneValue> attributeMapParent1 = parent1.getBeeAttributes();
-        Map<GeneAttribute, GeneValue> attributeMapParent2 = new HashMap<>();
-        if (parent2 instanceof ProductiveBee) {
-            attributeMapParent2 = ((ProductiveBee) parent2).getBeeAttributes();
-        } else {
-            // Default bee attributes
-            attributeMapParent2.put(GeneAttribute.PRODUCTIVITY, GeneValue.PRODUCTIVITY_NORMAL);
-            attributeMapParent2.put(GeneAttribute.ENDURANCE, GeneValue.ENDURANCE_NORMAL);
-            attributeMapParent2.put(GeneAttribute.TEMPER, GeneValue.TEMPER_NORMAL);
-            attributeMapParent2.put(GeneAttribute.BEHAVIOR, GeneValue.BEHAVIOR_DIURNAL);
-            attributeMapParent2.put(GeneAttribute.WEATHER_TOLERANCE, GeneValue.WEATHER_TOLERANCE_NONE);
-        }
-
+        Map<GeneAttribute, GeneValue> attributeMapParent2 = parent2.getData(ProductiveBees.ATTRIBUTE_HANDLER).getAttributes();
         Map<GeneAttribute, GeneValue> attributeMapChild = newBee.getBeeAttributes();
-        if (!attributeMapChild.containsKey(GeneAttribute.PRODUCTIVITY)) {
-            newBee.setDefaultAttributes();
-            attributeMapChild = newBee.getBeeAttributes();
-        }
 
-        int parentProductivity = Mth.nextInt(newBee.level().random, attributeMapParent1.get(GeneAttribute.PRODUCTIVITY).getValue(), attributeMapParent2.get(GeneAttribute.PRODUCTIVITY).getValue());
+        attributeMapChild.forEach((geneAttribute, geneValue) -> {
+            ProductiveBees.LOGGER.info("attributeMapChild: " + geneAttribute.getSerializedName() + " " + geneValue);
+        });
+
+        int parentProductivity = Mth.nextInt(newBee.level().random,
+                attributeMapParent1.get(GeneAttribute.PRODUCTIVITY).getValue(),
+                attributeMapParent2.get(GeneAttribute.PRODUCTIVITY).getValue());
         newBee.setAttributeValue(GeneAttribute.PRODUCTIVITY, GeneValue.productivity(Math.max(attributeMapChild.get(GeneAttribute.PRODUCTIVITY).getValue(), parentProductivity)));
 
-        int parentEndurance = Mth.nextInt(newBee.level().random, attributeMapParent1.get(GeneAttribute.ENDURANCE).getValue(), attributeMapParent2.get(GeneAttribute.ENDURANCE).getValue());
+        int parentEndurance = Mth.nextInt(newBee.level().random,
+                attributeMapParent1.get(GeneAttribute.ENDURANCE).getValue(),
+                attributeMapParent2.get(GeneAttribute.ENDURANCE).getValue());
         newBee.setAttributeValue(GeneAttribute.ENDURANCE, GeneValue.endurance(Math.max(attributeMapChild.get(GeneAttribute.ENDURANCE).getValue(), parentEndurance)));
 
         int parentTemper = Mth.nextInt(newBee.level().random, attributeMapParent1.get(GeneAttribute.TEMPER).getValue(), attributeMapParent2.get(GeneAttribute.TEMPER).getValue());

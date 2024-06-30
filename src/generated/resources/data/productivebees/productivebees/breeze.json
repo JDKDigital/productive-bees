@@ -1,0 +1,9 @@
+{
+  "primaryColor": "#2b425e",
+  "secondaryColor": "686394",
+  "tertiaryColor": "#bbabd1",
+  "particleColor": "#f3f5ff",
+  "flowerItem": "minecraft:heavy_core",
+  "beeTexture": "productivebees:textures/entity/bee/breeze/bee",
+  "speed": 0.8
+}

@@ -8,9 +8,9 @@
   "waterproof": true,
   "renderer": "default_crystal",
   "attributes": {
-    "weather_tolerance": 2,
-    "productivity": 0,
-    "temper": 3,
-    "endurance": 3
+    "weather_tolerance": "weather_tolerance.any",
+    "productivity": "productivity.medium",
+    "temper": "temper.hostile",
+    "endurance": "endurance.strong"
   }
 }

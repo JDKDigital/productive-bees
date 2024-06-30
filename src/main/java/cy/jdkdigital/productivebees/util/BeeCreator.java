@@ -121,7 +121,7 @@ public class BeeCreator
         if (json.has("attributes")) {
             for (Map.Entry<String, JsonElement> entry : json.get("attributes").getAsJsonObject().entrySet()) {
                 switch (entry.getKey()) {
-                    case "productivity", "endurance", "temper", "behavior", "weather_tolerance" -> data.putInt(entry.getKey(), entry.getValue().getAsInt());
+                    case "productivity", "endurance", "temper", "behavior", "weather_tolerance" -> data.putString(entry.getKey(), entry.getValue().getAsString());
                 }
             }
         }

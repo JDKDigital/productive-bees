@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees.common.entity.bee;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
-import cy.jdkdigital.productivebees.capabilities.BeeCapabilities;
 import cy.jdkdigital.productivebees.common.block.Feeder;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
@@ -389,8 +388,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
     }
 
     public Map<GeneAttribute, GeneValue> getBeeAttributes() {
-        var cap = this.getCapability(BeeCapabilities.AttributeHandler.ENTITY);
-        return cap != null ? cap.getAttributes() : new HashMap<>();
+        return this.getData(ProductiveBees.ATTRIBUTE_HANDLER).getAttributes();
     }
 
     public boolean hasBeeAttributes() {

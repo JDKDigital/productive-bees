@@ -13,7 +13,7 @@
     "mekanism.radiation"
   ],
   "attributes": {
-    "endurance": 3
+    "endurance": "endurance.strong"
   },
   "conditions": [
     {

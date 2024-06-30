@@ -1,6 +1,6 @@
 {
   "type": "productivebees:block_conversion",
-  "bee": "productivebees:draconic",
+  "bees": ["productivebees:draconic"],
   "from": {
     "Name": "minecraft:obsidian"
   },

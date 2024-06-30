@@ -1,0 +1,22 @@
+{
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:water",
+  "result": "productivebees:lithium",
+  "item": {
+    "item": "mekanism:lithium_bucket"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "mekanism"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:water"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:lithium"
+    }
+  ]
+}

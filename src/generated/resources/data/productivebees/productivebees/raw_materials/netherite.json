@@ -8,6 +8,6 @@
   "fireproof": true,
   "withered": true,
   "attributes": {
-    "endurance": 2
+    "endurance": "endurance.medium"
   }
 }

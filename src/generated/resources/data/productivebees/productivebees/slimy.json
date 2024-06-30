@@ -8,6 +8,6 @@
   "slimy": true,
   "renderer": "translucent_with_center",
   "attributes": {
-    "temper": 0
+    "temper": "temper.passive"
   }
 }

@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.util;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -70,7 +71,7 @@ public enum GeneValue implements StringRepresentable
     }
 
     public static GeneValue getRandomEndurance(Random random) {
-        return BY_ID.apply(random.nextInt(6, 9));
+        return BY_ID.apply(random.nextInt(5, 7));
     }
 
     public static GeneValue nextTemper(GeneValue temper) {

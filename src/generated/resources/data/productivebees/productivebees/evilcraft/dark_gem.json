@@ -7,7 +7,7 @@
   "size": 0.7,
   "renderer": "default_crystal",
   "attributes": {
-    "temper": 2
+    "temper": "temper.aggressive"
   },
   "conditions": [
     {

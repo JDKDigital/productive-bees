@@ -9,9 +9,9 @@
   "selfheal": true,
   "renderer": "thicc",
   "attributes": {
-    "temper": 2,
-    "endurance": 3,
-    "behavior": 2
+    "temper": "temper.aggressive",
+    "endurance": "endurance.strong",
+    "behavior": "behavior.metaturnal"
   },
   "conditions": [
     {

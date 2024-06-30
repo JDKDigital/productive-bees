@@ -6,7 +6,7 @@
   "description": "productivebees.ingredient.description.only_spawnegg",
   "beeTexture": "productivebees:textures/entity/bee/blitz/bee",
   "attributes": {
-    "weather_tolerance": 2
+    "weather_tolerance": "weather_tolerance.any"
   },
   "conditions": [
     {

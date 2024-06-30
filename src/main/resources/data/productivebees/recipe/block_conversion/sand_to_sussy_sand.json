@@ -1,6 +1,6 @@
 {
   "type": "productivebees:block_conversion",
-  "bee": "productivebees:sussy",
+  "bees": ["productivebees:sussy"],
   "from": {
     "Name": "minecraft:sand"
   },

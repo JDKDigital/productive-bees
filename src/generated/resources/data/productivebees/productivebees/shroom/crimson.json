@@ -8,6 +8,6 @@
   "renderer": "default_foliage",
   "breedingItem": "minecraft:crimson_fungus",
   "attributes": {
-    "behavior": 1
+    "behavior": "behavior.nocturnal"
   }
 }

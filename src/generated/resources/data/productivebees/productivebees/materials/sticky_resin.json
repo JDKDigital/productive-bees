@@ -4,7 +4,7 @@
   "flowerTag": "minecraft:flowers",
   "size": 0.7,
   "attributes": {
-    "endurance": 0
+    "endurance": "endurance.weak"
   },
   "conditions": [
     {

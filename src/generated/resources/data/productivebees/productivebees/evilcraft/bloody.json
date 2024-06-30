@@ -7,8 +7,8 @@
   "size": 0.9,
   "renderer": "thicc",
   "attributes": {
-    "productivity": 1,
-    "endurance": 3
+    "productivity": "productivity.medium",
+    "endurance": "endurance.strong"
   },
   "conditions": [
     {

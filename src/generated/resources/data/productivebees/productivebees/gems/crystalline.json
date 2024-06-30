@@ -7,7 +7,7 @@
   "beeTexture": "productivebees:textures/entity/bee/quartz/bee",
   "size": 0.9,
   "attributes": {
-    "endurance": 2
+    "endurance": "endurance.medium"
   },
   "passiveEffects": [
     {

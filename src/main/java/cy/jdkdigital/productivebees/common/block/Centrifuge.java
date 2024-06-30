@@ -116,8 +116,4 @@ public class Centrifuge extends CapabilityContainerBlock
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new CentrifugeBlockEntity(pos, state);
     }
-
-    private void openGui(ServerPlayer player, CentrifugeBlockEntity tileEntity) {
-        player.openMenu(tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
-    }
 }

@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#83838f",
+  "secondaryColor": "#9696a3",
+  "tertiaryColor": "#b7b7cb",
+  "particleColor": "#c5c5d7",
+  "flowerBlock": "modern_industrialization:antimony_block",
+  "beeTexture": "productivebees:textures/entity/bee/antimony/bee",
+  "conditions": [
+    {
+      "modid": "modern_industrialization",
+      "type": "neoforge:mod_loaded"
+    }
+  ]
+}

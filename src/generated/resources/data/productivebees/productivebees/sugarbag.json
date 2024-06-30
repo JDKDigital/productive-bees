@@ -9,6 +9,6 @@
   "stingless": true,
   "renderer": "tiny",
   "attributes": {
-    "temper": 0
+    "temper": "temper.passive"
   }
 }

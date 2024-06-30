@@ -1,6 +1,6 @@
 {
   "type": "productivebees:block_conversion",
-  "bee": "productivebees:gold",
+  "bees": ["productivebees:gold"],
   "from": {
     "Name": "minecraft:blackstone"
   },

@@ -77,14 +77,14 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .save(consumer, ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "petrified_honey/" + dyeColor.getSerializedName()));
         });
 
-        var egg = new ItemStack(ModItems.CONFIGURABLE_SPAWN_EGG.get());
-        var tag = new CompoundTag();
-        tag.putString("type", "productivebees:iron");
-        tag.putString("id", ModEntities.CONFIGURABLE_BEE.getId().toString());
-        egg.set(DataComponents.ENTITY_DATA, CustomData.of(tag));
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, egg)
-                .unlockedBy("has_honey", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.PETRIFIED_HONEY.get()))
-                .save(consumer, ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "test_egg"));
+//        var egg = new ItemStack(ModItems.CONFIGURABLE_SPAWN_EGG.get());
+//        var tag = new CompoundTag();
+//        tag.putString("type", "productivebees:iron");
+//        tag.putString("id", ModEntities.CONFIGURABLE_BEE.getId().toString());
+//        egg.set(DataComponents.ENTITY_DATA, CustomData.of(tag));
+//        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, egg)
+//                .unlockedBy("has_honey", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.PETRIFIED_HONEY.get()))
+//                .save(consumer, ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "test_egg"));
 
         // Chemlib
 //        List<String> chemicals = Arrays.stream(new String[]{"actinium", "americium", "antimony", "argon", "arsenic", "astatine", "barium", "berkelium", "beryllium", "bohrium", "boron", "bromine", "cadmium", "calcium", "californium", "cerium", "cesium", "chlorine", "chromium", "copernicium", "curium", "darmstadtium", "dubnium", "dysprosium", "einsteinium", "erbium", "europium", "fermium", "flerovium", "fluorine", "francium", "gadolinium", "gallium", "germanium", "hafnium", "hassium", "helium", "holmium", "hydrogen", "indium", "iodine", "krypton", "lanthanum", "lawrencium", "lithium", "livermorium", "lutetium", "magnesium", "manganese", "meitnerium", "mendelevium", "mercury", "molybdenum", "moscovium", "neodymium", "neon", "neptunium", "nihonium", "niobium", "nitrogen", "nobelium", "oganesson", "oxygen", "palladium", "phosphorus", "plutonium", "polonium", "potassium", "praseodymium", "promethium", "protactinium", "radium", "radon", "rhenium", "rhodium", "roentgenium", "rubidium", "ruthenium", "rutherfordium", "samarium", "scandium", "seaborgium", "selenium", "silicium", "sodium", "strontium", "tantalum", "technetium", "tellurium", "tennessine", "terbium", "thallium", "thorium", "thulium", "vanadium", "xenon", "ytterbium", "yttrium", "zirconium"}).toList();

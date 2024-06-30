@@ -41,7 +41,7 @@ public class BlockLootProvider implements DataProvider
     private final CompletableFuture<HolderLookup.Provider> registries;
 
     public BlockLootProvider(PackOutput packOutput, List<LootTableProvider.SubProviderEntry> providers, CompletableFuture<HolderLookup.Provider> registries) {
-        this.pathProvider = packOutput.createPathProvider(PackOutput.Target.DATA_PACK, "loot_tables");
+        this.pathProvider = packOutput.createPathProvider(PackOutput.Target.DATA_PACK, "loot_table");
         this.subProviders = providers;
         this.registries = registries;
     }
@@ -121,6 +121,32 @@ public class BlockLootProvider implements DataProvider
                 this.add(box, expansionFunc.apply(box));
             });
 
+            this.add(ModBlocks.DRAGON_EGG_HIVE.get(), functionTable.getOrDefault(ModBlocks.DRAGON_EGG_HIVE.get(), this::genHiveDrop).apply(ModBlocks.DRAGON_EGG_HIVE.get()));
+            this.add(ModBlocks.OAK_WOOD_NEST.get(), functionTable.getOrDefault(ModBlocks.OAK_WOOD_NEST.get(), this::genHiveDrop).apply(ModBlocks.OAK_WOOD_NEST.get()));
+            this.add(ModBlocks.SPRUCE_WOOD_NEST.get(), functionTable.getOrDefault(ModBlocks.SPRUCE_WOOD_NEST.get(), this::genHiveDrop).apply(ModBlocks.SPRUCE_WOOD_NEST.get()));
+            this.add(ModBlocks.DARK_OAK_WOOD_NEST.get(), functionTable.getOrDefault(ModBlocks.DARK_OAK_WOOD_NEST.get(), this::genHiveDrop).apply(ModBlocks.DARK_OAK_WOOD_NEST.get()));
+            this.add(ModBlocks.BIRCH_WOOD_NEST.get(), functionTable.getOrDefault(ModBlocks.BIRCH_WOOD_NEST.get(), this::genHiveDrop).apply(ModBlocks.BIRCH_WOOD_NEST.get()));
+            this.add(ModBlocks.JUNGLE_WOOD_NEST.get(), functionTable.getOrDefault(ModBlocks.JUNGLE_WOOD_NEST.get(), this::genHiveDrop).apply(ModBlocks.JUNGLE_WOOD_NEST.get()));
+            this.add(ModBlocks.ACACIA_WOOD_NEST.get(), functionTable.getOrDefault(ModBlocks.ACACIA_WOOD_NEST.get(), this::genHiveDrop).apply(ModBlocks.ACACIA_WOOD_NEST.get()));
+            this.add(ModBlocks.CHERRY_WOOD_NEST.get(), functionTable.getOrDefault(ModBlocks.CHERRY_WOOD_NEST.get(), this::genHiveDrop).apply(ModBlocks.CHERRY_WOOD_NEST.get()));
+            this.add(ModBlocks.MANGROVE_WOOD_NEST.get(), functionTable.getOrDefault(ModBlocks.MANGROVE_WOOD_NEST.get(), this::genHiveDrop).apply(ModBlocks.MANGROVE_WOOD_NEST.get()));
+            this.add(ModBlocks.BAMBOO_HIVE.get(), functionTable.getOrDefault(ModBlocks.BAMBOO_HIVE.get(), this::genHiveDrop).apply(ModBlocks.BAMBOO_HIVE.get()));
+            this.add(ModBlocks.DRAGON_EGG_HIVE.get(), functionTable.getOrDefault(ModBlocks.DRAGON_EGG_HIVE.get(), this::genHiveDrop).apply(ModBlocks.DRAGON_EGG_HIVE.get()));
+            this.add(ModBlocks.STONE_NEST.get(), functionTable.getOrDefault(ModBlocks.STONE_NEST.get(), this::genHiveDrop).apply(ModBlocks.STONE_NEST.get()));
+            this.add(ModBlocks.COARSE_DIRT_NEST.get(), functionTable.getOrDefault(ModBlocks.COARSE_DIRT_NEST.get(), this::genHiveDrop).apply(ModBlocks.COARSE_DIRT_NEST.get()));
+            this.add(ModBlocks.SAND_NEST.get(), functionTable.getOrDefault(ModBlocks.SAND_NEST.get(), this::genHiveDrop).apply(ModBlocks.SAND_NEST.get()));
+            this.add(ModBlocks.SNOW_NEST.get(), functionTable.getOrDefault(ModBlocks.SNOW_NEST.get(), this::genHiveDrop).apply(ModBlocks.SNOW_NEST.get()));
+            this.add(ModBlocks.GRAVEL_NEST.get(), functionTable.getOrDefault(ModBlocks.GRAVEL_NEST.get(), this::genHiveDrop).apply(ModBlocks.GRAVEL_NEST.get()));
+            this.add(ModBlocks.SUGAR_CANE_NEST.get(), functionTable.getOrDefault(ModBlocks.SUGAR_CANE_NEST.get(), this::genHiveDrop).apply(ModBlocks.SUGAR_CANE_NEST.get()));
+            this.add(ModBlocks.SLIMY_NEST.get(), functionTable.getOrDefault(ModBlocks.SLIMY_NEST.get(), this::genHiveDrop).apply(ModBlocks.SLIMY_NEST.get()));
+            this.add(ModBlocks.GLOWSTONE_NEST.get(), functionTable.getOrDefault(ModBlocks.GLOWSTONE_NEST.get(), this::genHiveDrop).apply(ModBlocks.GLOWSTONE_NEST.get()));
+            this.add(ModBlocks.SOUL_SAND_NEST.get(), functionTable.getOrDefault(ModBlocks.SOUL_SAND_NEST.get(), this::genHiveDrop).apply(ModBlocks.SOUL_SAND_NEST.get()));
+            this.add(ModBlocks.NETHER_QUARTZ_NEST.get(), functionTable.getOrDefault(ModBlocks.NETHER_QUARTZ_NEST.get(), this::genHiveDrop).apply(ModBlocks.NETHER_QUARTZ_NEST.get()));
+            this.add(ModBlocks.NETHER_GOLD_NEST.get(), functionTable.getOrDefault(ModBlocks.NETHER_GOLD_NEST.get(), this::genHiveDrop).apply(ModBlocks.NETHER_GOLD_NEST.get()));
+            this.add(ModBlocks.NETHER_BRICK_NEST.get(), functionTable.getOrDefault(ModBlocks.NETHER_BRICK_NEST.get(), this::genHiveDrop).apply(ModBlocks.NETHER_BRICK_NEST.get()));
+            this.add(ModBlocks.END_NEST.get(), functionTable.getOrDefault(ModBlocks.END_NEST.get(), this::genHiveDrop).apply(ModBlocks.END_NEST.get()));
+            this.add(ModBlocks.OBSIDIAN_PILLAR_NEST.get(), functionTable.getOrDefault(ModBlocks.OBSIDIAN_PILLAR_NEST.get(), this::genHiveDrop).apply(ModBlocks.OBSIDIAN_PILLAR_NEST.get()));
+
             Function<Block, LootTable.Builder> func = functionTable.getOrDefault(ModBlocks.PETRIFIED_HONEY.get(), this::genBlockDrop);
             this.add(ModBlocks.PETRIFIED_HONEY.get(), func.apply(ModBlocks.PETRIFIED_HONEY.get()));
             ModBlocks.PETRIFIED_HONEY_BLOCKS.forEach(registryObject -> {
@@ -144,9 +170,16 @@ public class BlockLootProvider implements DataProvider
         public LootTable.Builder genHiveDrop(Block hive) {
             LootPoolEntryContainer.Builder<?> hiveNoHoney = OptionalLootItem.lootTableItem(hive).when(ExplosionCondition.survivesExplosion())
                     .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY).include(DataComponents.BEES));
-            LootPoolEntryContainer.Builder<?> hiveHoney = OptionalLootItem.lootTableItem(hive).when(this.hasSilkTouch())
-                    .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY).include(DataComponents.BEES))
-                    .apply(CopyBlockState.copyState(hive).copy(BeehiveBlock.HONEY_LEVEL));
+
+            LootPoolEntryContainer.Builder<?> hiveHoney;
+            if (hive.defaultBlockState().hasProperty(BeehiveBlock.HONEY_LEVEL)) {
+                hiveHoney = OptionalLootItem.lootTableItem(hive).when(this.hasSilkTouch())
+                        .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY).include(DataComponents.BEES))
+                        .apply(CopyBlockState.copyState(hive).copy(BeehiveBlock.HONEY_LEVEL));
+            } else {
+                hiveHoney = OptionalLootItem.lootTableItem(hive).when(this.hasSilkTouch())
+                        .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY).include(DataComponents.BEES));
+            }
 
             return LootTable.lootTable().withPool(
                     LootPool.lootPool().setRolls(ConstantValue.exactly(1))

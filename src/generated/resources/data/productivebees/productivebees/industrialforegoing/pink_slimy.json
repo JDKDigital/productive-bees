@@ -8,7 +8,7 @@
   "slimy": true,
   "renderer": "translucent_with_center",
   "attributes": {
-    "productivity": 0
+    "productivity": "productivity.normal"
   },
   "conditions": [
     {

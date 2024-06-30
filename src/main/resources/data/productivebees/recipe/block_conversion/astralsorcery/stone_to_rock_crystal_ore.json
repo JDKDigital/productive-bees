@@ -1,6 +1,6 @@
 {
   "type": "productivebees:block_conversion",
-  "bee": "productivebees:rock_crystal",
+  "bees": ["productivebees:rock_crystal"],
   "from": {
     "Name": "minecraft:stone"
   },

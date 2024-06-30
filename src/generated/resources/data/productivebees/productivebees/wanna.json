@@ -7,6 +7,6 @@
   "createComb": false,
   "renderer": "thicc",
   "attributes": {
-    "endurance": 3
+    "endurance": "endurance.strong"
   }
 }

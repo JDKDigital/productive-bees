@@ -6,6 +6,6 @@
   "size": 0.85,
   "renderer": "thicc",
   "attributes": {
-    "endurance": 3
+    "endurance": "endurance.strong"
   }
 }

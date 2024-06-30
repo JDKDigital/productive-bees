@@ -1,6 +1,6 @@
 {
   "type": "productivebees:block_conversion",
-  "bee": "productivebees:geode",
+  "bees": ["productivebees:geode"],
   "from": {
     "Name": "minecraft:deepslate"
   },

@@ -5,7 +5,7 @@
     "components": {
       "productivebees:bee_type": "productivebees:blazing"
     },
-    "items": "productivebees:configurable_honeycomb"
+    "items": "productivebees:configurable_comb"
   },
   "outputs": [
     {

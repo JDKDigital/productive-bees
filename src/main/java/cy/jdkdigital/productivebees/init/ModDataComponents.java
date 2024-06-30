@@ -26,10 +26,6 @@ public class ModDataComponents
     public static final Supplier<DataComponentType<String>> BEE_NAME = ProductiveBees.DATA_COMPONENTS.register("bee_name", () -> DataComponentType.<String>builder().persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8).build());
     public static final Supplier<DataComponentType<BlockPos>> POSITION = ProductiveBees.DATA_COMPONENTS.register("blockpos", () -> DataComponentType.<BlockPos>builder().persistent(BlockPos.CODEC).networkSynchronized(BlockPos.STREAM_CODEC).build());
 
-    public static final Supplier<DataComponentType<GeneAttribute>> GENE_ATTRIBUTE = ProductiveBees.DATA_COMPONENTS.register("gene_attribute", () -> DataComponentType.<GeneAttribute>builder().persistent(GeneAttribute.CODEC).networkSynchronized(GeneAttribute.STREAM_CODEC).build());
-    public static final Supplier<DataComponentType<String>> GENE_VALUE = ProductiveBees.DATA_COMPONENTS.register("gene_value", () -> DataComponentType.<String>builder().persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8).build());
-    public static final Supplier<DataComponentType<Integer>> GENE_PURITY = ProductiveBees.DATA_COMPONENTS.register("gene_purity", () -> DataComponentType.<Integer>builder().persistent(ExtraCodecs.intRange(1, 100)).networkSynchronized(ByteBufCodecs.VAR_INT).build());
-
     public static final Supplier<DataComponentType<GeneGroup>> GENE_GROUP = ProductiveBees.DATA_COMPONENTS.register("gene_group", () -> DataComponentType.<GeneGroup>builder().persistent(GeneGroup.CODEC).networkSynchronized(GeneGroup.STREAM_CODEC).build());
     public static final Supplier<DataComponentType<List<GeneGroup>>> GENE_GROUP_LIST = ProductiveBees.DATA_COMPONENTS.register("gene_group_list", () -> DataComponentType.<List<GeneGroup>>builder().persistent(GeneGroup.CODEC.listOf()).cacheEncoding().build());
 

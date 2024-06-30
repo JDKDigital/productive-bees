@@ -9,6 +9,6 @@
   "pollinatedSize": 1.1,
   "waterproof": true,
   "attributes": {
-    "endurance": 1
+    "endurance": "endurance.normal"
   }
 }

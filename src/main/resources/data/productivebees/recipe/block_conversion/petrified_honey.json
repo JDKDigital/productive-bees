@@ -1,6 +1,6 @@
 {
   "type": "productivebees:block_conversion",
-  "bee": "productivebees:amber",
+  "bees": ["productivebees:amber"],
   "from": {
     "Name": "minecraft:honey_block"
   },

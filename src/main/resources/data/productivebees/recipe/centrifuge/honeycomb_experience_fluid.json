@@ -24,7 +24,7 @@
     {
       "type": "neoforge:not",
       "value": {
-        "type": "productivebees:fluid_tag_empty",
+        "type": "productivelib:fluid_tag_empty",
         "tag": "c:experience"
       }
     }

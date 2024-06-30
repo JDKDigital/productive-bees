@@ -1,6 +1,6 @@
 {
   "type": "productivebees:block_conversion",
-  "bee": "productivebees:blizz",
+  "bees": ["productivebees:blizz"],
   "from": {
     "Name": "minecraft:ice"
   },

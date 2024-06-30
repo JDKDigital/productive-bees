@@ -1,6 +1,6 @@
 {
   "type": "productivebees:block_conversion",
-  "bee": "productivebees:magmatic",
+  "bees": ["productivebees:magmatic"],
   "from": {
     "Name": "minecraft:cobblestone"
   },

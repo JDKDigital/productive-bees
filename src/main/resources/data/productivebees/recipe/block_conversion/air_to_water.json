@@ -1,6 +1,6 @@
 {
   "type": "productivebees:block_conversion",
-  "bee": "productivebees:water",
+  "bees": ["productivebees:water"],
   "from": {
     "Name": "minecraft:air"
   },

@@ -9,7 +9,7 @@
   "breedingItem": "productivebees:draconic_dust",
   "breedingItemCount": 2,
   "attributes": {
-    "temper": 2,
-    "endurance": 3
+    "temper": "temper.aggressive",
+    "endurance": "endurance.strong"
   }
 }

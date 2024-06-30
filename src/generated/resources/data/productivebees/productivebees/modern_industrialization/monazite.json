@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#471143",
+  "secondaryColor": "#9f3197",
+  "tertiaryColor": "#d66dce",
+  "particleColor": "#f17ce7",
+  "flowerBlock": "modern_industrialization:monazite_block",
+  "beeTexture": "productivebees:textures/entity/bee/monazite/bee",
+  "conditions": [
+    {
+      "modid": "modern_industrialization",
+      "type": "neoforge:mod_loaded"
+    }
+  ]
+}

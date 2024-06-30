@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#694d0c",
+  "secondaryColor": "#b6830c",
+  "tertiaryColor": "#dd9f11",
+  "particleColor": "#e2af3a",
+  "flowerFluid": "mekanism:lithium",
+  "beeTexture": "productivebees:textures/entity/bee/lithium/bee",
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "mekanism",
+      "type": "neoforge:mod_loaded"
+    }
+  ]
+}

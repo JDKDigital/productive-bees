@@ -7,8 +7,8 @@
   "selfbreed": false,
   "withered": true,
   "attributes": {
-    "temper": 2,
-    "behavior": 1
+    "temper": "temper.aggressive",
+    "behavior": "behavior.nocturnal"
   },
   "passiveEffects": [
     {

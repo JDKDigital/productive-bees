@@ -9,6 +9,6 @@
   "size": 0.8,
   "teleporting": true,
   "attributes": {
-    "endurance": 1
+    "endurance": "endurance.normal"
   }
 }
