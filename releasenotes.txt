@@ -1,3 +1,30 @@
+1.21.0-13.1.1
+
+- Fixed client class loaded serverside
+
+
+1.21.0-13.1.0
+
+- Added EMI support
+- Added bees for Just Dire Things made by Lego
+- Fixed Jade tooltip for nests
+- Fixed comb block drops
+- Fixed some recipes
+
+
+1.21.0-13.0.3
+
+- Fixed crash from solitary nests when near fire
+- Fixed crash from pokey upgrade
+- Fixed pokey upgrade not extracting from vanilla bees
+- Fixed extracting items from hives
+
+
+1.21.0-13.0.2
+
+- Fixed hive recipes
+
+
 1.21.0-13.0.1
 
 - Fixed crash when breeding bees

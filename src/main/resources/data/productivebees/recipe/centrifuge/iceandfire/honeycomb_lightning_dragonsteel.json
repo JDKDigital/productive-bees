@@ -12,13 +12,13 @@
       "item": {
         "item": "iceandfire:dragonsteel_lightning_ingot"
       },
-      "chance": 15
+      "chance": 0.15
     },
     {
       "item": {
         "item": "iceandfire:lightning_dragon_blood"
       },
-      "chance": 5
+      "chance": 0.05
     }
   ],
   "fluid": {

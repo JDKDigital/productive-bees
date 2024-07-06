@@ -12,11 +12,11 @@
       "item": {
         "tag": "c:gems/garnet"
       },
-      "chance": 50
+      "chance": 0.5
     },
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     }
   ],

@@ -12,11 +12,11 @@
       "item": {
         "item": "minecraft:blaze_powder"
       },
-      "chance": 30
+      "chance": 0.3
     },
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     }
   ]

@@ -12,11 +12,11 @@
       "item": {
         "item": "eidolon:soul_shard"
       },
-      "chance": 25
+      "chance": 0.25
     },
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     }
   ],

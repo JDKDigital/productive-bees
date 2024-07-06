@@ -7,7 +7,7 @@
   "to": {
     "Name": "minecraft:crying_obsidian"
   },
-  "chance": 10,
+  "chance": 0.1,
   "neoforge:conditions": [
     {
       "type": "productivebees:bee_exists",

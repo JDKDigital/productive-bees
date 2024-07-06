@@ -6,31 +6,31 @@
       "item": {
         "item": "minecraft:cod"
       },
-      "chance": 10
+      "chance": 0.1
     },
     {
       "item": {
         "item": "minecraft:salmon"
       },
-      "chance": 10
+      "chance": 0.1
     },
     {
       "item": {
         "item": "minecraft:tropical_fish"
       },
-      "chance": 10
+      "chance": 0.1
     },
     {
       "item": {
         "item": "minecraft:pufferfish"
       },
-      "chance": 5
+      "chance": 0.05
     },
     {
       "item": {
         "item": "minecraft:kelp"
       },
-      "chance": 25
+      "chance": 0.25
     }
   ],
   "neoforge:conditions": [

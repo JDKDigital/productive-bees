@@ -14,11 +14,11 @@
       },
       "min": 1,
       "max": 2,
-      "chance": 60
+      "chance": 0.6
     },
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     }
   ],

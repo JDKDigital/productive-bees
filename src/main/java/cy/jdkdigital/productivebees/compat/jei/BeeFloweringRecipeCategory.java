@@ -4,6 +4,7 @@ import com.google.common.collect.Streams;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.item.AmberItem;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
+import cy.jdkdigital.productivebees.common.recipe.BeeFloweringRecipe;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import mezz.jei.api.constants.VanillaTypes;
@@ -37,7 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringRecipeCategory.Recipe>
+public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringRecipe>
 {
     public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "bee_flowering");
     private final IDrawable icon;
@@ -50,7 +51,7 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
     }
 
     @Override
-    public RecipeType<Recipe> getRecipeType() {
+    public RecipeType<BeeFloweringRecipe> getRecipeType() {
         return ProductiveBeesJeiPlugin.BEE_FLOWERING_TYPE;
     }
 
@@ -70,28 +71,28 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, Recipe recipe, IFocusGroup focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, BeeFloweringRecipe recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 29, 12)
-                .addIngredient(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.bee)
+                .addIngredient(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.bee())
                 .setSlotName("source");
 
         List<ItemStack> itemStacks = new ArrayList<>();
         List<FluidStack> fluidStacks = new ArrayList<>();
         try {
             List<Block> blockList = new ArrayList<>();
-            if (recipe.blockTag != null) {
-                blockList = Streams.stream(BuiltInRegistries.BLOCK.getTagOrEmpty(recipe.blockTag)).map(Holder::value).toList();
-                if (blockList.isEmpty() && recipe.itemTag != null) {
-                    itemStacks.addAll(Streams.stream(BuiltInRegistries.ITEM.getTagOrEmpty(recipe.itemTag)).map(itemHolder -> new ItemStack(itemHolder.value())).toList());
+            if (recipe.blockTag() != null) {
+                blockList = Streams.stream(BuiltInRegistries.BLOCK.getTagOrEmpty(recipe.blockTag())).map(Holder::value).toList();
+                if (blockList.isEmpty() && recipe.itemTag() != null) {
+                    itemStacks.addAll(Streams.stream(BuiltInRegistries.ITEM.getTagOrEmpty(recipe.itemTag())).map(itemHolder -> new ItemStack(itemHolder.value())).toList());
                 }
-            } else if (recipe.fluidTag != null) {
-                fluidStacks = Streams.stream(BuiltInRegistries.FLUID.getTagOrEmpty(recipe.fluidTag)).map(fluidHolder -> new FluidStack(fluidHolder.value(), 1000)).toList();
-            } else if (recipe.block != null) {
-                blockList.add(recipe.block);
-            } else if (recipe.fluid != null) {
-                fluidStacks.add(new FluidStack(recipe.fluid, 1000));
-            } else if (recipe.item != null) {
-                itemStacks.add(recipe.item);
+            } else if (recipe.fluidTag() != null) {
+                fluidStacks = Streams.stream(BuiltInRegistries.FLUID.getTagOrEmpty(recipe.fluidTag())).map(fluidHolder -> new FluidStack(fluidHolder.value(), 1000)).toList();
+            } else if (recipe.block() != null) {
+                blockList.add(recipe.block());
+            } else if (recipe.fluid() != null) {
+                fluidStacks.add(new FluidStack(recipe.fluid(), 1000));
+            } else if (recipe.item() != null) {
+                itemStacks.add(recipe.item());
             }
 
             for (Block block : blockList) {
@@ -115,99 +116,6 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
             builder.addSlot(RecipeIngredientRole.INPUT, 26, 51)
                     .addItemStacks(itemStacks)
                     .setSlotName("inputItem");
-        }
-    }
-
-    public static List<Recipe> getFlowersRecipes(Map<String, BeeIngredient> beeList) {
-        List<Recipe> recipes = new ArrayList<>();
-
-        // Hardcoded for now until bees are moved to config
-        Map<String, TagKey<Block>> flowering = new HashMap<>();
-        flowering.put("productivebees:blue_banded_bee", ModTags.RIVER_FLOWERS);
-        flowering.put("productivebees:green_carpenter_bee", ModTags.FOREST_FLOWERS);
-        flowering.put("productivebees:nomad_bee", ModTags.ARID_FLOWERS);
-        flowering.put("productivebees:chocolate_mining_bee", ModTags.ARID_FLOWERS);
-        flowering.put("productivebees:ashy_mining_bee", ModTags.ARID_FLOWERS);
-        flowering.put("productivebees:reed_bee", ModTags.SWAMP_FLOWERS);
-        flowering.put("productivebees:resin_bee", ModTags.FOREST_FLOWERS);
-        flowering.put("productivebees:sweat_bee", ModTags.SNOW_FLOWERS);
-        flowering.put("productivebees:yellow_black_carpenter_bee", ModTags.FOREST_FLOWERS);
-        flowering.put("productivebees:lumber_bee", ModTags.LUMBER);
-        flowering.put("productivebees:quarry_bee", ModTags.QUARRY);
-        flowering.put("productivebees:creeper_bee", ModTags.POWDERY);
-
-        TagKey<Block> defaultBlockTag = BlockTags.FLOWERS;
-
-        for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()) {
-            if (entry.getValue().isConfigurable()) {
-                CompoundTag nbt = BeeReloadListener.INSTANCE.getData(entry.getValue().getBeeType().toString());
-                if (nbt.getString("flowerType").equals("entity_types")) {
-                    if (nbt.contains("flowerTag")) {
-                        TagKey<EntityType<?>> flowerTag = ModTags.getEntityTag(ResourceLocation.parse(nbt.getString("flowerTag")));
-                        var entityTypeList = Streams.stream(BuiltInRegistries.ENTITY_TYPE.getTagOrEmpty(flowerTag)).map(Holder::value).toList();
-                        entityTypeList.forEach(entityType -> {
-                            recipes.add(Recipe.createItem(AmberItem.getFakeAmberItem(entityType), entry.getValue()));
-                        });
-                    }
-                } else {
-                    if (nbt.contains("flowerTag")) {
-                        TagKey<Block> flowerTag = ModTags.getBlockTag(ResourceLocation.parse(nbt.getString("flowerTag")));
-                        TagKey<Item> itemFlowerTag = ModTags.getItemTag(ResourceLocation.parse(nbt.getString("flowerTag")));
-                        recipes.add(Recipe.createBlock(flowerTag, itemFlowerTag, entry.getValue()));
-                    } else if (nbt.contains("flowerBlock")) {
-                        Block flowerBlock = BuiltInRegistries.BLOCK.get(ResourceLocation.parse(nbt.getString("flowerBlock")));
-                        if (flowerBlock != null && !flowerBlock.equals(Blocks.AIR)) {
-                            recipes.add(Recipe.createBlock(flowerBlock, entry.getValue()));
-                        }
-                    } else if (nbt.contains("flowerFluid")) {
-                        if (nbt.getString("flowerFluid").contains("#")) {
-                            TagKey<Fluid> flowerFluid = ModTags.getFluidTag(ResourceLocation.parse(nbt.getString("flowerFluid").replace("#", "")));
-                            recipes.add(Recipe.createFluid(flowerFluid, entry.getValue()));
-                        } else {
-                            Fluid flowerFluid = BuiltInRegistries.FLUID.get(ResourceLocation.parse(nbt.getString("flowerFluid")));
-                            recipes.add(Recipe.createFluid(flowerFluid, entry.getValue()));
-                        }
-                    } else if (nbt.contains("flowerItem")) {
-                        Item flowerItem = BuiltInRegistries.ITEM.get(ResourceLocation.parse(nbt.getString("flowerItem")));
-                        recipes.add(Recipe.createItem(new ItemStack(flowerItem), entry.getValue()));
-                    } else {
-                        recipes.add(Recipe.createBlock(defaultBlockTag, null, entry.getValue()));
-                    }
-                }
-            } else if (entry.getValue().getBeeType().toString().equals("productivebees:rancher_bee")) {
-                var entityTypeList = Streams.stream(BuiltInRegistries.ENTITY_TYPE.getTagOrEmpty(ModTags.RANCHABLES)).map(Holder::value).toList();
-                entityTypeList.forEach(entityType -> {
-                    recipes.add(Recipe.createItem(AmberItem.getFakeAmberItem(entityType), entry.getValue()));
-                });
-            } else if (flowering.containsKey(entry.getValue().getBeeType().toString())) {
-                TagKey<Block> blockTag = flowering.get(entry.getValue().getBeeType().toString());
-                recipes.add(Recipe.createBlock(blockTag, null, entry.getValue()));
-            } else {
-                recipes.add(Recipe.createBlock(defaultBlockTag, null, entry.getValue()));
-            }
-        }
-        return recipes;
-    }
-
-    public record Recipe(TagKey<Block> blockTag, TagKey<Item> itemTag, Block block, TagKey<Fluid> fluidTag, Fluid fluid, ItemStack item, BeeIngredient bee) {
-        public static Recipe createBlock(TagKey<Block> blockTag, TagKey<Item> itemTag, BeeIngredient bee) {
-            return new Recipe(blockTag, itemTag, null, null, null, null, bee);
-        }
-
-        public static Recipe createBlock(Block block, BeeIngredient bee) {
-            return new Recipe(null, null, block, null, null, null, bee);
-        }
-
-        public static Recipe createItem(ItemStack item, BeeIngredient bee) {
-            return new Recipe(null, null, null, null, null, item, bee);
-        }
-
-        public static Recipe createFluid(TagKey<Fluid> fluidTag, BeeIngredient bee) {
-            return new Recipe(null, null, null, fluidTag, null, null, bee);
-        }
-
-        public static Recipe createFluid(Fluid fluid, BeeIngredient bee) {
-            return new Recipe(null, null, null, null, fluid, null, bee);
         }
     }
 }

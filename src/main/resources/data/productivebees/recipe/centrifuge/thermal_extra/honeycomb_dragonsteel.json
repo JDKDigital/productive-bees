@@ -12,11 +12,11 @@
       "item": {
         "item": "thermal_extra:dragonsteel_dust"
       },
-      "chance": 25
+      "chance": 0.25
     },
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     }
   ],

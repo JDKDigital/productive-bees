@@ -12,11 +12,11 @@
       "item": {
         "item": "allthetweaks:patrick_star"
       },
-      "chance": 5
+      "chance": 0.05
     },
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     }
   ],

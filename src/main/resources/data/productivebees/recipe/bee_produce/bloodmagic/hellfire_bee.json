@@ -15,13 +15,13 @@
       "item": {
         "item": "bloodmagic:hellforgedparts"
       },
-      "chance": 1
+      "chance": 0.01
     },
     {
       "item": {
         "tag": "c:pollen"
       },
-      "chance": 5
+      "chance": 0.05
     }
   ],
   "neoforge:conditions": [

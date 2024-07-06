@@ -15,7 +15,7 @@
       "item": {
         "item": "minecraft:nautilus_shell"
       },
-      "chance": 1
+      "chance": 0.01
     }
   ],
   "neoforge:conditions": [

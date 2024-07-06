@@ -15,13 +15,13 @@
       "item": {
         "item": "irons_spellbooks:blank_rune"
       },
-      "chance": 15
+      "chance": 0.15
     },
     {
       "item": {
         "tag": "c:pollen"
       },
-      "chance": 5
+      "chance": 0.05
     }
   ],
   "neoforge:conditions": [

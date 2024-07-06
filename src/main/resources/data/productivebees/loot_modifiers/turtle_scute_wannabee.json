@@ -1,4 +1,9 @@
 {
+  "type": "productivelib:ingredient_modifier",
+  "chance": 0.15,
+  "addition": {
+    "item": "minecraft:scute"
+  },
   "neoforge:conditions": [
     {
       "condition": "neoforge:loot_table_id",
@@ -8,10 +13,5 @@
       "condition": "productivelib:killed_by_uuid",
       "uuid": "bf699a99-b67c-35dc-981f-fb67fe089dbd"
     }
-  ],
-  "type": "productivelib:ingredient_modifier",
-  "chance": 0.15,
-  "addition": {
-    "item": "minecraft:scute"
-  }
+  ]
 }

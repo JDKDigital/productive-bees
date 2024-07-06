@@ -12,7 +12,7 @@
       "item": {
         "item": "megacells:sky_steel_ingot"
       },
-      "chance": 25
+      "chance": 0.25
     }
   ],
   "neoforge:conditions": [

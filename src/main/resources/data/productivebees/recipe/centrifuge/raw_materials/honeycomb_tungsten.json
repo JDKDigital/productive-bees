@@ -12,11 +12,11 @@
       "item": {
         "tag": "c:raw_materials/tungsten"
       },
-      "chance": 40
+      "chance": 0.4
     },
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     }
   ],

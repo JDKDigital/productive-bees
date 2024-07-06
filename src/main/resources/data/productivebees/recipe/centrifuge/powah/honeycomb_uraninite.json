@@ -12,11 +12,11 @@
       "item": {
         "item": "powah:uraninite_raw"
       },
-      "chance": 70
+      "chance": 0.7
     },
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     }
   ],

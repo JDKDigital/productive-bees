@@ -94,6 +94,6 @@ public class BlockConversionRecipeCategory implements IRecipeCategory<BlockConve
     @Override
     public void draw(BlockConversionRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         Minecraft minecraft = Minecraft.getInstance();
-        guiGraphics.drawString(minecraft.font, Language.getInstance().getVisualOrder(Component.translatable("jei.productivebees.block_conversion.chance", recipe.chance)), 0, 45, 0xFF000000, false);
+        guiGraphics.drawString(minecraft.font, Language.getInstance().getVisualOrder(Component.translatable("jei.productivebees.block_conversion.chance", recipe.chance * 100)), 0, 45, 0xFF000000, false);
     }
 }

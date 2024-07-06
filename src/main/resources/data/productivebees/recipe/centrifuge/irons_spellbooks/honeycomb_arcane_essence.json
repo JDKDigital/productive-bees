@@ -12,11 +12,11 @@
       "item": {
         "item": "irons_spellbooks:arcane_essence"
       },
-      "chance": 75
+      "chance": 0.75
     },
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     }
   ],

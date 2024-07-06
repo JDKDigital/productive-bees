@@ -7,7 +7,7 @@
   "to": {
     "Name": "minecraft:blue_ice"
   },
-  "chance": 80,
+  "chance": 0.8,
   "neoforge:conditions": [
     {
       "type": "productivebees:bee_exists",

@@ -10,7 +10,7 @@
   "to_display": {
     "item": "tetra:geode"
   },
-  "chance": 15,
+  "chance": 0.15,
   "neoforge:conditions": [
     {
       "type": "productivebees:bee_exists",

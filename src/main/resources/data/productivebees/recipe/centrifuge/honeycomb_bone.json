@@ -12,11 +12,11 @@
       "item": {
         "item": "minecraft:bone_meal"
       },
-      "chance": 70
+      "chance": 0.7
     },
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     }
   ]

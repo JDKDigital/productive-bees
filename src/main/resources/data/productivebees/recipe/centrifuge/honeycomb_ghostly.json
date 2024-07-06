@@ -8,11 +8,11 @@
       "item": {
         "item": "minecraft:ghast_tear"
       },
-      "chance": 5
+      "chance": 0.05
     },
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     }
   ]

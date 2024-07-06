@@ -6,13 +6,13 @@
       "item": {
         "item": "minecraft:sponge"
       },
-      "chance": 5
+      "chance": 0.05
     },
     {
       "item": {
         "item": "minecraft:wet_sponge"
       },
-      "chance": 5
+      "chance": 0.05
     }
   ],
   "neoforge:conditions": [

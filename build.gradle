@@ -89,6 +89,10 @@ repositories {
     maven {
         url 'https://maven.blamejared.com'
     }
+    maven {
+        name = "EMI"
+        url = "https://maven.terraformersmc.com/"
+    }
     flatDir {
         dir 'libs'
     }
@@ -105,6 +109,9 @@ dependencies {
 
     compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
     runtimeOnly "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
+
+    compileOnly "dev.emi:emi-neoforge:${emi_version}:api"
+    runtimeOnly "dev.emi:emi-neoforge:${emi_version}"
 //
 //    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
 //    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
@@ -120,7 +127,7 @@ dependencies {
 //    implementation fg.deobf("curse.maven:corail-woodcutter-331983:4573934")
 //    implementation fg.deobf("curse.maven:create-328085:4626108")
 //    implementation fg.deobf("curse.maven:pams-harvestcraft-2-trees-365460:4625518")
-//    implementation fg.deobf("curse.maven:pams-harvestcraft-2-crops-361385:4687624")
+    implementation "curse.maven:mekanism-268560:5496791"
 }
 
 tasks.withType(ProcessResources).configureEach {
@@ -135,7 +142,9 @@ tasks.withType(ProcessResources).configureEach {
             mod_license            : mod_license,
             mod_version            : mod_version,
             mod_authors            : mod_authors,
-            mod_description        : mod_description
+            mod_description        : mod_description,
+            jei_version            : jei_version,
+            emi_version            : emi_version
     ]
     inputs.properties replaceProperties
 

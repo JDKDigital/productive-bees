@@ -12,11 +12,11 @@
       "item": {
         "tag": "c:dusts/nickel"
       },
-      "chance": 40
+      "chance": 0.4
     },
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     }
   ],

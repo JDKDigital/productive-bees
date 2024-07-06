@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
+import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
@@ -134,7 +135,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                     }
                     var newInhabitant = new BeehiveBlockEntity.Occupant(entityData, ticksInHive, minOccupationTicks);
                     iterator.set(new ProductiveBeeData(newInhabitant));
-                } else if (releaseOccupant(pLevel, pPos, pState, beedata.toOccupant(), blockEntity, beeReleaseStatus)) {
+                } else if (releaseOccupant(pLevel, pPos, pState, beedata.toOccupant(), blockEntity, null, beeReleaseStatus)) {
                     hasReleased = true;
                     iterator.remove();
                 }
@@ -144,41 +145,6 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         if (hasReleased) {
             setChanged(pLevel, pPos, pState);
         }
-
-        // old code
-//        final var currentInhabitants = new CopyOnWriteArrayList<>(blockEntity.beeHandler.getInhabitants());
-//        // worst-case size
-//        final var inhabitantsToRemove = new ArrayList<BeehiveBlockEntity.Occupant>(currentInhabitants.size());
-//        boolean hasReleased = false;
-//        for (BeehiveBlockEntity.BeeData beeData : this.stored) {
-//            BeehiveBlockEntity.Occupant inhabitant = beeData.toOccupant();
-//            if (inhabitant.ticksInHive() > inhabitant.minTicksInHive()) {
-//                BeehiveBlockEntity.BeeReleaseStatus beeState = inhabitant.nbt.getBoolean("HasNectar") ? BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED : BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED;
-//                if (inhabitant.nbt.contains("HasConverted") && inhabitant.nbt.getBoolean("HasConverted")) {
-//                    beeState = BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED;
-//                }
-//                if (blockEntity instanceof AdvancedBeehiveBlockEntity advancedBeehiveBlockEntity && advancedBeehiveBlockEntity.isSim()) {
-//                    // for simulated hives, count all the way up to timeInHive + pollinationTime
-//                    if (inhabitant.ticksInHive() > (inhabitant.minTicksInHive() + 450)) {
-//                        simulateBee(pLevel, pPos, pState, blockEntity, inhabitant);
-//                        hasReleased = true;
-//                    } else if (willLeaveHive(pLevel, inhabitant.nbt, beeState)){
-//                        // only add count if outside is favourable
-//                        inhabitant.ticksInHive() += blockEntity.tickCounter;
-//                    }
-//                } else if (releaseBee(pLevel, pPos, pState, blockEntity, inhabitant.nbt, null, beeState)) {
-//                    hasReleased = true;
-//                    inhabitantsToRemove.add(inhabitant);
-//                }
-//            } else {
-//                inhabitant.ticksInHive += blockEntity.tickCounter;
-//            }
-//        }
-//        if (hasReleased) {
-//            currentInhabitants.removeAll(inhabitantsToRemove);
-//            h.setInhabitants(new ArrayList<>(currentInhabitants));
-//            blockEntity.setNonSuperChanged();
-//        }
     }
 
     protected int getTimeInHive(boolean hasNectar, @Nullable Occupant occupant) {
@@ -299,7 +265,18 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         return entity;
     }
 
-    public static boolean releaseOccupant(ServerLevel pLevel, BlockPos pPos, BlockState pState, BeehiveBlockEntity.Occupant pOccupant, AdvancedBeehiveBlockEntityAbstract blockEntity, BeehiveBlockEntity.BeeReleaseStatus pReleaseStatus) {
+    @Override
+    public List<Entity> releaseAllOccupants(BlockState pState, BeeReleaseStatus pReleaseStatus) {
+        List<Entity> list = Lists.newArrayList();
+        this.stored.removeIf(beeData -> releaseOccupant((ServerLevel) this.level, this.worldPosition, pState, beeData.toOccupant(), this, list, pReleaseStatus));
+        if (!list.isEmpty()) {
+            super.setChanged();
+        }
+
+        return list;
+    }
+
+    public static boolean releaseOccupant(ServerLevel pLevel, BlockPos pPos, BlockState pState, BeehiveBlockEntity.Occupant pOccupant, AdvancedBeehiveBlockEntityAbstract blockEntity, @Nullable List<Entity> pStoredInHives, BeehiveBlockEntity.BeeReleaseStatus pReleaseStatus) {
         if (pState.getBlock().equals(Blocks.AIR) || pLevel == null) {
             return false;
         }
@@ -346,6 +323,9 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                     spawned = pLevel.addFreshEntity(entity);
                     if (spawned && entity instanceof Bee bee) {
                         blockEntity.beeReleasePostAction(pLevel, bee, pState, pReleaseStatus);
+                        if (pStoredInHives != null) {
+                            pStoredInHives.add(bee);
+                        }
                     }
                     return spawned;
                 }

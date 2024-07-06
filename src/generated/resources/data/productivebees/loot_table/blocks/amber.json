@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "minecraft:survives_explosion"
+            }
+          ],
+          "functions": [
+            {
+              "function": "minecraft:copy_components",
+              "include": [
+                "minecraft:entity_data"
+              ],
+              "source": "block_entity"
+            }
+          ],
+          "name": "productivebees:amber"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "productivebees:blocks/amber"
+}

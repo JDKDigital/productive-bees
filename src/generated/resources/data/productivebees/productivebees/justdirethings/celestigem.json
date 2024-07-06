@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#15595f",
+  "secondaryColor": "#37c5bb",
+  "tertiaryColor": "#90f8e3",
+  "particleColor": "#d8fbec",
+  "flowerBlock": "justdirethings:celestigem_block",
+  "beeTexture": "productivebees:textures/entity/bee/celestigem/bee",
+  "size": 0.7,
+  "selfbreed": false,
+  "renderer": "default_crystal",
+  "conditions": [
+    {
+      "modid": "justdirethings",
+      "type": "neoforge:mod_loaded"
+    }
+  ]
+}

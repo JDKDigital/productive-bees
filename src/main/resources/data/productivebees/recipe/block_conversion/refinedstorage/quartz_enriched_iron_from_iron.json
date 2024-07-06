@@ -7,7 +7,7 @@
   "to": {
     "Name": "refinedstorage:quartz_enriched_iron_block"
   },
-  "chance": 5,
+  "chance": 0.05,
   "neoforge:conditions": [
     {
       "type": "productivebees:bee_exists",

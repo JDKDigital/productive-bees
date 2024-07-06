@@ -10,13 +10,13 @@
         },
         "items": "productivebees:configurable_honeycomb"
       },
-      "chance": 50
+      "chance": 0.5
     },
     {
       "item": {
         "tag": "c:pollen"
       },
-      "chance": 10
+      "chance": 0.1
     }
   ],
   "neoforge:conditions": [

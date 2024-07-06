@@ -7,7 +7,7 @@
   "to": {
     "Name": "minecraft:lava"
   },
-  "chance": 30,
+  "chance": 0.3,
   "neoforge:conditions": [
     {
       "type": "productivebees:bee_exists",

@@ -12,11 +12,11 @@
       "item": {
         "item": "gtceu:neutronium_nugget"
       },
-      "chance": 2
+      "chance": 0.02
     },
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     }
   ],

@@ -83,7 +83,7 @@ public class BeeHelper
 
             if (!recipes.isEmpty()) {
                 BeeConversionRecipe recipe = recipes.get(level.random.nextInt(recipes.size()));
-                if (level.random.nextInt(100) < recipe.chance) {
+                if (level.random.nextFloat() < recipe.chance) {
                     bee = recipe.result.get().getBeeEntity().create(level);
                     if (bee instanceof ConfigurableBee) {
                         ((ConfigurableBee) bee).setBeeType(recipe.result.get().getBeeType().toString());
@@ -190,8 +190,19 @@ public class BeeHelper
 
         // If the two bees are the same, add a runtime breeding recipe
         ResourceLocation bee1Id = ResourceLocation.parse(beeInv.getIdentifier(0));
-        var bee1Data = BeeReloadListener.INSTANCE.getData(bee1Id.toString());
-        if (bee1Id.toString().equals(beeInv.getIdentifier(1)) && (!(bee1Id.getNamespace().equals(ProductiveBees.MODID)) || bee1Data == null || bee1Data.getBoolean("selfbreed"))) {
+        var bee1Data = BeeReloadListener.INSTANCE.getData(bee1Id);
+        boolean canSelfBreed =
+                bee1Id.toString().equals(beeInv.getIdentifier(1)) &&
+                (
+                        !(bee1Id.getNamespace().equals(ProductiveBees.MODID)) ||
+                        bee1Data == null ||
+                        bee1Data.getBoolean("selfbreed")
+                );
+        if (canSelfBreed && bee1Data == null) {
+            var bee = BeeIngredientFactory.getIngredient(beeInv.getIdentifier()).get().getCachedEntity(level);
+            canSelfBreed = !(bee instanceof ProductiveBee pBee) || pBee.canSelfBreed();
+        }
+        if (canSelfBreed) {
             Supplier<BeeIngredient> beeIngredient = Lazy.of(BeeIngredientFactory.getIngredient(beeInv.getIdentifier()));
             recipes.add(new RecipeHolder<>(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "bee_breeding_" + ResourceLocation.parse(beeInv.getIdentifier()).getPath() + "_self"), new BeeBreedingRecipe(beeIngredient, beeIngredient, beeIngredient)));
         }
@@ -454,10 +465,6 @@ public class BeeHelper
         Map<GeneAttribute, GeneValue> attributeMapParent1 = parent1.getBeeAttributes();
         Map<GeneAttribute, GeneValue> attributeMapParent2 = parent2.getData(ProductiveBees.ATTRIBUTE_HANDLER).getAttributes();
         Map<GeneAttribute, GeneValue> attributeMapChild = newBee.getBeeAttributes();
-
-        attributeMapChild.forEach((geneAttribute, geneValue) -> {
-            ProductiveBees.LOGGER.info("attributeMapChild: " + geneAttribute.getSerializedName() + " " + geneValue);
-        });
 
         int parentProductivity = Mth.nextInt(newBee.level().random,
                 attributeMapParent1.get(GeneAttribute.PRODUCTIVITY).getValue(),

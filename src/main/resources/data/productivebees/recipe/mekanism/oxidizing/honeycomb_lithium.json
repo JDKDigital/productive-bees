@@ -1,16 +1,14 @@
 {
   "type": "mekanism:oxidizing",
   "input": {
-    "ingredient": {
-      "type": "productivebees:component",
-      "components": {
-        "productivebees:bee_type": "productivebees:lithium"
-      },
-      "items": "productivebees:configurable_honeycomb"
-    }
+    "type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:lithium"
+    },
+    "items": "productivebees:configurable_honeycomb"
   },
   "output": {
-    "gas": "mekanism:lithium",
+    "id": "mekanism:lithium",
     "amount": 10
   },
   "neoforge:conditions": [

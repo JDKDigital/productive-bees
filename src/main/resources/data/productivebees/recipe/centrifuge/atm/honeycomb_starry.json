@@ -12,13 +12,13 @@
       "item": {
         "item": "allthetweaks:atm_star_shard"
       },
-      "chance": 5
+      "chance": 0.05
     },
     {
       "item": {
         "item": "mysticalagradditions:nether_star_shard"
       },
-      "chance": 50
+      "chance": 0.5
     }
   ],
   "neoforge:conditions": [

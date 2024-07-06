@@ -12,17 +12,17 @@
       "item": {
         "item": "forbidden_arcanus:xpetrified_orb"
       },
-      "chance": 30
+      "chance": 0.3
     },
     {
       "item": {
         "item": "forbidden_arcanus:stellarite_piece"
       },
-      "chance": 10
+      "chance": 0.1
     },
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     }
   ],

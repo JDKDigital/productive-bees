@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#32474e",
+  "secondaryColor": "#53777e",
+  "tertiaryColor": "#bdf4ea",
+  "particleColor": "#e4fff9",
+  "flowerBlock": "justdirethings:ferricore_block",
+  "beeTexture": "productivebees:textures/entity/bee/ferricore/bee",
+  "conditions": [
+    {
+      "modid": "justdirethings",
+      "type": "neoforge:mod_loaded"
+    }
+  ]
+}

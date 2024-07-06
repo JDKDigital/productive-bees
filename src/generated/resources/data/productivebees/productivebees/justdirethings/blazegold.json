@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#3e2133",
+  "secondaryColor": "#ae5653",
+  "tertiaryColor": "#e99053",
+  "particleColor": "#f6b06d",
+  "flowerBlock": "justdirethings:blazegold_block",
+  "beeTexture": "productivebees:textures/entity/bee/blazegold/bee",
+  "size": 0.8,
+  "conditions": [
+    {
+      "modid": "justdirethings",
+      "type": "neoforge:mod_loaded"
+    }
+  ]
+}

@@ -19,11 +19,11 @@
   "outputs": [
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     },
     {
-      "chance": 50,
+      "chance": 0.5,
       "item": {
         "tag": "c:silicon"
       }

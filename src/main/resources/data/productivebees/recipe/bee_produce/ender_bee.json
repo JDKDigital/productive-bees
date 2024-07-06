@@ -10,19 +10,19 @@
         },
         "items": "productivebees:configurable_honeycomb"
       },
-      "chance": 40
+      "chance": 0.4
     },
     {
       "item": {
         "item": "minecraft:chorus_fruit"
       },
-      "chance": 10
+      "chance": 0.1
     },
     {
       "item": {
         "item": "minecraft:chorus_flower"
       },
-      "chance": 1
+      "chance": 0.01
     }
   ],
   "neoforge:conditions": [

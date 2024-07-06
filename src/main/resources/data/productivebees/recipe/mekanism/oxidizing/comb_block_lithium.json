@@ -1,18 +1,14 @@
 {
   "type": "mekanism:oxidizing",
   "input": {
-    "ingredient": {
-      "type": "neoforge:nbt",
-      "item": "productivebees:configurable_comb",
-      "nbt": {
-        "EntityTag": {
-          "type": "productivebees:lithium"
-        }
-      }
-    }
+    "type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:lithium"
+    },
+    "items": "productivebees:configurable_comb"
   },
   "output": {
-    "gas": "mekanism:lithium",
+    "id": "mekanism:lithium",
     "amount": 100
   },
   "neoforge:conditions": [

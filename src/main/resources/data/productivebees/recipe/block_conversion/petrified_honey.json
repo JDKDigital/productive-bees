@@ -7,7 +7,6 @@
   "to": {
     "Name": "productivebees:petrified_honey"
   },
-  "chance": 100,
   "neoforge:conditions": [
     {
       "type": "productivebees:bee_exists",

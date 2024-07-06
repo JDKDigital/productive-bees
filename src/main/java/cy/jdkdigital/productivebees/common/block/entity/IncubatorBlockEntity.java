@@ -31,12 +31,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.energy.EnergyStorage;
-import net.neoforged.neoforge.energy.IEnergyStorage;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
@@ -172,6 +171,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
                     }
                     resultItem = inItem.copy();
                     resultItem.setCount(1);
+                    resultItem.set(DataComponents.CUSTOM_DATA, CustomData.of(nbt));
                     shrinkCatalyst = ProductiveBeesConfig.GENERAL.incubatorTreatUse.get();
                 }
             } else if (eggProcessing) {

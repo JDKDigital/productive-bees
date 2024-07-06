@@ -12,11 +12,11 @@
       "item": {
         "item": "naturesaura:infused_iron"
       },
-      "chance": 80
+      "chance": 0.8
     },
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     }
   ],

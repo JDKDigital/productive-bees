@@ -12,17 +12,17 @@
       "item": {
         "item": "evilcraft:dark_gem"
       },
-      "chance": 70
+      "chance": 0.7
     },
     {
       "item": {
         "item": "evilcraft:dark_gem_crushed"
       },
-      "chance": 30
+      "chance": 0.3
     },
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     }
   ],

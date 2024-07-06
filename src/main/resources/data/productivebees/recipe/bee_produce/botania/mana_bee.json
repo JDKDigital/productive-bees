@@ -6,19 +6,19 @@
       "item": {
         "item": "botania:black_lotus"
       },
-      "chance": 50
+      "chance": 0.5
     },
     {
       "item": {
         "item": "botania:blacker_lotus"
       },
-      "chance": 5
+      "chance": 0.05
     },
     {
       "item": {
         "tag": "c:pollen"
       },
-      "chance": 5
+      "chance": 0.05
     }
   ],
   "neoforge:conditions": [

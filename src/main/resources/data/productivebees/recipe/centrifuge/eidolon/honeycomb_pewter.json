@@ -11,12 +11,11 @@
     {
       "item": {
         "item": "eidolon:pewter_blend"
-      },
-      "chance": 100
+      }
     },
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     }
   ],

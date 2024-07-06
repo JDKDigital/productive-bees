@@ -19,7 +19,7 @@
       "item": {
         "item": "minecraft:ice"
       },
-      "chance": 40
+      "chance": 0.4
     }
   ]
 }

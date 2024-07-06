@@ -26,6 +26,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.Container;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
@@ -58,7 +59,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstract implements MenuProvider, UpgradeableBlockEntity
+public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstract implements MenuProvider, UpgradeableBlockEntity, Container
 {
     protected int specialTickCounter = 0;
     protected int abandonCountdown = 0;
@@ -315,17 +316,16 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
 
             // Produce genes
             int samplerUpgrades = getUpgradeCount(ModItems.UPGRADE_BEE_SAMPLER.get());
-            if (samplerUpgrades > 0 && !beeEntity.isBaby() && beeEntity instanceof ProductiveBee pBee && level.random.nextFloat() <= (ProductiveBeesConfig.UPGRADES.samplerChance.get() * samplerUpgrades)) {
-                Map<GeneAttribute, GeneValue> attributes = pBee.getBeeAttributes();
+            if (samplerUpgrades > 0 && !beeEntity.isBaby() && level.random.nextFloat() <= (ProductiveBeesConfig.UPGRADES.samplerChance.get() * samplerUpgrades)) {
+                var attributes = beeEntity.getData(ProductiveBees.ATTRIBUTE_HANDLER);
                 // Get a random number for which attribute to extract, if we hit the additional 2 it will extract a type gene instead
-                int attr = level.random.nextInt(GeneAttribute.values().length + 2);
-                if (attr >= GeneAttribute.values().length) {
+                GeneAttribute attribute = Arrays.stream(GeneAttribute.values()).toList().get(level.random.nextInt(GeneAttribute.values().length));
+                if (attribute.equals(GeneAttribute.TYPE)) {
 //                    // Type gene
                     String type = beeEntity instanceof ConfigurableBee ? ((ConfigurableBee) beeEntity).getBeeType().toString() : beeEntity.getEncodeId();
                     ((InventoryHandlerHelper.BlockEntityItemStackHandler) inventoryHandler).addOutput(Gene.getStack(type, level.random.nextInt(4) + 1));
                 } else {
-                    GeneAttribute attribute = Arrays.stream(GeneAttribute.values()).toList().get(level.random.nextInt(GeneAttribute.values().length));
-                    GeneValue value = pBee.getAttributeValue(attribute);
+                    GeneValue value = attributes.getAttributeValue(attribute);
                     ((InventoryHandlerHelper.BlockEntityItemStackHandler) inventoryHandler).addOutput(Gene.getStack(attribute, value.getSerializedName(), 1, level.random.nextInt(4) + 1));
                 }
             }
@@ -389,5 +389,42 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
 
         tag.putInt("max_bees", MAX_BEES);
         tag.putInt("specialTickCounter", specialTickCounter);
+    }
+
+    @Override
+    public int getContainerSize() {
+        return inventoryHandler.getSlots();
+    }
+
+    @Override
+    public ItemStack getItem(int pSlot) {
+        return inventoryHandler.getStackInSlot(pSlot);
+    }
+
+    @Override
+    public ItemStack removeItem(int pSlot, int pAmount) {
+        return inventoryHandler.extractItem(pSlot, pAmount, false);
+    }
+
+    @Override
+    public ItemStack removeItemNoUpdate(int pSlot) {
+        return inventoryHandler.extractItem(pSlot, inventoryHandler.getStackInSlot(pSlot).getCount(), false);
+    }
+
+    @Override
+    public void setItem(int pSlot, ItemStack pStack) {
+        inventoryHandler.setStackInSlot(pSlot, pStack);
+    }
+
+    @Override
+    public boolean stillValid(Player pPlayer) {
+        return Container.stillValidBlockEntity(this, pPlayer);
+    }
+
+    @Override
+    public void clearContent() {
+        for (int i = 0; i < inventoryHandler.getSlots(); i++) {
+            removeItem(i, inventoryHandler.getStackInSlot(i).getCount());
+        }
     }
 }

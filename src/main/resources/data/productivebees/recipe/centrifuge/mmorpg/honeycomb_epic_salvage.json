@@ -12,11 +12,11 @@
       "item": {
         "item": "mmorpg:ore3"
       },
-      "chance": 60
+      "chance": 0.6
     },
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     }
   ],

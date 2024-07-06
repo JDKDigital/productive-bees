@@ -7,7 +7,7 @@
   "to": {
     "Name": "allthemodium:suspicious_clay"
   },
-  "chance": 20,
+  "chance": 0.2,
   "neoforge:conditions": [
     {
       "type": "neoforge:mod_loaded",

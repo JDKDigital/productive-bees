@@ -16,11 +16,11 @@
   "outputs": [
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     },
     {
-      "chance": 20,
+      "chance": 0.2,
       "item": {
         "item": "minecraft:ender_pearl"
       }

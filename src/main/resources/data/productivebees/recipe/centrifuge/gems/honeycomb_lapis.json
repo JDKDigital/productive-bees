@@ -13,11 +13,11 @@
         "tag": "c:gems/lapis"
       },
       "min": 1,
-      "chance": 50
+      "chance": 0.5
     },
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     }
   ]

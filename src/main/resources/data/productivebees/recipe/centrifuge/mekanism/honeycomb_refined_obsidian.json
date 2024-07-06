@@ -12,11 +12,11 @@
       "item": {
         "tag": "c:dusts/refined_obsidian"
       },
-      "chance": 30
+      "chance": 0.3
     },
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     }
   ],

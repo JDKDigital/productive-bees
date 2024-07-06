@@ -418,6 +418,11 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("irons_spellbooks/arcane_debris").primaryColor("#ffffff").secondaryColor("#c7c7c7").tertiaryColor("#999999").particleColor("#858585").beeTexture("arcane_debris").size(1).flowerBlock("irons_spellbooks:arcane_debris").requireMod("irons_spellbooks"));
             add(new BeeConfig("irons_spellbooks/arcane_essence").primaryColor("#7cd7ea").secondaryColor("#9938c3").tertiaryColor("#227c8f").particleColor("#7cd7ea").beeTexture("arcane_essence").size(0.8).flowerItem("irons_spellbooks:ruined_book").requireMod("irons_spellbooks"));
 
+            add(new BeeConfig("justdirethings/blazegold").primaryColor("#3e2133").secondaryColor("#ae5653").tertiaryColor("#e99053").particleColor("#f6b06d").beeTexture("blazegold").size(0.8).flowerBlock("justdirethings:blazegold_block").requireMod("justdirethings"));
+            add(new BeeConfig("justdirethings/celestigem").primaryColor("#15595f").secondaryColor("#37c5bb").tertiaryColor("#90f8e3").particleColor("#d8fbec").beeTexture("celestigem").size(0.7).renderer("default_crystal").flowerBlock("justdirethings:celestigem_block").noSelfBreed().requireMod("justdirethings"));
+            add(new BeeConfig("justdirethings/eclipsealloy").primaryColor("#2c3141").secondaryColor("#475e61").tertiaryColor("#65888c").particleColor("#6d9195").beeTexture("eclipsealloy").size(0.9).renderer("thicc").flowerBlock("justdirethings:eclipsealloy_block").noSelfBreed().requireMod("justdirethings"));
+            add(new BeeConfig("justdirethings/ferricore").primaryColor("#32474e").secondaryColor("#53777e").tertiaryColor("#bdf4ea").particleColor("#e4fff9").beeTexture("ferricore").flowerBlock("justdirethings:ferricore_block").requireMod("justdirethings"));
+
             add(new BeeConfig("materials/plastic").primaryColor("#d3d3d3").secondaryColor("#535353").size(0.7).flowerTag("c:plastic").attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_WEAK.getSerializedName()); }}).requireTag("c:plastic"));
             add(new BeeConfig("materials/sticky_resin").primaryColor("#000001").secondaryColor("#d98b24").size(0.7).attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_WEAK.getSerializedName()); }}).requireEitherMod("gtceu", "ic2"));
 

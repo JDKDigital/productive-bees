@@ -9,8 +9,6 @@ import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
@@ -21,10 +19,10 @@ public class IncubationRecipe implements Recipe<RecipeInput>, TimedRecipeInterfa
 {
     public final Ingredient input;
     public final Ingredient catalyst;
-    public final Ingredient result;
+    public final ItemStack result;
     private final int processingTime;
 
-    public IncubationRecipe(Ingredient input, Ingredient catalyst, Ingredient result, int processingTime) {
+    public IncubationRecipe(Ingredient input, Ingredient catalyst, ItemStack result, int processingTime) {
         this.input = input;
         this.catalyst = catalyst;
         this.result = result;
@@ -76,7 +74,7 @@ public class IncubationRecipe implements Recipe<RecipeInput>, TimedRecipeInterfa
                 builder -> builder.group(
                                 Ingredient.CODEC.fieldOf("input").forGetter(recipe -> recipe.input),
                                 Ingredient.CODEC.fieldOf("input").forGetter(recipe -> recipe.catalyst),
-                                Ingredient.CODEC.fieldOf("output").forGetter(recipe -> recipe.input),
+                                ItemStack.CODEC.fieldOf("output").forGetter(recipe -> recipe.result),
                                 Codec.INT.fieldOf("processingTime").orElse(0).forGetter(recipe -> recipe.processingTime)
                         )
                         .apply(builder, IncubationRecipe::new)
@@ -98,7 +96,7 @@ public class IncubationRecipe implements Recipe<RecipeInput>, TimedRecipeInterfa
 
         public static IncubationRecipe fromNetwork(@Nonnull RegistryFriendlyByteBuf buffer) {
             try {
-                return new IncubationRecipe(Ingredient.CONTENTS_STREAM_CODEC.decode(buffer), Ingredient.CONTENTS_STREAM_CODEC.decode(buffer), Ingredient.CONTENTS_STREAM_CODEC.decode(buffer), buffer.readInt());
+                return new IncubationRecipe(Ingredient.CONTENTS_STREAM_CODEC.decode(buffer), Ingredient.CONTENTS_STREAM_CODEC.decode(buffer), ItemStack.STREAM_CODEC.decode(buffer), buffer.readInt());
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error reading bee incubation recipe from packet. ", e);
                 throw e;
@@ -109,17 +107,14 @@ public class IncubationRecipe implements Recipe<RecipeInput>, TimedRecipeInterfa
             try {
                 Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.input);
                 Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.catalyst);
-                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.result);
+                ItemStack.STREAM_CODEC.encode(buffer, recipe.result);
                 buffer.writeInt(recipe.getProcessingTime());
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error writing bee incubation recipe to packet. ", e);
                 throw e;
             }
         }
-
-        public interface IRecipeFactory<T extends IncubationRecipe>
-        {
-            T create(ResourceLocation id, Ingredient item, Ingredient catalyst, Ingredient output);
-        }
     }
+
+
 }

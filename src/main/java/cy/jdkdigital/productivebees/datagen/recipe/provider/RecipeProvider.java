@@ -23,6 +23,7 @@ import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 import net.neoforged.neoforge.common.conditions.NotCondition;
 import net.neoforged.neoforge.common.conditions.TagEmptyCondition;
@@ -188,7 +189,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                     .define('H', Ingredient.of(ModTags.Common.HIVES))
                     .define('C', Ingredient.of(ModTags.Common.HONEYCOMBS))
                     .define('F', Ingredient.of(ModTags.Common.CAMPFIRES))
-                    .define('S', Ingredient.of(ModTags.Common.SHEARS))
+                    .define('S', Ingredient.of(Tags.Items.TOOLS_SHEAR))
                     .unlockedBy("has_hive", InventoryChangeTrigger.TriggerInstance.hasItems(Items.BEEHIVE))
                     .save(consumer.withConditions(modLoaded(modid)), ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "hives/advanced_" + name + "_beehive"));
 

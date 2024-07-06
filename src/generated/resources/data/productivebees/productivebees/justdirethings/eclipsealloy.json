@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#2c3141",
+  "secondaryColor": "#475e61",
+  "tertiaryColor": "#65888c",
+  "particleColor": "#6d9195",
+  "flowerBlock": "justdirethings:eclipsealloy_block",
+  "beeTexture": "productivebees:textures/entity/bee/eclipsealloy/bee",
+  "size": 0.9,
+  "selfbreed": false,
+  "renderer": "thicc",
+  "conditions": [
+    {
+      "modid": "justdirethings",
+      "type": "neoforge:mod_loaded"
+    }
+  ]
+}

@@ -527,7 +527,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
             if (BeeHelper.hasBlockConversionRecipe(this, flowerBlockState)) {
                 RecipeHolder<BlockConversionRecipe> recipe = BeeHelper.getBlockConversionRecipe(this, flowerBlockState);
                 if (recipe != null) {
-                    if (level().random.nextInt(100) <= recipe.value().chance) {
+                    if (level().random.nextFloat() <= recipe.value().chance) {
                         level().setBlock(savedFlowerPos, recipe.value().stateTo, 3);
                         level().levelEvent(2005, savedFlowerPos, 0);
                     }
@@ -542,7 +542,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
                         if (stack.getItem() instanceof BlockItem blockItem) {
                             RecipeHolder<BlockConversionRecipe> blockRecipe = BeeHelper.getBlockConversionRecipe(this, blockItem.getBlock().defaultBlockState());
                             if (blockRecipe != null && hiveBlockEntity instanceof AdvancedBeehiveBlockEntity beehiveBlockEntity) {
-                                if (level().random.nextInt(100) <= blockRecipe.value().chance) {
+                                if (level().random.nextFloat() <= blockRecipe.value().chance) {
                                     ItemStack output = new ItemStack(blockRecipe.value().stateTo.getBlock().asItem());
                                     if (beehiveBlockEntity.isSim()) {
                                         if (!output.equals(ItemStack.EMPTY) &&
@@ -561,7 +561,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
                         }
                         RecipeHolder<ItemConversionRecipe> itemRecipe = BeeHelper.getItemConversionRecipe(this, stack);
                         if (itemRecipe != null && hiveBlockEntity instanceof AdvancedBeehiveBlockEntity beehiveBlockEntity) {
-                            if (level().random.nextInt(100) <= itemRecipe.value().chance) {
+                            if (level().random.nextFloat() <= itemRecipe.value().chance) {
                                 if (beehiveBlockEntity.isSim()) {
                                     if (beehiveBlockEntity.inventoryHandler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler itemHandler
                                             && itemHandler.addOutput(itemRecipe.value().output.copy()).getCount() == 0) {

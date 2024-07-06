@@ -12,11 +12,11 @@
       "item": {
         "item": "mysticalagriculture:supremium_essence"
       },
-      "chance": 30
+      "chance": 0.3
     },
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     }
   ],

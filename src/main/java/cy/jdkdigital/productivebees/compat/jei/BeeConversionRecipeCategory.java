@@ -70,9 +70,9 @@ public class BeeConversionRecipeCategory implements IRecipeCategory<BeeConversio
 
     @Override
     public void draw(BeeConversionRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
-        if (recipe.chance < 100) {
+        if (recipe.chance < 1f) {
             Minecraft minecraft = Minecraft.getInstance();
-            guiGraphics.drawString(minecraft.font, Language.getInstance().getVisualOrder(Component.translatable("jei.productivebees.block_conversion.chance", recipe.chance)), 0, 60, 0xFF000000, false);
+            guiGraphics.drawString(minecraft.font, Language.getInstance().getVisualOrder(Component.translatable("jei.productivebees.block_conversion.chance", recipe.chance * 100)), 0, 60, 0xFF000000, false);
         }
     }
 }

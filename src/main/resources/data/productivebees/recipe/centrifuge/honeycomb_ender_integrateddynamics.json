@@ -12,11 +12,11 @@
       "item": {
         "item": "minecraft:ender_pearl"
       },
-      "chance": 20
+      "chance": 0.2
     },
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     },
     {

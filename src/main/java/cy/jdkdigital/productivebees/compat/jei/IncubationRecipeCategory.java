@@ -8,6 +8,7 @@ import cy.jdkdigital.productivebees.common.recipe.IncubationRecipe;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeCreator;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -25,6 +26,7 @@ import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 
 import javax.annotation.Nonnull;
@@ -77,34 +79,7 @@ public class IncubationRecipeCategory implements IRecipeCategory<IncubationRecip
                 .addItemStacks(Arrays.stream(recipe.catalyst.getItems()).toList())
                 .setSlotName("catalyst");
         builder.addSlot(RecipeIngredientRole.OUTPUT, 65, 9)
-                .addItemStacks(Arrays.stream(recipe.result.getItems()).toList())
+                .addItemStack(recipe.result)
                 .setSlotName("result");
-    }
-
-    public static List<IncubationRecipe> getRecipes(Map<String, BeeIngredient> beeList) {
-        List<IncubationRecipe> recipes = new ArrayList<>();
-
-        // babee to adult incubation
-        Bee bee = EntityType.BEE.create(Minecraft.getInstance().level);
-        Bee baBee = EntityType.BEE.create(Minecraft.getInstance().level);
-        if (bee != null && baBee != null) {
-            ItemStack cage = new ItemStack(ModItems.BEE_CAGE.get());
-            ItemStack babeeCage = cage.copy();
-
-            baBee.setAge(-24000);
-            BeeCage.captureEntity(bee, cage);
-            BeeCage.captureEntity(baBee, babeeCage);
-            ItemStack treats = new ItemStack(ModItems.HONEY_TREAT.get(), ProductiveBeesConfig.GENERAL.incubatorTreatUse.get());
-            recipes.add(new IncubationRecipe(DataComponentIngredient.of(false, babeeCage), Ingredient.of(treats), DataComponentIngredient.of(false, cage), 300));
-        }
-
-        // Spawn egg incubation
-        for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()) {
-            Ingredient spawnEgg = DataComponentIngredient.of(false, BeeCreator.getSpawnEgg(ResourceLocation.parse(entry.getKey())));
-            Ingredient treat = DataComponentIngredient.of(false, HoneyTreat.getTypeStack(entry.getKey(), 100));
-            recipes.add(new IncubationRecipe(Ingredient.of(Items.EGG), treat, spawnEgg, 300));
-        }
-
-        return recipes;
     }
 }

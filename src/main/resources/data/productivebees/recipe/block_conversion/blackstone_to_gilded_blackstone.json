@@ -7,7 +7,6 @@
   "to": {
     "Name": "minecraft:gilded_blackstone"
   },
-  "chance": 100,
   "neoforge:conditions": [
     {
       "type": "productivebees:bee_exists",

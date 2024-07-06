@@ -10,11 +10,11 @@
   "outputs": [
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     },
     {
-      "chance": 10,
+      "chance": 0.1,
       "item": {
         "item": "integrateddynamics:crystalized_menril_chunk"
       }

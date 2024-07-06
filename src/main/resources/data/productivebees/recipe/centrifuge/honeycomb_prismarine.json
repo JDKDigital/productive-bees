@@ -12,17 +12,17 @@
       "item": {
         "item": "minecraft:prismarine_shard"
       },
-      "chance": 20
+      "chance": 0.2
     },
     {
       "item": {
         "item": "minecraft:prismarine_crystals"
       },
-      "chance": 5
+      "chance": 0.05
     },
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     }
   ]

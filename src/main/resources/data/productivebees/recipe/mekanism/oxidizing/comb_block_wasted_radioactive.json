@@ -1,18 +1,14 @@
 {
   "type": "mekanism:oxidizing",
   "input": {
-    "ingredient": {
-      "type": "neoforge:nbt",
-      "item": "productivebees:configurable_comb",
-      "nbt": {
-        "EntityTag": {
-          "type": "productivebees:wasted_radioactive"
-        }
-      }
-    }
+    "type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:wasted_radioactive"
+    },
+    "items": "productivebees:configurable_comb"
   },
   "output": {
-    "gas": "mekanism:nuclear_waste",
+    "id": "mekanism:nuclear_waste",
     "amount": 400
   },
   "neoforge:conditions": [

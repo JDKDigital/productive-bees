@@ -7,7 +7,7 @@
   "to": {
     "Name": "minecraft:chipped_anvil"
   },
-  "chance": 70,
+  "chance": 0.7,
   "neoforge:conditions": [
     {
       "type": "productivebees:bee_exists",

@@ -6,13 +6,13 @@
       "item": {
         "item": "productivebees:sugarbag_honeycomb"
       },
-      "chance": 40
+      "chance": 0.4
     },
     {
       "item": {
         "tag": "c:pollen"
       },
-      "chance": 5
+      "chance": 0.05
     }
   ],
   "neoforge:conditions": [

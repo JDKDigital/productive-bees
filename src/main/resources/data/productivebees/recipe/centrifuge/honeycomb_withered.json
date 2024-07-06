@@ -12,11 +12,11 @@
       "item": {
         "tag": "c:fragments/wither_skull"
       },
-      "chance": 30
+      "chance": 0.3
     },
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     }
   ],

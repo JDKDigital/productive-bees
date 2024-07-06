@@ -12,7 +12,7 @@
       "item": {
         "tag": "c:raw_materials/ostrum"
       },
-      "chance": 30
+      "chance": 0.3
     }
   ],
   "neoforge:conditions": [

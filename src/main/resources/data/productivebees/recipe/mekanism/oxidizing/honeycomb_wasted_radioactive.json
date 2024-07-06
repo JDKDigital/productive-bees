@@ -1,16 +1,14 @@
 {
   "type": "mekanism:oxidizing",
   "input": {
-    "ingredient": {
-      "type": "productivebees:component",
-      "components": {
-        "productivebees:bee_type": "productivebees:wasted_radioactive"
-      },
-      "items": "productivebees:configurable_honeycomb"
-    }
+    "type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:wasted_radioactive"
+    },
+    "items": "productivebees:configurable_honeycomb"
   },
   "output": {
-    "gas": "mekanism:nuclear_waste",
+    "id": "mekanism:nuclear_waste",
     "amount": 100
   },
   "neoforge:conditions": [

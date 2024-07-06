@@ -12,11 +12,11 @@
       "item": {
         "item": "elementalcraft:purecrystal"
       },
-      "chance": 10
+      "chance": 0.1
     },
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     }
   ],

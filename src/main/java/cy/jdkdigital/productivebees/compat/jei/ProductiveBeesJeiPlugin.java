@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.compat.jei;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.client.helper.RecipeHelper;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.common.recipe.*;
@@ -38,6 +39,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.util.Lazy;
 import net.neoforged.neoforge.fluids.FluidStack;
 
@@ -56,7 +58,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
     public static final RecipeType<BeeSpawningRecipe> BEE_SPAWNING_TYPE = RecipeType.create(ProductiveBees.MODID, "bee_spawning", BeeSpawningRecipe.class);
     public static final RecipeType<CentrifugeRecipe> CENTRIFUGE_TYPE = RecipeType.create(ProductiveBees.MODID, "centrifuge", CentrifugeRecipe.class);
     public static final RecipeType<CentrifugeRecipe> BLOCK_CENTRIFUGE_TYPE = RecipeType.create(ProductiveBees.MODID, "block_centrifuge", CentrifugeRecipe.class);
-    public static final RecipeType<BeeFloweringRecipeCategory.Recipe> BEE_FLOWERING_TYPE = RecipeType.create(ProductiveBees.MODID, "bee_flowering", BeeFloweringRecipeCategory.Recipe.class);
+    public static final RecipeType<BeeFloweringRecipe> BEE_FLOWERING_TYPE = RecipeType.create(ProductiveBees.MODID, "bee_flowering", BeeFloweringRecipe.class);
     public static final RecipeType<IncubationRecipe> INCUBATION_TYPE = RecipeType.create(ProductiveBees.MODID, "incubation", IncubationRecipe.class);
     public static final RecipeType<BlockConversionRecipe> BLOCK_CONVERSION_TYPE = RecipeType.create(ProductiveBees.MODID, "block_conversion", BlockConversionRecipe.class);
     public static final RecipeType<ItemConversionRecipe> ITEM_CONVERSION_TYPE = RecipeType.create(ProductiveBees.MODID, "item_conversion", ItemConversionRecipe.class);
@@ -109,8 +111,10 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
 
     @Override
     public void registerIngredients(IModIngredientRegistration registration) {
-        Collection<BeeIngredient> ingredients = BeeIngredientFactory.getOrCreateList(true).values();
-        registration.register(BEE_INGREDIENT, new ArrayList<>(ingredients), new BeeIngredientHelper(), new BeeIngredientRenderer());
+        if (!ModList.get().isLoaded("emi")) {
+            Collection<BeeIngredient> ingredients = BeeIngredientFactory.getOrCreateList(true).values();
+            registration.register(BEE_INGREDIENT, new ArrayList<>(ingredients), new BeeIngredientHelper(), new BeeIngredientRenderer());
+        }
     }
 
     @Override
@@ -214,10 +218,10 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
 
         }
         // Bee flowering requirements
-        registration.addRecipes(BEE_FLOWERING_TYPE, BeeFloweringRecipeCategory.getFlowersRecipes(beeList));
+        registration.addRecipes(BEE_FLOWERING_TYPE, RecipeHelper.getFlowersRecipes(beeList));
 
         // Incubation recipes
-        registration.addRecipes(INCUBATION_TYPE, IncubationRecipeCategory.getRecipes(beeList));
+        registration.addRecipes(INCUBATION_TYPE, RecipeHelper.getRecipes(beeList).stream().map(RecipeHolder::value).toList());
 
         // Bee nest descriptions
         List<String> itemInfos = Arrays.asList(

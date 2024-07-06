@@ -12,17 +12,17 @@
       "item": {
         "item": "spirit:soul_steel_ingot"
       },
-      "chance": 50
+      "chance": 0.5
     },
     {
       "item": {
         "item": "spirit:soul_powder"
       },
-      "chance": 50
+      "chance": 0.5
     },
     {
       "item": {
-        "tag": "c:wax"
+        "item": "productivebees:wax"
       }
     }
   ],
