@@ -1,3 +1,15 @@
+
+- Fixed stellarite bee recipe
+
+1.21.0-13.1.2
+
+- Added armadillo scutes to wannabee drops
+- Fixed ambered entity blocks not dropping
+- Fixed global loot modifiers so cages can be found in chests again
+- Fixed some bees using incorrect tags
+- Fixed Lumber and Quarry bee not showing production in EMI
+
+
 1.21.0-13.1.1
 
 - Fixed client class loaded serverside

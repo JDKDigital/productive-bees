@@ -7,7 +7,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "c:salts",
+        "tag": "c:dusts/salt",
         "type": "neoforge:tag_empty"
       },
       "type": "neoforge:not"

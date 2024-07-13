@@ -99,6 +99,7 @@ public class ProductiveBeesEmiPlugin implements EmiPlugin
 
     @Override
     public void register(EmiRegistry registry) {
+        // TODO make bee ingredient favoritable
         BeeIngredientFactory.getOrCreateList(true).values().forEach(beeIngredient -> {
             registry.addEmiStack(BeeEmiStack.of(beeIngredient));
         });
@@ -131,9 +132,9 @@ public class ProductiveBeesEmiPlugin implements EmiPlugin
         registry.addWorkstation(INCUBATION_CATEGORY, EmiStack.of(ModBlocks.INCUBATOR.get()));
 
         // Component items
-        registry.setDefaultComparison(ModItems.CONFIGURABLE_HONEYCOMB, Comparison.compareData(stack -> stack.get(ModDataComponents.BEE_TYPE.get())));
-        registry.setDefaultComparison(ModItems.CONFIGURABLE_COMB_BLOCK, Comparison.compareData(stack -> stack.get(ModDataComponents.BEE_TYPE.get())));
-        registry.setDefaultComparison(ModItems.CONFIGURABLE_SPAWN_EGG, Comparison.compareData(stack -> stack.get(DataComponents.ENTITY_DATA)));
+        registry.setDefaultComparison(ModItems.CONFIGURABLE_HONEYCOMB.get(), Comparison.compareData(stack -> stack.get(ModDataComponents.BEE_TYPE.get())));
+        registry.setDefaultComparison(ModItems.CONFIGURABLE_COMB_BLOCK.get(), Comparison.compareData(stack -> stack.get(ModDataComponents.BEE_TYPE.get())));
+        registry.setDefaultComparison(ModItems.CONFIGURABLE_SPAWN_EGG.get(), Comparison.compareData(stack -> stack.get(DataComponents.ENTITY_DATA)));
 
         RecipeManager recipeManager = registry.getRecipeManager();
 
@@ -194,7 +195,7 @@ public class ProductiveBeesEmiPlugin implements EmiPlugin
             if (!b.builtInRegistryHolder().is(ModTags.DUPE_BLACKLIST)) {
                 List<TagOutputRecipe.ChancedOutput> blockItemOutput = new ArrayList<>();
                 blockItemOutput.add(new TagOutputRecipe.ChancedOutput(Ingredient.of(b.asItem()), 1, 1, 1f));
-                registry.addRecipe(new BeeProduceEmiRecipe(new RecipeHolder<>(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "/quarry_bee/" + blockHolder.getRegisteredName()), new AdvancedBeehiveRecipe(BeeIngredientFactory.getIngredient("productivebees:quarry_bee"), blockItemOutput))));
+                registry.addRecipe(new BeeProduceEmiRecipe(new RecipeHolder<>(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "/quarry_bee/" + blockHolder.getRegisteredName().replace(":", "_")), new AdvancedBeehiveRecipe(BeeIngredientFactory.getIngredient("productivebees:quarry_bee"), blockItemOutput))));
             }
         });
         BuiltInRegistries.BLOCK.getTagOrEmpty(ModTags.LUMBER).forEach(blockHolder -> {
@@ -202,7 +203,7 @@ public class ProductiveBeesEmiPlugin implements EmiPlugin
             if (!b.builtInRegistryHolder().is(ModTags.DUPE_BLACKLIST)) {
                 List<TagOutputRecipe.ChancedOutput> blockItemOutput = new ArrayList<>();
                 blockItemOutput.add(new TagOutputRecipe.ChancedOutput(Ingredient.of(b.asItem()), 1, 1, 1f));
-                registry.addRecipe(new BeeProduceEmiRecipe(new RecipeHolder<>(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "/lumber_bee/" + blockHolder.getRegisteredName()), new AdvancedBeehiveRecipe(BeeIngredientFactory.getIngredient("productivebees:lumber_bee"), blockItemOutput))));
+                registry.addRecipe(new BeeProduceEmiRecipe(new RecipeHolder<>(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "/lumber_bee/" + blockHolder.getRegisteredName().replace(":", "_")), new AdvancedBeehiveRecipe(BeeIngredientFactory.getIngredient("productivebees:lumber_bee"), blockItemOutput))));
             }
         });
     }

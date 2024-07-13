@@ -66,7 +66,6 @@ public class FeederBlockEntityRenderer implements BlockEntityRenderer<FeederBloc
                 }
 
                 if (filledSlots.size() > 0) {
-                    // TODO fix third item not rendering
                     for (int slot = 0; slot < Math.min(3, invHandler.getSlots()); ++slot) {
                         ItemStack slotStack = invHandler.getStackInSlot(slot);
 
@@ -77,12 +76,12 @@ public class FeederBlockEntityRenderer implements BlockEntityRenderer<FeederBloc
                         boolean isFlower = slotStack.is(ItemTags.FLOWERS);
                         Pair<Float, Float> pos = POSITIONS.get(Math.min(3, filledSlots.size())).get(slot);
                         float rotation = isFlower ? 90F : 35.0F * slot;
-                        float zScale = isFlower ? 0.775F : 0.575F;
+                        float scale = isFlower ? 0.775F : 0.575F;
 
                         poseStack.pushPose();
                         poseStack.translate(pos.getFirst(), 0.52D + (slabType.equals(SlabType.TOP) || slabType.equals(SlabType.DOUBLE) ? 0.5d : 0), pos.getSecond());
                         poseStack.mulPose(Axis.XP.rotationDegrees(rotation));
-                        poseStack.scale(0.575F, zScale, 0.575F);
+                        poseStack.scale(scale, scale, scale);
                         Minecraft.getInstance().getItemRenderer().renderStatic(slotStack, ItemDisplayContext.FIXED, combinedLightIn, combinedOverlayIn, poseStack, bufferIn, blockEntity.getLevel(), 0);
                         poseStack.popPose();
                     }

@@ -8,17 +8,18 @@
           "type": "minecraft:item",
           "functions": [
             {
-              "function": "minecraft:set_count",
-              "neoforge:conditions": [
+              "add": false,
+              "conditions": [
                 {
-                  "condition": "minecraft:block_state_property",
                   "block": "productivebees:feeder",
+                  "condition": "minecraft:block_state_property",
                   "properties": {
                     "type": "double"
                   }
                 }
               ],
-              "count": 2
+              "count": 2.0,
+              "function": "minecraft:set_count"
             },
             {
               "function": "minecraft:explosion_decay"
@@ -28,5 +29,6 @@
         }
       ]
     }
-  ]
+  ],
+  "random_sequence": "productivebees:blocks/feeder"
 }

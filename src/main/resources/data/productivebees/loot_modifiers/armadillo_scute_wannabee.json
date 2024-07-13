@@ -1,13 +1,13 @@
 {
-  "type": "productivelib:item_modifier",
+  "type": "productivelib:ingredient_modifier",
   "chance": 0.15,
   "addition": {
-    "id": "minecraft:nether_star"
+    "item": "minecraft:armadillo_scute"
   },
   "conditions": [
     {
       "condition": "neoforge:loot_table_id",
-      "loot_table_id": "minecraft:entities/wither"
+      "loot_table_id": "minecraft:entities/armadillo"
     },
     {
       "condition": "productivelib:killed_by_uuid",

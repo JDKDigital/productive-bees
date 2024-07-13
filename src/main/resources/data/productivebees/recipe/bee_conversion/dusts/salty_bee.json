@@ -3,14 +3,14 @@
   "source": "minecraft:bee",
   "result": "productivebees:salty",
   "item": {
-    "tag": "c:salts"
+    "tag": "c:dusts/salt"
   },
   "neoforge:conditions": [
     {
       "type": "neoforge:not",
       "value": {
         "type": "neoforge:tag_empty",
-        "tag": "c:salts"
+        "tag": "c:dusts/salt"
       }
     },
     {

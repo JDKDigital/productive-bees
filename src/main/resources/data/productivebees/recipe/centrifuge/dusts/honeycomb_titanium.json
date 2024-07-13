@@ -31,6 +31,10 @@
     {
       "type": "neoforge:tag_empty",
       "tag": "c:raw_materials/titanium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:titanium"
     }
   ]
 }

@@ -4,15 +4,21 @@ import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivelib.common.block.entity.AbstractBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.LockCode;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.component.ItemContainerContents;
+import net.minecraft.world.item.component.SeededContainerLoot;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -53,7 +59,7 @@ public class AmberBlockEntity extends AbstractBlockEntity
     @Nullable
     public static Entity createEntity(Level world, CompoundTag tag) {
         if (tag != null) {
-            EntityType<?> type = EntityType.byString(tag.getString("entityType")).orElse(null);
+            EntityType<?> type = EntityType.byString(tag.getString("id")).orElse(null);
             if (type != null) {
                 try {
                     Entity loadedEntity = type.create(world);
@@ -69,6 +75,7 @@ public class AmberBlockEntity extends AbstractBlockEntity
         return null;
     }
 
+    @Override
     public void savePacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
         super.savePacketNBT(tag, provider);
 
@@ -78,6 +85,7 @@ public class AmberBlockEntity extends AbstractBlockEntity
         tag.putInt("meltCounter", meltCounter);
     }
 
+    @Override
     public void loadPacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
         super.loadPacketNBT(tag, provider);
         if (tag.contains("EntityData")) {
@@ -86,9 +94,21 @@ public class AmberBlockEntity extends AbstractBlockEntity
         this.meltCounter = tag.contains("meltCounter") ? tag.getInt("meltCounter") : 0;
     }
 
+    @Override
+    protected void applyImplicitComponents(BlockEntity.DataComponentInput pComponentInput) {
+        super.applyImplicitComponents(pComponentInput);
+        this.entityTag = pComponentInput.get(DataComponents.ENTITY_DATA).copyTag();
+    }
+
+    @Override
+    protected void collectImplicitComponents(DataComponentMap.Builder pComponents) {
+        super.collectImplicitComponents(pComponents);
+        pComponents.set(DataComponents.ENTITY_DATA, CustomData.of(this.entityTag));
+    }
+
     public void setEntity(Mob target) {
         var entityDataTag = target.saveWithoutId(new CompoundTag());
-        entityDataTag.putString("entityType", BuiltInRegistries.ENTITY_TYPE.getKey(target.getType()).toString());
+        entityDataTag.putString("id", BuiltInRegistries.ENTITY_TYPE.getKey(target.getType()).toString());
         entityDataTag.putString("lootTable", target.getLootTable().toString());
         if (target.hasCustomName()) {
             entityDataTag.putString("name", target.getCustomName().getString());

@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.item;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
@@ -26,9 +27,7 @@ public class AmberItem extends BlockItem
     public Component getName(ItemStack pStack) {
         if (pStack.has(DataComponents.ENTITY_DATA)) {
             CompoundTag tag = pStack.get(DataComponents.ENTITY_DATA).copyTag();
-            if (tag.contains("BlockEntityTag") && tag.getCompound("BlockEntityTag").contains("EntityData")) {
-                return Component.translatable("productivebees.amber.name.contained_entity", Component.literal(tag.getCompound("BlockEntityTag").getCompound("EntityData").getString("name")));
-            }
+            return Component.translatable("productivebees.amber.name.contained_entity", Component.literal(tag.getString("name")));
         }
         return super.getName(pStack);
     }
@@ -40,9 +39,7 @@ public class AmberItem extends BlockItem
         pTooltipComponents.add(Component.translatable("productivebees.amber.tooltip.heating").withStyle(ChatFormatting.DARK_RED));
         if (pStack.has(DataComponents.ENTITY_DATA)) {
             CompoundTag tag = pStack.get(DataComponents.ENTITY_DATA).copyTag();
-            if (tag.contains("BlockEntityTag") && tag.getCompound("BlockEntityTag").contains("EntityData")) {
-                pTooltipComponents.add(Component.translatable("productivebees.amber.tooltip.contained_entity", Component.literal(tag.getCompound("BlockEntityTag").getCompound("EntityData").getString("name")).withStyle(ChatFormatting.GOLD)).withStyle(ChatFormatting.WHITE));
-            }
+            pTooltipComponents.add(Component.translatable("productivebees.amber.tooltip.contained_entity", Component.literal(tag.getString("name")).withStyle(ChatFormatting.GOLD)).withStyle(ChatFormatting.WHITE));
         }
     }
 

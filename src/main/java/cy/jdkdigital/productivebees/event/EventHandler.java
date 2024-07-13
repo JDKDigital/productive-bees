@@ -83,7 +83,6 @@ public class EventHandler
 
     @SubscribeEvent
     public static void onDataSync(OnDatapackSyncEvent event) {
-        ProductiveBees.LOGGER.info("OnDatapackSyncEvent " + event.getPlayer());
         if (event.getPlayer() == null) {
             PacketDistributor.sendToAllPlayers(new BeeDataMessage(BeeReloadListener.INSTANCE.getData()));
         } else {

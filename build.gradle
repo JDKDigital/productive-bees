@@ -118,16 +118,12 @@ dependencies {
 //
 //    compileOnly(fg.deobf("com.almostreliable.mods:almostunified-forge:${minecraft_version}-${au_version}"))
 
-    implementation "curse.maven:jei-238222:5466551"
 //    implementation "curse.maven:emi-580555:5436759"
     implementation "curse.maven:jade-324717:5444008"
-//    implementation fg.deobf("curse.maven:the-one-probe-245211:4579432")
-//    implementation "curse.maven:emi-580555:5436759"
-//    implementation fg.deobf("curse.maven:curios-309927:4985525")
-//    implementation fg.deobf("curse.maven:corail-woodcutter-331983:4573934")
-//    implementation fg.deobf("curse.maven:create-328085:4626108")
-//    implementation fg.deobf("curse.maven:pams-harvestcraft-2-trees-365460:4625518")
-    implementation "curse.maven:mekanism-268560:5496791"
+    implementation "curse.maven:just-enough-archaeology-890755:5518258"
+    implementation "curse.maven:cloth-config-348521:5424576"
+    implementation "curse.maven:modern-industrialization-405388:5490765"
+    implementation "curse.maven:biomes-o-plenty-220318:5512375"
 }
 
 tasks.withType(ProcessResources).configureEach {
@@ -143,6 +139,7 @@ tasks.withType(ProcessResources).configureEach {
             mod_version            : mod_version,
             mod_authors            : mod_authors,
             mod_description        : mod_description,
+            lib_version            : lib_version,
             jei_version            : jei_version,
             emi_version            : emi_version
     ]

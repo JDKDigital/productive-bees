@@ -92,9 +92,7 @@ public class Amber extends BaseEntityBlock
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity instanceof AmberBlockEntity) {
             try {
-                CompoundTag tag = new CompoundTag();
-                tag.put("BlockEntityTag", blockEntity.saveWithoutMetadata(level.registryAccess()));
-                stack.set(DataComponents.ENTITY_DATA, CustomData.of(tag));
+                blockEntity.saveToItem(stack, level.registryAccess());
             } catch (Exception e) {
                 // Crash can happen here if the server is shutting down as the client (WAILA) is trying to read the data
             }

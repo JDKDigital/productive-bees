@@ -10,9 +10,9 @@
   "outputs": [
     {
       "item": {
-        "item": "modern_industrialization:raw_monazite"
+        "item": "modern_industrialization:monazite_tiny_dust"
       },
-      "chance": 0.4
+      "chance": 0.8
     },
     {
       "item": {

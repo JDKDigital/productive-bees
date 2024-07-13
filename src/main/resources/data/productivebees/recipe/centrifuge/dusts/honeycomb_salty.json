@@ -10,7 +10,7 @@
   "outputs": [
     {
       "item": {
-        "tag": "c:salts"
+        "tag": "c:dusts/salt"
       }
     },
     {
@@ -28,7 +28,7 @@
       "type": "neoforge:not",
       "value": {
         "type": "neoforge:tag_empty",
-        "tag": "c:salts"
+        "tag": "c:dusts/salt"
       }
     }
   ]
