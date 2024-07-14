@@ -1,0 +1,15 @@
+{
+    "primaryColor": "#55eb34",
+    "secondaryColor": "#34eb58",
+    "particleColor": "#55eb34",
+    "description": "Entro crystal automation!",
+    "flowerItem": "extendedae:entro_block",
+    "createComb": true,
+    "renderer": "default_crystal",
+    "conditions": [
+      {
+        "modid": "extendedae",
+        "type": "neoforge:mod_loaded"
+      }
+    ]
+  } 
