@@ -17,6 +17,7 @@ import cy.jdkdigital.productivebees.common.block.entity.CanvasBeehiveBlockEntity
 import cy.jdkdigital.productivebees.common.block.entity.CanvasExpansionBoxBlockEntity;
 import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
+import cy.jdkdigital.productivebees.common.fluid.HoneyFluid;
 import cy.jdkdigital.productivebees.common.item.*;
 import cy.jdkdigital.productivebees.container.gui.*;
 import cy.jdkdigital.productivebees.init.*;
@@ -49,6 +50,8 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.*;
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
@@ -342,4 +345,29 @@ public class ClientModEventHandler
         event.registerBlockEntityRenderer(ModBlockEntityTypes.JAR.get(), JarBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntityTypes.AMBER.get(), AmberBlockEntityRenderer::new);
     }
+
+//    @SubscribeEvent
+//    public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
+//        event.registerFluidType(new IClientFluidTypeExtensions() {
+//            @Override
+//            public ResourceLocation getStillTexture() {
+//                return HoneyFluid.STILL;
+//            }
+//
+//            @Override
+//            public ResourceLocation getFlowingTexture() {
+//                return HoneyFluid.FLOWING;
+//            }
+//
+//            @Override
+//            public ResourceLocation getOverlayTexture() {
+//                return HoneyFluid.OVERLAY;
+//            }
+//
+//            @Override
+//            public int getTintColor() {
+//                return 0xffffc916;
+//            }
+//        }, ModFluids.HONEY_FLUID_TYPE.get());
+//    }
 }

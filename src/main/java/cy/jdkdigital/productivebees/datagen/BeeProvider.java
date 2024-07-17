@@ -11,6 +11,8 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.setup.BeeReloadListener;
+import cy.jdkdigital.productivebees.util.BeeCreator;
 import cy.jdkdigital.productivebees.util.GeneValue;
 import cy.jdkdigital.productivelib.crafting.condition.FluidTagEmptyCondition;
 import net.minecraft.Util;
@@ -18,6 +20,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.neoforged.neoforge.common.Tags;
@@ -49,9 +52,14 @@ public class BeeProvider implements DataProvider
         Map<ResourceLocation, Supplier<JsonElement>> bees = Maps.newHashMap();
         // Iterate bees and create json files
 
+        Map<ResourceLocation, CompoundTag> BEE_DATA = new HashMap<>();
         getBeeConfigs().forEach(beeConfig -> {
-            bees.put(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, beeConfig.name), getBee(beeConfig));
+            var id = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, beeConfig.name);
+            bees.put(id, getBee(beeConfig));
+            BEE_DATA.put(id, BeeCreator.create(id, bees.get(id).get().getAsJsonObject()));
         });
+        // Make data available for later providers
+        BeeReloadListener.INSTANCE.setData(BEE_DATA);
 
         bees.forEach((rLoc, supplier) -> {
             output.add(saveStable(cachedOutput, supplier.get(), beePath.json(rLoc)));
@@ -538,7 +546,9 @@ public class BeeProvider implements DataProvider
         return () -> {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("primaryColor", bee.primaryColor);
-            jsonObject.addProperty("secondaryColor", bee.secondaryColor);
+            if (bee.secondaryColor != null) {
+                jsonObject.addProperty("secondaryColor", bee.secondaryColor);
+            }
             if (bee.tertiaryColor != null) {
                 jsonObject.addProperty("tertiaryColor", bee.tertiaryColor);
             }

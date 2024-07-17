@@ -53,7 +53,6 @@ public class SolitaryNestProvider implements IBlockComponentProvider, IServerDat
             nest.savePacketNBT(tag, blockAccessor.getLevel().registryAccess());
             tag.putBoolean("canRepopulate", nest.canRepopulate());
             if (!nest.isEmpty()) {
-                ProductiveBees.LOGGER.info(nest.stored.get(0).occupant.entityData().getUnsafe());
                 var type = BuiltInRegistries.ENTITY_TYPE.get(ResourceLocation.parse(nest.stored.get(0).occupant.entityData().getUnsafe().getString("id")));
                 tag.putString("inhabitantName", Component.translatable(type.getDescriptionId()).getString());
             }

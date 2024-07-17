@@ -64,7 +64,7 @@ public class BeeHelper
     private static final Map<String, List<RecipeHolder<ItemConversionRecipe>>> itemConversionRecipeMap = new HashMap<>();
     private static final Map<String, List<RecipeHolder<BeeNBTChangerRecipe>>> nbtChangerRecipeMap = new HashMap<>();
 
-    public static Entity itemInteract(Bee entity, ItemStack itemStack, ServerLevel level, CompoundTag nbt, Player player) {
+    public static Entity itemInteract(Bee entity, ItemStack itemStack, ServerLevel level, Player player) {
         Entity bee = null;
 
         if (!entity.isBaby()) {

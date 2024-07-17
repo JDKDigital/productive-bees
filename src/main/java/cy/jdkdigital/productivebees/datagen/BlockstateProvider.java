@@ -91,7 +91,7 @@ public class BlockstateProvider implements DataProvider
         ModBlocks.hiveStyles.forEach(style ->  {
             Block hive = BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "advanced_" + style + "_canvas_beehive"));
             Block box = BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "expansion_box_" + style + "_canvas"));
-            generateModels(hive, box, style + "_canvas", new HiveType(false, "", style, Ingredient.of(Items.OAK_PLANKS), null), blockstates, modelOutput);
+            generateModels(hive, box, style + "_canvas", new HiveType(false, "", style, Items.OAK_PLANKS, null), blockstates, modelOutput);
         });
         for (DyeColor color: DyeColor.values()) {
             generateHoneyModels(color);

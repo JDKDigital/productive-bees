@@ -1,0 +1,23 @@
+{
+  "type": "productivelib:item_modifier",
+  "addition": {
+    "count": 1,
+    "id": "minecraft:turtle_scute"
+  },
+  "chance": 0.15,
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:entities/turtle"
+    },
+    {
+      "condition": "productivelib:killed_by_uuid",
+      "uuid": [
+        -1083598183,
+        -1233373732,
+        -1742734489,
+        -32989763
+      ]
+    }
+  ]
+}

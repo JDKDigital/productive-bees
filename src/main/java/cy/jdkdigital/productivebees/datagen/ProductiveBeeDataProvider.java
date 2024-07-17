@@ -29,6 +29,7 @@ public class ProductiveBeeDataProvider
         gen.addProvider(event.includeClient(), new BlockstateProvider(output));
         gen.addProvider(event.includeServer(), new BlockLootProvider(output, List.of(new LootTableProvider.SubProviderEntry(BlockLootProvider.LootProvider::new, LootContextParamSets.BLOCK)), provider));
         gen.addProvider(event.includeServer(), new RecipeProvider(output, provider));
+        gen.addProvider(event.includeServer(), new LootModifierProvider(output, provider));
         BlockTagProvider blockTags = new BlockTagProvider(output, provider, helper);
         gen.addProvider(event.includeServer(), blockTags);
         gen.addProvider(event.includeServer(), new ItemTagProvider(output, provider, blockTags.contentsGetter(), helper));

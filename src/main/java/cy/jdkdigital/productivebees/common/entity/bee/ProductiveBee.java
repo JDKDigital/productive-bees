@@ -145,7 +145,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
             BeeEffect effect = getBeeEffect();
             if (effect != null && effect.getEffects().size() > 0) {
                 List<LivingEntity> entities;
-                if (getBeeType().equals("productivebees:pepto_bismol")) {
+                if (getBeeType().equals(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "pepto_bismol"))) {
                     entities = level().getEntitiesOfClass(LivingEntity.class, (new AABB(new BlockPos(ProductiveBee.this.blockPosition()))).inflate(8.0D, 6.0D, 8.0D));
                 } else {
                     entities = level().getEntitiesOfClass(Player.class, (new AABB(new BlockPos(ProductiveBee.this.blockPosition()))).inflate(8.0D, 6.0D, 8.0D)).stream().map(player -> (LivingEntity) player).collect(Collectors.toList());

@@ -1,16 +1,11 @@
 package cy.jdkdigital.productivebees.setup;
 
-import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.neoforged.neoforge.common.crafting.ICustomIngredient;
+import cy.jdkdigital.productivebees.util.FakeIngredient;
+import net.minecraft.world.level.ItemLike;
 
-public record HiveType(boolean hasTexture, String primary, String style, Ingredient planks, ICustomIngredient customPlank)
+public record HiveType(boolean hasTexture, String primary, String style, ItemLike planks, FakeIngredient customPlank)
 {
-    public HiveType(Ingredient planks) {
+    public HiveType(ItemLike planks) {
         this(true, "", "", planks, null);
-    }
-
-    public HiveType() {
-        this(true, "", "", Ingredient.of(ItemTags.PLANKS), null);
     }
 }

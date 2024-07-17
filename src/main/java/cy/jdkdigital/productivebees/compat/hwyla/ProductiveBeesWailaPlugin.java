@@ -23,7 +23,7 @@ public class ProductiveBeesWailaPlugin implements IWailaPlugin
     public void register(IWailaCommonRegistration registration) {
         registration.registerBlockDataProvider(SolitaryNestProvider.INSTANCE, SolitaryNestBlockEntity.class);
         registration.registerBlockDataProvider(JarProvider.INSTANCE, JarBlockEntity.class);
-        registration.registerEntityDataProvider(BeeProvider.INSTANCE, Bee.class);
+        registration.registerEntityDataProvider(BeeComponentDataProvider.INSTANCE, Bee.class);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class ProductiveBeesWailaPlugin implements IWailaPlugin
         registration.registerBlockComponent(CanvasExpansionBoxProvider.INSTANCE, CanvasExpansionBox.class);
         registration.registerBlockComponent(SolitaryNestProvider.INSTANCE, SolitaryNest.class);
         registration.registerBlockComponent(JarProvider.INSTANCE, Jar.class);
-        registration.registerEntityComponent(BeeProvider.INSTANCE, Bee.class);
+        registration.registerEntityComponent(BeeComponentDataProvider.INSTANCE, Bee.class);
         registration.addConfig(BEE_ATTRIBUTES, true);
     }
 }

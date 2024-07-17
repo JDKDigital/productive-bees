@@ -1,5 +1,15 @@
+1.21.0-13.1.4
 
+- Fixed some configs being empty and breaking EMI plugin
+- Fixed global loot modifiers again
+
+
+1.21.0-13.1.3
+
+- Updated to NeoForge 21.0.82+
+- Re-enabled BOP hives
 - Fixed stellarite bee recipe
+
 
 1.21.0-13.1.2
 

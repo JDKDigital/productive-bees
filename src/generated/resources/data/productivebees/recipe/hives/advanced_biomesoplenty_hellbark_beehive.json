@@ -1,0 +1,37 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "biomesoplenty"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "hives",
+  "key": {
+    "C": {
+      "tag": "c:honeycombs"
+    },
+    "F": {
+      "tag": "c:campfires"
+    },
+    "H": {
+      "tag": "c:hives"
+    },
+    "S": {
+      "tag": "c:tools/shear"
+    },
+    "W": {
+      "item": "biomesoplenty:hellbark_planks"
+    }
+  },
+  "pattern": [
+    "WWW",
+    "CHC",
+    "FWS"
+  ],
+  "result": {
+    "count": 1,
+    "id": "productivebees:advanced_biomesoplenty_hellbark_beehive"
+  }
+}

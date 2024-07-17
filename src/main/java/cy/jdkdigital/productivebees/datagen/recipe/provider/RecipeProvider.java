@@ -30,10 +30,7 @@ import net.neoforged.neoforge.common.conditions.TagEmptyCondition;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import net.neoforged.neoforge.fluids.FluidStack;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider implements IConditionBuilder
@@ -183,17 +180,20 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
 
     private void buildHiveRecipe(String modid, String name, HiveType type, RecipeOutput consumer) {
         try {
-            Block hive = ModBlocks.HIVES.get("advanced_" + name + "_beehive").get();
-            ShapedRecipeBuilder.shaped(RecipeCategory.MISC, hive).group("hives").pattern("WWW").pattern("CHC").pattern("FWS")
-                    .define('W', type.planks() != null ? type.planks() : Ingredient.of(Items.OAK_PLANKS))
-                    .define('H', Ingredient.of(ModTags.Common.HIVES))
-                    .define('C', Ingredient.of(ModTags.Common.HONEYCOMBS))
-                    .define('F', Ingredient.of(ModTags.Common.CAMPFIRES))
-                    .define('S', Ingredient.of(Tags.Items.TOOLS_SHEAR))
-                    .unlockedBy("has_hive", InventoryChangeTrigger.TriggerInstance.hasItems(Items.BEEHIVE))
-                    .save(consumer.withConditions(modLoaded(modid)), ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "hives/advanced_" + name + "_beehive"));
+            var plank = type.planks() != null ? Optional.of(type.planks()) : BuiltInRegistries.ITEM.getOptional(ResourceLocation.parse(type.customPlank().blockName));
+            if (plank.isPresent()) {
+                Block hive = ModBlocks.HIVES.get("advanced_" + name + "_beehive").get();
+                ShapedRecipeBuilder.shaped(RecipeCategory.MISC, hive).group("hives").pattern("WWW").pattern("CHC").pattern("FWS")
+                        .define('W', Ingredient.of(plank.get()))
+                        .define('H', Ingredient.of(ModTags.Common.HIVES))
+                        .define('C', Ingredient.of(ModTags.Common.HONEYCOMBS))
+                        .define('F', Ingredient.of(ModTags.Common.CAMPFIRES))
+                        .define('S', Ingredient.of(Tags.Items.TOOLS_SHEAR))
+                        .unlockedBy("has_hive", InventoryChangeTrigger.TriggerInstance.hasItems(Items.BEEHIVE))
+                        .save(consumer.withConditions(modLoaded(modid)), ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "hives/advanced_" + name + "_beehive"));
 
-            buildHiveResetRecipes(modid, hive, ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "hives/advanced_" + name + "_beehive_clear"), consumer);
+                buildHiveResetRecipes(modid, hive, ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "hives/advanced_" + name + "_beehive_clear"), consumer);
+            }
         } catch (Exception e) {
             ProductiveBees.LOGGER.warn("error generating hive recipe for " + name + " " + e.getMessage());
             ProductiveBees.LOGGER.warn("planks " + type.planks());
@@ -201,12 +201,20 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
     }
 
     private void buildBoxRecipe(String modid, String name, HiveType type, RecipeOutput consumer) {
-        Block box = ModBlocks.EXPANSIONS.get("expansion_box_" + name).get();
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, box).group("expansion_boxes").pattern("WWW").pattern("WCW").pattern("WWW")
-            .define('W', type.planks() != null ? type.planks() : type.customPlank().toVanilla())
-            .define('C', Ingredient.of(ModTags.Common.HONEYCOMBS))
-            .unlockedBy("has_hive", InventoryChangeTrigger.TriggerInstance.hasItems(Items.BEEHIVE))
-            .save(consumer.withConditions(modLoaded(modid)), ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "expansion_boxes/expansion_box_" + name));
+        try {
+            var plank = type.planks() != null ? Optional.of(type.planks()) : BuiltInRegistries.ITEM.getOptional(ResourceLocation.parse(type.customPlank().blockName));
+            if (plank.isPresent()) {
+                Block box = ModBlocks.EXPANSIONS.get("expansion_box_" + name).get();
+                ShapedRecipeBuilder.shaped(RecipeCategory.MISC, box).group("expansion_boxes").pattern("WWW").pattern("WCW").pattern("WWW")
+                        .define('W', Ingredient.of(plank.get()))
+                        .define('C', Ingredient.of(ModTags.Common.HONEYCOMBS))
+                        .unlockedBy("has_hive", InventoryChangeTrigger.TriggerInstance.hasItems(Items.BEEHIVE))
+                        .save(consumer.withConditions(modLoaded(modid)), ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "expansion_boxes/expansion_box_" + name));
+            }
+        } catch (Exception e) {
+            ProductiveBees.LOGGER.warn("error generating box recipe for " + name + " " + e.getMessage());
+            ProductiveBees.LOGGER.warn("planks " + type.planks());
+        }
     }
 
     private void buildCanvasRecipes(String style, RecipeOutput consumer) {

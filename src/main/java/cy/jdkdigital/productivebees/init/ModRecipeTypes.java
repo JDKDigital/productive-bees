@@ -45,10 +45,6 @@ public final class ModRecipeTypes
     public static DeferredHolder<RecipeType<?>, RecipeType<CentrifugeRecipe>> CENTRIFUGE_TYPE = registerRecipeType("centrifuge");
 
     static <T extends Recipe<RecipeInput>> DeferredHolder<RecipeType<?>, RecipeType<T>> registerRecipeType(final String name) {
-        return RECIPE_TYPES.register(name, () -> new RecipeType<T>() {
-            public String toString() {
-                return ProductiveBees.MODID + ":" + name;
-            }
-        });
+        return RECIPE_TYPES.register(name, () -> new RecipeType<T>() {});
     }
 }

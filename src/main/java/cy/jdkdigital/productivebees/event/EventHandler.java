@@ -77,7 +77,7 @@ public class EventHandler
 {
     @SubscribeEvent
     public static void onServerStarting(AddReloadListenerEvent event) {
-        BeeReloadListener.INSTANCE.context = event.getConditionContext();;
+        BeeReloadListener.INSTANCE.context = event.getConditionContext();
         event.addListener(BeeReloadListener.INSTANCE);
     }
 
@@ -111,9 +111,9 @@ public class EventHandler
         if (event.getEntity() instanceof ConfigurableBee bee) {
             if (
                     event.getSource().getMsgId().equals("mekanism.radiation") &&
-                            bee.getBeeType().equals("productivebees:radioactive") &&
-                            ProductiveBeesConfig.BEES.deadBeeConvertChance.get() > event.getEntity().level().random.nextDouble() &&
-                            BeeIngredientFactory.getIngredient("productivebees:wasted_radioactive").get() != null
+                    bee.getBeeType().equals(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "radioactive")) &&
+                    ProductiveBeesConfig.BEES.deadBeeConvertChance.get() > event.getEntity().level().random.nextDouble() &&
+                    BeeIngredientFactory.getIngredient("productivebees:wasted_radioactive").get() != null
             ) {
                 event.setCanceled(true);
                 bee.setHealth(bee.getMaxHealth());
@@ -299,7 +299,7 @@ public class EventHandler
                 Player player = entityInteract.getEntity();
                 BlockPos pos = entity.blockPosition();
 
-                Entity newBee = BeeHelper.itemInteract((Bee) entity, itemStack, (ServerLevel) level, entity.serializeNBT(serverLevel.registryAccess()), player);
+                Entity newBee = BeeHelper.itemInteract((Bee) entity, itemStack, serverLevel, player);
 
                 if (newBee instanceof Bee) {
                     // PLay event with smoke

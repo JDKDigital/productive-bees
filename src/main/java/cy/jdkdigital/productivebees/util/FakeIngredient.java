@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 public class FakeIngredient implements ICustomIngredient
 {
-    private final String blockName;
+    public final String blockName;
 
     public FakeIngredient(String blockName) {
         this.blockName = blockName;

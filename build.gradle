@@ -124,6 +124,8 @@ dependencies {
     implementation "curse.maven:cloth-config-348521:5424576"
     implementation "curse.maven:modern-industrialization-405388:5490765"
     implementation "curse.maven:biomes-o-plenty-220318:5512375"
+    implementation "curse.maven:glitchcore-955399:5483773"
+    implementation "curse.maven:terrablender-neoforge-940057:5429865"
 }
 
 tasks.withType(ProcessResources).configureEach {

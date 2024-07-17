@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.init;
 
+import biomesoplenty.api.item.BOPItems;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.*;
 import cy.jdkdigital.productivebees.common.block.nest.BumbleBeeNest;
@@ -109,18 +110,18 @@ public final class ModBlocks
     {{
         put(ProductiveBees.MODID, new HashMap<>()
         {{
-            put("oak", new HiveType(false, "#c29d62", "oak", Ingredient.of(Items.OAK_PLANKS), null));
-            put("spruce", new HiveType(false, "#886539", "spruce", Ingredient.of(Items.SPRUCE_PLANKS), null));
-            put("birch", new HiveType(false, "#d7cb8d", "birch", Ingredient.of(Items.BIRCH_PLANKS), null));
-            put("jungle", new HiveType(false, "#b88764", "jungle", Ingredient.of(Items.JUNGLE_PLANKS), null));
-            put("acacia", new HiveType(false, "#c26d3f", "acacia", Ingredient.of(Items.ACACIA_PLANKS), null));
-            put("dark_oak", new HiveType(false, "#53381a", "dark_oak", Ingredient.of(Items.DARK_OAK_PLANKS), null));
-            put("crimson", new HiveType(false, "#924160", "crimson", Ingredient.of(Items.CRIMSON_PLANKS), null));
-            put("warped", new HiveType(false, "#279994", "warped", Ingredient.of(Items.WARPED_PLANKS), null));
-            put("mangrove", new HiveType(false, "#773934", "mangrove", Ingredient.of(Items.MANGROVE_PLANKS), null));
-            put("cherry", new HiveType(false, "#e6b3ad", "cherry", Ingredient.of(Items.CHERRY_PLANKS), null));
-            put("bamboo", new HiveType(false, "#e3cc6a", "bamboo", Ingredient.of(Items.BAMBOO_PLANKS), null));
-            put("snake_block", new HiveType(false, "#477566", "snake_block", Ingredient.of(Items.PRISMARINE_SHARD), null));
+            put("oak", new HiveType(false, "#c29d62", "oak", Items.OAK_PLANKS, null));
+            put("spruce", new HiveType(false, "#886539", "spruce", Items.SPRUCE_PLANKS, null));
+            put("birch", new HiveType(false, "#d7cb8d", "birch", Items.BIRCH_PLANKS, null));
+            put("jungle", new HiveType(false, "#b88764", "jungle", Items.JUNGLE_PLANKS, null));
+            put("acacia", new HiveType(false, "#c26d3f", "acacia", Items.ACACIA_PLANKS, null));
+            put("dark_oak", new HiveType(false, "#53381a", "dark_oak", Items.DARK_OAK_PLANKS, null));
+            put("crimson", new HiveType(false, "#924160", "crimson", Items.CRIMSON_PLANKS, null));
+            put("warped", new HiveType(false, "#279994", "warped", Items.WARPED_PLANKS, null));
+            put("mangrove", new HiveType(false, "#773934", "mangrove", Items.MANGROVE_PLANKS, null));
+            put("cherry", new HiveType(false, "#e6b3ad", "cherry", Items.CHERRY_PLANKS, null));
+            put("bamboo", new HiveType(false, "#e3cc6a", "bamboo", Items.BAMBOO_PLANKS, null));
+            put("snake_block", new HiveType(false, "#477566", "snake_block", Items.PRISMARINE_SHARD, null));
         }});
         put("atmospheric", new HashMap<>()
         {{
@@ -261,7 +262,7 @@ public final class ModBlocks
 
     public static void registerHives() {
         HIVELIST.forEach((modid, strings) -> {
-            if (ModList.get().isLoaded(modid)) { // !FMLLoader.isProduction() ||
+            if (ProductiveBees.includeMod(modid)) {
                 strings.forEach((name, type) -> {
                     name = modid.equals(ProductiveBees.MODID) ? name : modid + "_" + name;
                     String hiveName = "advanced_" + name + "_beehive";

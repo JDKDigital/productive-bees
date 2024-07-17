@@ -1,7 +1,7 @@
 package cy.jdkdigital.productivebees.datagen.recipe.builder;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.common.crafting.ingredient.HoneycombIngredient;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.ComponentIngredient;
 import cy.jdkdigital.productivebees.common.recipe.CentrifugeRecipe;
 import cy.jdkdigital.productivebees.init.ModFluids;
 import cy.jdkdigital.productivebees.init.ModItems;
@@ -51,7 +51,7 @@ public class CentrifugeRecipeBuilder extends AbstractRecipeBuilder {
         if (fluid != null) {
             fluid = new FluidStack(ModFluids.HONEY, 50);
         }
-        return new CentrifugeRecipeBuilder(HoneycombIngredient.of(stack), output, fluid, conditions, true);
+        return new CentrifugeRecipeBuilder(ComponentIngredient.of(stack), output, fluid, conditions, true);
     }
 
     public static CentrifugeRecipeBuilder configurable(String beeName) {

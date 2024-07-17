@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "productivelib:optional_loot_item",
+          "conditions": [
+            {
+              "condition": "minecraft:survives_explosion"
+            }
+          ],
+          "name": "productivebees:expansion_box_biomesoplenty_umbran"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "productivebees:blocks/expansion_box_biomesoplenty_umbran"
+}

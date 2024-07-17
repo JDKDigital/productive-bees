@@ -3,7 +3,7 @@ package cy.jdkdigital.productivebees;
 import com.mojang.serialization.MapCodec;
 import cy.jdkdigital.productivebees.capabilities.attributes.BeeAttributesHandler;
 import cy.jdkdigital.productivebees.common.crafting.conditions.BeeExistsCondition;
-import cy.jdkdigital.productivebees.common.crafting.ingredient.HoneycombIngredient;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.ComponentIngredient;
 import cy.jdkdigital.productivebees.init.*;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.core.component.DataComponentType;
@@ -73,7 +73,7 @@ public final class ProductiveBees
     });
 
     public static final DeferredHolder<MapCodec<? extends ICondition>, MapCodec<BeeExistsCondition>> BEE_EXISTS_CONDITION = CONDITION_CODECS.register("bee_exists", () -> BeeExistsCondition.CODEC);
-    public static final DeferredHolder<IngredientType<?>, IngredientType<HoneycombIngredient>> HONEYCOMB_INGREDIENT_TYPE = INGREDIENT_TYPES.register("component", () -> new IngredientType<>(HoneycombIngredient.CODEC));
+    public static final DeferredHolder<IngredientType<?>, IngredientType<ComponentIngredient>> HONEYCOMB_INGREDIENT_TYPE = INGREDIENT_TYPES.register("component", () -> new IngredientType<>(ComponentIngredient.CODEC));
 
     public static final Supplier<AttachmentType<BeeAttributesHandler>> ATTRIBUTE_HANDLER = ATTACHMENT_TYPES.register("attributes_handler", () -> AttachmentType.serializable(BeeAttributesHandler::new).build());
 

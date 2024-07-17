@@ -81,7 +81,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                     (poi.value() == ModPointOfInterestTypes.SOLITARY_HIVE.get() && isWild()) ||
                     (poi.value() == ModPointOfInterestTypes.SOLITARY_NEST.get() && isWild()) ||
                     (poi.value() == ModPointOfInterestTypes.DRACONIC_NEST.get() && isDraconic()) ||
-                    (poi.value() == ModPointOfInterestTypes.SUGARBAG_NEST.get() && getBeeType().equals("productivebees:sugarbag"));
+                    (poi.value() == ModPointOfInterestTypes.SUGARBAG_NEST.get() && getBeeType().equals(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "sugarbag")));
     }
 
     @Override
