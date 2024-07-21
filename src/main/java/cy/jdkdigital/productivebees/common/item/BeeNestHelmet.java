@@ -41,7 +41,7 @@ public class BeeNestHelmet extends ArmorItem
     @Override
     public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
         // 36, 37, 38 and 39
-        if (pSlotId >= 36 && pSlotId <= 39) {
+        if (pLevel.isClientSide() && pSlotId >= 36 && pSlotId <= 39) {
             BlockPos pos = pEntity.blockPosition();
             if (pLevel.getRandom().nextDouble() < 0.005D && !ProductiveBeesConfig.CLIENT.mutedBeeNestHelmet.get() && pEntity instanceof Player player) {
                 pLevel.playSound(player, pos.getX(), pos.getY() + 2D, pos.getZ(), pLevel.random.nextBoolean() ? SoundEvents.BEEHIVE_WORK : SoundEvents.BEEHIVE_DRIP, SoundSource.BLOCKS, 1.0F, 1.0F);

@@ -16,8 +16,11 @@
       "type": "neoforge:not"
     },
     {
-      "tag": "c:storage_blocks/graphite",
-      "type": "neoforge:tag_empty"
+      "value": {
+        "tag": "c:storage_blocks/graphite",
+        "type": "neoforge:tag_empty"
+      },
+      "type": "neoforge:not"
     }
   ]
 }

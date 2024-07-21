@@ -16,6 +16,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -126,17 +127,17 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
             add(new CentrifugeRecipeBuilder.RecipeConfig("graphite", "reactors", new String[]{"extremereactors", "biggerreactors"}, "#c:ingots/graphite", new HashMap<>()));
         }};
         ingots.forEach((config) -> {
-//            var recipe = CentrifugeRecipeBuilder.configurable(config.name())
-////                    .addOutput(new AbstractRecipeBuilder.ModItemOutput(config.centrifugeOutput()))
+            var recipe = CentrifugeRecipeBuilder.configurable(config.name())
+                    .addOutput(new TagOutputRecipe.ChancedOutput(Ingredient.of(ItemTags.create(ResourceLocation.parse(config.centrifugeOutput().replace("#", "")))), 1, 1, 1f))
 //                    .addOutput(new TagOutputRecipe.ChancedOutput(DataComponentIngredient.of(false, BeeCreator.getSpawnEgg(ResourceLocation.parse("productivebees:iron"))), 1, 1, 1f))
-//                    .setFluidOutput(new FluidStack(ModFluids.HONEY, 50));
-//            if (config.centrifugeOutput().startsWith("#")) {
-//                recipe.withCondition(new NotCondition(new TagEmptyCondition(config.centrifugeOutput().replace("#", ""))));
-//            }
-//            recipe.save(consumer.withConditions(new BeeExistsCondition(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, config.name()))), ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "centrifuge/" + config.folder() + "/honeycomb_" + config.name()));
+                    .setFluidOutput(new FluidStack(ModFluids.HONEY, 50));
+            if (config.centrifugeOutput().startsWith("#")) {
+                recipe.withCondition(new NotCondition(new TagEmptyCondition(config.centrifugeOutput().replace("#", ""))));
+            }
+            recipe.save(consumer.withConditions(new BeeExistsCondition(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, config.name()))), ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "centrifuge/" + config.folder() + "/honeycomb_" + config.name()));
 
 //            ItemStack stack = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
-//            BeeCreator.setTag(ProductiveBees.MODID + ":" + config.name(), stack);
+//            BeeCreator.setType(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, config.name()), stack);
 //            Arrays.stream(config.mods()).forEach(s -> {
 //                mixingRecipeBuilder.builder(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "create/mixing/" + s + "/honeycomb_" + config.name()))
 //                        .require(StrictNBTIngredient.of(stack))

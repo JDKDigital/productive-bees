@@ -281,11 +281,11 @@ public class ProductiveBeesConfig
             nestConfigs.put("obsidian_nest", builder.defineInRange("obsidian_nest", 1.00D, 0.0D, 1.0D));
             nestConfigs.put("bumble_bee_nest", builder.defineInRange("bumble_bee_nest", 0.02D, 0.0D, 1.0D));
             nestConfigs.put("oak_wood_nest", builder.defineInRange("oak_wood_nest", 0.15D, 0.0D, 1.0D));
-            nestConfigs.put("spruce_wood_nest", builder.defineInRange("spruce_wood_nest", 0.2D, 0.0D, 1.0D));
-            nestConfigs.put("dark_oak_wood_nest", builder.defineInRange("dark_oak_wood_nest", 0.2D, 0.0D, 1.0D));
+            nestConfigs.put("spruce_wood_nest", builder.defineInRange("spruce_wood_nest", 0.05D, 0.0D, 1.0D));
+            nestConfigs.put("dark_oak_wood_nest", builder.defineInRange("dark_oak_wood_nest", 0.05D, 0.0D, 1.0D));
             nestConfigs.put("birch_wood_nest", builder.defineInRange("birch_wood_nest", 0.2D, 0.0D, 1.0D));
             nestConfigs.put("jungle_wood_nest", builder.defineInRange("jungle_wood_nest", 0.10D, 0.0D, 1.0D));
-            nestConfigs.put("acacia_wood_nest", builder.defineInRange("acacia_wood_nest", 0.2D, 0.0D, 1.0D));
+            nestConfigs.put("acacia_wood_nest", builder.defineInRange("acacia_wood_nest", 0.05D, 0.0D, 1.0D));
             nestConfigs.put("nether_bee_nest", builder.defineInRange("nether_bee_nest", 0.02D, 0.0D, 1.0D));
             nestConfigs.put("sugarbag_nest", builder.defineInRange("sugarbag_nest", 0.02D, 0.0D, 1.0D));
 

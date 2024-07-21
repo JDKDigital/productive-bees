@@ -1,3 +1,9 @@
+1.21.0-13.1.5
+
+- Fixed crash with bee helmet
+- Re-added some long lost reactor bee stuff
+
+
 1.21.0-13.1.4
 
 - Fixed some configs being empty and breaking EMI plugin

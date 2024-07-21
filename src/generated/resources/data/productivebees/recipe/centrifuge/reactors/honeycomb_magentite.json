@@ -1,0 +1,46 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:magentite"
+    },
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:ingots/magentite"
+      }
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "fluid": {
+    "amount": 50,
+    "id": "productivebees:honey"
+  },
+  "ingredient": {
+    "type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:magentite"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "chance": 1.0,
+      "item": {
+        "tag": "c:wax"
+      },
+      "max": 1,
+      "min": 1
+    },
+    {
+      "chance": 1.0,
+      "item": {
+        "tag": "c:ingots/magentite"
+      },
+      "max": 1,
+      "min": 1
+    }
+  ],
+  "processingTime": 0
+}
