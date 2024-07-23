@@ -27,6 +27,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.Entity;
@@ -54,6 +55,7 @@ import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.living.BabyEntitySpawnEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
@@ -416,6 +418,15 @@ public class EventHandler
     public static void onEntitySpawn(EntityJoinLevelEvent event) {
         if (event.getLevel() instanceof ServerLevel && event.getEntity() instanceof Bee entity && !entity.hasData(ProductiveBees.ATTRIBUTE_HANDLER)) {
             entity.getData(ProductiveBees.ATTRIBUTE_HANDLER);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onBabyEntitySpawn(BabyEntitySpawnEvent event) {
+        if (event.getChild() instanceof Bee bee && bee.level() instanceof ServerLevel && !bee.hasData(ProductiveBees.ATTRIBUTE_HANDLER)) {
+            if (event.getParentA() instanceof Bee parenA && event.getParentB() instanceof AgeableMob parentB) {
+                BeeHelper.setOffspringAttributes(bee, parenA, parentB);
+            }
         }
     }
 }

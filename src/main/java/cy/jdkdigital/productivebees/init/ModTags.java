@@ -47,6 +47,7 @@ public class ModTags
     public static final TagKey<EntityType<?>> RANCHABLES = getEntityTag(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "ranchables"));
     public static final TagKey<EntityType<?>> EXTERNAL_CAN_POLLINATE = getEntityTag(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "external_can_pollinate"));
     public static final TagKey<EntityType<?>> BEE_ENCASE_BLACKLIST = getEntityTag(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "bee_encase_blacklist"));
+    public static final TagKey<EntityType<?>> MAGMA_CUBES = getEntityTag(ResourceLocation.fromNamespaceAndPath("c", "magma_cubes"));
 
     public static final TagKey<Fluid> HONEY = FluidTags.create(ResourceLocation.fromNamespaceAndPath("c", "honey"));
 

@@ -169,7 +169,7 @@ public class ProductiveBeesEmiPlugin implements EmiPlugin
                 recipe.value().itemOutput.forEach((chanceOutput) -> {
                     outputs.add(new TagOutputRecipe.ChancedOutput(chanceOutput.ingredient(), chanceOutput.min() * 4, chanceOutput.max() * 4, chanceOutput.chance()));
                 });
-                return new RecipeHolder<>(recipe.id().withPath(p -> "/" + p + "_block"), new CentrifugeRecipe(Ingredient.of(BeeHelper.getCombBlockFromHoneyComb(item)), outputs, recipe.value().fluidOutput != null ? new FluidStack(recipe.value().fluidOutput.getFluid(), recipe.value().fluidOutput.getAmount() * 4) : null, recipe.value().getProcessingTime()));
+                return new RecipeHolder<>(recipe.id().withPath(p -> "/" + p + "_block"), new CentrifugeRecipe(Ingredient.of(BeeHelper.getCombBlockFromHoneyComb(item)), outputs, recipe.value().fluidOutput.map(fluidStack -> new FluidStack(fluidStack.getFluid(), fluidStack.getAmount() * 4)), recipe.value().getProcessingTime()));
             }
             return null;
         }).filter(Objects::nonNull).toList();

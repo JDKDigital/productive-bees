@@ -1,3 +1,10 @@
+1.21.0-13.1.6
+
+- Hives now have correct wood sounds based on the wood they're made from
+- Fixed vanilla bees not inheriting genes from parents
+- Fixed some recipes
+
+
 1.21.0-13.1.5
 
 - Fixed crash with bee helmet

@@ -1,16 +1,16 @@
 {
   "type": "productivebees:item_conversion",
-  "bee": "productivebees:radioactive",
+  "bees": ["productivebees:radioactive"],
   "ingredients": [
     {
+      "type": "productivebees:component",
       "components": {
         "minecraft:entity_data": {
           "type": "productivebees:cyanite",
           "id": "productivebees:configurable_bee"
         }
       },
-      "count": 1,
-      "id": "productivebees:spawn_egg_configurable_bee"
+      "items": "productivebees:spawn_egg_configurable_bee"
     }
   ],
   "result": {
@@ -24,6 +24,13 @@
     "id": "productivebees:spawn_egg_configurable_bee"
   },
   "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "bigreactors"
+      }
+    },
     {
       "type": "productivebees:bee_exists",
       "bee": "productivebees:cyanite"

@@ -498,9 +498,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
             return null;
         }
 
-        if (newBee instanceof ProductiveBee) {
-            BeeHelper.setOffspringAttributes((ProductiveBee) newBee, this, targetEntity);
-        }
+        BeeHelper.setOffspringAttributes((Bee) newBee, this, targetEntity);
 
         return (Bee) newBee;
     }

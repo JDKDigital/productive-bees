@@ -116,7 +116,8 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("wanna").primaryColor("#3b2754").secondaryColor("#06030b").particleColor("#3b2754").beeTexture("wanna").renderer("thicc").noComb().attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_STRONG.getSerializedName()); }}).flowerBlock("productivebees:amber"));
             add(new BeeConfig("withered").primaryColor("#141414").secondaryColor("#141414").particleColor("#141414").beeTexture("wither").noSelfBreed().flowerTag("productivebees:flowers/wither").attributes(new HashMap<>(){{ put("temper", GeneValue.TEMPER_AGGRESSIVE.getSerializedName()); put("behavior", GeneValue.BEHAVIOR_NOCTURNAL.getSerializedName()); }}).withered().passiveEffects(new ArrayList<>() {{ add(new PassiveEffect("minecraft:wither", 150)); }}));
             add(new BeeConfig("zombie").primaryColor("#796565").beeTexture("zombie").munchies().noSelfBreed().attributes(new HashMap<>(){{ put("temper", GeneValue.TEMPER_AGGRESSIVE.getSerializedName()); put("behavior", GeneValue.BEHAVIOR_NOCTURNAL.getSerializedName()); }}).passiveEffects(new ArrayList<>() {{  add(new PassiveEffect("minecraft:hunger", 150)); }}).speed(0.8));
-            add(new BeeConfig("breeze").primaryColor("#2b425e").secondaryColor("686394").tertiaryColor("#bbabd1").particleColor("#f3f5ff").beeTexture("breeze").flowerItem("minecraft:heavy_core").speed(0.8));
+            add(new BeeConfig("breeze").primaryColor("#2b425e").secondaryColor("#686394").tertiaryColor("#bbabd1").particleColor("#f3f5ff").beeTexture("breeze").flowerItem("minecraft:heavy_core").speed(0.8));
+            add(new BeeConfig("ribbeet").primaryColor("#3a5a19").secondaryColor("#73964b").particleColor("#f3f5ff").flowerTag("c:magma_cubes").beeTexture("ribbeet").flowerType("entity_types").renderer("thicc").size(0.5f).pollinatedSize(1.0f));
 
             add(new BeeConfig("ad_astra/calorite").primaryColor("#c44249").secondaryColor("#470d2f").particleColor("#df6d5c").flowerTag("c:storage_blocks/calorite").requireTag("c:storage_blocks/calorite"));
             add(new BeeConfig("ad_astra/cheese").primaryColor("#d99c0d").particleColor("#edc76d").beeTexture("cheese").onlySpawnegg().flowerBlock("ad_astra:cheese_block").size(0.8).requireMod("ad_astra"));
@@ -597,7 +598,7 @@ public class BeeProvider implements DataProvider
             if (bee.size != 1.0f) {
                 jsonObject.addProperty("size", bee.size);
             }
-            if (bee.pollinatedSize != 1.0f) {
+            if (bee.pollinatedSize != 0 && bee.pollinatedSize != bee.size) {
                 jsonObject.addProperty("pollinatedSize", bee.pollinatedSize);
             }
             if (bee.speed != 1.0f) {
@@ -728,7 +729,7 @@ public class BeeProvider implements DataProvider
         String nestingPreference = null;
         String postPollination = null;
         float size = 1.0f;
-        float pollinatedSize = 1.0f;
+        float pollinatedSize = 0f;
         float speed = 1.0f;
         double attack = 1.0f;
         boolean createComb = true;

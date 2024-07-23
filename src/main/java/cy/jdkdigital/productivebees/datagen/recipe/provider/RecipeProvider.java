@@ -5,30 +5,22 @@ import cy.jdkdigital.productivebees.common.crafting.conditions.BeeExistsConditio
 import cy.jdkdigital.productivebees.datagen.recipe.builder.CentrifugeRecipeBuilder;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.setup.HiveType;
-import cy.jdkdigital.productivebees.util.BeeCreator;
 import cy.jdkdigital.productivelib.common.recipe.TagOutputRecipe;
-import cy.jdkdigital.productivelib.datagen.recipe.builder.AbstractRecipeBuilder;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 import net.neoforged.neoforge.common.conditions.NotCondition;
 import net.neoforged.neoforge.common.conditions.TagEmptyCondition;
-import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.*;
@@ -75,6 +67,16 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .unlockedBy("has_honey", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.PETRIFIED_HONEY.get()))
                 .save(consumer, ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "petrified_honey/" + dyeColor.getSerializedName()));
         });
+
+        // Ribbeet centrifuge
+        CentrifugeRecipeBuilder.configurable("ribbeet")
+                .clearOutput()
+                .addOutput(new TagOutputRecipe.ChancedOutput(Ingredient.of(Items.OCHRE_FROGLIGHT), 1, 1, 0.05f))
+                .addOutput(new TagOutputRecipe.ChancedOutput(Ingredient.of(Items.PEARLESCENT_FROGLIGHT), 1, 1, 0.05f))
+                .addOutput(new TagOutputRecipe.ChancedOutput(Ingredient.of(Items.VERDANT_FROGLIGHT), 1, 1, 0.05f))
+//                .setFluidOutput(new FluidStack(ModFluids.HONEY, 0))
+                .save(consumer.withConditions(new BeeExistsCondition(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "ribbeet"))), ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "centrifuge/honeycomb_ribbeet"));
+
 
 //        var egg = new ItemStack(ModItems.CONFIGURABLE_SPAWN_EGG.get());
 //        var tag = new CompoundTag();

@@ -1,14 +1,14 @@
 {
   "type": "naturesaura:altar",
   "input": {
+    "type": "productivebees:component",
     "components": {
       "minecraft:entity_data": {
         "type": "productivebees:gold",
         "id": "productivebees:configurable_bee"
       }
     },
-    "count": 1,
-    "id": "productivebees:spawn_egg_configurable_bee"
+    "items": "productivebees:spawn_egg_configurable_bee"
   },
   "output": {
     "components": {

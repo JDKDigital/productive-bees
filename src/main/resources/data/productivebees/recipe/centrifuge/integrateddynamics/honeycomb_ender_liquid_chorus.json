@@ -1,11 +1,5 @@
 {
   "type": "productivebees:centrifuge",
-  "neoforge:conditions": [
-    {
-      "type": "neoforge:mod_loaded",
-      "modid": "integrateddynamics"
-    }
-  ],
   "ingredient": {
     "type": "productivebees:component",
     "components": {
@@ -24,10 +18,16 @@
       "item": {
         "item": "minecraft:ender_pearl"
       }
-    },
+    }
+  ],
+  "fluid": {
+    "amount": 50,
+    "id": "integrateddynamics:liquid_chorus"
+  },
+  "neoforge:conditions": [
     {
-      "amount": 50,
-      "id": "integrateddynamics:liquid_chorus"
+      "type": "neoforge:mod_loaded",
+      "modid": "integrateddynamics"
     }
   ]
 }

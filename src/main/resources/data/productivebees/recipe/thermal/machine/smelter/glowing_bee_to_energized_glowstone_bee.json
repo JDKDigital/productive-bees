@@ -2,23 +2,25 @@
   "type": "thermal:smelter",
   "input": [
     {
+      "type": "productivebees:component",
       "components": {
         "minecraft:entity_data": {
           "type": "productivebees:glowing",
           "id": "productivebees:configurable_bee"
         }
       },
-      "count": 1,
-      "id": "productivebees:spawn_egg_configurable_bee"
+      "items": "productivebees:spawn_egg_configurable_bee"
     }
   ],
   "result": {
-    "id": "productivebees:spawn_egg_configurable_bee",
-    "nbt": {
-      "EntityTag": {
-        "type": "productivebees:energized_glowstone"
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:energized_glowstone",
+        "id": "productivebees:configurable_bee"
       }
-    }
+    },
+    "count": 1,
+    "id": "productivebees:spawn_egg_configurable_bee"
   },
   "energy": 8000,
   "neoforge:conditions": [

@@ -248,9 +248,9 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
                 }
 
                 Bee bee1 = BeeCage.getEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1), level, true);
-                if (bee instanceof ProductiveBee && bee1 instanceof ProductiveBee) {
+                if (bee1 != null) {
                     Bee bee2 = BeeCage.getEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2), level, true);
-                    BeeHelper.setOffspringAttributes((ProductiveBee) bee, (ProductiveBee) bee1, bee2);
+                    BeeHelper.setOffspringAttributes(bee, bee1, bee2);
                 }
 
                 bee.setAge(-24000);

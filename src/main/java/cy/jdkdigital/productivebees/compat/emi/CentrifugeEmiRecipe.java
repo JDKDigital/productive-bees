@@ -48,7 +48,7 @@ public class CentrifugeEmiRecipe extends BasicEmiRecipe
         int startY = 25;
         int i = 0;
         for (EmiStack stack : this.outputs) {
-            widgets.addSlot(stack, startX + (i * 18) + 1, startY + ((int) Math.floor(i / 3.0F) * 18) + 1).recipeContext(this);
+            widgets.addSlot(stack, startX + ((3-i)%3 * 18) + 1, startY + ((int) Math.floor(i / 3.0F) * 18) + 1).recipeContext(this);
             i++;
         }
     }

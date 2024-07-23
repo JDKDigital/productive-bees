@@ -1,0 +1,11 @@
+{
+  "primaryColor": "#3a5a19",
+  "secondaryColor": "#73964b",
+  "particleColor": "#f3f5ff",
+  "flowerType": "entity_types",
+  "flowerTag": "c:magma_cubes",
+  "beeTexture": "productivebees:textures/entity/bee/ribbeet/bee",
+  "size": 0.5,
+  "pollinatedSize": 1.0,
+  "renderer": "thicc"
+}

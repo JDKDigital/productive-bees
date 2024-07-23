@@ -33,5 +33,6 @@ public class ProductiveBeeDataProvider
         BlockTagProvider blockTags = new BlockTagProvider(output, provider, helper);
         gen.addProvider(event.includeServer(), blockTags);
         gen.addProvider(event.includeServer(), new ItemTagProvider(output, provider, blockTags.contentsGetter(), helper));
+        gen.addProvider(event.includeServer(), new EntityTagProvider(output, provider, helper));
     }
 }

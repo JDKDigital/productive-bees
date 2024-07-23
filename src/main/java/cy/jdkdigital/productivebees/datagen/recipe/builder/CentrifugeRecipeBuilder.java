@@ -22,6 +22,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class CentrifugeRecipeBuilder extends AbstractRecipeBuilder {
     private final Ingredient input;
@@ -48,8 +49,8 @@ public class CentrifugeRecipeBuilder extends AbstractRecipeBuilder {
         if (output.isEmpty()) {
             output.add(new TagOutputRecipe.ChancedOutput(Ingredient.of(ModTags.Common.WAX), 1, 1, 1f));
         }
-        if (fluid != null) {
-            fluid = new FluidStack(ModFluids.HONEY, 50);
+        if (fluid == null) {
+            fluid = new FluidStack(ModFluids.HONEY, 100);
         }
         return new CentrifugeRecipeBuilder(ComponentIngredient.of(stack), output, fluid, conditions, true);
     }
@@ -90,7 +91,12 @@ public class CentrifugeRecipeBuilder extends AbstractRecipeBuilder {
 
     @Override
     public void save(RecipeOutput consumer, ResourceLocation id) {
-        consumer.accept(id, new CentrifugeRecipe(input, output, fluid, 0), null, conditions.toArray(new ICondition[0]));
+        consumer.accept(id, new CentrifugeRecipe(input, output, Optional.of(fluid), 0), null, conditions.toArray(new ICondition[0]));
+    }
+
+    public CentrifugeRecipeBuilder clearOutput() {
+        output.clear();
+        return this;
     }
 
     public record RecipeConfig(String name, String folder, String[] mods, String centrifugeOutput, Map<String, String> mixingOutputs) {

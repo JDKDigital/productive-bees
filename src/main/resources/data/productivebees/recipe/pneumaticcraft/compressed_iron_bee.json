@@ -2,14 +2,14 @@
   "type": "pneumaticcraft:pressure_chamber",
   "inputs": [
     {
+      "type": "productivebees:component",
       "components": {
         "minecraft:entity_data": {
           "type": "productivebees:iron",
           "id": "productivebees:configurable_bee"
         }
       },
-      "count": 1,
-      "id": "productivebees:spawn_egg_configurable_bee"
+      "items": "productivebees:spawn_egg_configurable_bee"
     }
   ],
   "pressure": 2.0,

@@ -13,7 +13,7 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 public class ItemConversionEmiRecipe extends BasicEmiRecipe
 {
     private final float chance;
-    ResourceLocation location = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/jei/block_conversion_recipe.png");
+    ResourceLocation location = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/jei/block_conversion.png");
 
     public ItemConversionEmiRecipe(RecipeHolder<ItemConversionRecipe> recipe) {
         super(ProductiveBeesEmiPlugin.ITEM_CONVERSION_CATEGORY, recipe.id(), 90, 52);

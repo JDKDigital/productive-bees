@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
@@ -47,11 +48,8 @@ public class AmberItem extends BlockItem
         ItemStack stack = new ItemStack(ModBlocks.AMBER.get());
         CompoundTag entityTag = new CompoundTag();
         entityTag.putString("name", Component.translatable(entityType.getDescriptionId()).getString());
-        CompoundTag thing = new CompoundTag();
-        thing.put("EntityData", entityTag);
-        CompoundTag tag = new CompoundTag();
-        tag.put("BlockEntityTag", thing);
-        stack.set(DataComponents.ENTITY_DATA, CustomData.of(tag));
+        entityTag.putString("id", BuiltInRegistries.ENTITY_TYPE.getKey(entityType).toString());
+        stack.set(DataComponents.ENTITY_DATA, CustomData.of(entityTag));
         return stack;
     }
 }

@@ -1,6 +1,6 @@
 {
   "type": "productivebees:item_conversion",
-  "bee": "productivebees:rancher_bee",
+  "bees": ["productivebees:rancher_bee"],
   "ingredients": [
     {
       "item": "ad_astra:cheese_block"

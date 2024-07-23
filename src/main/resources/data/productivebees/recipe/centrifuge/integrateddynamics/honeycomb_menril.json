@@ -18,12 +18,12 @@
       "item": {
         "item": "integrateddynamics:crystalized_menril_chunk"
       }
-    },
-    {
-      "amount": 50,
-      "id": "integrateddynamics:menril_resin"
     }
   ],
+  "fluid": {
+    "amount": 50,
+    "id": "integrateddynamics:menril_resin"
+  },
   "neoforge:conditions": [
     {
       "type": "neoforge:mod_loaded",

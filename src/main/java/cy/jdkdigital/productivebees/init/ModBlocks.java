@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.init;
 
-import biomesoplenty.api.item.BOPItems;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.*;
 import cy.jdkdigital.productivebees.common.block.nest.BumbleBeeNest;
@@ -15,16 +14,14 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
-import net.neoforged.fml.ModList;
-import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.*;
@@ -110,17 +107,17 @@ public final class ModBlocks
     {{
         put(ProductiveBees.MODID, new HashMap<>()
         {{
-            put("oak", new HiveType(false, "#c29d62", "oak", Items.OAK_PLANKS, null));
-            put("spruce", new HiveType(false, "#886539", "spruce", Items.SPRUCE_PLANKS, null));
-            put("birch", new HiveType(false, "#d7cb8d", "birch", Items.BIRCH_PLANKS, null));
-            put("jungle", new HiveType(false, "#b88764", "jungle", Items.JUNGLE_PLANKS, null));
-            put("acacia", new HiveType(false, "#c26d3f", "acacia", Items.ACACIA_PLANKS, null));
-            put("dark_oak", new HiveType(false, "#53381a", "dark_oak", Items.DARK_OAK_PLANKS, null));
-            put("crimson", new HiveType(false, "#924160", "crimson", Items.CRIMSON_PLANKS, null));
-            put("warped", new HiveType(false, "#279994", "warped", Items.WARPED_PLANKS, null));
-            put("mangrove", new HiveType(false, "#773934", "mangrove", Items.MANGROVE_PLANKS, null));
-            put("cherry", new HiveType(false, "#e6b3ad", "cherry", Items.CHERRY_PLANKS, null));
-            put("bamboo", new HiveType(false, "#e3cc6a", "bamboo", Items.BAMBOO_PLANKS, null));
+            put("oak", new HiveType(false, "#c29d62", "oak", Blocks.OAK_PLANKS, null));
+            put("spruce", new HiveType(false, "#886539", "spruce", Blocks.SPRUCE_PLANKS, null));
+            put("birch", new HiveType(false, "#d7cb8d", "birch", Blocks.BIRCH_PLANKS, null));
+            put("jungle", new HiveType(false, "#b88764", "jungle", Blocks.JUNGLE_PLANKS, null));
+            put("acacia", new HiveType(false, "#c26d3f", "acacia", Blocks.ACACIA_PLANKS, null));
+            put("dark_oak", new HiveType(false, "#53381a", "dark_oak", Blocks.DARK_OAK_PLANKS, null));
+            put("crimson", new HiveType(false, "#924160", "crimson", Blocks.CRIMSON_PLANKS, null));
+            put("warped", new HiveType(false, "#279994", "warped", Blocks.WARPED_PLANKS, null));
+            put("mangrove", new HiveType(false, "#773934", "mangrove", Blocks.MANGROVE_PLANKS, null));
+            put("cherry", new HiveType(false, "#e6b3ad", "cherry", Blocks.CHERRY_PLANKS, null));
+            put("bamboo", new HiveType(false, "#e3cc6a", "bamboo", Blocks.BAMBOO_PLANKS, null));
             put("snake_block", new HiveType(false, "#477566", "snake_block", Items.PRISMARINE_SHARD, null));
         }});
         put("atmospheric", new HashMap<>()
@@ -268,8 +265,9 @@ public final class ModBlocks
                     String hiveName = "advanced_" + name + "_beehive";
                     String boxName = "expansion_box_" + name;
                     if (!HIVES.containsKey(hiveName)) {
-                        HIVES.put(hiveName, createBlock(hiveName, () -> new AdvancedBeehive(Block.Properties.ofFullCopy(Blocks.BEEHIVE)), true));
-                        EXPANSIONS.put(boxName, createBlock(boxName, () -> new ExpansionBox(Block.Properties.ofFullCopy(Blocks.BEEHIVE)), true));
+                        var properties = type.planks() instanceof Block plankBlock ? Block.Properties.ofFullCopy(plankBlock).instrument(NoteBlockInstrument.BASS).strength(0.6F) : Block.Properties.ofFullCopy(Blocks.BEEHIVE);
+                        HIVES.put(hiveName, createBlock(hiveName, () -> new AdvancedBeehive(properties), true));
+                        EXPANSIONS.put(boxName, createBlock(boxName, () -> new ExpansionBox(properties), true));
                     }
                 });
             }

@@ -298,16 +298,12 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                         Entity otherBee = otherBeeInhabitant.toOccupant().createEntity(level, getBlockPos());
                         if (otherBee instanceof Bee) {
                             Entity offspring = BeeHelper.getBreedingResult(beeEntity, (Bee) otherBee, (ServerLevel) this.level);
-                            if (offspring != null) {
-                                if (offspring instanceof ProductiveBee && beeEntity instanceof ProductiveBee) {
-                                    BeeHelper.setOffspringAttributes((ProductiveBee) offspring, (ProductiveBee) beeEntity, (Bee) otherBee);
-                                }
-                                if (offspring instanceof AgeableMob) {
-                                    ((AgeableMob) offspring).setAge(-24000);
-                                }
+                            if (offspring instanceof Bee bee) {
+                                BeeHelper.setOffspringAttributes(bee, beeEntity, (Bee) otherBee);
+                                bee.setAge(-24000);
                                 BlockPos frontPos = getBlockPos().relative(state.getValue(BeehiveBlock.FACING));
-                                offspring.moveTo(frontPos.getX(), frontPos.getY() + 0.5F, frontPos.getZ(), 0.0F, 0.0F);
-                                level.addFreshEntity(offspring);
+                                bee.moveTo(frontPos.getX(), frontPos.getY() + 0.5F, frontPos.getZ(), 0.0F, 0.0F);
+                                level.addFreshEntity(bee);
                             }
                         }
                     }

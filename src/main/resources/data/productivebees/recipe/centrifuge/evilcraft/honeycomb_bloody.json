@@ -9,15 +9,15 @@
   },
   "outputs": [
     {
-      "id": "evilcraft:blood",
-      "amount": 100
-    },
-    {
       "item": {
         "item": "productivebees:wax"
       }
     }
   ],
+  "fluid": {
+    "id": "evilcraft:blood",
+    "amount": 100
+  },
   "neoforge:conditions": [
     {
       "type": "neoforge:mod_loaded",

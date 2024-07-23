@@ -10,23 +10,25 @@
       "item": "irons_spellbooks:arcane_essence"
     },
     "y": {
+      "type": "productivebees:component",
       "components": {
         "minecraft:entity_data": {
           "type": "productivebees:diamond",
           "id": "productivebees:configurable_bee"
         }
       },
-      "count": 1,
-      "id": "productivebees:spawn_egg_configurable_bee"
+      "items": "productivebees:spawn_egg_configurable_bee"
     }
   },
   "result": {
-    "id": "productivebees:spawn_egg_configurable_bee",
-    "nbt": {
-      "EntityTag": {
-        "type": "productivebees:arcane_essence"
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:arcane_essence",
+        "id": "productivebees:configurable_bee"
       }
-    }
+    },
+    "count": 1,
+    "id": "productivebees:spawn_egg_configurable_bee"
   },
   "neoforge:conditions": [
     {
