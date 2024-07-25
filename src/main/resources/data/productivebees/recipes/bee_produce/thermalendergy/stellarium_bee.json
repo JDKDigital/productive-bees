@@ -1,6 +1,6 @@
 {
   "type": "productivebees:advanced_beehive",
-  "ingredient": "productivebees:uncommon_salvage",
+  "ingredient": "productivebees:stellarium",
   "results": [
     {
       "item": {
@@ -8,16 +8,22 @@
         "item": "productivebees:configurable_honeycomb",
         "nbt": {
           "EntityTag": {
-            "type": "productivebees:uncommon_salvage"
+            "type": "productivebees:stellarium"
           }
         }
       }
+    },
+    {
+      "item": {
+        "tag": "forge:pollen"
+      },
+      "chance": 5
     }
   ],
   "conditions": [
     {
-      "type": "forge:mod_loaded",
-      "modid": "mmorpg"
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:stellarium"
     }
   ]
 }

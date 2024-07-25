@@ -1,0 +1,19 @@
+{
+  "primaryColor": "#1e2626",
+  "secondaryColor": "#728e8e",
+  "particleColor": "#deeaea",
+  "flowerTag": "forge:storage_blocks/stellarium",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/stellarium/bee",
+  "size": 0.3,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:storage_blocks/stellarium",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

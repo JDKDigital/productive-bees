@@ -5,27 +5,32 @@
     "item": "productivebees:configurable_honeycomb",
     "nbt": {
       "EntityTag": {
-        "type": "productivebees:epic_salvage"
+        "type": "productivebees:stellarium"
       }
     }
   },
   "outputs": [
     {
       "item": {
-        "item": "mmorpg:ore3"
+        "item": "thermalendergy:stellarium_dust"
       },
-      "chance": 60
+      "chance": 25
     },
     {
-      "item": {
-        "tag": "forge:wax"
-      }
+      "fluid": {
+        "fluid": "productivebees:honey"
+      },
+      "amount": 25
     }
   ],
   "conditions": [
     {
       "type": "forge:mod_loaded",
-      "modid": "mmorpg"
+      "modid": "thermalendergy"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:stellarium"
     }
   ]
 }

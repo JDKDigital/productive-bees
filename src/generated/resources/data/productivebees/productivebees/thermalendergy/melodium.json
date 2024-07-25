@@ -1,0 +1,19 @@
+{
+  "primaryColor": "#523a8b",
+  "secondaryColor": "#b390f4",
+  "particleColor": "#fcd9ea",
+  "flowerTag": "forge:storage_blocks/melodium",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/melodium/bee",
+  "size": 0.5,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:storage_blocks/melodium",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#6400ab",
+  "secondaryColor": "#f627f3",
+  "particleColor": "#ffa268",
+  "flowerBlock": "l2hostility:chaos_block",
+  "beeTexture": "productivebees:textures/entity/bee/chaotic/bee",
+  "size": 0.8,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "l2hostility",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

@@ -5,26 +5,32 @@
     "item": "productivebees:configurable_honeycomb",
     "nbt": {
       "EntityTag": {
-        "type": "productivebees:common_salvage"
+        "type": "productivebees:miracle"
       }
     }
   },
   "outputs": [
     {
       "item": {
-        "item": "mmorpg:ore0"
-      }
+        "item": "l2hostility:miracle_ingot"
+      },
+      "chance": 5
     },
     {
-      "item": {
-        "tag": "forge:wax"
-      }
+      "fluid": {
+        "fluid": "productivebees:honey"
+      },
+      "amount": 25
     }
   ],
   "conditions": [
     {
       "type": "forge:mod_loaded",
-      "modid": "mmorpg"
+      "modid": "l2hostility"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:miracle"
     }
   ]
 }

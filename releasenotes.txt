@@ -1,3 +1,9 @@
+1.20.1-12.6.0
+
+- Added Mithril, Chaos, Miracle, Melodium, Prismalium and Stellarium bees (Lego)
+- Fixed up some recipes
+
+
 1.20.1-12.5.3
 
 - Corrected Draconic Evolution bees to match 1.20.1 changes

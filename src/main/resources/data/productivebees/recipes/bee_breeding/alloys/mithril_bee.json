@@ -1,0 +1,22 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:steel",
+  "parent2": "productivebees:bronze",
+  "offspring": [
+    "productivebees:mithril"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:steel"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:bronze"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:mithril"
+    }
+  ]
+}

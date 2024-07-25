@@ -1,0 +1,23 @@
+{
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:chaotic",
+  "result": "productivebees:miracle",
+  "item": {
+    "item": "l2hostility:miracle_powder"
+  },
+  "chance": 10,
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:miracle"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:chaotic"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "l2hostility"
+    }
+  ]
+}

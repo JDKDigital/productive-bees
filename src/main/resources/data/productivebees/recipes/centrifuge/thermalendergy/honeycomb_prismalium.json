@@ -5,27 +5,32 @@
     "item": "productivebees:configurable_honeycomb",
     "nbt": {
       "EntityTag": {
-        "type": "productivebees:legendary_salvage"
+        "type": "productivebees:prismalium"
       }
     }
   },
   "outputs": [
     {
       "item": {
-        "item": "mmorpg:ore4"
+        "item": "thermalendergy:prismalium_dust"
       },
-      "chance": 40
+      "chance": 75
     },
     {
-      "item": {
-        "tag": "forge:wax"
-      }
+      "fluid": {
+        "fluid": "productivebees:honey"
+      },
+      "amount": 25
     }
   ],
   "conditions": [
     {
       "type": "forge:mod_loaded",
-      "modid": "mmorpg"
+      "modid": "thermalendergy"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:prismalium"
     }
   ]
 }

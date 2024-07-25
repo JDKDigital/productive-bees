@@ -1,0 +1,16 @@
+{
+  "primaryColor": "#0b2638",
+  "secondaryColor": "#0e6a61",
+  "particleColor": "#92e7ae",
+  "flowerTag": "forge:storage_blocks/mithril",
+  "beeTexture": "productivebees:textures/entity/bee/mithril/bee",
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:storage_blocks/mithril",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

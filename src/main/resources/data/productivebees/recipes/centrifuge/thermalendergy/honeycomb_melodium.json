@@ -5,27 +5,32 @@
     "item": "productivebees:configurable_honeycomb",
     "nbt": {
       "EntityTag": {
-        "type": "productivebees:rare_salvage"
+        "type": "productivebees:melodium"
       }
     }
   },
   "outputs": [
     {
       "item": {
-        "item": "mmorpg:ore2"
+        "item": "thermalendergy:melodium_dust"
       },
-      "chance": 80
+      "chance": 50
     },
     {
-      "item": {
-        "tag": "forge:wax"
-      }
+      "fluid": {
+        "fluid": "productivebees:honey"
+      },
+      "amount": 25
     }
   ],
   "conditions": [
     {
       "type": "forge:mod_loaded",
-      "modid": "mmorpg"
+      "modid": "thermalendergy"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:melodium"
     }
   ]
 }

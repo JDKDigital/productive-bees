@@ -1,0 +1,22 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:prismarine",
+  "parent2": "productivebees:nickel",
+  "offspring": [
+    "productivebees:prismalium"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:prismarine"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:nickel"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:prismalium"
+    }
+  ]
+}
