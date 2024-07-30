@@ -1,0 +1,28 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:sky_bronze"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "megacells:sky_bronze_ingot"
+      },
+      "chance": 0.40
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:sky_bronze"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "megacells"
+    }
+  ]
+}

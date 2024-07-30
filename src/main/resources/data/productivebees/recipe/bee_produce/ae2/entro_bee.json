@@ -1,0 +1,27 @@
+{
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:entro",
+  "results": [
+    {
+      "item": {
+        "type": "productivebees:component",
+        "components": {
+          "productivebees:bee_type": "productivebees:entro"
+        },
+        "items": "productivebees:configurable_honeycomb"
+      }
+    },
+    {
+      "item": {
+        "tag": "c:pollen"
+      },
+      "chance": 5
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:entro"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:redstone_crystal"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "appflux:redstone_crystal"
+      },
+      "chance": 0.70
+    },
+    {
+      "item": {
+        "item": "appflux:charged_redstone"
+      },
+      "chance": 0.10
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:redstone_crystal"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "appflux"
+    }
+  ]
+}

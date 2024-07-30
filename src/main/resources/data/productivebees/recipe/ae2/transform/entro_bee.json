@@ -1,0 +1,46 @@
+{
+  "type": "ae2:transform",
+  "circumstance": {
+    "type": "fluid",
+    "tag": "minecraft:water"
+  },
+  "ingredients": [
+    {
+      "type": "productivebees:component",
+      "components": {
+        "minecraft:entity_data": {
+          "type": "productivebees:fluix",
+          "id": "productivebees:configurable_bee"
+        }
+      },
+      "items": "productivebees:spawn_egg_configurable_bee"
+    },
+    {
+      "item": "extendedae:entro_dust"
+    }
+  ],
+  "result": {
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:entro",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "count": 1,
+    "id": "productivebees:spawn_egg_configurable_bee"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "ae2"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:fluix"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:entro"
+    }
+  ]
+}
