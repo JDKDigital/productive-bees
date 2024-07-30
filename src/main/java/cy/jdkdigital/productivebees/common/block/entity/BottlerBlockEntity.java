@@ -127,7 +127,7 @@ public class BottlerBlockEntity extends FluidTankBlockEntity implements MenuProv
                     if (recipes.size() > 0) {
                         BottlerRecipe recipe = recipes.iterator().next();
                         if (existingOutput.isEmpty() || existingOutput.getItem().equals(recipe.getResultItem(level.registryAccess()).getItem())) {
-                            processOutput(fluidHandler, invHandler, recipe.getResultItem(level.registryAccess()).copy(), recipe.fluidInput.getAmount(), true);
+                            processOutput(fluidHandler, invHandler, recipe.getResultItem(level.registryAccess()).copy(), recipe.fluidInput.amount(), true);
                         }
                     } else if (fluidContainerItem.getCapability(Capabilities.FluidHandler.ITEM) instanceof IFluidHandlerItem itemFluidHandler) {
                         // try filling fluid container

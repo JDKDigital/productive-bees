@@ -78,8 +78,10 @@ public class Bottler extends CapabilityContainerBlock
 
     @Override
     protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
-        if (!pLevel.isClientSide() && pLevel.getBlockEntity(pPos) instanceof BottlerBlockEntity bottlerBlockEntity) {
-            pPlayer.openMenu(bottlerBlockEntity, pPos);
+        if (pLevel.getBlockEntity(pPos) instanceof BottlerBlockEntity bottlerBlockEntity) {
+            if (!pLevel.isClientSide()) {
+                pPlayer.openMenu(bottlerBlockEntity, pPos);
+            }
             return InteractionResult.SUCCESS_NO_ITEM_USED;
         }
         return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);

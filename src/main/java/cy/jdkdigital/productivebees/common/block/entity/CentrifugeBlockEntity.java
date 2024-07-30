@@ -329,10 +329,10 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
             });
 
             // Allow overfilling of fluid but don't process if the tank has a different fluid
-            Pair<Fluid, Integer> fluidOutput = recipe.value().getFluidOutputs();
+            FluidStack fluidOutput = recipe.value().getFluidOutputs();
             boolean fluidFlag = true;
-            if (fluidOutput != null) {
-                fluidFlag = fluidHandler.getFluidInTank(0).isEmpty() || fluidHandler.getFluidInTank(0).getFluid().equals(fluidOutput.getFirst());
+            if (!fluidOutput.isEmpty()) {
+                fluidFlag = fluidHandler.getFluidInTank(0).isEmpty() || fluidHandler.getFluidInTank(0).getFluid().equals(fluidOutput.getFluid());
             }
 
             return fluidFlag && ((InventoryHandlerHelper.BlockEntityItemStackHandler) invHandler).canFitStacks(outputList);
@@ -356,9 +356,9 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
 
         invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).shrink(1);
 
-        Pair<Fluid, Integer> fluidOutput = recipe.value().getFluidOutputs();
-        if (fluidOutput != null) {
-            fluidHandler.fill(new FluidStack(fluidOutput.getFirst(), fluidOutput.getSecond()), IFluidHandler.FluidAction.EXECUTE);
+        FluidStack fluidOutput = recipe.value().getFluidOutputs();
+        if (!fluidOutput.isEmpty()) {
+            fluidHandler.fill(fluidOutput.copy(), IFluidHandler.FluidAction.EXECUTE);
         }
     }
 

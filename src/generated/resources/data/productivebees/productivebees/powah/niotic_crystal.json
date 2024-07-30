@@ -2,6 +2,7 @@
   "primaryColor": "#1dc1f2",
   "secondaryColor": "#1b86a6",
   "flowerBlock": "powah:niotic_crystal_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
   "conditions": [
     {
       "modid": "powah",

@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#43806e",
+  "secondaryColor": "#9fe1cb",
+  "particleColor": "#f7fdfd",
+  "flowerTag": "c:storage_blocks/prismalium",
+  "beeTexture": "productivebees:textures/entity/bee/prismalium/bee",
+  "size": 0.7,
+  "conditions": [
+    {
+      "value": {
+        "tag": "c:storage_blocks/prismalium",
+        "type": "neoforge:tag_empty"
+      },
+      "type": "neoforge:not"
+    }
+  ]
+}

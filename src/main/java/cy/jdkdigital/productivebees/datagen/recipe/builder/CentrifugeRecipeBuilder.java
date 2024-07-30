@@ -17,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.common.conditions.ICondition;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -91,7 +92,7 @@ public class CentrifugeRecipeBuilder extends AbstractRecipeBuilder {
 
     @Override
     public void save(RecipeOutput consumer, ResourceLocation id) {
-        consumer.accept(id, new CentrifugeRecipe(input, output, Optional.of(fluid), 0), null, conditions.toArray(new ICondition[0]));
+        consumer.accept(id, new CentrifugeRecipe(input, output, SizedFluidIngredient.of(fluid), 0), null, conditions.toArray(new ICondition[0]));
     }
 
     public CentrifugeRecipeBuilder clearOutput() {

@@ -4,6 +4,7 @@
   "tertiaryColor": "#3b5146",
   "particleColor": "#99ffcd",
   "flowerBlock": "megacells:sky_steel_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
   "beeTexture": "productivebees:textures/entity/bee/sky_steel/bee",
   "size": 0.5,
   "selfbreed": false,

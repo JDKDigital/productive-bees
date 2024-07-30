@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.client.render.block;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.entity.JarBlockEntity;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
@@ -26,13 +27,11 @@ public class JarBlockEntityRenderer implements BlockEntityRenderer<JarBlockEntit
     public void render(JarBlockEntity blockEntity, float partialTicks, PoseStack matrixStack, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         boolean shouldRender = ProductiveBeesConfig.CLIENT.renderBeesInJars.get();
         if (shouldRender) {
-            IItemHandler invHandler = blockEntity.getLevel().getCapability(Capabilities.ItemHandler.BLOCK, blockEntity.getBlockPos(), null);
-            if (invHandler instanceof ItemStackHandler) {
+            if (blockEntity.inventoryHandler instanceof ItemStackHandler invHandler) {
                 if (!invHandler.getStackInSlot(0).isEmpty()) {
-                    ItemStack cage = invHandler.getStackInSlot(0);
+                    ItemStack cage = invHandler.getStackInSlot(0).copy();
                     if (cage.getItem() instanceof BeeCage && BeeCage.isFilled(cage)) {
-                        Entity bee = blockEntity.getCachedEntity(cage);
-                        if (bee instanceof Bee) {
+                        if (blockEntity.getCachedEntity(cage) instanceof Bee bee) {
                             renderBee(bee, partialTicks, matrixStack);
                         }
                     }

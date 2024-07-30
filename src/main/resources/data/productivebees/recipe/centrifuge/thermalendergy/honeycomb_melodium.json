@@ -1,0 +1,28 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:melodium"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "thermalendergy:melodium_dust"
+      },
+      "chance": 50
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thermalendergy"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:melodium"
+    }
+  ]
+}

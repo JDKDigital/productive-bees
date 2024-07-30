@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.client.render.ingredient.BeeRenderer;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
+import dev.emi.emi.api.stack.Comparison;
 import dev.emi.emi.api.stack.EmiStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -18,6 +19,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class BeeEmiStack extends EmiStack
 {
@@ -33,7 +35,7 @@ public class BeeEmiStack extends EmiStack
 
     @Override
     public EmiStack copy() {
-        return this;
+        return new BeeEmiStack(this.beeIngredient);
     }
 
     @Override
@@ -61,7 +63,15 @@ public class BeeEmiStack extends EmiStack
 
     @Override
     public ResourceLocation getId() {
-        return ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "/bee/" + ProductiveBee.getBeeName(beeIngredient.getBeeType()));
+        return beeIngredient.getBeeType().withPath(p -> "/" + p);
+    }
+
+    @Override
+    public boolean isEqual(EmiStack stack) {
+        if (stack instanceof BeeEmiStack beeEmiStack) {
+            return beeEmiStack.beeIngredient.getBeeType().equals(this.beeIngredient.getBeeType());
+        }
+        return super.isEqual(stack);
     }
 
     @Override

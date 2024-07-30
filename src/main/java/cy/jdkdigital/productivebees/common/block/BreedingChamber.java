@@ -57,12 +57,12 @@ public class BreedingChamber extends CapabilityContainerBlock
 
     @Override
     protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
-        if (!pLevel.isClientSide()) {
-            if (pLevel.getBlockEntity(pPos) instanceof BreedingChamberBlockEntity breedingChamberBlockEntity) {
+        if (pLevel.getBlockEntity(pPos) instanceof BreedingChamberBlockEntity breedingChamberBlockEntity) {
+            if (!pLevel.isClientSide()) {
                 pLevel.sendBlockUpdated(pPos, pState, pState, 3);
                 pPlayer.openMenu(breedingChamberBlockEntity, pPos);
-                return InteractionResult.SUCCESS_NO_ITEM_USED;
             }
+            return InteractionResult.SUCCESS_NO_ITEM_USED;
         }
         return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);
     }

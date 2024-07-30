@@ -2,6 +2,7 @@
   "primaryColor": "#e33917",
   "secondaryColor": "#b3280c",
   "flowerBlock": "powah:nitro_crystal_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
   "selfbreed": false,
   "conditions": [
     {

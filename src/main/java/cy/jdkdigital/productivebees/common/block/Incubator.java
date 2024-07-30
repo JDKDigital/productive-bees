@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
 
 public class Incubator extends CapabilityContainerBlock
 {
-    public static final MapCodec<Catcher> CODEC = simpleCodec(Catcher::new);
+    public static final MapCodec<Incubator> CODEC = simpleCodec(Incubator::new);
 
     public Incubator(Properties builder) {
         super(builder);
@@ -56,8 +56,10 @@ public class Incubator extends CapabilityContainerBlock
 
     @Override
     protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
-        if (!pLevel.isClientSide() && pLevel.getBlockEntity(pPos) instanceof IncubatorBlockEntity incubatorBlockEntity) {
-            pPlayer.openMenu(incubatorBlockEntity, pPos);
+        if (pLevel.getBlockEntity(pPos) instanceof IncubatorBlockEntity incubatorBlockEntity) {
+            if (!pLevel.isClientSide()) {
+                pPlayer.openMenu(incubatorBlockEntity, pPos);
+            }
             return InteractionResult.SUCCESS_NO_ITEM_USED;
         }
         return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);

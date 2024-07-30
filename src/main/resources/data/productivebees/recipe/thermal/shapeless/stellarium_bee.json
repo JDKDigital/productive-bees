@@ -1,0 +1,39 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "components": {
+        "minecraft:entity_data": {
+          "type": "productivebees:netherite",
+          "id": "productivebees:configurable_bee"
+        }
+      },
+      "count": 1,
+      "id": "productivebees:spawn_egg_configurable_bee"
+    },
+    {
+      "item": "minecraft:nether_star"
+    },
+    {
+      "item": "productivebees:spawn_egg_quarry_bee"
+    }
+  ],
+  "result": {
+    "id": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:stellarium"
+      }
+    }
+  },
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:stellarium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:netherite"
+    }
+  ]
+}

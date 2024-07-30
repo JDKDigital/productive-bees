@@ -9,8 +9,9 @@
     }
   ],
   "result": {
+    "type": "component",
     "id": "patchouli:guide_book",
-    "nbt": {
+    "components": {
       "patchouli:book": "productivebees:guide"
     }
   },

@@ -14,12 +14,14 @@
     }
   },
   "result": {
-    "id": "productivebees:spawn_egg_configurable_bee",
-    "nbt": {
-      "EntityTag": {
-        "type": "productivebees:bloody"
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:bloody",
+        "id": "productivebees:configurable_bee"
       }
-    }
+    },
+    "count": 1,
+    "id": "productivebees:spawn_egg_configurable_bee"
   },
   "neoforge:conditions": [
     {

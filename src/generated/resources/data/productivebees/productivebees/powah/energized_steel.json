@@ -2,6 +2,7 @@
   "primaryColor": "#bfb49d",
   "secondaryColor": "#7d7565",
   "flowerBlock": "powah:energized_steel_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
   "conditions": [
     {
       "modid": "powah",

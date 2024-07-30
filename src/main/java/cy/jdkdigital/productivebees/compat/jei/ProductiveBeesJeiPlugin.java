@@ -42,6 +42,7 @@ import net.minecraft.world.level.block.Block;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.util.Lazy;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -157,7 +158,8 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
                 recipe.value().itemOutput.forEach((chanceOutput) -> {
                     outputs.add(new TagOutputRecipe.ChancedOutput(chanceOutput.ingredient(), chanceOutput.min() * 4, chanceOutput.max() * 4, chanceOutput.chance()));
                 });
-                return new CentrifugeRecipe(Ingredient.of(BeeHelper.getCombBlockFromHoneyComb(item)), outputs, recipe.value().fluidOutput.map(fluidStack -> new FluidStack(fluidStack.getFluid(), fluidStack.getAmount() * 4)), recipe.value().getProcessingTime());
+                var fluid = new SizedFluidIngredient(recipe.value().fluidOutput.ingredient(), recipe.value().fluidOutput.amount() * 4);
+                return new CentrifugeRecipe(Ingredient.of(BeeHelper.getCombBlockFromHoneyComb(item)), outputs, fluid, recipe.value().getProcessingTime());
             }
             return null;
         }).filter(Objects::nonNull).toList();

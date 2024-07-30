@@ -2,6 +2,7 @@
   "primaryColor": "#7cff1f",
   "secondaryColor": "#61bf1f",
   "flowerBlock": "powah:spirited_crystal_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
   "selfbreed": false,
   "conditions": [
     {

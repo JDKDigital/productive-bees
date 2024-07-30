@@ -4,6 +4,7 @@
   "tertiaryColor": "#9a562c",
   "particleColor": "#9a3600",
   "flowerBlock": "minecraft:warped_fungus",
+  "nestingPreference": "productivebees:nests/nether_nests",
   "size": 0.5,
   "renderer": "default_foliage",
   "breedingItem": "minecraft:warped_fungus",

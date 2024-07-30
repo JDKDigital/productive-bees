@@ -11,6 +11,7 @@ import cy.jdkdigital.productivebees.util.BeeCreator;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import cy.jdkdigital.productivelib.common.recipe.TagOutputRecipe;
 import dev.emi.emi.api.EmiEntrypoint;
+import dev.emi.emi.api.EmiInitRegistry;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiCraftingRecipe;
@@ -35,6 +36,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
 import java.util.*;
 
@@ -98,14 +100,19 @@ public class ProductiveBeesEmiPlugin implements EmiPlugin
     );
 
     @Override
+    public void initialize(EmiInitRegistry registry) {
+        registry.addIngredientSerializer(BeeEmiStack.class, new BeeEmiStackSerializer());
+    }
+
+    @Override
     public void register(EmiRegistry registry) {
-        // TODO make bee ingredient favoritable
         BeeIngredientFactory.getOrCreateList(true).values().forEach(beeIngredient -> {
             registry.addEmiStack(BeeEmiStack.of(beeIngredient));
         });
 
         registry.removeEmiStacks(EmiStack.of(ModItems.ADV_BREED_BEE.get()));
         registry.removeEmiStacks(EmiStack.of(ModItems.ADV_BREED_ALL_BEES.get()));
+        registry.removeEmiStacks(EmiStack.of(ModBlocks.INVISIBLE_REDSTONE_BLOCK.get()));
 
         registry.addCategory(BEE_PRODUCE_CATEGORY);
         registry.addCategory(BEE_BREEDING_CATEGORY);
@@ -169,7 +176,8 @@ public class ProductiveBeesEmiPlugin implements EmiPlugin
                 recipe.value().itemOutput.forEach((chanceOutput) -> {
                     outputs.add(new TagOutputRecipe.ChancedOutput(chanceOutput.ingredient(), chanceOutput.min() * 4, chanceOutput.max() * 4, chanceOutput.chance()));
                 });
-                return new RecipeHolder<>(recipe.id().withPath(p -> "/" + p + "_block"), new CentrifugeRecipe(Ingredient.of(BeeHelper.getCombBlockFromHoneyComb(item)), outputs, recipe.value().fluidOutput.map(fluidStack -> new FluidStack(fluidStack.getFluid(), fluidStack.getAmount() * 4)), recipe.value().getProcessingTime()));
+                var fluid = new SizedFluidIngredient(recipe.value().fluidOutput.ingredient(), recipe.value().fluidOutput.amount() * 4);
+                return new RecipeHolder<>(recipe.id().withPath(p -> "/" + p + "_block"), new CentrifugeRecipe(Ingredient.of(BeeHelper.getCombBlockFromHoneyComb(item)), outputs, fluid, recipe.value().getProcessingTime()));
             }
             return null;
         }).filter(Objects::nonNull).toList();

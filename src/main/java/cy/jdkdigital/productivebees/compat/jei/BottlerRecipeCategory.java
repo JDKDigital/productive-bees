@@ -57,9 +57,8 @@ public class BottlerRecipeCategory implements IRecipeCategory<BottlerRecipe>
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, BottlerRecipe recipe, IFocusGroup focuses) {
-        List<FluidStack> fluidStacks = new ArrayList<>(){{add(recipe.fluidInput);}};
         builder.addSlot(RecipeIngredientRole.INPUT, 9, 27)
-                .addIngredients(NeoForgeTypes.FLUID_STACK, fluidStacks)
+                .addIngredients(NeoForgeTypes.FLUID_STACK, List.of(recipe.fluidInput.getFluids()))
                 .setSlotName("inputFluid");
         builder.addSlot(RecipeIngredientRole.INPUT, 43, 27)
                 .addItemStacks(Arrays.stream(recipe.itemInput.getItems()).toList())

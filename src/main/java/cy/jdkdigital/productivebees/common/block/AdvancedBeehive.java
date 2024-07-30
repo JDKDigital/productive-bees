@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.common.block;
 
 import com.mojang.serialization.MapCodec;
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
@@ -10,7 +9,10 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.*;
+import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -153,9 +155,9 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
                 } else if (hivePos.getY() - boxPos.getY() < 0) {
                     directionProperty = VerticalHive.UP;
                 } else if (hivePos.getX() < boxPos.getX()) {
-                    directionProperty =  hiveDirection == Direction.WEST ? VerticalHive.BACK : hiveDirection == Direction.NORTH ? VerticalHive.LEFT : VerticalHive.RIGHT;
+                    directionProperty = hiveDirection == Direction.WEST ? VerticalHive.BACK : hiveDirection == Direction.NORTH ? VerticalHive.LEFT : VerticalHive.RIGHT;
                 } else if (hivePos.getX() > boxPos.getX()) {
-                    directionProperty =  hiveDirection == Direction.EAST ? VerticalHive.BACK : hiveDirection == Direction.SOUTH ? VerticalHive.LEFT : VerticalHive.RIGHT;
+                    directionProperty = hiveDirection == Direction.EAST ? VerticalHive.BACK : hiveDirection == Direction.SOUTH ? VerticalHive.LEFT : VerticalHive.RIGHT;
                 } else if (hivePos.getZ() < boxPos.getZ()) {
                     directionProperty = hiveDirection == Direction.NORTH ? VerticalHive.BACK : hiveDirection == Direction.EAST ? VerticalHive.LEFT : VerticalHive.RIGHT;
                 } else if (hivePos.getZ() > boxPos.getZ()) {
@@ -207,12 +209,12 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
 
     @Override
     protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
-        if (!pLevel.isClientSide()) {
-            if (pLevel.getBlockEntity(pPos) instanceof AdvancedBeehiveBlockEntity advancedBeehiveBlockEntity) {
+        if (pLevel.getBlockEntity(pPos) instanceof AdvancedBeehiveBlockEntity advancedBeehiveBlockEntity) {
+            if (!pLevel.isClientSide()) {
                 pLevel.sendBlockUpdated(pPos, pState, pState, 3);
                 openGui((ServerPlayer) pPlayer, advancedBeehiveBlockEntity);
-                return InteractionResult.SUCCESS_NO_ITEM_USED;
             }
+            return InteractionResult.SUCCESS_NO_ITEM_USED;
         }
         return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);
     }

@@ -164,7 +164,7 @@ public class Feeder extends SlabBlock implements EntityBlock
         if (!pLevel.isClientSide() && pLevel.getBlockEntity(pPos) instanceof FeederBlockEntity feederBlockEntity) {
             pPlayer.openMenu(feederBlockEntity, pPos);
         }
-        return InteractionResult.SUCCESS;
+        return InteractionResult.SUCCESS_NO_ITEM_USED;
     }
 
     @Nullable

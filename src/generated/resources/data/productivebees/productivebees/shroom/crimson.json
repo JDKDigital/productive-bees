@@ -4,6 +4,7 @@
   "tertiaryColor": "#913000",
   "particleColor": "#913000",
   "flowerBlock": "minecraft:crimson_fungus",
+  "nestingPreference": "productivebees:nests/nether_nests",
   "size": 0.5,
   "renderer": "default_foliage",
   "breedingItem": "minecraft:crimson_fungus",

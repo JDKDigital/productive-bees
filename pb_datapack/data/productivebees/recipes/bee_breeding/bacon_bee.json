@@ -3,7 +3,7 @@
     "parent1": "productivebees:zombie",
     "parent2": "productivebees:farmer_bee",
     "offspring": "productivebees:bacon",
-    "conditions": [
+    "neoforge:conditions": [
         {
             "type": "productivebees:bee_exists",
             "bee": "productivebees:zombie"

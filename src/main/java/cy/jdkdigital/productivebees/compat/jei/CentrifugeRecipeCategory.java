@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.compat.jei;
 
-import com.mojang.datafixers.util.Pair;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.recipe.CentrifugeRecipe;
 import cy.jdkdigital.productivebees.init.ModBlocks;
@@ -17,7 +16,6 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 import javax.annotation.Nonnull;
@@ -100,13 +98,12 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
                 }
             });
         }
-        Pair<Fluid, Integer> fluid = recipe.getFluidOutputs();
-        if (fluid != null && fluid.getSecond() > 0) {
-            int fluidAmount = fluid.getSecond() < 250 ? fluid.getSecond() * 4 : fluid.getSecond();
+        FluidStack fluid = recipe.getFluidOutputs();
+        if (!fluid.isEmpty()) {
             builder.addSlot(RecipeIngredientRole.OUTPUT, startX + (i[0] * 18) + 1, startY + ((int) Math.floor(i[0] / 3.0F) * 18) + 1)
-                    .addIngredient(NeoForgeTypes.FLUID_STACK, new FluidStack(fluid.getFirst(), fluidAmount))
+                    .addIngredient(NeoForgeTypes.FLUID_STACK, fluid)
                     .addTooltipCallback((recipeSlotView, tooltip) -> {
-                        tooltip.add(Component.translatable("productivebees.centrifuge.tooltip.amount", fluid.getSecond() + "mB"));
+                        tooltip.add(Component.translatable("productivebees.centrifuge.tooltip.amount", fluid.getAmount() + "mB"));
                     })
                     .setSlotName("output" + i[0]);
         }

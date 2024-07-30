@@ -1,0 +1,28 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:miracle"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "l2hostility:miracle_ingot"
+      },
+      "chance": 5
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "l2hostility"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:miracle"
+    }
+  ]
+}

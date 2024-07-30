@@ -67,18 +67,13 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
     public IItemHandlerModifiable inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(12, this) {
         @Override
         public boolean isInputSlotItem(int slot, ItemStack item) {
-            if (slot == AdvancedBeehiveContainer.SLOT_CAGE && isInputSlot(slot)) {
-                return item.getItem() instanceof BeeCage;
+            if (slot == AdvancedBeehiveContainer.SLOT_CAGE) {
+                return item.getItem() instanceof BeeCage && blockEntity instanceof AdvancedBeehiveBlockEntity advancedBeehiveBlockEntity && advancedBeehiveBlockEntity.isSim();
             }
             if (slot == AdvancedBeehiveContainer.SLOT_BOTTLE && item.is(Blocks.SPONGE.asItem())) {
                 return true;
             }
             return super.isInputSlotItem(slot, item);
-        }
-
-        @Override
-        public boolean isInputSlot(int slot) {
-            return super.isInputSlot(slot) || (slot == AdvancedBeehiveContainer.SLOT_CAGE && blockEntity instanceof AdvancedBeehiveBlockEntity advancedBeehiveBlockEntity && advancedBeehiveBlockEntity.isSim());
         }
 
         @Override

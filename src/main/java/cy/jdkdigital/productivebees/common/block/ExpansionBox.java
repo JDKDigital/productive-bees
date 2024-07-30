@@ -8,8 +8,6 @@ import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -151,16 +149,16 @@ public class ExpansionBox extends Block implements EntityBlock
 
     @Override
     protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
-        if (!pLevel.isClientSide) {
-            // Open the attached beehive, if there is one
-            if (!pState.getValue(AdvancedBeehive.EXPANDED).equals(VerticalHive.NONE)) {
-                var dir = pState.getValue(AdvancedBeehive.EXPANDED).getExpandedCardinalDirection(pState.getValue(BeehiveBlock.FACING)).getOpposite();
-                if (pLevel.getBlockEntity(pPos.relative(dir)) instanceof AdvancedBeehiveBlockEntity hiveBlockEntity) {
+        // Open the attached beehive, if there is one
+        if (!pState.getValue(AdvancedBeehive.EXPANDED).equals(VerticalHive.NONE)) {
+            var dir = pState.getValue(AdvancedBeehive.EXPANDED).getExpandedCardinalDirection(pState.getValue(BeehiveBlock.FACING)).getOpposite();
+            if (pLevel.getBlockEntity(pPos.relative(dir)) instanceof AdvancedBeehiveBlockEntity hiveBlockEntity) {
+                if (!pLevel.isClientSide()) {
                     var hiveState = pLevel.getBlockState(pPos.relative(dir));
                     pLevel.sendBlockUpdated(pPos.relative(dir), hiveState, hiveState, 3);
                     pPlayer.openMenu(hiveBlockEntity, pPos.relative(dir));
-                    return InteractionResult.SUCCESS_NO_ITEM_USED;
                 }
+                return InteractionResult.SUCCESS_NO_ITEM_USED;
             }
         }
         return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);

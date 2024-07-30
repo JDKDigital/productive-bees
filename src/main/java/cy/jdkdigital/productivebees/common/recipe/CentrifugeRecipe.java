@@ -22,6 +22,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -34,10 +36,10 @@ import java.util.stream.IntStream;
 public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<RecipeInput>, TimedRecipeInterface
 {
     public final Ingredient ingredient;
-    public final Optional<FluidStack> fluidOutput;
+    public final SizedFluidIngredient fluidOutput;
     private final Integer processingTime;
 
-    public CentrifugeRecipe(Ingredient ingredient, List<ChancedOutput> itemOutput, Optional<FluidStack> fluidOutput, int processingTime) {
+    public CentrifugeRecipe(Ingredient ingredient, List<ChancedOutput> itemOutput, SizedFluidIngredient fluidOutput, int processingTime) {
         super(itemOutput);
         this.ingredient = ingredient;
         this.fluidOutput = fluidOutput;
@@ -89,17 +91,8 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<RecipeIn
         return ItemStack.EMPTY;
     }
 
-    @Nullable
-    public Pair<Fluid, Integer> getFluidOutputs() { // TODO 1.21 use fluidstack
-        if (fluidOutput.isPresent()) {
-//            Fluid fluid = getPreferredFluidByMod(fluidOutput.getFirst());
-
-            if (fluidOutput.get().getFluid() != Fluids.EMPTY) {
-                return Pair.of(fluidOutput.get().getFluid(), fluidOutput.get().getAmount());
-            }
-        }
-
-        return null;
+    public FluidStack getFluidOutputs() {
+        return getPreferredFluidStackByMod(fluidOutput);
     }
 
     @Nonnull
@@ -116,12 +109,11 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<RecipeIn
 
     public static class Serializer implements RecipeSerializer<CentrifugeRecipe>
     {
-        // TODO 1.21 support fluid tags
         private static final MapCodec<CentrifugeRecipe> CODEC = RecordCodecBuilder.mapCodec(
                 builder -> builder.group(
                                 Ingredient.CODEC.fieldOf("ingredient").forGetter(recipe -> recipe.ingredient),
                                 Codec.list(ChancedOutput.CODEC).fieldOf("outputs").forGetter(recipe -> recipe.itemOutput),
-                                FluidStack.CODEC.optionalFieldOf("fluid").orElse(Optional.of(new FluidStack(ModFluids.HONEY, 100))).forGetter(recipe -> recipe.fluidOutput),
+                                SizedFluidIngredient.FLAT_CODEC.fieldOf("fluid").orElse(SizedFluidIngredient.of(new FluidStack(ModFluids.HONEY, 100))).forGetter(recipe -> recipe.fluidOutput),
                                 Codec.INT.fieldOf("processingTime").orElse(0).forGetter(recipe -> recipe.processingTime)
                         )
                         .apply(builder, CentrifugeRecipe::new)
@@ -148,7 +140,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<RecipeIn
                 List<ChancedOutput> itemOutput = new ArrayList<>();
                 IntStream.range(0, buffer.readInt()).forEach(i -> itemOutput.add(ChancedOutput.read(buffer)));
 
-                return new CentrifugeRecipe(ingredient, itemOutput, Optional.of(FluidStack.OPTIONAL_STREAM_CODEC.decode(buffer)), buffer.readInt());
+                return new CentrifugeRecipe(ingredient, itemOutput, SizedFluidIngredient.STREAM_CODEC.decode(buffer), buffer.readInt());
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error reading centrifuge recipe from packet. ", e);
                 throw e;
@@ -164,7 +156,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<RecipeIn
                     ChancedOutput.write(buffer, chancedRecipe);
                 });
 
-                FluidStack.OPTIONAL_STREAM_CODEC.encode(buffer, recipe.fluidOutput.orElse(FluidStack.EMPTY));
+                SizedFluidIngredient.STREAM_CODEC.encode(buffer, recipe.fluidOutput);
 
                 buffer.writeInt(recipe.getProcessingTime());
 

@@ -3,7 +3,7 @@
     "secondaryColor": "#d0581f",
     "flowerTag": "minecraft:flowers",
     "name": "Baconator",
-    "conditions": [
+    "neoforge:conditions": [
         {
             "type": "neoforge:mod_loaded",
             "modid": "productivebees"

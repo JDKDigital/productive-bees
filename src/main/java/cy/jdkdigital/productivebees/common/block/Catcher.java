@@ -62,12 +62,12 @@ public class Catcher extends CapabilityContainerBlock
 
     @Override
     protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
-        if (!pLevel.isClientSide()) {
-            final BlockEntity tileEntity = pLevel.getBlockEntity(pPos);
-            if (tileEntity instanceof CatcherBlockEntity catcherBlockEntity) {
+        final BlockEntity tileEntity = pLevel.getBlockEntity(pPos);
+        if (tileEntity instanceof CatcherBlockEntity catcherBlockEntity) {
+            if (!pLevel.isClientSide()) {
                 pPlayer.openMenu(catcherBlockEntity, pPos);
-                return InteractionResult.SUCCESS_NO_ITEM_USED;
             }
+            return InteractionResult.SUCCESS_NO_ITEM_USED;
         }
         return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);
     }

@@ -4,6 +4,7 @@
   "particleColor": "#4200ba",
   "flowerBlock": "minecraft:air",
   "postPollination": "sus",
+  "description": "productivebees.ingredient.description.only_spawnegg",
   "beeTexture": "productivebees:textures/entity/bee/sussy/bee",
   "createComb": false,
   "size": 0.3

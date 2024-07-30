@@ -12,6 +12,7 @@ import dev.emi.emi.api.widget.WidgetHolder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.material.Fluid;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 public class CentrifugeEmiRecipe extends BasicEmiRecipe
 {
@@ -32,9 +33,9 @@ public class CentrifugeEmiRecipe extends BasicEmiRecipe
             }
         });
 
-        Pair<Fluid, Integer> fluid = recipe.value().getFluidOutputs();
-        if (fluid != null && fluid.getSecond() > 0) {
-            this.outputs.add(EmiStack.of(fluid.getFirst(), fluid.getSecond()));
+        FluidStack fluid = recipe.value().getFluidOutputs();
+        if (!fluid.isEmpty()) {
+            this.outputs.add(EmiStack.of(fluid.getFluid(), fluid.getAmount()));
         }
     }
 

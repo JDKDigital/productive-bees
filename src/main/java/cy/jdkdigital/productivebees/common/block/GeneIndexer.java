@@ -37,7 +37,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class GeneIndexer extends CapabilityContainerBlock
 {
-    public static final MapCodec<Catcher> CODEC = simpleCodec(Catcher::new);
+    public static final MapCodec<GeneIndexer> CODEC = simpleCodec(GeneIndexer::new);
 
     public GeneIndexer(Properties properties) {
         super(properties);
@@ -86,8 +86,10 @@ public class GeneIndexer extends CapabilityContainerBlock
 
     @Override
     protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
-        if (!pLevel.isClientSide() && pLevel.getBlockEntity(pPos) instanceof GeneIndexerBlockEntity blockEntity) {
-            pPlayer.openMenu(blockEntity, pPos);
+        if (pLevel.getBlockEntity(pPos) instanceof GeneIndexerBlockEntity blockEntity) {
+            if (!pLevel.isClientSide()) {
+                pPlayer.openMenu(blockEntity, pPos);
+            }
             return InteractionResult.SUCCESS_NO_ITEM_USED;
         }
         return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);

@@ -44,7 +44,7 @@ import javax.annotation.Nullable;
 
 public class HoneyGenerator extends CapabilityContainerBlock
 {
-    public static final MapCodec<Catcher> CODEC = simpleCodec(Catcher::new);
+    public static final MapCodec<HoneyGenerator> CODEC = simpleCodec(HoneyGenerator::new);
     public static final BooleanProperty ON = BooleanProperty.create("on");
     public static final BooleanProperty FULL = BooleanProperty.create("full");
 
@@ -138,8 +138,10 @@ public class HoneyGenerator extends CapabilityContainerBlock
 
     @Override
     protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
-        if (!pLevel.isClientSide() && pLevel.getBlockEntity(pPos) instanceof HoneyGeneratorBlockEntity honeyGeneratorBlockEntity) {
-            pPlayer.openMenu(honeyGeneratorBlockEntity, pPos);
+        if (pLevel.getBlockEntity(pPos) instanceof HoneyGeneratorBlockEntity honeyGeneratorBlockEntity) {
+            if (!pLevel.isClientSide()) {
+                pPlayer.openMenu(honeyGeneratorBlockEntity, pPos);
+            }
             return InteractionResult.SUCCESS_NO_ITEM_USED;
         }
         return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);

@@ -1,0 +1,61 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "components": {
+        "minecraft:entity_data": {
+          "type": "productivebees:ender",
+          "id": "productivebees:configurable_bee"
+        }
+      },
+      "count": 1,
+      "id": "productivebees:spawn_egg_configurable_bee"
+    },
+    {
+      "components": {
+        "minecraft:entity_data": {
+          "type": "productivebees:amethyst",
+          "id": "productivebees:configurable_bee"
+        }
+      },
+      "count": 1,
+      "id": "productivebees:spawn_egg_configurable_bee"
+    },
+    {
+      "components": {
+        "minecraft:entity_data": {
+          "type": "productivebees:gold",
+          "id": "productivebees:configurable_bee"
+        }
+      },
+      "count": 1,
+      "id": "productivebees:spawn_egg_configurable_bee"
+    }
+  ],
+  "result": {
+    "id": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:melodium"
+      }
+    }
+  },
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ender"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:amethyst"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gold"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:melodium"
+    }
+  ]
+}

@@ -1,3 +1,15 @@
+1.21.0-13.3.0
+
+- Added back support for tag fluid output
+
+
+1.21.0-13.2.0
+
+- Added Mithril, Chaos, Miracle, Melodium, Prismalium and Stellarium bees (Lego)
+- Updated guide book recipe
+- Bees can now be favorited in EMI
+
+
 1.21.0-13.1.6
 
 - Hives now have correct wood sounds based on the wood they're made from

@@ -36,7 +36,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class CryoStasis extends CapabilityContainerBlock
 {
-    public static final MapCodec<Catcher> CODEC = simpleCodec(Catcher::new);
+    public static final MapCodec<CryoStasis> CODEC = simpleCodec(CryoStasis::new);
 
     public CryoStasis(Properties properties) {
         super(properties);

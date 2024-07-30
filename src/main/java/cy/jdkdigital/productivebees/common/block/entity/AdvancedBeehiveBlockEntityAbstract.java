@@ -52,12 +52,13 @@ import java.util.*;
 
 public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEntity
 {
-    private static final List<String> IGNORED_BEE_TAGS = Arrays.asList( // TODO use vanilla list
+    private static final List<String> IGNORED_BEE_TAGS = Arrays.asList(
             "AbsorptionAmount", "Attributes", "CitadelData", "KubeJSPersistentData",
-            "Air", "ArmorDropChances", "ArmorItems", "Brain", "CanPickUpLoot", "DeathTime", "FallDistance", "InLove",
-            "FallFlying", "Fire", "HandDropChances", "HandItems", "HurtByTimestamp", "HurtTime", "LeftHanded",
-            "Motion", "NoGravity", "OnGround", "PortalCooldown", "Pos", "Rotation", "CannotEnterHiveTicks",
-            "TicksSincePollination", "CropsGrownSincePollination", "HivePos", "Passengers", "Leash", "UUID"
+            "Air", "ArmorDropChances", "Brain", "CanPickUpLoot", "DeathTime", "FallDistance", "InLove",
+            "FallFlying", "Fire", "HandDropChances", "HurtByTimestamp", "HurtTime", "LeftHanded",
+            "Motion", "NoGravity", "OnGround", "PortalCooldown", "Pos", "Rotation",
+            "SleepingX", "SleepingY", "SleepingZ", "CannotEnterHiveTicks",
+            "TicksSincePollination", "CropsGrownSincePollination", "hive_pos", "Passengers", "leash", "UUID"
     );
     private static final List<String> OPTIONAL_IGNORED_BEE_TAGS = Arrays.asList(
             "ForgeCaps", "ForgeData"
@@ -268,7 +269,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
     @Override
     public List<Entity> releaseAllOccupants(BlockState pState, BeeReleaseStatus pReleaseStatus) {
         List<Entity> list = Lists.newArrayList();
-        this.stored.removeIf(beeData -> releaseOccupant((ServerLevel) this.level, this.worldPosition, pState, beeData.toOccupant(), this, list, pReleaseStatus));
+        this.stored.removeIf(beeData -> releaseOccupant(this.level, this.worldPosition, pState, beeData.toOccupant(), this, list, pReleaseStatus));
         if (!list.isEmpty()) {
             super.setChanged();
         }
@@ -276,7 +277,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         return list;
     }
 
-    public static boolean releaseOccupant(ServerLevel pLevel, BlockPos pPos, BlockState pState, BeehiveBlockEntity.Occupant pOccupant, AdvancedBeehiveBlockEntityAbstract blockEntity, @Nullable List<Entity> pStoredInHives, BeehiveBlockEntity.BeeReleaseStatus pReleaseStatus) {
+    public static boolean releaseOccupant(Level pLevel, BlockPos pPos, BlockState pState, BeehiveBlockEntity.Occupant pOccupant, AdvancedBeehiveBlockEntityAbstract blockEntity, @Nullable List<Entity> pStoredInHives, BeehiveBlockEntity.BeeReleaseStatus pReleaseStatus) {
         if (pState.getBlock().equals(Blocks.AIR) || pLevel == null) {
             return false;
         }
@@ -335,7 +336,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         return false;
     }
 
-    private static boolean willLeaveHive(ServerLevel level, BeehiveBlockEntity.Occupant occupant, BeehiveBlockEntity.BeeReleaseStatus beeState) {
+    private static boolean willLeaveHive(Level level, BeehiveBlockEntity.Occupant occupant, BeehiveBlockEntity.BeeReleaseStatus beeState) {
         CompoundTag tag = occupant.entityData().getUnsafe();
         boolean willLeaveHive = beeState == BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY || level.dimensionType().hasFixedTime(); // in an emergency or dim without time
         if (!level.dimensionType().hasFixedTime()) { // Weather and day/night cycle only counts in dim with time
@@ -409,11 +410,6 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
     }
 
     public static void removeIgnoredTags(CompoundTag tag) {
-        for (String s : BeehiveBlockEntity.IGNORED_BEE_TAGS) {
-            if (tag.contains(s)) {
-                tag.remove(s);
-            }
-        }
         for (String s : IGNORED_BEE_TAGS) {
             if (tag.contains(s)) {
                 tag.remove(s);
