@@ -1,25 +1,11 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "CEC",
-    "ABA",
-    "CAC"
-  ],
-  "key": {
-    "B": {
-      "item": "productivebees:upgrade_anti_teleport"
-    },
-    "E": {
-      "tag": "c:ender_pearls"
-    },
-    "A": {
-      "tag": "c:rods/blaze"
-    },
-    "C": {
-      "tag": "c:storage_blocks/honeycombs"
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "productivebees:upgrade_simulator"
     }
-  },
+  ],
   "result": {
-    "id": "productivebees:upgrade_simulator"
+    "id": "productivelib:upgrade_simulator"
   }
 }

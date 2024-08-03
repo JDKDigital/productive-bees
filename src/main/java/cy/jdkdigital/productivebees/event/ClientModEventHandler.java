@@ -17,7 +17,6 @@ import cy.jdkdigital.productivebees.common.block.entity.CanvasBeehiveBlockEntity
 import cy.jdkdigital.productivebees.common.block.entity.CanvasExpansionBoxBlockEntity;
 import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
-import cy.jdkdigital.productivebees.common.fluid.HoneyFluid;
 import cy.jdkdigital.productivebees.common.item.*;
 import cy.jdkdigital.productivebees.container.gui.*;
 import cy.jdkdigital.productivebees.init.*;
@@ -26,6 +25,7 @@ import cy.jdkdigital.productivebees.util.GeneAttribute;
 import cy.jdkdigital.productivebees.util.BeeCreator;
 import cy.jdkdigital.productivebees.util.ColorUtil;
 import cy.jdkdigital.productivebees.util.GeneValue;
+import cy.jdkdigital.productivelib.common.item.AbstractUpgradeItem;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
@@ -50,8 +50,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.*;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
@@ -74,7 +72,9 @@ public class ClientModEventHandler
                         !item.equals(ModItems.GENE_BOTTLE) &&
                         !item.equals(ModItems.ADV_BREED_ALL_BEES) &&
                         !item.equals(ModItems.ADV_BREED_BEE) &&
-                        !(item.get() instanceof SpawnEggItem)
+                        !item.equals(ModItems.UPGRADE_BASE) &&
+                        !(item.get() instanceof SpawnEggItem) &&
+                        !(item.get() instanceof AbstractUpgradeItem)
                 ) {
                     event.accept(new ItemStack(item.get(), 1));
                 }

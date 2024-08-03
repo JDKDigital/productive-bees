@@ -1,22 +1,11 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "CEC",
-    "EBE",
-    "CEC"
-  ],
-  "key": {
-    "B": {
-      "item": "productivebees:upgrade_base"
-    },
-    "E": {
-      "tag": "c:ender_pearls"
-    },
-    "C": {
-      "tag": "c:storage_blocks/honeycombs"
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "productivebees:upgrade_anti_teleport"
     }
-  },
+  ],
   "result": {
-    "id": "productivebees:upgrade_anti_teleport"
+    "id": "productivelib:upgrade_anti_teleport"
   }
 }

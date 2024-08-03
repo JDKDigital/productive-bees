@@ -21,6 +21,8 @@ public class UpgradeItem extends AbstractUpgradeItem
     public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
         super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
 
+        pTooltipComponents.add(Component.translatable("productivebees.information.upgrade.warning").withStyle(ChatFormatting.RED));
+
         if (pStack.getItem().equals(ModItems.UPGRADE_FILTER.get())) {
             return;
         }

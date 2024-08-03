@@ -49,7 +49,7 @@ public class FilterUpgradeItem extends UpgradeItem
         List<Supplier<BeeIngredient>> beeList = getAllowedBees(pStack);
 
         for (Supplier<BeeIngredient> allowedBee: beeList) {
-            pTooltipComponents.add(Component.translatable("productivebees.information.upgrade.upgrade_filter_entity", allowedBee.get().getBeeType()).withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable("productivebees.information.upgrade.upgrade_filter_entity", allowedBee.get().getBeeType().toString()).withStyle(ChatFormatting.GOLD));
         }
         
         if (beeList.isEmpty()) {
@@ -67,6 +67,8 @@ public class FilterUpgradeItem extends UpgradeItem
         }
 
         addAllowedBee(itemStack, (Bee) targetIn);
+
+        player.setItemInHand(hand, itemStack);
 
         return InteractionResult.SUCCESS;
     }

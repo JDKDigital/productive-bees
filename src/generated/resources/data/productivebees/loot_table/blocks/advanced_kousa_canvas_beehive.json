@@ -36,7 +36,7 @@
                 },
                 {
                   "block": "productivebees:advanced_kousa_canvas_beehive",
-                  "function": "minecraft:copy_state",
+                  "function": "productivelib:optional_copy_block_state",
                   "properties": [
                     "honey_level"
                   ]

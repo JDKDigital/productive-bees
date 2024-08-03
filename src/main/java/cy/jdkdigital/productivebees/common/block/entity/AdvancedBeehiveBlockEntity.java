@@ -3,24 +3,25 @@ package cy.jdkdigital.productivebees.common.block.entity;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBee;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.common.item.FilterUpgradeItem;
 import cy.jdkdigital.productivebees.common.item.Gene;
-import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
-import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
-import cy.jdkdigital.productivebees.util.GeneAttribute;
 import cy.jdkdigital.productivebees.util.BeeHelper;
+import cy.jdkdigital.productivebees.util.GeneAttribute;
 import cy.jdkdigital.productivebees.util.GeneValue;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.common.block.entity.UpgradeableBlockEntity;
+import cy.jdkdigital.productivelib.registry.LibItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -28,14 +29,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.BottleItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -46,9 +45,6 @@ import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.neoforge.energy.IEnergyStorage;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.ItemStackHandler;
 
@@ -56,7 +52,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Supplier;
 
 public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstract implements MenuProvider, UpgradeableBlockEntity, Container
@@ -77,6 +72,11 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
         }
 
         @Override
+        public boolean isInputSlot(int slot) {
+            return slot == AdvancedBeehiveContainer.SLOT_CAGE || super.isInputSlot(slot);
+        }
+
+        @Override
         protected void onContentsChanged(int slot) {
             super.onContentsChanged(slot);
             if (slot == AdvancedBeehiveContainer.SLOT_BOTTLE) {
@@ -88,7 +88,21 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
         }
     };
 
-    protected IItemHandlerModifiable upgradeHandler = new InventoryHandlerHelper.UpgradeHandler(4, this);
+    protected IItemHandlerModifiable upgradeHandler = new InventoryHandlerHelper.UpgradeHandler(4, this, List.of(
+            LibItems.UPGRADE_TIME.get(),
+            LibItems.UPGRADE_BLOCK.get(),
+            LibItems.UPGRADE_ANTI_TELEPORT.get(),
+            LibItems.UPGRADE_GENE_SAMPLER.get(),
+            LibItems.UPGRADE_CHILD.get(),
+            LibItems.UPGRADE_ADULT.get(),
+            LibItems.UPGRADE_ENTITY_FILTER.get(),
+            LibItems.UPGRADE_RANGE.get(),
+            LibItems.UPGRADE_SIMULATOR.get(),
+            LibItems.UPGRADE_PRODUCTIVITY.get(),
+            LibItems.UPGRADE_PRODUCTIVITY_2.get(),
+            LibItems.UPGRADE_PRODUCTIVITY_3.get(),
+            LibItems.UPGRADE_PRODUCTIVITY_4.get()
+    ));
 
     public AdvancedBeehiveBlockEntity(BlockPos pos, BlockState state) {
         this(ModBlockEntityTypes.ADVANCED_HIVE.get(), pos, state);
@@ -117,11 +131,15 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
     }
 
     public boolean isSim() {
-        return ProductiveBeesConfig.BEES.allowBeeSimulation.get() && (
+        return ProductiveBeesConfig.BEES.allowBeeSimulation.get() && ((
                 getUpgradeCount(ModItems.UPGRADE_SIMULATOR.get()) > 0 ||
                 getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_3.get()) > 0 ||
                 getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_4.get()) > 0
-        );
+        ) || (
+                getUpgradeCount(LibItems.UPGRADE_SIMULATOR.get()) > 0 ||
+                getUpgradeCount(LibItems.UPGRADE_PRODUCTIVITY_3.get()) > 0 ||
+                getUpgradeCount(LibItems.UPGRADE_PRODUCTIVITY_4.get()) > 0
+        ));
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, AdvancedBeehiveBlockEntity blockEntity) {
@@ -234,7 +252,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
 
     @Override
     protected int getTimeInHive(boolean hasNectar, @Nullable Occupant occupant) {
-        double timeUpgradeModifier = Math.max(0, 1 - (getUpgradeCount(ModItems.UPGRADE_TIME.get()) * ProductiveBeesConfig.UPGRADES.timeBonus.get()));
+        double timeUpgradeModifier = Math.max(0, 1 - (ProductiveBeesConfig.UPGRADES.timeBonus.get()) * (getUpgradeCount(ModItems.UPGRADE_TIME.get()) + getUpgradeCount(LibItems.UPGRADE_TIME.get())));
         return (int) (
             super.getTimeInHive(hasNectar, occupant) * timeUpgradeModifier + 20
         );
@@ -248,12 +266,13 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
             // Generate bee produce (No produce after converting a block)
             if (!(beeEntity instanceof ProductiveBee productiveBee) || !productiveBee.hasConverted()) {
                 // Count productivity modifier
-                double upgradeMod = ProductiveBeesConfig.UPGRADES.productivityMultiplier.get() * getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get())
-                                    + ProductiveBeesConfig.UPGRADES.productivityMultiplier2.get() * getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_2.get())
-                                    + ProductiveBeesConfig.UPGRADES.productivityMultiplier3.get() * getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_3.get())
-                                    + ProductiveBeesConfig.UPGRADES.productivityMultiplier4.get() * getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_4.get());
+                double upgradeMod = ProductiveBeesConfig.UPGRADES.productivityMultiplier.get() * (getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get()) + getUpgradeCount(LibItems.UPGRADE_PRODUCTIVITY.get()))
+                                    + ProductiveBeesConfig.UPGRADES.productivityMultiplier2.get() * (getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_2.get()) + getUpgradeCount(LibItems.UPGRADE_PRODUCTIVITY_2.get()))
+                                    + ProductiveBeesConfig.UPGRADES.productivityMultiplier3.get() * (getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_3.get()) + getUpgradeCount(LibItems.UPGRADE_PRODUCTIVITY_3.get()))
+                                    + ProductiveBeesConfig.UPGRADES.productivityMultiplier4.get() * (getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_4.get()) + getUpgradeCount(LibItems.UPGRADE_PRODUCTIVITY_4.get()));
 
-                BeeHelper.getBeeProduce(level, beeEntity, (getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) + getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_4.get())) > 0, upgradeMod).forEach((stackIn) -> {
+                var hasBlockUpgrade = (getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) + getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_4.get()) + (getUpgradeCount(LibItems.UPGRADE_BLOCK.get()) + getUpgradeCount(LibItems.UPGRADE_PRODUCTIVITY_4.get()))) > 0;
+                BeeHelper.getBeeProduce(level, beeEntity, hasBlockUpgrade, upgradeMod).forEach((stackIn) -> {
                     ItemStack stack = stackIn.copy();
                     if (!stack.isEmpty() && inventoryHandler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler itemStackHandler) {
                         if (beeEntity.hasData(ProductiveBees.ATTRIBUTE_HANDLER)) {
@@ -281,7 +300,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
             }
 
             // Produce offspring if breeding upgrade is installed
-            int breedingUpgrades = getUpgradeCount(ModItems.UPGRADE_BREEDING.get());
+            int breedingUpgrades = getUpgradeCount(ModItems.UPGRADE_BREEDING.get()) + getUpgradeCount(LibItems.UPGRADE_CHILD.get());
             if (breedingUpgrades > 0 && !beeEntity.isBaby() && getOccupantCount() > 0 && level.random.nextFloat() <= (ProductiveBeesConfig.UPGRADES.breedingChance.get() * breedingUpgrades)) {
                 boolean canBreed = !(beeEntity instanceof ProductiveBee) || ((ProductiveBee) beeEntity).canSelfBreed();
                 if (canBreed) {
@@ -306,7 +325,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
             }
 
             // Produce genes
-            int samplerUpgrades = getUpgradeCount(ModItems.UPGRADE_BEE_SAMPLER.get());
+            int samplerUpgrades = getUpgradeCount(ModItems.UPGRADE_BEE_SAMPLER.get()) + getUpgradeCount(LibItems.UPGRADE_GENE_SAMPLER.get());
             if (samplerUpgrades > 0 && !beeEntity.isBaby() && level.random.nextFloat() <= (ProductiveBeesConfig.UPGRADES.samplerChance.get() * samplerUpgrades)) {
                 var attributes = beeEntity.getData(ProductiveBees.ATTRIBUTE_HANDLER);
                 // Get a random number for which attribute to extract, if we hit the additional 2 it will extract a type gene instead
@@ -337,6 +356,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
     public boolean acceptsBee(Bee bee) {
         boolean isInFilters = false;
         List<ItemStack> filters = getInstalledUpgrades(ModItems.UPGRADE_FILTER.get());
+        filters.addAll(getInstalledUpgrades(LibItems.UPGRADE_ENTITY_FILTER.get()));
         for (ItemStack filter: filters) {
             List<Supplier<BeeIngredient>> allowedBees = FilterUpgradeItem.getAllowedBees(filter);
             for (Supplier<BeeIngredient> allowedBee: allowedBees) {

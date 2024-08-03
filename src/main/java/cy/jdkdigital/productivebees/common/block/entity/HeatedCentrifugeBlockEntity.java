@@ -7,6 +7,7 @@ import cy.jdkdigital.productivebees.container.HeatedCentrifugeContainer;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
+import cy.jdkdigital.productivelib.registry.LibItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.TypedDataComponent;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -39,7 +40,7 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
     }
 
     protected double getEnergyConsumptionModifier() {
-        double timeUpgradeModifier = 1D + (getUpgradeCount(ModItems.UPGRADE_TIME.get()) * ProductiveBeesConfig.UPGRADES.timeBonus.get());
+        double timeUpgradeModifier = 1D + (ProductiveBeesConfig.UPGRADES.timeBonus.get() * (getUpgradeCount(ModItems.UPGRADE_TIME.get()) + getUpgradeCount(LibItems.UPGRADE_TIME.get())));
 
         return Math.max(1, timeUpgradeModifier) * 3;
     }

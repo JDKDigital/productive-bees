@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "#c:capturing_not_supported",
     "#minecraft:beehive_inhabitors",
     {
       "id": "minecolonies:citizen",

@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEnti
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.compat.harvest.HarvestCompatHandler;
 import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivelib.registry.LibItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
@@ -133,7 +134,7 @@ public class FarmerBee extends ProductiveBee
             if (FarmerBee.this.getHivePos() != null) {
                 BlockEntity hive = FarmerBee.this.level().getBlockEntity(FarmerBee.this.getHivePos());
                 if (hive instanceof AdvancedBeehiveBlockEntity beehiveBlockEntity) {
-                    int radius = 5 + beehiveBlockEntity.getUpgradeCount(ModItems.UPGRADE_RANGE.get());
+                    int radius = 5 + beehiveBlockEntity.getUpgradeCount(ModItems.UPGRADE_RANGE.get()) + beehiveBlockEntity.getUpgradeCount(LibItems.UPGRADE_RANGE.get());
                     List<BlockPos> harvestablesNearby = FarmerBee.this.findHarvestablesNearby(FarmerBee.this.getHivePos(), radius);
 
                     if (!harvestablesNearby.isEmpty()) {

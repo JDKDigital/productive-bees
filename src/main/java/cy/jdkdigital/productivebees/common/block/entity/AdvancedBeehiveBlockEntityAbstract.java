@@ -16,6 +16,7 @@ import cy.jdkdigital.productivebees.util.GeneAttribute;
 import cy.jdkdigital.productivebees.util.GeneValue;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.event.BeeReleaseEvent;
+import cy.jdkdigital.productivelib.registry.LibItems;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -42,6 +43,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
+import net.neoforged.neoforge.attachment.AttachmentHolder;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -224,14 +226,14 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
             beeEntity.setHivePos(pPos);
             BeehiveBlockEntity.BeeReleaseStatus beeState = BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED;
             if (data.getString("id").equals("productivebees:farmer_bee")) {
-                List<BlockPos> harvestablesNearby = FarmerBee.findHarvestablesNearby(pLevel, pPos, 5 + advancedBeehiveBlockEntity.getUpgradeCount(ModItems.UPGRADE_RANGE.get()));
+                List<BlockPos> harvestablesNearby = FarmerBee.findHarvestablesNearby(pLevel, pPos, 5 + advancedBeehiveBlockEntity.getUpgradeCount(ModItems.UPGRADE_RANGE.get()) + advancedBeehiveBlockEntity.getUpgradeCount(LibItems.UPGRADE_RANGE.get()));
                 harvestablesNearby.forEach(pos -> {
                     if (pos != null && pLevel.isLoaded(pos) && HarvestCompatHandler.isCropValid(pLevel, pos)) {
                         HarvestCompatHandler.harvestBlock(pLevel, pos);
                     }
                 });
             } else if (data.getString("id").equals("productivebees:hoarder_bee") || data.getString("id").equals("productivebees:collector_bee")) {
-                int distance = 5 + advancedBeehiveBlockEntity.getUpgradeCount(ModItems.UPGRADE_RANGE.get());
+                int distance = 5 + advancedBeehiveBlockEntity.getUpgradeCount(ModItems.UPGRADE_RANGE.get()) + advancedBeehiveBlockEntity.getUpgradeCount(LibItems.UPGRADE_RANGE.get());
                 List<ItemEntity> items = pLevel.getEntitiesOfClass(ItemEntity.class, (new AABB(pPos).inflate(distance, distance, distance)));
                 for (ItemEntity item: items) {
                     if (advancedBeehiveBlockEntity.inventoryHandler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler inv) {
@@ -338,12 +340,18 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
 
     private static boolean willLeaveHive(Level level, BeehiveBlockEntity.Occupant occupant, BeehiveBlockEntity.BeeReleaseStatus beeState) {
         CompoundTag tag = occupant.entityData().getUnsafe();
-        boolean willLeaveHive = beeState == BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY || level.dimensionType().hasFixedTime(); // in an emergency or dim without time
+        boolean willLeaveHive = beeState == BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY || level.dimensionType().hasFixedTime() || (!level.isNight() && !level.isRaining()); // in an emergency or dim without time
         if (!level.dimensionType().hasFixedTime()) { // Weather and day/night cycle only counts in dim with time
-            willLeaveHive = willLeaveHive ||
-                    ((!level.isNight() && tag.getInt("bee_behavior") != 1) || // it's day and the bee is not nocturnal
-                    (level.isNight() && tag.getInt("bee_behavior") != 0)) && // it's night and the bee is not diurnal
-                    (!level.isRaining() || tag.getInt("bee_weather_tolerance") > 0); // it's not raining or the bee is tolerant
+            if (tag.contains(AttachmentHolder.ATTACHMENTS_NBT_KEY) && tag.getCompound(AttachmentHolder.ATTACHMENTS_NBT_KEY).contains("productivebees:attributes_handler")) {
+                var attributes = tag.getCompound(AttachmentHolder.ATTACHMENTS_NBT_KEY).getCompound("productivebees:attributes_handler");
+                var behavior = GeneValue.byName(attributes.getString("bee_behavior"));
+                var tolerance = GeneValue.byName(attributes.getString("bee_weather_tolerance"));
+
+                willLeaveHive = willLeaveHive ||
+                        ((!level.isNight() && behavior != GeneValue.BEHAVIOR_NOCTURNAL) || // it's day and the bee is not nocturnal
+                        (level.isNight() && behavior != GeneValue.BEHAVIOR_DIURNAL)) && // it's night and the bee is not diurnal
+                        (!level.isRaining() || tolerance == GeneValue.WEATHER_TOLERANCE_RAIN || tolerance == GeneValue.WEATHER_TOLERANCE_ANY); // it's not raining or the bee is tolerant
+            }
         }
         return willLeaveHive;
     }

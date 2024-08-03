@@ -8,6 +8,7 @@ import cy.jdkdigital.productivebees.compat.sussy.SussyCompatHandler;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.*;
+import cy.jdkdigital.productivelib.registry.LibItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -223,7 +224,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                 if (this.hasHive()) {
                     BlockEntity te = level().getBlockEntity(this.getHivePos());
                     if (te instanceof AdvancedBeehiveBlockEntity) {
-                        int antiTeleportUpgrades = ((AdvancedBeehiveBlockEntity) te).getUpgradeCount(ModItems.UPGRADE_ANTI_TELEPORT.get());
+                        int antiTeleportUpgrades = ((AdvancedBeehiveBlockEntity) te).getUpgradeCount(ModItems.UPGRADE_ANTI_TELEPORT.get()) + ((AdvancedBeehiveBlockEntity) te).getUpgradeCount(LibItems.UPGRADE_ANTI_TELEPORT.get());
                         if (antiTeleportUpgrades > 0) {
                             this.teleportCooldown = 10000;
                             super.customServerAiStep();

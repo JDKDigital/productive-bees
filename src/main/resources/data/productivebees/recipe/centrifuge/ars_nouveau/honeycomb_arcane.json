@@ -10,7 +10,7 @@
   "outputs": [
     {
       "item": {
-        "tag": "c:gems/source"
+        "item": "ars_nouveau:source_gem"
       },
       "chance": 0.5
     },

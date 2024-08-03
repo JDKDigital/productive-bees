@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEnti
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
+import cy.jdkdigital.productivelib.registry.LibItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -263,7 +264,7 @@ public class HoarderBee extends ProductiveBee
                 List<ItemEntity> items = new ArrayList<>();
                 BlockEntity hive = level().getBlockEntity(HoarderBee.this.getHivePos());
                 if (hive instanceof AdvancedBeehiveBlockEntity beehiveBlockEntity) {
-                    int radius = 5 + beehiveBlockEntity.getUpgradeCount(ModItems.UPGRADE_RANGE.get());
+                    int radius = 5 + beehiveBlockEntity.getUpgradeCount(ModItems.UPGRADE_RANGE.get()) + beehiveBlockEntity.getUpgradeCount(LibItems.UPGRADE_RANGE.get());
                     items = HoarderBee.this.getItemsNearby(HoarderBee.this.getHivePos(), radius);
                 }
 

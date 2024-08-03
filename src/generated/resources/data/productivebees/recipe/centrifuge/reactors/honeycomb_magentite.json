@@ -15,7 +15,7 @@
   "type": "productivebees:centrifuge",
   "fluid": {
     "amount": 50,
-    "id": "productivebees:honey"
+    "fluid": "productivebees:honey"
   },
   "ingredient": {
     "type": "productivebees:component",

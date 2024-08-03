@@ -22,6 +22,7 @@ import cy.jdkdigital.productivebees.util.GeneGroup;
 import cy.jdkdigital.productivelib.common.block.entity.FluidTankBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.common.block.entity.UpgradeableBlockEntity;
+import cy.jdkdigital.productivelib.registry.LibItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -133,7 +134,9 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
         }
     };
 
-    protected IItemHandlerModifiable upgradeHandler = new InventoryHandlerHelper.UpgradeHandler(4, this);
+    protected IItemHandlerModifiable upgradeHandler = new InventoryHandlerHelper.UpgradeHandler(4, this, List.of(
+            LibItems.UPGRADE_TIME.get()
+    ));
 
     public CentrifugeBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.CENTRIFUGE.get(), pos, state);
@@ -161,7 +164,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
     }
 
     protected double getProcessingTimeModifier() {
-        double timeUpgradeModifier = 1 - (getUpgradeCount(ModItems.UPGRADE_TIME.get()) * ProductiveBeesConfig.UPGRADES.timeBonus.get());
+        double timeUpgradeModifier = 1 - (ProductiveBeesConfig.UPGRADES.timeBonus.get() * (getUpgradeCount(ModItems.UPGRADE_TIME.get()) + getUpgradeCount(LibItems.UPGRADE_TIME.get())));
 
         return Math.max(0, timeUpgradeModifier);
     }
@@ -278,6 +281,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
 
         boolean isAllowedByFilter = true;
         List<ItemStack> filterUpgrades = this.getInstalledUpgrades(ModItems.UPGRADE_FILTER.get());
+        filterUpgrades.addAll(getInstalledUpgrades(LibItems.UPGRADE_ENTITY_FILTER.get()));
         if (filterUpgrades.size() > 0) {
             isAllowedByFilter = false;
             for (ItemStack filter : filterUpgrades) {

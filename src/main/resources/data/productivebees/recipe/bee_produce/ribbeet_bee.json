@@ -1,0 +1,30 @@
+{
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:ribbeet",
+  "results": [
+    {
+      "chance": 0.05,
+      "item": {
+        "item": "minecraft:ochre_froglight"
+      }
+    },
+    {
+      "chance": 0.05,
+      "item": {
+        "item": "minecraft:pearlescent_froglight"
+      }
+    },
+    {
+      "chance": 0.05,
+      "item": {
+        "item": "minecraft:verdant_froglight"
+      }
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ribbeet"
+    }
+  ]
+}

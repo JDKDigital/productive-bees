@@ -1,0 +1,16 @@
+{
+  "primaryColor": "#222030",
+  "secondaryColor": "#353149",
+  "tertiaryColor": "#635089",
+  "particleColor": "#d4a3c0",
+  "flowerBlock": "megacells:sky_osmium_block",
+  "beeTexture": "productivebees:textures/entity/bee/sky_osmium/bee",
+  "size": 0.6,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "megacells",
+      "type": "neoforge:mod_loaded"
+    }
+  ]
+}

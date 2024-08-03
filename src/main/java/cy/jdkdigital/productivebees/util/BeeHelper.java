@@ -495,37 +495,6 @@ public class BeeHelper
             bee = TagParser.parseTag("{id:\"" + beeIngredient.getBeeType().toString() + "\",bee_type: \"solitary\", HasConverted: false}");
         }
 
-        Random random = new Random();
-        bee.putInt("bee_productivity", random.nextInt(3));
-        bee.putInt("bee_temper", 1);
-        bee.putInt("bee_endurance", random.nextInt(3));
-        bee.putInt("bee_behavior", 0);
-        bee.putInt("bee_weather_tolerance", 0);
-
-        switch (beeIngredient.getBeeType().getPath()) {
-            case "mason_bee", "blue_banded_bee" -> bee.putInt("bee_temper", 0);
-            case "sweat_bee" -> bee.putInt("bee_temper", 2);
-        }
-
-        if (beeIngredient.isConfigurable()) {
-            CompoundTag data = BeeReloadListener.INSTANCE.getData(beeIngredient.getBeeType().toString());
-            if (data.contains("productivity")) {
-                bee.putInt("bee_productivity", data.getInt("productivity"));
-            }
-            if (data.contains("temper")) {
-                bee.putInt("bee_temper", data.getInt("temper"));
-            }
-            if (data.contains(("endurance"))) {
-                bee.putInt("bee_endurance", data.getInt("endurance"));
-            }
-            if (data.contains(("behavior"))) {
-                bee.putInt("bee_behavior", data.getInt("behavior"));
-            }
-            if (data.contains(("weather_tolerance"))) {
-                bee.putInt("bee_weather_tolerance", data.getInt("weather_tolerance"));
-            }
-        }
-
         return bee;
     }
 

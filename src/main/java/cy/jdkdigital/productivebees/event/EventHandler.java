@@ -6,7 +6,6 @@ import cy.jdkdigital.productivebees.client.render.item.JarBlockItemRenderer;
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
-import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.recipe.BeeFishingRecipe;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFactory;
@@ -15,12 +14,18 @@ import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.network.packets.BeeDataMessage;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeHelper;
+import cy.jdkdigital.productivelib.ProductiveLib;
+import cy.jdkdigital.productivelib.event.AddEntityToFilterEvent;
+import cy.jdkdigital.productivelib.event.UpgradeTooltipEvent;
+import cy.jdkdigital.productivelib.registry.LibItems;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -81,6 +86,69 @@ public class EventHandler
     public static void onServerStarting(AddReloadListenerEvent event) {
         BeeReloadListener.INSTANCE.context = event.getConditionContext();
         event.addListener(BeeReloadListener.INSTANCE);
+    }
+
+    @SubscribeEvent
+    public static void addEntityToFilter(AddEntityToFilterEvent event) {
+        if (event.getEntity() instanceof ConfigurableBee bee) {
+            var type = ResourceLocation.parse(BeeIngredientFactory.getIngredientKey(bee));
+            event.setKey(type);
+        }
+    }
+
+    @SubscribeEvent
+    public static void addUpgradeTooltip(UpgradeTooltipEvent event) {
+        if (event.getEntities() != null) {
+            List<ResourceLocation> leftovers = new ArrayList<>();
+            event.getEntities().forEach(resourceLocation -> {
+                var type = BeeIngredientFactory.getIngredient(resourceLocation.toString());
+                if (type.get() != null && type.get().isConfigurable()) {
+                    event.getTooltipComponents().add(Component.translatable("productivelib.information.upgrade.upgrade_entity_filter.list_item", Component.translatable("entity.productivebees." + type.get().getBeeType().getPath() + "_bee").getString()).withStyle(ChatFormatting.GOLD));
+                } else {
+                    leftovers.add(resourceLocation);
+                }
+            });
+            event.setEntities(leftovers);
+        } else {
+            var upgradeType = BuiltInRegistries.ITEM.getKey(event.getStack().getItem());
+
+            double value = switch (upgradeType.getPath()) {
+                case "upgrade_child" -> ProductiveBeesConfig.UPGRADES.breedingChance.get();
+                case "upgrade_time" -> ProductiveBeesConfig.UPGRADES.timeBonus.get();
+                case "upgrade_productivity" -> ProductiveBeesConfig.UPGRADES.productivityMultiplier.get();
+                case "upgrade_productivity_2" -> ProductiveBeesConfig.UPGRADES.productivityMultiplier2.get();
+                case "upgrade_productivity_3" -> ProductiveBeesConfig.UPGRADES.productivityMultiplier3.get();
+                case "upgrade_productivity_4" -> ProductiveBeesConfig.UPGRADES.productivityMultiplier4.get();
+                default -> 0.0F;
+            };
+            if (upgradeType.getNamespace().equals(ProductiveLib.MODID)) {
+                event.getTooltipComponents().add(Component.translatable("productivebees.information.upgrade." + upgradeType.getPath(), (int) (value * 100)).withStyle(ChatFormatting.GOLD));
+            }
+
+            switch (upgradeType.getPath()) {
+                case "upgrade_entity_filter" -> {
+                    event.addValidBlock(Component.literal("Advanced Beehive"));
+                    event.addValidBlock(Component.literal("Catcher"));
+                    event.addValidBlock(Component.literal("Centrifuge"));
+                }
+                case "upgrade_adult", "upgrade_child", "upgrade_range" -> {
+                    event.addValidBlock(Component.literal("Advanced Beehive"));
+                    event.addValidBlock(Component.literal("Catcher"));
+                }
+                case "upgrade_gene_sampler", "upgrade_anti_teleport", "upgrade_block", "upgrade_simulator", "upgrade_productivity_2", "upgrade_productivity_3", "upgrade_productivity_4" -> event.addValidBlock(Component.literal("Advanced Beehive"));
+                case "upgrade_time" -> {
+                    event.addValidBlock(Component.literal("Advanced Beehive"));
+                    event.addValidBlock(Component.literal("Centrifuge"));
+                    event.addValidBlock(Component.literal("Breeding Chamber"));
+                    event.addValidBlock(Component.literal("Incubator"));
+                    event.addValidBlock(Component.literal("Honey Generator"));
+                }
+                case "upgrade_productivity" -> {
+                    event.addValidBlock(Component.literal("Advanced Beehive"));
+                    event.addValidBlock(Component.literal("Honey Generator"));
+                }
+            }
+        }
     }
 
     @SubscribeEvent

@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivelib.loot.OptionalLootItem;
+import cy.jdkdigital.productivelib.loot.condition.OptionalCopyBlockState;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
@@ -167,7 +168,7 @@ public class BlockLootProvider implements DataProvider
             if (hive.defaultBlockState().hasProperty(BeehiveBlock.HONEY_LEVEL)) {
                 hiveHoney = OptionalLootItem.lootTableItem(hive).when(HAS_SILK)
                         .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY).include(DataComponents.BEES))
-                        .apply(CopyBlockState.copyState(hive).copy(BeehiveBlock.HONEY_LEVEL));
+                        .apply(OptionalCopyBlockState.copyState(hive).copy(BeehiveBlock.HONEY_LEVEL));
             } else {
                 hiveHoney = OptionalLootItem.lootTableItem(hive).when(HAS_SILK)
                         .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY).include(DataComponents.BEES));

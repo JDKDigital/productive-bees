@@ -5,6 +5,7 @@
   "flowerBlock": "productivebees:amber",
   "beeTexture": "productivebees:textures/entity/bee/wanna/bee",
   "createComb": false,
+  "selfbreed": false,
   "renderer": "thicc",
   "attributes": {
     "endurance": "endurance.strong"

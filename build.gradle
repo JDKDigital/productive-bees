@@ -126,6 +126,7 @@ dependencies {
     implementation "curse.maven:biomes-o-plenty-220318:5512375"
     implementation "curse.maven:glitchcore-955399:5483773"
     implementation "curse.maven:terrablender-neoforge-940057:5429865"
+    implementation "curse.maven:regions-unexplored-659110:5579932"
     implementation "curse.maven:extreme-reactors-250277:5538095"
     implementation "curse.maven:zerocore-247921:5464103"
 }

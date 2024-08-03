@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#5c0404",
+  "secondaryColor": "#b51d1d",
+  "tertiaryColor": "#e34848",
+  "particleColor": "#ffa58c",
+  "flowerBlock": "appflux:charged_redstone_block",
+  "beeTexture": "productivebees:textures/entity/bee/redstone_crystal/bee",
+  "size": 0.7,
+  "selfbreed": false,
+  "renderer": "default_crystal",
+  "conditions": [
+    {
+      "modid": "appflux",
+      "type": "neoforge:mod_loaded"
+    }
+  ]
+}

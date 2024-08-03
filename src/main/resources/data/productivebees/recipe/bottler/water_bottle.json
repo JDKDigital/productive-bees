@@ -1,7 +1,7 @@
 {
   "type": "productivebees:bottler",
   "fluid": {
-    "id": "minecraft:water",
+    "fluid": "minecraft:water",
     "amount": 250
   },
   "ingredient": {

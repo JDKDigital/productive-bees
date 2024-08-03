@@ -1,25 +1,11 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "SES",
-    "ETE",
-    "SDS"
-  ],
-  "key": {
-    "E": {
-      "tag": "c:gems/emerald"
-    },
-    "D": {
-      "tag": "c:gems/diamond"
-    },
-    "S": {
-      "tag": "c:rods/wooden"
-    },
-    "T": {
-      "item": "productivebees:honey_treat"
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "productivebees:upgrade_base"
     }
-  },
+  ],
   "result": {
-    "id": "productivebees:upgrade_base"
+    "id": "productivelib:upgrade_base"
   }
 }

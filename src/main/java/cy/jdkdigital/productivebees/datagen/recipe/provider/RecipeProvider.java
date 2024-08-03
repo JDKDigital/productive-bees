@@ -68,14 +68,14 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .save(consumer, ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "petrified_honey/" + dyeColor.getSerializedName()));
         });
 
-        // Ribbeet centrifuge
-        CentrifugeRecipeBuilder.configurable("ribbeet")
-                .clearOutput()
-                .addOutput(new TagOutputRecipe.ChancedOutput(Ingredient.of(Items.OCHRE_FROGLIGHT), 1, 1, 0.05f))
-                .addOutput(new TagOutputRecipe.ChancedOutput(Ingredient.of(Items.PEARLESCENT_FROGLIGHT), 1, 1, 0.05f))
-                .addOutput(new TagOutputRecipe.ChancedOutput(Ingredient.of(Items.VERDANT_FROGLIGHT), 1, 1, 0.05f))
-//                .setFluidOutput(new FluidStack(ModFluids.HONEY, 0))
-                .save(consumer.withConditions(new BeeExistsCondition(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "ribbeet"))), ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "centrifuge/honeycomb_ribbeet"));
+//          // Ribbeet centrifuge
+//        CentrifugeRecipeBuilder.configurable("ribbeet")
+//                .clearOutput()
+//                .addOutput(new TagOutputRecipe.ChancedOutput(Ingredient.of(Items.OCHRE_FROGLIGHT), 1, 1, 0.05f))
+//                .addOutput(new TagOutputRecipe.ChancedOutput(Ingredient.of(Items.PEARLESCENT_FROGLIGHT), 1, 1, 0.05f))
+//                .addOutput(new TagOutputRecipe.ChancedOutput(Ingredient.of(Items.VERDANT_FROGLIGHT), 1, 1, 0.05f))
+////                .setFluidOutput(new FluidStack(ModFluids.HONEY, 0))
+//                .save(consumer.withConditions(new BeeExistsCondition(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "ribbeet"))), ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "centrifuge/honeycomb_ribbeet"));
 
 
 //        var egg = new ItemStack(ModItems.CONFIGURABLE_SPAWN_EGG.get());

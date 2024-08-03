@@ -1,25 +1,11 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "UHU",
-    "SBS",
-    "UHU"
-  ],
-  "key": {
-    "B": {
-      "item": "productivebees:upgrade_base"
-    },
-    "H": {
-      "item": "minecraft:honey_block"
-    },
-    "S": {
-      "tag": "c:nether_stars"
-    },
-    "U": {
-      "item": "productivebees:upgrade_productivity"
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "productivebees:upgrade_productivity_2"
     }
-  },
+  ],
   "result": {
-    "id": "productivebees:upgrade_productivity_2"
+    "id": "productivelib:upgrade_productivity_2"
   }
 }

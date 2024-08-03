@@ -2,7 +2,7 @@
   "primaryColor": "#5a7088",
   "secondaryColor": "#804f40",
   "particleColor": "#5a7088",
-  "flowerTag": "minecraft:flowers",
+  "flowerBlock": "integrateddynamics:crystalized_menril_block",
   "conditions": [
     {
       "modid": "integrateddynamics",

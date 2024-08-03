@@ -1,25 +1,11 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "CHC",
-    "SBS",
-    "CHC"
-  ],
-  "key": {
-    "B": {
-      "item": "productivebees:upgrade_base"
-    },
-    "S": {
-      "item": "minecraft:diamond_sword"
-    },
-    "H": {
-      "item": "minecraft:honey_bottle"
-    },
-    "C": {
-      "tag": "c:storage_blocks/honeycombs"
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "productivebees:upgrade_bee_sampler"
     }
-  },
+  ],
   "result": {
-    "id": "productivebees:upgrade_bee_sampler"
+    "id": "productivelib:upgrade_gene_sampler"
   }
 }

@@ -1,6 +1,13 @@
 1.21.0-13.3.0
 
+- Upgrades got a rewrite and were moved around. Old upgrades need to be put into a crafting grid, or they will disappear in a future update.
+- Upgrades now show which machines they can be put into in their tooltip
+- Added Entro, Redstone Crystal, Sky Bronze and Sky Osmium bees (Lego)
 - Added back support for tag fluid output
+- Re-added Regions Unexplored compat
+- Amber bees now honor the c:capturing_not_supported tag
+- Fixed behavior and weather tolerance not applying to hive life
+- Fixed combs not outputting any honey
 
 
 1.21.0-13.2.0

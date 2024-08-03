@@ -5,7 +5,9 @@
   "flowerType": "entity_types",
   "flowerTag": "c:magma_cubes",
   "beeTexture": "productivebees:textures/entity/bee/ribbeet/bee",
+  "createComb": false,
   "size": 0.5,
   "pollinatedSize": 1.0,
+  "selfbreed": false,
   "renderer": "thicc"
 }

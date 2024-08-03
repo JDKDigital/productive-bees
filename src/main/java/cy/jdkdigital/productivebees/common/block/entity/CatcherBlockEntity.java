@@ -11,6 +11,7 @@ import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivelib.common.block.entity.CapabilityBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.common.block.entity.UpgradeableBlockEntity;
+import cy.jdkdigital.productivelib.registry.LibItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
@@ -45,7 +46,12 @@ public class CatcherBlockEntity extends CapabilityBlockEntity implements MenuPro
         }
     };
 
-    protected IItemHandlerModifiable upgradeHandler = new InventoryHandlerHelper.UpgradeHandler(4, this);
+    protected IItemHandlerModifiable upgradeHandler = new InventoryHandlerHelper.UpgradeHandler(4, this, List.of(
+            LibItems.UPGRADE_CHILD.get(),
+            LibItems.UPGRADE_ADULT.get(),
+            LibItems.UPGRADE_RANGE.get(),
+            LibItems.UPGRADE_ENTITY_FILTER.get()
+    ));
 
     public CatcherBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.CATCHER.get(), pos, state);
@@ -58,9 +64,10 @@ public class CatcherBlockEntity extends CapabilityBlockEntity implements MenuPro
                 if (invItem.getItem() instanceof BeeCage && !BeeCage.isFilled(invItem)) {
                     // We have a valid inventory for catching, look for entities above
                     List<Bee> bees = level.getEntitiesOfClass(Bee.class, blockEntity.getBoundingBox());
-                    int babeeUpgrades = blockEntity.getUpgradeCount(ModItems.UPGRADE_BREEDING.get());
-                    int notBabeeUpgrades = blockEntity.getUpgradeCount(ModItems.UPGRADE_NOT_BABEE.get());
+                    int babeeUpgrades = blockEntity.getUpgradeCount(ModItems.UPGRADE_BREEDING.get()) + blockEntity.getUpgradeCount(LibItems.UPGRADE_CHILD.get());
+                    int notBabeeUpgrades = blockEntity.getUpgradeCount(ModItems.UPGRADE_NOT_BABEE.get()) + blockEntity.getUpgradeCount(LibItems.UPGRADE_ADULT.get());
                     List<ItemStack> filterUpgrades = blockEntity.getInstalledUpgrades(ModItems.UPGRADE_FILTER.get());
+                    filterUpgrades.addAll(blockEntity.getInstalledUpgrades(LibItems.UPGRADE_ENTITY_FILTER.get()));
                     for (Bee bee : bees) {
                         if (babeeUpgrades > 0 && !bee.isBaby()) {
                             continue;
@@ -101,7 +108,7 @@ public class CatcherBlockEntity extends CapabilityBlockEntity implements MenuPro
     }
 
     private AABB getBoundingBox() {
-        int rangeUpgrades = getUpgradeCount(ModItems.UPGRADE_RANGE.get());
+        int rangeUpgrades = getUpgradeCount(ModItems.UPGRADE_RANGE.get()) + getUpgradeCount(LibItems.UPGRADE_RANGE.get());
         return new AABB(worldPosition).inflate(rangeUpgrades, 2.0D + rangeUpgrades, rangeUpgrades);
     }
 

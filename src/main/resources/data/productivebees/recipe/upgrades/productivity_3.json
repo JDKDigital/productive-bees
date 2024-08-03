@@ -1,22 +1,11 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "CEC",
-    "EBE",
-    "CEC"
-  ],
-  "key": {
-    "B": {
-      "item": "productivebees:upgrade_simulator"
-    },
-    "E": {
-      "item": "minecraft:echo_shard"
-    },
-    "C": {
-      "item": "productivebees:upgrade_productivity_2"
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "productivebees:upgrade_productivity_3"
     }
-  },
+  ],
   "result": {
-    "id": "productivebees:upgrade_productivity_3"
+    "id": "productivelib:upgrade_productivity_3"
   }
 }

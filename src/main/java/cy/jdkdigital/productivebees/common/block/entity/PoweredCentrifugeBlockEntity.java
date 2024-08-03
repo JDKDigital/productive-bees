@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.container.PoweredCentrifugeContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivelib.registry.LibItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -42,7 +43,7 @@ public class PoweredCentrifugeBlockEntity extends CentrifugeBlockEntity
     }
 
     protected double getEnergyConsumptionModifier() {
-        double timeUpgradeModifier = 1D + (getUpgradeCount(ModItems.UPGRADE_TIME.get()) * ProductiveBeesConfig.UPGRADES.timeBonus.get());
+        double timeUpgradeModifier = 1D + (ProductiveBeesConfig.UPGRADES.timeBonus.get() * (getUpgradeCount(ModItems.UPGRADE_TIME.get()) + getUpgradeCount(LibItems.UPGRADE_TIME.get())));
 
         return Math.max(1, timeUpgradeModifier);
     }

@@ -17,6 +17,7 @@ import cy.jdkdigital.productivebees.util.GeneGroup;
 import cy.jdkdigital.productivelib.common.block.entity.CapabilityBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.common.block.entity.UpgradeableBlockEntity;
+import cy.jdkdigital.productivelib.registry.LibItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
@@ -63,7 +64,9 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
         isRunning = running;
     }
 
-    protected IItemHandlerModifiable upgradeHandler = new InventoryHandlerHelper.UpgradeHandler(4, this);
+    protected IItemHandlerModifiable upgradeHandler = new InventoryHandlerHelper.UpgradeHandler(4, this, List.of(
+            LibItems.UPGRADE_TIME.get()
+    ));
 
     public EnergyStorage energyHandler = new EnergyStorage(10000);
 
@@ -89,7 +92,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
     }
 
     protected double getProcessingTimeModifier() {
-        double timeUpgradeModifier = 1 - (getUpgradeCount(ModItems.UPGRADE_TIME.get()) * ProductiveBeesConfig.UPGRADES.timeBonus.get());
+        double timeUpgradeModifier = 1 - (ProductiveBeesConfig.UPGRADES.timeBonus.get() * (getUpgradeCount(ModItems.UPGRADE_TIME.get()) + getUpgradeCount(LibItems.UPGRADE_TIME.get())));
 
         return Math.max(0, timeUpgradeModifier);
     }
@@ -118,7 +121,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
     }
 
     protected double getEnergyConsumptionModifier() {
-        double timeUpgradeModifier = getUpgradeCount(ModItems.UPGRADE_TIME.get()) * ProductiveBeesConfig.UPGRADES.timeBonus.get();
+        double timeUpgradeModifier = ProductiveBeesConfig.UPGRADES.timeBonus.get() * (getUpgradeCount(ModItems.UPGRADE_TIME.get()) + getUpgradeCount(LibItems.UPGRADE_TIME.get()));
 
         return Math.max(1, timeUpgradeModifier);
     }

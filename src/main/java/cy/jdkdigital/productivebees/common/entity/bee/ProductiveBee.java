@@ -440,12 +440,6 @@ public class ProductiveBee extends Bee implements IProductiveBee
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
 
-//        tag.putString("bee_productivity", this.getAttributeValue(GeneAttribute.PRODUCTIVITY).getSerializedName());
-//        tag.putString("bee_endurance", this.getAttributeValue(GeneAttribute.ENDURANCE).getSerializedName());
-//        tag.putString("bee_temper", this.getAttributeValue(GeneAttribute.TEMPER).getSerializedName());
-//        tag.putString("bee_behavior", this.getAttributeValue(GeneAttribute.BEHAVIOR).getSerializedName());
-//        tag.putString("bee_weather_tolerance", this.getAttributeValue(GeneAttribute.WEATHER_TOLERANCE).getSerializedName());
-
         tag.putString("bee_type", this instanceof SolitaryBee ? "solitary" : "hive");
         tag.putFloat("MaxHealth", getMaxHealth());
         tag.putBoolean("HasConverted", hasConverted());
@@ -457,15 +451,6 @@ public class ProductiveBee extends Bee implements IProductiveBee
 
         this.internalSetHasNectar(tag.getBoolean("HasNectar"));
 
-        if (tag.contains("bee_productivity")) {
-//            setAttributeValue(GeneAttribute.PRODUCTIVITY, GeneValue.byName(tag.getString("bee_productivity")));
-//            setAttributeValue(GeneAttribute.ENDURANCE, GeneValue.byName(tag.getString("bee_endurance")));
-//            setAttributeValue(GeneAttribute.TEMPER, GeneValue.byName(tag.getString("bee_temper")));
-//            setAttributeValue(GeneAttribute.BEHAVIOR, GeneValue.byName(tag.getString("bee_behavior")));
-//            setAttributeValue(GeneAttribute.WEATHER_TOLERANCE, GeneValue.byName(tag.getString("bee_weather_tolerance")));
-        } else {
-            setDefaultAttributes();
-        }
         setHasConverted(tag.contains("HasConverted") && tag.getBoolean("HasConverted"));
     }
 
