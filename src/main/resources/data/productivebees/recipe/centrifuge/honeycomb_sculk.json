@@ -16,6 +16,12 @@
     },
     {
       "item": {
+        "item": "minecraft:disc_fragment_5"
+      },
+      "chance": 0.005
+    },
+    {
+      "item": {
         "item": "productivebees:wax"
       }
     }

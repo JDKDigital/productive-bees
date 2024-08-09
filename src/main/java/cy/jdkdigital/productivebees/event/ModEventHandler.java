@@ -82,6 +82,16 @@ public class ModEventHandler
                 ModBlockEntityTypes.DRACONIC_BEEHIVE.get(),
                 (myBlockEntity, side) -> myBlockEntity.inventoryHandler
         );
+        event.registerBlockEntity(
+                Capabilities.ItemHandler.BLOCK,
+                ModBlockEntityTypes.CANVAS_ADVANCED_HIVE.get(),
+                (myBlockEntity, side) -> myBlockEntity.inventoryHandler
+        );
+        event.registerBlockEntity(
+                Capabilities.ItemHandler.BLOCK,
+                ModBlockEntityTypes.EXPANSION_BOX.get(),
+                (myBlockEntity, side) -> myBlockEntity.getHiveInventoryHandler()
+        );
         // Centrifuge
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,

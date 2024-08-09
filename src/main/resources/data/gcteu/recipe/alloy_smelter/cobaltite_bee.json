@@ -8,14 +8,14 @@
           "type": "gtceu:sized",
           "count": 1,
           "ingredient": {
+            "type": "productivebees:component",
             "components": {
               "minecraft:entity_data": {
                 "type": "productivebees:cobalt",
                 "id": "productivebees:configurable_bee"
               }
             },
-            "count": 1,
-            "id": "productivebees:spawn_egg_configurable_bee"
+            "items": "productivebees:spawn_egg_configurable_bee"
           }
         },
         "chance": 1,

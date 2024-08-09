@@ -145,6 +145,7 @@ tasks.withType(ProcessResources).configureEach {
             mod_authors            : mod_authors,
             mod_description        : mod_description,
             lib_version            : lib_version,
+            lib_version_range      : lib_version_range,
             jei_version            : jei_version,
             emi_version            : emi_version
     ]

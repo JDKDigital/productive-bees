@@ -22,7 +22,7 @@
   ],
   "fluid": {
     "amount": 0,
-    "id": "productivebees:honey"
+    "fluid": "productivebees:honey"
   },
   "neoforge:conditions": [
     {

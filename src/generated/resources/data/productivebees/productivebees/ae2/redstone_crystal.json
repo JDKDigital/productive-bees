@@ -4,6 +4,7 @@
   "tertiaryColor": "#e34848",
   "particleColor": "#ffa58c",
   "flowerBlock": "appflux:charged_redstone_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
   "beeTexture": "productivebees:textures/entity/bee/redstone_crystal/bee",
   "size": 0.7,
   "selfbreed": false,

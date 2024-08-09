@@ -1,3 +1,23 @@
+1.21.1-13.4.0
+
+- Fix loading with 1.21.1. Mod can no longer load on 1.21.0.
+
+
+1.21.0-13.3.3
+
+- WannaBee is now breedable again but requires disc fragments to do so
+- BaBee upgrades no longer work on bees that have special breeding items
+- Fixed pipe interaction with canvas hives
+- Fixed crash when clicking recipe areas in machines
+- Fixed crash when extracting loot from ambered warden
+
+
+1.21.0-13.3.2
+
+- Fixed some recipes still using the old upgrades
+- Fixed crash when inserting upgrades into hives
+
+
 1.21.0-13.3.0
 
 - Upgrades got a rewrite and were moved around. Old upgrades need to be put into a crafting grid, or they will disappear in a future update.

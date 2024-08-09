@@ -75,6 +75,11 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         this.tileEntityType = tileEntityType;
     }
 
+    @Override
+    public boolean isValidBlockState(BlockState blockState) {
+        return this.tileEntityType == null || this.tileEntityType.isValid(blockState);
+    }
+
     @Nonnull
     @Override
     public BlockEntityType<?> getType() {

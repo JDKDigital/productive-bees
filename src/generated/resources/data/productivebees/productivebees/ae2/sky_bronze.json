@@ -4,6 +4,7 @@
   "tertiaryColor": "#804a2b",
   "particleColor": "#bfb57c",
   "flowerBlock": "megacells:sky_bronze_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
   "beeTexture": "productivebees:textures/entity/bee/sky_bronze/bee",
   "size": 0.8,
   "selfbreed": false,

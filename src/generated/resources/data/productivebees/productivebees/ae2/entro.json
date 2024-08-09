@@ -4,6 +4,7 @@
   "tertiaryColor": "#65e883",
   "particleColor": "#f4ffb5",
   "flowerBlock": "extendedae:entro_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
   "beeTexture": "productivebees:textures/entity/bee/entro/bee",
   "size": 0.8,
   "selfbreed": false,

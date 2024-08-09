@@ -10,23 +10,25 @@
       "item": "thermal:blitz_powder"
     },
     "y": {
+      "type": "productivebees:component",
       "components": {
         "minecraft:entity_data": {
           "type": "productivebees:blazing",
           "id": "productivebees:configurable_bee"
         }
       },
-      "count": 1,
-      "id": "productivebees:spawn_egg_configurable_bee"
+      "items": "productivebees:spawn_egg_configurable_bee"
     }
   },
   "result": {
-    "id": "productivebees:spawn_egg_configurable_bee",
-    "nbt": {
-      "EntityTag": {
-        "type": "productivebees:blitz"
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:blitz",
+        "id": "productivebees:configurable_bee"
       }
-    }
+    },
+    "count": 1,
+    "id": "productivebees:spawn_egg_configurable_bee"
   },
   "neoforge:conditions": [
     {

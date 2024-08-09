@@ -116,6 +116,8 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         if (!ModList.get().isLoaded("emi")) {
             Collection<BeeIngredient> ingredients = BeeIngredientFactory.getOrCreateList(true).values();
             registration.register(BEE_INGREDIENT, new ArrayList<>(ingredients), new BeeIngredientHelper(), new BeeIngredientRenderer());
+        } else {
+            registration.register(BEE_INGREDIENT, new ArrayList<>(), new BeeIngredientHelper(), new BeeIngredientRenderer());
         }
     }
 

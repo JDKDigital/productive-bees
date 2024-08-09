@@ -15,7 +15,7 @@
     }
   ],
   "fluid": {
-    "id": "evilcraft:blood",
+    "fluid": "evilcraft:blood",
     "amount": 100
   },
   "neoforge:conditions": [

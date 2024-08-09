@@ -10,7 +10,7 @@
   "outputs": [],
   "fluid": {
     "amount": 500,
-    "id": "productivebees:honey"
+    "fluid": "productivebees:honey"
   },
   "neoforge:conditions": [
     {

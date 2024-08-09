@@ -12,6 +12,6 @@
   ],
   "fluid": {
     "amount": 100,
-    "id": "productivebees:honey"
+    "fluid": "productivebees:honey"
   }
 }

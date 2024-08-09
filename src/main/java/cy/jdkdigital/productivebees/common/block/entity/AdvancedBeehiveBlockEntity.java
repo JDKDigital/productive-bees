@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
+import cy.jdkdigital.productivebees.common.entity.bee.IProductiveBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBee;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
@@ -27,6 +28,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.Container;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.Entity;
@@ -302,7 +304,21 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
             // Produce offspring if breeding upgrade is installed
             int breedingUpgrades = getUpgradeCount(ModItems.UPGRADE_BREEDING.get()) + getUpgradeCount(LibItems.UPGRADE_CHILD.get());
             if (breedingUpgrades > 0 && !beeEntity.isBaby() && getOccupantCount() > 0 && level.random.nextFloat() <= (ProductiveBeesConfig.UPGRADES.breedingChance.get() * breedingUpgrades)) {
-                boolean canBreed = !(beeEntity instanceof ProductiveBee) || ((ProductiveBee) beeEntity).canSelfBreed();
+                boolean canBreed = !(beeEntity instanceof IProductiveBee) || ((IProductiveBee) beeEntity).canSelfBreed();
+                // Check that breeding item is in the hive
+                if (canBreed && beeEntity instanceof IProductiveBee productiveBee) {
+                    var breedingIngredient = productiveBee.getBreedingIngredient();
+                    if (!breedingIngredient.test(Items.POPPY.getDefaultInstance())) {
+                        canBreed = false;
+//                        for (int i = 0; i < inventoryHandler.getSlots(); i++) {
+//                            var slotStack = inventoryHandler.getStackInSlot(i);
+//                            if (breedingIngredient.test(slotStack) && slotStack.getCount() >= productiveBee.getBreedingItemCount()) {
+//                                inventoryHandler.getStackInSlot(i).shrink(productiveBee.getBreedingItemCount());
+//                                canBreed = true;
+//                            }
+//                        }
+                    }
+                }
                 if (canBreed) {
                     // Count nearby bee entities
                     List<Bee> bees = level.getEntitiesOfClass(Bee.class, (new AABB(this.worldPosition).inflate(5.0D, 5.0D, 5.0D)));

@@ -6,14 +6,14 @@
     {
       "count": 1,
       "ingredient": {
+        "type": "productivebees:component",
         "components": {
           "minecraft:entity_data": {
             "type": "productivebees:iron",
             "id": "productivebees:configurable_bee"
           }
         },
-        "count": 1,
-        "id": "productivebees:spawn_egg_configurable_bee"
+        "items": "productivebees:spawn_egg_configurable_bee"
       }
     },
     {
@@ -25,14 +25,14 @@
     {
       "count": 1,
       "ingredient": {
+        "type": "productivebees:component",
         "components": {
           "minecraft:entity_data": {
             "type": "productivebees:obsidian",
             "id": "productivebees:configurable_bee"
           }
         },
-        "count": 1,
-        "id": "productivebees:spawn_egg_configurable_bee"
+        "items": "productivebees:spawn_egg_configurable_bee"
       }
     }
   ],

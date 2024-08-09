@@ -37,6 +37,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -377,6 +378,7 @@ public class BeeHelper
                         LootParams.Builder lootContextBuilder = new LootParams.Builder(serverLevel);
                         lootContextBuilder.withParameter(LootContextParams.LAST_DAMAGE_PLAYER, fakePlayer);
                         lootContextBuilder.withParameter(LootContextParams.DAMAGE_SOURCE, level.damageSources().generic());
+                        lootContextBuilder.withParameter(LootContextParams.TOOL, new ItemStack(Items.DIAMOND_AXE));
                         lootContextBuilder.withOptionalParameter(LootContextParams.DIRECT_ATTACKING_ENTITY, fakePlayer);
                         lootContextBuilder.withOptionalParameter(LootContextParams.ATTACKING_ENTITY, fakePlayer);
                         lootContextBuilder.withParameter(LootContextParams.THIS_ENTITY, entity);

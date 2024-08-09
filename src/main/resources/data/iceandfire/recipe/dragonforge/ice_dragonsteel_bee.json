@@ -3,14 +3,14 @@
   "dragon_type": "ice",
   "cook_time": 1000,
   "input": {
+    "type": "productivebees:component",
     "components": {
       "minecraft:entity_data": {
         "type": "productivebees:draconic",
         "id": "productivebees:configurable_bee"
       }
     },
-    "count": 1,
-    "id": "productivebees:spawn_egg_configurable_bee"
+    "items": "productivebees:spawn_egg_configurable_bee"
   },
   "blood": {
     "item": "iceandfire:ice_dragon_blood"

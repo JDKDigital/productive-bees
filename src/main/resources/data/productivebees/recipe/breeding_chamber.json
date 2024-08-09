@@ -7,7 +7,7 @@
   ],
   "key": {
     "H": {
-      "item": "productivebees:upgrade_breeding"
+      "item": "productivelib:upgrade_child"
     },
     "I": {
       "tag": "c:ingots/iron"
