@@ -60,6 +60,11 @@ public class BeeBreedingRecipe implements Recipe<RecipeInput>, TimedRecipeInterf
         return false;
     }
 
+    @Override
+    public boolean isSpecial() {
+        return true;
+    }
+
     @Nonnull
     @Override
     public ItemStack assemble(RecipeInput inv, HolderLookup.Provider pRegistries) {

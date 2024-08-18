@@ -76,6 +76,11 @@ public class BlockConversionRecipe implements Recipe<RecipeInput>
         return false;
     }
 
+    @Override
+    public boolean isSpecial() {
+        return true;
+    }
+
     @Nonnull
     @Override
     public ItemStack assemble(RecipeInput inv, HolderLookup.Provider pRegistries) {

@@ -27,6 +27,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -162,10 +163,10 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
                 if (HoneyTreat.hasGene(catalystItem)) {
                     // Apply gene to the bee inside cage
                     var entity = BeeCage.getEntityFromStack(inItem, level, true);
-                    if (entity instanceof ProductiveBee pBee) {
-                        HoneyTreat.applyGenesToBee(level, catalystItem, pBee);
+                    if (entity instanceof Bee bee) {
+                        HoneyTreat.applyGenesToBee(level, catalystItem, bee);
                         resultItem = new ItemStack(inItem.getItem());
-                        BeeCage.captureEntity(pBee, resultItem);
+                        BeeCage.captureEntity(bee, resultItem);
                     }
                 } else if (BeeCage.isFilled(inItem)) {
                     CompoundTag nbt = inItem.get(DataComponents.CUSTOM_DATA).copyTag();

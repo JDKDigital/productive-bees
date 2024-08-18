@@ -54,6 +54,11 @@ public class BeeSpawningRecipe implements Recipe<RecipeInput>
          return ingredient.test(nest) && (heldItem.equals(ItemStack.EMPTY) || spawnItem.test(heldItem)) && (anyBiome || biomes.contains(biome));
     }
 
+    @Override
+    public boolean isSpecial() {
+        return true;
+    }
+
     @Nonnull
     @Override
     public ItemStack assemble(RecipeInput inv, HolderLookup.Provider pRegistries) {

@@ -37,11 +37,6 @@ public class HoneyTreatGeneRecipe implements CraftingRecipe
     }
 
     @Override
-    public boolean isSpecial() {
-        return true;
-    }
-
-    @Override
     public boolean matches(CraftingInput inv, Level worldIn) {
         // Valid if inv contains 1 honey treat and any number of genes
         // genes must not be mutually exclusive (2 levels of the same attribute are not allowed)
@@ -96,6 +91,11 @@ public class HoneyTreatGeneRecipe implements CraftingRecipe
             return false;
         }
         return hasAddedGenes;
+    }
+
+    @Override
+    public boolean isSpecial() {
+        return true;
     }
 
     @Nonnull

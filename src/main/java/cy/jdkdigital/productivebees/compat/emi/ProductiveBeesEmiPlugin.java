@@ -125,7 +125,7 @@ public class ProductiveBeesEmiPlugin implements EmiPlugin
         registry.addCategory(BLOCK_CENTRIFUGE_CATEGORY);
         registry.addCategory(BEE_FLOWERING_CATEGORY);
         registry.addCategory(INCUBATION_CATEGORY);
-        
+
         // Workstations
         registry.addWorkstation(BEE_PRODUCE_CATEGORY, EmiStack.of(ModBlocks.HIVES.get("advanced_oak_beehive").get()));
         registry.addWorkstation(BEE_BREEDING_CATEGORY, EmiStack.of(ModBlocks.BREEDING_CHAMBER.get()));

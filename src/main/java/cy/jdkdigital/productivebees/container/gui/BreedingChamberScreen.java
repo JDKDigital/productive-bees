@@ -23,7 +23,6 @@ import net.minecraft.world.item.ItemStack;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamberContainer>
 {
@@ -110,7 +109,6 @@ public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamb
         if (minecraft != null) {
             if (this.menu.blockEntity.chosenRecipe != null) {
                 BeeIngredient beeIngredient = this.menu.blockEntity.chosenRecipe.value().offspring.get();
-
                 if (beeIngredient != null) {
                     BeeRenderer.render(guiGraphics, getGuiLeft() + 134 - 13, getGuiTop() + 17, beeIngredient, minecraft);
                 }
@@ -120,9 +118,18 @@ public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamb
                 if (BeeCage.isFilled(cage1) && BeeCage.isFilled(cage2)) {
                     CompoundTag tag1 = cage1.get(DataComponents.CUSTOM_DATA).copyTag();
                     CompoundTag tag2 = cage2.get(DataComponents.CUSTOM_DATA).copyTag();
-                    var beeData = BeeIngredientFactory.getIngredient(tag1.contains("type") ? tag1.getString("type") : tag1.getString("entity"));
-                    if (tag1.getString("name").equals(tag2.getString("name")) && (!tag1.getBoolean("isProductiveBee") || (beeData.get() != null && (beeData.get().getCachedEntity(this.menu.blockEntity.getLevel()) instanceof ProductiveBee pBee) && pBee.canSelfBreed()))) {
-                        Supplier<BeeIngredient> beeIngredient = BeeIngredientFactory.getIngredient(tag1.getString("type"));
+                    var beeIngredient = BeeIngredientFactory.getIngredient(tag1.contains("type") ? tag1.getString("type") : tag1.getString("entity"));
+                    if (
+                        tag1.getString("name").equals(tag2.getString("name")) &&
+                        (
+                            !tag1.getBoolean("isProductiveBee") ||
+                            (
+                                beeIngredient.get() != null &&
+                                (beeIngredient.get().getCachedEntity(this.menu.blockEntity.getLevel()) instanceof ProductiveBee pBee) &&
+                                pBee.canSelfBreed()
+                            )
+                        )
+                    ) {
                         if (beeIngredient.get() != null) {
                             BeeRenderer.render(guiGraphics, getGuiLeft() + 134 - 13, getGuiTop() + 17, beeIngredient.get(), minecraft);
                         }

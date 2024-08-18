@@ -116,6 +116,7 @@ public class BeeReloadListener extends SimpleJsonResourceReloadListener
     }
 
     public void setData(Map<ResourceLocation, CompoundTag> data) {
+        ProductiveBees.LOGGER.info("setting bee data");
         BEE_DATA = data;
         if (ModList.get().isLoaded("patchouli")) {
 //            ProductiveBeesPatchouli.setBeeFlags();

@@ -7,6 +7,7 @@ import cy.jdkdigital.productivebees.common.block.Jar;
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import cy.jdkdigital.productivebees.common.block.entity.JarBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.SolitaryNestBlockEntity;
+import cy.jdkdigital.productivebees.init.ModBlocks;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.animal.Bee;
 import snownee.jade.api.IWailaClientRegistration;
@@ -34,5 +35,6 @@ public class ProductiveBeesWailaPlugin implements IWailaPlugin
         registration.registerBlockComponent(JarProvider.INSTANCE, Jar.class);
         registration.registerEntityComponent(BeeComponentDataProvider.INSTANCE, Bee.class);
         registration.addConfig(BEE_ATTRIBUTES, true);
+        registration.usePickedResult(ModBlocks.CONFIGURABLE_COMB.get());
     }
 }

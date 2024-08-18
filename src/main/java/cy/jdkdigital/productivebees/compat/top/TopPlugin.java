@@ -30,7 +30,7 @@
 //    @Override
 //    public Void apply(ITheOneProbe theOneProbe) {
 //        theOneProbe.registerEntityDisplayOverride((probeMode, probeInfo, player, level, entity, iProbeHitEntityData) -> {
-//            if (entity instanceof ProductiveBee bee && probeMode.equals(ProbeMode.EXTENDED)) {
+//            if (entity instanceof Bee bee && probeMode.equals(ProbeMode.EXTENDED)) {
 //                probeInfo.horizontal()
 //                        .entity(entity)
 //                        .vertical()

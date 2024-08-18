@@ -33,11 +33,6 @@ public class ConfigurableCombBlockRecipe implements CraftingRecipe
     }
 
     @Override
-    public boolean isSpecial() {
-        return true;
-    }
-
-    @Override
     public boolean matches(CraftingInput inv, Level level) {
         List<ItemStack> stacks = getItemsInInventory(inv);
 
@@ -47,6 +42,11 @@ public class ConfigurableCombBlockRecipe implements CraftingRecipe
         }
 
         return false;
+    }
+
+    @Override
+    public boolean isSpecial() {
+        return true;
     }
 
     @Nonnull

@@ -28,6 +28,4 @@ public record BeeFloweringRecipe(ResourceLocation id, TagKey<Block> blockTag, Ta
     public static BeeFloweringRecipe createFluid(ResourceLocation id, Fluid fluid, BeeIngredient bee) {
         return new BeeFloweringRecipe(id, null, null, null, null, fluid, null, bee);
     }
-
-
 }

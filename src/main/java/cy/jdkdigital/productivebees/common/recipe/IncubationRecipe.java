@@ -39,6 +39,11 @@ public class IncubationRecipe implements Recipe<RecipeInput>, TimedRecipeInterfa
         return false;
     }
 
+    @Override
+    public boolean isSpecial() {
+        return true;
+    }
+
     @Nonnull
     @Override
     public ItemStack assemble(RecipeInput inv, HolderLookup.Provider pRegistries) {

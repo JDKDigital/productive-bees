@@ -84,6 +84,11 @@ public class BeeFishingRecipe implements Recipe<RecipeInput>
         return cachedRecipes.get(biome.value());
     }
 
+    @Override
+    public boolean isSpecial() {
+        return true;
+    }
+
     @Nonnull
     @Override
     public ItemStack assemble(RecipeInput inv, HolderLookup.Provider pRegistries) {

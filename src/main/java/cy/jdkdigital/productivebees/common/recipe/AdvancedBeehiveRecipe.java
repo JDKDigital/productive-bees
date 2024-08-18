@@ -60,6 +60,11 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements Recipe<Rec
         return output;
     }
 
+    @Override
+    public boolean isSpecial() {
+        return true;
+    }
+
     @Nonnull
     @Override
     public ItemStack assemble(RecipeInput inv, HolderLookup.Provider pRegistries) {

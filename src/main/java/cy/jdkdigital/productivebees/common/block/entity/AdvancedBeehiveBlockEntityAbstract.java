@@ -172,8 +172,8 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
             for (Entity entity : list) {
                 if (entity instanceof Bee bee && pPlayer.position().distanceToSqr(entity.position()) <= 16.0) {
                     if (!this.isSedated()) {
-                        if (bee instanceof ProductiveBee pBee) {
-                            GeneValue temper = pBee.getAttributeValue(GeneAttribute.TEMPER);
+                        if (bee instanceof Bee pBee) {
+                            GeneValue temper = pBee.getData(ProductiveBees.ATTRIBUTE_HANDLER).getAttributeValue(GeneAttribute.TEMPER);
                             if (temper.equals(GeneValue.TEMPER_PASSIVE) || (temper.equals(GeneValue.TEMPER_NORMAL) && getLevel().random.nextFloat() < .5)) {
                                 bee.setStayOutOfHiveCountdown(400);
                                 continue;

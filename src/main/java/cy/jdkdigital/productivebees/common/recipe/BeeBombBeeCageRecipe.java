@@ -72,6 +72,11 @@ public class BeeBombBeeCageRecipe implements CraftingRecipe
         return beeCount > 0 && beeCount <= ProductiveBeesConfig.GENERAL.numberOfBeesPerBomb.get();
     }
 
+    @Override
+    public boolean isSpecial() {
+        return true;
+    }
+
     @Nonnull
     @Override
     public ItemStack assemble(CraftingInput inv, HolderLookup.Provider provider) {

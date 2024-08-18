@@ -34,11 +34,6 @@ public class ConfigurableHoneycombRecipe implements CraftingRecipe
     }
 
     @Override
-    public boolean isSpecial() {
-        return true;
-    }
-
-    @Override
     public boolean matches(CraftingInput inv, Level level) {
         List<ItemStack> stacks = getItemsInInventory(inv);
 
@@ -60,6 +55,11 @@ public class ConfigurableHoneycombRecipe implements CraftingRecipe
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean isSpecial() {
+        return true;
     }
 
     @Nonnull
