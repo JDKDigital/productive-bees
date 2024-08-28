@@ -12,6 +12,7 @@
     "minecraft:blackstone",
     "minecraft:basalt",
     "minecraft:calcite",
+    "minecraft:cobbled_deepslate",
     {
       "id": "ae2:sky_stone_block",
       "required": false
