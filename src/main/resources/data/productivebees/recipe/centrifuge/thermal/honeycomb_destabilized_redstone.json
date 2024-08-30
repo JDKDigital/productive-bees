@@ -12,14 +12,12 @@
       "item": {
         "item": "productivebees:wax"
       }
-    },
-    {
-      "fluid": {
-        "tag": "c:redstone"
-      },
-      "amount": 50
     }
   ],
+  "fluid": {
+    "tag": "c:redstone",
+    "amount": 50
+  },
   "neoforge:conditions": [
     {
       "type": "neoforge:mod_loaded",

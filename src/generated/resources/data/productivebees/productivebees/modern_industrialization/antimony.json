@@ -3,12 +3,15 @@
   "secondaryColor": "#9696a3",
   "tertiaryColor": "#b7b7cb",
   "particleColor": "#c5c5d7",
-  "flowerBlock": "modern_industrialization:antimony_block",
+  "flowerTag": "c:storage_blocks/antimony",
   "beeTexture": "productivebees:textures/entity/bee/antimony/bee",
   "conditions": [
     {
-      "modid": "modern_industrialization",
-      "type": "neoforge:mod_loaded"
+      "value": {
+        "tag": "c:storage_blocks/antimony",
+        "type": "neoforge:tag_empty"
+      },
+      "type": "neoforge:not"
     }
   ]
 }

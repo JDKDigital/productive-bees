@@ -112,6 +112,8 @@ dependencies {
 
     compileOnly "dev.emi:emi-neoforge:${emi_version}:api"
     runtimeOnly "dev.emi:emi-neoforge:${emi_version}"
+
+    compileOnly "com.almostreliable.mods:almostunified-neoforge:1.21-1.0.0:api"
 //
 //    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
 //    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
@@ -121,14 +123,16 @@ dependencies {
 //    implementation "curse.maven:emi-580555:5436759"
     implementation "curse.maven:jade-324717:5444008"
     implementation "curse.maven:just-enough-archaeology-890755:5518258"
-    implementation "curse.maven:cloth-config-348521:5424576"
-    implementation "curse.maven:modern-industrialization-405388:5490765"
+    implementation "curse.maven:cloth-config-348521:5623420"
+    implementation "curse.maven:modern-industrialization-405388:5663677"
     implementation "curse.maven:biomes-o-plenty-220318:5512375"
     implementation "curse.maven:glitchcore-955399:5483773"
     implementation "curse.maven:terrablender-neoforge-940057:5429865"
     implementation "curse.maven:regions-unexplored-659110:5579932"
     implementation "curse.maven:extreme-reactors-250277:5538095"
     implementation "curse.maven:zerocore-247921:5464103"
+    implementation "curse.maven:cucumber-272335:5663120"
+    implementation "curse.maven:mystical-agriculture-246640:5663085"
 }
 
 tasks.withType(ProcessResources).configureEach {

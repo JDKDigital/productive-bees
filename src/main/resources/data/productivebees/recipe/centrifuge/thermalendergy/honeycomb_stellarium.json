@@ -13,14 +13,12 @@
         "item": "thermalendergy:stellarium_dust"
       },
       "chance": 25
-    },
-    {
-      "fluid": {
-        "fluid": "productivebees:honey"
-      },
-      "amount": 25
     }
   ],
+  "fluid": {
+    "fluid": "productivebees:honey",
+    "amount": 25
+  },
   "neoforge:conditions": [
     {
       "type": "neoforge:mod_loaded",

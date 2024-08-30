@@ -196,7 +196,7 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements M
 
             if (addAmount > 0 && addAmount <= fluidSpace) {
                 int fillAmount = fluidHandler.fill(new FluidStack(ModFluids.HONEY.get(), addAmount), IFluidHandler.FluidAction.EXECUTE);
-                if (itemFluidHandler != null) {
+                if (itemFluidHandler != null && !isHoneyBucket) {
                     FluidUtil.tryEmptyContainer(invItem, fluidHandler, fillAmount, null, true);
                 } else {
                     invItem.shrink(1);

@@ -12,12 +12,12 @@
       "item": {
         "item": "productivebees:wax"
       }
-    },
-    {
-      "id": "allthemodium:soul_lava",
-      "amount": 20
     }
   ],
+  "fluid": {
+    "fluid": "allthemodium:soul_lava",
+    "amount": 20
+  },
   "neoforge:conditions": [
     {
       "type": "neoforge:mod_loaded",

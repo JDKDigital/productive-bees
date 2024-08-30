@@ -1,11 +1,12 @@
 {
   "primaryColor": "#bccddb",
   "particleColor": "#c6dadf",
-  "flowerBlock": "chemlib:manganese_metal_block",
+  "flowerItem": "modern_industrialization:manganese_dust",
+  "description": "productivebees.ingredient.description.only_spawnegg",
   "beeTexture": "productivebees:textures/entity/bee/manganese/bee",
   "conditions": [
     {
-      "modid": "chemlib",
+      "modid": "modern_industrialization",
       "type": "neoforge:mod_loaded"
     }
   ]

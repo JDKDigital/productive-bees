@@ -5,6 +5,7 @@ import com.mojang.datafixers.util.Pair;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.Centrifuge;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.common.item.FilterUpgradeItem;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.item.GeneBottle;
@@ -12,6 +13,7 @@ import cy.jdkdigital.productivebees.common.item.HoneyTreat;
 import cy.jdkdigital.productivebees.common.recipe.CentrifugeRecipe;
 import cy.jdkdigital.productivebees.common.recipe.TimedRecipeInterface;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
+import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredientHelper;
 import cy.jdkdigital.productivebees.container.CentrifugeContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
@@ -23,6 +25,7 @@ import cy.jdkdigital.productivelib.common.block.entity.FluidTankBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.common.block.entity.UpgradeableBlockEntity;
 import cy.jdkdigital.productivelib.registry.LibItems;
+import cy.jdkdigital.productivelib.registry.ModDataComponents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -30,6 +33,7 @@ import net.minecraft.core.component.TypedDataComponent;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.MenuProvider;
@@ -58,6 +62,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -135,7 +140,8 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
     };
 
     protected IItemHandlerModifiable upgradeHandler = new InventoryHandlerHelper.UpgradeHandler(4, this, List.of(
-            LibItems.UPGRADE_TIME.get()
+            LibItems.UPGRADE_TIME.get(),
+            LibItems.UPGRADE_ENTITY_FILTER.get()
     ));
 
     public CentrifugeBlockEntity(BlockPos pos, BlockState state) {
@@ -280,11 +286,11 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
         inv.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, stack);
 
         boolean isAllowedByFilter = true;
-        List<ItemStack> filterUpgrades = this.getInstalledUpgrades(ModItems.UPGRADE_FILTER.get());
-        filterUpgrades.addAll(getInstalledUpgrades(LibItems.UPGRADE_ENTITY_FILTER.get()));
-        if (filterUpgrades.size() > 0) {
+        List<ItemStack> olfFilterUpgrades = this.getInstalledUpgrades(ModItems.UPGRADE_FILTER.get());
+        List<ItemStack> filterUpgrades = getInstalledUpgrades(LibItems.UPGRADE_ENTITY_FILTER.get());
+        if (!olfFilterUpgrades.isEmpty()) {
             isAllowedByFilter = false;
-            for (ItemStack filter : filterUpgrades) {
+            for (ItemStack filter : olfFilterUpgrades) {
                 List<Supplier<BeeIngredient>> allowedBees = FilterUpgradeItem.getAllowedBees(filter);
                 for (Supplier<BeeIngredient> allowedBee : allowedBees) {
                     List<ItemStack> produceList = BeeHelper.getBeeProduce(level, (Bee) allowedBee.get().getCachedEntity(level), false, 1.0);
@@ -292,6 +298,24 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
                         if (pStack.getItem().equals(stack.getItem())) {
                             isAllowedByFilter = true;
                             break;
+                        }
+                    }
+                }
+            }
+        }
+        if (!filterUpgrades.isEmpty()) {
+            isAllowedByFilter = false;
+            for (ItemStack filter : filterUpgrades) {
+                List<ResourceLocation> entities = filter.getOrDefault(ModDataComponents.ENTITY_TYPE_LIST, new ArrayList<>());
+                for (ResourceLocation beeType : entities) {
+                    var allowedBee = BeeIngredientFactory.getIngredient(beeType);
+                    if (allowedBee.get() != null) {
+                        List<ItemStack> produceList = BeeHelper.getBeeProduce(level, (Bee) allowedBee.get().getCachedEntity(level), false, 1.0);
+                        for (ItemStack pStack : produceList) {
+                            if (pStack.getItem().equals(stack.getItem())) {
+                                isAllowedByFilter = true;
+                                break;
+                            }
                         }
                     }
                 }

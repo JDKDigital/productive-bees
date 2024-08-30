@@ -1,3 +1,13 @@
+1.21.1-13.4.2
+
+- Enabled Manganese, Chromium and Beryllium bees for Modern Industrialization (Lego)
+- Enabled Mithril bee for Irons Spellbooks (Lego)
+- Yeeted arcane debris bee
+- Fixed filter upgrades not allowing any bees
+- Fixed comb block recipe showing incorrectly in EMI
+- Fixed some comb centrifuge recipes
+
+
 1.21.1-13.4.1
 
 - Fixed comb block not having the correct name in Jade

@@ -12,14 +12,12 @@
       "item": {
         "item": "productivebees:wax"
       }
-    },
-    {
-      "fluid": {
-        "tag": "c:pink_slime"
-      },
-      "amount": 100
     }
   ],
+  "fluid": {
+    "tag": "c:pink_slime",
+    "amount": 100
+  },
   "neoforge:conditions": [
     {
       "type": "neoforge:not",

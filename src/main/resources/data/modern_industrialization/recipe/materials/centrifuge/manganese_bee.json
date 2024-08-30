@@ -1,0 +1,43 @@
+{
+  "type": "modern_industrialization:centrifuge",
+  "eu": 8,
+  "duration": 1200,
+  "item_inputs": {
+    "items": "productivebees:spawn_egg_configurable_bee",
+    "type": "productivebees:component",
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:iron",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "amount": 6
+  },
+  "item_outputs": [
+    {
+      "type": "productivebees:component",
+      "components": {
+        "minecraft:entity_data": {
+          "type": "productivebees:manganese",
+          "id": "productivebees:configurable_bee"
+        }
+      },
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "amount": 1
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:iron"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:manganese"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "modern_industrialization"
+    }
+  ]
+}

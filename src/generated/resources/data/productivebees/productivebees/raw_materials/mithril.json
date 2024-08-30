@@ -2,12 +2,12 @@
   "primaryColor": "#0b2638",
   "secondaryColor": "#0e6a61",
   "particleColor": "#92e7ae",
-  "flowerTag": "c:storage_blocks/mithril",
+  "flowerTag": "productivebees:flowers/mithril",
   "beeTexture": "productivebees:textures/entity/bee/mithril/bee",
   "conditions": [
     {
       "value": {
-        "tag": "c:storage_blocks/mithril",
+        "tag": "productivebees:flowers/mithril",
         "type": "neoforge:tag_empty"
       },
       "type": "neoforge:not"

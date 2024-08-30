@@ -3,12 +3,15 @@
   "secondaryColor": "#9f3197",
   "tertiaryColor": "#d66dce",
   "particleColor": "#f17ce7",
-  "flowerBlock": "modern_industrialization:monazite_block",
+  "flowerTag": "c:storage_blocks/monazite",
   "beeTexture": "productivebees:textures/entity/bee/monazite/bee",
   "conditions": [
     {
-      "modid": "modern_industrialization",
-      "type": "neoforge:mod_loaded"
+      "value": {
+        "tag": "c:storage_blocks/monazite",
+        "type": "neoforge:tag_empty"
+      },
+      "type": "neoforge:not"
     }
   ]
 }

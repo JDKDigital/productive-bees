@@ -23,10 +23,12 @@ import cy.jdkdigital.productivebees.util.GeneValue;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.common.block.entity.UpgradeableBlockEntity;
 import cy.jdkdigital.productivelib.registry.LibItems;
+import cy.jdkdigital.productivelib.registry.ModDataComponents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.Container;
@@ -52,6 +54,7 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
@@ -371,9 +374,9 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
     @Override
     public boolean acceptsBee(Bee bee) {
         boolean isInFilters = false;
-        List<ItemStack> filters = getInstalledUpgrades(ModItems.UPGRADE_FILTER.get());
-        filters.addAll(getInstalledUpgrades(LibItems.UPGRADE_ENTITY_FILTER.get()));
-        for (ItemStack filter: filters) {
+        List<ItemStack> oldFilters = getInstalledUpgrades(ModItems.UPGRADE_FILTER.get());
+        oldFilters.addAll(getInstalledUpgrades(LibItems.UPGRADE_ENTITY_FILTER.get()));
+        for (ItemStack filter: oldFilters) {
             List<Supplier<BeeIngredient>> allowedBees = FilterUpgradeItem.getAllowedBees(filter);
             for (Supplier<BeeIngredient> allowedBee: allowedBees) {
                 String type = BeeIngredientFactory.getIngredientKey(bee);
@@ -382,7 +385,19 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                 }
             }
         }
-        return filters.size() == 0 || isInFilters;
+
+        List<ItemStack> filters = getInstalledUpgrades(ModItems.UPGRADE_FILTER.get());
+        for (ItemStack filter : filters) {
+            List<ResourceLocation> entities = filter.getOrDefault(ModDataComponents.ENTITY_TYPE_LIST, new ArrayList<>());
+            for (ResourceLocation allowedBee : entities) {
+                String type = BeeIngredientFactory.getIngredientKey(bee);
+                if (allowedBee.toString().equals(type)) {
+                    isInFilters = true;
+                }
+            }
+        }
+
+        return (oldFilters.isEmpty() && filters.isEmpty()) || isInFilters;
     }
 
     @Override

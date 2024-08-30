@@ -12,14 +12,12 @@
       "item": {
         "item": "productivebees:wax"
       }
-    },
-    {
-      "fluid": {
-        "tag": "c:chocolate"
-      },
-      "amount": 100
     }
   ],
+  "fluid": {
+    "tag": "c:chocolate",
+    "amount": 100
+  },
   "neoforge:conditions": [
     {
       "type": "neoforge:not",

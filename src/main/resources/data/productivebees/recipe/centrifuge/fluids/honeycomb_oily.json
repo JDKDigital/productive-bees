@@ -8,13 +8,11 @@
     "items": "productivebees:configurable_honeycomb"
   },
   "outputs": [
-    {
-      "fluid": {
-        "tag": "c:crude_oil"
-      },
-      "amount": 50
-    }
   ],
+  "fluid": {
+    "tag": "c:crude_oil",
+    "amount": 50
+  },
   "neoforge:conditions": [
     {
       "type": "productivebees:bee_exists",

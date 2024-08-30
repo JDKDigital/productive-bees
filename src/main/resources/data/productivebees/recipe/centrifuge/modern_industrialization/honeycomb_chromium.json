@@ -3,16 +3,18 @@
   "ingredient": {
     "type": "productivebees:component",
     "components": {
-      "productivebees:bee_type": "productivebees:arcane_debris"
+      "productivebees:bee_type": "productivebees:chromium"
     },
     "items": "productivebees:configurable_honeycomb"
   },
   "outputs": [
     {
       "item": {
-        "item": "irons_spellbooks:arcane_salvage"
+        "item": "modern_industrialization:chromium_tiny_dust"
       },
-      "chance": 0.1
+      "min": 1,
+      "max": 3,
+      "chance": 0.4
     },
     {
       "item": {
@@ -23,11 +25,11 @@
   "neoforge:conditions": [
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:arcane_debris"
+      "bee": "productivebees:chromium"
     },
     {
       "type": "neoforge:mod_loaded",
-      "modid": "irons_spellbooks"
+      "modid": "modern_industrialization"
     }
   ]
 }

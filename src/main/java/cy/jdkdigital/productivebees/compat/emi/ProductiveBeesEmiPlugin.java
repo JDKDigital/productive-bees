@@ -17,12 +17,10 @@ import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiCraftingRecipe;
 import dev.emi.emi.api.recipe.EmiInfoRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
-import dev.emi.emi.api.recipe.VanillaEmiRecipeCategories;
 import dev.emi.emi.api.render.EmiTexture;
 import dev.emi.emi.api.stack.Comparison;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
-import mezz.jei.api.constants.VanillaTypes;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -35,7 +33,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
 import java.util.*;
@@ -191,7 +188,7 @@ public class ProductiveBeesEmiPlugin implements EmiPlugin
 
         addBlockDupeRecipes(registry);
         addBeeInfo(registry);
-        addCombInfo(registry);
+        addCombRecipeAndInfo(registry);
         addNestInfo(registry);
     }
 
@@ -281,7 +278,7 @@ public class ProductiveBeesEmiPlugin implements EmiPlugin
         }
     }
 
-    private void addCombInfo(EmiRegistry registry) {
+    private void addCombRecipeAndInfo(EmiRegistry registry) {
         RecipeManager recipeManager = registry.getRecipeManager();
 
         Optional<RecipeHolder<?>> honeycombRecipe = recipeManager.byKey(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "comb_block/configurable_honeycomb"));
@@ -306,7 +303,7 @@ public class ProductiveBeesEmiPlugin implements EmiPlugin
             ItemStack combBlock = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
             BeeCreator.setType(beeType, combBlock);
 
-            registry.addRecipe(new EmiCraftingRecipe(List.of(EmiIngredient.of(combInput)), EmiStack.of(combBlock), idComb));
+            registry.addRecipe(new EmiCraftingRecipe(List.of(EmiIngredient.of(combInput), EmiIngredient.of(combInput), EmiIngredient.of(Ingredient.EMPTY), EmiIngredient.of(combInput), EmiIngredient.of(combInput)), EmiStack.of(combBlock), idComb, false));
             ItemStack combOutput = comb.copy();
             combOutput.setCount(count);
             registry.addRecipe(new EmiCraftingRecipe(List.of(EmiIngredient.of(Ingredient.of(combBlock))), EmiStack.of(combOutput), idCombBlock));

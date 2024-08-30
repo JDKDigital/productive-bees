@@ -22,7 +22,7 @@
   ],
   "fluid": {
     "amount": 50,
-    "id": "integrateddynamics:menril_resin"
+    "fluid": "integrateddynamics:menril_resin"
   },
   "neoforge:conditions": [
     {

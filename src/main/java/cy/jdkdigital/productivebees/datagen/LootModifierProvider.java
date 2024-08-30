@@ -39,7 +39,7 @@ public class LootModifierProvider extends GlobalLootModifierProvider
         add("turtle_scute_wannabee", new ItemLootModifier(lootTableConditions(true, "entities/turtle"), new ItemStack(Items.TURTLE_SCUTE), 0.15f));
         add("wither_nether_star_wannabee", new ItemLootModifier(lootTableConditions(true, "entities/wither"), new ItemStack(Items.NETHER_STAR), 0.15f));
 
-        add("sniffer_sussy_egg", new IngredientModifier(lootTableConditions(false, "gameplay/sniffer_digging"), ComponentIngredient.of(BeeCreator.getSpawnEgg(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "sussy"))), 0.15f, false));
+        add("sniffer_sussy_egg", new IngredientModifier(lootTableConditions(false, "gameplay/sniffer_digging"), ComponentIngredient.of(BeeCreator.getSpawnEgg(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "sussy"))), 0.15f, true));
         add("sussy_amber_egg", new IngredientModifier(lootTableConditions(false, "archaeology/ocean_ruin_cold"), ComponentIngredient.of(BeeCreator.getSpawnEgg(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "amber"))), 0.08f, true));
         add("village_chest_sturdy_cage", new ItemLootModifier(anyOfConditions("chests/village/village_armorer", "chests/village/village_butcher", "chests/village/village_desert_house", "chests/village/village_fisher", "chests/village/village_plains_house", "chests/village/village_savanna_house", "chests/village/village_shepherd", "chests/village/village_snowy_house", "chests/village/village_taiga_house", "chests/village/village_temple", "chests/nether_bridge", "chests/desert_pyramid", "chests/abandoned_mineshaft"), new ItemStack(ModItems.STURDY_BEE_CAGE), 0.2f));
 

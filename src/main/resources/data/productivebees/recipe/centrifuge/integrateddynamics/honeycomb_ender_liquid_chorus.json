@@ -22,7 +22,7 @@
   ],
   "fluid": {
     "amount": 50,
-    "id": "integrateddynamics:liquid_chorus"
+    "fluid": "integrateddynamics:liquid_chorus"
   },
   "neoforge:conditions": [
     {

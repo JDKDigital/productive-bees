@@ -12,6 +12,6 @@
   ],
   "fluid": {
     "amount": 100,
-    "id": "minecraft:milk"
+    "fluid": "minecraft:milk"
   }
 }

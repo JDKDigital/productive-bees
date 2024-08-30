@@ -1,0 +1,43 @@
+{
+  "type": "modern_industrialization:electrolyzer",
+  "eu": 32,
+  "duration": 400,
+  "item_inputs": {
+    "type": "productivebees:component",
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:emerald",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "items": "productivebees:spawn_egg_configurable_bee",
+    "amount": 3
+  },
+  "item_outputs": [
+    {
+      "type": "productivebees:component",
+      "components": {
+        "minecraft:entity_data": {
+          "type": "productivebees:beryllium",
+          "id": "productivebees:configurable_bee"
+        }
+      },
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "amount": 1
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:emerald"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:beryllium"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "modern_industrialization"
+    }
+  ]
+}

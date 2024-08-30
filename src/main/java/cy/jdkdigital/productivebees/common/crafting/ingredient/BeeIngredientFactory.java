@@ -49,6 +49,10 @@ public class BeeIngredientFactory
         return DataResult.success(getIngredient(name));
     }
 
+    public static Supplier<BeeIngredient> getIngredient(ResourceLocation name) {
+        return getIngredient(name.toString());
+    }
+
     public static Supplier<BeeIngredient> getIngredient(String name) {
         return () -> getOrCreateList().get(name);
     }

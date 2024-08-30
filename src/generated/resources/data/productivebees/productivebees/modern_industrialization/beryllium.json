@@ -1,0 +1,16 @@
+{
+  "primaryColor": "#a7dbb4",
+  "particleColor": "#b1e6be",
+  "flowerTag": "c:storage_blocks/beryllium",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/beryllium/bee",
+  "conditions": [
+    {
+      "value": {
+        "tag": "c:storage_blocks/beryllium",
+        "type": "neoforge:tag_empty"
+      },
+      "type": "neoforge:not"
+    }
+  ]
+}

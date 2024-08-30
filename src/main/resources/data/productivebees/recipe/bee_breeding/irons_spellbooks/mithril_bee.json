@@ -1,0 +1,20 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:iron",
+  "parent2": "productivebees:arcane_essence",
+  "offspring": "productivebees:mithril",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:iron"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:arcane_essence"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:mithril"
+    }
+  ]
+}
