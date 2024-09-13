@@ -16,14 +16,14 @@
             "nbt": "{\"EntityTag\": {\"type\": \"productivebees:osmium\"}}"
           }
         },
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       },
       {
         "content": {
           "item": "gtceu:naquadah_block"
         },
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       }
     ]
@@ -40,7 +40,7 @@
             "nbt": "{\"EntityTag\": {\"type\": \"productivebees:naquadah\"}}"
           }
         },
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       }
     ]
@@ -49,7 +49,7 @@
     "eu": [
       {
         "content": 120,
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       }
     ]

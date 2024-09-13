@@ -13,7 +13,7 @@
             "nbt": "{\"EntityTag\": {\"type\": \"productivebees:redstone\"}}"
           }
         },
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       },
       {
@@ -24,7 +24,7 @@
             "tag": "forge:dusts/electrum"
           }
         },
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       }
     ]
@@ -41,7 +41,7 @@
             "nbt": "{\"EntityTag\": {\"type\": \"productivebees:electrotine\"}}"
           }
         },
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       }
     ]
@@ -50,7 +50,7 @@
     "eu": [
       {
         "content": 7,
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       }
     ]
