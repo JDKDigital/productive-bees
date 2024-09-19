@@ -143,7 +143,9 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("alloys/signalum").primaryColor("#e7917d").secondaryColor("#804f40").particleColor("#b56f60").flowerTag("c:storage_blocks/signalum").requireTag("c:storage_blocks/signalum"));
             add(new BeeConfig("alloys/steel").primaryColor("#737373").secondaryColor("#804f40").flowerTag("c:storage_blocks/steel").requireTag("c:storage_blocks/steel"));
 
-            add(new BeeConfig("ars_nouveau/arcane").primaryColor("#c203fc").secondaryColor("#6c2482").tertiaryColor("#c203fc").particleColor("#c203fc").onlySpawnegg().renderer("default_crystal").size(0.8).attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_MEDIUM.getSerializedName()); }}).flowerBlock("ars_nouveau:source_gem_block").requireMod("ars_nouveau"));
+            add(new BeeConfig("alloys/steel").primaryColor("#737373").secondaryColor("#804f40").flowerTag("c:storage_blocks/steel").requireTag("c:storage_blocks/steel"));
+
+            add(new BeeConfig("aquaculture/neptunium").primaryColor("#6bf9d2").secondaryColor("#bcfcea").onlySpawnegg().beeTexture("neptunium").size(0.5).attributes(new HashMap<>(){{ put("weather_telorance", GeneValue.WEATHER_TOLERANCE_ANY.getSerializedName()); }}).flowerBlock("aquaculture:neptunium_block").requireMod("aquaculture"));
 
             add(new BeeConfig("astralsorcery/rock_crystal").primaryColor("#ffffff").secondaryColor("#5c5350").particleColor("#dbdbdb").onlySpawnegg().renderer("thicc").size(0.8).noComb().flowerBlock("minecraft:stone").noSelfBreed().requireMod("astralsorcery"));
             add(new BeeConfig("astralsorcery/starmetal").primaryColor("#0545b2").secondaryColor("#eceee3").particleColor("#0545b2").onlySpawnegg().flowerBlock("astralsorcery:starmetal").noSelfBreed().requireMod("astralsorcery"));
@@ -432,6 +434,7 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("justdirethings/celestigem").primaryColor("#15595f").secondaryColor("#37c5bb").tertiaryColor("#90f8e3").particleColor("#d8fbec").beeTexture("celestigem").size(0.7).renderer("default_crystal").flowerBlock("justdirethings:celestigem_block").noSelfBreed().requireMod("justdirethings"));
             add(new BeeConfig("justdirethings/eclipsealloy").primaryColor("#2c3141").secondaryColor("#475e61").tertiaryColor("#65888c").particleColor("#6d9195").beeTexture("eclipsealloy").size(0.9).renderer("thicc").flowerBlock("justdirethings:eclipsealloy_block").noSelfBreed().requireMod("justdirethings"));
             add(new BeeConfig("justdirethings/ferricore").primaryColor("#32474e").secondaryColor("#53777e").tertiaryColor("#bdf4ea").particleColor("#e4fff9").beeTexture("ferricore").flowerBlock("justdirethings:ferricore_block").requireMod("justdirethings"));
+            add(new BeeConfig("justdirethings/time_crystal").primaryColor("#00dd10").secondaryColor("#61f825").particleColor("#94FF95").size(0.3).noSelfBreed().renderer("default_crystal").beeTexture("time_crystal").onlySpawnegg().flowerBlock("justdirethings:time_crystal_block").requireMod("justdirethings"));
 
             add(new BeeConfig("l2hostility/chaotic").primaryColor("#6400ab").secondaryColor("#f627f3").particleColor("#ffa268").beeTexture("chaotic").size(0.8).noSelfBreed().flowerBlock("l2hostility:chaos_block").requireMod("l2hostility"));
             add(new BeeConfig("l2hostility/miracle").primaryColor("#412fbf").secondaryColor("#56c693").particleColor("#ffffe0").beeTexture("miracle").size(0.6).noSelfBreed().flowerBlock("l2hostility:miracle_block").requireMod("l2hostility"));
@@ -551,6 +554,12 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("thermal_extra/twinite").primaryColor("#e44f76").secondaryColor("#e44f76").tertiaryColor("#ec6f86").particleColor("#fee9f0").onlySpawnegg().size(0.7).flowerBlock("thermal_extra:twinite_block").noSelfBreed().requireMod("thermal_extra"));
 
             add(new BeeConfig("tombstone/grave").primaryColor("#c9c7c2").secondaryColor("#4f4e4b").particleColor("#c9c7c2").size(0.5).flowerTag("productivebees:flowers/graves").requireMod("tombstone"));
+
+            add(new BeeConfig("undergarden/cloggrum").primaryColor("#493933").secondaryColor("#ab8f6f").particleColor("#f4d7b6").size(0.8).flowerBlock("undergarden:cloggrum_block").beeTexture("cloggrum").requireMod("undergarden"));
+            add(new BeeConfig("undergarden/forgotten").primaryColor("#2a695f").secondaryColor("#57e3b3").particleColor("#7bffbd").size(0.3).flowerBlock("undergarden:forgotten_block").beeTexture("forgotten").renderer("default_shell").requireMod("undergarden"));
+            add(new BeeConfig("undergarden/froststeel").primaryColor("#4f5781").secondaryColor("#9fc8ef").particleColor("#f5f5f5").size(0.6).flowerBlock("undergarden:froststeel_block").beeTexture("froststeel").requireMod("undergarden"));
+            add(new BeeConfig("undergarden/regalium").primaryColor("#964b28").secondaryColor("#fcd87d").particleColor("#ffefb2").size(0.5).flowerBlock("undergarden:regalium_block").beeTexture("regalium").renderer("default_crystal").requireMod("undergarden"));
+            add(new BeeConfig("undergarden/utheric").primaryColor("#675d42").secondaryColor("#c3434c").particleColor("#ff8d80").size(0.4).flowerBlock("undergarden:utherium_block").beeTexture("utheric").renderer("default_crystal").requireMod("undergarden"));
         }};
     }
 

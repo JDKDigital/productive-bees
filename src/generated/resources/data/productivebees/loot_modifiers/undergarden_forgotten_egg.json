@@ -1,0 +1,21 @@
+{
+  "type": "productivelib:ingredient_modifier",
+  "addition": {
+    "type": "productivebees:component",
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:forgotten",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "items": "productivebees:spawn_egg_configurable_bee"
+  },
+  "chance": 1.25,
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "undergarden:chests/catacombs"
+    }
+  ],
+  "replace": false
+}

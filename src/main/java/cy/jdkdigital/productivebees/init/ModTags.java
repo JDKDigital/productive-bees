@@ -92,7 +92,7 @@ public class ModTags
 
     public static class Common
     {
-        public static final TagKey<Item> COMBS = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "storage_blocks/honeycombs"));
+        public static final TagKey<Item> STORAGE_BLOCK_HONEYCOMBS = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "storage_blocks/honeycombs"));
         public static final TagKey<Item> HONEYCOMBS = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "honeycombs"));
         public static final TagKey<Item> HONEY_BUCKETS = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "buckets/honey"));
         public static final TagKey<Item> EGGS = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "eggs"));

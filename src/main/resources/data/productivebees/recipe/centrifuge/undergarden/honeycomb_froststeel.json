@@ -1,0 +1,33 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:froststeel"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "undergarden:raw_froststeel"
+      },
+      "chance": 0.6
+    },
+    {
+      "item": {
+        "item": "productivebees:wax"
+      }
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:froststeel"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "undergarden"
+    }
+  ]
+}

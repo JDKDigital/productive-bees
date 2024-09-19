@@ -3,18 +3,18 @@
   "ingredient": {
     "type": "productivebees:component",
     "components": {
-      "productivebees:bee_type": "productivebees:obsidian"
+      "productivebees:bee_type": "productivebees:neptunium"
     },
     "items": "productivebees:configurable_honeycomb"
   },
   "outputs": [
     {
       "item": {
-        "tag": "c:dusts/obsidian"
+        "item": "aquaculture:neptunium_nugget"
       },
       "min": 1,
-      "max": 5,
-      "chance": 0.5
+      "max": 3,
+      "chance": 0.8
     },
     {
       "item": {
@@ -24,11 +24,12 @@
   ],
   "neoforge:conditions": [
     {
-      "type": "neoforge:not",
-      "value": {
-        "type": "neoforge:tag_empty",
-        "tag": "c:dusts/obsidian"
-      }
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:neptunium"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "aquaculture"
     }
   ]
 }

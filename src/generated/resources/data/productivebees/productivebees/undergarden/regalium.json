@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#964b28",
+  "secondaryColor": "#fcd87d",
+  "particleColor": "#ffefb2",
+  "flowerBlock": "undergarden:regalium_block",
+  "beeTexture": "productivebees:textures/entity/bee/regalium/bee",
+  "size": 0.5,
+  "renderer": "default_crystal",
+  "conditions": [
+    {
+      "modid": "undergarden",
+      "type": "neoforge:mod_loaded"
+    }
+  ]
+}

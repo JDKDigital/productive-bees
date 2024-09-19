@@ -1,6 +1,6 @@
 {
-	"parent": "item/generated",
-	"textures": {
-		"layer0": "productivebees:item/upgrades/time"
-	}
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "productivebees:item/upgrades/time"
+  }
 }

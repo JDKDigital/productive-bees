@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#675d42",
+  "secondaryColor": "#c3434c",
+  "particleColor": "#ff8d80",
+  "flowerBlock": "undergarden:utherium_block",
+  "beeTexture": "productivebees:textures/entity/bee/utheric/bee",
+  "size": 0.4,
+  "renderer": "default_crystal",
+  "conditions": [
+    {
+      "modid": "undergarden",
+      "type": "neoforge:mod_loaded"
+    }
+  ]
+}

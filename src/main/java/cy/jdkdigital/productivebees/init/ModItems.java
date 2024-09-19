@@ -55,6 +55,7 @@ public class ModItems
     public static final DeferredHolder<Item, ? extends Item> DRACONIC_DUST = createItem("draconic_dust", () -> new Item(new Item.Properties()));
     public static final DeferredHolder<Item, ? extends Item> DRACONIC_CHUNK = createItem("draconic_chunk", () -> new Item(new Item.Properties()));
     public static final DeferredHolder<Item, ? extends Item> WITHER_SKULL_CHIP = createItem("wither_skull_chip", () -> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item, ? extends Item> OBSIDIAN_SHARD = createItem("obsidian_shard", () -> new Item(new Item.Properties()));
 
     // Hive upgrades
     public static final DeferredHolder<Item, ? extends Item> UPGRADE_BASE = createItem("upgrade_base", () -> new Item(new Item.Properties()));

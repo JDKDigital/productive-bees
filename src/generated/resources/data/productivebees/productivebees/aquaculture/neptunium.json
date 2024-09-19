@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#6bf9d2",
+  "secondaryColor": "#bcfcea",
+  "flowerBlock": "aquaculture:neptunium_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/neptunium/bee",
+  "size": 0.5,
+  "attributes": {
+    "weather_telorance": "weather_tolerance.any"
+  },
+  "conditions": [
+    {
+      "modid": "aquaculture",
+      "type": "neoforge:mod_loaded"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:froststeel",
+  "results": [
+    {
+      "item": {
+        "type": "productivebees:component",
+        "components": {
+          "productivebees:bee_type": "productivebees:froststeel"
+        },
+        "items": "productivebees:configurable_honeycomb"
+      }
+    },
+    {
+      "item": {
+        "tag": "c:pollens"
+      },
+      "chance": 0.05
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:froststeel"
+    }
+  ]
+}

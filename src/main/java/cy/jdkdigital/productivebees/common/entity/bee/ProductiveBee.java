@@ -160,38 +160,6 @@ public class ProductiveBee extends Bee implements IProductiveBee
             }
         }
 
-        // Attribute improvement while leashed
-        if (!level().isClientSide && isLeashed() && tickCount % ProductiveBeesConfig.BEE_ATTRIBUTES.leashedTicks.get() == 0) {
-            // Rain tolerance improvements
-            GeneValue tolerance = getAttributeValue(GeneAttribute.WEATHER_TOLERANCE);
-            if (tolerance.getValue() < 2 && level().random.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.toleranceChance.get()) {
-                if (tolerance.equals(GeneValue.WEATHER_TOLERANCE_NONE) && (level().isRaining() || level().isThundering())) {
-                    setAttributeValue(GeneAttribute.WEATHER_TOLERANCE, GeneValue.WEATHER_TOLERANCE_RAIN);
-                } else if (tolerance.equals(GeneValue.WEATHER_TOLERANCE_RAIN) && level().isThundering()) {
-                    setAttributeValue(GeneAttribute.WEATHER_TOLERANCE, GeneValue.WEATHER_TOLERANCE_ANY);
-                }
-            }
-            // Behavior improvement
-            GeneValue behavior = getAttributeValue(GeneAttribute.BEHAVIOR);
-            if (behavior.getValue() < 2 && level().random.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.behaviorChance.get()) {
-                // If diurnal, it can change to nocturnal
-                if (behavior.equals(GeneValue.BEHAVIOR_DIURNAL) && level().isNight()) {
-                    setAttributeValue(GeneAttribute.BEHAVIOR, level().random.nextFloat() < 0.85F ? GeneValue.BEHAVIOR_NOCTURNAL : GeneValue.BEHAVIOR_METATURNAL);
-                }
-                // If nocturnal, it can become metaturnal or back to diurnal
-                else if (behavior.equals(GeneValue.BEHAVIOR_NOCTURNAL) && !level().isNight()) {
-                    setAttributeValue(GeneAttribute.BEHAVIOR, level().random.nextFloat() < 0.9F ? GeneValue.BEHAVIOR_METATURNAL : GeneValue.BEHAVIOR_DIURNAL);
-                }
-            }
-
-            // It might die when leashed outside
-            boolean isInDangerFromRain = tolerance.equals(GeneValue.WEATHER_TOLERANCE_NONE) && level().isRaining();
-            boolean isInDayCycleDanger = (behavior.equals(GeneValue.BEHAVIOR_DIURNAL) && level().isNight()) || (behavior.equals(GeneValue.BEHAVIOR_NOCTURNAL) && level().isDay());
-            if ((isInDangerFromRain || isInDayCycleDanger) && level().random.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.damageChance.get()) {
-                hurt(isInDangerFromRain ? this.level().damageSources().drown() : this.level().damageSources().generic(), (getMaxHealth() / 3) - 1);
-            }
-        }
-
         // Kill below world border
         this.checkBelowWorld();
     }

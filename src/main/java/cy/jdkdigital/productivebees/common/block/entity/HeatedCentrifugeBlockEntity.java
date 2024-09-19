@@ -59,7 +59,7 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
     public boolean canProcessItemStack(ItemStack stack) {
         var directProcess = super.canProcessItemStack(stack);
 
-        if (stack.is(ModTags.Common.COMBS) && !directProcess) {
+        if (stack.is(ModTags.Common.STORAGE_BLOCK_HONEYCOMBS) && !directProcess) {
             ItemStack singleComb;
             // config honeycomb
             if (stack.getItem() instanceof CombBlockItem) {
@@ -84,7 +84,7 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
         String cacheKey = BuiltInRegistries.ITEM.getKey(input.getItem()).toString() + (!input.getComponents().isEmpty() ? input.getComponents().stream().map(TypedDataComponent::toString).reduce((s, s2) -> s + s2) : "");
 
         var directRecipe = super.getRecipe(inputHandler);
-        if (input.is(ModTags.Common.COMBS) && directRecipe == null) {
+        if (input.is(ModTags.Common.STORAGE_BLOCK_HONEYCOMBS) && directRecipe == null) {
             if (!blockRecipeMap.containsKey(cacheKey)) {
                 ItemStack singleComb;
                 // config honeycomb
@@ -107,7 +107,7 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
     @Override
     protected void completeRecipeProcessing(RecipeHolder<CentrifugeRecipe> recipe, IItemHandlerModifiable invHandler, RandomSource random) {
         ItemStack input = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).copy();
-        if (input.is(ModTags.Common.COMBS) && !recipe.value().ingredient.test(input)) {
+        if (input.is(ModTags.Common.STORAGE_BLOCK_HONEYCOMBS) && !recipe.value().ingredient.test(input)) {
             ItemStack singleComb;
             if (input.getItem() instanceof CombBlockItem) {
                 singleComb = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get(), 4);

@@ -1,3 +1,13 @@
+1.21.1-13.5.0
+
+- Added Neptunium Bee from Aquaculture (Lego)
+- Added Time Crystal Bee from JDT (Lego)
+- Added Forgotten, Cloggrum, Froststeel and Regalium Bees from Undergarden (Lego)
+- Change Obsidian bee to produce obsidian shards instead of dust
+- Renamed tags c:pollen to c:pollens and c:wax to c:waxes
+- Fixed Ender IO bee recipes
+
+
 1.21.1-13.4.2
 
 - Enabled Manganese, Chromium and Beryllium bees for Modern Industrialization (Lego)

@@ -1,0 +1,20 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:cloggrum",
+  "parent2": "productivebees:frosty",
+  "offspring": "productivebees:froststeel",
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:frosty"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:cloggrum"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:froststeel"
+    }
+  ]
+}

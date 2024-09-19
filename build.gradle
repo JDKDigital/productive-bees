@@ -133,6 +133,7 @@ dependencies {
     implementation "curse.maven:zerocore-247921:5464103"
     implementation "curse.maven:cucumber-272335:5663120"
     implementation "curse.maven:mystical-agriculture-246640:5663085"
+    implementation "curse.maven:ender-io-64578:5720393"
 }
 
 tasks.withType(ProcessResources).configureEach {

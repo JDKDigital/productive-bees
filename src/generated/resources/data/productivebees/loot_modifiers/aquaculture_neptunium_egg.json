@@ -1,0 +1,25 @@
+{
+  "type": "productivelib:container_contents_modifier",
+  "addition": {
+    "type": "productivebees:component",
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:neptunium",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "items": "productivebees:spawn_egg_configurable_bee"
+  },
+  "chance": 0.25,
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "aquaculture:gameplay/fishing/neptunium"
+    }
+  ],
+  "replace": false,
+  "target": {
+    "count": 1,
+    "id": "minecraft:chest"
+  }
+}

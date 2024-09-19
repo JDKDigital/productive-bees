@@ -17,5 +17,5 @@
       "loot_table_id": "minecraft:gameplay/sniffer_digging"
     }
   ],
-  "replace": false
+  "replace": true
 }

@@ -146,8 +146,12 @@ public class BeeCreator
     }
 
     public static ItemStack getSpawnEgg(ResourceLocation beeType) {
+        return getSpawnEgg(beeType, false);
+    }
+
+    public static ItemStack getSpawnEgg(ResourceLocation beeType, boolean forceConfigurable) {
         ItemStack egg;
-        if (BeeReloadListener.INSTANCE.getData(beeType) != null) {
+        if (BeeReloadListener.INSTANCE.getData(beeType) != null || forceConfigurable) {
             egg = new ItemStack(ModItems.CONFIGURABLE_SPAWN_EGG.get());
             var tag = new CompoundTag();
             tag.putString("type", beeType.toString());

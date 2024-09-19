@@ -1,0 +1,39 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+      "type": "productivebees:component",
+      "components": {
+        "productivebees:bee_type": "productivebees:time_crystal"
+      },
+      "items": "productivebees:configurable_honeycomb"
+    },
+    "outputs": [
+      {
+        "item": {
+          "item": "justdirethings:time_crystal"
+        },
+        "min": 1,
+        "max": 2,
+        "chance": 0.1
+      },
+      {
+        "item": {
+          "item": "productivebees:wax"
+        }
+      }
+    ],
+  "fluid": {
+    "fluid": "justdirethings:time_fluid_source",
+    "amount": 25
+  },
+    "neoforge:conditions": [
+      {
+        "type": "productivebees:bee_exists",
+        "bee": "productivebees:time_crystal"
+      },
+      {
+        "type": "neoforge:mod_loaded",
+        "modid": "justdirethings"
+      }
+    ]
+  }

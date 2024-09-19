@@ -1,0 +1,72 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "PRP",
+        "EME",
+        "HCH"
+    ],
+    "key": {
+        "M": {
+            "type": "productivebees:component",
+            "components": {
+                "minecraft:entity_data": {
+                    "type": "productivebees:sculk",
+                    "id": "productivebees:configurable_bee"
+                }
+            },
+            "items": "productivebees:spawn_egg_configurable_bee"
+        },
+        "E": {
+            "item": "justdirethings:time_crystal_block"
+        },
+        "P": {
+            "type": "productivebees:component",
+            "components": {
+                "minecraft:entity_data": {
+                    "type": "productivebees:celestigem",
+                    "id": "productivebees:configurable_bee"
+                }
+            },
+            "items": "productivebees:spawn_egg_configurable_bee"
+        },
+        "R": {
+            "type": "productivebees:component",
+            "components": {
+                "minecraft:entity_data": {
+                    "type": "productivebees:draconic",
+                    "id": "productivebees:configurable_bee"
+                }
+            },
+            "items": "productivebees:spawn_egg_configurable_bee"
+        },
+        "H": {
+            "type": "productivebees:component",
+            "components": {
+                "minecraft:entity_data": {
+                    "type": "productivebees:eclipsealloy",
+                    "id": "productivebees:configurable_bee"
+                }
+            },
+            "items": "productivebees:spawn_egg_configurable_bee"
+        },
+        "C": {
+            "item": "justdirethings:time_fluid_bucket"
+        }
+    },
+    "result": {
+        "components": {
+            "minecraft:entity_data": {
+                "type": "productivebees:time_crystal",
+                "id": "productivebees:configurable_bee"
+            }
+        },
+        "count": 1,
+        "id": "productivebees:spawn_egg_configurable_bee"
+    },
+    "neoforge:conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:time_crystal"
+        }
+    ]
+}

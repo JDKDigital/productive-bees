@@ -10,20 +10,15 @@
   "outputs": [
     {
       "item": {
-        "item": "minecraft:obsidian"
+        "item": "productivebees:obsidian_shard"
       },
-      "chance": 0.4
+      "min": 3,
+      "max": 6
     },
     {
       "item": {
         "item": "productivebees:wax"
       }
-    }
-  ],
-  "neoforge:conditions": [
-    {
-      "type": "neoforge:tag_empty",
-      "tag": "c:dusts/obsidian"
     }
   ]
 }

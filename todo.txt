@@ -1,13 +1,15 @@
-test bottler recipe
-change genes to be components
-BeeEffect as components
-register block capabilities in event
+fix pollen tag
+water bucket to fish bucket recipes
+increase Monazite output
+obsidian shard as output
+remove endurance from prismarine
+remove or fix GT recipes
 
 redo configs
 look into changing BeeNBTChangerRecipe to BeeComponentChangerRecipe
 
-1.20
-
+1.22
+- geckolib model support
 - butcher bee
 - sim support for cubee
 - move configs into recipes

@@ -4,43 +4,34 @@
   "experience": 0.3,
   "inputs": [
     {
-      "count": 1,
-      "ingredient": {
-        "type": "productivebees:component",
-        "components": {
-          "minecraft:entity_data": {
-            "type": "productivebees:copper_alloy",
-            "id": "productivebees:configurable_bee"
-          }
-        },
-        "items": "productivebees:spawn_egg_configurable_bee"
-      }
+      "type": "productivebees:component",
+      "components": {
+        "minecraft:entity_data": {
+          "type": "productivebees:copper_alloy",
+          "id": "productivebees:configurable_bee"
+        }
+      },
+      "items": "productivebees:spawn_egg_configurable_bee"
     },
     {
-      "count": 1,
-      "ingredient": {
-        "type": "productivebees:component",
-        "components": {
-          "minecraft:entity_data": {
-            "type": "productivebees:iron",
-            "id": "productivebees:configurable_bee"
-          }
-        },
-        "items": "productivebees:spawn_egg_configurable_bee"
-      }
+      "type": "productivebees:component",
+      "components": {
+        "minecraft:entity_data": {
+          "type": "productivebees:iron",
+          "id": "productivebees:configurable_bee"
+        }
+      },
+      "items": "productivebees:spawn_egg_configurable_bee"
     },
     {
-      "count": 1,
-      "ingredient": {
-        "type": "productivebees:component",
-        "components": {
-          "minecraft:entity_data": {
-            "type": "productivebees:redstone",
-            "id": "productivebees:configurable_bee"
-          }
-        },
-        "items": "productivebees:spawn_egg_configurable_bee"
-      }
+      "type": "productivebees:component",
+      "components": {
+        "minecraft:entity_data": {
+          "type": "productivebees:redstone",
+          "id": "productivebees:configurable_bee"
+        }
+      },
+      "items": "productivebees:spawn_egg_configurable_bee"
     }
   ],
   "result": {

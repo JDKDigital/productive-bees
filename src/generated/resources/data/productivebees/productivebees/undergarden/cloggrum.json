@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#493933",
+  "secondaryColor": "#ab8f6f",
+  "particleColor": "#f4d7b6",
+  "flowerBlock": "undergarden:cloggrum_block",
+  "beeTexture": "productivebees:textures/entity/bee/cloggrum/bee",
+  "size": 0.8,
+  "conditions": [
+    {
+      "modid": "undergarden",
+      "type": "neoforge:mod_loaded"
+    }
+  ]
+}

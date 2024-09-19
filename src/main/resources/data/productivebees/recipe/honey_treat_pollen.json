@@ -5,10 +5,10 @@
       "item": "minecraft:honeycomb"
     },
     {
-      "tag": "c:pollen"
+      "tag": "c:pollens"
     },
     {
-      "tag": "c:pollen"
+      "tag": "c:pollens"
     }
   ],
   "result": {
@@ -19,7 +19,7 @@
       "type": "neoforge:not",
       "value": {
         "type": "neoforge:tag_empty",
-        "tag": "c:pollen"
+        "tag": "c:pollens"
       }
     }
   ]

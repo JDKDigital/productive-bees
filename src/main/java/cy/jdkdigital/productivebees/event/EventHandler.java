@@ -14,10 +14,11 @@ import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.network.packets.BeeDataMessage;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeHelper;
+import cy.jdkdigital.productivebees.util.GeneAttribute;
+import cy.jdkdigital.productivebees.util.GeneValue;
 import cy.jdkdigital.productivelib.ProductiveLib;
 import cy.jdkdigital.productivelib.event.AddEntityToFilterEvent;
 import cy.jdkdigital.productivelib.event.UpgradeTooltipEvent;
-import cy.jdkdigital.productivelib.registry.LibItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentMap;
@@ -34,7 +35,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Bee;
@@ -69,6 +69,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.level.BlockGrowFeatureEvent;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import net.neoforged.neoforge.event.village.WandererTradesEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -157,6 +158,44 @@ public class EventHandler
             PacketDistributor.sendToAllPlayers(new BeeDataMessage(BeeReloadListener.INSTANCE.getData()));
         } else {
             PacketDistributor.sendToPlayer(event.getPlayer(), new BeeDataMessage(BeeReloadListener.INSTANCE.getData()));
+        }
+    }
+
+    @SubscribeEvent
+    public static void onEntityTick(EntityTickEvent.Post event) {
+        if (event.getEntity() instanceof Bee bee) {
+            // Attribute improvement while leashed
+            if (!bee.level().isClientSide && bee.isLeashed() && bee.tickCount % ProductiveBeesConfig.BEE_ATTRIBUTES.leashedTicks.get() == 0) {
+                var attributes = bee.getData(ProductiveBees.ATTRIBUTE_HANDLER);
+                // Rain tolerance improvements
+                GeneValue tolerance = attributes.getAttributeValue(GeneAttribute.WEATHER_TOLERANCE);
+                if (tolerance.getValue() < 2 && bee.level().random.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.toleranceChance.get()) {
+                    if (tolerance.equals(GeneValue.WEATHER_TOLERANCE_NONE) && (bee.level().isRaining() || bee.level().isThundering())) {
+                        attributes.setAttributeValue(GeneAttribute.WEATHER_TOLERANCE, GeneValue.WEATHER_TOLERANCE_RAIN);
+                    } else if (tolerance.equals(GeneValue.WEATHER_TOLERANCE_RAIN) && bee.level().isThundering()) {
+                        attributes.setAttributeValue(GeneAttribute.WEATHER_TOLERANCE, GeneValue.WEATHER_TOLERANCE_ANY);
+                    }
+                }
+                // Behavior improvement
+                GeneValue behavior = attributes.getAttributeValue(GeneAttribute.BEHAVIOR);
+                if (behavior.getValue() < 2 && bee.level().random.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.behaviorChance.get()) {
+                    // If diurnal, it can change to nocturnal
+                    if (behavior.equals(GeneValue.BEHAVIOR_DIURNAL) && bee.level().isNight()) {
+                        attributes.setAttributeValue(GeneAttribute.BEHAVIOR, bee.level().random.nextFloat() < 0.85F ? GeneValue.BEHAVIOR_NOCTURNAL : GeneValue.BEHAVIOR_METATURNAL);
+                    }
+                    // If nocturnal, it can become metaturnal or back to diurnal
+                    else if (behavior.equals(GeneValue.BEHAVIOR_NOCTURNAL) && !bee.level().isNight()) {
+                        attributes.setAttributeValue(GeneAttribute.BEHAVIOR, bee.level().random.nextFloat() < 0.9F ? GeneValue.BEHAVIOR_METATURNAL : GeneValue.BEHAVIOR_DIURNAL);
+                    }
+                }
+
+                // It might die when leashed outside
+                boolean isInDangerFromRain = tolerance.equals(GeneValue.WEATHER_TOLERANCE_NONE) && bee.level().isRaining();
+                boolean isInDayCycleDanger = (behavior.equals(GeneValue.BEHAVIOR_DIURNAL) && bee.level().isNight()) || (behavior.equals(GeneValue.BEHAVIOR_NOCTURNAL) && bee.level().isDay());
+                if ((isInDangerFromRain || isInDayCycleDanger) && bee.level().random.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.damageChance.get()) {
+                    bee.hurt(isInDangerFromRain ? bee.level().damageSources().drown() : bee.level().damageSources().generic(), (bee.getMaxHealth() / 3) - 1);
+                }
+            }
         }
     }
 
@@ -387,23 +426,38 @@ public class EventHandler
     }
 
     @SubscribeEvent
-    public static void cocoaBreakSpawn(BlockEvent.BreakEvent event) {
+    public static void blockBreakSpawn(BlockEvent.BreakEvent event) {
+        String beeType = "";
+        int beeCount = 1;
+        boolean angry = false;
         if (event.getState().getBlock().equals(Blocks.COCOA) && event.getState().getValue(CocoaBlock.AGE) == 2) {
+            beeType = "productivebees:sugarbag";
+        } else if (BuiltInRegistries.BLOCK.getKey(event.getState().getBlock()).toString().equals("undergarden:gloomgourd")) {
+            beeType = "productivebees:utheric";
+            angry = true;
+            beeCount = 3;
+        }
+        if (!beeType.isEmpty()) {
             Player player = event.getPlayer();
             Level level = player.level();
             if (level instanceof ServerLevel && player instanceof ServerPlayer && level.random.nextFloat() < ProductiveBeesConfig.BEES.sugarbagBeeChance.get()) {
-                ConfigurableBee bee = ModEntities.CONFIGURABLE_BEE.get().create(level);
-                BlockPos pos = event.getPos();
-                if (bee != null && BeeReloadListener.INSTANCE.getData("productivebees:sugarbag") != null) {
-                    bee.setBeeType("productivebees:sugarbag");
-                    bee.setDefaultAttributes();
+                for (var i = 0; i < beeCount; i++) {
+                    ConfigurableBee bee = ModEntities.CONFIGURABLE_BEE.get().create(level);
+                    BlockPos pos = event.getPos();
+                    if (bee != null && BeeReloadListener.INSTANCE.getData(beeType) != null) {
+                        bee.setBeeType(beeType);
+                        bee.setDefaultAttributes();
 
-                    bee.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, bee.getYRot(), bee.getXRot());
+                        bee.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, bee.getYRot(), bee.getXRot());
 
-                    level.addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
-                    level.playSound(player, pos, SoundEvents.BEEHIVE_WORK, SoundSource.NEUTRAL, 1.0F, 1.0F);
+                        level.addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
+                        level.playSound(player, pos, SoundEvents.BEEHIVE_WORK, SoundSource.NEUTRAL, 1.0F, 1.0F);
 
-                    level.addFreshEntity(bee);
+                        level.addFreshEntity(bee);
+                        if (angry) {
+                            bee.setTarget(player);
+                        }
+                    }
                 }
             }
         }

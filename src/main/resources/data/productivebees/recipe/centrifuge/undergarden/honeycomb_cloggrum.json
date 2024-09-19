@@ -1,0 +1,33 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:cloggrum"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "undergarden:raw_cloggrum"
+      },
+      "chance": 0.8
+    },
+    {
+      "item": {
+        "item": "productivebees:wax"
+      }
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:cloggrum"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "undergarden"
+    }
+  ]
+}

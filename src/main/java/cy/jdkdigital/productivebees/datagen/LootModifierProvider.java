@@ -5,6 +5,7 @@ import cy.jdkdigital.productivebees.common.crafting.ingredient.ComponentIngredie
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.util.BeeCreator;
+import cy.jdkdigital.productivelib.loot.ContainerContentsModifier;
 import cy.jdkdigital.productivelib.loot.IngredientModifier;
 import cy.jdkdigital.productivelib.loot.ItemLootModifier;
 import cy.jdkdigital.productivelib.loot.LootItemKilledByUUIDCondition;
@@ -44,6 +45,9 @@ public class LootModifierProvider extends GlobalLootModifierProvider
         add("village_chest_sturdy_cage", new ItemLootModifier(anyOfConditions("chests/village/village_armorer", "chests/village/village_butcher", "chests/village/village_desert_house", "chests/village/village_fisher", "chests/village/village_plains_house", "chests/village/village_savanna_house", "chests/village/village_shepherd", "chests/village/village_snowy_house", "chests/village/village_taiga_house", "chests/village/village_temple", "chests/nether_bridge", "chests/desert_pyramid", "chests/abandoned_mineshaft"), new ItemStack(ModItems.STURDY_BEE_CAGE), 0.2f));
 
         add("frog_eat_bee", new IngredientModifier(frogConditions("entities/bee"), ComponentIngredient.of(BeeCreator.getSpawnEgg(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "ribbeet"))), 1.0f, true));
+
+        add("undergarden_forgotten_egg", new IngredientModifier(lootTableConditions(false, "undergarden:chests/catacombs"), ComponentIngredient.of(BeeCreator.getSpawnEgg(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "forgotten"), true)), 0.25f, false));
+        add("aquaculture_neptunium_egg", new ContainerContentsModifier(lootTableConditions(false, "aquaculture:gameplay/fishing/neptunium"), new ItemStack(Items.CHEST), ComponentIngredient.of(BeeCreator.getSpawnEgg(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "neptunium"), true)), 0.25f, false));
     }
 
     private LootItemCondition[] lootTableConditions(boolean addUUIDCondition, String... rLoc) {

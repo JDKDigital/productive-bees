@@ -12,12 +12,12 @@
       "item": {
         "item": "productivebees:wax"
       }
-    },
-    {
-      "id": "industrialforegoing:ether_gas",
-      "amount": 10
     }
   ],
+  "fluid" : {
+    "fluid": "industrialforegoing:ether_gas",
+    "amount": 10
+  },
   "neoforge:conditions": [
     {
       "type": "neoforge:mod_loaded",
