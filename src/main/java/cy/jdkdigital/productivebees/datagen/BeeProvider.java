@@ -143,7 +143,7 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("alloys/signalum").primaryColor("#e7917d").secondaryColor("#804f40").particleColor("#b56f60").flowerTag("c:storage_blocks/signalum").requireTag("c:storage_blocks/signalum"));
             add(new BeeConfig("alloys/steel").primaryColor("#737373").secondaryColor("#804f40").flowerTag("c:storage_blocks/steel").requireTag("c:storage_blocks/steel"));
 
-            add(new BeeConfig("alloys/steel").primaryColor("#737373").secondaryColor("#804f40").flowerTag("c:storage_blocks/steel").requireTag("c:storage_blocks/steel"));
+            add(new BeeConfig("ars_nouveau/arcane").primaryColor("#c203fc").secondaryColor("#6c2482").tertiaryColor("#c203fc").particleColor("#c203fc").onlySpawnegg().renderer("default_crystal").size(0.8).attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_MEDIUM.getSerializedName()); }}).flowerBlock("ars_nouveau:source_gem_block").requireMod("ars_nouveau"));
 
             add(new BeeConfig("aquaculture/neptunium").primaryColor("#6bf9d2").secondaryColor("#bcfcea").onlySpawnegg().beeTexture("neptunium").size(0.5).attributes(new HashMap<>(){{ put("weather_telorance", GeneValue.WEATHER_TOLERANCE_ANY.getSerializedName()); }}).flowerBlock("aquaculture:neptunium_block").requireMod("aquaculture"));
 
