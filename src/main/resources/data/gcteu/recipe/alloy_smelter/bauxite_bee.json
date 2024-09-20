@@ -18,7 +18,7 @@
             "items": "productivebees:spawn_egg_configurable_bee"
           }
         },
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       },
       {
@@ -29,7 +29,7 @@
             "tag": "c:dusts/gallium"
           }
         },
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       }
     ]
@@ -51,7 +51,7 @@
             "items": "productivebees:spawn_egg_configurable_bee"
           }
         },
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       }
     ]
@@ -60,7 +60,7 @@
     "eu": [
       {
         "content": 7,
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       }
     ]

@@ -11,7 +11,7 @@
             "tag": "c:storage_blocks/greg_star"
           }
         },
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       },
       {
@@ -29,7 +29,7 @@
             "id": "productivebees:spawn_egg_configurable_bee"
           }
         },
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       },
       {
@@ -47,7 +47,7 @@
             "id": "productivebees:spawn_egg_configurable_bee"
           }
         },
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       },
       {
@@ -65,7 +65,7 @@
             "id": "productivebees:spawn_egg_configurable_bee"
           }
         },
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       },
       {
@@ -76,7 +76,7 @@
             "item": "gtceu:uhv_energy_input_hatch_16a"
           }
         },
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       }
     ],
@@ -90,7 +90,7 @@
             }
           ]
         },
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       },
       {
@@ -102,7 +102,7 @@
             }
           ]
         },
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       }
     ]
@@ -124,7 +124,7 @@
             "id": "productivebees:spawn_egg_configurable_bee"
           }
         },
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       }
     ]
@@ -133,7 +133,7 @@
     "eu": [
       {
         "content": 100000,
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       }
     ]
