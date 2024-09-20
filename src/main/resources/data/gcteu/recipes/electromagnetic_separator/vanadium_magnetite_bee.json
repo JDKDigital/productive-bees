@@ -13,7 +13,7 @@
             "nbt": "{\"EntityTag\": {\"type\": \"productivebees:gold\"}}"
           }
         },
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       }
     ]
@@ -30,7 +30,7 @@
             "nbt": "{\"EntityTag\": {\"type\": \"productivebees:vanadium_magnetite\"}}"
           }
         },
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       }
     ]
@@ -39,7 +39,7 @@
     "eu": [
       {
         "content": 24,
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       }
     ]

@@ -13,7 +13,7 @@
             "nbt": "{\"EntityTag\": {\"type\": \"productivebees:tantalite\"}}"
           }
         },
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       }
     ]
@@ -30,7 +30,7 @@
             "nbt": "{\"EntityTag\": {\"type\": \"productivebees:pyrolusite\"}}"
           }
         },
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       }
     ]
@@ -39,7 +39,7 @@
     "eu": [
       {
         "content": 4,
-        "chance": 1,
+        "chance": 10000,
         "tierChanceBoost": 0
       }
     ]
