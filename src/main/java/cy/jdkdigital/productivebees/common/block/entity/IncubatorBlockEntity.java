@@ -37,6 +37,7 @@ import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
@@ -56,7 +57,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
         public boolean isInputSlotItem(int slot, ItemStack item) {
             return
                 (slot == IncubatorContainer.SLOT_INPUT && item.getItem() instanceof BeeCage) ||
-                (slot == IncubatorContainer.SLOT_INPUT && item.is(ModTags.Common.EGGS)) ||
+                (slot == IncubatorContainer.SLOT_INPUT && item.is(Tags.Items.EGGS)) ||
                 (slot == IncubatorContainer.SLOT_CATALYST && item.getItem() instanceof HoneyTreat);
         }
     };
@@ -135,7 +136,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
         ItemStack inItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_INPUT);
         ItemStack treatItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_CATALYST);
 
-        boolean eggProcessing = inItem.is(ModTags.Common.EGGS);
+        boolean eggProcessing = inItem.is(Tags.Items.EGGS);
         boolean cageProcessing = inItem.getItem() instanceof BeeCage && BeeCage.isFilled(inItem);
 
         return energy > ProductiveBeesConfig.GENERAL.incubatorPowerUse.get() // has enough power
@@ -153,7 +154,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
             ItemStack inItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_INPUT);
             ItemStack catalystItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_CATALYST);
 
-            boolean eggProcessing = inItem.is(ModTags.Common.EGGS);
+            boolean eggProcessing = inItem.is(Tags.Items.EGGS);
             boolean cageProcessing = inItem.getItem() instanceof BeeCage;
 
             ItemStack resultItem = ItemStack.EMPTY;

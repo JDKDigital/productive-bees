@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.compat.emi;
 
-import com.mojang.datafixers.util.Pair;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.recipe.CentrifugeRecipe;
 import cy.jdkdigital.productivebees.init.ModTags;
@@ -11,7 +10,6 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 public class CentrifugeEmiRecipe extends BasicEmiRecipe
@@ -28,7 +26,7 @@ public class CentrifugeEmiRecipe extends BasicEmiRecipe
         this.inputs.add(EmiIngredient.of(recipe.value().ingredient));
 
         recipe.value().getRecipeOutputs().forEach((itemStack, chancedOutput) -> {
-            if (!stripWax || !itemStack.is(ModTags.Common.WAX)) {
+            if (!stripWax || !itemStack.is(ModTags.Common.WAXES)) {
                 this.outputs.add(EmiStack.of(itemStack).setAmount(chancedOutput.max()).setChance(chancedOutput.chance()));
             }
         });

@@ -29,6 +29,7 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 
 import java.util.ArrayList;
@@ -131,7 +132,7 @@ public class RecipeHelper
             for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()) {
                 ItemStack spawnEgg = BeeCreator.getSpawnEgg(ResourceLocation.parse(entry.getKey()));
                 Ingredient treat = DataComponentIngredient.of(false, HoneyTreat.getTypeStack(entry.getKey(), 100));
-                recipes.add(new RecipeHolder<>(ResourceLocation.parse(entry.getKey()).withPath(p -> "/" + p + "_incubation"), new IncubationRecipe(Ingredient.of(ModTags.Common.EGGS), treat, spawnEgg, 300)));
+                recipes.add(new RecipeHolder<>(ResourceLocation.parse(entry.getKey()).withPath(p -> "/" + p + "_incubation"), new IncubationRecipe(Ingredient.of(Tags.Items.EGGS), treat, spawnEgg, 300)));
             }
         }
 

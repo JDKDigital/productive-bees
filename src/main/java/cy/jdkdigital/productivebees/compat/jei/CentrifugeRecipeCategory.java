@@ -73,7 +73,7 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
         final int[] i = {0};
         if (recipe.getRecipeOutputs().size() > 0) {
             recipe.getRecipeOutputs().forEach((stack, value) -> {
-                if (!stripWax || !stack.is(ModTags.Common.WAX)) {
+                if (!stripWax || !stack.is(ModTags.Common.WAXES)) {
                     // Add a stack per possible output amount
                     List<ItemStack> innerList = new ArrayList<>();
                     IntStream.range(value.min(), value.max() + 1).forEach((u) -> {

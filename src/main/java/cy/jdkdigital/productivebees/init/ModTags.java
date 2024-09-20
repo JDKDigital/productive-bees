@@ -95,15 +95,13 @@ public class ModTags
         public static final TagKey<Item> STORAGE_BLOCK_HONEYCOMBS = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "storage_blocks/honeycombs"));
         public static final TagKey<Item> HONEYCOMBS = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "honeycombs"));
         public static final TagKey<Item> HONEY_BUCKETS = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "buckets/honey"));
-        public static final TagKey<Item> EGGS = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "eggs"));
         public static final TagKey<Item> FISHING_RODS = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "rods/fishing"));
-        public static final TagKey<Item> WAX = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "wax"));
+        public static final TagKey<Item> WAXES = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "waxes"));
         public static final TagKey<Item> WITHER_SKULL_FRAGMENTS = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "fragments/wither_skull"));
         public static final TagKey<Item> SILICON = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "silicon"));
         public static final TagKey<Item> SOURCE_GEM = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "gems/source"));
         public static final TagKey<Item> CAMPFIRES = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "campfires"));
         public static final TagKey<Item> HIVES = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "hives"));
         public static final TagKey<Item> DYES = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "dyes"));
-        public static final TagKey<Item> SHEARS = getItemTag(ResourceLocation.fromNamespaceAndPath("c", "tools/shears"));
     }
 }

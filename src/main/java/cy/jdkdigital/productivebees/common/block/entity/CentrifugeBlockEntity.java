@@ -1,8 +1,6 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
 import com.google.common.collect.Lists;
-import com.mojang.datafixers.util.Pair;
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.Centrifuge;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFactory;
@@ -13,7 +11,6 @@ import cy.jdkdigital.productivebees.common.item.HoneyTreat;
 import cy.jdkdigital.productivebees.common.recipe.CentrifugeRecipe;
 import cy.jdkdigital.productivebees.common.recipe.TimedRecipeInterface;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
-import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredientHelper;
 import cy.jdkdigital.productivebees.container.CentrifugeContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
@@ -47,7 +44,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
@@ -374,7 +370,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
 
     protected void completeRecipeProcessing(RecipeHolder<CentrifugeRecipe> recipe, IItemHandlerModifiable invHandler, RandomSource random, boolean stripWax) {
         recipe.value().getRecipeOutputs().forEach((itemStack, recipeValues) -> {
-            if ((!stripWax || !itemStack.is(ModTags.Common.WAX)) && random.nextFloat() <= recipeValues.chance()) {
+            if ((!stripWax || !itemStack.is(ModTags.Common.WAXES)) && random.nextFloat() <= recipeValues.chance()) {
                 int count = Mth.nextInt(random, Mth.floor(recipeValues.min()), Mth.floor(recipeValues.max()));
                 ItemStack output = itemStack.copy();
                 output.setCount(count);

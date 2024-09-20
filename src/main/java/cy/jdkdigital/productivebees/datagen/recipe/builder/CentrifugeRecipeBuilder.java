@@ -23,7 +23,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class CentrifugeRecipeBuilder extends AbstractRecipeBuilder {
     private final Ingredient input;
@@ -48,7 +47,7 @@ public class CentrifugeRecipeBuilder extends AbstractRecipeBuilder {
         ItemStack stack = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
         BeeCreator.setType(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, beeName), stack);
         if (output.isEmpty()) {
-            output.add(new TagOutputRecipe.ChancedOutput(Ingredient.of(ModTags.Common.WAX), 1, 1, 1f));
+            output.add(new TagOutputRecipe.ChancedOutput(Ingredient.of(ModTags.Common.WAXES), 1, 1, 1f));
         }
         if (fluid == null) {
             fluid = new FluidStack(ModFluids.HONEY, 100);
