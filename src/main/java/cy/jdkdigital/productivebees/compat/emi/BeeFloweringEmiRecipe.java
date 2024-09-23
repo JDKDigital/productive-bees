@@ -17,7 +17,7 @@ public class BeeFloweringEmiRecipe extends BasicEmiRecipe
 
         this.inputs.add(BeeEmiStack.of(recipe.bee()));
 
-        if (recipe.itemTag() != null) {
+        if (recipe.itemTag() != null && !EmiIngredient.of(recipe.itemTag()).isEmpty()) {
             this.inputs.add(EmiIngredient.of(recipe.itemTag()));
         } else if (recipe.blockTag() != null) {
             this.inputs.add(EmiIngredient.of(recipe.blockTag()));

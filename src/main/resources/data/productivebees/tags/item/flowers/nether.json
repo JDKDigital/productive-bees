@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:nether_wart",
+    "minecraft:nether_wart_block",
+    "minecraft:crimson_fungus",
+    "minecraft:warped_fungus",
+    "minecraft:crimson_roots",
+    "minecraft:warped_roots",
+    "minecraft:weeping_vines",
+    "minecraft:twisting_vines"
+  ]
+}
