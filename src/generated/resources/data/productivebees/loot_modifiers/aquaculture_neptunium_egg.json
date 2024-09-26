@@ -14,7 +14,7 @@
   "conditions": [
     {
       "condition": "neoforge:loot_table_id",
-      "loot_table_id": "aquaculture:gameplay/fishing/neptunium"
+      "loot_table_id": "minecraft:gameplay/fishing"
     }
   ],
   "replace": false,
