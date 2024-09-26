@@ -20,6 +20,6 @@
   "replace": false,
   "target": {
     "count": 1,
-    "id": "minecraft:chest"
+    "id": "aquaculture:neptunes_bounty"
   }
 }

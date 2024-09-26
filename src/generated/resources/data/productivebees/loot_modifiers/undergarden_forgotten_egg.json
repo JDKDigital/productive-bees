@@ -10,7 +10,7 @@
     },
     "items": "productivebees:spawn_egg_configurable_bee"
   },
-  "chance": 1.25,
+  "chance": 0.25,
   "conditions": [
     {
       "condition": "neoforge:loot_table_id",

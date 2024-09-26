@@ -12,7 +12,7 @@
       "item": {
         "item": "l2hostility:miracle_ingot"
       },
-      "chance": 5
+      "chance": 0.05
     }
   ],
   "neoforge:conditions": [

@@ -12,6 +12,7 @@ import cy.jdkdigital.productivelib.loot.LootItemKilledByUUIDCondition;
 import net.minecraft.advancements.critereon.DamageSourcePredicate;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -47,7 +48,7 @@ public class LootModifierProvider extends GlobalLootModifierProvider
         add("frog_eat_bee", new IngredientModifier(frogConditions("entities/bee"), ComponentIngredient.of(BeeCreator.getSpawnEgg(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "ribbeet"))), 1.0f, true));
 
         add("undergarden_forgotten_egg", new IngredientModifier(lootTableConditions(false, "undergarden:chests/catacombs"), ComponentIngredient.of(BeeCreator.getSpawnEgg(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "forgotten"), true)), 0.25f, false));
-        add("aquaculture_neptunium_egg", new ContainerContentsModifier(lootTableConditions(false, "aquaculture:gameplay/fishing/neptunium"), new ItemStack(Items.CHEST), ComponentIngredient.of(BeeCreator.getSpawnEgg(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "neptunium"), true)), 0.25f, false));
+        add("aquaculture_neptunium_egg", new ContainerContentsModifier(lootTableConditions(false, "aquaculture:gameplay/fishing/neptunium"), new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("aquaculture", "neptunes_bounty"))), ComponentIngredient.of(BeeCreator.getSpawnEgg(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "neptunium"), true)), 0.25f, false));
     }
 
     private LootItemCondition[] lootTableConditions(boolean addUUIDCondition, String... rLoc) {

@@ -161,6 +161,7 @@ dependencies {
     implementation "curse.maven:cucumber-272335:5663120"
     implementation "curse.maven:mystical-agriculture-246640:5663085"
     implementation "curse.maven:ender-io-64578:5720393"
+    implementation "curse.maven:aquaculture-60028:5713551"
 }
 
 tasks.withType(ProcessResources).configureEach {

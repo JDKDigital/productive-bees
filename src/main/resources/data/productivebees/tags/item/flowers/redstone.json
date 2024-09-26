@@ -3,9 +3,7 @@
   "values": [
     "#c:storage_blocks/redstone",
     "#c:ores/redstone",
-    "minecraft:redstone_wire",
     "minecraft:redstone_torch",
-    "minecraft:redstone_wall_torch",
     "minecraft:redstone_lamp"
   ]
 }

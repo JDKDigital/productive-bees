@@ -3,7 +3,6 @@
   "values": [
     "#minecraft:flowers",
     "minecraft:snow",
-    "minecraft:snow_block",
-    "minecraft:powder_snow"
+    "minecraft:snow_block"
   ]
 }

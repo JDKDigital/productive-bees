@@ -180,6 +180,8 @@ public class BeeHelper
 
 
     public static List<RecipeHolder<BeeBreedingRecipe>> getBreedingRecipes(IdentifierInventory beeInv, ServerLevel level) {
+        if (beeInv.getIdentifier(0) == null || beeInv.getIdentifier(1) == null) return new ArrayList<>();
+
         List<RecipeHolder<BeeBreedingRecipe>> recipes = new ArrayList<>();
         // Get breeding recipes
         List<RecipeHolder<BeeBreedingRecipe>> allRecipes = level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.BEE_BREEDING_TYPE.get());

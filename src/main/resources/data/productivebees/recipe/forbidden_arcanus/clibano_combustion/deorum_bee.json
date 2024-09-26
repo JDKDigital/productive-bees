@@ -3,7 +3,7 @@
   "cooking_time": 150,
   "experience": 1,
   "fire_type": "soul_fire",
-  "ingredient": {
+  "ingredients": {
     "type": "productivebees:component",
     "components": {
       "minecraft:entity_data": {
@@ -15,7 +15,7 @@
   },
   "residue": {
     "chance": 0.65,
-    "name": "deorum"
+    "name": "forbidden_arcanus:gold"
   },
   "result": {
     "components": {

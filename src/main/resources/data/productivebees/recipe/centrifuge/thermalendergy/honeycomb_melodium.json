@@ -12,7 +12,7 @@
       "item": {
         "item": "thermalendergy:melodium_dust"
       },
-      "chance": 50
+      "chance": 0.5
     }
   ],
   "neoforge:conditions": [
