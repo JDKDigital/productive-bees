@@ -83,8 +83,9 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
         ItemStack input = inputHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
         String cacheKey = BuiltInRegistries.ITEM.getKey(input.getItem()).toString() + (!input.getComponents().isEmpty() ? input.getComponents().stream().map(TypedDataComponent::toString).reduce((s, s2) -> s + s2) : "");
 
-        var directRecipe = super.getRecipe(inputHandler);
-        if (input.is(ModTags.Common.STORAGE_BLOCK_HONEYCOMBS) && directRecipe == null) {
+        if (!input.is(ModTags.Common.STORAGE_BLOCK_HONEYCOMBS)) {
+            return super.getRecipe(inputHandler);
+        } else {
             if (!blockRecipeMap.containsKey(cacheKey)) {
                 ItemStack singleComb;
                 // config honeycomb
@@ -101,7 +102,6 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
             }
             return blockRecipeMap.get(cacheKey);
         }
-        return directRecipe;
     }
 
     @Override
