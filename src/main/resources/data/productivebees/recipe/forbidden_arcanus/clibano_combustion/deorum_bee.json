@@ -15,7 +15,7 @@
   },
   "residue": {
     "chance": 0.65,
-    "name": "forbidden_arcanus:gold"
+    "type": "forbidden_arcanus:gold"
   },
   "result": {
     "components": {

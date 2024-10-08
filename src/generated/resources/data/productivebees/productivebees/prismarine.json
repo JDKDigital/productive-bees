@@ -10,7 +10,6 @@
   "attributes": {
     "weather_tolerance": "weather_tolerance.any",
     "productivity": "productivity.medium",
-    "temper": "temper.hostile",
-    "endurance": "endurance.strong"
+    "temper": "temper.hostile"
   }
 }

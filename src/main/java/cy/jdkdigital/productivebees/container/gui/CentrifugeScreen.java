@@ -74,8 +74,11 @@ public class CentrifugeScreen extends AbstractContainerScreen<CentrifugeContaine
         guiGraphics.blit(GUI, this.getGuiLeft() - 13, this.getGuiTop(), 0, 0, this.getXSize() + 26, this.getYSize());
 
         // Draw progress
-        int progress = (int) (this.menu.blockEntity.recipeProgress * (24 / (float) this.menu.blockEntity.getProcessingTime(this.menu.blockEntity.getCurrentRecipe())));
-        guiGraphics.blit(GUI, this.getGuiLeft() + 35, this.getGuiTop() + 35, 202, 52, progress + 1, 16);
+        if (this.menu.blockEntity.recipeProgress > 0) {
+            int processingTime = this.menu.blockEntity.getProcessingTime(this.menu.blockEntity.getCurrentRecipe());
+            int progress = (int) ((processingTime - this.menu.blockEntity.recipeProgress) * (24 / (float) processingTime));
+            guiGraphics.blit(GUI, this.getGuiLeft() + 35, this.getGuiTop() + 35, 202, 52, progress + 1, 16);
+        }
 
         // Draw energy level
         if (this.menu.blockEntity instanceof PoweredCentrifugeBlockEntity poweredCentrifugeBlockEntity) {

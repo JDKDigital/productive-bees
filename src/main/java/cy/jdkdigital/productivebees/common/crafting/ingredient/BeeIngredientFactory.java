@@ -35,7 +35,7 @@ public class BeeIngredientFactory
         if (removeDeprecated) {
             for (Map.Entry<String, BeeIngredient> entry : getOrCreateList().entrySet()) {
                 String beeId = entry.getKey().replace("productivebees:", "");
-                if (!beeId.equals("configurable_bee")) {
+                if (!beeId.equals("configurable_bee") && !beeId.equals("villager")) {
                     list.put(entry.getKey(), entry.getValue());
                 }
             }

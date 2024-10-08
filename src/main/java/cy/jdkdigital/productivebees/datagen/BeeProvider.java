@@ -16,7 +16,6 @@ import cy.jdkdigital.productivebees.util.BeeCreator;
 import cy.jdkdigital.productivebees.util.GeneValue;
 import cy.jdkdigital.productivelib.crafting.condition.FluidTagEmptyCondition;
 import net.minecraft.Util;
-import net.minecraft.client.Minecraft;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
@@ -105,7 +104,7 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("magmatic").primaryColor("#d06a1b").secondaryColor("#100000").particleColor("#d06a1b").beeTexture("magmatic").renderer("translucent_with_center").flowerTag("productivebees:flowers/magmatic").nestingPreference("productivebees:nests/nether_brick_nests").attackResponse("lava").particleType("lava").fireproof().passiveEffects(new ArrayList<>() {{ add(new PassiveEffect("minecraft:fire_resistance", 400)); }}));
             add(new BeeConfig("obsidian").primaryColor("#3b2754").secondaryColor("#06030b").particleColor("#3b2754").renderer("thicc").size(0.85).attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_STRONG.getSerializedName()); }}).flowerTag(Tags.Items.OBSIDIANS.location().toString()));
             add(new BeeConfig("pepto_bismol").primaryColor("#FFC0CB").secondaryColor("#FFFF00").particleColor("#FFC0CB").size(0.6).renderer("thicc").noComb().invulnerability(new ArrayList<>() {{ add("mekanism.radiation"); }}).passiveEffects(new ArrayList<>() {{ add(new PassiveEffect("minecraft:regeneration", 400)); add(new PassiveEffect("minecraft:absorption", 400)); add(new PassiveEffect("minecraft:haste", 400)); add(new PassiveEffect("minecraft:strength", 400)); add(new PassiveEffect("minecraft:instant_health", 400)); add(new PassiveEffect("minecraft:saturation", 400)); add(new PassiveEffect("minecraft:luck", 400)); }}));
-            add(new BeeConfig("prismarine").primaryColor("#79b7ab").secondaryColor("#315041").tertiaryColor("#5e85a4").particleColor("#267a4b").renderer("default_crystal").size(0.6).attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_STRONG.getSerializedName()); put("productivity", GeneValue.PRODUCTIVITY_MEDIUM.getSerializedName()); put("temper", GeneValue.TEMPER_HOSTILE.getSerializedName()); put("weather_tolerance", GeneValue.WEATHER_TOLERANCE_ANY.getSerializedName()); }}).waterproof().flowerTag("productivebees:flowers/prismarine"));
+            add(new BeeConfig("prismarine").primaryColor("#79b7ab").secondaryColor("#315041").tertiaryColor("#5e85a4").particleColor("#267a4b").renderer("default_crystal").size(0.6).attributes(new HashMap<>(){{ put("productivity", GeneValue.PRODUCTIVITY_MEDIUM.getSerializedName()); put("temper", GeneValue.TEMPER_HOSTILE.getSerializedName()); put("weather_tolerance", GeneValue.WEATHER_TOLERANCE_ANY.getSerializedName()); }}).waterproof().flowerTag("productivebees:flowers/prismarine"));
             add(new BeeConfig("sculk").primaryColor("#141414").secondaryColor("#141414").particleColor("#141414").beeTexture("sculk").noSelfBreed().flowerBlock("minecraft:sculk_shrieker").attributes(new HashMap<>(){{ put("temper", GeneValue.TEMPER_AGGRESSIVE.getSerializedName()); put("behavior", GeneValue.BEHAVIOR_NOCTURNAL.getSerializedName()); }}).passiveEffects(new ArrayList<>() {{ add(new PassiveEffect("minecraft:darkness", 60)); }}));
             add(new BeeConfig("silky").primaryColor("#ffffff").secondaryColor("#228B22").particleColor("#cccccc").flowerBlock("minecraft:cobweb").stringy());
             add(new BeeConfig("skeletal").primaryColor("#c1c1c1").secondaryColor("#c1c1c1").beeTexture("skeletal").noSelfBreed().flowerBlock("minecraft:bone_block").attributes(new HashMap<>(){{ put("behavior", GeneValue.BEHAVIOR_NOCTURNAL.getSerializedName()); }}));
@@ -118,6 +117,7 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("zombie").primaryColor("#796565").beeTexture("zombie").munchies().noSelfBreed().attributes(new HashMap<>(){{ put("temper", GeneValue.TEMPER_AGGRESSIVE.getSerializedName()); put("behavior", GeneValue.BEHAVIOR_NOCTURNAL.getSerializedName()); }}).passiveEffects(new ArrayList<>() {{  add(new PassiveEffect("minecraft:hunger", 150)); }}).speed(0.8));
             add(new BeeConfig("breeze").primaryColor("#2b425e").secondaryColor("#686394").tertiaryColor("#bbabd1").particleColor("#f3f5ff").beeTexture("breeze").flowerItem("minecraft:heavy_core").speed(0.8));
             add(new BeeConfig("ribbeet").primaryColor("#3a5a19").secondaryColor("#73964b").particleColor("#f3f5ff").flowerTag("c:magma_cubes").beeTexture("ribbeet").flowerType("entity_types").renderer("thicc").size(0.5f).pollinatedSize(1.0f).noComb().noSelfBreed());
+            add(new BeeConfig("villager").primaryColor("#3a5a19").secondaryColor("#73964b").particleColor("#ff0000").flowerBlock("minecraft:air").beeTexture("villager").model("productivebees:geo/entity/villager.geo.json").noComb().noSelfBreed());
 
             add(new BeeConfig("ad_astra/calorite").primaryColor("#c44249").secondaryColor("#470d2f").particleColor("#df6d5c").flowerTag("c:storage_blocks/calorite").requireTag("c:storage_blocks/calorite"));
             add(new BeeConfig("ad_astra/cheese").primaryColor("#d99c0d").particleColor("#edc76d").beeTexture("cheese").onlySpawnegg().flowerBlock("ad_astra:cheese_block").size(0.8).requireMod("ad_astra"));
@@ -681,6 +681,12 @@ public class BeeProvider implements DataProvider
             if (bee.renderer != null) {
                 jsonObject.addProperty("renderer", bee.renderer);
             }
+            if (bee.model != null) {
+                jsonObject.addProperty("model", bee.model);
+            }
+            if (bee.animation != null) {
+                jsonObject.addProperty("animation", bee.animation);
+            }
             if (bee.renderTransform != null) {
                 jsonObject.addProperty("renderTransform", bee.renderTransform);
             }
@@ -772,6 +778,8 @@ public class BeeProvider implements DataProvider
         boolean munchies = false;
         boolean stingless = false;
         String renderer = null;
+        String model = null;
+        String animation = null;
         String renderTransform = null;
         String breedingItem = null;
         Integer breedingItemCount = null;
@@ -838,6 +846,14 @@ public class BeeProvider implements DataProvider
         }
         public BeeConfig renderer(String renderer) {
             this.renderer = renderer;
+            return this;
+        }
+        public BeeConfig model(String model) {
+            this.model = model;
+            return this;
+        }
+        public BeeConfig animation(String animation) {
+            this.animation = animation;
             return this;
         }
         public BeeConfig flipped() {

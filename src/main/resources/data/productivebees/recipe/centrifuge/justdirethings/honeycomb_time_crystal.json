@@ -12,8 +12,6 @@
         "item": {
           "item": "justdirethings:time_crystal"
         },
-        "min": 1,
-        "max": 2,
         "chance": 0.1
       },
       {
@@ -22,10 +20,10 @@
         }
       }
     ],
-  "fluid": {
-    "fluid": "justdirethings:time_fluid_source",
-    "amount": 25
-  },
+    "fluid": {
+      "fluid": "justdirethings:time_fluid_source",
+      "amount": 25
+    },
     "neoforge:conditions": [
       {
         "type": "productivebees:bee_exists",

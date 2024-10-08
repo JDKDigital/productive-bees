@@ -3,7 +3,6 @@ package cy.jdkdigital.productivebees.common.entity.bee.hive;
 import cy.jdkdigital.productivebees.common.entity.bee.IEffectBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.init.ModTags;
-import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.GeneAttribute;
 import cy.jdkdigital.productivebees.util.GeneValue;
 import net.minecraft.network.syncher.EntityDataAccessor;

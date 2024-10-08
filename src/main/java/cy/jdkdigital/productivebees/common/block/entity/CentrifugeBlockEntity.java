@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.common.block.entity;
 import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.Centrifuge;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.common.item.FilterUpgradeItem;
 import cy.jdkdigital.productivebees.common.item.Gene;
@@ -10,7 +11,6 @@ import cy.jdkdigital.productivebees.common.item.GeneBottle;
 import cy.jdkdigital.productivebees.common.item.HoneyTreat;
 import cy.jdkdigital.productivebees.common.recipe.CentrifugeRecipe;
 import cy.jdkdigital.productivebees.common.recipe.TimedRecipeInterface;
-import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.container.CentrifugeContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
@@ -173,39 +173,37 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
 
     public static void tick(Level level, BlockPos pos, BlockState state, CentrifugeBlockEntity blockEntity) {
         if (blockEntity.inventoryHandler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler itemStackHandler) {
-            if (!itemStackHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).isEmpty() && blockEntity.canOperate()) {
+            ItemStack invItem = itemStackHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
+            if (!invItem.isEmpty() && blockEntity.canOperate()) {
                 // Process gene bottles
-                ItemStack invItem = itemStackHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
-                if (invItem.getItem().equals(ModItems.GENE_BOTTLE.get())) {
-                    level.setBlockAndUpdate(pos, state.setValue(Centrifuge.RUNNING, true));
-                    int totalTime = blockEntity.getProcessingTime(null);
-
-                    if (++blockEntity.recipeProgress >= totalTime) {
+                if (state.getValue(Centrifuge.RUNNING) && --blockEntity.recipeProgress <= 0) {
+                    // Progress and complete
+                    if (invItem.getItem().equals(ModItems.GENE_BOTTLE.get())) {
                         blockEntity.completeGeneProcessing(itemStackHandler, level.random);
-                        blockEntity.recipeProgress = 0;
-                        blockEntity.setChanged();
-                    }
-                } else if (invItem.getItem().equals(ModItems.HONEY_TREAT.get())) {
-                    level.setBlockAndUpdate(pos, state.setValue(Centrifuge.RUNNING, true));
-                    int totalTime = blockEntity.getProcessingTime(null);
-
-                    if (++blockEntity.recipeProgress >= totalTime) {
+                    } else if (invItem.getItem().equals(ModItems.HONEY_TREAT.get())) {
                         blockEntity.completeTreatProcessing(itemStackHandler);
-                        blockEntity.recipeProgress = 0;
-                        blockEntity.setChanged();
-                    }
-                } else {
-                    RecipeHolder<CentrifugeRecipe> recipe = blockEntity.getRecipe(itemStackHandler);
-                    if (blockEntity.canProcessRecipe(recipe, itemStackHandler)) {
-                        level.setBlockAndUpdate(pos, state.setValue(Centrifuge.RUNNING, true));
-                        int totalTime = blockEntity.getProcessingTime(recipe);
-
-                        if (++blockEntity.recipeProgress >= totalTime) {
+                    } else if (!invItem.isEmpty()) {
+                        RecipeHolder<CentrifugeRecipe> recipe = blockEntity.getRecipe(itemStackHandler);
+                        if (blockEntity.canProcessRecipe(recipe, itemStackHandler)) {
                             blockEntity.completeRecipeProcessing(recipe, itemStackHandler, level.random);
-                            blockEntity.recipeProgress = 0;
-                            blockEntity.setChanged();
                         }
                     }
+                    level.setBlockAndUpdate(pos, state.setValue(Centrifuge.RUNNING, false));
+                    blockEntity.setChanged();
+                }
+
+                if (!state.getValue(Centrifuge.RUNNING)) {
+                    // Start
+                    if (invItem.getItem().equals(ModItems.GENE_BOTTLE.get())) {
+                        blockEntity.recipeProgress = blockEntity.getProcessingTime(null);
+                    } else if (invItem.getItem().equals(ModItems.HONEY_TREAT.get())) {
+                        blockEntity.recipeProgress = blockEntity.getProcessingTime(null);
+                    } else if (!invItem.isEmpty()) {
+                        RecipeHolder<CentrifugeRecipe> recipe = blockEntity.getRecipe(itemStackHandler);
+                        blockEntity.recipeProgress = blockEntity.getProcessingTime(recipe);
+                    }
+                    level.setBlockAndUpdate(pos, state.setValue(Centrifuge.RUNNING, true));
+                    blockEntity.setChanged();
                 }
             } else {
                 level.setBlockAndUpdate(pos, state.setValue(Centrifuge.RUNNING, false));

@@ -1,12 +1,10 @@
 package cy.jdkdigital.productivebees.compat.emi;
 
 import com.google.common.collect.Lists;
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.ingredient.BeeRenderer;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
-import dev.emi.emi.api.stack.Comparison;
 import dev.emi.emi.api.stack.EmiStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -19,7 +17,6 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 public class BeeEmiStack extends EmiStack
 {
@@ -80,6 +77,9 @@ public class BeeEmiStack extends EmiStack
         CompoundTag data = BeeReloadListener.INSTANCE.getData(this.beeIngredient.getBeeType());
         if (data != null) {
             list.add(Component.translatable("entity.productivebees." + ProductiveBee.getBeeName(beeIngredient.getBeeType()) + "_bee"));
+            if (!data.getString("group").isEmpty()) {
+                list.add(Component.literal(data.getString("group")));
+            }
         }
         list.add(Component.literal(beeIngredient.getBeeType().toString()).withStyle(ChatFormatting.DARK_GRAY));
         list.add(Component.translatable("itemGroup.productivebees").withStyle(ChatFormatting.DARK_BLUE));

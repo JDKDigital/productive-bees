@@ -4,9 +4,7 @@ import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.NotNull;
 
 public class CanvasBeehiveBlockEntity extends AdvancedBeehiveBlockEntity implements CanvasBlockEntityInterface
 {
@@ -18,7 +16,9 @@ public class CanvasBeehiveBlockEntity extends AdvancedBeehiveBlockEntity impleme
 
     public void setColor(int color) {
         this.color = color;
-        level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+        if (level != null) {
+            level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+        }
     }
 
     public int getColor(int tintIndex) {
@@ -35,7 +35,7 @@ public class CanvasBeehiveBlockEntity extends AdvancedBeehiveBlockEntity impleme
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.loadAdditional(tag, provider);
         if (tag.contains("color")) {
-            this.color = tag.getInt("color");
+            this.setColor(tag.getInt("color"));
         }
     }
 }

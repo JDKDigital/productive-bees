@@ -4,8 +4,8 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 
-import javax.annotation.Nullable;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BeeAttributes
 {

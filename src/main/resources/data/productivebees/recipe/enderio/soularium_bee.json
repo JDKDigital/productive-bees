@@ -24,7 +24,7 @@
       "items": "productivebees:spawn_egg_configurable_bee"
     }
   ],
-  "result": {
+  "output": {
     "components": {
       "minecraft:entity_data": {
         "type": "productivebees:soularium",

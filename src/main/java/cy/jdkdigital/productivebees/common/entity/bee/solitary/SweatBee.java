@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees.common.entity.bee.solitary;
 
 import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBee;
 import cy.jdkdigital.productivebees.init.ModTags;
-import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.GeneAttribute;
 import cy.jdkdigital.productivebees.util.GeneValue;
 import net.minecraft.tags.TagKey;

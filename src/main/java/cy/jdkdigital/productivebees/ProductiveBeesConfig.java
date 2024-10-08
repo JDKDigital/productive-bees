@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees;
 
 import com.google.common.collect.ImmutableList;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.util.HashMap;
@@ -251,7 +250,7 @@ public class ProductiveBeesConfig
                     .defineInRange("typeGenePurity", 33, 1, 100);
             effectTicks = builder
                     .comment("Number of ticks between effects on nearby entities")
-                    .defineInRange("ticks", 2337, 20, Integer.MAX_VALUE);
+                    .defineInRange("effectTicks", 2337, 20, Integer.MAX_VALUE);
 
             builder.pop();
         }

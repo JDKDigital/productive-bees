@@ -24,7 +24,6 @@ repositories {
         url "https://www.cursemaven.com"
     }
     maven {
-        name = "JEI"
         url 'https://maven.blamejared.com'
     }
     maven {
@@ -129,10 +128,14 @@ configurations {
 
 dependencies {
     implementation "local.libs:productivelib-${lib_version}"
+    implementation "local.libs:geckolib-neoforge:${minecraft_version}-${geckolib_version}"
 
     jarJar(group: 'cy.jdkdigital.productivelib', name: 'productivelib', version: '[0.1.4,)') {
         transitive(false)
     }
+//    jarJar(group: 'software.bernie.geckolib', name: 'geckolib', version: '[neoforge-1.21.1-4.6.6,)') {
+//        transitive(false)
+//    }
 
     compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
     runtimeOnly "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
@@ -141,13 +144,12 @@ dependencies {
     runtimeOnly "dev.emi:emi-neoforge:${emi_version}"
 
     compileOnly "com.almostreliable.mods:almostunified-neoforge:1.21-1.0.0:api"
-//
-//    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
-//    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+
+    compileOnly "vazkii.patchouli:Patchouli:${patchouli_version}:api"
+    runtimeOnly "vazkii.patchouli:Patchouli:${patchouli_version}"
 //
 //    compileOnly(fg.deobf("com.almostreliable.mods:almostunified-forge:${minecraft_version}-${au_version}"))
 
-//    implementation "curse.maven:emi-580555:5436759"
     implementation "curse.maven:jade-324717:5444008"
     implementation "curse.maven:just-enough-archaeology-890755:5518258"
     implementation "curse.maven:cloth-config-348521:5623420"
@@ -160,8 +162,9 @@ dependencies {
     implementation "curse.maven:zerocore-247921:5464103"
     implementation "curse.maven:cucumber-272335:5663120"
     implementation "curse.maven:mystical-agriculture-246640:5663085"
-    implementation "curse.maven:ender-io-64578:5720393"
+    implementation "curse.maven:ender-io-64578:5771156"
     implementation "curse.maven:aquaculture-60028:5713551"
+    implementation "curse.maven:dyenamics-509276:5788247"
 }
 
 tasks.withType(ProcessResources).configureEach {
@@ -180,7 +183,9 @@ tasks.withType(ProcessResources).configureEach {
             lib_version            : lib_version,
             lib_version_range      : lib_version_range,
             jei_version            : jei_version,
-            emi_version            : emi_version
+            emi_version            : emi_version,
+            geckolib_version       : geckolib_version,
+            patchouli_version      : patchouli_version
     ]
     inputs.properties replaceProperties
 

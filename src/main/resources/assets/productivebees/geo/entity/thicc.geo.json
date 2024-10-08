@@ -1,0 +1,112 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.ThiccBeeModel",
+				"texture_width": 64,
+				"texture_height": 64,
+				"visible_bounds_width": 3,
+				"visible_bounds_height": 2.5,
+				"visible_bounds_offset": [0, 0.75, 0]
+			},
+			"bones": [
+				{
+					"name": "body",
+					"pivot": [0, 3, -2]
+				},
+				{
+					"name": "torso",
+					"parent": "body",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{"origin": [-3.5, 4, -1], "size": [7, 7, 5], "uv": [3, 3]}
+					]
+				},
+				{
+					"name": "leftAntenna",
+					"parent": "torso",
+					"pivot": [0, 8, 0],
+					"cubes": [
+						{"origin": [-1.5, 9, -4], "size": [1, 2, 3], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "rightAntenna",
+					"parent": "torso",
+					"pivot": [0, 8, 0],
+					"cubes": [
+						{"origin": [0.5, 9, -4], "size": [1, 2, 3], "uv": [0, 3]}
+					]
+				},
+				{
+					"name": "abdomen",
+					"parent": "body",
+					"pivot": [0, 8, 3],
+					"rotation": [-15, 0, 0],
+					"cubes": [
+						{"origin": [-4.5, 3, 3], "size": [9, 9, 8], "uv": [30, 0]},
+						{"origin": [-0.5, 7, 11], "size": [1, 1, 1], "uv": [9, 0]}
+					]
+				},
+				{
+					"name": "middleLegs",
+					"parent": "abdomen",
+					"pivot": [0, 3, 4],
+					"cubes": [
+						{"origin": [-2.5, 1, 4], "size": [5, 2, 0], "uv": [25, 3]}
+					]
+				},
+				{
+					"name": "backLegs",
+					"parent": "abdomen",
+					"pivot": [0, 3, 6],
+					"cubes": [
+						{"origin": [-2.5, 1, 6], "size": [5, 2, 0], "uv": [25, 5]}
+					]
+				},
+				{
+					"name": "leftWing",
+					"parent": "body",
+					"pivot": [1.5, 11, 2],
+					"cubes": [
+						{"origin": [1.5, 11, 2], "size": [9, 0, 6], "uv": [0, 18], "mirror": true}
+					]
+				},
+				{
+					"name": "rightWing",
+					"parent": "body",
+					"pivot": [-1.5, 11, 2],
+					"cubes": [
+						{"origin": [-10.5, 11, 2], "size": [9, 0, 6], "uv": [0, 18]}
+					]
+				},
+				{
+					"name": "frontLegs",
+					"parent": "body",
+					"pivot": [0.5, 4, 1],
+					"cubes": [
+						{"origin": [-1.5, 2, 1], "size": [3, 2, 0], "uv": [26, 1]}
+					]
+				},
+				{
+					"name": "santahat",
+					"parent": "body",
+					"pivot": [0, 7, -2],
+					"cubes": [
+						{"origin": [-4.5, 10.9, -2.1], "size": [9, 3, 9], "uv": [0, 52]}
+					]
+				},
+				{
+					"name": "hat",
+					"parent": "santahat",
+					"pivot": [0, 7, -2],
+					"cubes": [
+						{"origin": [-1.5, 15, 6], "size": [3, 3, 3], "uv": [27, 55]},
+						{"origin": [-3.5, 14, -1], "size": [7, 5, 7], "uv": [0, 40]}
+					]
+				}
+			]
+		}
+	]
+}

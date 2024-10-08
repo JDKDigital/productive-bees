@@ -28,30 +28,42 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
     private final EntityModel<ProductiveBee> model;
     private final boolean isChristmas;
 
-    Map<String, Map<String, ResourceLocation>> baseTextures = new HashMap<>() {{
+    public static Map<String, Map<String, ResourceLocation>> baseTextures = new HashMap<>() {{
         put("default", new HashMap<>() {{
             put("primary", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default/primary.png"));
             put("abdomen", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default/abdomen.png"));
+            put("glowlayer", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default/primary.png"));
+            put("santahat", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default/santa_hat.png"));
         }});
         put("default_crystal", new HashMap<>() {{
             put("primary", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_crystal/primary.png"));
             put("abdomen", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_crystal/abdomen.png"));
+            put("glowlayer", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_crystal/crystals.png"));
             put("crystals", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_crystal/crystals.png"));
             put("crystals_clear", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_crystal/crystals_clear.png"));
+            put("santahat", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_crystal/santa_hat.png"));
         }});
         put("default_foliage", new HashMap<>() {{
             put("primary", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_foliage/primary.png"));
             put("abdomen", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_foliage/abdomen.png"));
+            put("glowlayer", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_foliage/crystals.png"));
             put("crystals", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_foliage/crystals.png"));
+            put("santahat", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_foliage/santa_hat.png"));
         }});
         put("default_shell", new HashMap<>() {{
             put("primary", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_shell/primary.png"));
             put("abdomen", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_shell/abdomen.png"));
+            put("glowlayer", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_shell/crystals.png"));
             put("crystals", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_shell/crystals.png"));
+            put("santahat", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_shell/santa_hat.png"));
         }});
         put("thicc", new HashMap<>() {{
             put("primary", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/thicc/primary.png"));
             put("abdomen", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/thicc/abdomen.png"));
+            put("santahat", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/thicc/santa_hat.png"));
+        }});
+        put("translucent_with_center", new HashMap<>() {{
+            put("santahat", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/translucent_with_center/santa_hat.png"));
         }});
     }};
 

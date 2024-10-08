@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.init;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.BeeBombEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
+import cy.jdkdigital.productivebees.common.entity.bee.GeckoBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBee;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.*;
@@ -16,6 +17,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -57,7 +59,7 @@ public class ModEntities
     public static DeferredHolder<EntityType<?>, EntityType<Bee>> SWEAT_BEE = createSolitaryBee("sweat_bee", SweatBee::new, 9748939, 6238757);
     public static DeferredHolder<EntityType<?>, EntityType<Bee>> BUMBLE = createSolitaryBee("bumble_bee", BumbleBee::new, 9748939, 6238757);
 
-    public static DeferredHolder<EntityType<?>, EntityType<ConfigurableBee>> CONFIGURABLE_BEE = createHiveBee("configurable_bee", ConfigurableBee::new, 16768648, 6238757);
+    public static DeferredHolder<EntityType<?>, EntityType<ConfigurableBee>> CONFIGURABLE_BEE = createHiveBee("configurable_bee", ModList.get().isLoaded("geckolib") ? GeckoBee::new : ConfigurableBee::new, 16768648, 6238757);
 
     public static <E extends Bee> DeferredHolder<EntityType<?>, EntityType<E>> createHiveBee(String name, EntityType.EntityFactory<E> supplier, int primaryColor, int secondaryColor) {
         return createBee(HIVE_BEES, name, supplier, primaryColor, secondaryColor);

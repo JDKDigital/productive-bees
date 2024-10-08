@@ -32,8 +32,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -72,8 +70,6 @@ import java.util.stream.Stream;
 
 public class ProductiveBee extends Bee implements IProductiveBee
 {
-//    protected Map<GeneAttribute, GeneValue> beeAttributes = new HashMap<>();
-
     protected Predicate<Holder<PoiType>> beehiveInterests = (poi) -> poi.is(PoiTypeTags.BEE_HOME);
 
     private boolean renderStatic = false;
@@ -143,14 +139,14 @@ public class ProductiveBee extends Bee implements IProductiveBee
         // "Positive" effect to nearby entities
         if (!level().isClientSide && tickCount % ProductiveBeesConfig.BEE_ATTRIBUTES.effectTicks.get() == 0) {
             BeeEffect effect = getBeeEffect();
-            if (effect != null && effect.getEffects().size() > 0) {
+            if (effect != null && !effect.getEffects().isEmpty()) {
                 List<LivingEntity> entities;
                 if (getBeeType().equals(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "pepto_bismol"))) {
                     entities = level().getEntitiesOfClass(LivingEntity.class, (new AABB(new BlockPos(ProductiveBee.this.blockPosition()))).inflate(8.0D, 6.0D, 8.0D));
                 } else {
                     entities = level().getEntitiesOfClass(Player.class, (new AABB(new BlockPos(ProductiveBee.this.blockPosition()))).inflate(8.0D, 6.0D, 8.0D)).stream().map(player -> (LivingEntity) player).collect(Collectors.toList());
                 }
-                if (entities.size() > 0) {
+                if (!entities.isEmpty()) {
                     entities.forEach(entity -> {
                         for (Map.Entry<Holder<MobEffect>, Integer> entry : effect.getEffects().entrySet()) {
                             entity.addEffect(new MobEffectInstance(entry.getKey(), entry.getValue()));
@@ -196,7 +192,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
         // Only allow removing nectar state or setting on an allowed list of bees.
         // Use internal method to prevent other mods from setting nectar state
         if (!hasNectar || this.getType().is(ModTags.EXTERNAL_CAN_POLLINATE)) {
-            internalSetHasNectar(false);
+            internalSetHasNectar(hasNectar);
         }
     }
 

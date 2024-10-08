@@ -86,7 +86,7 @@ public class MediumBeeModel extends PartialBeeModel
                 ProductiveBeeModel.SANTA_HAT,
                 CubeListBuilder
                         .create().texOffs(0, 52)
-                        .addBox(-5.0F, -10.1F, -6.1F, 9.0F, 3.0F, 9.0F),
+                            .addBox(-5.0F, -10.1F, -6.1F, 9.0F, 3.0F, 9.0F),
                 PartPose.offset(0.5F, 5.0F, 0.0F)
         );
         hat.addOrReplaceChild(

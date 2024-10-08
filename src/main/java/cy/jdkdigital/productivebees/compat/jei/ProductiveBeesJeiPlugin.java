@@ -23,7 +23,8 @@ import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
 import mezz.jei.api.ingredients.IIngredientType;
-import mezz.jei.api.ingredients.subtypes.IIngredientSubtypeInterpreter;
+import mezz.jei.api.ingredients.subtypes.ISubtypeInterpreter;
+import mezz.jei.api.ingredients.subtypes.UidContext;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
@@ -31,7 +32,6 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.IntArrayTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.HoneycombItem;
@@ -39,9 +39,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.util.Lazy;
-import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import org.jetbrains.annotations.Nullable;
 
@@ -119,23 +117,43 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
 
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration) {
-        registration.registerSubtypeInterpreter(ModItems.CONFIGURABLE_HONEYCOMB.get(), (itemStack, uidContext) -> {
-            if (!itemStack.has(ModDataComponents.BEE_TYPE)) {
-                return IIngredientSubtypeInterpreter.NONE;
+        registration.registerSubtypeInterpreter(ModItems.CONFIGURABLE_SPAWN_EGG.get(), new ISubtypeInterpreter<>()
+        {
+            @Override
+            public @Nullable Object getSubtypeData(ItemStack ingredient, UidContext context) {
+                return ingredient.get(DataComponents.ENTITY_DATA);
             }
-            return itemStack.get(ModDataComponents.BEE_TYPE).toString();
+
+            @Override
+            public String getLegacyStringSubtypeInfo(ItemStack ingredient, UidContext context) {
+                return ingredient.get(DataComponents.ENTITY_DATA).getUnsafe().get("type").toString();
+            }
         });
-        registration.registerSubtypeInterpreter(ModItems.CONFIGURABLE_SPAWN_EGG.get(), (itemStack, uidContext) -> {
-            if (!itemStack.has(DataComponents.ENTITY_DATA)) {
-                return IIngredientSubtypeInterpreter.NONE;
+
+        registration.registerSubtypeInterpreter(ModItems.CONFIGURABLE_HONEYCOMB.get(), new ISubtypeInterpreter<>()
+        {
+            @Override
+            public @Nullable Object getSubtypeData(ItemStack ingredient, UidContext context) {
+                return ingredient.get(ModDataComponents.BEE_TYPE);
             }
-            return itemStack.get(DataComponents.ENTITY_DATA).getUnsafe().get("type").toString();
+
+            @Override
+            public String getLegacyStringSubtypeInfo(ItemStack ingredient, UidContext context) {
+                return ingredient.get(ModDataComponents.BEE_TYPE).toString();
+            }
         });
-        registration.registerSubtypeInterpreter(ModItems.CONFIGURABLE_COMB_BLOCK.get(), (itemStack, uidContext) -> {
-            if (!itemStack.has(ModDataComponents.BEE_TYPE)) {
-                return IIngredientSubtypeInterpreter.NONE;
+
+        registration.registerSubtypeInterpreter(ModItems.CONFIGURABLE_COMB_BLOCK.get(), new ISubtypeInterpreter<>()
+        {
+            @Override
+            public @Nullable Object getSubtypeData(ItemStack ingredient, UidContext context) {
+                return ingredient.get(ModDataComponents.BEE_TYPE);
             }
-            return itemStack.get(ModDataComponents.BEE_TYPE).toString();
+
+            @Override
+            public String getLegacyStringSubtypeInfo(ItemStack ingredient, UidContext context) {
+                return ingredient.get(ModDataComponents.BEE_TYPE).toString();
+            }
         });
     }
 

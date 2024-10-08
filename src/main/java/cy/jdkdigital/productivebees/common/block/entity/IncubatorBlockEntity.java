@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees.common.block.entity;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
-import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.common.item.HoneyTreat;
 import cy.jdkdigital.productivebees.common.recipe.TimedRecipeInterface;
@@ -10,7 +9,6 @@ import cy.jdkdigital.productivebees.container.IncubatorContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
-import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeCreator;
 import cy.jdkdigital.productivebees.util.GeneAttribute;
 import cy.jdkdigital.productivebees.util.GeneGroup;
@@ -141,7 +139,6 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
 
         return energy > ProductiveBeesConfig.GENERAL.incubatorPowerUse.get() // has enough power
                 && (eggProcessing || cageProcessing) // valid processing
-//                && invHandler.getStackInSlot(IncubatorContainer.SLOT_OUTPUT).isEmpty() // output has room
                 && treatItem.getItem().equals(ModItems.HONEY_TREAT.get())
                 && (
                     (cageProcessing && (treatItem.getCount() >= ProductiveBeesConfig.GENERAL.incubatorTreatUse.get() || (HoneyTreat.hasGene(treatItem) && !HoneyTreat.hasBeeType(treatItem)))) ||
@@ -150,6 +147,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
     }
 
     private boolean completeIncubation(IItemHandlerModifiable invHandler, RandomSource random) {
+        ProductiveBees.LOGGER.info("completeIncubation");
         if (canProcessInput(invHandler)) {
             ItemStack inItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_INPUT);
             ItemStack catalystItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_CATALYST);
@@ -185,8 +183,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
                     for (GeneGroup geneGroup : genes) {
                         GeneAttribute geneAttribute = geneGroup.attribute();
                         if (geneAttribute.equals(GeneAttribute.TYPE)) {
-                            int purity = geneGroup.purity();
-                            if (random.nextInt(100) <= purity) {
+                            if (random.nextInt(100) <= geneGroup.purity()) {
                                 ItemStack egg = BeeCreator.getSpawnEgg(ResourceLocation.parse(geneGroup.value()));
                                 if (egg.getItem() instanceof SpawnEggItem) {
                                     resultItem = egg;
@@ -199,7 +196,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
                 }
             }
             ItemStack outItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_OUTPUT);
-            if (!resultItem.isEmpty() && (outItem.isEmpty() ||ItemStack.isSameItemSameComponents(outItem, resultItem)) && (outItem.isEmpty() || (outItem.getCount() + resultItem.getCount()) <= outItem.getMaxStackSize())) {
+            if (!resultItem.isEmpty() && (outItem.isEmpty() || ItemStack.isSameItemSameComponents(outItem, resultItem)) && (outItem.isEmpty() || (outItem.getCount() + resultItem.getCount()) <= outItem.getMaxStackSize())) {
                 if (outItem.isEmpty()) {
                     invHandler.setStackInSlot(IncubatorContainer.SLOT_OUTPUT, resultItem);
                 } else {
@@ -207,8 +204,8 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
                 }
                 inItem.shrink(shrinkInput);
                 catalystItem.shrink(shrinkCatalyst);
-                return true;
             }
+            return true;
         }
         return false;
     }

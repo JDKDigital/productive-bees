@@ -5,10 +5,10 @@ import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.client.render.item.JarBlockItemRenderer;
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
-import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
-import cy.jdkdigital.productivebees.common.recipe.BeeFishingRecipe;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFactory;
+import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
+import cy.jdkdigital.productivebees.common.recipe.BeeFishingRecipe;
 import cy.jdkdigital.productivebees.gen.feature.WoodNestDecorator;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.network.packets.BeeDataMessage;
@@ -21,6 +21,7 @@ import cy.jdkdigital.productivelib.event.AddEntityToFilterEvent;
 import cy.jdkdigital.productivelib.event.UpgradeTooltipEvent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
@@ -34,10 +35,11 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -74,10 +76,7 @@ import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import net.neoforged.neoforge.event.village.WandererTradesEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @EventBusSubscriber(modid = ProductiveBees.MODID)
@@ -227,6 +226,14 @@ public class EventHandler
                 event.setCanceled(true);
                 bee.setHealth(bee.getMaxHealth());
                 bee.setBeeType("productivebees:wasted_radioactive");
+            }
+        } else if (event.getEntity() instanceof Villager && Calendar.getInstance().get(Calendar.MONTH) + 1 == 4 && Calendar.getInstance().get(Calendar.DATE) == 1) {
+            Entity newBee = ModEntities.CONFIGURABLE_BEE.get().create(event.getEntity().level());
+            if (newBee instanceof ConfigurableBee configurableBee) {
+                configurableBee.setBeeType("productivebees:villager");
+                configurableBee.setPos(event.getEntity().position().relative(Direction.UP, 1));
+                configurableBee.internalSetHasNectar(true);
+                event.getEntity().level().addFreshEntity(configurableBee);
             }
         }
     }

@@ -1,0 +1,10 @@
+{
+  "primaryColor": "#3a5a19",
+  "secondaryColor": "#73964b",
+  "particleColor": "#ff0000",
+  "flowerBlock": "minecraft:air",
+  "beeTexture": "productivebees:textures/entity/bee/villager/bee",
+  "createComb": false,
+  "selfbreed": false,
+  "model": "productivebees:geo/entity/villager.geo.json"
+}

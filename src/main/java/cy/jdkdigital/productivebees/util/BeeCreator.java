@@ -2,10 +2,6 @@ package cy.jdkdigital.productivebees.util;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModDataComponents;
 import cy.jdkdigital.productivebees.init.ModEntities;
@@ -16,7 +12,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
-import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
 import net.minecraft.world.item.ItemStack;
@@ -81,6 +76,13 @@ public class BeeCreator
 
         data.putBoolean("colorCycle", json.has("colorCycle") && json.get("colorCycle").getAsBoolean());
 
+        if (json.has("model")) {
+            data.putString("model", json.get("model").getAsString());
+        }
+        if (json.has("animation")) {
+            data.putString("animation", json.get("animation").getAsString());
+        }
+
         data.putString("breedingItem", json.has("breedingItem") ? json.get("breedingItem").getAsString() : "");
         data.putInt("breedingItemCount", json.has("breedingItemCount") ? json.get("breedingItemCount").getAsInt() : 1);
         data.putString("flowerType", json.has("flowerType") ? json.get("flowerType").getAsString() : "blocks");
@@ -93,7 +95,7 @@ public class BeeCreator
         data.putDouble("attack", json.has("attack") ? json.get("attack").getAsFloat() : 2.0D);
 
         data.putBoolean("translucent", (json.has("translucent") && json.get("translucent").getAsBoolean()) || data.getString("renderer").equals("translucent_with_center"));
-        data.putBoolean("useGlowLayer", !json.has("useGlowLayer") || json.get("useGlowLayer").getAsBoolean());
+        data.putBoolean("useGlowLayer", json.has("useGlowLayer") ? json.get("useGlowLayer").getAsBoolean() : data.getString("renderer").equals("default_crystal"));
         data.putBoolean("fireproof", json.has("fireproof") && json.get("fireproof").getAsBoolean());
         data.putBoolean("withered", json.has("withered") && json.get("withered").getAsBoolean());
         data.putBoolean("blinding", json.has("blinding") && json.get("blinding").getAsBoolean());

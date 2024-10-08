@@ -733,7 +733,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                 case "sus":
                     if (savedFlowerPos != null && level() instanceof ServerLevel level && level.getBlockEntity(savedFlowerPos) instanceof BrushableBlockEntity brushableBlockEntity) {
                         var possibleTables = SussyCompatHandler.getLootTables(level, savedFlowerPos);
-                        if (possibleTables.size() > 0) {
+                        if (!possibleTables.isEmpty()) {
                             brushableBlockEntity.setLootTable(possibleTables.get(level.getRandom().nextInt(possibleTables.size())), level.getRandom().nextLong());
                             savedFlowerPos = null;
                         }

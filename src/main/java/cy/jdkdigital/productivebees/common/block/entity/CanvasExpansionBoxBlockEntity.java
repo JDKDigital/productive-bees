@@ -19,7 +19,9 @@ public class CanvasExpansionBoxBlockEntity extends ExpansionBoxBlockEntity imple
 
     public void setColor(int color) {
         this.color = color;
-        level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+        if (level != null) {
+            level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+        }
     }
 
     public int getColor(int tintIndex) {
@@ -36,7 +38,7 @@ public class CanvasExpansionBoxBlockEntity extends ExpansionBoxBlockEntity imple
     public void loadAdditional(CompoundTag pTag, HolderLookup.Provider provider) {
         super.loadAdditional(pTag, provider);
         if (pTag.contains("color")) {
-            this.color = pTag.getInt("color");
+            this.setColor(pTag.getInt("color"));
         }
     }
 

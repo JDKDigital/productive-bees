@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.compat.jei;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.common.recipe.BlockConversionRecipe;
 import cy.jdkdigital.productivebees.common.recipe.ItemConversionRecipe;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import mezz.jei.api.constants.VanillaTypes;

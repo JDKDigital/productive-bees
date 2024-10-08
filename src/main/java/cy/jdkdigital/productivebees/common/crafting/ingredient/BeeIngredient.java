@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.crafting.ingredient;
 
 import com.mojang.serialization.Codec;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
@@ -52,13 +53,17 @@ public class BeeIngredient
         if (entityRef != null) {
             entity = entityRef.get();
         }
-        if (entity == null) {
-            entity = getBeeEntity().create(world);
-            if (entity instanceof ConfigurableBee) {
-                ((ConfigurableBee) entity).setBeeType(getBeeType().toString());
-                ((ConfigurableBee) entity).setDefaultAttributes();
+        try {
+            if (entity == null) {
+                entity = getBeeEntity().create(world);
+                if (entity instanceof ConfigurableBee) {
+                    ((ConfigurableBee) entity).setBeeType(getBeeType().toString());
+                    ((ConfigurableBee) entity).setDefaultAttributes();
+                }
+                cache.put(this, new WeakReference<>(entity));
             }
-            cache.put(this, new WeakReference<>(entity));
+        } catch (IllegalStateException ise) {
+            // no op
         }
         return entity;
     }

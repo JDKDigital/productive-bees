@@ -35,7 +35,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.fluids.FluidActionResult;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
@@ -77,7 +76,9 @@ public class BottlerBlockEntity extends FluidTankBlockEntity implements MenuProv
         if (level != null) {
             ItemStack stack = inventoryHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
             boolean hasBottle = !stack.isEmpty() && stack.getItem().equals(Items.GLASS_BOTTLE);
-            level.setBlock(getBlockPos(), this.getBlockState().setValue(Bottler.HAS_BOTTLE, hasBottle), 3);
+            if (hasBottle != this.getBlockState().getValue(Bottler.HAS_BOTTLE)) {
+                level.setBlock(getBlockPos(), this.getBlockState().setValue(Bottler.HAS_BOTTLE, hasBottle), 3);
+            }
         }
     }
 
