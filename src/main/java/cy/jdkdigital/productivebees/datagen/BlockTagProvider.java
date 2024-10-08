@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.init.ModTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
@@ -19,6 +20,7 @@ public class BlockTagProvider extends BlockTagsProvider
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
+        tag(ModTags.DEFAULT_FLOWERING_BLOCK).addTag(BlockTags.FLOWERS);
         var hives = tag(ModTags.HIVES_BLOCK);
         var boxes = tag(ModTags.BOXES_BLOCK);
         ModBlocks.HIVELIST.forEach((modid, strings) -> {

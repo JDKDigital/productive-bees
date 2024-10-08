@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.compat.emi;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.recipe.BeeBreedingRecipe;
+import cy.jdkdigital.productivebees.init.ModTags;
 import dev.emi.emi.api.recipe.BasicEmiRecipe;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
@@ -27,13 +28,13 @@ public class BeeBreedingEmiRecipe extends BasicEmiRecipe
         if (bee1 instanceof ProductiveBee pBee) {
             this.inputs.add(EmiIngredient.of(pBee.getBreedingItems().stream().map(EmiStack::of).toList()));
         } else {
-            this.inputs.add(EmiIngredient.of(ItemTags.FLOWERS));
+            this.inputs.add(EmiIngredient.of(ModTags.DEFAULT_BREEDING));
         }
         Entity bee2 = recipe.value().parent2.get().getCachedEntity(Minecraft.getInstance().level);
         if (bee2 instanceof ProductiveBee pBee) {
             this.inputs.add(EmiIngredient.of(pBee.getBreedingItems().stream().map(EmiStack::of).toList()));
         } else {
-            this.inputs.add(EmiIngredient.of(ItemTags.FLOWERS));
+            this.inputs.add(EmiIngredient.of(ModTags.DEFAULT_BREEDING));
         }
 
         this.outputs.add(BeeEmiStack.of(recipe.value().offspring.get()));

@@ -69,8 +69,10 @@ public class ExpansionBox extends Block implements EntityBlock
 
             if (!isRemoved) {
                 updateStateWithDirection(level, pos, state, directionProperty, pair.getRight().getValue(BeehiveBlock.FACING));
+                ((AdvancedBeehive) pair.getRight().getBlock()).updateStateWithDirection(level, hivePos, pair.getRight(), directionProperty);
+            } else {
+                ((AdvancedBeehive) pair.getRight().getBlock()).updateState(level, hivePos, pair.getRight(), false);
             }
-            ((AdvancedBeehive) pair.getRight().getBlock()).updateStateWithDirection(level, hivePos, pair.getRight(), directionProperty);
         } else {
             // No hive
             if (!isRemoved) {

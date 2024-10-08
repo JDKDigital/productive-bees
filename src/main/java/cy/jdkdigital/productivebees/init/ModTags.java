@@ -9,12 +9,14 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class ModTags
 {
@@ -39,6 +41,7 @@ public class ModTags
     public static final TagKey<Block> DUPE_BLACKLIST = getBlockTag("dupe_blacklist");
     public static final TagKey<Block> POWDERY = getBlockTag("flowers/powdery");
     public static final TagKey<Block> HIVES_BLOCK = getBlockTag("advanced_beehives");
+    public static final TagKey<Block> DEFAULT_FLOWERING_BLOCK = getBlockTag("default_flowering");
     public static final TagKey<Block> BOXES_BLOCK = getBlockTag("expansion_boxes");
     public static final TagKey<Block> CANVAS_HIVES_BLOCK = getBlockTag("canvas_beehives");
     public static final TagKey<Block> CANVAS_BOXES_BLOCK = getBlockTag("canvas_expansion_boxes");
@@ -56,6 +59,9 @@ public class ModTags
     public static final TagKey<Item> HIVES = getItemTag(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "advanced_beehives"));
     public static final TagKey<Item> BOXES = getItemTag(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "expansion_boxes"));
     public static final TagKey<Item> WANNABEE_LOOT_BLACKLIST = getItemTag(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "wannabee_loot_blacklist"));
+    public static final TagKey<Item> DEFAULT_FLOWERING = getItemTag(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "default_flowering"));
+    public static final TagKey<Item> DEFAULT_BREEDING = getItemTag(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "default_breeding_items"));
+    public static final TagKey<Item> BEE_TEMPT_ITEMS = getItemTag(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "bee_tempt_items"));
 
     public static TagKey<Block> getBlockTag(String name) {
         return getBlockTag(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, name));

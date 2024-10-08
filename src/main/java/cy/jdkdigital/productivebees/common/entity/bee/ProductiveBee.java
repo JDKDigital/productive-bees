@@ -556,7 +556,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
     }
 
     public boolean isFlowerBlock(BlockState flowerBlock) {
-        return flowerBlock.is(BlockTags.FLOWERS) || BeeHelper.hasBlockConversionRecipe(this, flowerBlock);
+        return flowerBlock.is(ModTags.DEFAULT_FLOWERING_BLOCK) || BeeHelper.hasBlockConversionRecipe(this, flowerBlock);
     }
 
     public boolean isFlowerItem(ItemStack flowerItem) {
@@ -884,10 +884,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
     public class ProductiveTemptGoal extends TemptGoal
     {
         public ProductiveTemptGoal(PathfinderMob entity, double speed) {
-            super(entity, speed, Ingredient.of(ItemTags.FLOWERS), false);
-//            List<ItemStack> listOfStuff = Arrays.asList(Ingredient.of(ItemTags.FLOWERS).getItems());
-////            listOfStuff.addAll(Arrays.asList(ProductiveBee.this.getBreedingItem().getItems())); TODO
-//            items = Ingredient.of(listOfStuff.stream()); // public net.minecraft.world.entity.ai.goal.TemptGoal items
+            super(entity, speed, Ingredient.of(ModTags.BEE_TEMPT_ITEMS), false);
         }
     }
 

@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.init.ModTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -24,6 +25,9 @@ public class ItemTagProvider extends ItemTagsProvider
         copy(ModTags.BOXES_BLOCK, ModTags.BOXES);
         copy(ModTags.CANVAS_HIVES_BLOCK, ModTags.CANVAS_HIVES);
         copy(ModTags.CANVAS_BOXES_BLOCK, ModTags.CANVAS_BOXES);
+        copy(ModTags.DEFAULT_FLOWERING_BLOCK, ModTags.DEFAULT_FLOWERING);
+        tag(ModTags.DEFAULT_BREEDING).addTag(ItemTags.FLOWERS);
+        tag(ModTags.BEE_TEMPT_ITEMS).addTag(ItemTags.FLOWERS).add(ModItems.HONEY_TREAT.get());
 
         tag(ItemTags.HEAD_ARMOR).add(ModItems.BEE_NEST_DIAMOND_HELMET.get());
     }

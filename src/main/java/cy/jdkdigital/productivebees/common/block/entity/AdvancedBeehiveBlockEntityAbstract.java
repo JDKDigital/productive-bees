@@ -11,6 +11,7 @@ import cy.jdkdigital.productivebees.common.entity.bee.hive.FarmerBee;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.HoarderBee;
 import cy.jdkdigital.productivebees.compat.harvest.HarvestCompatHandler;
 import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import cy.jdkdigital.productivebees.util.GeneAttribute;
 import cy.jdkdigital.productivebees.util.GeneValue;
@@ -265,7 +266,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                         pBee.postPollinate();
                     } else if (!(beeEntity instanceof ProductiveBee)) {
                         BlockState flowerBlock = pLevel.getBlockState(flowerPos);
-                        if (beeEntity.isFlowerValid(flowerPos) || flowerBlock.getBlock() instanceof Feeder && ProductiveBee.isValidFeeder(beeEntity, pLevel.getBlockEntity(flowerPos), blockState -> blockState.is(BlockTags.FLOWERS), null)) {
+                        if (beeEntity.isFlowerValid(flowerPos) || flowerBlock.getBlock() instanceof Feeder && ProductiveBee.isValidFeeder(beeEntity, pLevel.getBlockEntity(flowerPos), blockState -> blockState.is(ModTags.DEFAULT_FLOWERING_BLOCK), null)) {
                             beeState = BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED;
                         }
                     }

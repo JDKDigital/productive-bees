@@ -10,6 +10,7 @@ import cy.jdkdigital.productivebees.container.BreedingChamberContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import cy.jdkdigital.productivelib.common.block.entity.CapabilityBlockEntity;
@@ -207,9 +208,9 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
             return false;
         }
 
-        Ingredient breedingIngredient1 = Ingredient.of(ItemTags.FLOWERS);
+        Ingredient breedingIngredient1 = Ingredient.of(ModTags.DEFAULT_BREEDING);
         int breedingCount1 = 1;
-        Ingredient breedingIngredient2 = Ingredient.of(ItemTags.FLOWERS);
+        Ingredient breedingIngredient2 = Ingredient.of(ModTags.DEFAULT_BREEDING);
         int breedingCount2 = 1;
 
         if (bee1Data != null) {

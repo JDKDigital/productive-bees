@@ -57,7 +57,7 @@ public class RecipeHelper
         flowering.put("productivebees:quarry_bee", ModTags.QUARRY);
         flowering.put("productivebees:creeper_bee", ModTags.POWDERY);
 
-        TagKey<Block> defaultBlockTag = BlockTags.FLOWERS;
+        TagKey<Block> defaultBlockTag = ModTags.DEFAULT_FLOWERING_BLOCK;
 
         for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()) {
             if (entry.getValue().isConfigurable()) {

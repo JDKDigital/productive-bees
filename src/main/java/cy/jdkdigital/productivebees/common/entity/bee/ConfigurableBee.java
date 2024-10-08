@@ -469,7 +469,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
 
     public static Ingredient getBreedingIngredientFromString(String id) {
         if (id.isEmpty()) {
-            return Ingredient.of(ItemTags.FLOWERS);
+            return Ingredient.of(ModTags.DEFAULT_BREEDING);
         }
 
         if (id.startsWith("#")) {

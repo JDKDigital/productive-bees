@@ -1,10 +1,16 @@
+1.21.1-13.6.1-pre
+
+- Other centrifuge performance improvements (UltraMega)
+- Changed Regalium bee recipe to use Gloomper Anthem disc
+- Added new tags for default flowering, tempt and breeding items making it easier to change those for all bees as once
+
+
 1.21.1-13.6.0
 
 - GeckoLib support (optional). Bees can now have custom models and animations when GeckoLib is installed.
 - Dyenamics support for canvas hives and boxes
 - Centrifuge performance improvements
 - Fixed egg incubation always succeeding no matter what purity the gene is
-- Other centrifuge performance improvements (UltraMega)
 - Amber bees can now replace water, grass and the like when placing amber
 - Fixed EnderIO bee egg recipes to match EIO recipe changes
 - Removed strong endurance from prismarine bees

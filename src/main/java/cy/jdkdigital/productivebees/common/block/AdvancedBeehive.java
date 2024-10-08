@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.block;
 
 import com.mojang.serialization.MapCodec;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
@@ -77,39 +78,39 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
         builder.add(EXPANDED, BeehiveBlock.HONEY_LEVEL, BeehiveBlock.FACING);
     }
 
-    public void updateState(Level world, BlockPos pos, BlockState state, boolean isRemoved) {
+    public void updateState(Level level, BlockPos pos, BlockState state, boolean isRemoved) {
         if (this instanceof DragonEggHive) {
             return;
         }
 
-        Pair<Pair<BlockPos, Direction>, BlockState> pair = getAdjacentBox(world, pos, false);
+        Pair<Pair<BlockPos, Direction>, BlockState> pair = getAdjacentBox(level, pos, false);
         if (pair != null) {
             Pair<BlockPos, Direction> posAndDirection = pair.getLeft();
             BlockPos boxPos = posAndDirection.getLeft();
 
-            VerticalHive directionProperty = AdvancedBeehive.calculateExpandedDirection(world, pos, isRemoved);
+            VerticalHive directionProperty = AdvancedBeehive.calculateExpandedDirection(level, pos, isRemoved);
 
             if (!isRemoved) {
-                updateStateWithDirection(world, pos, state, directionProperty);
+                updateStateWithDirection(level, pos, state, directionProperty);
             }
-            ((ExpansionBox) pair.getRight().getBlock()).updateStateWithDirection(world, boxPos, pair.getRight(), directionProperty, state.getValue(BeehiveBlock.FACING));
+            ((ExpansionBox) pair.getRight().getBlock()).updateStateWithDirection(level, boxPos, pair.getRight(), directionProperty, state.getValue(BeehiveBlock.FACING));
         } else {
             // No expansion box
             if (!isRemoved) {
-                updateStateWithDirection(world, pos, state, VerticalHive.NONE);
+                updateStateWithDirection(level, pos, state, VerticalHive.NONE);
             }
         }
     }
 
-    public void updateStateWithDirection(Level world, BlockPos pos, BlockState state, VerticalHive directionProperty) {
-        world.setBlockAndUpdate(pos, state.setValue(AdvancedBeehive.EXPANDED, directionProperty));
-        BlockEntity te = world.getBlockEntity(pos);
+    public void updateStateWithDirection(Level level, BlockPos pos, BlockState state, VerticalHive directionProperty) {
+        level.setBlockAndUpdate(pos, state.setValue(AdvancedBeehive.EXPANDED, directionProperty));
+        BlockEntity te = level.getBlockEntity(pos);
         if (te instanceof AdvancedBeehiveBlockEntity advancedBeehiveBlockEntity) {
-            advancedBeehiveBlockEntity.MAX_BEES = world.getBlockState(pos).getValue(EXPANDED) != VerticalHive.NONE ? 5 : 3;
+            advancedBeehiveBlockEntity.MAX_BEES = level.getBlockState(pos).getValue(EXPANDED) != VerticalHive.NONE ? 5 : 3;
             if (directionProperty.equals(VerticalHive.NONE)) {
                 var handler = advancedBeehiveBlockEntity.getUpgradeHandler();
                 for (int slot = 0; slot < handler.getSlots(); ++slot) {
-                    Containers.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
+                    Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
                 }
             }
         }
