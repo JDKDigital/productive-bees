@@ -252,7 +252,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
             if (!(beeEntity instanceof ProductiveBee productiveBee) || !productiveBee.hasConverted()) {
                 getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
                     // Count productivity modifier
-                    double upgradeMod = ProductiveBeesConfig.UPGRADES.productivityMultiplier.get() * getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get())
+                    double upgradeMod = 1 + ProductiveBeesConfig.UPGRADES.productivityMultiplier.get() * getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get())
                                         + ProductiveBeesConfig.UPGRADES.productivityMultiplier2.get() * getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_2.get())
                                         + ProductiveBeesConfig.UPGRADES.productivityMultiplier3.get() * getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_3.get())
                                         + ProductiveBeesConfig.UPGRADES.productivityMultiplier4.get() * getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_4.get());
