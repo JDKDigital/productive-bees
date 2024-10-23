@@ -1,0 +1,83 @@
+{
+  "type": "gtceu:alloy_smelter",
+  "duration": 100,
+  "inputs": {
+    "item": [
+      {
+        "content": {
+          "type": "gtceu:sized",
+          "count": 1,
+          "ingredient": {
+            "type": "productivebees:component",
+            "items": "productivebees:spawn_egg_configurable_bee",
+            "components": {
+              "minecraft:entity_data": {
+                "type": "productivebees:pyrolusite",
+                "id": "productivebees:configurable_bee"
+              }
+            }
+          }
+        },
+        "chance": 10000,
+        "tierChanceBoost": 0
+      },
+      {
+        "content": {
+          "type": "gtceu:sized",
+          "count": 3,
+          "ingredient": {
+            "tag": "c:dusts/gallium"
+          }
+        },
+        "chance": 10000,
+        "tierChanceBoost": 0
+      }
+    ]
+  },
+  "outputs": {
+    "item": [
+      {
+        "content": {
+          "type": "gtceu:sized",
+          "count": 1,
+          "ingredient": {
+            "type": "productivebees:component",
+            "items": "productivebees:spawn_egg_configurable_bee",
+            "components": {
+              "minecraft:entity_data": {
+                "type": "productivebees:bauxite",
+                "id": "productivebees:configurable_bee"
+              }
+            }
+          }
+        },
+        "chance": 10000,
+        "tierChanceBoost": 0
+      }
+    ]
+  },
+  "tickInputs": {
+    "eu": [
+      {
+        "content": 7,
+        "chance": 10000,
+        "tierChanceBoost": 0
+      }
+    ]
+  },
+  "tickOutputs": {},
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "gtceu"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:pyrolusite"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:bauxite"
+    }
+  ]
+}
