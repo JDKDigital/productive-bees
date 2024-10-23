@@ -14,7 +14,7 @@
         }
       },
       "count": 1,
-      "id": "productivebees:spawn_egg_configurable_bee"
+      "item": "productivebees:spawn_egg_configurable_bee"
     },
     "C": {
       "tag": "c:ingots/cobalt"

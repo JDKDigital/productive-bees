@@ -1,0 +1,156 @@
+{
+  "type": "gtceu:assembly_line",
+  "duration": 600,
+  "inputs": {
+    "item": [
+      {
+        "content": {
+          "type": "gtceu:sized",
+          "count": 1,
+          "ingredient": {
+            "tag": "c:storage_blocks/greg_star"
+          }
+        },
+        "chance": 10000,
+        "tierChanceBoost": 0
+      },
+      {
+        "content": {
+          "type": "gtceu:sized",
+          "count": 1,
+          "ingredient": {
+            "type": "productivebees:component",
+            "items": "productivebees:spawn_egg_configurable_bee",
+            "components": {
+              "minecraft:entity_data": {
+                "type": "productivebees:neutronium",
+                "id": "productivebees:configurable_bee"
+              }
+            }
+          }
+        },
+        "chance": 10000,
+        "tierChanceBoost": 0
+      },
+      {
+        "content": {
+          "type": "gtceu:sized",
+          "count": 1,
+          "ingredient": {
+            "type": "productivebees:component",
+            "items": "productivebees:spawn_egg_configurable_bee",
+            "components": {
+              "minecraft:entity_data": {
+                "type": "productivebees:starry",
+                "id": "productivebees:configurable_bee"
+              }
+            }
+          }
+        },
+        "chance": 10000,
+        "tierChanceBoost": 0
+      },
+      {
+        "content": {
+          "type": "gtceu:sized",
+          "count": 1,
+          "ingredient": {
+            "type": "productivebees:component",
+            "items": "productivebees:spawn_egg_configurable_bee",
+            "components": {
+              "minecraft:entity_data": {
+                "type": "productivebees:neutronium",
+                "id": "productivebees:configurable_bee"
+              }
+            }
+          }
+        },
+        "chance": 10000,
+        "tierChanceBoost": 0
+      },
+      {
+        "content": {
+          "type": "gtceu:sized",
+          "count": 8,
+          "ingredient": {
+            "item": "gtceu:uhv_energy_input_hatch_16a"
+          }
+        },
+        "chance": 10000,
+        "tierChanceBoost": 0
+      }
+    ],
+    "fluid": [
+      {
+        "content": {
+          "ingredient": {
+            "tag": "c:europium"
+          },
+          "amount": 1152
+        },
+        "chance": 10000,
+        "max_chance": 10000
+      },
+      {
+        "content": {
+          "ingredient": {
+            "tag": "c:neutronium"
+          },
+          "amount": 1152
+        },
+        "chance": 10000,
+        "max_chance": 10000
+      }
+    ]
+  },
+  "outputs": {
+    "item": [
+      {
+        "content": {
+          "type": "gtceu:sized",
+          "count": 1,
+          "ingredient": {
+            "type": "productivebees:component",
+            "items": "productivebees:spawn_egg_configurable_bee",
+            "components": {
+              "minecraft:entity_data": {
+                "type": "productivebees:gregstar",
+                "id": "productivebees:configurable_bee"
+              }
+            }
+          }
+        },
+        "chance": 10000,
+        "tierChanceBoost": 0
+      }
+    ]
+  },
+  "tickInputs": {
+    "eu": [
+      {
+        "content": 100000,
+        "chance": 10000,
+        "tierChanceBoost": 0
+      }
+    ]
+  },
+  "tickOutputs": {},
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "gtceu"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:neutronium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:starry"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gregstar"
+    }
+  ]
+}
