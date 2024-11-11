@@ -217,9 +217,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
 
     public List<ItemStack> getBreedingItems() {
         int count = getBreedingItemCount();
-        List<ItemStack> list = Arrays.stream(getBreedingIngredient().getItems()).toList();
-        list.forEach(e -> e.setCount(count));
-        return list;
+        return Arrays.stream(getBreedingIngredient().getItems()).map(itemStack -> itemStack.copyWithCount(count)).toList();
     }
 
     @Override
