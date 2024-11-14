@@ -137,8 +137,14 @@ public class EventHandler
                     event.addValidBlock(Component.literal("Catcher"));
                 }
                 case "upgrade_gene_sampler", "upgrade_anti_teleport", "upgrade_block", "upgrade_simulator", "upgrade_productivity_2", "upgrade_productivity_3", "upgrade_productivity_4" -> event.addValidBlock(Component.literal("Advanced Beehive"));
-                case "upgrade_time", "upgrade_time_2" -> {
+                case "upgrade_time" -> {
                     event.addValidBlock(Component.literal("Advanced Beehive"));
+                    event.addValidBlock(Component.literal("Centrifuge"));
+                    event.addValidBlock(Component.literal("Breeding Chamber"));
+                    event.addValidBlock(Component.literal("Incubator"));
+                    event.addValidBlock(Component.literal("Honey Generator"));
+                }
+                case "upgrade_time_2" -> {
                     event.addValidBlock(Component.literal("Centrifuge"));
                     event.addValidBlock(Component.literal("Breeding Chamber"));
                     event.addValidBlock(Component.literal("Incubator"));

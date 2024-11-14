@@ -312,7 +312,7 @@ public class ProductiveBeesConfig
 
             timeBonus = builder
                     .comment("Time bonus gained from time upgrade. 0.2 means 20% reduction of a bee's time inside the hive or centrifuge processing time.")
-                    .defineInRange("timeBonus", 0.2, 0, 1);
+                    .defineInRange("timeBonus", 0.15, 0, 1);
             productivityMultiplier = builder
                     .comment("Multiplier per productivity alpha upgrade installed in the hive.")
                     .defineInRange("productivityMultiplier", 1.2, 1, Integer.MAX_VALUE);

@@ -87,9 +87,9 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
 
     @Override
     public int getProcessingTime(RecipeHolder<? extends TimedRecipeInterface> recipe) {
-        return (int) (
+        return Math.max((int) (
                 (recipe != null ? recipe.value().getProcessingTime() : ProductiveBeesConfig.GENERAL.incubatorProcessingTime.get()) * getProcessingTimeModifier()
-        );
+        ), 5);
     }
 
     protected double getProcessingTimeModifier() {
@@ -148,7 +148,6 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
     }
 
     private boolean completeIncubation(IItemHandlerModifiable invHandler, RandomSource random) {
-        ProductiveBees.LOGGER.info("completeIncubation");
         if (canProcessInput(invHandler)) {
             ItemStack inItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_INPUT);
             ItemStack catalystItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_CATALYST);

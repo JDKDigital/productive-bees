@@ -167,7 +167,7 @@ dependencies {
     implementation "curse.maven:dyenamics-509276:5788247"
     implementation "curse.maven:forbidden-arcanus-309858:5795185"
     implementation "curse.maven:valhelsia-core-416935:5526890"
-    implementation "curse.maven:actually-additions-228404:5824751"
+//    implementation "curse.maven:actually-additions-228404:5824751"
     implementation "curse.maven:immersive-engineering-231951:5828000"
 }
 

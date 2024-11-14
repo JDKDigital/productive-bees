@@ -132,6 +132,7 @@ public class BlockLootProvider implements DataProvider
             this.add(ModBlocks.NETHER_BRICK_NEST.get(), functionTable.getOrDefault(ModBlocks.NETHER_BRICK_NEST.get(), LootProvider::genHiveDrop).apply(ModBlocks.NETHER_BRICK_NEST.get()));
             this.add(ModBlocks.END_NEST.get(), functionTable.getOrDefault(ModBlocks.END_NEST.get(), LootProvider::genHiveDrop).apply(ModBlocks.END_NEST.get()));
             this.add(ModBlocks.OBSIDIAN_PILLAR_NEST.get(), functionTable.getOrDefault(ModBlocks.OBSIDIAN_PILLAR_NEST.get(), LootProvider::genHiveDrop).apply(ModBlocks.OBSIDIAN_PILLAR_NEST.get()));
+            this.add(ModBlocks.BUMBLE_BEE_NEST.get(), functionTable.getOrDefault(ModBlocks.BUMBLE_BEE_NEST.get(), LootProvider::genHiveDrop).apply(ModBlocks.BUMBLE_BEE_NEST.get()));
 
             this.add(ModBlocks.AMBER.get(), functionTable.getOrDefault(ModBlocks.AMBER.get(), LootProvider::amberDrop).apply(ModBlocks.AMBER.get()));
 

@@ -94,7 +94,6 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
 
     protected IItemHandlerModifiable upgradeHandler = new InventoryHandlerHelper.UpgradeHandler(4, this, List.of(
             LibItems.UPGRADE_TIME.get(),
-            LibItems.UPGRADE_TIME_2.get(),
             LibItems.UPGRADE_BLOCK.get(),
             LibItems.UPGRADE_ANTI_TELEPORT.get(),
             LibItems.UPGRADE_GENE_SAMPLER.get(),
@@ -253,7 +252,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
 
     @Override
     protected int getTimeInHive(boolean hasNectar, @Nullable Occupant occupant) {
-        double timeUpgradeModifier = Math.max(0, 1 - (ProductiveBeesConfig.UPGRADES.timeBonus.get()) * (getUpgradeCount(LibItems.UPGRADE_TIME_2.get()) * 2 + getUpgradeCount(LibItems.UPGRADE_TIME.get())));
+        double timeUpgradeModifier = Math.max(0, 1 - (ProductiveBeesConfig.UPGRADES.timeBonus.get()) * getUpgradeCount(LibItems.UPGRADE_TIME.get()));
         return (int) (
             super.getTimeInHive(hasNectar, occupant) * timeUpgradeModifier + 20
         );

@@ -3,8 +3,8 @@
   "secondaryColor": "#202020",
   "tertiaryColor": "#0a0a0a",
   "particleColor": "#191919",
-  "description": "productivebees.ingredient.description.only_spawnegg",
   "flowerItem": "immersiveengineering:graphite_electrode",
+  "description": "productivebees.ingredient.description.only_spawnegg",
   "size": 0.9,
   "selfbreed": false,
   "conditions": [

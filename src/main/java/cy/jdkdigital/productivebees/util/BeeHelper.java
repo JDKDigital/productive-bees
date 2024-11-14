@@ -473,23 +473,28 @@ public class BeeHelper
         var parent2Attributes = parent2.getData(ProductiveBees.ATTRIBUTE_HANDLER);
         var newBeeAttributes = newBee.getData(ProductiveBees.ATTRIBUTE_HANDLER);
 
-        int parentProductivity = Mth.nextInt(newBee.level().random,
-                parent1Attributes.getAttributeValue(GeneAttribute.PRODUCTIVITY).getValue(),
-                parent2Attributes.getAttributeValue(GeneAttribute.PRODUCTIVITY).getValue());
+        int prod1 = parent1Attributes.getAttributeValue(GeneAttribute.PRODUCTIVITY).getValue();
+        int prod2 = parent2Attributes.getAttributeValue(GeneAttribute.PRODUCTIVITY).getValue();
+        int parentProductivity = Mth.nextInt(newBee.level().random, Math.min(prod1, prod2), Math.max(prod1, prod2));
         newBeeAttributes.setAttributeValue(GeneAttribute.PRODUCTIVITY, GeneValue.productivity(Math.max(newBeeAttributes.getAttributeValue(GeneAttribute.PRODUCTIVITY).getValue(), parentProductivity)));
 
-        int parentEndurance = Mth.nextInt(newBee.level().random,
-                parent1Attributes.getAttributeValue(GeneAttribute.ENDURANCE).getValue(),
-                parent2Attributes.getAttributeValue(GeneAttribute.ENDURANCE).getValue());
+        int end1 = parent1Attributes.getAttributeValue(GeneAttribute.ENDURANCE).getValue();
+        int end2 = parent2Attributes.getAttributeValue(GeneAttribute.ENDURANCE).getValue();
+        int parentEndurance = Mth.nextInt(newBee.level().random, Math.min(end1, end2), Math.max(end1, end2));
         newBeeAttributes.setAttributeValue(GeneAttribute.ENDURANCE, GeneValue.endurance(Math.max(newBeeAttributes.getAttributeValue(GeneAttribute.ENDURANCE).getValue(), parentEndurance)));
 
-        int parentTemper = Mth.nextInt(newBee.level().random, parent1Attributes.getAttributeValue(GeneAttribute.TEMPER).getValue(), parent2Attributes.getAttributeValue(GeneAttribute.TEMPER).getValue());
-        newBeeAttributes.setAttributeValue(GeneAttribute.TEMPER, GeneValue.temper(Math.min(newBeeAttributes.getAttributeValue(GeneAttribute.TEMPER).getValue(), parentTemper)));
+        int temp1 = parent1Attributes.getAttributeValue(GeneAttribute.TEMPER).getValue();
+        int temp2 = parent2Attributes.getAttributeValue(GeneAttribute.TEMPER).getValue();
+        newBeeAttributes.setAttributeValue(GeneAttribute.TEMPER, GeneValue.temper(Math.min(newBeeAttributes.getAttributeValue(GeneAttribute.TEMPER).getValue(), Math.min(temp1, temp2))));
 
-        int parentBehavior = Mth.nextInt(newBee.level().random, parent1Attributes.getAttributeValue(GeneAttribute.BEHAVIOR).getValue(), parent2Attributes.getAttributeValue(GeneAttribute.BEHAVIOR).getValue());
+        int beh1 = parent1Attributes.getAttributeValue(GeneAttribute.BEHAVIOR).getValue();
+        int beh2 = parent2Attributes.getAttributeValue(GeneAttribute.BEHAVIOR).getValue();
+        int parentBehavior = Mth.nextInt(newBee.level().random, Math.min(beh1, beh2), Math.max(beh1, beh2));
         newBeeAttributes.setAttributeValue(GeneAttribute.BEHAVIOR, GeneValue.behavior(Math.max(newBeeAttributes.getAttributeValue(GeneAttribute.BEHAVIOR).getValue(), parentBehavior)));
 
-        int parentWeatherTolerance = Mth.nextInt(newBee.level().random, parent1Attributes.getAttributeValue(GeneAttribute.WEATHER_TOLERANCE).getValue(), parent2Attributes.getAttributeValue(GeneAttribute.WEATHER_TOLERANCE).getValue());
+        int wt1 = parent1Attributes.getAttributeValue(GeneAttribute.WEATHER_TOLERANCE).getValue();
+        int wt2 = parent2Attributes.getAttributeValue(GeneAttribute.WEATHER_TOLERANCE).getValue();
+        int parentWeatherTolerance = Mth.nextInt(newBee.level().random, Math.min(wt1, wt2), Math.max(wt1, wt2));
         newBeeAttributes.setAttributeValue(GeneAttribute.WEATHER_TOLERANCE, GeneValue.weatherTolerance(Math.max(newBeeAttributes.getAttributeValue(GeneAttribute.WEATHER_TOLERANCE).getValue(), parentWeatherTolerance)));
     }
 

@@ -1,3 +1,11 @@
+1.21.1-13.6.5
+
+- Parent genes are now weighted equally
+- Fixed incubator completing when no empty cage is present
+- Disallowed speedier upgrades in hives
+- Added 5 tick minimum processing time to machines
+
+
 1.21.1-13.6.4
 
 - Added a second tier of speed upgrades

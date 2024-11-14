@@ -129,9 +129,9 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
 
     @Override
     public int getProcessingTime(RecipeHolder<? extends TimedRecipeInterface> recipe) {
-        return (int) (
+        return Math.max((int) (
                 (recipe != null ? recipe.value().getProcessingTime() : 6000) * getProcessingTimeModifier()
-        );
+        ), 5);
     }
 
     protected double getProcessingTimeModifier() {
@@ -152,7 +152,7 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
                     if (!cage1.isEmpty() && !cage2.isEmpty()) {
                         BeeHelper.IdentifierInventory beeInv = new BeeHelper.IdentifierInventory(BeeCage.getBeeType(cage1), BeeCage.getBeeType(cage2));
                         blockEntity.currentBreedingRecipes = BeeHelper.getBreedingRecipes(beeInv, serverLevel);
-                        if (blockEntity.currentBreedingRecipes.size() > 0 && !blockEntity.currentBreedingRecipes.contains(blockEntity.chosenRecipe)) { // Pick a random recipe from the list as active recipe
+                        if (!blockEntity.currentBreedingRecipes.isEmpty() && !blockEntity.currentBreedingRecipes.contains(blockEntity.chosenRecipe)) { // Pick a random recipe from the list as active recipe
                             blockEntity.setRecipe(blockEntity.currentBreedingRecipes.get(level.random.nextInt(blockEntity.currentBreedingRecipes.size())));
                         }
                         blockEntity.recipeLookupCooldown = -20; // delay between looking up recipe in case the two bees do not produce a recipe result
@@ -239,6 +239,10 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
     }
 
     private boolean completeBreeding(IItemHandlerModifiable invHandler) {
+        ItemStack cage = invHandler.getStackInSlot(BreedingChamberContainer.SLOT_CAGE);
+        if (cage.isEmpty()) {
+            return false;
+        }
         if (level != null && chosenRecipe != null && invHandler.getStackInSlot(BreedingChamberContainer.SLOT_OUTPUT).isEmpty() && invHandler.getStackInSlot(BreedingChamberContainer.SLOT_CAGE).getItem() instanceof BeeCage && canProcessInput(invHandler, false)) {
             BeeIngredient beeIngredient = chosenRecipe.value().offspring.get();
 
@@ -256,8 +260,6 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
                 }
 
                 bee.setAge(-24000);
-
-                ItemStack cage = invHandler.getStackInSlot(BreedingChamberContainer.SLOT_CAGE);
 
                 ItemStack newCage = new ItemStack(cage.getItem());
                 BeeCage.captureEntity(bee, newCage);

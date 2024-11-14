@@ -161,9 +161,9 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
 
     @Override
     public int getProcessingTime(RecipeHolder<? extends TimedRecipeInterface> recipe) {
-        return (int) (
+        return Math.max((int) (
             (recipe != null ? recipe.value().getProcessingTime() : ProductiveBeesConfig.GENERAL.centrifugeProcessingTime.get()) * getProcessingTimeModifier()
-        );
+        ), 5);
     }
 
     protected double getProcessingTimeModifier() {
