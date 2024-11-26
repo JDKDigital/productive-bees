@@ -28,13 +28,14 @@ public class SolitaryNestBlockEntity extends AdvancedBeehiveBlockEntityAbstract
     // Counter for cuckoo bee spawns
     private int spawnCount = 0;
 
-    public SolitaryNestBlockEntity(BlockEntityType<?> tileEntityType, BlockPos pos, BlockState state) {
-        super(tileEntityType, pos, state);
+    public SolitaryNestBlockEntity(BlockPos pos, BlockState state) {
+        super(pos, state);
         MAX_BEES = 1;
     }
 
-    public SolitaryNestBlockEntity(BlockPos pos, BlockState state) {
-        this(ModBlockEntityTypes.SOLITARY_NEST.get(), pos, state);
+    @Override
+    public BlockEntityType<?> getType() {
+        return ModBlockEntityTypes.SOLITARY_NEST.get();
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, SolitaryNestBlockEntity blockEntity) {

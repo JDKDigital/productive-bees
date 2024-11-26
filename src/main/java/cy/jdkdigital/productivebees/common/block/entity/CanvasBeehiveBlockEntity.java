@@ -4,14 +4,21 @@ import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 public class CanvasBeehiveBlockEntity extends AdvancedBeehiveBlockEntity implements CanvasBlockEntityInterface
 {
     private int color = 16777215;
 
     public CanvasBeehiveBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntityTypes.CANVAS_ADVANCED_HIVE.get(), pos, state);
+        super(pos, state);
+    }
+
+    @Override
+    public @NotNull BlockEntityType<?> getType() {
+        return ModBlockEntityTypes.CANVAS_ADVANCED_HIVE.get();
     }
 
     public void setColor(int color) {

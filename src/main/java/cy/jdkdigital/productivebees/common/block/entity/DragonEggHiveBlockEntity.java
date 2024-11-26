@@ -8,13 +8,20 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BeehiveBlock;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 public class DragonEggHiveBlockEntity extends AdvancedBeehiveBlockEntity
 {
     public DragonEggHiveBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntityTypes.DRACONIC_BEEHIVE.get(), pos, state);
+        super(pos, state);
         MAX_BEES = 3;
+    }
+
+    @Override
+    public @NotNull BlockEntityType<?> getType() {
+        return ModBlockEntityTypes.DRACONIC_BEEHIVE.get();
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, AdvancedBeehiveBlockEntity blockEntity) {

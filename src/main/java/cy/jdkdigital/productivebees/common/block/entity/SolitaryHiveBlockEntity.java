@@ -4,13 +4,19 @@ import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class SolitaryHiveBlockEntity extends SolitaryNestBlockEntity
 {
     public SolitaryHiveBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntityTypes.SOLITARY_HIVE.get(), pos, state);
+        super(pos, state);
         MAX_BEES = 9;
+    }
+
+    @Override
+    public BlockEntityType<?> getType() {
+        return ModBlockEntityTypes.SOLITARY_HIVE.get();
     }
 
     public boolean canRepopulate(ItemStack heldItem) {

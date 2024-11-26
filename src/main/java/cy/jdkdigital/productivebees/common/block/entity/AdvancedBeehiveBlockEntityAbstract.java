@@ -70,24 +70,11 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
             "ForgeCaps", "ForgeData"
     );
     public int MAX_BEES = 3;
-    private BlockEntityType<?> tileEntityType;
 
     protected int tickCounter = 0;
 
-    public AdvancedBeehiveBlockEntityAbstract(BlockEntityType<?> tileEntityType, BlockPos pos, BlockState state) {
+    public AdvancedBeehiveBlockEntityAbstract(BlockPos pos, BlockState state) {
         super(pos, state);
-        this.tileEntityType = tileEntityType;
-    }
-
-    @Override
-    public boolean isValidBlockState(BlockState blockState) {
-        return this.tileEntityType == null || this.tileEntityType.isValid(blockState);
-    }
-
-    @Nonnull
-    @Override
-    public BlockEntityType<?> getType() {
-        return this.tileEntityType == null ? super.getType() : this.tileEntityType;
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, AdvancedBeehiveBlockEntityAbstract blockEntity) {

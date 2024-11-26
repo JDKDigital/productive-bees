@@ -50,6 +50,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -109,12 +110,14 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
     ));
 
     public AdvancedBeehiveBlockEntity(BlockPos pos, BlockState state) {
-        this(ModBlockEntityTypes.ADVANCED_HIVE.get(), pos, state);
+        super(pos, state);
+        MAX_BEES = 3;
     }
 
-    public AdvancedBeehiveBlockEntity(BlockEntityType<?> tileEntityType, BlockPos pos, BlockState state) {
-        super(tileEntityType, pos, state);
-        MAX_BEES = 3;
+    @NotNull
+    @Override
+    public BlockEntityType<?> getType() {
+        return ModBlockEntityTypes.ADVANCED_HIVE.get();
     }
 
     @Nonnull
