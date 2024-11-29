@@ -27,31 +27,5 @@ public final class ModFluids
         return FLUIDS.register(name, supplier);
     }
 
-    public static DeferredHolder<FluidType, FluidType> HONEY_FLUID_TYPE = FLUID_TYPES.register("honey", () -> new FluidType(FluidType.Properties.create().canExtinguish(true).supportsBoating(true).motionScale(0.007D))
-    {
-        @Override
-        public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
-            consumer.accept(new IClientFluidTypeExtensions() {
-                @Override
-                public ResourceLocation getStillTexture() {
-                    return HoneyFluid.STILL;
-                }
-
-                @Override
-                public ResourceLocation getFlowingTexture() {
-                    return HoneyFluid.FLOWING;
-                }
-
-                @Override
-                public ResourceLocation getOverlayTexture() {
-                    return HoneyFluid.OVERLAY;
-                }
-
-                @Override
-                public int getTintColor() {
-                    return 0xffffc916;
-                }
-            });
-        }
-    });
+    public static DeferredHolder<FluidType, FluidType> HONEY_FLUID_TYPE = FLUID_TYPES.register("honey", () -> new FluidType(FluidType.Properties.create().canExtinguish(true).supportsBoating(true).motionScale(0.007D)));
 }

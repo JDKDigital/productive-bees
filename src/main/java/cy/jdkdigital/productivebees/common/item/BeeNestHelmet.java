@@ -51,15 +51,4 @@ public class BeeNestHelmet extends ArmorItem
         }
         super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);
     }
-
-    @Override
-    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        consumer.accept(new IClientItemExtensions()
-        {
-            @Override
-            public HumanoidModel<?> getHumanoidArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> _default) {
-                return BeeNestHelmetModel.INSTANCE.get();
-            }
-        });
-    }
 }

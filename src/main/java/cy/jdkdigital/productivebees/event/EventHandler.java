@@ -226,13 +226,22 @@ public class EventHandler
         if (event.getEntity() instanceof ConfigurableBee bee) {
             if (
                     event.getSource().getMsgId().equals("mekanism.radiation") &&
-                    bee.getBeeType().equals(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "radioactive")) &&
-                    ProductiveBeesConfig.BEES.deadBeeConvertChance.get() > event.getEntity().level().random.nextDouble() &&
-                    BeeIngredientFactory.getIngredient("productivebees:wasted_radioactive").get() != null
+                            bee.getBeeType().equals(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "radioactive")) &&
+                            ProductiveBeesConfig.BEES.deadBeeConvertChance.get() > event.getEntity().level().random.nextDouble() &&
+                            BeeIngredientFactory.getIngredient("productivebees:wasted_radioactive").get() != null
             ) {
                 event.setCanceled(true);
                 bee.setHealth(bee.getMaxHealth());
                 bee.setBeeType("productivebees:wasted_radioactive");
+            }
+        } else if (event.getEntity() instanceof Bee bee) {
+            if (bee.level().getBlockState(bee.blockPosition()).is(Blocks.WHITE_CONCRETE_POWDER)) {
+                Entity newBee = ModEntities.CONFIGURABLE_BEE.get().create(bee.level());
+                if (newBee instanceof ConfigurableBee configurableBee) {
+                    configurableBee.setBeeType("productivebees:phil");
+                    configurableBee.moveTo(bee.blockPosition().relative(Direction.UP), bee.getYRot(), bee.getXRot());
+                    bee.level().addFreshEntity(newBee);
+                }
             }
         } else if (event.getEntity() instanceof Villager && Calendar.getInstance().get(Calendar.MONTH) + 1 == 4 && Calendar.getInstance().get(Calendar.DATE) == 1) {
             Entity newBee = ModEntities.CONFIGURABLE_BEE.get().create(event.getEntity().level());

@@ -10,6 +10,7 @@ import cy.jdkdigital.productivebees.client.render.entity.HoarderBeeRenderer;
 import cy.jdkdigital.productivebees.client.render.entity.ProductiveBeeRenderer;
 import cy.jdkdigital.productivebees.client.render.entity.RancherBeeRenderer;
 import cy.jdkdigital.productivebees.client.render.entity.model.*;
+import cy.jdkdigital.productivebees.client.render.item.JarBlockItemRenderer;
 import cy.jdkdigital.productivebees.common.block.CanvasBeehive;
 import cy.jdkdigital.productivebees.common.block.CanvasExpansionBox;
 import cy.jdkdigital.productivebees.common.block.CombBlock;
@@ -18,6 +19,7 @@ import cy.jdkdigital.productivebees.common.block.entity.CanvasExpansionBoxBlockE
 import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
 import cy.jdkdigital.productivebees.common.entity.bee.GeckoBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
+import cy.jdkdigital.productivebees.common.fluid.HoneyFluid;
 import cy.jdkdigital.productivebees.common.item.*;
 import cy.jdkdigital.productivebees.compat.geckolib.client.render.GeckoBeeRenderer;
 import cy.jdkdigital.productivebees.container.gui.*;
@@ -28,19 +30,23 @@ import cy.jdkdigital.productivebees.util.ColorUtil;
 import cy.jdkdigital.productivebees.util.GeneAttribute;
 import cy.jdkdigital.productivebees.util.GeneValue;
 import cy.jdkdigital.productivelib.common.item.AbstractUpgradeItem;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.BiomeColors;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.item.*;
@@ -56,6 +62,9 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
@@ -136,6 +145,48 @@ public class ClientModEventHandler
                 event.accept(BeeCreator.getSpawnEgg(beeType));
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void registerItemColors(RegisterClientExtensionsEvent event) {
+        event.registerItem(new IClientItemExtensions()
+        {
+            @Override
+            public HumanoidModel<?> getHumanoidArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> _default) {
+                return BeeNestHelmetModel.INSTANCE.get();
+            }
+        }, ModItems.BEE_NEST_DIAMOND_HELMET.get());
+
+        event.registerItem(new IClientItemExtensions() {
+            final BlockEntityWithoutLevelRenderer myRenderer = new JarBlockItemRenderer();
+
+            @Override
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                return myRenderer;
+            }
+        }, BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "jar_oak")));
+
+        event.registerFluidType(new IClientFluidTypeExtensions() {
+            @Override
+            public ResourceLocation getStillTexture() {
+                return HoneyFluid.STILL;
+            }
+
+            @Override
+            public ResourceLocation getFlowingTexture() {
+                return HoneyFluid.FLOWING;
+            }
+
+            @Override
+            public ResourceLocation getOverlayTexture() {
+                return HoneyFluid.OVERLAY;
+            }
+
+            @Override
+            public int getTintColor() {
+                return 0xffffc916;
+            }
+        }, ModFluids.HONEY_FLUID_TYPE.get());
     }
 
     @SubscribeEvent

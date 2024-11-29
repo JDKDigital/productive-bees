@@ -5,7 +5,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
-import cy.jdkdigital.productivebees.common.item.JarBlockItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -18,6 +17,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -35,7 +35,7 @@ public class JarBlockItemRenderer extends BlockEntityWithoutLevelRenderer {
     public void renderByItem(ItemStack itemStack, ItemDisplayContext transformType, PoseStack matrixStack, MultiBufferSource renderTypeBuffer, int packedLightIn, int packedUV) {
         Item item = itemStack.getItem();
 
-        if (item instanceof JarBlockItem jarBlockItem) {
+        if (item instanceof BlockItem jarBlockItem) {
             String beeTypeOrEntityType = null;
             String entityType = null;
 
@@ -105,7 +105,7 @@ public class JarBlockItemRenderer extends BlockEntityWithoutLevelRenderer {
         matrixStack.popPose();
     }
 
-    public static void renderJar(PoseStack matrixStack, JarBlockItem jarBlockItem, ItemStack itemStack, int packedLight, int packedOverlay, ItemDisplayContext transformType) {
+    public static void renderJar(PoseStack matrixStack, BlockItem jarBlockItem, ItemStack itemStack, int packedLight, int packedOverlay, ItemDisplayContext transformType) {
         matrixStack.pushPose();
         
         if (transformType.equals(ItemDisplayContext.GUI)) {

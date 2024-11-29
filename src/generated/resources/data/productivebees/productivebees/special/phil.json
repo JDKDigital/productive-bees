@@ -1,0 +1,9 @@
+{
+  "primaryColor": "#675d42",
+  "secondaryColor": "#c3434c",
+  "particleColor": "#ff8d80",
+  "flowerBlock": "minecraft:air",
+  "beeTexture": "productivebees:textures/entity/bee/phil/bee",
+  "size": 0.4,
+  "renderer": "elvis"
+}

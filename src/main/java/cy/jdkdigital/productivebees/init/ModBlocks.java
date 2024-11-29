@@ -7,7 +7,6 @@ import cy.jdkdigital.productivebees.common.block.nest.SugarCaneNest;
 import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
 import cy.jdkdigital.productivebees.common.item.AmberItem;
 import cy.jdkdigital.productivebees.common.item.CombBlockItem;
-import cy.jdkdigital.productivebees.common.item.JarBlockItem;
 import cy.jdkdigital.productivebees.setup.HiveType;
 import cy.jdkdigital.productivebees.util.FakeIngredient;
 import net.minecraft.world.item.BlockItem;
@@ -303,7 +302,7 @@ public final class ModBlocks
             if (name.equals("configurable_comb")) {
                 ModItems.CONFIGURABLE_COMB_BLOCK = ProductiveBees.ITEMS.register(name, () -> new CombBlockItem(block.get(), properties));
             } else if (name.equals("jar_oak")) {
-                ProductiveBees.ITEMS.register(name, () -> new JarBlockItem(block.get(), properties));
+                ProductiveBees.ITEMS.register(name, () -> new BlockItem(block.get(), properties));
             } else if (name.equals("amber")) {
                 ProductiveBees.ITEMS.register(name, () -> new AmberItem(block.get(), properties));
             } else {

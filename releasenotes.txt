@@ -1,3 +1,8 @@
+1.21.1-13.6.6
+
+- Fixed incompatibility with Lithium
+
+
 1.21.1-13.6.5
 
 - Parent genes are now weighted equally

@@ -8,6 +8,7 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.material.Fluids;
 
@@ -22,14 +23,22 @@ public class BlockConversionEmiRecipe extends BasicEmiRecipe
         this.inputs.add(BeeEmiStack.of(recipe.value().getBees().get(0)));
         if (!recipe.value().input.isEmpty()) {
             this.inputs.add(EmiIngredient.of(recipe.value().input));
-        } else if (recipe.value().stateFrom.getFluidState().getType().equals(Fluids.EMPTY) && recipe.value().fromDisplay.isPresent()) {
-            this.inputs.add(EmiIngredient.of(recipe.value().fromDisplay.get()));
+        } else if (recipe.value().stateFrom.getFluidState().getType().equals(Fluids.EMPTY)) {
+            if (recipe.value().fromDisplay.isPresent() && !recipe.value().fromDisplay.get().isEmpty()) {
+                this.inputs.add(EmiIngredient.of(recipe.value().fromDisplay.get()));
+            } else {
+                this.inputs.add(EmiIngredient.of(Ingredient.of(recipe.value().stateFrom.getBlock().asItem())));
+            }
         } else {
             this.inputs.add(EmiStack.of(recipe.value().stateFrom.getFluidState().getType(), 1000));
         }
 
-        if (recipe.value().stateTo.getFluidState().getType().equals(Fluids.EMPTY) && recipe.value().toDisplay.isPresent() && recipe.value().toDisplay.get().getItems().length > 0) {
-            this.outputs.add(EmiStack.of(recipe.value().toDisplay.get().getItems()[0]).setChance(recipe.value().chance));
+        if (recipe.value().stateTo.getFluidState().getType().equals(Fluids.EMPTY)) {
+            if (recipe.value().toDisplay.isPresent() && recipe.value().toDisplay.get().getItems().length > 0) {
+                this.outputs.add(EmiStack.of(recipe.value().toDisplay.get().getItems()[0]).setChance(recipe.value().chance));
+            } else {
+                this.outputs.add(EmiStack.of(recipe.value().stateTo.getBlock().asItem()).setChance(recipe.value().chance));
+            }
         } else {
             this.outputs.add(EmiStack.of(recipe.value().stateTo.getFluidState().getType()).setChance(recipe.value().chance));
         }

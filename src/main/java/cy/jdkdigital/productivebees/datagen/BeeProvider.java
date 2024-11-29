@@ -118,7 +118,6 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("zombie").primaryColor("#796565").beeTexture("zombie").munchies().noSelfBreed().attributes(new HashMap<>(){{ put("temper", GeneValue.TEMPER_AGGRESSIVE.getSerializedName()); put("behavior", GeneValue.BEHAVIOR_NOCTURNAL.getSerializedName()); }}).passiveEffects(new ArrayList<>() {{  add(new PassiveEffect("minecraft:hunger", 150)); }}).speed(0.8));
             add(new BeeConfig("breeze").primaryColor("#2b425e").secondaryColor("#686394").tertiaryColor("#bbabd1").particleColor("#f3f5ff").beeTexture("breeze").flowerItem("minecraft:heavy_core").speed(0.8));
             add(new BeeConfig("ribbeet").primaryColor("#3a5a19").secondaryColor("#73964b").particleColor("#f3f5ff").flowerTag("c:magma_cubes").beeTexture("ribbeet").flowerType("entity_types").renderer("thicc").size(0.5f).pollinatedSize(1.0f).noComb().noSelfBreed());
-            add(new BeeConfig("villager").primaryColor("#3a5a19").secondaryColor("#73964b").particleColor("#ff0000").flowerBlock("minecraft:air").beeTexture("villager").model("productivebees:geo/entity/villager.geo.json").noComb().noSelfBreed());
 
             add(new BeeConfig("ad_astra/calorite").primaryColor("#c44249").secondaryColor("#470d2f").particleColor("#df6d5c").flowerTag("c:storage_blocks/calorite").requireTag("c:storage_blocks/calorite"));
             add(new BeeConfig("ad_astra/cheese").primaryColor("#d99c0d").particleColor("#edc76d").beeTexture("cheese").onlySpawnegg().flowerBlock("ad_astra:cheese_block").size(0.8).requireMod("ad_astra"));
@@ -564,6 +563,10 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("undergarden/froststeel").primaryColor("#4f5781").secondaryColor("#9fc8ef").particleColor("#f5f5f5").size(0.6).flowerBlock("undergarden:froststeel_block").beeTexture("froststeel").requireMod("undergarden"));
             add(new BeeConfig("undergarden/regalium").primaryColor("#964b28").secondaryColor("#fcd87d").particleColor("#ffefb2").size(0.5).flowerBlock("undergarden:regalium_block").beeTexture("regalium").renderer("default_crystal").requireMod("undergarden"));
             add(new BeeConfig("undergarden/utheric").primaryColor("#675d42").secondaryColor("#c3434c").particleColor("#ff8d80").size(0.4).flowerBlock("undergarden:utherium_block").beeTexture("utheric").renderer("default_crystal").requireMod("undergarden"));
+
+            // Special bees
+            add(new BeeConfig("special/villager").primaryColor("#3a5a19").secondaryColor("#73964b").particleColor("#ff0000").flowerBlock("minecraft:air").beeTexture("villager").model("productivebees:geo/entity/villager.geo.json").noComb().noSelfBreed());
+            add(new BeeConfig("special/phil").primaryColor("#675d42").secondaryColor("#c3434c").particleColor("#ff8d80").size(0.4).flowerBlock("minecraft:air").beeTexture("phil").renderer("elvis"));
         }};
     }
 
