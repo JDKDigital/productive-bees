@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.entity.bee;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.client.particle.NectarParticleType;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.AmberBlockEntity;
@@ -55,8 +56,10 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -428,7 +431,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                 return flowerBlock.is(flowerTag);
             } else if (nbt.contains("flowerBlock")) {
                 return BuiltInRegistries.BLOCK.getKey(flowerBlock.getBlock()).toString().equals(nbt.getString("flowerBlock"));
-            } else if (nbt.contains("flowerFluid") && !flowerBlock.getFluidState().isEmpty()) {
+            } else if (nbt.contains("flowerFluid") && (!flowerBlock.getFluidState().isEmpty())) {
                 if (nbt.getString("flowerFluid").contains("#")) {
                     TagKey<Fluid> flowerFluid = ModTags.getFluidTag(ResourceLocation.parse(nbt.getString("flowerFluid").replace("#", "")));
                     return flowerBlock.getFluidState().is(flowerFluid);
@@ -453,6 +456,12 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             }
             if (nbt.contains("flowerItem")) {
                 return flowerItem.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse(nbt.getString("flowerItem"))));
+            }
+            if (nbt.contains("flowerFluid")) {
+                IFluidHandler flowerFluid = flowerItem.getCapability(Capabilities.FluidHandler.ITEM);
+                if (flowerFluid != null && flowerFluid.getFluidInTank(0).getAmount() >= ProductiveBeesConfig.BEES.minimumMbForFlowering.get()) {
+                    return flowerFluid.getFluidInTank(0).is(BuiltInRegistries.FLUID.get(ResourceLocation.parse(nbt.getString("flowerFluid"))));
+                }
             }
         }
         if (flowerItem.getItem() instanceof BlockItem blockItem && BeeHelper.hasBlockConversionRecipe(this, blockItem.getBlock().defaultBlockState())) {

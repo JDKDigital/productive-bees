@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.Feeder;
 import cy.jdkdigital.productivebees.container.FeederContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
@@ -33,6 +34,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.phys.AABB;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
@@ -64,6 +67,11 @@ public class FeederBlockEntity extends CapabilityBlockEntity implements MenuProv
                 Block itemBlock = blockItem.getBlock();
                 if (tag == null || itemBlock.builtInRegistryHolder().is(tag)) {
                     possibleBlocks.add(itemBlock);
+                }
+            } else {
+            	IFluidHandler stackFluidTank = stack.getCapability(Capabilities.FluidHandler.ITEM);
+                if (stackFluidTank != null && stackFluidTank.getFluidInTank(0).getAmount() >= ProductiveBeesConfig.BEES.minimumMbForFlowering.get()) {
+                	possibleBlocks.add(stackFluidTank.getFluidInTank(0).getFluid().defaultFluidState().createLegacyBlock().getBlock());
                 }
             }
         }

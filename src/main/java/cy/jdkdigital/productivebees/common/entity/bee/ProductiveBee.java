@@ -59,6 +59,8 @@ import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -560,6 +562,10 @@ public class ProductiveBee extends Bee implements IProductiveBee
     public boolean isFlowerItem(ItemStack flowerItem) {
         if (flowerItem.getItem() instanceof BlockItem blockItem && isFlowerBlock(blockItem.getBlock().defaultBlockState())) {
             return true;
+        }
+        IFluidHandler flowerFluid = flowerItem.getCapability(Capabilities.FluidHandler.ITEM);
+        if (flowerFluid != null && flowerFluid.getFluidInTank(0).getAmount() >= ProductiveBeesConfig.BEES.minimumMbForFlowering.get()) {
+        	return true;
         }
         return BeeHelper.hasItemConversionRecipe(this, flowerItem);
     }

@@ -172,6 +172,7 @@ public class ProductiveBeesConfig
         public final ModConfigSpec.DoubleValue kamikazBeeChance;
         public final ModConfigSpec.BooleanValue disableWanderGoal;
         public final ModConfigSpec.BooleanValue enableResinBeeEncasing;
+        public final ModConfigSpec.IntValue minimumMbForFlowering;
 
         public Bees(ModConfigSpec.Builder builder) {
             builder.push("Bees");
@@ -212,6 +213,10 @@ public class ProductiveBeesConfig
             enableResinBeeEncasing = builder
                     .comment("Allow resin bees to encase mobs in amber. With this disabled it's only possible with an amber bee and it's also not as fun.")
                     .define("enableResinBeeEncasing", true);
+			
+            minimumMbForFlowering = builder
+            		.comment("The minimum amount of Mb of a fluid for bees that require a fluid to be able to pollinate")
+            		.defineInRange("minimumMbForFlowering", 1000, 0, Integer.MAX_VALUE);
 
             builder.pop();
         }
