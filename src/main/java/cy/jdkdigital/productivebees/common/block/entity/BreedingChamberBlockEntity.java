@@ -84,6 +84,15 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
                 }
             }
         }
+        
+        @Override
+        public int getSlotLimit(int slot) {
+            if (slot == BreedingChamberContainer.SLOT_BEE_1 || slot == BreedingChamberContainer.SLOT_BEE_2) {
+                // for conduit input and automation
+                return 1;
+            }
+            return super.getSlotLimit(slot);
+        }
     });
 
     protected LazyOptional<IItemHandlerModifiable> upgradeHandler = LazyOptional.of(() -> new InventoryHandlerHelper.UpgradeHandler(4, this));
