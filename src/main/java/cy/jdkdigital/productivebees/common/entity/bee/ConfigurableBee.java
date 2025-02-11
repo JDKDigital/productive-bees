@@ -431,7 +431,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                 return flowerBlock.is(flowerTag);
             } else if (nbt.contains("flowerBlock")) {
                 return BuiltInRegistries.BLOCK.getKey(flowerBlock.getBlock()).toString().equals(nbt.getString("flowerBlock"));
-            } else if (nbt.contains("flowerFluid") && (!flowerBlock.getFluidState().isEmpty())) {
+            } else if (nbt.contains("flowerFluid") && !flowerBlock.getFluidState().isEmpty()) {
                 if (nbt.getString("flowerFluid").contains("#")) {
                     TagKey<Fluid> flowerFluid = ModTags.getFluidTag(ResourceLocation.parse(nbt.getString("flowerFluid").replace("#", "")));
                     return flowerBlock.getFluidState().is(flowerFluid);
@@ -460,7 +460,11 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             if (nbt.contains("flowerFluid")) {
                 IFluidHandler flowerFluid = flowerItem.getCapability(Capabilities.FluidHandler.ITEM);
                 if (flowerFluid != null && flowerFluid.getFluidInTank(0).getAmount() >= ProductiveBeesConfig.BEES.minimumMbForFlowering.get()) {
-                    return flowerFluid.getFluidInTank(0).is(BuiltInRegistries.FLUID.get(ResourceLocation.parse(nbt.getString("flowerFluid"))));
+                	if (nbt.getString("flowerFluid").contains("#")) {
+                        return flowerFluid.getFluidInTank(0).is(new TagKey<Fluid>(BuiltInRegistries.FLUID.key(), ResourceLocation.parse(nbt.getString("flowerFluid").replace("#", ""))));
+                	} else {
+                		return flowerFluid.getFluidInTank(0).is(BuiltInRegistries.FLUID.get(ResourceLocation.parse(nbt.getString("flowerFluid"))));
+                	}
                 }
             }
         }
