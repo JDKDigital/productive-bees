@@ -11,28 +11,28 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class CombBlockBlockEntity extends AbstractBlockEntity
 {
-    private ResourceLocation type;
+    private ResourceLocation combType;
 
     public CombBlockBlockEntity(BlockPos pos, BlockState state) {
         this(null, pos, state);
     }
 
-    public CombBlockBlockEntity(ResourceLocation type, BlockPos pos, BlockState state) {
+    public CombBlockBlockEntity(ResourceLocation combType, BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.COMB_BLOCK.get(), pos, state);
-        this.type = type;
+        this.combType = combType;
     }
 
-    public void setType(ResourceLocation type) {
-        this.type = type;
+    public void setCombType(ResourceLocation combType) {
+        this.combType = combType;
     }
 
     public ResourceLocation getCombType() {
-        return type;
+        return combType;
     }
 
     public int getColor() {
-        if (type != null) {
-            CompoundTag nbt = BeeReloadListener.INSTANCE.getData(type);
+        if (combType != null) {
+            CompoundTag nbt = BeeReloadListener.INSTANCE.getData(combType);
             if (nbt != null) {
                 return nbt.getInt("primaryColor");
             }
@@ -43,15 +43,15 @@ public class CombBlockBlockEntity extends AbstractBlockEntity
     @Override
     public void savePacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
         super.savePacketNBT(tag, provider);
-        if (type != null) {
-            tag.putString("type", type.toString());
+        if (combType != null) {
+            tag.putString("type", combType.toString());
         }
     }
 
     public void loadPacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
         super.loadPacketNBT(tag, provider);
         if (tag.contains("type")) {
-            setType(ResourceLocation.parse(tag.getString("type")));
+            setCombType(ResourceLocation.parse(tag.getString("type")));
         }
     }
 }

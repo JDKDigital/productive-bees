@@ -41,7 +41,6 @@ public class AdvancedBeehiveScreen extends AbstractContainerScreen<AdvancedBeehi
 
     @Override
     public void render(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
         super.render(guiGraphics, mouseX, mouseY, partialTicks);
         this.renderTooltip(guiGraphics, mouseX, mouseY);
     }
@@ -76,8 +75,6 @@ public class AdvancedBeehiveScreen extends AbstractContainerScreen<AdvancedBeehi
             BeeIngredient beeIngredient = BeeIngredientFactory.getIngredient(type).get();
             if (beeIngredient != null) {
                 bee = beeIngredient.getCachedEntity(minecraft.level);
-            } else {
-                ProductiveBees.LOGGER.info("try render bee tooltip " + beeIngredient + " " + type + " " + isHovering(positions.get(j).get(0) - (expanded ? 13 : 0), positions.get(j).get(1), 16, 16, mouseX, mouseY) + " " + bee);
             }
 
             if (bee != null && bee.getEncodeId() != null) {

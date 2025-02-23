@@ -65,6 +65,7 @@ import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import net.neoforged.neoforge.client.model.DynamicFluidContainerModel;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
@@ -148,7 +149,7 @@ public class ClientModEventHandler
     }
 
     @SubscribeEvent
-    public static void registerItemColors(RegisterClientExtensionsEvent event) {
+    public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
         event.registerItem(new IClientItemExtensions()
         {
             @Override
@@ -219,6 +220,8 @@ public class ClientModEventHandler
             BlockState blockstate = ((BlockItem)stack.getItem()).getBlock().defaultBlockState();
             return event.getBlockColors().getColor(blockstate, null, null, tintIndex);
         }, ModBlocks.BUMBLE_BEE_NEST.get());
+
+        event.register(new DynamicFluidContainerModel.Colors(), ModItems.HONEY_BUCKET.get());
 
         ModBlocks.HIVELIST.forEach((modid, strings) -> {
             if (ProductiveBees.includeMod(modid)) {

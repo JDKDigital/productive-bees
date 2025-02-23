@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
 import com.google.common.collect.Lists;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.Centrifuge;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
@@ -31,6 +32,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.MenuProvider;
@@ -119,8 +121,9 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
         @Override
         protected void onContentsChanged(int slot) {
             super.onContentsChanged(slot);
-            if (slot == InventoryHandlerHelper.INPUT_SLOT && this.getStackInSlot(slot).isEmpty()) {
+            if (CentrifugeBlockEntity.this.level instanceof ServerLevel serverLevel && slot == InventoryHandlerHelper.INPUT_SLOT && this.getStackInSlot(slot).isEmpty()) {
                 CentrifugeBlockEntity.this.recipeProgress = 0;
+                serverLevel.setBlockAndUpdate(CentrifugeBlockEntity.this.getBlockPos(), CentrifugeBlockEntity.this.getBlockState().setValue(Centrifuge.RUNNING, false));
             }
         }
     };
@@ -176,7 +179,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
         if (blockEntity.inventoryHandler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler itemStackHandler) {
             ItemStack invItem = itemStackHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
             if (!invItem.isEmpty() && blockEntity.canOperate()) {
-                // Process gene bottles
+                // Process
                 if (state.getValue(Centrifuge.RUNNING) && --blockEntity.recipeProgress <= 0) {
                     // Progress and complete
                     if (invItem.getItem().equals(ModItems.GENE_BOTTLE.get())) {

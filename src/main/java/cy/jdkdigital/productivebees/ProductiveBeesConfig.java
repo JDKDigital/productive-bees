@@ -31,6 +31,7 @@ public class ProductiveBeesConfig
         public final ModConfigSpec.BooleanValue renderBeesInJars;
         public final ModConfigSpec.BooleanValue mutedBeeNestHelmet;
         public final ModConfigSpec.BooleanValue alwaysChristmas;
+        public final ModConfigSpec.BooleanValue neverChristmas;
         public final ModConfigSpec.BooleanValue renderEntitiesInAmber;
 
         public Client(ModConfigSpec.Builder builder) {
@@ -51,6 +52,10 @@ public class ProductiveBeesConfig
             alwaysChristmas = builder
                     .comment("Bees wear santa hats.")
                     .define("alwaysChristmas", false);
+
+            neverChristmas = builder
+                    .comment("Bees never wear santa hats.")
+                    .define("neverChristmas", false);
 
             renderEntitiesInAmber = builder
                     .comment("Render entities inside amber blocks.")
@@ -285,6 +290,8 @@ public class ProductiveBeesConfig
             nestConfigs.put("birch_wood_nest", builder.defineInRange("birch_wood_nest", 0.2D, 0.0D, 1.0D));
             nestConfigs.put("jungle_wood_nest", builder.defineInRange("jungle_wood_nest", 0.10D, 0.0D, 1.0D));
             nestConfigs.put("acacia_wood_nest", builder.defineInRange("acacia_wood_nest", 0.05D, 0.0D, 1.0D));
+            nestConfigs.put("cherry_wood_nest", builder.defineInRange("cherry_wood_nest", 0.05D, 0.0D, 1.0D));
+            nestConfigs.put("mangrove_wood_nest", builder.defineInRange("mangrove_wood_nest", 0.05D, 0.0D, 1.0D));
             nestConfigs.put("nether_bee_nest", builder.defineInRange("nether_bee_nest", 0.02D, 0.0D, 1.0D));
             nestConfigs.put("sugarbag_nest", builder.defineInRange("sugarbag_nest", 0.02D, 0.0D, 1.0D));
 

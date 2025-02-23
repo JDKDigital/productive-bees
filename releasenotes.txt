@@ -1,3 +1,39 @@
+1.21.1-13.6.12-pre
+
+- Added BeePollinationCompleteEvent
+
+
+1.21.1-13.6.11
+
+- Fixed heated centrifuges not processing comb items
+- Fixed centrifuges instantly completing when inserting combs in the GUI
+- Fixed bee list in nest/hive tooltip not showing
+- Removed redundant call to renderBackground in GUIs
+
+
+1.21.1-13.6.10
+
+- Ambered mobs now work inside feeding slabs
+- Fixed gene treats not being used up on failed incubation
+
+
+1.21.1-13.6.9
+
+- Fixed bee jars losing the bee when broken
+- Fixed bee jar items not showing the contained bee
+- Added config to ruin the Christmas spirit
+
+
+1.21.1-13.6.8
+
+- Fixed worldgen crash with cherry and mangrove wood nests
+
+
+1.21.1-13.6.7
+
+- Fixed Christmas hat rendering crashing for some bees
+
+
 1.21.1-13.6.6
 
 - Fixed incompatibility with Lithium

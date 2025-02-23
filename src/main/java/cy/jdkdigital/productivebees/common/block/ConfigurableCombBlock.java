@@ -46,7 +46,7 @@ public class ConfigurableCombBlock extends CombBlock implements EntityBlock
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity entity, ItemStack pStack) {
         BlockEntity tileEntity = level.getBlockEntity(pos);
         if (tileEntity instanceof CombBlockBlockEntity && pStack.has(ModDataComponents.BEE_TYPE)) {
-            ((CombBlockBlockEntity) tileEntity).setType(pStack.get(ModDataComponents.BEE_TYPE));
+            ((CombBlockBlockEntity) tileEntity).setCombType(pStack.get(ModDataComponents.BEE_TYPE));
         }
     }
 

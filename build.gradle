@@ -130,7 +130,7 @@ dependencies {
     implementation "local.libs:productivelib-${lib_version}"
     implementation "local.libs:geckolib-neoforge:${minecraft_version}-${geckolib_version}"
 
-    jarJar(group: 'cy.jdkdigital.productivelib', name: 'productivelib', version: '[0.1.4,)') {
+    jarJar(group: 'cy.jdkdigital.productivelib', name: 'productivelib', version: "${lib_version_range}") {
         transitive(false)
     }
 //    jarJar(group: 'software.bernie.geckolib', name: 'geckolib', version: '[neoforge-1.21.1-4.6.6,)') {
@@ -169,6 +169,7 @@ dependencies {
     implementation "curse.maven:valhelsia-core-416935:5526890"
 //    implementation "curse.maven:actually-additions-228404:5824751"
     implementation "curse.maven:immersive-engineering-231951:5828000"
+    implementation "curse.maven:friends-and-foes-forge-602059:5904794"
 }
 
 tasks.withType(ProcessResources).configureEach {

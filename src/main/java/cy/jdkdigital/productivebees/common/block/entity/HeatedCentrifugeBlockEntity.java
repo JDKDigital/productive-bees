@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.item.CombBlockItem;
 import cy.jdkdigital.productivebees.common.recipe.CentrifugeRecipe;
@@ -57,9 +58,11 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
 
     @Override
     public boolean canProcessItemStack(ItemStack stack) {
-        var directProcess = super.canProcessItemStack(stack);
+        if (super.canProcessItemStack(stack)) {
+            return true;
+        }
 
-        if (stack.is(ModTags.Common.STORAGE_BLOCK_HONEYCOMBS) && !directProcess) {
+        if (stack.is(ModTags.Common.STORAGE_BLOCK_HONEYCOMBS)) {
             ItemStack singleComb;
             // config honeycomb
             if (stack.getItem() instanceof CombBlockItem) {
@@ -71,7 +74,7 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
             return !singleComb.isEmpty() && super.canProcessItemStack(singleComb);
         }
 
-        return directProcess;
+        return false;
     }
 
     static Map<String, RecipeHolder<CentrifugeRecipe>> blockRecipeMap = new HashMap<>();
@@ -83,7 +86,7 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
         ItemStack input = inputHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
         String cacheKey = BuiltInRegistries.ITEM.getKey(input.getItem()).toString() + (!input.getComponents().isEmpty() ? input.getComponents().stream().map(TypedDataComponent::toString).reduce((s, s2) -> s + s2) : "");
 
-        if (!input.is(ModTags.Common.STORAGE_BLOCK_HONEYCOMBS)) {
+        if (input.is(ModTags.Common.STORAGE_BLOCK_HONEYCOMBS)) {
             var directRecipe = super.getRecipe(inputHandler);
             if (directRecipe != null) {
                 return directRecipe;
@@ -98,6 +101,10 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
                 singleComb.set(ModDataComponents.BEE_TYPE, input.get(ModDataComponents.BEE_TYPE));
             } else {
                 singleComb = BeeHelper.getRecipeOutputFromInput(level, input.getItem());
+            }
+
+            if (singleComb.isEmpty()) {
+                singleComb = input;
             }
             var inv = new InventoryHandlerHelper.BlockEntityItemStackHandler(2);
             // Look up recipe for the single comb that makes up the input comb block

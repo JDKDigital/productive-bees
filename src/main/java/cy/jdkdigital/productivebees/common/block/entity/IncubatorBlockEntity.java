@@ -188,6 +188,8 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
                                 if (egg.getItem() instanceof SpawnEggItem) {
                                     resultItem = egg;
                                 }
+                            } else {
+                                inItem.shrink(shrinkInput);
                             }
                         }
                     }

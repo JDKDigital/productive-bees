@@ -1,7 +1,11 @@
 package cy.jdkdigital.productivebees.common.block;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.entity.JarBlockEntity;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
+import cy.jdkdigital.productivebees.util.BeeHelper;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
@@ -54,28 +58,21 @@ public class Jar extends Block implements EntityBlock
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, Item.TooltipContext pContext, List<Component> pTootipComponents, TooltipFlag pTooltipFlag) {
-        super.appendHoverText(pStack, pContext, pTootipComponents, pTooltipFlag);
-        if (pStack.has(DataComponents.BLOCK_ENTITY_DATA)) {
-            CompoundTag tag = pStack.get(DataComponents.BLOCK_ENTITY_DATA).copyTag();
-            if (tag.contains("BlockEntityTag") && tag.getCompound("BlockEntityTag").contains("inv")) {
-                CompoundTag invTag = tag.getCompound("BlockEntityTag").getCompound("inv");
-
-                ListTag tagList = invTag.getList("Items", 10);
-                if (tagList.size() > 0) {
-                    CompoundTag itemTag = tagList.getCompound(0);
-
-                    ItemStack cage = ItemStack.parse(pContext.registries(), itemTag).get();
-                    if (BeeCage.isFilled(cage)) {
-                        String entityId = cage.get(DataComponents.CUSTOM_DATA).copyTag().getString("name");
-                        pTootipComponents.add(Component.translatable("productivebees.information.jar.bee", entityId));
-                    }
-                } else {
-                    pTootipComponents.add(Component.translatable("productivebees.information.jar.fill_tip"));
+    public void appendHoverText(ItemStack pStack, Item.TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
+        super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
+        if (pStack.has(DataComponents.CONTAINER) && pStack.get(DataComponents.CONTAINER) != null && pStack.get(DataComponents.CONTAINER).getSlots() > 0) {
+            var cageStack = pStack.get(DataComponents.CONTAINER).getStackInSlot(0);
+            if (BeeCage.isFilled(cageStack)) {
+                var data = cageStack.get(DataComponents.CUSTOM_DATA);
+                if (data != null && !data.getUnsafe().equals(new CompoundTag())) {
+                    var tag = data.copyTag();
+                    pTooltipComponents.add(Component.translatable("productivebees.information.jar.bee", tag.getString("name")));
                 }
+            } else {
+                pTooltipComponents.add(Component.translatable("productivebees.information.jar.fill_tip"));
             }
         } else {
-            pTootipComponents.add(Component.translatable("productivebees.information.jar.fill_tip"));
+            pTooltipComponents.add(Component.translatable("productivebees.information.jar.fill_tip"));
         }
     }
 }

@@ -20,7 +20,6 @@ public class CatcherScreen extends AbstractContainerScreen<CatcherContainer>
 
     @Override
     public void render(@Nonnull GuiGraphics pGuiGraphics, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(pGuiGraphics, mouseX, mouseY, partialTicks);
         super.render(pGuiGraphics, mouseX, mouseY, partialTicks);
         this.renderTooltip(pGuiGraphics, mouseX, mouseY);
     }

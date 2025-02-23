@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.gen.feature;
 
 import com.mojang.serialization.Codec;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -25,7 +26,7 @@ public class WoodSolitaryNestFeature extends SolitaryNestFeature
         ReplaceBlockConfiguration featureConfig = context.config();
 
         for(OreConfiguration.TargetBlockState targetBlockState : featureConfig.targetStates) {
-            if (rand.nextFloat() > ProductiveBeesConfig.WORLD_GEN.nestConfigs.get(configKey).get().floatValue()) {
+            if (ProductiveBeesConfig.WORLD_GEN.nestConfigs.containsKey(configKey) && rand.nextFloat() > ProductiveBeesConfig.WORLD_GEN.nestConfigs.get(configKey).get().floatValue()) {
                 return false;
             }
 

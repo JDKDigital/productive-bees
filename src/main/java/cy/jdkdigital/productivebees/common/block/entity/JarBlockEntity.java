@@ -4,9 +4,11 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivelib.common.block.entity.AbstractBlockEntity;
+import cy.jdkdigital.productivelib.common.block.entity.CapabilityBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
@@ -15,15 +17,19 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class JarBlockEntity extends AbstractBlockEntity
+public class JarBlockEntity extends CapabilityBlockEntity
 {
     @Nullable
     private Entity cachedEntity;
@@ -70,39 +76,31 @@ public class JarBlockEntity extends AbstractBlockEntity
     }
 
     @Override
-    public void savePacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
-        super.savePacketNBT(tag, provider);
-        if (inventoryHandler instanceof ItemStackHandler serializable) {
-            tag.put("inv", serializable.serializeNBT(provider));
-        };
+    public IItemHandler getItemHandler() {
+        return inventoryHandler;
     }
 
     @Override
-    public void loadPacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
-        super.loadPacketNBT(tag, provider);
-        CompoundTag invTag = tag.getCompound("inv");
-        if (inventoryHandler instanceof ItemStackHandler serializable) {
-            serializable.deserializeNBT(provider, invTag);
-        }
-
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        super.loadAdditional(tag, provider);
         tickCount = ProductiveBees.random.nextInt(360);
     }
 
     @Override
-    protected void applyImplicitComponents(BlockEntity.DataComponentInput pComponentInput) {
-        super.applyImplicitComponents(pComponentInput);
-        var d = pComponentInput.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
-        if (level != null) {
-            loadPacketNBT(d, level.registryAccess());
+    protected void applyImplicitComponents(BlockEntity.DataComponentInput componentInput) {
+        super.applyImplicitComponents(componentInput);
+        NonNullList<ItemStack> items = NonNullList.withSize(1, ItemStack.EMPTY);
+        componentInput.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyInto(items);
+        if (!items.isEmpty() && !items.getFirst().isEmpty()) {
+            this.getItemHandler().insertItem(0, items.getFirst(), false);
         }
     }
 
     @Override
-    protected void collectImplicitComponents(DataComponentMap.Builder pComponents) {
-        super.collectImplicitComponents(pComponents);
+    protected void collectImplicitComponents(DataComponentMap.Builder components) {
+        super.collectImplicitComponents(components);
         if (inventoryHandler instanceof ItemStackHandler serializable && level != null) {
-            pComponents.set(DataComponents.CUSTOM_DATA, CustomData.of(serializable.serializeNBT(level.registryAccess())));
+            components.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(List.of(this.getItemHandler().getStackInSlot(0))));
         };
     }
-
 }

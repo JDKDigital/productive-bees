@@ -15,6 +15,7 @@ import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.*;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
+import cy.jdkdigital.productivelib.event.BeePollinationCompleteEvent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -24,7 +25,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.PoiTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
@@ -59,6 +59,7 @@ import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
+import net.neoforged.neoforge.common.NeoForge;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -538,6 +539,8 @@ public class ProductiveBee extends Bee implements IProductiveBee
                     }
                 }
             }
+            // Fire post pollinate event
+            NeoForge.EVENT_BUS.post(new BeePollinationCompleteEvent(level(), this, getSavedFlowerPos()));
         }
     }
 

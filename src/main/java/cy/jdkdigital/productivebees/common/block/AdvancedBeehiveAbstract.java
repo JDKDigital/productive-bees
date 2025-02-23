@@ -1,13 +1,17 @@
 package cy.jdkdigital.productivebees.common.block;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
@@ -82,9 +86,11 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
                 pTootipComponents.add(Component.translatable("productivebees.hive.tooltip.bees").withStyle(ChatFormatting.BOLD));
                 for (int i = 0; i < occupants.size(); ++i) {
                     var tag = occupants.get(i).entityData().getUnsafe();
-                    String name = tag.contains("Name") ? tag.getString("Name") : "";
-
-                    pTootipComponents.add(Component.literal(name).withStyle(ChatFormatting.GREEN));
+                    if (tag.contains("type")) {
+                        pTootipComponents.add(Component.translatable("entity.productivebees." + ProductiveBee.getBeeName(ResourceLocation.parse(tag.getString("type"))) + "_bee").withStyle(ChatFormatting.GREEN));
+                    } else {
+                        pTootipComponents.add(Component.translatable(BuiltInRegistries.ENTITY_TYPE.get(ResourceLocation.parse(tag.getString("id"))).getDescriptionId()).withStyle(ChatFormatting.GREEN));
+                    }
                 }
             } else {
                 pTootipComponents.add(Component.translatable("productivebees.hive.tooltip.empty"));

@@ -386,13 +386,12 @@ public class EventHandler
                 add(ModBlocks.EXPANSIONS.get("expansion_box_cherry").get());
                 add(ModBlocks.EXPANSIONS.get("expansion_box_oak").get());
             }};
-            AtomicInteger picked = new AtomicInteger();
+            int picked = new Random().nextInt(hiveMap.size());
             event.getTrades().get(ModProfessions.JOURNEYMAN).add((trader, rand) -> {
-                picked.set(rand.nextInt(hiveMap.size()));
-                return new MerchantOffer(new ItemCost(Items.BEEHIVE, 1), Optional.of(new ItemCost(Items.EMERALD, 6)), new ItemStack(hiveMap.get(picked.get())), 1, 12, 6, 0.2F);
+                return new MerchantOffer(new ItemCost(Items.BEEHIVE, 1), Optional.of(new ItemCost(Items.EMERALD, 6)), new ItemStack(hiveMap.get(picked)), 1, 12, 6, 0.2F);
             });
             event.getTrades().get(ModProfessions.JOURNEYMAN).add((trader, rand) -> {
-                return new MerchantOffer(new ItemCost(Items.EMERALD, 4), Optional.empty(), new ItemStack(boxMap.get(picked.get())), 1, 12, 6, 0.2F);
+                return new MerchantOffer(new ItemCost(Items.EMERALD, 4), Optional.empty(), new ItemStack(boxMap.get(picked)), 1, 12, 6, 0.2F);
             });
 
             event.getTrades().get(ModProfessions.EXPERT).add((trader, rand) -> new MerchantOffer(new ItemCost(Items.EMERALD, 12), Optional.of(new ItemCost(ModItems.BEE_CAGE.get(), 1)), new ItemStack(ModItems.STURDY_BEE_CAGE.get()), 3, 12, 6, 0.2F));

@@ -42,6 +42,8 @@ public class ModFeatures
     public static final DeferredHolder<Feature<?>, WoodSolitaryNestFeature> DARK_OAK_WOOD_NEST_FEATURE = FEATURES.register("dark_oak_wood_nest", () -> new WoodSolitaryNestFeature("dark_oak_wood_nest", ReplaceBlockConfiguration.CODEC));
     public static final DeferredHolder<Feature<?>, WoodSolitaryNestFeature> JUNGLE_WOOD_NEST_FEATURE = FEATURES.register("jungle_wood_nest", () -> new WoodSolitaryNestFeature("jungle_wood_nest", ReplaceBlockConfiguration.CODEC));
     public static final DeferredHolder<Feature<?>, WoodSolitaryNestFeature> ACACIA_WOOD_NEST_FEATURE = FEATURES.register("acacia_wood_nest", () -> new WoodSolitaryNestFeature("acacia_wood_nest", ReplaceBlockConfiguration.CODEC));
+    public static final DeferredHolder<Feature<?>, WoodSolitaryNestFeature> CHERRY_WOOD_NEST_FEATURE = FEATURES.register("cherry_wood_nest", () -> new WoodSolitaryNestFeature("cherry_wood_nest", ReplaceBlockConfiguration.CODEC));
+    public static final DeferredHolder<Feature<?>, WoodSolitaryNestFeature> MANGROVE_WOOD_NEST_FEATURE = FEATURES.register("mangrove_wood_nest", () -> new WoodSolitaryNestFeature("mangrove_wood_nest", ReplaceBlockConfiguration.CODEC));
 
     public static DeferredHolder<TreeDecoratorType<?>, TreeDecoratorType<NetherBeehiveDecorator>> NETHER_BEEHIVE = TREE_DECORATORS.register("nether_beehive", () ->  new TreeDecoratorType<>(NetherBeehiveDecorator.CODEC));
     public static DeferredHolder<TreeDecoratorType<?>, TreeDecoratorType<WoodNestDecorator>> WOOD_NEST = TREE_DECORATORS.register("wood_nest", () ->  new TreeDecoratorType<>(WoodNestDecorator.CODEC));

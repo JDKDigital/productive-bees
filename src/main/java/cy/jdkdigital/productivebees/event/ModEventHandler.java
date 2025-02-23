@@ -7,11 +7,13 @@ import cy.jdkdigital.productivebees.dispenser.CageDispenseBehavior;
 import cy.jdkdigital.productivebees.dispenser.ShearsDispenseItemBehavior;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModEntities;
+import cy.jdkdigital.productivebees.init.ModFluids;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.network.packets.BeeDataMessage;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -20,6 +22,7 @@ import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
+import net.neoforged.neoforge.fluids.FluidInteractionRegistry;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
@@ -98,117 +101,117 @@ public class ModEventHandler
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,
                 ModBlockEntityTypes.CENTRIFUGE.get(),
-                (myBlockEntity, side) -> myBlockEntity.inventoryHandler
+                (myBlockEntity, side) -> myBlockEntity.getItemHandler()
         );
         event.registerBlockEntity(
                 Capabilities.FluidHandler.BLOCK,
                 ModBlockEntityTypes.CENTRIFUGE.get(),
-                (myBlockEntity, side) -> myBlockEntity.fluidHandler
+                (myBlockEntity, side) -> myBlockEntity.getFluidHandler()
         );
         // Powered centrifuge
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,
                 ModBlockEntityTypes.POWERED_CENTRIFUGE.get(),
-                (myBlockEntity, side) -> myBlockEntity.inventoryHandler
+                (myBlockEntity, side) -> myBlockEntity.getItemHandler()
         );
         event.registerBlockEntity(
                 Capabilities.FluidHandler.BLOCK,
                 ModBlockEntityTypes.POWERED_CENTRIFUGE.get(),
-                (myBlockEntity, side) -> myBlockEntity.fluidHandler
+                (myBlockEntity, side) -> myBlockEntity.getFluidHandler()
         );
         event.registerBlockEntity(
                 Capabilities.EnergyStorage.BLOCK,
                 ModBlockEntityTypes.POWERED_CENTRIFUGE.get(),
-                (myBlockEntity, side) -> myBlockEntity.energyHandler
+                (myBlockEntity, side) -> myBlockEntity.getEnergyHandler()
         );
         // Heated centrifuge
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,
                 ModBlockEntityTypes.HEATED_CENTRIFUGE.get(),
-                (myBlockEntity, side) -> myBlockEntity.inventoryHandler
+                (myBlockEntity, side) -> myBlockEntity.getItemHandler()
         );
         event.registerBlockEntity(
                 Capabilities.FluidHandler.BLOCK,
                 ModBlockEntityTypes.HEATED_CENTRIFUGE.get(),
-                (myBlockEntity, side) -> myBlockEntity.fluidHandler
+                (myBlockEntity, side) -> myBlockEntity.getFluidHandler()
         );
         event.registerBlockEntity(
                 Capabilities.EnergyStorage.BLOCK,
                 ModBlockEntityTypes.HEATED_CENTRIFUGE.get(),
-                (myBlockEntity, side) -> myBlockEntity.energyHandler
+                (myBlockEntity, side) -> myBlockEntity.getEnergyHandler()
         );
         // Bottler
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,
                 ModBlockEntityTypes.BOTTLER.get(),
-                (myBlockEntity, side) -> myBlockEntity.inventoryHandler
+                (myBlockEntity, side) -> myBlockEntity.getItemHandler()
         );
         event.registerBlockEntity(
                 Capabilities.FluidHandler.BLOCK,
                 ModBlockEntityTypes.BOTTLER.get(),
-                (myBlockEntity, side) -> myBlockEntity.fluidHandler
+                (myBlockEntity, side) -> myBlockEntity.getFluidHandler()
         );
         // Feeding slab
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,
                 ModBlockEntityTypes.FEEDER.get(),
-                (myBlockEntity, side) -> myBlockEntity.inventoryHandler
+                (myBlockEntity, side) -> myBlockEntity.getItemHandler()
         );
         // Jar
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,
                 ModBlockEntityTypes.JAR.get(),
-                (myBlockEntity, side) -> myBlockEntity.inventoryHandler
+                (myBlockEntity, side) -> myBlockEntity.getItemHandler()
         );
         // Honey generator
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,
                 ModBlockEntityTypes.HONEY_GENERATOR.get(),
-                (myBlockEntity, side) -> myBlockEntity.inventoryHandler
+                (myBlockEntity, side) -> myBlockEntity.getItemHandler()
         );
         event.registerBlockEntity(
                 Capabilities.FluidHandler.BLOCK,
                 ModBlockEntityTypes.HONEY_GENERATOR.get(),
-                (myBlockEntity, side) -> myBlockEntity.fluidHandler
+                (myBlockEntity, side) -> myBlockEntity.getFluidHandler()
         );
         event.registerBlockEntity(
                 Capabilities.EnergyStorage.BLOCK,
                 ModBlockEntityTypes.HONEY_GENERATOR.get(),
-                (myBlockEntity, side) -> myBlockEntity.energyHandler
+                (myBlockEntity, side) -> myBlockEntity.getEnergyHandler()
         );
         // Catcher
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,
                 ModBlockEntityTypes.CATCHER.get(),
-                (myBlockEntity, side) -> myBlockEntity.inventoryHandler
+                (myBlockEntity, side) -> myBlockEntity.getItemHandler()
         );
         // Incubator
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,
                 ModBlockEntityTypes.INCUBATOR.get(),
-                (myBlockEntity, side) -> myBlockEntity.inventoryHandler
+                (myBlockEntity, side) -> myBlockEntity.getItemHandler()
         );
         event.registerBlockEntity(
                 Capabilities.EnergyStorage.BLOCK,
                 ModBlockEntityTypes.INCUBATOR.get(),
-                (myBlockEntity, side) -> myBlockEntity.energyHandler
+                (myBlockEntity, side) -> myBlockEntity.getEnergyHandler()
         );
         // Gene indexer
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,
                 ModBlockEntityTypes.GENE_INDEXER.get(),
-                (myBlockEntity, side) -> myBlockEntity.inventoryHandler
+                (myBlockEntity, side) -> myBlockEntity.getItemHandler()
         );
         // Breeding chamber
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,
                 ModBlockEntityTypes.BREEDING_CHAMBER.get(),
-                (myBlockEntity, side) -> myBlockEntity.inventoryHandler
+                (myBlockEntity, side) -> myBlockEntity.getItemHandler()
         );
         event.registerBlockEntity(
                 Capabilities.EnergyStorage.BLOCK,
                 ModBlockEntityTypes.BREEDING_CHAMBER.get(),
-                (myBlockEntity, side) -> myBlockEntity.energyHandler
+                (myBlockEntity, side) -> myBlockEntity.getEnergyHandler()
         );
     }
 }

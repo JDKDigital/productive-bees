@@ -566,7 +566,7 @@ public class BeeProvider implements DataProvider
 
             // Special bees
             add(new BeeConfig("special/villager").primaryColor("#3a5a19").secondaryColor("#73964b").particleColor("#ff0000").flowerBlock("minecraft:air").beeTexture("villager").model("productivebees:geo/entity/villager.geo.json").noComb().noSelfBreed());
-            add(new BeeConfig("special/phil").primaryColor("#675d42").secondaryColor("#c3434c").particleColor("#ff8d80").size(0.4).flowerBlock("minecraft:air").beeTexture("phil").renderer("elvis"));
+            add(new BeeConfig("special/phil").primaryColor("#ffefff").secondaryColor("#c3434c").particleColor("#ff8d80").size(0.4).flowerBlock("minecraft:air").beeTexture("phil").noComb().renderer("elvis"));
         }};
     }
 

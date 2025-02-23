@@ -10,7 +10,7 @@
             {
               "function": "minecraft:copy_components",
               "include": [
-                "minecraft:custom_data"
+                "minecraft:container"
               ],
               "source": "block_entity"
             }

@@ -62,7 +62,7 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBee, Productive
 
         Calendar calendar = Calendar.getInstance();
         if (ProductiveBeesConfig.CLIENT.alwaysChristmas.get() || (calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) >= 21 && calendar.get(Calendar.DATE) <= 26)) {
-            this.isChristmas = true;
+            this.isChristmas = !ProductiveBeesConfig.CLIENT.neverChristmas.get();
         }
         if (calendar.get(Calendar.MONTH) + 1 == 4 && calendar.get(Calendar.DATE) <= 1) {
             this.isAprilFool = true;

@@ -34,7 +34,6 @@ public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamb
 
     @Override
     public void render(@Nonnull GuiGraphics matrixStack, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(matrixStack, mouseX, mouseY, partialTicks);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         this.renderTooltip(matrixStack, mouseX, mouseY);
     }

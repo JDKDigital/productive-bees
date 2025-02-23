@@ -8,7 +8,7 @@
         {
             "type": "patchouli:text",
             "title": "Lumber Bee",
-            "text": "Nibble on nearby wood and collects wood chips in its hive. Wood chips can be crafted into logs."
+            "text": "Nibble on nearby wood and collects it in its hive."
         },
         {
             "type": "patchouli:entity",

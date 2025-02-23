@@ -371,8 +371,8 @@ public class BeeHelper
                 } else if (blockEntity instanceof FeederBlockEntity feederBlockEntity) {
                     ItemStack amberItem = feederBlockEntity.getSpecificItemFromInventory(ModBlocks.AMBER.get().asItem(), level.random);
                     var tag = amberItem.get(DataComponents.ENTITY_DATA);
-                    if(tag != null && tag.contains("EntityData")) {
-                        entity = AmberBlockEntity.createEntity(serverLevel, tag.copyTag().getCompound("EntityData"));
+                    if(tag != null) {
+                        entity = AmberBlockEntity.createEntity(serverLevel, tag.copyTag());
                     }
                 }
 
@@ -390,7 +390,7 @@ public class BeeHelper
                         lootContextBuilder.withParameter(LootContextParams.ORIGIN, new Vec3(flowerPos.getX(), flowerPos.getY(), flowerPos.getZ()));
 
                         List<ItemStack> list = lootTable.getRandomItems(lootContextBuilder.create(LootContextParamSets.ENTITY)).stream().filter(itemStack -> !itemStack.is(ModTags.WANNABEE_LOOT_BLACKLIST)).toList();
-                        if (list.size() > 0) {
+                        if (!list.isEmpty()) {
                             for (var i = 0; i < rolls; i++) {
                                 outputList.add(list.get(level.random.nextInt(list.size())));
                             }

@@ -94,7 +94,7 @@ public class AmberBlockEntity extends AbstractBlockEntity
     @Override
     protected void applyImplicitComponents(BlockEntity.DataComponentInput pComponentInput) {
         super.applyImplicitComponents(pComponentInput);
-        this.entityTag = pComponentInput.get(DataComponents.ENTITY_DATA).copyTag();
+        this.entityTag = pComponentInput.getOrDefault(DataComponents.ENTITY_DATA, CustomData.of(new CompoundTag())).copyTag();
     }
 
     @Override

@@ -311,13 +311,6 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                     var breedingIngredient = productiveBee.getBreedingIngredient();
                     if (!breedingIngredient.test(Items.POPPY.getDefaultInstance())) {
                         canBreed = false;
-//                        for (int i = 0; i < inventoryHandler.getSlots(); i++) {
-//                            var slotStack = inventoryHandler.getStackInSlot(i);
-//                            if (breedingIngredient.test(slotStack) && slotStack.getCount() >= productiveBee.getBreedingItemCount()) {
-//                                inventoryHandler.getStackInSlot(i).shrink(productiveBee.getBreedingItemCount());
-//                                canBreed = true;
-//                            }
-//                        }
                     }
                 }
                 if (canBreed) {

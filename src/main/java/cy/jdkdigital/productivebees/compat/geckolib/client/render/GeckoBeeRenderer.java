@@ -28,7 +28,7 @@ public class GeckoBeeRenderer extends GeoEntityRenderer<GeckoBee>
 
         Calendar calendar = Calendar.getInstance();
         if (ProductiveBeesConfig.CLIENT.alwaysChristmas.get() || (calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) >= 21 && calendar.get(Calendar.DATE) <= 26)) {
-            this.isChristmas = true;
+            this.isChristmas = !ProductiveBeesConfig.CLIENT.neverChristmas.get();
         }
         if (calendar.get(Calendar.MONTH) + 1 == 4 && calendar.get(Calendar.DATE) == 1) {
             this.isAprilFool = true;
@@ -120,7 +120,7 @@ public class GeckoBeeRenderer extends GeoEntityRenderer<GeckoBee>
 
         @Override
         public void render(PoseStack poseStack, GeckoBee animatable, BakedGeoModel bakedModel, @Nullable RenderType renderType, MultiBufferSource bufferSource, @Nullable VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
-            if (!animatable.isInvisible() && !animatable.hasBeeTexture() && animatable.useGlowLayer() && !animatable.getRenderStatic() && BeeBodyLayer.baseTextures.get(animatable.getRenderer()).containsKey("glowlayer")) {
+            if (!animatable.isInvisible() && !animatable.hasBeeTexture() && animatable.useGlowLayer() && !animatable.getRenderStatic() && BeeBodyLayer.baseTextures.containsKey(animatable.getRenderer()) && BeeBodyLayer.baseTextures.get(animatable.getRenderer()).containsKey("glowlayer")) {
                 renderType = RenderType.eyes(BeeBodyLayer.baseTextures.get(animatable.getRenderer()).get("glowlayer"));
                 int primaryColor = animatable.getTertiaryColor(partialTick);
                 getRenderer().reRender(bakedModel, poseStack, bufferSource, animatable, renderType,
@@ -137,7 +137,7 @@ public class GeckoBeeRenderer extends GeoEntityRenderer<GeckoBee>
 
         @Override
         public void render(PoseStack poseStack, GeckoBee animatable, BakedGeoModel bakedModel, @Nullable RenderType renderType, MultiBufferSource bufferSource, @Nullable VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
-            if (!animatable.isInvisible() && BeeBodyLayer.baseTextures.get(animatable.getRenderer()).containsKey("santahat")) {
+            if (!animatable.isInvisible() && BeeBodyLayer.baseTextures.containsKey(animatable.getRenderer()) && BeeBodyLayer.baseTextures.get(animatable.getRenderer()).containsKey("santahat")) {
                 renderType = RenderType.entityCutoutNoCull(BeeBodyLayer.baseTextures.get(animatable.getRenderer()).get("santahat"));
                 getRenderer().reRender(bakedModel, poseStack, bufferSource, animatable, renderType,
                         bufferSource.getBuffer(renderType), partialTick, 15728640, packedOverlay, -1);

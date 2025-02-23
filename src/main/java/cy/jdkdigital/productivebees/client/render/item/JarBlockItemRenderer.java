@@ -14,7 +14,9 @@ import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
@@ -35,28 +37,30 @@ public class JarBlockItemRenderer extends BlockEntityWithoutLevelRenderer {
     public void renderByItem(ItemStack itemStack, ItemDisplayContext transformType, PoseStack matrixStack, MultiBufferSource renderTypeBuffer, int packedLightIn, int packedUV) {
         Item item = itemStack.getItem();
 
-        if (item instanceof BlockItem jarBlockItem) {
-            String beeTypeOrEntityType = null;
-            String entityType = null;
+        if (item instanceof BlockItem jarBlockItem && itemStack.has(DataComponents.CONTAINER)) {
+            String beeTypeOrEntityType = "";
+            String entityType = "";
 
-            // Very hacky
-            if (BeeCage.isFilled(itemStack)) {
-                var tag = itemStack.get(DataComponents.CUSTOM_DATA).copyTag();
-                ListTag listTag = tag.getCompound("BlockEntityTag").getCompound("inv").getList("Items", 10);
-                if (listTag.size() == 1) {
-                    if (listTag.getCompound(0).getCompound("tag").contains("entity")) {
-                        entityType = listTag.getCompound(0).getCompound("tag").getString("entity");
-                        if (entityType.equals("productivebees:configurable_bee")) {
-                            beeTypeOrEntityType = listTag.getCompound(0).getCompound("tag").getString("type");
-                        } else {
-                            beeTypeOrEntityType = listTag.getCompound(0).getCompound("tag").getString("entity");
-                        }
+            ItemStack cageStack = ItemStack.EMPTY;
+            var containerData = itemStack.get(DataComponents.CONTAINER);
+            if (containerData != null && containerData.getSlots() > 0) {
+                cageStack = containerData.getStackInSlot(0);
+            }
+            if (!cageStack.isEmpty() && BeeCage.isFilled(cageStack)) {
+                var data = cageStack.get(DataComponents.CUSTOM_DATA);
+                if (data != null && !data.getUnsafe().equals(new CompoundTag())) {
+                    var tag = data.copyTag();
+                    entityType = tag.getString("entity");
+                    if (entityType.equals("productivebees:configurable_bee")) {
+                        beeTypeOrEntityType = tag.getString("type");
+                    } else {
+                        beeTypeOrEntityType = tag.getString("entity");
                     }
                 }
             }
 
-            if (beeTypeOrEntityType != null) {
-                if (!beeEntities.containsKey(beeTypeOrEntityType) && entityType != null) {
+            if (!beeTypeOrEntityType.isEmpty()) {
+                if (!beeEntities.containsKey(beeTypeOrEntityType) && !entityType.isEmpty()) {
                     EntityType<?> type = EntityType.byString(entityType).orElse(null);
                     if (type != null && Minecraft.getInstance().level != null) {
                         Entity beeEntity = type.create(Minecraft.getInstance().level);

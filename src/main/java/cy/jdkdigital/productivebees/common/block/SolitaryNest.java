@@ -193,7 +193,7 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
                 }
 
                 if (itemUse) {
-                    pLevel.levelEvent(2005, pPos, 0);
+                    pLevel.levelEvent(2011, pPos, 15);
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) pPlayer, pPos, pStack);
 
                     if (!pPlayer.isCreative()) {
