@@ -17,6 +17,7 @@ import cy.jdkdigital.productivebees.common.block.CombBlock;
 import cy.jdkdigital.productivebees.common.block.entity.CanvasBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.CanvasExpansionBoxBlockEntity;
 import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.common.entity.bee.GeckoBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.fluid.HoneyFluid;
@@ -43,11 +44,13 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.GrassColor;
@@ -132,6 +135,18 @@ public class ClientModEventHandler
             event.accept(Gene.getStack(GeneAttribute.ENDURANCE, GeneValue.ENDURANCE_NORMAL, 1, 100));
             event.accept(Gene.getStack(GeneAttribute.ENDURANCE, GeneValue.ENDURANCE_MEDIUM, 1, 100));
             event.accept(Gene.getStack(GeneAttribute.ENDURANCE, GeneValue.ENDURANCE_STRONG, 1, 100));
+
+            BeeReloadListener.INSTANCE.getData().forEach((location, compoundTag) -> {
+                event.accept(Gene.getStack(GeneAttribute.TYPE, location.toString(), 1, 100));
+            });
+            for (ResourceLocation entityType : BuiltInRegistries.ENTITY_TYPE.keySet()) {
+                if (entityType.getNamespace().equals(ProductiveBees.MODID) && entityType.getPath().contains("bee")) {
+                    if (entityType.toString().equals("productivebees:configurable_bee")) {
+                        continue;
+                    }
+                    event.accept(Gene.getStack(GeneAttribute.TYPE, entityType.toString(), 1, 100));
+                }
+            }
         }
 
         if (event.getTabKey().equals(ProductiveBees.TAB_KEY) || event.getTabKey().equals(CreativeModeTabs.SPAWN_EGGS)) {

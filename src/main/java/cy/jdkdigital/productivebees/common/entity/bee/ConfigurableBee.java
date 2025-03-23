@@ -171,7 +171,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             }
 
             // Kill unconfigured bees
-            if (tickCount > 100 && getBeeType() == null && isAlive()) {
+            if (tickCount > 5 && this.entityData.get(TYPE).isEmpty() && isAlive()) {
                 this.kill();
             }
         }

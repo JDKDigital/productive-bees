@@ -168,6 +168,7 @@ public class ProductiveBeesConfig
     public static class Bees
     {
         public final ModConfigSpec.BooleanValue allowBeeSimulation;
+        public final ModConfigSpec.BooleanValue forceBeeSimulation;
         public final ModConfigSpec.DoubleValue spawnUndeadBeesChance;
         public final ModConfigSpec.DoubleValue deadBeeConvertChance;
         public final ModConfigSpec.DoubleValue sugarbagBeeChance;
@@ -182,8 +183,12 @@ public class ProductiveBeesConfig
             builder.push("Bees");
 
             allowBeeSimulation = builder
-                    .comment("Allow for bee simulation in hives. This will stop bees from exiting the hive and instead simulate a trip to flower blocks saving on performance.")
+                    .comment("Allow for bee simulation in hives using simulation upgrades. This will stop bees from exiting the hive and instead simulate a trip to flower blocks saving on performance.")
                     .define("allowBeeSimulation", true);
+
+            forceBeeSimulation = builder
+                    .comment("Force bee simulation in hives.")
+                    .define("forceBeeSimulation", false);
 
             spawnUndeadBeesChance = builder
                     .defineInRange("spawnUndeadBeesChance", 0.05, 0, 1);

@@ -1,4 +1,10 @@
 {
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "aquaculture"
+    }
+  ],
   "type": "productivelib:container_contents_modifier",
   "addition": {
     "type": "productivebees:component",

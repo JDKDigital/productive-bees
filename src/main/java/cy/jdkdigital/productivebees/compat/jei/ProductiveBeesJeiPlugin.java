@@ -130,6 +130,19 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
             }
         });
 
+        registration.registerSubtypeInterpreter(ModItems.GENE.get(), new ISubtypeInterpreter<>()
+        {
+            @Override
+            public @Nullable Object getSubtypeData(ItemStack ingredient, UidContext context) {
+                return ingredient.get(ModDataComponents.GENE_GROUP);
+            }
+
+            @Override
+            public String getLegacyStringSubtypeInfo(ItemStack ingredient, UidContext context) {
+                return ingredient.get(ModDataComponents.GENE_GROUP).value();
+            }
+        });
+
         registration.registerSubtypeInterpreter(ModItems.CONFIGURABLE_HONEYCOMB.get(), new ISubtypeInterpreter<>()
         {
             @Override

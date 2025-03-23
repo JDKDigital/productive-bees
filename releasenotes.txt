@@ -1,6 +1,11 @@
-1.21.1-13.6.12-pre
+1.21.1-13.6.12
 
+- Added all different gene samples to JEI item list for easier pipe filter configurations
 - Added BeePollinationCompleteEvent
+- Added config to force hive simulation
+- Stopped wood nests from spawning inside a Minecolonies colony
+- Fixed honey bottles not being consumed in honey generator when a mod adds a fluid capability to it
+- Blacklisted data bees from mob grinding utils spawners
 
 
 1.21.1-13.6.11

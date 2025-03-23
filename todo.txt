@@ -1,3 +1,6 @@
+- always sim option
+- datamap for limiting wannabee/increase loot gathering time
+
 water bucket to fish bucket recipes
 
 redo configs

@@ -1,4 +1,10 @@
 {
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "undergarden"
+    }
+  ],
   "type": "productivelib:ingredient_modifier",
   "addition": {
     "type": "productivebees:component",

@@ -167,9 +167,13 @@ dependencies {
     implementation "curse.maven:dyenamics-509276:5788247"
     implementation "curse.maven:forbidden-arcanus-309858:5795185"
     implementation "curse.maven:valhelsia-core-416935:5526890"
-//    implementation "curse.maven:actually-additions-228404:5824751"
     implementation "curse.maven:immersive-engineering-231951:5828000"
-    implementation "curse.maven:friends-and-foes-forge-602059:5904794"
+    implementation "curse.maven:towntalk-900364:5653504"
+    implementation "curse.maven:structurize-298744:6334987"
+    implementation "curse.maven:multi-piston-303278:5783614"
+    implementation "curse.maven:domum-ornamentum-527361:5764083"
+    implementation "curse.maven:blockui-522992:6150484"
+    implementation "curse.maven:minecolonies-245506:6312091"
 }
 
 tasks.withType(ProcessResources).configureEach {

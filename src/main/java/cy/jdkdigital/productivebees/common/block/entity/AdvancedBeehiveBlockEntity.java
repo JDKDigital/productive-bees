@@ -138,11 +138,11 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
     }
 
     public boolean isSim() {
-        return ProductiveBeesConfig.BEES.allowBeeSimulation.get() && (
+        return ProductiveBeesConfig.BEES.forceBeeSimulation.get() || (ProductiveBeesConfig.BEES.allowBeeSimulation.get() && (
                 getUpgradeCount(LibItems.UPGRADE_SIMULATOR.get()) > 0 ||
                 getUpgradeCount(LibItems.UPGRADE_PRODUCTIVITY_3.get()) > 0 ||
                 getUpgradeCount(LibItems.UPGRADE_PRODUCTIVITY_4.get()) > 0
-        );
+        ));
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, AdvancedBeehiveBlockEntity blockEntity) {

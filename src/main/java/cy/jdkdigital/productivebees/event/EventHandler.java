@@ -8,7 +8,9 @@ import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.recipe.BeeFishingRecipe;
+import cy.jdkdigital.productivebees.compat.minecolonies.MinecolonyCompat;
 import cy.jdkdigital.productivebees.gen.feature.WoodNestDecorator;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.network.packets.BeeDataMessage;
@@ -56,6 +58,7 @@ import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.common.util.FakePlayer;
@@ -285,10 +288,13 @@ public class EventHandler
 
     @SubscribeEvent
     public static void onBlockGrow(BlockGrowFeatureEvent event) {
-        if (event.getLevel() instanceof ServerLevel serverLevel) {
+        if (event.getLevel() instanceof ServerLevel serverLevel && ProductiveBeesConfig.WORLD_GEN.treeGrowNestChance.get() > 0d) {
+            if (ModList.get().isLoaded("minecolonies") && !MinecolonyCompat.canGrowAt(serverLevel, event.getPos())) {
+                return;
+            }
             WoodNestDecorator decorator = null;
             float r = serverLevel.getRandom().nextFloat();
-            boolean canSpawnNest = hasFlowers(event.getLevel(), event.getPos()) && r < ProductiveBeesConfig.WORLD_GEN.treeGrowNestChance.get();
+            boolean canSpawnNest = hasFlowers(serverLevel, event.getPos()) && r < ProductiveBeesConfig.WORLD_GEN.treeGrowNestChance.get();
             Block grownBlock =  serverLevel.getBlockState(event.getPos()).getBlock();
             if (canSpawnNest && grownBlock.equals(Blocks.OAK_SAPLING)) {
                 decorator = new WoodNestDecorator(ModBlocks.OAK_WOOD_NEST.get().defaultBlockState());

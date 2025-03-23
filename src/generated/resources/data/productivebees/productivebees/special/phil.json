@@ -4,6 +4,7 @@
   "particleColor": "#ff8d80",
   "flowerBlock": "minecraft:air",
   "beeTexture": "productivebees:textures/entity/bee/phil/bee",
+  "createComb": false,
   "size": 0.4,
   "renderer": "elvis"
 }
