@@ -10,6 +10,7 @@ import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
+import cy.jdkdigital.productivebees.common.item.CombBlockItem;
 import cy.jdkdigital.productivebees.common.item.Honeycomb;
 import cy.jdkdigital.productivebees.common.recipe.*;
 import cy.jdkdigital.productivebees.init.*;
@@ -204,13 +205,15 @@ public class BeeHelper
                         bee1Data == null ||
                         bee1Data.getBoolean("selfbreed")
                 );
-        if (canSelfBreed && bee1Data == null) {
-            var bee = BeeIngredientFactory.getIngredient(beeInv.getIdentifier()).get().getCachedEntity(level);
-            canSelfBreed = !(bee instanceof ProductiveBee pBee) || pBee.canSelfBreed();
-        }
-        if (canSelfBreed) {
-            Supplier<BeeIngredient> beeIngredient = Lazy.of(BeeIngredientFactory.getIngredient(beeInv.getIdentifier()));
-            recipes.add(new RecipeHolder<>(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "bee_breeding_" + ResourceLocation.parse(beeInv.getIdentifier()).getPath() + "_self"), new BeeBreedingRecipe(beeIngredient, beeIngredient, beeIngredient)));
+        var bee1Ingredient = BeeIngredientFactory.getIngredient(beeInv.getIdentifier());
+        if (bee1Ingredient != null) {
+            if (canSelfBreed && bee1Data == null) {
+                var bee = bee1Ingredient.get().getCachedEntity(level);
+                canSelfBreed = !(bee instanceof ProductiveBee pBee) || pBee.canSelfBreed();
+            }
+            if (canSelfBreed) {
+                recipes.add(new RecipeHolder<>(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "bee_breeding_" + ResourceLocation.parse(beeInv.getIdentifier()).getPath() + "_self"), new BeeBreedingRecipe(Lazy.of(bee1Ingredient), Lazy.of(bee1Ingredient), Lazy.of(bee1Ingredient), 0f)));
+            }
         }
 
         return recipes;
@@ -425,7 +428,7 @@ public class BeeHelper
         for (RecipeHolder<CraftingRecipe> recipe : recipes) {
             List<Ingredient> ingredients = recipe.value().getIngredients();
             if (ingredients.size() == 1) {
-                Ingredient ingredient = ingredients.get(0);
+                Ingredient ingredient = ingredients.getFirst();
                 ItemStack[] stacks = ingredient.getItems();
                 if (stacks.length > 0 && stacks[0].getItem().equals(input)) {
                     return recipe.value().getResultItem(level.registryAccess()).copy();
@@ -433,6 +436,25 @@ public class BeeHelper
             }
         }
         return ItemStack.EMPTY;
+    }
+
+    public static ItemStack getSingleComb(ItemStack stack) {
+        ItemStack singleComb = ItemStack.EMPTY;
+        if (stack.getItem() instanceof CombBlockItem) {
+            singleComb = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
+            singleComb.set(ModDataComponents.BEE_TYPE, stack.get(ModDataComponents.BEE_TYPE));
+        } else {
+            if (stack.is(ModBlocks.COMB_GHOSTLY.get().asItem())) {
+                singleComb = ModItems.HONEYCOMB_GHOSTLY.get().getDefaultInstance();
+            } else if (stack.is(ModBlocks.COMB_MILKY.get().asItem())) {
+                singleComb = ModItems.HONEYCOMB_MILKY.get().getDefaultInstance();
+            } else if (stack.is(ModBlocks.COMB_POWDERY.get().asItem())) {
+                singleComb = ModItems.HONEYCOMB_POWDERY.get().getDefaultInstance();
+            } else if (stack.is(Items.HONEYCOMB_BLOCK)) {
+                singleComb = Items.HONEYCOMB.getDefaultInstance();
+            }
+        }
+        return singleComb;
     }
 
     @Nullable

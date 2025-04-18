@@ -1,3 +1,22 @@
+1.21.1-13.6.15
+
+- Fixed vanilla comb blocks not being processable in heated centrifuge
+
+
+1.21.1-13.6.14
+
+- Added option for bees to die after breeding
+- Fixed crash when hovering an invalid gene honey treat
+- Fixed performance issue when processing certain comb blocks
+- Fixed some upgrade slots not being insertable by pipes
+
+
+1.21.1-13.6.13
+
+- Keep processing combs in centrifuges even if there's a different fluid in the output
+- You can now insert and remove upgrades from the bottom or top of the expansion box
+
+
 1.21.1-13.6.12
 
 - Added all different gene samples to JEI item list for easier pipe filter configurations

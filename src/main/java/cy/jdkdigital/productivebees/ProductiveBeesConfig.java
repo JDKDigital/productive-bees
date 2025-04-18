@@ -79,12 +79,12 @@ public class ProductiveBeesConfig
         public final ModConfigSpec.IntValue breedingChamberPowerUse;
         public final ModConfigSpec.IntValue generatorPowerGen;
         public final ModConfigSpec.IntValue generatorHoneyUse;
-        public final ModConfigSpec.ConfigValue<List<? extends String>> preferredTagSource;
         public final ModConfigSpec.IntValue numberOfBeesPerBomb;
         public final ModConfigSpec.IntValue nestLocatorDistance;
         public final ModConfigSpec.IntValue nestSpawnCooldown;
         public final ModConfigSpec.BooleanValue centrifugeHopperMode;
         public final ModConfigSpec.BooleanValue forceEnableFarmerBeeRightClickHarvest;
+        public final ModConfigSpec.BooleanValue enableJokes;
 
         public General(ModConfigSpec.Builder builder) {
             builder.push("General");
@@ -137,10 +137,6 @@ public class ProductiveBeesConfig
                     .comment("How much honey to consume per tick. Default 5.")
                     .defineInRange("generatorHoneyUse", 2, 1, Integer.MAX_VALUE);
 
-            preferredTagSource = builder
-                    .comment("A priority list of Mod IDs that results of comb output should stem from, aka which mod you want the copper to come from.")
-                    .defineList("preferredTagSource", ImmutableList.of("minecraft", ProductiveBees.MODID, "alltheores", "ato", "thermal", "tconstruct", "create", "immersiveengineering", "mekanism", "enderio", "silents_mechanisms"), obj -> true);
-
             numberOfBeesPerBomb = builder
                     .comment("How many bees can fit in a bee bomb. Default is 10")
                     .defineInRange("numberOfBeesPerBomb", 10, 1, 50);
@@ -160,6 +156,10 @@ public class ProductiveBeesConfig
             forceEnableFarmerBeeRightClickHarvest = builder
                     .comment("Enable this if you have a right click harvest handler but none of the following mods: right_click_get_crops, croptopia, quark, harvest, simplefarming, reap")
                     .define("forceEnableFarmerBeeRightClickHarvest", false);
+
+            enableJokes = builder
+                    .comment("Enable april fools jokes")
+                    .define("enableJokes", true);
 
             builder.pop();
         }

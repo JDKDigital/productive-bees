@@ -11,6 +11,7 @@ import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.recipe.BeeFishingRecipe;
 import cy.jdkdigital.productivebees.compat.minecolonies.MinecolonyCompat;
+import cy.jdkdigital.productivebees.container.BreedingChamberContainer;
 import cy.jdkdigital.productivebees.gen.feature.WoodNestDecorator;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.network.packets.BeeDataMessage;
@@ -246,7 +247,7 @@ public class EventHandler
                     bee.level().addFreshEntity(newBee);
                 }
             }
-        } else if (event.getEntity() instanceof Villager && Calendar.getInstance().get(Calendar.MONTH) + 1 == 4 && Calendar.getInstance().get(Calendar.DATE) == 1) {
+        } else if (ProductiveBeesConfig.GENERAL.enableJokes.get() && event.getEntity() instanceof Villager && Calendar.getInstance().get(Calendar.MONTH) + 1 == 4 && Calendar.getInstance().get(Calendar.DATE) == 1) {
             Entity newBee = ModEntities.CONFIGURABLE_BEE.get().create(event.getEntity().level());
             if (newBee instanceof ConfigurableBee configurableBee) {
                 configurableBee.setBeeType("productivebees:villager");
@@ -573,9 +574,21 @@ public class EventHandler
 
     @SubscribeEvent
     public static void onBabyEntitySpawn(BabyEntitySpawnEvent event) {
-        if (event.getChild() instanceof Bee bee && bee.level() instanceof ServerLevel && !bee.hasData(ProductiveBees.ATTRIBUTE_HANDLER)) {
+        if (event.getChild() instanceof Bee bee && bee.level() instanceof ServerLevel serverLevel) {
             if (event.getParentA() instanceof Bee parenA && event.getParentB() instanceof AgeableMob parentB) {
-                BeeHelper.setOffspringAttributes(bee, parenA, parentB);
+                if (!bee.hasData(ProductiveBees.ATTRIBUTE_HANDLER)) {
+                    BeeHelper.setOffspringAttributes(bee, parenA, parentB);
+                }
+
+                var recipe = BeeHelper.getRandomBreedingRecipe(parenA, parentB, serverLevel);
+                if (recipe != null) {
+                    if (recipe.value().parentDeathChance > serverLevel.random.nextFloat()) {
+                        parenA.setHasStung(true);
+                    }
+                    if (recipe.value().parentDeathChance > serverLevel.random.nextFloat() && parentB instanceof Bee parentBee) {
+                        parentBee.setHasStung(true);
+                    }
+                }
             }
         }
     }

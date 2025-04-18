@@ -13,6 +13,7 @@ import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Bee;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -53,6 +54,7 @@ public class BeeIngredientFactory
         return getIngredient(name.toString());
     }
 
+    @Nullable
     public static Supplier<BeeIngredient> getIngredient(String name) {
         return () -> getOrCreateList().get(name);
     }

@@ -244,7 +244,8 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
             return false;
         }
         if (level != null && chosenRecipe != null && invHandler.getStackInSlot(BreedingChamberContainer.SLOT_OUTPUT).isEmpty() && invHandler.getStackInSlot(BreedingChamberContainer.SLOT_CAGE).getItem() instanceof BeeCage && canProcessInput(invHandler, false)) {
-            BeeIngredient beeIngredient = chosenRecipe.value().offspring.get();
+            var recipe = chosenRecipe.value();
+            BeeIngredient beeIngredient = recipe.offspring.get();
 
             Entity offspring = beeIngredient.getBeeEntity().create(level);
             if (offspring instanceof Bee bee) {
@@ -266,6 +267,14 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
                 cage.shrink(1);
 
                 invHandler.setStackInSlot(BreedingChamberContainer.SLOT_OUTPUT, newCage);
+
+                // parent death
+                if (recipe.parentDeathChance > level.random.nextFloat()) {
+                    invHandler.setStackInSlot(BreedingChamberContainer.SLOT_BEE_1, invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1).getItem().getDefaultInstance());
+                }
+                if (recipe.parentDeathChance > level.random.nextFloat()) {
+                    invHandler.setStackInSlot(BreedingChamberContainer.SLOT_BEE_2, invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2).getItem().getDefaultInstance());
+                }
 
                 return true;
             }

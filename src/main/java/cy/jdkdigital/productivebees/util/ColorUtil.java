@@ -50,25 +50,13 @@ public class ColorUtil
     }
 
     public static ChatFormatting getAttributeColor(GeneValue level) {
+        if (level == null) {
+            return ChatFormatting.GREEN;
+        }
         return switch (level) {
-            case TEMPER_NORMAL -> ChatFormatting.BLUE;
-            case PRODUCTIVITY_MEDIUM -> ChatFormatting.BLUE;
-            case ENDURANCE_NORMAL -> ChatFormatting.BLUE;
-            case TEMPER_AGGRESSIVE -> ChatFormatting.LIGHT_PURPLE;
-            case PRODUCTIVITY_HIGH -> ChatFormatting.LIGHT_PURPLE;
-            case WEATHER_TOLERANCE_RAIN -> ChatFormatting.LIGHT_PURPLE;
-            case ENDURANCE_MEDIUM -> ChatFormatting.LIGHT_PURPLE;
-            case BEHAVIOR_NOCTURNAL -> ChatFormatting.LIGHT_PURPLE;
-            case TEMPER_HOSTILE -> ChatFormatting.RED;
-            case PRODUCTIVITY_VERY_HIGH -> ChatFormatting.RED;
-            case WEATHER_TOLERANCE_ANY -> ChatFormatting.RED;
-            case ENDURANCE_STRONG -> ChatFormatting.RED;
-            case BEHAVIOR_METATURNAL -> ChatFormatting.RED;
-            case TEMPER_PASSIVE -> ChatFormatting.GREEN;
-            case PRODUCTIVITY_NORMAL -> ChatFormatting.GREEN;
-            case WEATHER_TOLERANCE_NONE -> ChatFormatting.GREEN;
-            case ENDURANCE_WEAK -> ChatFormatting.GREEN;
-            case BEHAVIOR_DIURNAL -> ChatFormatting.GREEN;
+            case TEMPER_NORMAL, PRODUCTIVITY_MEDIUM, ENDURANCE_NORMAL -> ChatFormatting.BLUE;
+            case TEMPER_AGGRESSIVE, PRODUCTIVITY_HIGH, WEATHER_TOLERANCE_RAIN, ENDURANCE_MEDIUM, BEHAVIOR_NOCTURNAL -> ChatFormatting.LIGHT_PURPLE;
+            case TEMPER_HOSTILE, BEHAVIOR_METATURNAL, ENDURANCE_STRONG, WEATHER_TOLERANCE_ANY, PRODUCTIVITY_VERY_HIGH -> ChatFormatting.RED;
             default -> ChatFormatting.GREEN;
         };
     }

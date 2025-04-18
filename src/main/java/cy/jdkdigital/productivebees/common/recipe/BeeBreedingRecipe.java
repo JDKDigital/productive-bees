@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.recipe;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
@@ -27,11 +28,13 @@ public class BeeBreedingRecipe implements Recipe<RecipeInput>, TimedRecipeInterf
     public final Supplier<BeeIngredient> parent1;
     public final Supplier<BeeIngredient> parent2;
     public final Supplier<BeeIngredient> offspring;
+    public final float parentDeathChance;
 
-    public BeeBreedingRecipe(Supplier<BeeIngredient> parent1, Supplier<BeeIngredient> parent2, Supplier<BeeIngredient> offspring) {
+    public BeeBreedingRecipe(Supplier<BeeIngredient> parent1, Supplier<BeeIngredient> parent2, Supplier<BeeIngredient> offspring, float parentDeathChance) {
         this.parent1 = parent1;
         this.parent2 = parent2;
         this.offspring = offspring;
+        this.parentDeathChance = parentDeathChance;
     }
 
     @Override
@@ -100,7 +103,8 @@ public class BeeBreedingRecipe implements Recipe<RecipeInput>, TimedRecipeInterf
                 builder -> builder.group(
                                 BeeIngredient.CODEC.fieldOf("parent1").forGetter(recipe -> recipe.parent1),
                                 BeeIngredient.CODEC.fieldOf("parent2").forGetter(recipe -> recipe.parent2),
-                                BeeIngredient.CODEC.fieldOf("offspring").forGetter(recipe -> recipe.offspring)
+                                BeeIngredient.CODEC.fieldOf("offspring").forGetter(recipe -> recipe.offspring),
+                                Codec.FLOAT.fieldOf("parentDeathChance").orElse(0f).forGetter(recipe -> recipe.parentDeathChance)
                         )
                         .apply(builder, BeeBreedingRecipe::new)
         );
@@ -125,7 +129,7 @@ public class BeeBreedingRecipe implements Recipe<RecipeInput>, TimedRecipeInterf
                 BeeIngredient ing2 = BeeIngredient.fromNetwork(buffer);
                 BeeIngredient offspring = BeeIngredient.fromNetwork(buffer);
 
-                return new BeeBreedingRecipe(Lazy.of(() -> ing1), Lazy.of(() -> ing2), Lazy.of(() -> offspring));
+                return new BeeBreedingRecipe(Lazy.of(() -> ing1), Lazy.of(() -> ing2), Lazy.of(() -> offspring), buffer.readFloat());
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error reading bee breeding recipe from packet. ", e);
                 throw e;
@@ -137,6 +141,7 @@ public class BeeBreedingRecipe implements Recipe<RecipeInput>, TimedRecipeInterf
                 recipe.parent1.get().toNetwork(buffer);
                 recipe.parent2.get().toNetwork(buffer);
                 recipe.offspring.get().toNetwork(buffer);
+                buffer.writeFloat(recipe.parentDeathChance);
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error writing bee breeding recipe to packet. ", e);
                 throw e;

@@ -31,7 +31,7 @@ public class GeckoBeeRenderer extends GeoEntityRenderer<GeckoBee>
             this.isChristmas = !ProductiveBeesConfig.CLIENT.neverChristmas.get();
         }
         if (calendar.get(Calendar.MONTH) + 1 == 4 && calendar.get(Calendar.DATE) == 1) {
-            this.isAprilFool = true;
+            this.isAprilFool = ProductiveBeesConfig.GENERAL.enableJokes.get();
         }
 
         addRenderLayer(new JellyLayer(this));

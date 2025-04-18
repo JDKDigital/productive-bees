@@ -63,14 +63,7 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
         }
 
         if (stack.is(ModTags.Common.STORAGE_BLOCK_HONEYCOMBS)) {
-            ItemStack singleComb;
-            // config honeycomb
-            if (stack.getItem() instanceof CombBlockItem) {
-                singleComb = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
-                singleComb.set(ModDataComponents.BEE_TYPE, stack.get(ModDataComponents.BEE_TYPE));
-            } else {
-                singleComb = BeeHelper.getRecipeOutputFromInput(level, stack.getItem());
-            }
+            ItemStack singleComb = BeeHelper.getSingleComb(stack);
             return !singleComb.isEmpty() && super.canProcessItemStack(singleComb);
         }
 
@@ -94,14 +87,7 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
         }
 
         if (!blockRecipeMap.containsKey(cacheKey)) {
-            ItemStack singleComb;
-            // config honeycomb
-            if (input.getItem() instanceof CombBlockItem) {
-                singleComb = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
-                singleComb.set(ModDataComponents.BEE_TYPE, input.get(ModDataComponents.BEE_TYPE));
-            } else {
-                singleComb = BeeHelper.getRecipeOutputFromInput(level, input.getItem());
-            }
+            ItemStack singleComb = BeeHelper.getSingleComb(input);
 
             if (singleComb.isEmpty()) {
                 singleComb = input;
@@ -118,13 +104,7 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
     protected void completeRecipeProcessing(RecipeHolder<CentrifugeRecipe> recipe, IItemHandlerModifiable invHandler, RandomSource random) {
         ItemStack input = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).copy();
         if (input.is(ModTags.Common.STORAGE_BLOCK_HONEYCOMBS) && !recipe.value().ingredient.test(input)) {
-            ItemStack singleComb;
-            if (input.getItem() instanceof CombBlockItem) {
-                singleComb = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get(), 4);
-                singleComb.set(ModDataComponents.BEE_TYPE, input.get(ModDataComponents.BEE_TYPE));
-            } else {
-                singleComb = BeeHelper.getRecipeOutputFromInput(level, input.getItem());
-            }
+            ItemStack singleComb = BeeHelper.getSingleComb(input);
             invHandler.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, singleComb);
             for (int i = 0; i < 4; i++) {
                 super.completeRecipeProcessing(recipe, invHandler, random, true);

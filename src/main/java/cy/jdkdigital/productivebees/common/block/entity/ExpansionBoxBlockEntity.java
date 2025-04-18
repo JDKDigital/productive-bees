@@ -36,4 +36,19 @@ public class ExpansionBoxBlockEntity extends BlockEntity
         }
         return null;
     }
+
+    public IItemHandlerModifiable getHiveUpgradeHandler() {
+        if (level != null && !getBlockState().getValue(AdvancedBeehive.EXPANDED).equals(VerticalHive.NONE)) {
+            Pair<Pair<BlockPos, Direction>, BlockState> pair = ExpansionBox.getAttachedHive(getBlockState(), level, getBlockPos());
+            if (pair != null) {
+                Pair<BlockPos, Direction> posAndDirection = pair.getLeft();
+                BlockPos hivePos = posAndDirection.getLeft();
+                BlockEntity hiveTileEntity = level.getBlockEntity(hivePos);
+                if (hiveTileEntity instanceof AdvancedBeehiveBlockEntity advancedBeehiveBlockEntity) {
+                    return advancedBeehiveBlockEntity.getUpgradeHandler();
+                }
+            }
+        }
+        return null;
+    }
 }

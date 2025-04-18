@@ -10,6 +10,7 @@ import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModFluids;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.network.packets.BeeDataMessage;
+import net.minecraft.core.Direction;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.item.Items;
@@ -84,18 +85,33 @@ public class ModEventHandler
         );
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,
-                ModBlockEntityTypes.DRACONIC_BEEHIVE.get(),
-                (myBlockEntity, side) -> myBlockEntity.inventoryHandler
-        );
-        event.registerBlockEntity(
-                Capabilities.ItemHandler.BLOCK,
                 ModBlockEntityTypes.CANVAS_ADVANCED_HIVE.get(),
                 (myBlockEntity, side) -> myBlockEntity.inventoryHandler
         );
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,
                 ModBlockEntityTypes.EXPANSION_BOX.get(),
-                (myBlockEntity, side) -> myBlockEntity.getHiveInventoryHandler()
+                (myBlockEntity, side) -> {
+                    if (side != null && (side.equals(Direction.DOWN) || side.equals(Direction.UP))) {
+                        return myBlockEntity.getHiveUpgradeHandler();
+                    }
+                    return myBlockEntity.getHiveInventoryHandler();
+                }
+        );
+        event.registerBlockEntity(
+                Capabilities.ItemHandler.BLOCK,
+                ModBlockEntityTypes.CANVAS_EXPANSION_BOX.get(),
+                (myBlockEntity, side) -> {
+                    if (side != null && (side.equals(Direction.DOWN) || side.equals(Direction.UP))) {
+                        return myBlockEntity.getHiveUpgradeHandler();
+                    }
+                    return myBlockEntity.getHiveInventoryHandler();
+                }
+        );
+        event.registerBlockEntity(
+                Capabilities.ItemHandler.BLOCK,
+                ModBlockEntityTypes.DRACONIC_BEEHIVE.get(),
+                (myBlockEntity, side) -> myBlockEntity.inventoryHandler
         );
         // Centrifuge
         event.registerBlockEntity(
