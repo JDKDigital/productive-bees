@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.recipe;
 
+import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -72,10 +73,10 @@ public class CombineGeneRecipe implements CraftingRecipe
             stacks.add(inv.getItem(j));
         }
 
-        return mergeGenes(stacks);
+        return mergeGenes(stacks).getFirst();
     }
 
-    public static ItemStack mergeGenes(List<ItemStack> stacks) {
+    public static Pair<ItemStack, ItemStack> mergeGenes(List<ItemStack> stacks) {
         GeneGroup geneGroup = null;
         int purity = 0;
 
@@ -83,15 +84,17 @@ public class CombineGeneRecipe implements CraftingRecipe
             if (!stack.isEmpty()) {
                 if (stack.getItem().equals(ModItems.GENE.get())) {
                     geneGroup = Gene.getGene(stack);
-                    purity = Math.min(100, purity + Gene.getPurity(stack));
+                    purity = purity + Gene.getPurity(stack);
                 }
             }
         }
 
         if (geneGroup != null) {
-            return Gene.getStack(geneGroup.attribute(), geneGroup.value(), 1, purity);
+            var combineStack = Gene.getStack(geneGroup.attribute(), geneGroup.value(), 1, Math.min(100, purity));
+            var leftoverStack = purity > 100 ? Gene.getStack(geneGroup.attribute(), geneGroup.value(), 1, purity - 100) : ItemStack.EMPTY;
+            return Pair.of(combineStack, leftoverStack);
         }
-        return ItemStack.EMPTY;
+        return Pair.of(ItemStack.EMPTY, ItemStack.EMPTY);
     }
 
     @Override

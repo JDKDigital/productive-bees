@@ -180,7 +180,7 @@ public class ClientModEventHandler
             public BlockEntityWithoutLevelRenderer getCustomRenderer() {
                 return myRenderer;
             }
-        }, BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "jar_oak")));
+        }, ModBlocks.JAR.get().asItem());
 
         event.registerFluidType(new IClientFluidTypeExtensions() {
             @Override
@@ -422,29 +422,4 @@ public class ClientModEventHandler
         event.registerBlockEntityRenderer(ModBlockEntityTypes.JAR.get(), JarBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntityTypes.AMBER.get(), AmberBlockEntityRenderer::new);
     }
-
-//    @SubscribeEvent
-//    public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
-//        event.registerFluidType(new IClientFluidTypeExtensions() {
-//            @Override
-//            public ResourceLocation getStillTexture() {
-//                return HoneyFluid.STILL;
-//            }
-//
-//            @Override
-//            public ResourceLocation getFlowingTexture() {
-//                return HoneyFluid.FLOWING;
-//            }
-//
-//            @Override
-//            public ResourceLocation getOverlayTexture() {
-//                return HoneyFluid.OVERLAY;
-//            }
-//
-//            @Override
-//            public int getTintColor() {
-//                return 0xffffc916;
-//            }
-//        }, ModFluids.HONEY_FLUID_TYPE.get());
-//    }
 }

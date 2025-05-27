@@ -1,0 +1,28 @@
+{
+  "type": "create:mixing",
+  "heat_requirement": "superheated",
+  "ingredients": [
+    {
+      "type": "productivebees:component",
+      "components": {
+        "productivebees:bee_type": "productivebees:super_experience"
+      },
+      "items": "productivebees:configurable_honeycomb"
+    }
+  ],
+  "results": [
+    {
+      "id": "create_enchantment_industry:super_experience_nugget"
+    }
+  ],
+  "conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create_enchantment_industry"
+    }
+  ]
+}

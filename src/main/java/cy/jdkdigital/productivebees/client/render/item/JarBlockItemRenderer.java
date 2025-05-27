@@ -37,45 +37,47 @@ public class JarBlockItemRenderer extends BlockEntityWithoutLevelRenderer {
     public void renderByItem(ItemStack itemStack, ItemDisplayContext transformType, PoseStack matrixStack, MultiBufferSource renderTypeBuffer, int packedLightIn, int packedUV) {
         Item item = itemStack.getItem();
 
-        if (item instanceof BlockItem jarBlockItem && itemStack.has(DataComponents.CONTAINER)) {
-            String beeTypeOrEntityType = "";
-            String entityType = "";
+        if (item instanceof BlockItem jarBlockItem) {
+            if (itemStack.has(DataComponents.CONTAINER)) {
+                String beeTypeOrEntityType = "";
+                String entityType = "";
 
-            ItemStack cageStack = ItemStack.EMPTY;
-            var containerData = itemStack.get(DataComponents.CONTAINER);
-            if (containerData != null && containerData.getSlots() > 0) {
-                cageStack = containerData.getStackInSlot(0);
-            }
-            if (!cageStack.isEmpty() && BeeCage.isFilled(cageStack)) {
-                var data = cageStack.get(DataComponents.CUSTOM_DATA);
-                if (data != null && !data.getUnsafe().equals(new CompoundTag())) {
-                    var tag = data.copyTag();
-                    entityType = tag.getString("entity");
-                    if (entityType.equals("productivebees:configurable_bee")) {
-                        beeTypeOrEntityType = tag.getString("type");
-                    } else {
-                        beeTypeOrEntityType = tag.getString("entity");
-                    }
+                ItemStack cageStack = ItemStack.EMPTY;
+                var containerData = itemStack.get(DataComponents.CONTAINER);
+                if (containerData != null && containerData.getSlots() > 0) {
+                    cageStack = containerData.getStackInSlot(0);
                 }
-            }
-
-            if (!beeTypeOrEntityType.isEmpty()) {
-                if (!beeEntities.containsKey(beeTypeOrEntityType) && !entityType.isEmpty()) {
-                    EntityType<?> type = EntityType.byString(entityType).orElse(null);
-                    if (type != null && Minecraft.getInstance().level != null) {
-                        Entity beeEntity = type.create(Minecraft.getInstance().level);
-                        if (beeEntity != null) {
-                            if (beeEntity instanceof ConfigurableBee configurableBee) {
-                                configurableBee.setBeeType(beeTypeOrEntityType);
-                            }
-                            beeEntities.put(beeTypeOrEntityType, beeEntity);
+                if (!cageStack.isEmpty() && BeeCage.isFilled(cageStack)) {
+                    var data = cageStack.get(DataComponents.CUSTOM_DATA);
+                    if (data != null && !data.getUnsafe().equals(new CompoundTag())) {
+                        var tag = data.copyTag();
+                        entityType = tag.getString("entity");
+                        if (entityType.equals("productivebees:configurable_bee")) {
+                            beeTypeOrEntityType = tag.getString("type");
+                        } else {
+                            beeTypeOrEntityType = tag.getString("entity");
                         }
                     }
                 }
 
-                Entity beeEntity = beeEntities.getOrDefault(beeTypeOrEntityType, null);
-                if (beeEntity != null) {
-                    renderBee(beeEntity, matrixStack, transformType);
+                if (!beeTypeOrEntityType.isEmpty()) {
+                    if (!beeEntities.containsKey(beeTypeOrEntityType) && !entityType.isEmpty()) {
+                        EntityType<?> type = EntityType.byString(entityType).orElse(null);
+                        if (type != null && Minecraft.getInstance().level != null) {
+                            Entity beeEntity = type.create(Minecraft.getInstance().level);
+                            if (beeEntity != null) {
+                                if (beeEntity instanceof ConfigurableBee configurableBee) {
+                                    configurableBee.setBeeType(beeTypeOrEntityType);
+                                }
+                                beeEntities.put(beeTypeOrEntityType, beeEntity);
+                            }
+                        }
+                    }
+
+                    Entity beeEntity = beeEntities.getOrDefault(beeTypeOrEntityType, null);
+                    if (beeEntity != null) {
+                        renderBee(beeEntity, matrixStack, transformType);
+                    }
                 }
             }
             renderJar(matrixStack, jarBlockItem, itemStack, packedLightIn, packedUV, transformType);

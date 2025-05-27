@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
+import com.mojang.datafixers.util.Pair;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.recipe.CombineGeneRecipe;
 import cy.jdkdigital.productivebees.container.GeneIndexerContainer;
@@ -83,7 +84,7 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity implements Men
 
             if (--blockEntity.tickCounter <= 0) {
                 blockEntity.tickCounter = 2;
-                if (blockEntity.isRunning && blockEntity.index.size() > 0) {
+                if (blockEntity.isRunning && !blockEntity.index.isEmpty()) {
                     if (!state.getValue(BlockStateProperties.ENABLED)) {
                         blockEntity.isRunning = false;
                         return;
@@ -100,18 +101,23 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity implements Men
                             if (firstEntry.isPresent() && otherEntry.isPresent()) {
                                 ItemStack firstStack = blockEntity.inventoryHandler.getStackInSlot(firstEntry.get().getKey());
                                 ItemStack secondStack = blockEntity.inventoryHandler.getStackInSlot(otherEntry.get().getKey());
-                                ItemStack combinedGene = CombineGeneRecipe.mergeGenes(Arrays.asList(firstStack, secondStack));
+                                Pair<ItemStack, ItemStack> combinedGene = CombineGeneRecipe.mergeGenes(Arrays.asList(firstStack, secondStack));
 
-                                if (!firstStack.isEmpty() && !secondStack.isEmpty() && !combinedGene.isEmpty()) {
+                                if (!firstStack.isEmpty() && !secondStack.isEmpty() && !combinedGene.getFirst().isEmpty()) {
                                     if (blockEntity.inventoryHandler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler
-                                            && ((InventoryHandlerHelper.BlockEntityItemStackHandler) blockEntity.inventoryHandler).addOutput(combinedGene).getCount() == 0) {
+                                            && ((InventoryHandlerHelper.BlockEntityItemStackHandler) blockEntity.inventoryHandler).addOutput(combinedGene.getFirst()).getCount() == 0) {
                                         firstStack.setCount(firstStack.getCount() - 1);
                                         secondStack.setCount(secondStack.getCount() - 1);
                                         blockEntity.inventoryHandler.setStackInSlot(firstEntry.get().getKey(), firstStack);
                                         blockEntity.inventoryHandler.setStackInSlot(otherEntry.get().getKey(), secondStack);
 
-                                        if (Gene.getPurity(combinedGene) == 100) {
+                                        if (Gene.getPurity(combinedGene.getFirst()) == 100) {
                                             indexIterator.remove();
+                                        }
+
+                                        // Insert leftover stack
+                                        if (!combinedGene.getSecond().isEmpty()) {
+                                            ((InventoryHandlerHelper.BlockEntityItemStackHandler) blockEntity.inventoryHandler).addOutput(combinedGene.getSecond());
                                         }
                                     }
                                 } else {
@@ -127,15 +133,20 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity implements Men
                                 indexIterator.remove();
                             } else if (stack.getCount() > 1) {
                                 // Merge with self
-                                ItemStack combinedGene = CombineGeneRecipe.mergeGenes(Arrays.asList(stack, stack.copy()));
-                                if (!stack.isEmpty() && !combinedGene.isEmpty()) {
+                                Pair<ItemStack, ItemStack> combinedGene = CombineGeneRecipe.mergeGenes(Arrays.asList(stack, stack.copy()));
+                                if (!stack.isEmpty() && !combinedGene.getFirst().isEmpty()) {
                                     if (blockEntity.inventoryHandler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler
-                                            && ((InventoryHandlerHelper.BlockEntityItemStackHandler) blockEntity.inventoryHandler).addOutput(combinedGene).getCount() == 0) {
+                                            && ((InventoryHandlerHelper.BlockEntityItemStackHandler) blockEntity.inventoryHandler).addOutput(combinedGene.getFirst()).getCount() == 0) {
                                         stack.setCount(stack.getCount() - 2);
                                         blockEntity.inventoryHandler.setStackInSlot(innerEntry.getKey(), stack);
 
-                                        if (Gene.getPurity(combinedGene) == 100) {
+                                        if (Gene.getPurity(combinedGene.getFirst()) == 100) {
                                             indexIterator.remove();
+                                        }
+
+                                        // Insert leftover stack
+                                        if (!combinedGene.getSecond().isEmpty()) {
+                                            ((InventoryHandlerHelper.BlockEntityItemStackHandler) blockEntity.inventoryHandler).addOutput(combinedGene.getSecond());
                                         }
                                     }
                                 }

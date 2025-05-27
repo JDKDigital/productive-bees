@@ -190,11 +190,12 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
                                 }
                             } else {
                                 inItem.shrink(shrinkInput);
+                                catalystItem.shrink(1);
                             }
                         }
                     }
                 } catch (Exception e) {
-                    ProductiveBees.LOGGER.warn("Failed to create bee spawn egg " + e.getMessage());
+                    ProductiveBees.LOGGER.debug("Failed to create bee spawn egg " + e.getMessage());
                 }
             }
             ItemStack outItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_OUTPUT);

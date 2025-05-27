@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#6d9195",
+  "secondaryColor": "#415764",
+  "tertiaryColor": "#1a1d27",
+  "particleColor": "#101118",
+  "flowerBlock": "actuallyadditions:black_quartz_block",
+  "size": 0.7,
+  "renderer": "default_crystal",
+  "conditions": [
+    {
+      "modid": "actuallyadditions",
+      "type": "neoforge:mod_loaded"
+    }
+  ]
+}

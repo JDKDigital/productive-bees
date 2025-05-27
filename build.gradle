@@ -33,6 +33,10 @@ repositories {
     flatDir {
         dir 'libs'
     }
+    maven {
+        name 'LDTTeam - Modding'
+        url 'https://ldtteam.jfrog.io/ldtteam/modding/'
+    }
 }
 
 base {
@@ -174,6 +178,9 @@ dependencies {
     implementation "curse.maven:domum-ornamentum-527361:5764083"
     implementation "curse.maven:blockui-522992:6150484"
     implementation "curse.maven:minecolonies-245506:6312091"
+    implementation ("com.ldtteam:datagenerators:1.20.4-0.1.57-ALPHA:universal") {
+        transitive = false
+    }
 }
 
 tasks.withType(ProcessResources).configureEach {

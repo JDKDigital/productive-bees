@@ -1,3 +1,13 @@
+1.21.1-13.6.16
+
+- Gene Indexer will now preserve the leftover from combining genes
+- Added Black Quartz bee for Actually Additions (Lego)
+- Added Air, Fire, Earth and Water Essence bees for Ars Nouveau (Lego)
+- Fixed gene indexer not running #507 (JOSEALM3IDA)
+- Fixed flowering block/item for Quartz Infused Iron bee
+- Fixed incubator not consuming gene treats on failure
+
+
 1.21.1-13.6.15
 
 - Fixed vanilla comb blocks not being processable in heated centrifuge

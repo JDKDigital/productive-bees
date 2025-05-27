@@ -1,9 +1,9 @@
 {
   "type": "productivebees:bee_conversion",
   "source": "productivebees:experience",
-  "result": "productivebees:hyper_experience",
+  "result": "productivebees:super_experience",
   "item": {
-    "item": "create_enchantment_industry:hyper_experience_bottle"
+    "item": "create_enchantment_industry:super_enchanting_template"
   },
   "neoforge:conditions": [
     {
@@ -12,7 +12,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:hyper_experience"
+      "bee": "productivebees:super_experience"
     }
   ]
 }

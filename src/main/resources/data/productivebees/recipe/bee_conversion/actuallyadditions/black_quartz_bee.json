@@ -1,0 +1,22 @@
+{
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:crystalline",
+  "result": "productivebees:black_quartz",
+  "item": {
+    "item": "actuallyadditions:black_quartz_block"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "actuallyadditions"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:crystalline"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:black_quartz"
+    }
+  ]
+}
