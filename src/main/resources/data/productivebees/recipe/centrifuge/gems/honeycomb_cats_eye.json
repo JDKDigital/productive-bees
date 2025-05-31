@@ -27,6 +27,10 @@
         "type": "neoforge:tag_empty",
         "tag": "c:gems/cats_eye"
       }
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:cats_eye"
     }
   ]
 }

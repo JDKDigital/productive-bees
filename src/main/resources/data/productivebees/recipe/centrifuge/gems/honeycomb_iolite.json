@@ -27,6 +27,10 @@
         "type": "neoforge:tag_empty",
         "tag": "c:gems/iolite"
       }
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:iolite"
     }
   ]
 }

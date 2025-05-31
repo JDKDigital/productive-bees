@@ -27,6 +27,10 @@
         "type": "neoforge:tag_empty",
         "tag": "c:dusts/cinnabar"
       }
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:cinnabar"
     }
   ]
 }

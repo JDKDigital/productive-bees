@@ -1,13 +1,10 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
-import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
-import cy.jdkdigital.productivebees.common.item.FilterUpgradeItem;
 import cy.jdkdigital.productivebees.container.CatcherContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
-import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivelib.common.block.entity.CapabilityBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.common.block.entity.UpgradeableBlockEntity;
@@ -33,7 +30,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class CatcherBlockEntity extends CapabilityBlockEntity implements MenuProvider, UpgradeableBlockEntity
 {
@@ -63,39 +59,49 @@ public class CatcherBlockEntity extends CapabilityBlockEntity implements MenuPro
             if (!blockEntity.inventoryHandler.getStackInSlot(0).isEmpty()) {
                 ItemStack invItem = blockEntity.inventoryHandler.getStackInSlot(0);
                 if (invItem.getItem() instanceof BeeCage && !BeeCage.isFilled(invItem)) {
-                    // We have a valid inventory for catching, look for entities above
-                    List<Bee> bees = level.getEntitiesOfClass(Bee.class, blockEntity.getBoundingBox());
-                    int babeeUpgrades = blockEntity.getUpgradeCount(LibItems.UPGRADE_CHILD.get());
-                    int notBabeeUpgrades = blockEntity.getUpgradeCount(LibItems.UPGRADE_ADULT.get());
-                    List<ItemStack> filterUpgrades = blockEntity.getInstalledUpgrades(LibItems.UPGRADE_ENTITY_FILTER.get());
-                    for (Bee bee : bees) {
-                        if (babeeUpgrades > 0 && !bee.isBaby()) {
-                            continue;
+                    // Check if there's an empty output slot
+                    int availableSlot = 0;
+                    for (int slot = 1; slot < blockEntity.inventoryHandler.getSlots(); slot++) {
+                        if (blockEntity.inventoryHandler.getStackInSlot(slot).isEmpty()) {
+                            availableSlot = slot;
+                            break;
                         }
-                        if (notBabeeUpgrades > 0 && bee.isBaby()) {
-                            continue;
-                        }
+                    }
 
-                        boolean isAllowed = filterUpgrades.isEmpty();
+                    if (availableSlot > 0) {
+                        // We have a valid inventory for catching, look for entities above
+                        List<Bee> bees = level.getEntitiesOfClass(Bee.class, blockEntity.getBoundingBox());
+                        int babeeUpgrades = blockEntity.getUpgradeCount(LibItems.UPGRADE_CHILD.get());
+                        int notBabeeUpgrades = blockEntity.getUpgradeCount(LibItems.UPGRADE_ADULT.get());
+                        List<ItemStack> filterUpgrades = blockEntity.getInstalledUpgrades(LibItems.UPGRADE_ENTITY_FILTER.get());
+                        for (Bee bee : bees) {
+                            if (babeeUpgrades > 0 && !bee.isBaby()) {
+                                continue;
+                            }
+                            if (notBabeeUpgrades > 0 && bee.isBaby()) {
+                                continue;
+                            }
 
-                        if (!filterUpgrades.isEmpty()) {
-                            for (ItemStack filter : filterUpgrades) {
-                                List<ResourceLocation> entities = filter.getOrDefault(ModDataComponents.ENTITY_TYPE_LIST, new ArrayList<>());
-                                for (ResourceLocation allowedBee : entities) {
-                                    String type = BeeIngredientFactory.getIngredientKey(bee);
-                                    if (allowedBee.toString().equals(type)) {
-                                        isAllowed = true;
+                            boolean isAllowed = filterUpgrades.isEmpty();
+
+                            if (!filterUpgrades.isEmpty()) {
+                                for (ItemStack filter : filterUpgrades) {
+                                    List<ResourceLocation> entities = filter.getOrDefault(ModDataComponents.ENTITY_TYPE_LIST, new ArrayList<>());
+                                    for (ResourceLocation allowedBee : entities) {
+                                        String type = BeeIngredientFactory.getIngredientKey(bee);
+                                        if (allowedBee.toString().equals(type)) {
+                                            isAllowed = true;
+                                        }
                                     }
                                 }
                             }
-                        }
 
-                        if (isAllowed && invItem.getCount() > 0) {
-                            bee.setSavedFlowerPos(null);
-                            bee.hivePos = null;
-                            ItemStack cageStack = new ItemStack(invItem.getItem());
-                            BeeCage.captureEntity(bee, cageStack);
-                            if (((InventoryHandlerHelper.BlockEntityItemStackHandler) blockEntity.inventoryHandler).addOutput(cageStack).getCount() == 0) {
+                            if (isAllowed && invItem.getCount() > 0) {
+                                bee.setSavedFlowerPos(null);
+                                bee.hivePos = null;
+                                ItemStack cageStack = new ItemStack(invItem.getItem());
+                                BeeCage.captureEntity(bee, cageStack);
+                                ((InventoryHandlerHelper.BlockEntityItemStackHandler) blockEntity.inventoryHandler).addOutput(cageStack);
                                 bee.discard();
                                 invItem.shrink(1);
                             }
