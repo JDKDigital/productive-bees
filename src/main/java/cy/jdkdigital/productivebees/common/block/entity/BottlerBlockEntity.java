@@ -34,6 +34,7 @@ import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidActionResult;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -95,11 +96,29 @@ public class BottlerBlockEntity extends FluidTankBlockEntity implements MenuProv
                 Bee bee = bees.iterator().next();
                 ItemStack bottles = blockEntity.inventoryHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
                 if (!bottles.isEmpty() && bottles.getItem().equals(Items.GLASS_BOTTLE) && !bee.isBaby() && bee.isAlive()) {
+                    // Generate item
                     ItemStack geneBottle = GeneBottle.getStack(bee);
-                    Block.popResource(level, pos.above(), geneBottle);
-                    level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BOTTLE_FILL, SoundSource.NEUTRAL, 1.0F, 1.0F);
-                    bee.kill();
-                    bottles.shrink(1);
+                    if (!geneBottle.isEmpty()) {
+                        // Determine drop position
+                        Direction facing = aboveState.getValue(DirectionalBlock.FACING);
+                        BlockPos dropPos = pos.relative(facing.getOpposite());
+                        
+                        // Create ItemEntity directly instead of using Block.popResource
+                        ItemEntity itemEntity = new ItemEntity(level, 
+                            dropPos.getX() + 0.5, 
+                            dropPos.getY() + 0.5, 
+                            dropPos.getZ() + 0.5, 
+                            geneBottle);
+                        itemEntity.setDefaultPickUpDelay(); // Set default pickup delay
+                        level.addFreshEntity(itemEntity); // Add to world immediately
+                        
+                        // Play sound effect
+                        level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BOTTLE_FILL, SoundSource.NEUTRAL, 1.0F, 1.0F);
+                        
+                        // Consume resources and process entity (moved to after item generation to ensure items appear first)
+                        bottles.shrink(1);
+                        bee.kill();
+                    }
                 }
             }
         }
