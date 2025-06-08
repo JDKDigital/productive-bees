@@ -76,8 +76,8 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
         if (blockRecipeMap.size() > 5000) {
             blockRecipeMap.clear();
         }
+
         ItemStack input = inputHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
-        String cacheKey = BuiltInRegistries.ITEM.getKey(input.getItem()).toString() + (!input.getComponents().isEmpty() ? input.getComponents().stream().map(TypedDataComponent::toString).reduce((s, s2) -> s + s2) : "");
 
         if (input.is(ModTags.Common.STORAGE_BLOCK_HONEYCOMBS)) {
             var directRecipe = super.getRecipe(inputHandler);
@@ -86,9 +86,9 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
             }
         }
 
+        String cacheKey = BeeHelper.itemCacheKey(input);
         if (!blockRecipeMap.containsKey(cacheKey)) {
             ItemStack singleComb = BeeHelper.getSingleComb(input);
-
             if (singleComb.isEmpty()) {
                 singleComb = input;
             }
@@ -103,16 +103,18 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
     @Override
     protected void completeRecipeProcessing(RecipeHolder<CentrifugeRecipe> recipe, IItemHandlerModifiable invHandler, RandomSource random) {
         ItemStack input = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).copy();
+        int productivityModifier = Math.min(input.getCount(), Math.min(64, getProductivityModifier()));
         if (input.is(ModTags.Common.STORAGE_BLOCK_HONEYCOMBS) && !recipe.value().ingredient.test(input)) {
             ItemStack singleComb = BeeHelper.getSingleComb(input);
+            singleComb.setCount(productivityModifier);
             invHandler.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, singleComb);
             for (int i = 0; i < 4; i++) {
-                super.completeRecipeProcessing(recipe, invHandler, random, true);
+                super.completeRecipeProcessing(recipe, invHandler, random, true, productivityModifier);
             }
-            input.shrink(1);
+            input.shrink(productivityModifier);
             invHandler.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, input);
         } else {
-            super.completeRecipeProcessing(recipe, invHandler, random, true);
+            super.completeRecipeProcessing(recipe, invHandler, random, true, productivityModifier);
         }
     }
 

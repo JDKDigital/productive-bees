@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.compat.emi;
 import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.client.render.ingredient.BeeRenderer;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import dev.emi.emi.api.stack.EmiStack;
@@ -23,7 +24,7 @@ public class BeeEmiStack extends EmiStack
     private final BeeIngredient beeIngredient;
 
     private BeeEmiStack(BeeIngredient beeIngredient) {
-        this.beeIngredient = beeIngredient;
+        this.beeIngredient = beeIngredient == null ? BeeIngredientFactory.getIngredient("minecraft:bee").get() : beeIngredient;
     }
 
     public static BeeEmiStack of(BeeIngredient beeIngredient) {

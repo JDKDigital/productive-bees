@@ -141,7 +141,11 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
     protected IItemHandlerModifiable upgradeHandler = new InventoryHandlerHelper.UpgradeHandler(4, this, List.of(
             LibItems.UPGRADE_TIME.get(),
             LibItems.UPGRADE_TIME_2.get(),
-            LibItems.UPGRADE_ENTITY_FILTER.get()
+            LibItems.UPGRADE_ENTITY_FILTER.get(),
+            LibItems.UPGRADE_PRODUCTIVITY.get(),
+            LibItems.UPGRADE_PRODUCTIVITY_2.get(),
+            LibItems.UPGRADE_PRODUCTIVITY_3.get(),
+            LibItems.UPGRADE_PRODUCTIVITY_4.get()
     ));
 
     public CentrifugeBlockEntity(BlockPos pos, BlockState state) {
@@ -319,7 +323,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
             return null;
         }
 
-        String cacheKey = BuiltInRegistries.ITEM.getKey(input.getItem()).toString() + (!input.getComponents().isEmpty() ? input.getComponents().stream().map(TypedDataComponent::toString).reduce((s, s2) -> s + s2) : "");
+        String cacheKey = BeeHelper.itemCacheKey(input);
         if (!recipeMap.containsKey(cacheKey)) {
             recipeMap.put(cacheKey, BeeHelper.getCentrifugeRecipe(level, inputHandler));
         }
@@ -351,24 +355,30 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
     }
 
     protected void completeRecipeProcessing(RecipeHolder<CentrifugeRecipe> recipe, IItemHandlerModifiable invHandler, RandomSource random) {
-        this.completeRecipeProcessing(recipe, invHandler, random, false);
+        var inputStack = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
+        int productivityModifier = Math.min(inputStack.getCount(), Math.min(64, getProductivityModifier()));
+
+        this.completeRecipeProcessing(recipe, invHandler, random, false, productivityModifier);
     }
 
-    protected void completeRecipeProcessing(RecipeHolder<CentrifugeRecipe> recipe, IItemHandlerModifiable invHandler, RandomSource random, boolean stripWax) {
+    protected void completeRecipeProcessing(RecipeHolder<CentrifugeRecipe> recipe, IItemHandlerModifiable invHandler, RandomSource random, boolean stripWax, int productivityModifier) {
+        var inputStack = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
+
         recipe.value().getRecipeOutputs().forEach((itemStack, recipeValues) -> {
             if ((!stripWax || !itemStack.is(ModTags.Common.WAXES)) && random.nextFloat() <= recipeValues.chance()) {
                 int count = Mth.nextInt(random, Mth.floor(recipeValues.min()), Mth.floor(recipeValues.max()));
                 ItemStack output = itemStack.copy();
-                output.setCount(count);
+                output.setCount(count * productivityModifier);
                 ((InventoryHandlerHelper.BlockEntityItemStackHandler) invHandler).addOutput(output);
             }
         });
 
-        invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).shrink(1);
+        inputStack.shrink(productivityModifier);
 
-        FluidStack fluidOutput = recipe.value().getFluidOutputs();
+        FluidStack fluidOutput = recipe.value().getFluidOutputs().copy();
         if (!fluidOutput.isEmpty()) {
-            fluidHandler.fill(fluidOutput.copy(), IFluidHandler.FluidAction.EXECUTE);
+            fluidOutput.setAmount(fluidOutput.getAmount() * productivityModifier);
+            fluidHandler.fill(fluidOutput, IFluidHandler.FluidAction.EXECUTE);
         }
     }
 
@@ -402,6 +412,14 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
         }
 
         invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).shrink(1);
+    }
+
+    protected int getProductivityModifier() {
+        return Math.max(1,
+                getUpgradeCount(LibItems.UPGRADE_PRODUCTIVITY.get()) * 4 +
+                getUpgradeCount(LibItems.UPGRADE_PRODUCTIVITY_2.get()) * 8 +
+                getUpgradeCount(LibItems.UPGRADE_PRODUCTIVITY_3.get()) * 16 +
+                getUpgradeCount(LibItems.UPGRADE_PRODUCTIVITY_4.get()) * 32);
     }
 
     @Override

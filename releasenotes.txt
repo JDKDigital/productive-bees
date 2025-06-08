@@ -1,3 +1,10 @@
+1.21.1-13.6.18
+
+- More centrifuge performance improvements
+- Productivity upgrades can now be used in centrifuges making it process more combs at a time
+- Prevent a crash in EMI plugin when a recipe contains an invalid bee id
+
+
 1.21.1-13.6.17
 
 - Fixed a crash when the catcher is full

@@ -20,6 +20,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.component.TypedDataComponent;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
@@ -613,6 +614,13 @@ public class BeeHelper
         }
 
         return list;
+    }
+
+    public static String itemCacheKey(ItemStack stack) {
+        if (stack.has(ModDataComponents.BEE_TYPE)) {
+            return BuiltInRegistries.ITEM.getKey(stack.getItem()).toString() + stack.get(ModDataComponents.BEE_TYPE);
+        }
+        return BuiltInRegistries.ITEM.getKey(stack.getItem()).toString() + (!stack.getComponents().isEmpty() ? stack.getComponents().stream().map(TypedDataComponent::toString).reduce((s, s2) -> s + s2) : "");
     }
 
     public static class IdentifierInventory implements RecipeInput
