@@ -1,0 +1,53 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:butcher"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "minecraft:beef"
+      },
+      "chance": 0.05
+    },
+    {
+      "item": {
+        "item": "minecraft:porkchop"
+      },
+      "chance": 0.05
+    },
+    {
+      "item": {
+        "item": "minecraft:chicken"
+      },
+      "chance": 0.05
+    },
+    {
+      "item": {
+        "item": "minecraft:mutton"
+      },
+      "chance": 0.05
+    }
+  ],
+  "fluid": {
+    "amount": 30,
+    "tag": "c:meat"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:butcher"
+    },
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "productivelib:fluid_tag_empty",
+        "tag": "c:meat"
+      }
+    }
+  ]
+}

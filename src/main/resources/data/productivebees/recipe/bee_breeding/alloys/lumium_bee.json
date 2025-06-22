@@ -1,7 +1,7 @@
 {
   "type": "productivebees:bee_breeding",
   "parent1": "productivebees:silver",
-  "parent2": "productivebees:tin",
+  "parent2": "productivebees:glowing",
   "offspring": "productivebees:lumium",
   "neoforge:conditions": [
     {
@@ -15,6 +15,13 @@
     {
       "type": "productivebees:bee_exists",
       "bee": "productivebees:lumium"
+    },
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "productivemetalworks"
+      }
     }
   ]
 }

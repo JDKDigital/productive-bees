@@ -3,14 +3,12 @@ package cy.jdkdigital.productivebees.common.block.entity;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.common.recipe.BeeBreedingRecipe;
 import cy.jdkdigital.productivebees.common.recipe.TimedRecipeInterface;
 import cy.jdkdigital.productivebees.container.BreedingChamberContainer;
-import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
-import cy.jdkdigital.productivebees.init.ModBlocks;
-import cy.jdkdigital.productivebees.init.ModItems;
-import cy.jdkdigital.productivebees.init.ModTags;
+import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import cy.jdkdigital.productivelib.common.block.entity.CapabilityBlockEntity;
@@ -36,6 +34,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
@@ -50,6 +49,7 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
 {
     public int recipeProgress = 0;
     public int recipeLookupCooldown = 0;
+    private int fbiCooldown;
     public boolean isRunning = false;
     private List<RecipeHolder<BeeBreedingRecipe>> currentBreedingRecipes = new ArrayList<>();
     public RecipeHolder<BeeBreedingRecipe> chosenRecipe;
@@ -142,6 +142,7 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
 
     public static void tick(Level level, BlockPos pos, BlockState state, BreedingChamberBlockEntity blockEntity) {
         if (level instanceof ServerLevel serverLevel) {
+            blockEntity.fbiCooldown = blockEntity.fbiCooldown > 0 ? blockEntity.fbiCooldown-1 : 0;
             if (blockEntity.isRunning) {
                 blockEntity.energyHandler.extractEnergy((int) (ProductiveBeesConfig.GENERAL.breedingChamberPowerUse.get() * blockEntity.getEnergyConsumptionModifier()), false);
             }
@@ -206,6 +207,21 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
         var bee2IsBaby = BeeCage.isFilled(cage2) && cage2.get(DataComponents.CUSTOM_DATA).getUnsafe().contains("Age") && cage2.get(DataComponents.CUSTOM_DATA).copyTag().getInt("Age") < 0;
 
         if (bee1IsBaby || bee2IsBaby) {
+            if (this.fbiCooldown <= 0 && this.getLevel() != null) {
+                // Spawn FBeeI if there's a player nearby
+                List<Player> players = this.getLevel().getEntitiesOfClass(Player.class, new AABB(this.getBlockPos()).inflate(5, 2, 5));
+                if (!players.isEmpty()) {
+                    Entity entity = ModEntities.CONFIGURABLE_BEE.get().create(this.getLevel());
+                    if (entity instanceof ConfigurableBee bee) {
+                        bee.setBeeType("productivebees:fbi");
+                        bee.setDefaultAttributes();
+                        bee.moveTo(this.getBlockPos().getX(), this.getBlockPos().getY() + 1, this.getBlockPos().getZ());
+                        bee.setTarget(players.getFirst());
+                        this.getLevel().addFreshEntity(bee);
+                    }
+                }
+                this.fbiCooldown = 1200;
+            }
             return false;
         }
 

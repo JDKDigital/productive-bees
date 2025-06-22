@@ -30,6 +30,7 @@ import net.minecraft.tags.PoiTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
@@ -83,49 +84,6 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                     (poi.value() == ModPointOfInterestTypes.SOLITARY_NEST.get() && isWild()) ||
                     (poi.value() == ModPointOfInterestTypes.DRACONIC_NEST.get() && isDraconic()) ||
                     (poi.value() == ModPointOfInterestTypes.SUGARBAG_NEST.get() && getBeeType().equals(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "sugarbag")));
-    }
-
-    @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType pSpawnType, @Nullable SpawnGroupData pSpawnGroupData) {
-        if (pSpawnGroupData != null) {
-            RandomSource random = level.getRandom();
-
-            var type = this.getBeeType().toString();
-
-            if (type.equals("productivebees:ghostly") && random.nextFloat() < 0.02f) {
-                this.setCustomName(Component.literal("BooBee"));
-            } else if (type.equals("productivebees:blitz") && random.nextFloat() < 0.02f) {
-                this.setCustomName(Component.literal("King BitzBee"));
-            } else if (type.equals("productivebees:basalz") && random.nextFloat() < 0.02f) {
-                this.setCustomName(Component.literal("Queen BazBee"));
-            } else if (type.equals("productivebees:blizz") && random.nextFloat() < 0.02f) {
-                this.setCustomName(Component.literal("Shiny BizBee"));
-            } else if (type.equals("productivebees:redstone") && random.nextFloat() < 0.01f) {
-                this.setCustomName(Component.literal("Redastone Bee"));
-            } else if (type.equals("productivebees:destabilized_redstone") && random.nextFloat() < 0.10f) {
-                this.setCustomName(Component.literal("Destabilized RedaStone Bee"));
-            } else if (type.equals("productivebees:compressed_iron") && random.nextFloat() < 0.05f) {
-                this.setCustomName(Component.literal("Depressed Iron Bee"));
-            } else if (type.equals("productivebees:sponge") && random.nextFloat() < 0.05f) {
-                this.setCustomName(Component.literal("SpongeBee BlockPants"));
-            } else if (type.equals("productivebees:infinity") && random.nextFloat() < 0.25f) {
-                this.setCustomName(Component.literal("Infinibee"));
-            } else if (type.equals("productivebees:allergy") && random.nextFloat() < 0.25f) {
-                this.setCustomName(Component.literal("Beenadryl Buzz"));
-            } else if (type.equals("productivebees:gregstar") && random.nextFloat() < 0.25f) {
-                this.setCustomName(Component.literal("Monsieur Greg"));
-            } else if (type.equals("productivebees:water") && random.nextFloat() < 0.05f) {
-                switch (random.nextInt(5)) {
-                    case 0 -> this.setCustomName(Component.literal("Wet Bee"));
-                    case 1 -> this.setCustomName(Component.literal("Splashy Bee"));
-                    case 2 -> this.setCustomName(Component.literal("Fishy Bee"));
-                    case 3 -> this.setCustomName(Component.literal("Moist Bee"));
-                    case 4 -> this.setCustomName(Component.literal("Dripping Bee"));
-                }
-            }
-        }
-
-        return super.finalizeSpawn(level, difficulty, pSpawnType, pSpawnGroupData);
     }
 
     @Override
@@ -191,8 +149,14 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     @Override
     public boolean doHurtTarget(Entity entity) {
         AttributeInstance attackDamage = this.getAttribute(Attributes.ATTACK_DAMAGE);
-        if (attackDamage != null && getDamage() != 2.0) {
-            attackDamage.addTransientModifier(new AttributeModifier(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "extra_damage"), getDamage(), AttributeModifier.Operation.ADD_VALUE));
+
+        if (attackDamage != null && getDamage() > 2.0 && !attackDamage.hasModifier(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "extra_damage"))) {
+            double damageModifier = getDamage();
+            // For hardcode worlds, clamp the damage to something reasonable
+            if (entity.level().getLevelData().isHardcore()) {
+                damageModifier = Math.min(damageModifier, 1000d);
+            }
+            attackDamage.addTransientModifier(new AttributeModifier(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "extra_damage"), damageModifier, AttributeModifier.Operation.ADD_VALUE));
         }
         return super.doHurtTarget(entity);
     }
@@ -271,8 +235,9 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         this.entityData.set(TYPE, data);
     }
 
+    @Nullable
     public ResourceLocation getBeeType() {
-        return ResourceLocation.parse(this.entityData.get(TYPE));
+        return ResourceLocation.tryParse(this.entityData.get(TYPE));
     }
 
     @Override
@@ -318,6 +283,48 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                 attributes.setAttributeValue(GeneAttribute.WEATHER_TOLERANCE, GeneValue.byName(nbt.getString("weather_tolerance")));
             }
             this.setData(ProductiveBees.ATTRIBUTE_HANDLER, attributes);
+
+            // Custom name
+            var type = this.getBeeType().toString();
+            if (type.equals("productivebees:ghostly") && random.nextFloat() < 0.02f) {
+                this.setCustomName(Component.literal("BooBee"));
+            } else if (type.equals("productivebees:blitz") && random.nextFloat() < 0.02f) {
+                this.setCustomName(Component.literal("King BitzBee"));
+            } else if (type.equals("productivebees:basalz") && random.nextFloat() < 0.02f) {
+                this.setCustomName(Component.literal("Queen BazBee"));
+            } else if (type.equals("productivebees:blizz") && random.nextFloat() < 0.02f) {
+                this.setCustomName(Component.literal("Shiny BizBee"));
+            } else if (type.equals("productivebees:redstone") && random.nextFloat() < 0.01f) {
+                this.setCustomName(Component.literal("Redastone Bee"));
+            } else if (type.equals("productivebees:destabilized_redstone") && random.nextFloat() < 0.10f) {
+                this.setCustomName(Component.literal("Destabilized RedaStone Bee"));
+            } else if (type.equals("productivebees:compressed_iron") && random.nextFloat() < 0.05f) {
+                this.setCustomName(Component.literal("Depressed Iron Bee"));
+            } else if (type.equals("productivebees:sponge") && random.nextFloat() < 0.05f) {
+                this.setCustomName(Component.literal("SpongeBee BlockPants"));
+            } else if (type.equals("productivebees:infinity") && random.nextFloat() < 0.25f) {
+                this.setCustomName(Component.literal("Infinibee"));
+            } else if (type.equals("productivebees:allergy") && random.nextFloat() < 0.25f) {
+                this.setCustomName(Component.literal("Beenadryl Buzz"));
+            } else if (type.equals("productivebees:gregstar") && random.nextFloat() < 0.25f) {
+                this.setCustomName(Component.literal("Monsieur Greg"));
+            } else if (type.equals("productivebees:water") && random.nextFloat() < 0.05f) {
+                switch (random.nextInt(5)) {
+                    case 0 -> this.setCustomName(Component.literal("Wet Bee"));
+                    case 1 -> this.setCustomName(Component.literal("Splashy Bee"));
+                    case 2 -> this.setCustomName(Component.literal("Fishy Bee"));
+                    case 3 -> this.setCustomName(Component.literal("Moist Bee"));
+                    case 4 -> this.setCustomName(Component.literal("Dripping Bee"));
+                }
+            } else if (type.equals("productivebees:royal")) {
+                String[] names = new String[]{
+                        "Natalie", "Fiona", "Ysabelle", "Ada", "Alexandra", "Bianca", "Cherry", "Elizabeth", "Jasmine",
+                        "Coral", "Candy", "Ariel", "Dawn", "Faye", "Diana", "Hope", "Genevieve", "Grace", "Eleanor",
+                        "Helena", "Eve", "Joy", "Lydia", "Marigold", "Karen", "Marilyn", "Rosalyn", "Nadia", "Patty",
+                        "Peach", "Stephanie", "Sophia", "Violette", "Willow", "Zoe", "Merida", "Belle"
+                };
+                this.setCustomName(Component.literal("Princess " + names[random.nextInt(names.length)]));
+            }
         }
     }
 

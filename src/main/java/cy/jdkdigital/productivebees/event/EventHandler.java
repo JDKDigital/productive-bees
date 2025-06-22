@@ -37,10 +37,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
@@ -65,11 +62,9 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
+import net.neoforged.neoforge.event.entity.EntityEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.entity.living.BabyEntitySpawnEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
-import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.*;
 import net.neoforged.neoforge.event.entity.player.ItemFishedEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent;
@@ -573,9 +568,22 @@ public class EventHandler
     }
 
     @SubscribeEvent
+    public static void onEntitySpawn(MobSpawnEvent.PositionCheck event) {
+        if (event.getEntity().level() instanceof ServerLevel serverLevel && event.getEntity() instanceof ConfigurableBee configurableBee) {
+            if (event.getSpawnType().equals(MobSpawnType.NATURAL) && serverLevel.getBiome(event.getEntity().blockPosition()).is(ModTags.BEEBEE_SPAWN_BIOMES) && BeeIngredientFactory.getIngredient("productivebees:beebee").get() != null) {
+                configurableBee.setBeeType("productivebees:beebee");
+            }
+        }
+    }
+
+    @SubscribeEvent
     public static void onEntitySpawn(EntityJoinLevelEvent event) {
         if (event.getLevel() instanceof ServerLevel && event.getEntity() instanceof Bee entity && !entity.hasData(ProductiveBees.ATTRIBUTE_HANDLER)) {
-            entity.getData(ProductiveBees.ATTRIBUTE_HANDLER);
+            if (entity instanceof ConfigurableBee configurableBee) {
+                configurableBee.setDefaultAttributes();
+            } else {
+                entity.getData(ProductiveBees.ATTRIBUTE_HANDLER);
+            }
         }
     }
 

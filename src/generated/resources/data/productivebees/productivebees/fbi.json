@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#edc343",
+  "secondaryColor": "#1f0088",
+  "flowerBlock": "minecraft:air",
+  "beeTexture": "productivebees:textures/entity/bee/fbi/bee",
+  "createComb": false,
+  "speed": 5.0,
+  "selfbreed": false,
+  "model": "productivebees:geo/entity/fbi.geo.json",
+  "attributes": {
+    "temper": "temper.aggressive",
+    "endurance": "endurance.strong"
+  }
+}

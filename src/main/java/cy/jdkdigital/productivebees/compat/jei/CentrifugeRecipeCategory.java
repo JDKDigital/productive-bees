@@ -94,7 +94,11 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
                                 }
                             })
                             .setSlotName("output" + i[0]);
-                    i[0]++;
+                    if (i[0] == 2) {
+                        i[0] = 0;
+                    } else {
+                        i[0]++;
+                    }
                 }
             });
         }

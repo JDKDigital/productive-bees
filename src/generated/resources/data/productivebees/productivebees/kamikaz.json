@@ -6,6 +6,7 @@
   "createComb": false,
   "size": 0.2,
   "speed": 5.0,
+  "attack": 6.0,
   "selfbreed": false,
   "attributes": {
     "productivity": "productivity.very_high",

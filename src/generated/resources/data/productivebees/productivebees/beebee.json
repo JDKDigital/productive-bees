@@ -1,0 +1,24 @@
+{
+  "primaryColor": "#141414",
+  "secondaryColor": "#141414",
+  "particleColor": "#141414",
+  "flowerBlock": "minecraft:air",
+  "beeTexture": "productivebees:textures/entity/bee/beebee/bee",
+  "createComb": false,
+  "speed": 5.0,
+  "attack": 2.147483647E9,
+  "selfbreed": false,
+  "renderer": "default_shell",
+  "attributes": {
+    "productivity": "productivity.very_high",
+    "temper": "temper.aggressive",
+    "behavior": "behavior.metaturnal",
+    "endurance": "endurance.strong"
+  },
+  "passiveEffects": [
+    {
+      "effect": "minecraft:darkness",
+      "duration": 60
+    }
+  ]
+}

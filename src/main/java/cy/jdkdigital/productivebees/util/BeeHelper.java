@@ -616,6 +616,17 @@ public class BeeHelper
         return list;
     }
 
+    public static boolean isWearingBeeNestHelmet(LivingEntity entity) {
+        boolean isWearingBeeHelmet = false;
+        if (entity != null) {
+            ItemStack itemstack = entity.getItemBySlot(EquipmentSlot.HEAD);
+            if (!itemstack.isEmpty() && itemstack.getItem().equals(ModItems.BEE_NEST_DIAMOND_HELMET.get())) {
+                isWearingBeeHelmet = true;
+            }
+        }
+        return isWearingBeeHelmet;
+    }
+
     public static String itemCacheKey(ItemStack stack) {
         if (stack.has(ModDataComponents.BEE_TYPE)) {
             return BuiltInRegistries.ITEM.getKey(stack.getItem()).toString() + stack.get(ModDataComponents.BEE_TYPE);

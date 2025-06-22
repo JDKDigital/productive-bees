@@ -1,7 +1,7 @@
 {
   "type": "iceandfire:dragonforge",
-  "dragon_type": "ice",
-  "cook_time": 1000,
+  "dragonType": "ice",
+  "cookTime": 1000,
   "input": {
     "type": "productivebees:component",
     "components": {

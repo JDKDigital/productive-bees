@@ -34,21 +34,23 @@ public class CombineGeneRecipe implements CraftingRecipe
     }
 
     @Override
-    public boolean matches(CraftingInput inv, Level worldIn) {
+    public boolean matches(CraftingInput inv, Level level) {
         // Valid if inv contains one or more genes of the same type
         // genes must not be mutually exclusive (2 levels of the same attribute are not allowed)
         int numberOfIngredients = 0;
-        GeneValue addedGene = null;
+        String addedGene = "";
         for (int j = 0; j < inv.size(); ++j) {
             ItemStack itemstack = inv.getItem(j);
             if (!itemstack.isEmpty()) {
                 if (itemstack.getItem().equals(ModItems.GENE.get())) {
-                    var gene = Gene.getGene(itemstack);
+                    if (Gene.getPurity(itemstack) == 100) {
+                        return false;
+                    }
+                    GeneGroup gene = Gene.getGene(itemstack);
                     numberOfIngredients++;
-
-                    if (addedGene == null) {
-                        addedGene = GeneValue.byName(gene.value());
-                    } else if (!addedGene.equals(GeneValue.byName(gene.value())) || Gene.getPurity(itemstack) == 100) {
+                    if (addedGene.isEmpty()) {
+                        addedGene = gene.value();
+                    } else if (!addedGene.equals(gene.value())) {
                         return false;
                     }
                 } else {

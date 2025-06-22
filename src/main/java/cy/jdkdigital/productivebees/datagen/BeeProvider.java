@@ -119,6 +119,11 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("breeze").primaryColor("#2b425e").secondaryColor("#686394").tertiaryColor("#bbabd1").particleColor("#f3f5ff").beeTexture("breeze").flowerItem("minecraft:heavy_core").speed(0.8));
             add(new BeeConfig("ribbeet").primaryColor("#3a5a19").secondaryColor("#73964b").particleColor("#f3f5ff").flowerTag("c:magma_cubes").beeTexture("ribbeet").flowerType("entity_types").renderer("thicc").size(0.5f).pollinatedSize(1.0f).noComb().noSelfBreed());
 
+            add(new BeeConfig("lava").primaryColor("#d56c1a").secondaryColor("#000000").beeTexture("lava").flowerFluid("minecraft:lava").fireproof());
+            add(new BeeConfig("beebee").primaryColor("#141414").secondaryColor("#141414").particleColor("#141414").beeTexture("beebee").renderer("default_shell").noSelfBreed().speed(5).attack(Integer.MAX_VALUE).noComb().flowerBlock("minecraft:air").attributes(new HashMap<>(){{ put("temper", GeneValue.TEMPER_AGGRESSIVE.getSerializedName()); put("behavior", GeneValue.BEHAVIOR_METATURNAL.getSerializedName()); put("productivity", GeneValue.PRODUCTIVITY_VERY_HIGH.getSerializedName()); put("endurance", GeneValue.ENDURANCE_STRONG.getSerializedName()); }}).passiveEffects(new ArrayList<>() {{ add(new PassiveEffect("minecraft:darkness", 60)); }}));
+            add(new BeeConfig("fbi").primaryColor("#edc343").secondaryColor("#1f0088").noSelfBreed().speed(5).beeTexture("fbi").noComb().flowerBlock("minecraft:air").model("productivebees:geo/entity/fbi.geo.json").attributes(new HashMap<>(){{ put("temper", GeneValue.TEMPER_AGGRESSIVE.getSerializedName()); put("endurance", GeneValue.ENDURANCE_STRONG.getSerializedName()); }}));
+            add(new BeeConfig("butcher").primaryColor("#852315").secondaryColor("#dd9283").particleColor("#630800").beeTexture("butcher").model("productivebees:geo/entity/butcher.geo.json").flowerType("entity_types").flowerTag("productivebees:animals").missingMod("productivemetalworks"));
+
             add(new BeeConfig("actuallyadditions/black_quartz").primaryColor("#6d9195").secondaryColor("#415764").tertiaryColor("#1a1d27").particleColor("#101118").renderer("default_crystal").size(0.7).flowerBlock("actuallyadditions:black_quartz_block").requireMod("actuallyadditions"));
 
             add(new BeeConfig("ad_astra/calorite").primaryColor("#c44249").secondaryColor("#470d2f").particleColor("#df6d5c").flowerTag("c:storage_blocks/calorite").requireTag("c:storage_blocks/calorite"));
@@ -489,6 +494,8 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("powah/spirited_crystal").primaryColor("#7cff1f").secondaryColor("#61bf1f").flowerBlock("powah:spirited_crystal_block").noSelfBreed().requireMod("powah").onlySpawnegg());
             add(new BeeConfig("powah/uraninite").primaryColor("#00FF00").secondaryColor("#008000").particleColor("#7CFC00").size(0.8).flowerTag("c:storage_blocks/uraninite").requireMod("powah").requireTag("c:storage_blocks/uraninite"));
 
+            add(new BeeConfig("productivemetalworks/butcher").primaryColor("#852315").secondaryColor("#dd9283").particleColor("#630800").beeTexture("butcher").model("productivebees:geo/entity/butcher.geo.json").flowerBlock("productivemetalworks:meat_block").requireMod("productivemetalworks"));
+
             add(new BeeConfig("raw_materials/aluminum").primaryColor("#A4A6B1").secondaryColor("#804f40").flowerTag("c:storage_blocks/aluminum").requireTag("c:storage_blocks/aluminum"));
             add(new BeeConfig("raw_materials/bismuth").primaryColor("#ece386").secondaryColor("#586bb7").particleColor("#b598db").flowerTag("c:storage_blocks/bismuth").requireTag("c:storage_blocks/bismuth"));
             add(new BeeConfig("raw_materials/copper").primaryColor("#F48702").secondaryColor("#804f40").flowerTag("productivebees:flowers/cupric"));
@@ -545,6 +552,8 @@ public class BeeProvider implements DataProvider
 
             add(new BeeConfig("tetra/geode").primaryColor("#747474").secondaryColor("#804f40").particleColor("#747474").renderer("thicc").noComb().flowerBlock("minecraft:deepslate").requireMod("tetra"));
             add(new BeeConfig("tetra/scrapped").primaryColor("#747474").secondaryColor("#804f40").particleColor("#747474").size(1.2).flowerBlock("tetra:forged_workbench").requireMod("tetra"));
+
+            add(new BeeConfig("the_bumblezone/royal").primaryColor("#472182").secondaryColor("#da6ad9").model("productivebees:geo/entity/royal.geo.json").beeTexture("royal").noSelfBreed().breedingItem("the_bumblezone:royal_jelly_bottle").flowerBlock("the_bumblezone:royal_jelly_block").requireMod("the_bumblezone"));
 
             add(new BeeConfig("thermal/basalz").primaryColor("#2b2b2f").secondaryColor("#ff8219").particleColor("#0e080a").onlySpawnegg().flowerTag("productivebees:flowers/burning").beeTexture("basalz").fireproof().requireMod("thermal"));
             add(new BeeConfig("thermal/blitz").primaryColor("#e9edf3").secondaryColor("#bdccd9").particleColor("#ffd86f").onlySpawnegg().beeTexture("blitz").flowerBlock("thermal:niter_block").attributes(new HashMap<>(){{ put("weather_tolerance", GeneValue.WEATHER_TOLERANCE_ANY.getSerializedName()); }}).requireMod("thermal"));
@@ -636,6 +645,9 @@ public class BeeProvider implements DataProvider
             }
             if (bee.speed != 1.0f) {
                 jsonObject.addProperty("speed", bee.speed);
+            }
+            if (bee.attack != 1.0f) {
+                jsonObject.addProperty("attack", bee.attack);
             }
             if (!bee.selfBreed) {
                 jsonObject.addProperty("selfbreed", false);

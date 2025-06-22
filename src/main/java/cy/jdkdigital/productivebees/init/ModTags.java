@@ -3,10 +3,7 @@ package cy.jdkdigital.productivebees.init;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagKey;
+import net.minecraft.tags.*;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -62,6 +59,8 @@ public class ModTags
     public static final TagKey<Item> DEFAULT_FLOWERING = getItemTag(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "default_flowering"));
     public static final TagKey<Item> DEFAULT_BREEDING = getItemTag(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "default_breeding_items"));
     public static final TagKey<Item> BEE_TEMPT_ITEMS = getItemTag(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "bee_tempt_items"));
+
+    public static final TagKey<Biome> BEEBEE_SPAWN_BIOMES = TagKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "beebee_spawn_biomes"));
 
     public static TagKey<Block> getBlockTag(String name) {
         return getBlockTag(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, name));

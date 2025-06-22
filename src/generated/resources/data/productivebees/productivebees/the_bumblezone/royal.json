@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#472182",
+  "secondaryColor": "#da6ad9",
+  "flowerBlock": "the_bumblezone:royal_jelly_block",
+  "beeTexture": "productivebees:textures/entity/bee/royal/bee",
+  "selfbreed": false,
+  "model": "productivebees:geo/entity/royal.geo.json",
+  "breedingItem": "the_bumblezone:royal_jelly_bottle",
+  "conditions": [
+    {
+      "modid": "the_bumblezone",
+      "type": "neoforge:mod_loaded"
+    }
+  ]
+}

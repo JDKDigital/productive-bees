@@ -1,3 +1,17 @@
+
+- Added Her Royal Beeness for The Bumblezone (Lego)
+- Added Lava bee (Lego)
+- Added Meaty bee (Lego)
+- Added BeeBee for ATM (Lego)
+- Aggressive bees will now attack on sight unless you wear a bee nest helmet
+- Fixed being able to combine type genes with any other gene
+- Bees spawned from a spawn egg now has correct default attributes
+- Attempting to breed BaBees in a breeding chamber will now have consequences
+- Special bee names given on birth works again
+- Changed some alloy bees to require casting when Productive Metalworks is installed
+- Fixed I&F bee recipes
+
+
 1.21.1-13.6.18
 
 - More centrifuge performance improvements

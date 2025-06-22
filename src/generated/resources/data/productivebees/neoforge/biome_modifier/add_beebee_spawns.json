@@ -1,0 +1,10 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#productivebees:beebee_spawn_biomes",
+  "spawners": {
+    "type": "productivebees:configurable_bee",
+    "maxCount": 1,
+    "minCount": 1,
+    "weight": 10
+  }
+}

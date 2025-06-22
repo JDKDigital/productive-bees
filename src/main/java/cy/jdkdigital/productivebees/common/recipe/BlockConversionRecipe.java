@@ -54,7 +54,7 @@ public class BlockConversionRecipe implements Recipe<RecipeInput>
     }
 
     @Override
-    public boolean matches(RecipeInput inv, Level worldIn) {
+    public boolean matches(RecipeInput inv, Level level) {
         if (inv instanceof BeeHelper.BlockStateInventory && bees.size() > 0) {
             String beeName = ((BeeHelper.BlockStateInventory) inv).getIdentifier(0);
             BlockState blockState = ((BeeHelper.BlockStateInventory) inv).getState();
@@ -181,7 +181,7 @@ public class BlockConversionRecipe implements Recipe<RecipeInput>
                 Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.toDisplay.orElse(Ingredient.EMPTY));
                 buffer.writeBoolean(recipe.pollinates);
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error writing block conversion recipe to packet. ", e);
+                ProductiveBees.LOGGER.error("Error writing block conversion recipe to packet.", e);
                 throw e;
             }
         }

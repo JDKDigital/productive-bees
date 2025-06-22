@@ -27,6 +27,10 @@
         "type": "neoforge:tag_empty",
         "tag": "productivebees:flowers/plastic"
       }
+    },
+    {
+      "type": "productivelib:fluid_tag_empty",
+      "tag": "c:latex"
     }
   ]
 }

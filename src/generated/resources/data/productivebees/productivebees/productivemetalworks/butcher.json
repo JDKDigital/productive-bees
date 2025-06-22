@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#852315",
+  "secondaryColor": "#dd9283",
+  "particleColor": "#630800",
+  "flowerBlock": "productivemetalworks:meat_block",
+  "beeTexture": "productivebees:textures/entity/bee/butcher/bee",
+  "model": "productivebees:geo/entity/butcher.geo.json",
+  "conditions": [
+    {
+      "modid": "productivemetalworks",
+      "type": "neoforge:mod_loaded"
+    }
+  ]
+}

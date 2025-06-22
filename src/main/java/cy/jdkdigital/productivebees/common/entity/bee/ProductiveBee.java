@@ -103,6 +103,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
     }
 
     protected void registerBaseGoals() {
+        this.goalSelector.addGoal(0, new BeeAggressiveGoal());
         this.goalSelector.addGoal(0, new BeeAttackGoal(this, 1.4D, true));
 
         this.enterHiveGoal = new EnterHiveGoal();
@@ -163,16 +164,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
 
     @Override
     public void setTarget(@Nullable LivingEntity livingEntity) {
-        boolean isWearingBeeHelmet = false;
-
-        if (livingEntity != null) {
-            ItemStack itemstack = livingEntity.getItemBySlot(EquipmentSlot.HEAD);
-            if (!itemstack.isEmpty() && itemstack.getItem().equals(ModItems.BEE_NEST_DIAMOND_HELMET.get())) {
-                isWearingBeeHelmet = true;
-            }
-        }
-
-        if (!isWearingBeeHelmet) {
+        if (livingEntity == null || !BeeHelper.isWearingBeeNestHelmet(livingEntity)) {
             super.setTarget(livingEntity);
         }
     }
@@ -186,6 +178,17 @@ public class ProductiveBee extends Bee implements IProductiveBee
     @Override
     public boolean isAngry() {
         return super.isAngry() && !getAttributeValue(GeneAttribute.TEMPER).equals(GeneValue.TEMPER_PASSIVE);
+    }
+
+    @Override
+    protected void customServerAiStep() {
+        // Reset target if the target has a bee nest helmet
+        Entity target = this.getTarget();
+        if (target instanceof LivingEntity livingEntity && BeeHelper.isWearingBeeNestHelmet(livingEntity)) {
+            this.stopBeingAngry();
+        }
+
+        super.customServerAiStep();
     }
 
     @Override
@@ -297,12 +300,12 @@ public class ProductiveBee extends Bee implements IProductiveBee
     @Override
     public void setHasStung(boolean hasStung) {
         if (hasStung && getAttributeValue(GeneAttribute.ENDURANCE).equals(GeneValue.ENDURANCE_MEDIUM)) {
-            // 50% chance to not lose stinger
+            // 70% chance to not lose stinger
             hasStung = level().random.nextBoolean();
         }
         if (hasStung && getAttributeValue(GeneAttribute.ENDURANCE).equals(GeneValue.ENDURANCE_STRONG)) {
-            // 80% chance to not lose stinger
-            hasStung = level().random.nextFloat() < .2;
+            // 100% chance to not lose stinger
+            hasStung = false;
         }
         super.setHasStung(hasStung);
 
@@ -500,6 +503,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
                                         Block.popResourceFromFace(level(), feederBlockEntity.getBlockPos(), Direction.UP, output);
                                         stack.shrink(1);
                                     }
+                                    // TODO update feeding slab on client
                                 }
                                 setHasConverted(!blockRecipe.value().pollinates);
                                 return;
@@ -879,6 +883,27 @@ public class ProductiveBee extends Bee implements IProductiveBee
 
         public boolean canContinueToUse() {
             return super.canContinueToUse() && ProductiveBee.this.isAngry() && !ProductiveBee.this.hasStung();
+        }
+    }
+
+    public class BeeAggressiveGoal extends Bee.BaseBeeGoal
+    {
+        BeeAggressiveGoal() {}
+
+        @Override
+        public void tick() {
+            List<Player> players = level().getEntitiesOfClass(Player.class, new AABB(ProductiveBee.this.blockPosition()).inflate(10, 5, 10));
+            if (!players.isEmpty()) {
+                ProductiveBee.this.setTarget(players.getFirst());
+            }
+        }
+
+        public boolean canBeeUse() {
+            return !ProductiveBee.this.isAngry() && !ProductiveBee.this.hasStung() && ProductiveBee.this.getAttributeValue(GeneAttribute.TEMPER).equals(GeneValue.TEMPER_AGGRESSIVE);
+        }
+
+        public boolean canBeeContinueToUse() {
+            return canUse();
         }
     }
 

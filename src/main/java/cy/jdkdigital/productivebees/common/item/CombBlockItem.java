@@ -36,7 +36,7 @@ public class CombBlockItem extends BlockItem
             CompoundTag nbt = BeeReloadListener.INSTANCE.getData(type);
             if (nbt != null) {
                 String name = Component.translatable("entity.productivebees." + ProductiveBee.getBeeName(type) + "_bee").getString();
-                return Component.translatable("block.productivebees.comb_configurable", name.replace(" Bee", ""));
+                return Component.translatable("block.productivebees.comb_configurable", name.endsWith(" Bee") ? name.replace(" Bee", "") : name);
             }
         }
         return super.getName(stack);

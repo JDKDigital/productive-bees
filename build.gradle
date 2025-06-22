@@ -172,6 +172,7 @@ dependencies {
     implementation "curse.maven:forbidden-arcanus-309858:5795185"
     implementation "curse.maven:valhelsia-core-416935:5526890"
     implementation "curse.maven:immersive-engineering-231951:5828000"
+    implementation "curse.maven:the-bumblezone-forge-362479:6585522"
     implementation "curse.maven:towntalk-900364:5653504"
     implementation "curse.maven:structurize-298744:6334987"
     implementation "curse.maven:multi-piston-303278:5783614"
