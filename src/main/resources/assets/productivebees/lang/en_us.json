@@ -1060,6 +1060,7 @@
   "productivebees.ingredient.description.forgotten_bee": "This bee seems to be lost to time. Rumors however point to eggs rarely found in the Catacombs, found in the Undergarden.",
   "productivebees.ingredient.description.regalium_bee": "Gold bees who get a special disc traded from the Stoneborns, who are found in the Undergarden, will find themselves becoming quite regal.",
   "productivebees.ingredient.description.neptunium_bee": "This bees egg is rarely found in Neptune's Bounties.",
+  "productivebees.ingredient.description.beebee_bee": "RUN!",
   "productivebees.ingredient.description.only_spawnegg": "To acquire this bee, look up the crafting recipe for its spawn egg.",
   "productivebees.ingredient.description.selfbreed": "%s\n\nThis species of bees can't breed amongst themselves.",
   "productivebees.nest_locator.found_hive": "A nest was located %s meters that way!",

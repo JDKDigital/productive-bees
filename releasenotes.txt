@@ -1,7 +1,8 @@
+1.21.1-13.7.0
 
 - Added Her Royal Beeness for The Bumblezone (Lego)
 - Added Lava bee (Lego)
-- Added Meaty bee (Lego)
+- Added Butcher bee (Lego)
 - Added BeeBee for ATM (Lego)
 - Aggressive bees will now attack on sight unless you wear a bee nest helmet
 - Fixed being able to combine type genes with any other gene
@@ -10,6 +11,7 @@
 - Special bee names given on birth works again
 - Changed some alloy bees to require casting when Productive Metalworks is installed
 - Fixed I&F bee recipes
+- Better stack insertion logic for Gene Indexer
 
 
 1.21.1-13.6.18

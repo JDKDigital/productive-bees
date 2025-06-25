@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
-    "allthemodium:the_other"
+    {
+      "id": "allthemodium:the_other",
+      "required": false
+    }
   ]
 }
