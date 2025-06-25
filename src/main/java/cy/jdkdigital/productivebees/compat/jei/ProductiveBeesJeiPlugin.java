@@ -322,14 +322,14 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
             BeeCreator.setType(beeType, comb);
             NonNullList<Ingredient> combInput = NonNullList.create();
             for (int i = 0; i < count; i++) {
-                combInput.add(Ingredient.of(comb));
+                combInput.add(DataComponentIngredient.of(false, comb));
             }
 
             // Add comb block
             ItemStack combBlock = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
             BeeCreator.setType(beeType, combBlock);
             NonNullList<Ingredient> combBlockInput = NonNullList.create();
-            combBlockInput.add(Ingredient.of(combBlock));
+            combBlockInput.add(DataComponentIngredient.of(false, combBlock));
 
             recipes.add(new RecipeHolder<>(idComb, new ShapelessRecipe("", CraftingBookCategory.BUILDING, combBlock, combInput)));
             ItemStack combOutput = comb.copy();
