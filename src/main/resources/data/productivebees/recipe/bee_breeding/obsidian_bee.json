@@ -1,12 +1,16 @@
 {
   "type": "productivebees:bee_breeding",
-  "parent1": "productivebees:magmatic",
-  "parent2": "productivebees:sweat_bee",
+  "parent1": "productivebees:lava",
+  "parent2": "productivebees:water",
   "offspring": "productivebees:obsidian",
   "neoforge:conditions": [
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:magmatic"
+      "bee": "productivebees:lava"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:water"
     },
     {
       "type": "productivebees:bee_exists",

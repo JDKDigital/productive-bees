@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.helper.RecipeHelper;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFactory;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.ComponentIngredient;
 import cy.jdkdigital.productivebees.common.recipe.*;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
@@ -176,7 +177,7 @@ public class ProductiveBeesEmiPlugin implements EmiPlugin
                     outputs.add(new TagOutputRecipe.ChancedOutput(chanceOutput.ingredient(), chanceOutput.min() * 4, chanceOutput.max() * 4, chanceOutput.chance()));
                 });
                 var fluid = new SizedFluidIngredient(recipe.value().fluidOutput.ingredient(), recipe.value().fluidOutput.amount() * 4);
-                return new RecipeHolder<>(recipe.id().withPath(p -> "/" + p + "_block"), new CentrifugeRecipe(Ingredient.of(BeeHelper.getCombBlockFromHoneyComb(item)), outputs, fluid, recipe.value().getProcessingTime()));
+                return new RecipeHolder<>(recipe.id().withPath(p -> "/" + p + "_block"), new CentrifugeRecipe(ComponentIngredient.of(BeeHelper.getCombBlockFromHoneyComb(item)), outputs, fluid, recipe.value().getProcessingTime()));
             }
             return null;
         }).filter(Objects::nonNull).toList();
@@ -298,7 +299,7 @@ public class ProductiveBeesEmiPlugin implements EmiPlugin
             BeeCreator.setType(beeType, comb);
             NonNullList<EmiIngredient> combInput = NonNullList.create();
             for (int i = 0; i < count; i++) {
-                combInput.add(EmiIngredient.of(Ingredient.of(comb)));
+                combInput.add(EmiIngredient.of(ComponentIngredient.of(comb)));
             }
 
             // Add comb block

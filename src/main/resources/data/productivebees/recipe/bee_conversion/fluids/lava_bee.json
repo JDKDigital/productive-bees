@@ -1,0 +1,18 @@
+{
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:magmatic",
+  "result": "productivebees:lava",
+  "item": {
+    "item": "minecraft:lava_bucket"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:magmatic"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:lava"
+    }
+  ]
+}
