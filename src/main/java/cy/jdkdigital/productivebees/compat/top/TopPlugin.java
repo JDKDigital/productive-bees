@@ -81,6 +81,18 @@ public class TopPlugin implements Function<ITheOneProbe, Void>
                 return true;
             }
 
+            // Configurable Comb Block
+            if (tileEntity instanceof CombBlockBlockEntity combBlock) {
+                String type = combBlock.getCombType();
+                String name = Component.translatable("entity.productivebees." + type.split(":")[1] + "_bee").getString();
+                probeInfo.horizontal()
+                        .item(new ItemStack(blockState.getBlock().asItem()))
+                        .vertical()
+                        .text(Component.translatable("block.productivebees.comb_configurable", name.replace(" Bee", "")))
+                        .text(CompoundText.create().style(TextStyleClass.MODNAME).text("Productive Bees"));
+                return true;
+            }
+
             // Canvas hive and expansionbox
             if (tileEntity instanceof CanvasBeehiveBlockEntity || tileEntity instanceof CanvasExpansionBoxBlockEntity) {
                 String style = blockState.getBlock().getDescriptionId().replace("block.productivebees.advanced_", "").replace("_canvas_beehive", "");
