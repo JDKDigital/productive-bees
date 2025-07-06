@@ -439,7 +439,7 @@ public class BeeProvider implements DataProvider
 
             add(new BeeConfig("integrateddynamics/menril").primaryColor("#5a7088").secondaryColor("#804f40").particleColor("#5a7088").flowerBlock("integrateddynamics:crystalized_menril_block").requireMod("integrateddynamics"));
 
-            add(new BeeConfig("irons_spellbooks/arcane_essence").primaryColor("#7cd7ea").secondaryColor("#9938c3").tertiaryColor("#227c8f").particleColor("#7cd7ea").beeTexture("arcane_essence").size(0.8).flowerItem("irons_spellbooks:ruined_book").requireMod("irons_spellbooks"));
+            add(new BeeConfig("irons_spellbooks/arcane_essence").primaryColor("#7cd7ea").secondaryColor("#9938c3").tertiaryColor("#227c8f").particleColor("#7cd7ea").beeTexture("arcane_essence").size(0.8).onlySpawnegg().flowerItem("irons_spellbooks:ruined_book").requireMod("irons_spellbooks"));
 
             add(new BeeConfig("justdirethings/blazegold").primaryColor("#3e2133").secondaryColor("#ae5653").tertiaryColor("#e99053").particleColor("#f6b06d").beeTexture("blazegold").size(0.8).flowerBlock("justdirethings:blazegold_block").requireMod("justdirethings"));
             add(new BeeConfig("justdirethings/celestigem").primaryColor("#15595f").secondaryColor("#37c5bb").tertiaryColor("#90f8e3").particleColor("#d8fbec").beeTexture("celestigem").size(0.7).renderer("default_crystal").flowerBlock("justdirethings:celestigem_block").noSelfBreed().requireMod("justdirethings"));
@@ -450,7 +450,7 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("l2hostility/chaotic").primaryColor("#6400ab").secondaryColor("#f627f3").particleColor("#ffa268").beeTexture("chaotic").size(0.8).noSelfBreed().flowerBlock("l2hostility:chaos_block").requireMod("l2hostility"));
             add(new BeeConfig("l2hostility/miracle").primaryColor("#412fbf").secondaryColor("#56c693").particleColor("#ffffe0").beeTexture("miracle").size(0.6).noSelfBreed().flowerBlock("l2hostility:miracle_block").requireMod("l2hostility"));
 
-            add(new BeeConfig("materials/plastic").primaryColor("#d3d3d3").secondaryColor("#535353").size(0.7).flowerTag("productivebees:flowers/plastic").attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_WEAK.getSerializedName()); }}).requireTag("productivebees:flowers/plastic"));
+            add(new BeeConfig("materials/plastic").primaryColor("#d3d3d3").secondaryColor("#535353").size(0.7).flowerTag("c:plastics").attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_WEAK.getSerializedName()); }}).requireTag("c:plastics"));
             add(new BeeConfig("materials/sticky_resin").primaryColor("#000001").secondaryColor("#d98b24").size(0.7).attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_WEAK.getSerializedName()); }}).requireEitherMod("gtceu", "ic2"));
 
             add(new BeeConfig("mekanism/refined_glowstone").primaryColor("#feee7c").secondaryColor("#bb8d23").flowerTag("c:storage_blocks/refined_glowstone").requireMod("mekanism"));
@@ -494,7 +494,7 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("powah/spirited_crystal").primaryColor("#7cff1f").secondaryColor("#61bf1f").flowerBlock("powah:spirited_crystal_block").noSelfBreed().requireMod("powah").onlySpawnegg());
             add(new BeeConfig("powah/uraninite").primaryColor("#00FF00").secondaryColor("#008000").particleColor("#7CFC00").size(0.8).flowerTag("c:storage_blocks/uraninite").requireMod("powah").requireTag("c:storage_blocks/uraninite"));
 
-            add(new BeeConfig("productivemetalworks/butcher").primaryColor("#852315").secondaryColor("#dd9283").particleColor("#630800").beeTexture("butcher").model("productivebees:geo/entity/butcher.geo.json").flowerBlock("productivemetalworks:meat_block").requireMod("productivemetalworks"));
+            add(new BeeConfig("productivemetalworks/butcher").primaryColor("#852315").secondaryColor("#dd9283").particleColor("#630800").beeTexture("butcher").model("productivebees:geo/entity/butcher.geo.json").flowerBlock("productivemetalworks:meat_block").onlySpawnegg().requireMod("productivemetalworks"));
 
             add(new BeeConfig("raw_materials/aluminum").primaryColor("#A4A6B1").secondaryColor("#804f40").flowerTag("c:storage_blocks/aluminum").requireTag("c:storage_blocks/aluminum"));
             add(new BeeConfig("raw_materials/bismuth").primaryColor("#ece386").secondaryColor("#586bb7").particleColor("#b598db").flowerTag("c:storage_blocks/bismuth").requireTag("c:storage_blocks/bismuth"));

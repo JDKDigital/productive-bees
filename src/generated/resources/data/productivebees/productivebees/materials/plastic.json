@@ -1,7 +1,7 @@
 {
   "primaryColor": "#d3d3d3",
   "secondaryColor": "#535353",
-  "flowerTag": "productivebees:flowers/plastic",
+  "flowerTag": "c:plastics",
   "size": 0.7,
   "attributes": {
     "endurance": "endurance.weak"
@@ -9,7 +9,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "productivebees:flowers/plastic",
+        "tag": "c:plastics",
         "type": "neoforge:tag_empty"
       },
       "type": "neoforge:not"

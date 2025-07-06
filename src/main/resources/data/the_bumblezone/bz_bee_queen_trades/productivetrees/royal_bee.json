@@ -10,7 +10,7 @@
       "item": {
         "components": {
           "minecraft:entity_data": {
-            "type": "productivebees:wanna",
+            "type": "productivebees:royal",
             "id": "productivebees:configurable_bee"
           }
         },

@@ -3,6 +3,7 @@
   "secondaryColor": "#dd9283",
   "particleColor": "#630800",
   "flowerBlock": "productivemetalworks:meat_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
   "beeTexture": "productivebees:textures/entity/bee/butcher/bee",
   "model": "productivebees:geo/entity/butcher.geo.json",
   "conditions": [

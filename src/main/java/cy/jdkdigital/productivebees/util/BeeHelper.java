@@ -73,36 +73,34 @@ public class BeeHelper
     public static Entity itemInteract(Bee entity, ItemStack itemStack, ServerLevel level, Player player) {
         Entity bee = null;
 
-        if (!entity.isBaby()) {
-            var beeInv = new IdentifierInventory(entity, BuiltInRegistries.ITEM.getKey(itemStack.getItem()) + "");
+        var beeInv = new IdentifierInventory(entity, BuiltInRegistries.ITEM.getKey(itemStack.getItem()) + "");
 
-            List<BeeConversionRecipe> recipes = new ArrayList<>();
+        List<BeeConversionRecipe> recipes = new ArrayList<>();
 
-            // Conversion recipes
-            List<RecipeHolder<BeeConversionRecipe>> allRecipes = level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.BEE_CONVERSION_TYPE.get());
-            for (RecipeHolder<BeeConversionRecipe> entry : allRecipes) {
-                BeeConversionRecipe recipe = entry.value();
-                if (recipe.matches(beeInv, level)) {
-                    recipes.add(recipe);
+        // Conversion recipes
+        List<RecipeHolder<BeeConversionRecipe>> allRecipes = level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.BEE_CONVERSION_TYPE.get());
+        for (RecipeHolder<BeeConversionRecipe> entry : allRecipes) {
+            BeeConversionRecipe recipe = entry.value();
+            if (recipe.matches(beeInv, level)) {
+                recipes.add(recipe);
+            }
+        }
+
+        if (!recipes.isEmpty()) {
+            BeeConversionRecipe recipe = recipes.get(level.random.nextInt(recipes.size()));
+            if (level.random.nextFloat() < recipe.chance) {
+                bee = recipe.result.get().getBeeEntity().create(level);
+                if (bee instanceof ConfigurableBee) {
+                    ((ConfigurableBee) bee).setBeeType(recipe.result.get().getBeeType().toString());
+                    ((ConfigurableBee) bee).setDefaultAttributes();
+                }
+
+                if (bee instanceof Bee) {
+                    setOffspringAttributes((Bee) bee, entity, entity);
                 }
             }
-
-            if (!recipes.isEmpty()) {
-                BeeConversionRecipe recipe = recipes.get(level.random.nextInt(recipes.size()));
-                if (level.random.nextFloat() < recipe.chance) {
-                    bee = recipe.result.get().getBeeEntity().create(level);
-                    if (bee instanceof ConfigurableBee) {
-                        ((ConfigurableBee) bee).setBeeType(recipe.result.get().getBeeType().toString());
-                        ((ConfigurableBee) bee).setDefaultAttributes();
-                    }
-
-                    if (bee instanceof Bee) {
-                        setOffspringAttributes((Bee) bee, entity, entity);
-                    }
-                }
-                if (!player.isCreative()) {
-                    itemStack.shrink(1);
-                }
+            if (!player.isCreative()) {
+                itemStack.shrink(1);
             }
         }
 

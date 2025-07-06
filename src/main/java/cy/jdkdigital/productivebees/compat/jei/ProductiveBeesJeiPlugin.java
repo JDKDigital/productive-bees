@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.helper.RecipeHelper;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFactory;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.ComponentIngredient;
 import cy.jdkdigital.productivebees.common.recipe.*;
 import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredientHelper;
 import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredientRenderer;
@@ -190,7 +191,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
                     outputs.add(new TagOutputRecipe.ChancedOutput(chanceOutput.ingredient(), chanceOutput.min() * 4, chanceOutput.max() * 4, chanceOutput.chance()));
                 });
                 var fluid = new SizedFluidIngredient(recipe.value().fluidOutput.ingredient(), recipe.value().fluidOutput.amount() * 4);
-                return new CentrifugeRecipe(Ingredient.of(BeeHelper.getCombBlockFromHoneyComb(item)), outputs, fluid, recipe.value().getProcessingTime());
+                return new CentrifugeRecipe(ComponentIngredient.of(BeeHelper.getCombBlockFromHoneyComb(item)), outputs, fluid, recipe.value().getProcessingTime());
             }
             return null;
         }).filter(Objects::nonNull).toList();
@@ -323,14 +324,14 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
             BeeCreator.setType(beeType, comb);
             NonNullList<Ingredient> combInput = NonNullList.create();
             for (int i = 0; i < count; i++) {
-                combInput.add(DataComponentIngredient.of(false, comb));
+                combInput.add(ComponentIngredient.of(false, comb));
             }
 
             // Add comb block
             ItemStack combBlock = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
             BeeCreator.setType(beeType, combBlock);
             NonNullList<Ingredient> combBlockInput = NonNullList.create();
-            combBlockInput.add(DataComponentIngredient.of(false, combBlock));
+            combBlockInput.add(ComponentIngredient.of(false, combBlock));
 
             recipes.add(new RecipeHolder<>(idComb, new ShapelessRecipe("", CraftingBookCategory.BUILDING, combBlock, combInput)));
             ItemStack combOutput = comb.copy();
