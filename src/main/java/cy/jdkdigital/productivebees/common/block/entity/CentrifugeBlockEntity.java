@@ -251,9 +251,11 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
         for (ItemEntity itemEntity : getCaptureItems()) {
             ItemStack itemStack = itemEntity.getItem();
             if (
-                    canProcessItemStack(itemStack) ||
-                    itemStack.getItem().equals(ModItems.GENE_BOTTLE.get()) ||
-                    itemStack.getItem().equals(ModItems.HONEY_TREAT.get()) && HoneyTreat.hasGene(itemStack)
+                    !itemEntity.isRemoved() && (
+                        canProcessItemStack(itemStack) ||
+                        itemStack.getItem().equals(ModItems.GENE_BOTTLE.get()) ||
+                        itemStack.getItem().equals(ModItems.HONEY_TREAT.get()) && HoneyTreat.hasGene(itemStack)
+                    )
             ) {
                 captureItem(invHandler, itemEntity);
             }
