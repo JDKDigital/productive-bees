@@ -1,10 +1,7 @@
 package cy.jdkdigital.productivebees.compat.hwyla;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.common.block.CanvasBeehive;
-import cy.jdkdigital.productivebees.common.block.CanvasExpansionBox;
-import cy.jdkdigital.productivebees.common.block.Jar;
-import cy.jdkdigital.productivebees.common.block.SolitaryNest;
+import cy.jdkdigital.productivebees.common.block.*;
 import cy.jdkdigital.productivebees.common.block.entity.JarBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.SolitaryNestBlockEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
@@ -32,6 +29,7 @@ public class ProductiveBeesWailaPlugin implements IWailaPlugin
         registration.registerBlockComponent(CanvasExpansionBoxProvider.INSTANCE, CanvasExpansionBox.class);
         registration.registerBlockComponent(SolitaryNestProvider.INSTANCE, SolitaryNest.class);
         registration.registerBlockComponent(JarProvider.INSTANCE, Jar.class);
+        registration.registerBlockComponent(ConfigurableCombProvider.INSTANCE, ConfigurableCombBlock.class);
         registration.registerEntityComponent(ProductiveBeeProvider.INSTANCE, ProductiveBee.class);
         registration.addConfig(BEE_ATTRIBUTES, true);
     }
