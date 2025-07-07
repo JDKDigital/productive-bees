@@ -91,8 +91,8 @@ public class ConfigurableCombBlockRecipe implements CraftingRecipe
     @Nonnull
     @Override
     public NonNullList<Ingredient> getIngredients() {
-        NonNullList<Ingredient> nonnulllist = NonNullList.create();
-        nonnulllist.add(Ingredient.of(ModItems.CONFIGURABLE_COMB_BLOCK.get()));
+        NonNullList<Ingredient> nonnulllist = NonNullList.withSize(9, Ingredient.EMPTY);
+        nonnulllist.set(0, Ingredient.of(ModItems.CONFIGURABLE_COMB_BLOCK.get()));
         return nonnulllist;
     }
 

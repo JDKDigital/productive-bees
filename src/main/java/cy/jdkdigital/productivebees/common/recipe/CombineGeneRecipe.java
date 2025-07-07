@@ -113,10 +113,10 @@ public class CombineGeneRecipe implements CraftingRecipe
     @Nonnull
     @Override
     public NonNullList<Ingredient> getIngredients() {
-        NonNullList<Ingredient> list = NonNullList.create();
+        NonNullList<Ingredient> list = NonNullList.withSize(9, Ingredient.EMPTY);
 
-        list.add(Ingredient.of(new ItemStack(ModItems.GENE.get())));
-        list.add(Ingredient.of(new ItemStack(ModItems.GENE.get())));
+        list.set(0, Ingredient.of(new ItemStack(ModItems.GENE.get())));
+        list.set(1, Ingredient.of(new ItemStack(ModItems.GENE.get())));
 
         return list;
     }

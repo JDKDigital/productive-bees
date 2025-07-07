@@ -103,9 +103,9 @@ public class ConfigurableHoneycombRecipe implements CraftingRecipe
 
     @Override
     public NonNullList<Ingredient> getIngredients() {
-        NonNullList<Ingredient> nonnulllist = NonNullList.create();
+        NonNullList<Ingredient> nonnulllist = NonNullList.withSize(9, Ingredient.EMPTY);
         for (int i = 0; i < count; i++) {
-            nonnulllist.add(Ingredient.of(new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get())));
+            nonnulllist.set(i, Ingredient.of(new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get())));
         }
         return nonnulllist;
     }

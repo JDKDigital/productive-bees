@@ -121,9 +121,9 @@ public class BeeBombBeeCageRecipe implements CraftingRecipe
     @Nonnull
     @Override
     public NonNullList<Ingredient> getIngredients() {
-        NonNullList<Ingredient> list = NonNullList.create();
+        NonNullList<Ingredient> list = NonNullList.withSize(9, Ingredient.EMPTY);
 
-        list.add(Ingredient.of(beeBomb.copy()));
+        list.set(0, Ingredient.of(beeBomb.copy()));
 
         ItemStack cage = new ItemStack(ModItems.BEE_CAGE.get());
 
@@ -131,7 +131,7 @@ public class BeeBombBeeCageRecipe implements CraftingRecipe
 //        CompoundTag nbt = new CompoundTag();
 //        nbt.putString("entity", EntityType.getKey(EntityType.BEE).toString());
 //        cage.setTag(nbt);
-        list.add(Ingredient.of(cage));
+        list.set(1, Ingredient.of(cage));
 
         return list;
     }
