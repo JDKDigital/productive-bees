@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.common.entity.bee;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
+import cy.jdkdigital.productivebees.ai.BeeAggressiveGoal;
 import cy.jdkdigital.productivebees.common.block.Feeder;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
@@ -103,7 +104,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
     }
 
     protected void registerBaseGoals() {
-        this.goalSelector.addGoal(0, new BeeAggressiveGoal());
+        this.goalSelector.addGoal(0, new BeeAggressiveGoal(this));
         this.goalSelector.addGoal(0, new BeeAttackGoal(this, 1.4D, true));
 
         this.enterHiveGoal = new EnterHiveGoal();
@@ -886,26 +887,6 @@ public class ProductiveBee extends Bee implements IProductiveBee
         }
     }
 
-    public class BeeAggressiveGoal extends Bee.BaseBeeGoal
-    {
-        BeeAggressiveGoal() {}
-
-        @Override
-        public void tick() {
-            List<Player> players = level().getEntitiesOfClass(Player.class, new AABB(ProductiveBee.this.blockPosition()).inflate(10, 5, 10));
-            if (!players.isEmpty()) {
-                ProductiveBee.this.setTarget(players.getFirst());
-            }
-        }
-
-        public boolean canBeeUse() {
-            return !ProductiveBee.this.isAngry() && !ProductiveBee.this.hasStung() && ProductiveBee.this.getAttributeValue(GeneAttribute.TEMPER).equals(GeneValue.TEMPER_AGGRESSIVE);
-        }
-
-        public boolean canBeeContinueToUse() {
-            return canUse();
-        }
-    }
 
     public class ProductiveTemptGoal extends TemptGoal
     {

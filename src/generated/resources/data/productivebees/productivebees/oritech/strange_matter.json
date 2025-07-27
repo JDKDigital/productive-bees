@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#770029",
+  "secondaryColor": "#3c003b",
+  "tertiaryColor": "#5d0130",
+  "particleColor": "#8c002e",
+  "flowerFluid": "oritech:still_strange_matter",
+  "beeTexture": "productivebees:textures/entity/bee/strange_matter/bee",
+  "size": 0.4,
+  "selfbreed": false,
+  "renderer": "default_shell",
+  "conditions": [
+    {
+      "modid": "oritech",
+      "type": "neoforge:mod_loaded"
+    }
+  ]
+}

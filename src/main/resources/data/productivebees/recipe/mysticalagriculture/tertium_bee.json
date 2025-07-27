@@ -12,9 +12,6 @@
   },
   "ingredients": [
     {
-      "item": "mysticalagriculture:tertium_essence"
-    },
-    {
       "item": "mysticalagriculture:tertium_block"
     },
     {
@@ -34,6 +31,9 @@
     },
     {
       "item": "mysticalagriculture:tertium_block"
+    },
+    {
+      "item": "mysticalagriculture:tertium_essence"
     }
   ],
   "result": {

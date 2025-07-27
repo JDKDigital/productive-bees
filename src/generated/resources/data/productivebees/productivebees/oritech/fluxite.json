@@ -1,0 +1,16 @@
+{
+  "primaryColor": "#bb9ce8",
+  "secondaryColor": "#6112b2",
+  "tertiaryColor": "#4a0d89",
+  "particleColor": "#cfa8f7",
+  "flowerBlock": "oritech:fluxite_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/fluxite/bee",
+  "size": 0.7,
+  "conditions": [
+    {
+      "modid": "oritech",
+      "type": "neoforge:mod_loaded"
+    }
+  ]
+}

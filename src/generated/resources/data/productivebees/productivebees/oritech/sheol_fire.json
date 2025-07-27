@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#de6417",
+  "secondaryColor": "#4e0017",
+  "tertiaryColor": "#64080f",
+  "particleColor": "#f48a47",
+  "flowerFluid": "oritech:still_sheol_fire",
+  "beeTexture": "productivebees:textures/entity/bee/sheol_fire/bee",
+  "size": 0.7,
+  "selfbreed": false,
+  "renderer": "default_shell",
+  "conditions": [
+    {
+      "modid": "oritech",
+      "type": "neoforge:mod_loaded"
+    }
+  ]
+}

@@ -12,9 +12,6 @@
   },
   "ingredients": [
     {
-      "item": "mysticalagriculture:prudentium_essence"
-    },
-    {
       "item": "mysticalagriculture:prudentium_block"
     },
     {
@@ -34,6 +31,9 @@
     },
     {
       "item": "mysticalagriculture:prudentium_block"
+    },
+    {
+      "item": "mysticalagriculture:prudentium_essence"
     }
   ],
   "result": {

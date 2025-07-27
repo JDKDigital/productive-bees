@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "cy.jdkdigital.productivebees.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "BeeMixin",
+    "BeePollinateGoalMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "productivebees.refmap.json",
+  "minVersion": "0.8.5"
+}

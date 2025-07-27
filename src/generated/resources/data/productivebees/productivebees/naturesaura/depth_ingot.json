@@ -1,0 +1,16 @@
+{
+  "primaryColor": "#715b7d",
+  "secondaryColor": "#543f5e",
+  "tertiaryColor": "#201824",
+  "particleColor": "#c9b3d5",
+  "flowerBlock": "naturesaura:depth_ingot_block",
+  "beeTexture": "productivebees:textures/entity/bee/depth_ingot/bee",
+  "size": 0.6,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "naturesaura",
+      "type": "neoforge:mod_loaded"
+    }
+  ]
+}

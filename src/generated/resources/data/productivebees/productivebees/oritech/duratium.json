@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#d8bbe9",
+  "secondaryColor": "#452c5f",
+  "tertiaryColor": "#64677f",
+  "particleColor": "#ffffff",
+  "flowerBlock": "oritech:duratium_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/duratium/bee",
+  "size": 0.8,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "oritech",
+      "type": "neoforge:mod_loaded"
+    }
+  ]
+}

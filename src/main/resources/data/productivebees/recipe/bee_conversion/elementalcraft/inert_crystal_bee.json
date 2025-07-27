@@ -3,7 +3,7 @@
   "source": "productivebees:diamond",
   "result": "productivebees:inert_crystal",
   "item": {
-    "item": "elementalcraft:inertcrystal_block"
+    "item": "elementalcraft:inert_crystal_block"
   },
   "neoforge:conditions": [
     {

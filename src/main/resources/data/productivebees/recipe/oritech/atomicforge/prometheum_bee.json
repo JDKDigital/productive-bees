@@ -1,0 +1,39 @@
+{
+    "type": "oritech:atomic_forge",
+    "fluidInput": {
+        "amount": 0,
+        "fluid": "minecraft:empty"
+    },
+    "fluidOutputs": [],
+    "ingredients": [
+        {
+            "type": "productivebees:component",
+            "components": {
+                "minecraft:entity_data": {
+                    "type": "productivebees:strange_matter",
+                    "id": "productivebees:configurable_bee"
+                }
+            },
+            "items": "productivebees:spawn_egg_configurable_bee"
+        },
+        {
+            "item": "oritech:overcharged_crystal"
+        },
+        {
+            "item": "oritech:overcharged_crystal"
+        }
+    ],
+    "results": [
+        {
+            "components": {
+                "minecraft:entity_data": {
+                    "type": "productivebees:prometheum",
+                    "id": "productivebees:configurable_bee"
+                }
+            },
+            "count": 1,
+            "id": "productivebees:spawn_egg_configurable_bee"
+        }
+    ],
+    "time": 240
+}

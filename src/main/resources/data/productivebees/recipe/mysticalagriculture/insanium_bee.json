@@ -12,9 +12,6 @@
   },
   "ingredients": [
     {
-      "item": "mysticalagradditions:insanium_essence"
-    },
-    {
       "item": "mysticalagradditions:insanium_block"
     },
     {
@@ -34,6 +31,9 @@
     },
     {
       "item": "mysticalagradditions:insanium_block"
+    },
+    {
+      "item": "mysticalagradditions:insanium_essence"
     }
   ],
   "result": {

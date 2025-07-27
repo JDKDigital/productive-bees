@@ -1,0 +1,23 @@
+{
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:radioactive",
+  "result": "productivebees:uranite_crystal",
+  "chance": 1,
+  "item": {
+    "item": "oritech:plutonium_dust"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "oritech"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:radioactive"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:uranite_crystal"
+    }
+  ]
+}

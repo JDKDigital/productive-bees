@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#5eee47",
+  "secondaryColor": "#36aa38",
+  "tertiaryColor": "#43bb43",
+  "particleColor": "#91f38f",
+  "flowerFluid": "oritech:still_sulfuric_acid",
+  "beeTexture": "productivebees:textures/entity/bee/sulfuric_acid/bee",
+  "size": 0.6,
+  "selfbreed": false,
+  "renderer": "default_shell",
+  "conditions": [
+    {
+      "modid": "oritech",
+      "type": "neoforge:mod_loaded"
+    }
+  ]
+}

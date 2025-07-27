@@ -12,9 +12,6 @@
   },
   "ingredients": [
     {
-      "item": "mysticalagriculture:imperium_essence"
-    },
-    {
       "item": "mysticalagriculture:imperium_block"
     },
     {
@@ -34,6 +31,9 @@
     },
     {
       "item": "mysticalagriculture:imperium_block"
+    },
+    {
+      "item": "mysticalagriculture:imperium_essence"
     }
   ],
   "result": {

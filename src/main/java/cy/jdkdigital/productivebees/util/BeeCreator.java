@@ -129,14 +129,14 @@ public class BeeCreator
         }
 
         // TODO 1.21 reimplement or make this whole thing into a codec
-//        if (json.has("passiveEffects")) {
+        if (json.has("passiveEffects")) {
 //            Map<Holder<MobEffect>, Integer> effects = new HashMap<>();
 //            for (JsonElement el : json.get("passiveEffects").getAsJsonArray()) {
 //                JsonObject effect = el.getAsJsonObject();
 //                effects.put(Holder.direct(BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.parse(effect.get("effect").getAsString()))), effect.get("duration").getAsInt());
 //            }
 //            data.put("effect", new BeeEffect(effects).serializeNBT());
-//        }
+        }
 
         data.putBoolean("createComb", !json.has("createComb") || json.get("createComb").getAsBoolean());
 
@@ -155,6 +155,7 @@ public class BeeCreator
         ItemStack egg;
         if (BeeReloadListener.INSTANCE.getData(beeType) != null || forceConfigurable) {
             egg = new ItemStack(ModItems.CONFIGURABLE_SPAWN_EGG.get());
+            // TODO 1.22 use ModDataComponents.BEE_TYPE
             var tag = new CompoundTag();
             tag.putString("type", beeType.toString());
             tag.putString("id", ModEntities.CONFIGURABLE_BEE.getId().toString());

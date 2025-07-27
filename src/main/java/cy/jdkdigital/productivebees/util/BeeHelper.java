@@ -97,6 +97,7 @@ public class BeeHelper
 
                 if (bee instanceof Bee) {
                     setOffspringAttributes((Bee) bee, entity, entity);
+                    ((Bee) bee).setAge(entity.getAge());
                 }
             }
             if (!player.isCreative()) {

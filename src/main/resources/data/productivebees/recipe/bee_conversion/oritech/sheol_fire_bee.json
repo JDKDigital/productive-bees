@@ -1,0 +1,23 @@
+{
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:lava",
+  "result": "productivebees:sheol_fire",
+  "chance": 0.5,
+  "item": {
+    "item": "oritech:still_sheol_fire_bucket"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "oritech"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:lava"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:sheol_fire"
+    }
+  ]
+}

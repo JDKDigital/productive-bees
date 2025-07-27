@@ -12,9 +12,6 @@
   },
   "ingredients": [
     {
-      "item": "mysticalagriculture:supremium_essence"
-    },
-    {
       "item": "mysticalagriculture:supremium_block"
     },
     {
@@ -34,6 +31,9 @@
     },
     {
       "item": "mysticalagriculture:supremium_block"
+    },
+    {
+      "item": "mysticalagriculture:supremium_essence"
     }
   ],
   "result": {

@@ -1,0 +1,31 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "type": "productivebees:component",
+        "components": {
+            "productivebees:bee_type": "productivebees:sulfuric_acid"
+        },
+        "items": "productivebees:configurable_honeycomb"
+    },
+    "outputs": [
+        {
+            "item": {
+                "item": "productivebees:wax"
+            }
+        }
+    ],
+    "fluid": {
+        "amount": 100,
+        "fluid": "oritech:still_sulfuric_acid"
+    },
+    "neoforge:conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:sulfuric_acid"
+        },
+        {
+            "type": "neoforge:mod_loaded",
+            "modid": "oritech"
+        }
+    ]
+}

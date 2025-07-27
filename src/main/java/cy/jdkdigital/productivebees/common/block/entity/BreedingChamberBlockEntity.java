@@ -130,7 +130,7 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
     @Override
     public int getProcessingTime(RecipeHolder<? extends TimedRecipeInterface> recipe) {
         return Math.max((int) (
-                (recipe != null ? recipe.value().getProcessingTime() : 6000) * getProcessingTimeModifier()
+                (recipe != null ? recipe.value().getProcessingTime() : ProductiveBeesConfig.GENERAL.breedingChamberProcessingTime.get()) * getProcessingTimeModifier()
         ), 5);
     }
 

@@ -1,0 +1,59 @@
+{
+    "type": "elementalcraft:pureinfusion",
+    "element_amount": 60000,
+    "ingredients": {
+        "air": {
+            "type": "productivebees:component",
+            "components": {
+                "minecraft:entity_data": {
+                    "type": "productivebees:air_crystal",
+                    "id": "productivebees:configurable_bee"
+                }
+            },
+            "items": "productivebees:spawn_egg_configurable_bee"
+        },
+        "earth": {
+            "type": "productivebees:component",
+            "components": {
+                "minecraft:entity_data": {
+                    "type": "productivebees:earth_crystal",
+                    "id": "productivebees:configurable_bee"
+                }
+            },
+            "items": "productivebees:spawn_egg_configurable_bee"
+        },
+        "fire": {
+            "type": "productivebees:component",
+            "components": {
+                "minecraft:entity_data": {
+                    "type": "productivebees:fire_crystal",
+                    "id": "productivebees:configurable_bee"
+                }
+            },
+            "items": "productivebees:spawn_egg_configurable_bee"
+        },
+        "pure_infuser": {
+            "item": "elementalcraft:pure_element_holder_core"
+        },
+        "water": {
+            "type": "productivebees:component",
+            "components": {
+                "minecraft:entity_data": {
+                    "type": "productivebees:water_crystal",
+                    "id": "productivebees:configurable_bee"
+                }
+            },
+            "items": "productivebees:spawn_egg_configurable_bee"
+        }
+    },
+    "output": {
+        "components": {
+            "minecraft:entity_data": {
+                "type": "productivebees:pure_crystal",
+                "id": "productivebees:configurable_bee"
+            }
+        },
+        "count": 1,
+        "id": "productivebees:spawn_egg_configurable_bee"
+    }
+}

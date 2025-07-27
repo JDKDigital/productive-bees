@@ -71,7 +71,7 @@ public class ModEventHandler
             }
 
             for (DeferredHolder<Item, ? extends Item> item: ProductiveLib.ITEMS.getEntries()) {
-                if (!item.is(LibItems.UPGRADE_STABILITY) && !item.is(LibItems.UPGRADE_POLLEN_SIEVE)) {
+                if (!item.is(LibItems.UPGRADE_POLLEN_SIEVE)) {
                     event.accept(item.get().getDefaultInstance());
                 }
             }

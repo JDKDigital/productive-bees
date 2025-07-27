@@ -1,3 +1,31 @@
+1.21.1-13.8.0
+
+- Added Oritech bees (Lego)
+- Added Benitoite and Anglesite (Lego)
+- Added Dimensional Shard bee (Lego)
+- Added Bee of the Depths (Lego)
+- Rotated MA bee recipes to match other altar recipes
+- Putting a Stability Upgrade in a centrifuge will stop it from sharing fluids
+- Bee conversion recipes now set the correct age of the result bee
+
+
+1.21.1-13.7.6
+
+- Added BeeBee spawns to more biomes in the other
+- Fixed bug where you get the wrong babee when using a bee spawn egg on a bee
+- Updated ElementalCraft and Draconic Evolution compat (Lego)
+- Changed Extreme Reactor bee egg recipes (Lego)
+- Fixed Breeding Chamber default processing time not being read from config
+- Fixed upgrades inserted into blocks with shift right click losing data
+- Vanilla bees now behave according to their genes
+
+
+1.21.1-13.7.5
+
+- Fixed bees collected in simmed hives being voided when the hive output is full
+- Vanilla bees can now use feeding slabs when outside the hive
+
+
 1.21.1-13.7.4
 
 - More component ingredient fixes for JEI (Uncandango)

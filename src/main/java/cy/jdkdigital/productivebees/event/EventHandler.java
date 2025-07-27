@@ -160,6 +160,9 @@ public class EventHandler
                     event.addValidBlock(Component.literal("Honey Generator"));
                     event.addValidBlock(Component.literal("Centrifuge"));
                 }
+                case "upgrade_stability" -> {
+                    event.addValidBlock(Component.literal("Centrifuge"));
+                }
             }
         }
     }

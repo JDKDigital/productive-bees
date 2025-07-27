@@ -12,9 +12,6 @@
   },
   "ingredients": [
     {
-      "item": "mysticalagriculture:inferium_essence"
-    },
-    {
       "item": "mysticalagriculture:inferium_block"
     },
     {
@@ -34,6 +31,9 @@
     },
     {
       "item": "mysticalagriculture:inferium_block"
+    },
+    {
+      "item": "mysticalagriculture:inferium_essence"
     }
   ],
   "result": {

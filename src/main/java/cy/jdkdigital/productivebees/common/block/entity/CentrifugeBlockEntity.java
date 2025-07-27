@@ -145,7 +145,8 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
             LibItems.UPGRADE_PRODUCTIVITY.get(),
             LibItems.UPGRADE_PRODUCTIVITY_2.get(),
             LibItems.UPGRADE_PRODUCTIVITY_3.get(),
-            LibItems.UPGRADE_PRODUCTIVITY_4.get()
+            LibItems.UPGRADE_PRODUCTIVITY_4.get(),
+            LibItems.UPGRADE_STABILITY.get()
     ));
 
     public CentrifugeBlockEntity(BlockPos pos, BlockState state) {
@@ -228,18 +229,20 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
 
     @Override
     public void tickFluidTank(Level level, BlockPos pos, BlockState state, FluidTankBlockEntity blockEntity) {
-        IFluidHandler fluidHandler = blockEntity.getFluidHandler();
-        FluidStack fluidStack = fluidHandler.getFluidInTank(0);
-        if (fluidStack.getAmount() > 0) {
-            Direction[] directions = Direction.values();
-            for (Direction direction : directions) {
-                if (fluidStack.getAmount() > 0) {
-                    IFluidHandler h = level.getCapability(Capabilities.FluidHandler.BLOCK, pos.relative(direction.getOpposite()), null);
-                    if (h != null) {
-                        int amount = h.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE);
-                        if (amount > 0) {
-                            amount = h.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
-                            fluidHandler.drain(amount, IFluidHandler.FluidAction.EXECUTE);
+        if (getUpgradeCount(LibItems.UPGRADE_STABILITY.get()) == 0) {
+            IFluidHandler fluidHandler = blockEntity.getFluidHandler();
+            FluidStack fluidStack = fluidHandler.getFluidInTank(0);
+            if (fluidStack.getAmount() > 0) {
+                Direction[] directions = Direction.values();
+                for (Direction direction : directions) {
+                    if (fluidStack.getAmount() > 0) {
+                        IFluidHandler h = level.getCapability(Capabilities.FluidHandler.BLOCK, pos.relative(direction.getOpposite()), null);
+                        if (h != null) {
+                            int amount = h.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE);
+                            if (amount > 0) {
+                                amount = h.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+                                fluidHandler.drain(amount, IFluidHandler.FluidAction.EXECUTE);
+                            }
                         }
                     }
                 }
