@@ -55,6 +55,7 @@ import net.minecraft.world.level.block.CocoaBlock;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -289,6 +290,14 @@ public class EventHandler
                     level.addFreshEntity(bee);
                 }
             }
+        }
+    }
+    
+    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
+    public static void onBeeBeeHurt(LivingIncomingDamageEvent event) {
+        if (!(event.getSource().getEntity() instanceof ConfigurableBee entity)) return;
+        if (entity.getBeeType().equals(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "beebee"))) {
+            if (event.isCanceled()) event.setCanceled(false);
         }
     }
 
