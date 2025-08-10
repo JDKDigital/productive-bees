@@ -2,7 +2,7 @@
   "primaryColor": "#b969ba",
   "secondaryColor": "#623875",
   "particleColor": "#c98bca",
-  "flowerFluid": "#c:pink_slime",
+  "flowerBlock": "industrialforegoing:pink_slime_block",
   "beeTexture": "productivebees:textures/entity/bee/pink_slimy/bee",
   "slimy": true,
   "renderer": "translucent_with_center",
@@ -11,11 +11,8 @@
   },
   "conditions": [
     {
-      "value": {
-        "tag": "c:pink_slime",
-        "type": "productivelib:fluid_tag_empty"
-      },
-      "type": "neoforge:not"
+      "modid": "industrialforegoing",
+      "type": "neoforge:mod_loaded"
     }
   ]
 }

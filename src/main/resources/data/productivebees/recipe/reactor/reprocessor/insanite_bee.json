@@ -15,12 +15,12 @@
     "id": "productivebees:spawn_egg_configurable_bee"
   },
   "waste": {
-    "count": 1,
+    "count": 2,
     "ingredient": {
       "type": "productivebees:component",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:ridiculite",
+          "type": "productivebees:benitoite_crystal",
           "id": "productivebees:configurable_bee"
         }
       },

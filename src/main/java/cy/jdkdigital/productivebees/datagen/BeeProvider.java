@@ -435,7 +435,7 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("immersiveengineering/hop_graphite").primaryColor("#242424").secondaryColor("#202020").tertiaryColor("#0a0a0a").particleColor("#191919").size(0.9).flowerItem("immersiveengineering:graphite_electrode").noSelfBreed().onlySpawnegg().requireMod("immersiveengineering"));
 
             add(new BeeConfig("industrialforegoing/ether_gas").primaryColor("#9ad7e3").secondaryColor("#70b4c2").particleColor("#b5f3ff").beeTexture("ether_gas").renderer("translucent_with_center").size(0.5).flowerTag("c:withers").flowerType("entity_types").noSelfBreed().requireMod("industrialforegoing"));
-            add(new BeeConfig("industrialforegoing/pink_slimy").primaryColor("#b969ba").secondaryColor("#623875").particleColor("#c98bca").beeTexture("pink_slimy").renderer("translucent_with_center").attributes(new HashMap<>(){{ put("productivity", GeneValue.PRODUCTIVITY_NORMAL.getSerializedName()); }}).slimy().flowerFluid("#c:pink_slime").requireFluidTag("c", "pink_slime"));
+            add(new BeeConfig("industrialforegoing/pink_slimy").primaryColor("#b969ba").secondaryColor("#623875").particleColor("#c98bca").beeTexture("pink_slimy").renderer("translucent_with_center").attributes(new HashMap<>(){{ put("productivity", GeneValue.PRODUCTIVITY_NORMAL.getSerializedName()); }}).slimy().flowerBlock("industrialforegoing:pink_slime_block").requireMod("industrialforegoing"));
 
             add(new BeeConfig("integrateddynamics/menril").primaryColor("#5a7088").secondaryColor("#804f40").particleColor("#5a7088").flowerBlock("integrateddynamics:crystalized_menril_block").requireMod("integrateddynamics"));
 

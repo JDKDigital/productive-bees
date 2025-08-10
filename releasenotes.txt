@@ -1,3 +1,10 @@
+1.21.1-13.8.1-pre
+
+- MI Quantum Armor is no longer super effective against BeeBee
+- Adjusted some bee recipes
+- Added comb output for Shiny Bee
+
+
 1.21.1-13.8.0
 
 - Added Oritech bees (Lego)

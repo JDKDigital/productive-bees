@@ -17,7 +17,7 @@ public class BeeProduceEmiRecipe extends BasicEmiRecipe
 
         this.inputs.add(BeeEmiStack.of(recipe.value().ingredient.get()));
 
-        recipe.value().getRecipeOutputs().forEach((itemStack, chancedOutput) -> this.outputs.add(EmiStack.of(itemStack).setAmount(chancedOutput.max()).setChance(chancedOutput.chance())));
+        recipe.value().getRecipeOutputs().forEach((itemStack, chancedOutput) -> this.outputs.add(EmiStack.of(itemStack).setAmount(chancedOutput.min()).setChance(chancedOutput.chance())));
     }
 
     @Override

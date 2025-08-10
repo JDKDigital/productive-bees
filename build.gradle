@@ -155,6 +155,7 @@ dependencies {
 //    compileOnly(fg.deobf("com.almostreliable.mods:almostunified-forge:${minecraft_version}-${au_version}"))
 
     implementation "curse.maven:jade-324717:5444008"
+    implementation "curse.maven:curios-309927:6529130"
     implementation "curse.maven:just-enough-archaeology-890755:5518258"
     implementation "curse.maven:cloth-config-348521:5623420"
     implementation "curse.maven:modern-industrialization-405388:5663677"

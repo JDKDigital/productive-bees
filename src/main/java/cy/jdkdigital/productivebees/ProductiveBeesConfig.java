@@ -85,6 +85,7 @@ public class ProductiveBeesConfig
         public final ModConfigSpec.BooleanValue centrifugeHopperMode;
         public final ModConfigSpec.BooleanValue forceEnableFarmerBeeRightClickHarvest;
         public final ModConfigSpec.BooleanValue enableJokes;
+        public final ModConfigSpec.DoubleValue quantumArmorFailureChance;
 
         public General(ModConfigSpec.Builder builder) {
             builder.push("General");
@@ -160,6 +161,10 @@ public class ProductiveBeesConfig
             enableJokes = builder
                     .comment("Enable april fools jokes")
                     .define("enableJokes", true);
+
+            quantumArmorFailureChance = builder
+                    .comment("Chance for MI quantum armor to not be effective against BeeBee.")
+                    .defineInRange("quantumArmorFailureChance", 0.1, 0, 1);
 
             builder.pop();
         }

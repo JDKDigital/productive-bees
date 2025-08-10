@@ -295,9 +295,31 @@ public class EventHandler
     
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
     public static void onBeeBeeHurt(LivingIncomingDamageEvent event) {
-        if (!(event.getSource().getEntity() instanceof ConfigurableBee entity)) return;
-        if (entity.getBeeType().equals(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "beebee"))) {
-            if (event.isCanceled()) event.setCanceled(false);
+        if (event.getSource().getEntity() instanceof ConfigurableBee entity && entity.getBeeType().equals(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "beebee"))) {
+            if (event.isCanceled()) {
+                if (event.getEntity().getRandom().nextFloat() < ProductiveBeesConfig.GENERAL.quantumArmorFailureChance.get()) {
+                    event.setCanceled(false);
+                    event.getEntity().sendSystemMessage(Component.literal("Suit failure"));
+                } else if (ProductiveBeesConfig.GENERAL.quantumArmorFailureChance.get() > 0d) {
+                    switch (event.getEntity().getRandom().nextInt(5)) {
+                        case 0:
+                            event.getEntity().sendSystemMessage(Component.literal("Suit malfunction imminent! Disengage from Combat IMMEDIATELY"));
+                            break;
+                        case 1:
+                            event.getEntity().sendSystemMessage(Component.literal("Suit Integrity Compromised! Further engagement could result in loss of life"));
+                            break;
+                        case 2:
+                            event.getEntity().sendSystemMessage(Component.literal("NOT THE BEES!"));
+                            break;
+                        case 3:
+                            event.getEntity().sendSystemMessage(Component.literal("It's in my suit. IT'S IN MY SUIT!!"));
+                            break;
+                        default:
+                            event.getEntity().sendSystemMessage(Component.literal("RUUUUUUUUUUUUUUUUUUUN!!"));
+                            break;
+                    }
+                }
+            }
         }
     }
 

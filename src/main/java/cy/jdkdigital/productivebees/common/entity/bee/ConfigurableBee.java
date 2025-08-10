@@ -404,7 +404,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                     return entity != null && entity.getType().is(entityTag);
                 } else {
                     List<Entity> entities = level().getEntities(this, (new AABB(pos).inflate(1.0D, 1.0D, 1.0D)), (entity -> nbt.getBoolean("inverseFlower") != entity.getType().is(entityTag)));
-                    if (!entities.isEmpty() && entities.get(0) instanceof Mob mob) {
+                    if (!entities.isEmpty() && entities.getFirst() instanceof Mob mob) {
                         target = mob;
 
                         target.addEffect(new MobEffectInstance(MobEffects.LUCK, 400));
