@@ -1,6 +1,7 @@
 1.21.1-13.8.1-pre
 
 - MI Quantum Armor is no longer super effective against BeeBee
+- Bee Nest Helmet now functions when in curio slot
 - Adjusted some bee recipes
 - Added comb output for Shiny Bee
 

@@ -13,6 +13,7 @@ import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.item.CombBlockItem;
 import cy.jdkdigital.productivebees.common.item.Honeycomb;
 import cy.jdkdigital.productivebees.common.recipe.*;
+import cy.jdkdigital.productivebees.compat.curios.CuriosCompat;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
@@ -52,6 +53,7 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.attachment.AttachmentHolder;
 import net.neoforged.neoforge.common.util.FakePlayerFactory;
 import net.neoforged.neoforge.common.util.Lazy;
@@ -62,7 +64,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 public class BeeHelper
 {
@@ -621,6 +622,9 @@ public class BeeHelper
             ItemStack itemstack = entity.getItemBySlot(EquipmentSlot.HEAD);
             if (!itemstack.isEmpty() && itemstack.getItem().equals(ModItems.BEE_NEST_DIAMOND_HELMET.get())) {
                 isWearingBeeHelmet = true;
+            }
+            if (!isWearingBeeHelmet && ModList.get().isLoaded("curios")) {
+                isWearingBeeHelmet = CuriosCompat.isWearingBeeHelmet(entity);
             }
         }
         return isWearingBeeHelmet;

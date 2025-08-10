@@ -22,6 +22,7 @@ import cy.jdkdigital.productivebees.common.entity.bee.GeckoBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.fluid.HoneyFluid;
 import cy.jdkdigital.productivebees.common.item.*;
+import cy.jdkdigital.productivebees.compat.curios.CuriosCompat;
 import cy.jdkdigital.productivebees.compat.geckolib.client.render.GeckoBeeRenderer;
 import cy.jdkdigital.productivebees.container.gui.*;
 import cy.jdkdigital.productivebees.init.*;
@@ -324,6 +325,10 @@ public class ClientModEventHandler
                     return Math.atan2((double) blockpos.getZ() - entityIn.getZ(), (double) blockpos.getX() - entityIn.getX());
                 }
             });
+
+            if (ModList.get().isLoaded("curios")) {
+                CuriosCompat.registerRenderers();
+            }
         });
     }
 

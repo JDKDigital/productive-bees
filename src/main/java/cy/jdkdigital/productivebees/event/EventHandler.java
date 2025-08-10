@@ -10,6 +10,7 @@ import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFact
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.recipe.BeeFishingRecipe;
+import cy.jdkdigital.productivebees.compat.curios.CuriosCompat;
 import cy.jdkdigital.productivebees.compat.minecolonies.MinecolonyCompat;
 import cy.jdkdigital.productivebees.container.BreedingChamberContainer;
 import cy.jdkdigital.productivebees.gen.feature.WoodNestDecorator;
@@ -268,12 +269,7 @@ public class EventHandler
     public static void onEntityHurt(LivingDamageEvent.Post event) {
         Entity damageSource = event.getSource().getEntity();
         if (damageSource instanceof LivingEntity attacker && event.getEntity() instanceof Player player) {
-            boolean isWearingBeeHelmet = false;
-            ItemStack itemstack = player.getItemBySlot(EquipmentSlot.HEAD);
-            if (!itemstack.isEmpty() && itemstack.getItem().equals(ModItems.BEE_NEST_DIAMOND_HELMET.get())) {
-                isWearingBeeHelmet = true;
-            }
-
+            boolean isWearingBeeHelmet = BeeHelper.isWearingBeeNestHelmet(player);
             if (isWearingBeeHelmet && player.level().random.nextDouble() < ProductiveBeesConfig.BEES.kamikazBeeChance.get()) {
                 Level level = player.level();
                 ConfigurableBee bee = ModEntities.CONFIGURABLE_BEE.get().create(level);
