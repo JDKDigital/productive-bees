@@ -1097,5 +1097,12 @@
   "tag.item.productivebees.flowers.powdery": "Powdery Flower Blocks",
   "tag.item.productivebees.flowers.rose_quartz": "Rose Quartz Flower Blocks",
   "tag.item.productivebees.solitary_overworld_nests": "Overworld Nests",
-  "tag.fluid.forge.honey": "Honey Fluids"
+  "tag.fluid.forge.honey": "Honey Fluids",
+
+  "productivebees.devices.advanced_beehive": "Advanced Beehive",
+  "productivebees.devices.breeding_chamber": "Breeding Chamber",
+  "productivebees.devices.catcher": "Catcher",
+  "productivebees.devices.centrifuge": "Centrifuge",
+  "productivebees.devices.honey_generator": "Honey Generator",
+  "productivebees.devices.incubator": "Incubator"
 }
