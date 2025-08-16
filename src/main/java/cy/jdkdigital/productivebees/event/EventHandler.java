@@ -129,38 +129,38 @@ public class EventHandler
 
             switch (upgradeType.getPath()) {
                 case "upgrade_entity_filter" -> {
-                    event.addValidBlock(Component.literal("Advanced Beehive"));
-                    event.addValidBlock(Component.literal("Catcher"));
-                    event.addValidBlock(Component.literal("Centrifuge"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.advanced_beehive"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.catcher"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.centrifuge"));
                 }
                 case "upgrade_adult", "upgrade_child", "upgrade_range" -> {
-                    event.addValidBlock(Component.literal("Advanced Beehive"));
-                    event.addValidBlock(Component.literal("Catcher"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.advanced_beehive"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.catcher"));
                 }
                 case "upgrade_productivity_2", "upgrade_productivity_3", "upgrade_productivity_4" -> {
-                    event.addValidBlock(Component.literal("Advanced Beehive"));
-                    event.addValidBlock(Component.literal("Centrifuge"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.advanced_beehive"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.centrifuge"));
                 }
                 case "upgrade_gene_sampler", "upgrade_anti_teleport", "upgrade_block", "upgrade_simulator" -> {
-                    event.addValidBlock(Component.literal("Advanced Beehive"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.advanced_beehive"));
                 }
                 case "upgrade_time" -> {
-                    event.addValidBlock(Component.literal("Advanced Beehive"));
-                    event.addValidBlock(Component.literal("Centrifuge"));
-                    event.addValidBlock(Component.literal("Breeding Chamber"));
-                    event.addValidBlock(Component.literal("Incubator"));
-                    event.addValidBlock(Component.literal("Honey Generator"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.advanced_beehive"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.centrifuge"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.breeding_chamber"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.incubator"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.honey_generator"));
                 }
                 case "upgrade_time_2" -> {
-                    event.addValidBlock(Component.literal("Centrifuge"));
-                    event.addValidBlock(Component.literal("Breeding Chamber"));
-                    event.addValidBlock(Component.literal("Incubator"));
-                    event.addValidBlock(Component.literal("Honey Generator"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.centrifuge"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.breeding_chamber"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.incubator"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.honey_generator"));
                 }
                 case "upgrade_productivity" -> {
-                    event.addValidBlock(Component.literal("Advanced Beehive"));
-                    event.addValidBlock(Component.literal("Honey Generator"));
-                    event.addValidBlock(Component.literal("Centrifuge"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.advanced_beehive"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.honey_generator"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.centrifuge"));
                 }
                 case "upgrade_stability" -> {
                     event.addValidBlock(Component.literal("Centrifuge"));
