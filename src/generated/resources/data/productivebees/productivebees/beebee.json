@@ -8,7 +8,7 @@
   "speed": 5.0,
   "attack": 2.147483647E9,
   "selfbreed": false,
-  "renderer": "default_shell",
+  "model": "productivebees:geo/entity/beebee.geo.json",
   "attributes": {
     "productivity": "productivity.very_high",
     "temper": "temper.aggressive",

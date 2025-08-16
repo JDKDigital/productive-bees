@@ -291,7 +291,7 @@ public class EventHandler
     
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
     public static void onBeeBeeHurt(LivingIncomingDamageEvent event) {
-        if (event.getSource().getEntity() instanceof ConfigurableBee entity && entity.getBeeType().equals(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "beebee"))) {
+        if (event.getSource().getEntity() instanceof ConfigurableBee entity && entity.getBeeType().toString().equals("productivebees:beebee")) {
             if (event.isCanceled()) {
                 if (event.getEntity().getRandom().nextFloat() < ProductiveBeesConfig.GENERAL.quantumArmorFailureChance.get()) {
                     event.setCanceled(false);

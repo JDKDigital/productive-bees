@@ -316,6 +316,17 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                     case 3 -> this.setCustomName(Component.literal("Moist Bee"));
                     case 4 -> this.setCustomName(Component.literal("Dripping Bee"));
                 }
+            } else if (type.equals("productivebees:beebee") && random.nextFloat() < 0.5f) {
+                switch (random.nextInt(8)) {
+                    case 0 -> this.setCustomName(Component.literal("Dova Bee"));
+                    case 1 -> this.setCustomName(Component.literal("Beepocalypse"));
+                    case 2 -> this.setCustomName(Component.literal("Jeepers Beepers"));
+                    case 3 -> this.setCustomName(Component.literal("Darth Propolis"));
+                    case 4 -> this.setCustomName(Component.literal("The Ter-Bee-Nator"));
+                    case 5 -> this.setCustomName(Component.literal("BeelzeBeeb"));
+                    case 6 -> this.setCustomName(Component.literal("B-1000"));
+                    case 7 -> this.setCustomName(Component.literal("Bzz Ro Dah"));
+                }
             } else if (type.equals("productivebees:royal")) {
                 String[] names = new String[]{
                         "Natalie", "Fiona", "Ysabelle", "Ada", "Alexandra", "Bianca", "Cherry", "Elizabeth", "Jasmine",
