@@ -1,0 +1,19 @@
+{
+    "name": "Abelha de Ferro",
+    "icon": "minecraft:iron_ingot",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:iron",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Abelha de Ferro",
+            "text": "Cruzada de uma $(l:bees/wild/crystalline)Abelha Cristalina$(/l) e uma $(l:bees/solitary/ashy_mining)Abelha Cinzenta Mineira$(/l).",
+            "anchor": "iron"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:iron'}"
+        }
+    ]
+}

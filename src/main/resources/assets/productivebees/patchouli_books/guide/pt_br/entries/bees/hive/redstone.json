@@ -1,0 +1,19 @@
+{
+    "name": "Abelha de Redstone",
+    "icon": "minecraft:redstone",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:redstone",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Abelha de Redstone",
+            "text": "Cruzada de uma $(l:bees/wild/glowing)Abelha Luminosa$(/l) e uma $(l:bees/solitary/chocolate_mining)Abelha Mineira de Chocolate$(/l).",
+            "anchor": "redstone"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:redstone'}"
+        }
+    ]
+}

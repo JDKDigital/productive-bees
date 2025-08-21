@@ -1,0 +1,49 @@
+{
+    "name": "Atributos da Abelha",
+    "icon": "productivebees:gene",
+    "category": "productivebees:genetics",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "text": "Atributos de abelha podem ser transferidos de uma abelha para outra colocando o gene isolado em uma guloseima de mel e alimentando a abelha com ela. $(br)Veja a página sobre $(l:genetics/collecting#crystalline)coletar genes$(/l)."
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Produtividade",
+            "text": "Abelhas com um nível mais alto de produtividade produzirão mais favos por viagem.$(br2)Níveis são:$(br)Normal$(br)Médio$(br)Alto$(br)Muito Alto"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Tolerância ao Clima",
+            "text": "Normalmente, as abelhas se retiram para a segurança de sua colmeia durante a chuva e tempestades. As abelhas podem se tornar tolerantes a condições climáticas adversas, deixando-as encoleiradas do lado de fora durante o mau tempo. Cuidado, no entanto, pois elas correm o risco de sofrer dano e morrer até se acostumarem, então fique de olho nelas e tenha guloseimas de mel à mão."
+        },
+        {
+            "type": "patchouli:text",
+            "text": "Níveis são:$(br)Nenhuma - só pode trabalhar em tempo limpo$(br)Chuva - pode trabalhar durante a chuva$(br)Qualquer - pode trabalhar em qualquer clima"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Comportamento",
+            "text": "A maioria das abelhas só trabalha durante o dia, mas isso pode ser mudado. Encoleire uma abelha Diurna em algo durante a noite e ela terá a chance de se tornar Noturna$(br)Encoleire uma abelha Noturna durante o dia e ela terá a chance de se tornar Metaturna$(br)Tenha cuidado, pois elas podem sofrer dano quando encoleiradas em um ambiente ao qual não estão acostumadas"
+        },
+        {
+            "type": "patchouli:text",
+            "text": "Níveis são:$(br)Diurna - trabalha apenas durante o dia$(br)Noturna - trabalha apenas durante a noite$(br)Metaturna - trabalha o dia e a noite inteiros"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Resistência",
+            "text": "Afeta a vida máxima da abelha.$(br)Com uma alta resistência, a abelha tem a chance de não perder seu ferrão ao atacar.$(br)Níveis são:$(br)Fraca$(br)Normal$(br)Média$(br)Forte"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Temperamento",
+            "text": "As abelhas têm temperamentos diferentes, algumas atacarão ao primeiro contato visual e outras evitarão totalmente interações prejudiciais. Uma abelha que foi alimentada com muitas guloseimas de mel melhorará seu temperamento.$(br)Níveis são:$(br)Passivo$(br)Normal$(br)Agressivo$(br)Hostil"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Efeitos",
+            "text": "Algumas abelhas podem aplicar efeitos em jogadores próximos, tanto positivos quanto negativos."
+        }
+    ]
+}

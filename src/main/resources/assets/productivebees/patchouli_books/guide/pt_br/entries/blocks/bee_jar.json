@@ -1,0 +1,12 @@
+{
+    "name": "Pote de Abelha",
+    "icon": "productivebees:jar_oak",
+    "category": "productivebees:blocks",
+    "pages": [
+        {
+            "type": "patchouli:spotlight",
+            "item": "productivebees:jar_oak",
+            "text": "Mostre sua coleção de abelhas para o mundo com este elegante recipiente de vidro perfeitamente adequado para conter uma abelha. Use um funil ou duto para inserir uma $(l:items/bee_cage)gaiola de abelha$(/l) contendo uma abelha de sua escolha."
+        }
+    ]
+}

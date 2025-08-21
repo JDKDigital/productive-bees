@@ -1,0 +1,21 @@
+{
+    "name": "Gaiola de Abelhas",
+    "icon": "productivebees:bee_cage",
+    "category": "productivebees:items",
+    "pages": [
+        {
+            "type": "patchouli:spotlight",
+            "item": "productivebees:bee_cage",
+            "text": "Uma gaiola de abelhas pode ser usada para capturar abelhas, seja para armazená-las ou transportá-las. Para capturar uma abelha, clique com o botão direito sobre ela usando a gaiola. Clique com o botão direito no chão com a gaiola cheia para liberar a abelha.$(br2)Sempre tenha algumas gaiolas com você ao viajar, caso encontre uma abelha interessante."
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "productivebees:bee_cage",
+            "text": "Fácil de conseguir no início do jogo"
+        },
+        {
+            "type": "patchouli:text",
+            "text": "Liberar uma abelha sobre um bloco de flor válido definirá a posição da flor da abelha para aquele bloco. Da mesma forma, liberar uma abelha sobre uma colmeia ou ninho válido enquanto agacha definirá a posição de casa da abelha para aquela colmeia ou ninho."
+        }
+    ]
+}

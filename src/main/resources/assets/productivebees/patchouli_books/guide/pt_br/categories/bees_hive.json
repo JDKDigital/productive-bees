@@ -1,0 +1,6 @@
+{
+    "name": "Colmeia de Abelhas",
+    "description": "As abelhas de colmeia, assim como a abelha do Minecraft, vivem em colmeias e produzem mel e recursos. Elas precisam viver em $(l:hives/advanced_hives)Colmeias Avançadas$(/l) para produzir favos de recursos. A maioria das abelhas de colmeia é criada a partir de abelhas solitárias e outras abelhas de colmeia, mas algumas são obtidas ao dar um item específico para uma abelha ou ao fabricar ovos de invocação. Todas as receitas de abelhas e requisitos de flores podem ser encontrados no JEI.",
+    "icon": "productivebees:adv_breed_bee",
+    "parent": "productivebees:bees"
+}

@@ -1,0 +1,16 @@
+{
+    "name": "Localizador de Ninho",
+    "icon": "productivebees:nest_locator",
+    "category": "productivebees:items",
+    "pages": [
+        {
+            "type": "patchouli:spotlight",
+            "item": "productivebees:nest_locator",
+            "text": "Pode sintonizar o zumbido fraco de ninhos próximos. Clique com Shift e o botão direito com o localizador em um ninho ou em um bloco do tipo de ninho que você deseja encontrar. Se você quer encontrar um ninho de areia, pode clicar com o botão direito em um ninho de areia ou em um bloco de areia. Clicar com o botão direito novamente localizará quaisquer ninhos próximos daquele tipo."
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "productivebees:nest_locator"
+        }
+    ]
+}
