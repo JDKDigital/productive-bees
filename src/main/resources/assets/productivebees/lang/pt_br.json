@@ -1075,6 +1075,8 @@
   "productivebees.ingredient.description.forgotten_bee": "Esta abelha parece perdida no tempo. No entanto, rumores apontam para ovos raramente encontrados nas Catacumbas, localizadas no Undergarden.",
   "productivebees.ingredient.description.regalium_bee": "Abelhas de ouro que recebem um disco especial trocado dos Stoneborns, encontrados no Undergarden, se tornarão bastante regais.",
   "productivebees.ingredient.description.neptunium_bee": "O ovo desta abelha é raramente encontrado nos Tesouros de Netuno.",
+  "productivebees.ingredient.description.crimson_bee": "Seu ninho pode ser encontrado nas Florestas Carmesim",
+  "productivebees.ingredient.description.warped_bee": "Seu ninho pode ser encontrado nas Florestas Distorcidas",
   "productivebees.ingredient.description.beebee_bee": "CORRA!",
   "productivebees.ingredient.description.only_spawnegg": "Para adquirir esta abelha, procure a receita de criação de seu Ovo de Geração.",
   "productivebees.ingredient.description.selfbreed": "%s\n\nEsta espécie de abelha não pode cruzar entre si.",
@@ -1098,7 +1100,7 @@
   "config.jade.plugin_productivebees.canvas_beehive": "Colmeia de Lona",
   "config.jade.plugin_productivebees.canvas_expansion_box": "Caixa de Expansão de Lona",
   "productivebees.top.jar.bee": "%s",
-  
+
   "tag.item.productivebees.advanced_beehives": "Colmeias Avançadas",
   "tag.item.productivebees.expansion_boxes": "Caixas de Expansão",
   "tag.item.productivebees.canvas_beehives": "Colmeias Avançadas de Lona",
@@ -1112,5 +1114,12 @@
   "tag.item.productivebees.flowers.powdery": "Blocos de Flor Pulverulentos",
   "tag.item.productivebees.flowers.rose_quartz": "Blocos de Flor de Quartzo Rosa",
   "tag.item.productivebees.solitary_overworld_nests": "Ninhos do Mundo Superior",
-  "tag.fluid.forge.honey": "Fluidos de Mel"
+  "tag.fluid.forge.honey": "Fluidos de Mel",
+
+  "productivebees.devices.advanced_beehive": "Colmeia Avançada",
+  "productivebees.devices.breeding_chamber": "Câmara de Cruzamento",
+  "productivebees.devices.catcher": "Apanhador",
+  "productivebees.devices.centrifuge": "Centrífuga",
+  "productivebees.devices.honey_generator": "Gerador de Mel",
+  "productivebees.devices.incubator": "IncubaBêbêdora"
 }
