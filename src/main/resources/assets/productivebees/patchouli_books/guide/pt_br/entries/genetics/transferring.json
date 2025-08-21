@@ -1,0 +1,15 @@
+{
+    "name": "Transferindo Genes",
+    "icon": "productivebees:gene",
+    "category": "productivebees:genetics",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "text": "Para transferir genes para uma abelha, você precisará combinar o gene com uma guloseima de mel. Alimente a abelha com a guloseima de mel e ela terá uma chance, baseada na pureza do gene, de adquirir o novo atributo."
+        },
+        {
+            "type": "patchouli:text",
+            "text": "A pureza do gene pode ser aumentada combinando dois genes iguais ou colocando mais do mesmo gene em uma guloseima."
+        }
+    ]
+}

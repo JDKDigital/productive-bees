@@ -1,0 +1,19 @@
+{
+    "name": "Abelha Carpinteira Amarela",
+    "icon": "productivebees:spawn_egg_yellow_black_carpenter_bee",
+    "read_by_default": true,
+    "sortnum": 4,
+    "category": "productivebees:bees_solitary",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Abelha Carpinteira Amarela",
+            "text": "[Xylocopa aruana]",
+            "anchor": "yellow_black_carpenter"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:yellow_black_carpenter_bee"
+        }
+    ]
+}

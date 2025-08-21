@@ -1,0 +1,16 @@
+{
+    "name": "IncubaBêbêdora",
+    "icon": "productivebees:incubator",
+    "category": "productivebees:blocks",
+    "pages": [
+        {
+            "type": "patchouli:spotlight",
+            "item": "productivebees:incubator",
+            "text": "Cansado de esperar por aquelas pequenas e frágeis 'babees' crescerem? Use a incubadora para acelerar o processo. Simplesmente coloque uma Abelha Bebê em uma Gaiola e insira-a na incubadora junto com um monte de Guloseimas de Mel."
+        },
+        {
+            "type": "patchouli:text",
+            "text": "Outro uso para a IncubaBêbêdora é infundir um Ovo com um $(l:genetics/collecting#crystalline)Gene$(/l) de tipo de Abelha específico para obter um Ovo de Geração daquele tipo de Abelha. O Gene de tipo de Abelha você obtém através do sistema de genética.$(br)Apenas o gene de tipo será usado ao fazer um Ovo de Geração. Quaisquer genes adicionais na Guloseima de Mel serão perdidos."
+        }
+    ]
+}

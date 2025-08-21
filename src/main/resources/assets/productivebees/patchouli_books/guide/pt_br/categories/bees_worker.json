@@ -1,0 +1,6 @@
+{
+    "name": "Abelhas Profissionais",
+    "description": "Além das abelhas que produzem recursos, existem algumas com tarefas especiais.",
+    "icon": "minecraft:wooden_hoe",
+    "parent": "productivebees:bees"
+}

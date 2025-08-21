@@ -1,0 +1,22 @@
+{
+    "name": "Colmeia de Ovo de Dragão",
+    "icon": "productivebees:dragon_egg_hive",
+    "category": "productivebees:hives",
+    "sortnum": 4,
+    "pages": [
+        {
+            "type": "patchouli:spotlight",
+            "item": "productivebees:dragon_egg_hive",
+            "text": "Uma colmeia especial feita para Abelhas Dracônicas que permite ao jogador coletar os favos dracônicos, que de outra forma seriam difíceis de obter. Naturalmente, as Abelhas Dracônicas vivem em Ninhos de Obsidiana, mas também viverão dentro de um Ovo de Dragão Oco. Elas também podem ser convencidas a viver em uma Colmeia Avançada, mas não produzirão nenhum Bafo de Dragão lá."
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "productivebees:nests/dragon_egg_hive",
+            "text": "Você pode fazer uma omelete satisfatória com as sobras."
+        },
+        {
+            "type": "patchouli:text",
+            "text": "Abelhas Dracônicas vivendo em uma Colmeia de Ovo de Dragão operando no End não precisam de flores, pois estão absorvendo a essência Dracônica do ar. Enquanto operam em qualquer outro local, as Abelhas Dracônicas devem ter outra fonte de polinização.$(br2)Colmeias de Ovo de Dragão não suportam melhorias."
+        }
+    ]
+}

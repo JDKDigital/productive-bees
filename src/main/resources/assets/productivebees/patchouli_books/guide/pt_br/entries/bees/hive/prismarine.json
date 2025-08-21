@@ -1,0 +1,19 @@
+{
+    "name": "Abelha de Prismarinho",
+    "icon": "minecraft:prismarine_shard",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:prismarine",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Abelha de Prismarinho",
+            "text": "Obtida pescando em um bioma de oceano.",
+            "anchor": "prismarine"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:prismarine'}"
+        }
+    ]
+}

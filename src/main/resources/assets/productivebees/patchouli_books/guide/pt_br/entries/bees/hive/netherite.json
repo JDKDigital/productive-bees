@@ -1,0 +1,19 @@
+{
+    "name": "Abelha Ancestral",
+    "icon": "minecraft:netherite_scrap",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:netherite",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Abelha Ancestral",
+            "text": "Convertida de uma $(l:bees/hive/diamond)Abelha de Diamante$(/l) ao alimentá-la com um bloco de netherita.",
+            "anchor": "netherite"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:netherite'}"
+        }
+    ]
+}

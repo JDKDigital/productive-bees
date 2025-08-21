@@ -1,0 +1,12 @@
+{
+    "name": "Colmeias Avançadas",
+    "icon": "productivebees:advanced_oak_beehive",
+    "category": "productivebees:blocks",
+    "pages": [
+        {
+            "type": "patchouli:spotlight",
+            "item": "productivebees:advanced_oak_beehive",
+            "text": "$(l:hives/advanced_hives)Veja o capítulo sobre colmeias avançadas$(/l)."
+        }
+    ]
+}

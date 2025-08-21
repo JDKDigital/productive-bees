@@ -1,0 +1,19 @@
+{
+    "name": "Abelha de Blazing",
+    "icon": "minecraft:blaze_powder",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:blazing",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Abelha de Blazing",
+            "text": "Cruzada de uma $(l:bees/wild/magmatic)Abelha Magmática$(/l) e uma $(l:bees/solitary/nomad)Abelha Nômade$(/l).",
+            "anchor": "blazing"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:blazing'}"
+        }
+    ]
+}
