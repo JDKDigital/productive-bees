@@ -37,7 +37,7 @@ public class GeneIndexer extends CapabilityContainerBlock
 
     public GeneIndexer(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.ENABLED, false).setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH));
+        this.registerDefaultState(this.defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH));
     }
 
     @Override
@@ -48,7 +48,7 @@ public class GeneIndexer extends CapabilityContainerBlock
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(BlockStateProperties.ENABLED, HorizontalDirectionalBlock.FACING);
+        builder.add(HorizontalDirectionalBlock.FACING);
     }
 
     @Override
@@ -56,28 +56,11 @@ public class GeneIndexer extends CapabilityContainerBlock
         return this.defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, context.getHorizontalDirection().getOpposite());
     }
 
-    @Nullable
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.GENE_INDEXER.get(), GeneIndexerBlockEntity::tick);
-    }
-
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
     public RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos neighbor, boolean p_220069_6_) {
-        boolean flag = level.hasNeighborSignal(pos);
-        level.setBlock(pos, state.setValue(BlockStateProperties.ENABLED, flag), Block.UPDATE_INVISIBLE);
-
-        if (level.getBlockEntity(pos) instanceof GeneIndexerBlockEntity geneIndexerBlockEntity) {
-            geneIndexerBlockEntity.setDirty();
-        }
     }
 
     @Override
@@ -97,11 +80,10 @@ public class GeneIndexer extends CapabilityContainerBlock
         return new GeneIndexerBlockEntity(pos, state);
     }
 
+    @Nullable
     @Override
-    public void appendHoverText(ItemStack pStack, Item.TooltipContext pContext, List<Component> pTootipComponents, TooltipFlag pTooltipFlag) {
-        super.appendHoverText(pStack, pContext, pTootipComponents, pTooltipFlag);
-
-        pTootipComponents.add(Component.translatable("productivebees.indexer.tooltip.redstone").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.ITALIC));
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.GENE_INDEXER.get(), GeneIndexerBlockEntity::tick);
     }
 
     @Override
