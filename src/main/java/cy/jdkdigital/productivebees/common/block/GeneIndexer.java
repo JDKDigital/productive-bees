@@ -80,6 +80,12 @@ public class GeneIndexer extends CapabilityContainerBlock
         return new GeneIndexerBlockEntity(pos, state);
     }
 
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.GENE_INDEXER.get(), GeneIndexerBlockEntity::tick);
+    }
+
     @Override
     public boolean hasAnalogOutputSignal(BlockState state) {
         return true;
