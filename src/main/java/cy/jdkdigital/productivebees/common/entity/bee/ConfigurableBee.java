@@ -49,6 +49,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BrushableBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -747,6 +748,26 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                 case "amber_encase":
                     BeeHelper.encaseMob(target, level(), this.getDirection());
                     target = null;
+                    break;
+                case "bonemeal":
+                    if (level() instanceof ServerLevel serverLevel && this.hasSavedFlowerPos()) {
+                        BlockState flower = level().getBlockState(this.getSavedFlowerPos());
+                        if (flower.getBlock() instanceof CropBlock cropBlock && cropBlock.isValidBonemealTarget(level(), this.getSavedFlowerPos(), flower)) {
+                            cropBlock.performBonemeal(serverLevel, level().random, this.getSavedFlowerPos(), flower);
+                        }
+                    }
+                    break;
+                case "force_grow_crop":
+                    if (level() instanceof ServerLevel serverLevel && this.hasSavedFlowerPos()) {
+                        var pos = this.getSavedFlowerPos();
+                        BlockState flower = level().getBlockState(pos);
+                        if (flower.getBlock() instanceof CropBlock cropBlock && !cropBlock.isMaxAge(flower)) {
+                            if (net.neoforged.neoforge.common.CommonHooks.canCropGrow(serverLevel, pos, flower, true)) {
+                                serverLevel.setBlock(pos, cropBlock.getStateForAge(cropBlock.getAge(flower) + 1), 2);
+                                net.neoforged.neoforge.common.CommonHooks.fireCropGrowPost(serverLevel, pos, flower);
+                            }
+                        }
+                    }
                     break;
                 case "sus":
                     if (savedFlowerPos != null && level() instanceof ServerLevel level && level.getBlockEntity(savedFlowerPos) instanceof BrushableBlockEntity brushableBlockEntity) {

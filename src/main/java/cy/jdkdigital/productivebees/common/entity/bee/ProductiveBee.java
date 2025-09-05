@@ -354,10 +354,6 @@ public class ProductiveBee extends Bee implements IProductiveBee
         this.setData(ProductiveBees.ATTRIBUTE_HANDLER, data);
     }
 
-    public Map<GeneAttribute, GeneValue> getBeeAttributes() {
-        return this.getData(ProductiveBees.ATTRIBUTE_HANDLER).getAttributes();
-    }
-
     public boolean hasBeeAttributes() {
         return this.hasData(ProductiveBees.ATTRIBUTE_HANDLER);
     }

@@ -38,6 +38,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.npc.Villager;
@@ -463,13 +464,13 @@ public class EventHandler
         ItemStack itemStack = entityInteract.getItemStack();
         Entity entity = entityInteract.getTarget();
 
-        if (!itemStack.isEmpty() && entity instanceof Bee) {
-            Level level = entityInteract.getLevel();
-            if (level instanceof ServerLevel serverLevel) {
+        Level level = entityInteract.getLevel();
+        if (entity instanceof Bee bee) {
+            if (!itemStack.isEmpty() && level instanceof ServerLevel serverLevel) {
                 Player player = entityInteract.getEntity();
                 BlockPos pos = entity.blockPosition();
 
-                Entity newBee = BeeHelper.itemInteract((Bee) entity, itemStack, serverLevel, player);
+                Entity newBee = BeeHelper.itemInteract(bee, itemStack, serverLevel, player);
 
                 if (newBee instanceof Bee) {
                     // PLay event with smoke
@@ -477,10 +478,11 @@ public class EventHandler
                     level.playSound(player, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BEEHIVE_WORK, SoundSource.NEUTRAL, 1.0F, 1.0F);
 
                     level.addFreshEntity(newBee);
-                    if (((Bee) entity).isLeashed()) {
-                        ((Bee) entity).dropLeash(true, true);
+                    if (bee.isLeashed()) {
+                        bee.dropLeash(true, true);
                     }
                     entity.discard();
+                    entityInteract.setCanceled(true);
                 }
             }
         }

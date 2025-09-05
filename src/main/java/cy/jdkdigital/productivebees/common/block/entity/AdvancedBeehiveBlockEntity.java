@@ -263,8 +263,6 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
 
     @Override
     protected void beeReleasePostAction(@Nonnull Level level, Bee beeEntity, BlockState state, BeeReleaseStatus beeState) {
-        super.beeReleasePostAction(level, beeEntity, state, beeState);
-
         if (beeState == BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED) {
             // Generate bee produce (No produce after converting a block)
             if (!(beeEntity instanceof ProductiveBee productiveBee) || !productiveBee.hasConverted()) {
@@ -350,6 +348,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                 }
             }
         }
+        super.beeReleasePostAction(level, beeEntity, state, beeState);
     }
 
     protected int beesOutsideHive() {

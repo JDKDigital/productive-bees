@@ -363,8 +363,6 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
 
         beeEntity.resetTicksWithoutNectarSinceExitingHive();
 
-        // TODO this should only be done for sim bees because Occupant.setBeeReleaseData
-//        applyHiveTime(getTimeInHive(beeState == BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED, beeEntity), beeEntity);
         beeEntity.dropOffNectar();
 
         if (beeEntity instanceof ProductiveBee pBee && pBee.hasConverted()) {

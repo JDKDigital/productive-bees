@@ -23,7 +23,7 @@ import net.neoforged.neoforge.common.util.Lazy;
 
 public class BeeNestHelmetModel<T extends LivingEntity> extends HumanoidModel<T>
 {
-    public static final ResourceLocation TEXTURE_LOCATION = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "bee_nest_diamond");
+    public static final ResourceLocation TEXTURE_LOCATION = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "bee_nest_diamond_helmet");
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(TEXTURE_LOCATION, "main");
     public static final Lazy<HumanoidModel<?>> INSTANCE = Lazy.of(() -> new BeeNestHelmetModel<>(Minecraft.getInstance().getEntityModels().bakeLayer(LAYER_LOCATION)));
 
