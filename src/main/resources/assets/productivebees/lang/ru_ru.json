@@ -1014,7 +1014,7 @@
   "productivebees.top.solitary.can_repopulate_true": "Гнездо может привлечь к себе пчёл.",
   "productivebees.top.solitary.egg_count": "Яйца: %s",
   "productivebees.top.solitary.repopulation_countdown": "Восстановление перезаселения %s.\nИспользуй дополнительное «Угощение» для ускорения.",
-  "productivebees.top.solitary.repopulation_countdown_inactive": "Пустое гнездо. Используй по нему «Медовое угощение», чтобы привлечь пчелу.",
+  "productivebees.top.solitary.repopulation_countdown_inactive": "Пустое гнездо. Используй по нему подходящий предмет, чтобы привлечь пчелу.",
   "tag.fluid.forge.honey": "Жидкий Мёд",
   "tag.item.productivebees.advanced_beehives": "Advanced Beehives",
   "tag.item.productivebees.canvas_beehives": "Canvas Advanced Beehives",
