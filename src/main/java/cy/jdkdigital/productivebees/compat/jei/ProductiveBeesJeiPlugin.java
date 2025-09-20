@@ -1,5 +1,8 @@
 package cy.jdkdigital.productivebees.compat.jei;
 
+import com.google.common.base.Suppliers;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.helper.RecipeHelper;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
@@ -47,6 +50,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 import java.util.*;
+import java.util.function.Supplier;
 
 @JeiPlugin
 public class ProductiveBeesJeiPlugin implements IModPlugin
@@ -114,7 +118,8 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
     @Override
     public void registerIngredients(IModIngredientRegistration registration) {
         Collection<BeeIngredient> ingredients = BeeIngredientFactory.getOrCreateList(true).values();
-        registration.register(BEE_INGREDIENT, new ArrayList<>(ingredients), new BeeIngredientHelper(), new BeeIngredientRenderer());
+        Codec<BeeIngredient> codec = BeeIngredient.CODEC.comapFlatMap((supplier) -> DataResult.success(supplier.get()), Suppliers::ofInstance);
+        registration.register(BEE_INGREDIENT, new ArrayList<>(ingredients), new BeeIngredientHelper(), new BeeIngredientRenderer(), codec);
     }
 
     @Override
