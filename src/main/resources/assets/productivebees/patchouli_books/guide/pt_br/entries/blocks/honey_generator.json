@@ -1,0 +1,16 @@
+{
+    "name": "Gerador de Mel",
+    "icon": "productivebees:honey_generator",
+    "category": "productivebees:blocks",
+    "pages": [
+        {
+            "type": "patchouli:spotlight",
+            "item": "productivebees:honey_generator",
+            "text": "Queima mel para produzir energia. O mel pode ser inserido por dutos ou frascos, blocos e baldes de mel podem ser adicionados na GUI."
+        },
+        {
+            "type": "patchouli:text",
+            "text": "Um Gerador de Mel aceita duas melhorias; Uma $(l:items/upgrades#productivity)melhoria de Produtividade$(/l) diminuirá o consumo de mel. A $(l:items/upgrades#speed)melhoria de Velocidade$(/l) aumentará a... velocidade."
+        }
+    ]
+}

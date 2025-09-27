@@ -126,6 +126,7 @@ public class AmberBlockEntity extends AbstractBlockEntity
 
             int meltingTime = below.is(Blocks.SOUL_CAMPFIRE) ? 400 : 800;
             if (amberBlockEntity.meltCounter > meltingTime) {
+                amberBlockEntity.meltCounter = -100000; // fuck you tick accelerators
                 Entity mob = AmberBlockEntity.createEntity(level, amberBlockEntity.entityTag);
                 if (mob != null) {
                     mob.setPos(blockPos.getX(), blockPos.getY(), blockPos.getZ());

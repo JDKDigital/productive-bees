@@ -1,6 +1,12 @@
+
+- Beekeeper hive trades are now correctly randomized
+- Amber blocks don't spawn extra mobs when tick accelerated
+
+
 1.21.1-13.10.0
 
--
+- Gene Indexer will now index immediately (Satherov)
+- Updated PT_BR translation (PrincessStellar)
 
 
 1.21.1-13.9.0

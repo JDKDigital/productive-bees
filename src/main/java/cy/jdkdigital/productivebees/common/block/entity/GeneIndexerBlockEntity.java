@@ -6,11 +6,12 @@ import cy.jdkdigital.productivebees.common.recipe.CombineGeneRecipe;
 import cy.jdkdigital.productivebees.container.GeneIndexerContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
-import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.util.GeneGroup;
 import cy.jdkdigital.productivelib.common.block.entity.CapabilityBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -18,24 +19,24 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
-import java.util.function.Supplier;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class GeneIndexerBlockEntity extends CapabilityBlockEntity implements MenuProvider
 {
-    private int tickCounter = 0;
-    private boolean needsReindexing = true;
-    private boolean isRunning = true;
-    private final Map<String, Map<Integer, Integer>> index = new HashMap<>();
 
+    private boolean isProcessing = false;
+    private final Queue<InsertionAction> queue = new LinkedList<>();
+    private final Map<String, List<SlotEntry>> index = new HashMap<>();
+    
+    private record SlotEntry(int slot, int purity) { }
+    private record InsertionAction(String key, SlotEntry entry, ItemStack stack, int slot) { }
+    
     public final IItemHandlerModifiable inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(104, this)
     {
         @Override
@@ -46,8 +47,49 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity implements Men
         @Override
         protected void onContentsChanged(int slot) {
             super.onContentsChanged(slot);
-            if (blockEntity instanceof GeneIndexerBlockEntity geneIndexerBlockEntity) {
-                geneIndexerBlockEntity.setDirty();
+            if (!(blockEntity instanceof GeneIndexerBlockEntity indexer)) return;
+            
+            ItemStack stack = indexer.inventoryHandler.getStackInSlot(slot);
+            if (stack.isEmpty() || !(stack.getItem() instanceof Gene)) {
+                updateSlot(indexer, stack, slot);
+                return;
+            }
+            
+            GeneGroup group = Gene.getGenes(stack);
+            if (group == null || group.purity() == 100) {
+                updateSlot(indexer, stack, slot);
+                return;
+            }
+
+            String key = group.attribute().getSerializedName() + "-" + group.value();
+            if (!indexer.index.containsKey(key)) {
+                updateSlot(indexer, stack, slot);
+                return;
+            }
+            
+            List<SlotEntry> entries = indexer.index.get(key);
+            if (entries == null || entries.isEmpty()) {
+                updateSlot(indexer, stack, slot);
+                return;
+            }
+
+            Optional<SlotEntry> optional = entries.stream().filter(e -> e.slot() != slot).findFirst();
+            
+            if (optional.isEmpty()) {
+                updateSlot(indexer, stack, slot);
+                return;
+            }
+
+            if (indexer.isProcessing) {
+                updateSlot(indexer, stack, slot);
+                return;
+            }
+
+            indexer.isProcessing = true;
+            try {
+                indexer.queue.add(new InsertionAction(key, optional.get(), stack, slot));
+            } finally {
+                indexer.isProcessing = false;
             }
         }
 
@@ -75,126 +117,106 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity implements Men
     public GeneIndexerBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.GENE_INDEXER.get(), pos, state);
     }
-
-    public static void tick(Level level, BlockPos pos, BlockState state, GeneIndexerBlockEntity blockEntity) {
-        if (level != null && !level.isClientSide) {
-            if (blockEntity.needsReindexing && !blockEntity.isRunning) {
-                buildIndex(blockEntity, state);
-            }
-
-            if (--blockEntity.tickCounter <= 0) {
-                blockEntity.tickCounter = 2;
-                if (blockEntity.isRunning && !blockEntity.index.isEmpty()) {
-                    if (!state.getValue(BlockStateProperties.ENABLED)) {
-                        blockEntity.isRunning = false;
-                        return;
-                    }
-                    Iterator<Map.Entry<String, Map<Integer, Integer>>> indexIterator = blockEntity.index.entrySet().iterator();
-                    if (indexIterator.hasNext()) {
-                        Map.Entry<String, Map<Integer, Integer>> first = indexIterator.next();
-                        if (first.getValue().size() > 1) {
-                            // Minimum 2 entries of the gene, merge first and last entry
-                            Supplier<Stream<Map.Entry<Integer, Integer>>> sorted = () -> first.getValue().entrySet().stream().sorted(Collections.reverseOrder(Map.Entry.comparingByValue()));
-                            Optional<Map.Entry<Integer, Integer>> firstEntry = sorted.get().findFirst();
-                            Optional<Map.Entry<Integer, Integer>> otherEntry = sorted.get().reduce((entry1, entry2) -> entry2);
-
-                            if (firstEntry.isPresent() && otherEntry.isPresent()) {
-                                ItemStack firstStack = blockEntity.inventoryHandler.getStackInSlot(firstEntry.get().getKey());
-                                ItemStack secondStack = blockEntity.inventoryHandler.getStackInSlot(otherEntry.get().getKey());
-                                Pair<ItemStack, ItemStack> combinedGene = CombineGeneRecipe.mergeGenes(Arrays.asList(firstStack, secondStack));
-
-                                if (!firstStack.isEmpty() && !secondStack.isEmpty() && !combinedGene.getFirst().isEmpty()) {
-                                    if (blockEntity.inventoryHandler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler
-                                            && ((InventoryHandlerHelper.BlockEntityItemStackHandler) blockEntity.inventoryHandler).addOutput(combinedGene.getFirst()).getCount() == 0) {
-                                        firstStack.setCount(firstStack.getCount() - 1);
-                                        secondStack.setCount(secondStack.getCount() - 1);
-                                        blockEntity.inventoryHandler.setStackInSlot(firstEntry.get().getKey(), firstStack);
-                                        blockEntity.inventoryHandler.setStackInSlot(otherEntry.get().getKey(), secondStack);
-
-                                        if (Gene.getPurity(combinedGene.getFirst()) == 100) {
-                                            indexIterator.remove();
-                                        }
-
-                                        // Insert leftover stack
-                                        if (!combinedGene.getSecond().isEmpty()) {
-                                            ((InventoryHandlerHelper.BlockEntityItemStackHandler) blockEntity.inventoryHandler).addOutput(combinedGene.getSecond());
-                                        }
-                                    }
-                                } else {
-                                    // If either stack is empty, the type no longer has enough stacks to merge
-                                    indexIterator.remove();
-                                }
-                            }
-                        } else if (first.getValue().size() == 1) {
-                            // There's only one of the type of gene present
-                            Map.Entry<Integer, Integer> innerEntry = first.getValue().entrySet().iterator().next();
-                            ItemStack stack = blockEntity.inventoryHandler.getStackInSlot(innerEntry.getKey());
-                            if (stack.getCount() == 1) {
-                                indexIterator.remove();
-                            } else if (stack.getCount() > 1) {
-                                // Merge with self
-                                Pair<ItemStack, ItemStack> combinedGene = CombineGeneRecipe.mergeGenes(Arrays.asList(stack, stack.copy()));
-                                if (!stack.isEmpty() && !combinedGene.getFirst().isEmpty()) {
-                                    if (blockEntity.inventoryHandler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler
-                                            && ((InventoryHandlerHelper.BlockEntityItemStackHandler) blockEntity.inventoryHandler).addOutput(combinedGene.getFirst()).getCount() == 0) {
-                                        stack.setCount(stack.getCount() - 2);
-                                        blockEntity.inventoryHandler.setStackInSlot(innerEntry.getKey(), stack);
-
-                                        if (Gene.getPurity(combinedGene.getFirst()) == 100) {
-                                            indexIterator.remove();
-                                        }
-
-                                        // Insert leftover stack
-                                        if (!combinedGene.getSecond().isEmpty()) {
-                                            ((InventoryHandlerHelper.BlockEntityItemStackHandler) blockEntity.inventoryHandler).addOutput(combinedGene.getSecond());
-                                        }
-                                    }
-                                }
-                            } else {
-                                indexIterator.remove();
-                            }
-                        } else {
-                            indexIterator.remove();
-                        }
-                    }
-                } else {
-                    blockEntity.isRunning = false; // no more work to do
-                }
-            }
+    
+    public static void tick(Level world, BlockPos pos,  BlockState state, GeneIndexerBlockEntity indexer) {
+        if (!(world instanceof ServerLevel)) return;
+        while (!indexer.queue.isEmpty()) {
+            InsertionAction stack = indexer.queue.poll();
+            indexer.process(indexer, stack.key(), stack.entry(), stack.stack(), stack.slot());
         }
     }
 
-    private static void buildIndex(GeneIndexerBlockEntity blockEntity, BlockState state) {
+    @Override
+    public void onLoad() {
+        if (level != null && !level.isClientSide) buildIndex(this);
+        super.onLoad();
+    }
+    
+    private void process(GeneIndexerBlockEntity indexer, String key, SlotEntry entry, ItemStack stack, int slot) {
+
+        List<SlotEntry> entries = indexer.index.get(key);
+        if (entries == null || entries.isEmpty()) {
+            updateSlot(indexer, stack, slot);
+            return;
+        }
+        
+        indexer.isProcessing = true;
+        try {
+            
+            InventoryHandlerHelper.BlockEntityItemStackHandler handler = (InventoryHandlerHelper.BlockEntityItemStackHandler) indexer.inventoryHandler;
+
+            ItemStack entryStack = handler.getStackInSlot(entry.slot());
+
+            int stackCount = stack.getCount();
+            int entryCount = entryStack.getCount();
+
+            List<ItemStack> genesToCombine = new ArrayList<>();
+            for (int i = 0; i < stackCount; i++) {
+                genesToCombine.add(stack.copyWithCount(1));
+            }
+            for (int i = 0; i < entryCount; i++) {
+                genesToCombine.add(entryStack.copyWithCount(1));
+            }
+
+            stack.shrink(stackCount);
+            entryStack.shrink(entryCount);
+            updateSlot(indexer, stack, slot);
+            updateSlot(indexer, entryStack, entry.slot());
+
+            while (!genesToCombine.isEmpty()) {
+                Pair<ItemStack, ItemStack> combination = CombineGeneRecipe.mergeGenes(genesToCombine);
+
+                if (!combination.getFirst().isEmpty()) {
+                    handler.addOutput(combination.getFirst());
+
+                    if (Gene.getPurity(combination.getFirst()) == 100) {
+                        entries.remove(entry);
+                    }
+                }
+
+                genesToCombine.clear();
+                if (!combination.getSecond().isEmpty()) {
+                    genesToCombine.add(combination.getSecond());
+                } else {
+                    break;
+                }
+            }
+
+            indexer.index.entrySet().removeIf(mapEntry -> mapEntry.getValue().isEmpty());
+
+        } finally {
+            indexer.isProcessing = false;
+        }
+    }
+
+    private static void buildIndex(GeneIndexerBlockEntity blockEntity) {
         blockEntity.index.clear();
 
-        // Iterate items and find out which should attempt a merge
         for (int slot = 0; slot < blockEntity.inventoryHandler.getSlots(); ++slot) {
             ItemStack stack = blockEntity.inventoryHandler.getStackInSlot(slot);
-            if (stack.getItem().equals(ModItems.GENE.get())) {
-                // Check purity, 100% pure can be ignored
-                int purity = Gene.getPurity(stack);
-                if (purity < 100) {
-                    // Create a list for each attribute variant having the same attribute but different purity
-                    String key = Gene.getAttribute(stack) + "-" + Gene.getValue(stack);
+            if (stack.isEmpty() || !(stack.getItem() instanceof Gene)) continue;
 
-                    // Initiate internal map
-                    if (!blockEntity.index.containsKey(key)) {
-                        blockEntity.index.put(key, new HashMap<>());
-                    }
-                    Map<Integer, Integer> internalMap = blockEntity.index.get(key);
-
-                    internalMap.put(slot, purity);
-                }
-            }
+            GeneGroup group = Gene.getGenes(stack);
+            if (group == null || group.purity() == 100) continue;
+            
+            String key = group.attribute().getSerializedName() + "-" + group.value();
+            blockEntity.index.computeIfAbsent(key, k -> new ArrayList<>()).add(new SlotEntry(slot, group.purity()));
         }
-        if (state.getValue(BlockStateProperties.ENABLED)) {
-            blockEntity.isRunning = true;
-        }
-        blockEntity.needsReindexing = false;
     }
-
-    public void setDirty() {
-        needsReindexing = true;
+    
+    private static void updateSlot(GeneIndexerBlockEntity blockEntity, ItemStack stack, int slot) {
+        blockEntity.index.values().forEach(list -> list.removeIf(entry -> entry.slot() == slot));
+        
+        GeneGroup group = Gene.getGenes(stack);
+        if (group == null || group.purity() == 100) {
+            return;
+        }
+        
+        String key = group.attribute().getSerializedName() + "-" + group.value();
+        
+        if (!stack.isEmpty()) {
+            blockEntity.index.computeIfAbsent(key, k -> new ArrayList<>()).add(new SlotEntry(slot, group.purity()));
+        }
     }
 
     @Nonnull

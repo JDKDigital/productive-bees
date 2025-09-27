@@ -1,0 +1,19 @@
+{
+    "name": "Abelha de Ender",
+    "icon": "minecraft:ender_pearl",
+    "read_by_default": true,
+    "category": "productivebees:bees_wild",
+    "flag": "productivebees:ender",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Abelha de Ender",
+            "text": "Encontrada vivendo em ninhos de pedra do End em ilhas do End. As Abelhas de Ender preferem polinizar a flora local de plantas do coro.",
+            "anchor": "ender"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:ender'}"
+        }
+    ]
+}

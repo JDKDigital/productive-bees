@@ -1,0 +1,12 @@
+{
+    "name": "Centrífuga",
+    "icon": "productivebees:centrifuge",
+    "category": "productivebees:blocks",
+    "pages": [
+        {
+            "type": "patchouli:spotlight",
+            "item": "productivebees:centrifuge",
+            "text": "Processa favos de recursos em recursos e mel. Comporta 10 baldes de líquido que podem ser bombeados para fora. A centrífuga também enviará fluido automaticamente para qualquer bloco de armazenamento de fluido colocado ao lado. A Centrífuga Energizada consome FE para funcionar a uma velocidade de processamento aumentada. A centrífuga também é usada para separar material genético de frascos de material de abelha em $(l:genetics/transferring)genes$(/l)."
+        }
+    ]
+}

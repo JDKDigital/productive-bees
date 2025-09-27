@@ -1,0 +1,18 @@
+{
+    "name": "Abelha de Pedreira",
+    "icon": "minecraft:wooden_pickaxe",
+    "read_by_default": true,
+    "sortnum": 4,
+    "category": "productivebees:bees_worker",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Abelha de Pedreira",
+            "text": "Mordisca pedra, areia ou cascalho próximos e coleta lascas de pedra em sua colmeia. Lascas de pedra podem ser usadas para criar seu bloco correspondente."
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:quarry_bee"
+        }
+    ]
+}

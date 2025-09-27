@@ -1,0 +1,12 @@
+{
+    "name": "Câmara de Cruzamento",
+    "icon": "productivebees:breeding_chamber",
+    "category": "productivebees:blocks",
+    "pages": [
+        {
+            "type": "patchouli:spotlight",
+            "item": "productivebees:breeding_chamber",
+            "text": "Nesta máquina, você pode cruzar abelhas em um ambiente seguro. Forneça à máquina as duas abelhas progenitoras, seus respectivos itens de cruzamento, bem como energia e gaiolas vazias para os filhotes. Você pode acelerar o processo com melhorias de velocidade."
+        }
+    ]
+}

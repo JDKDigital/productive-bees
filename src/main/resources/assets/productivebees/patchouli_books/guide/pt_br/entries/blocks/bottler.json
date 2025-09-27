@@ -1,0 +1,39 @@
+{
+    "name": "Engarrafador",
+    "icon": "productivebees:bottler",
+    "category": "productivebees:blocks",
+    "pages": [
+        {
+            "type": "patchouli:spotlight",
+            "item": "productivebees:bottler",
+            "text": "Usado para engarrafar mel e outros fluidos. O mel pode ser bombeado pela lateral ou pode ser colocado ao lado de uma centrífuga para ser preenchido automaticamente.$(br2)O engarrafador junto com um pistão também pode ser usado para engarrafar abelhas, veja a $(l:genetics/transferring)página de genética$(/l)."
+        },
+        {
+            "type": "multiblock",
+            "name": "Engarrafador com Centrífuga",
+            "multiblock": {
+                "mapping": {
+                    "H": "productivebees:centrifuge",
+                    "E": "productivebees:bottler"
+                },
+                "pattern": [
+                    [
+                        "H",
+                        "E"
+                    ],
+                    [
+                        "0",
+                        " "
+                    ]
+                ],
+                "symmetrical": true,
+                "offset": [
+                    0,
+                    1,
+                    0
+                ]
+            },
+            "enable_visualize": false
+        }
+    ]
+}

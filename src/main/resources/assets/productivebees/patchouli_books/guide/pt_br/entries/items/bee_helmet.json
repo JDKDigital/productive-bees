@@ -1,0 +1,16 @@
+{
+    "name": "Capacete de Abelha",
+    "icon": "productivebees:bee_nest_diamond_helmet",
+    "category": "productivebees:items",
+    "pages": [
+        {
+            "type": "patchouli:spotlight",
+            "item": "productivebees:bee_nest_diamond_helmet",
+            "text": "Encaixe um ninho de abelha em seu belo capacete de diamante para deixá-lo todo pegajoso. As abelhas no ninho certamente se acostumarão com você e podem até te defender quando estiver em perigo. Usar esta vestimenta também mostrará suas boas intenções a outras abelhas e evitará que elas te ataquem."
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "productivebees:bee_nest_helmet"
+        }
+    ]
+}

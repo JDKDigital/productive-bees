@@ -1,0 +1,6 @@
+{
+    "name": "Abelhas Solitárias",
+    "description": "As Abelhas Solitárias podem ser encontradas surgindo de ninhos solitários no Mundo Superior.$(br2)$(l:hives/nests)Leia sobre os ninhos aqui$(/l)",
+    "icon": "productivebees:oak_wood_nest",
+    "parent": "productivebees:bees"
+}
