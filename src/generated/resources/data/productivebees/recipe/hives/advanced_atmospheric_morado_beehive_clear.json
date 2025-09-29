@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "atmospheric"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "hives",
+  "ingredients": [
+    {
+      "item": "productivebees:advanced_atmospheric_morado_beehive"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "productivebees:advanced_atmospheric_morado_beehive"
+  }
+}

@@ -163,6 +163,12 @@ dependencies {
     implementation "curse.maven:glitchcore-955399:5483773"
     implementation "curse.maven:terrablender-neoforge-940057:5429865"
     implementation "curse.maven:regions-unexplored-659110:5579932"
+    implementation "curse.maven:blueprint-382216:6965808"
+    implementation "curse.maven:gallery-1173553:6449910"
+    implementation "curse.maven:woodworks-543610:6499291"
+    implementation "curse.maven:autumnity-365045:6969592"
+    implementation "curse.maven:upgrade-aquatic-326895:6969604"
+    implementation "curse.maven:atmospheric-362393:6969589"
     implementation "curse.maven:extreme-reactors-250277:5538095"
     implementation "curse.maven:zerocore-247921:5464103"
     implementation "curse.maven:cucumber-272335:5663120"
@@ -183,6 +189,9 @@ dependencies {
     implementation ("com.ldtteam:datagenerators:1.20.4-0.1.57-ALPHA:universal") {
         transitive = false
     }
+    implementation "curse.maven:modular-bees-1350380:7038721"
+    implementation "curse.maven:glodium-957920:5821676"
+    implementation "curse.maven:mystian-apiary-1348575:7032774"
 }
 
 tasks.withType(ProcessResources).configureEach {
