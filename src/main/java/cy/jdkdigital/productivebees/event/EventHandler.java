@@ -35,10 +35,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
@@ -315,6 +312,29 @@ public class EventHandler
                     }
                 }
             }
+        }
+    }
+    
+    @SubscribeEvent
+    public static void onArmorDamage(final ArmorHurtEvent event) {
+        if (event.getDamageSource().getEntity() instanceof ConfigurableBee entity && entity.getBeeType().toString().equals("productivebees:beebee")) {
+            if (ProductiveBeesConfig.GENERAL.beeBeeArmorDurabilityPercentageRemainder.get() == -1) {
+                event.setCanceled(true);
+                return;
+            }
+            
+            event.getArmorMap().forEach((slot, entry) -> { 
+                ItemStack armor = entry.armorItemStack;
+                float max = armor.getMaxDamage();
+                float damage = armor.getDamageValue();
+                float remaining = max - damage;
+                
+                if (remaining > (max / 2)) {
+                    event.setNewDamage(slot, Math.max(damage + remaining * ((100 - ProductiveBeesConfig.GENERAL.beeBeeArmorDurabilityPercentageRemainder.get()) / 100f), 1));
+                } else {
+                    event.setNewDamage(slot, max);
+                }
+            });
         }
     }
 

@@ -84,6 +84,7 @@ public class ProductiveBeesConfig
         public final ModConfigSpec.BooleanValue forceEnableFarmerBeeRightClickHarvest;
         public final ModConfigSpec.BooleanValue enableJokes;
         public final ModConfigSpec.DoubleValue quantumArmorFailureChance;
+        public final ModConfigSpec.IntValue beeBeeArmorDurabilityPercentageRemainder;
 
         public General(ModConfigSpec.Builder builder) {
             builder.push("General");
@@ -163,6 +164,10 @@ public class ProductiveBeesConfig
             quantumArmorFailureChance = builder
                     .comment("Chance for MI quantum armor to not be effective against BeeBee.")
                     .defineInRange("quantumArmorFailureChance", 0.1, 0, 1);
+            
+            beeBeeArmorDurabilityPercentageRemainder = builder
+                    .comment("Percentage of the total durability the BeeBee will leave remaining on each piece of armor after dealing damage. Below 50% the armor will always break if not disabled. -1 to disable completely")
+                    .defineInRange("beeBeeArmorDurabilityPercentageRemainder", 5, -1, 100);
 
             builder.pop();
         }
