@@ -8,11 +8,8 @@ import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
-import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.recipe.BeeFishingRecipe;
-import cy.jdkdigital.productivebees.compat.curios.CuriosCompat;
 import cy.jdkdigital.productivebees.compat.minecolonies.MinecolonyCompat;
-import cy.jdkdigital.productivebees.container.BreedingChamberContainer;
 import cy.jdkdigital.productivebees.gen.feature.WoodNestDecorator;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.network.packets.BeeDataMessage;
@@ -38,7 +35,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.npc.Villager;
@@ -65,7 +61,6 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
-import net.neoforged.neoforge.event.entity.EntityEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.*;
 import net.neoforged.neoforge.event.entity.player.ItemFishedEvent;
@@ -79,7 +74,6 @@ import net.neoforged.neoforge.event.village.WandererTradesEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @EventBusSubscriber(modid = ProductiveBees.MODID)
 public class EventHandler
@@ -317,6 +311,29 @@ public class EventHandler
                     }
                 }
             }
+        }
+    }
+    
+    @SubscribeEvent
+    public static void onArmorDamage(final ArmorHurtEvent event) {
+        if (event.getDamageSource().getEntity() instanceof ConfigurableBee entity && entity.getBeeType().toString().equals("productivebees:beebee")) {
+            if (ProductiveBeesConfig.GENERAL.beeBeeArmorDurabilityPercentageRemainder.get() == -1) {
+                event.setCanceled(true);
+                return;
+            }
+            
+            event.getArmorMap().forEach((slot, entry) -> { 
+                ItemStack armor = entry.armorItemStack;
+                float max = armor.getMaxDamage();
+                float damage = armor.getDamageValue();
+                float remaining = max - damage;
+                
+                if (remaining > (max / 2)) {
+                    event.setNewDamage(slot, Math.max(damage + remaining * ((100 - ProductiveBeesConfig.GENERAL.beeBeeArmorDurabilityPercentageRemainder.get()) / 100f), 1));
+                } else {
+                    event.setNewDamage(slot, max);
+                }
+            });
         }
     }
 
