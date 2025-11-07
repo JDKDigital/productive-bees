@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.common.block;
 
 import com.mojang.serialization.MapCodec;
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;

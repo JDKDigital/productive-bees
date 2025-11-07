@@ -15,7 +15,7 @@
       "id": "create_enchantment_industry:super_experience_nugget"
     }
   ],
-  "conditions": [
+  "neoforge:conditions": [
     {
       "type": "neoforge:mod_loaded",
       "modid": "create"

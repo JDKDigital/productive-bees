@@ -18,6 +18,10 @@
     {
       "id": "ars_nouveau:starbuncle",
       "required": false
+    },
+    {
+      "id": "cobblemon:pokemon",
+      "required": false
     }
   ]
 }

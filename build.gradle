@@ -191,7 +191,8 @@ dependencies {
     }
     implementation "curse.maven:modular-bees-1350380:7038721"
     implementation "curse.maven:glodium-957920:5821676"
-    implementation "curse.maven:mystian-apiary-1348575:7032774"
+    implementation "curse.maven:cobblemon-687131:6125026"
+    implementation "curse.maven:kotlin-for-forge-351264:6994056"
 }
 
 tasks.withType(ProcessResources).configureEach {

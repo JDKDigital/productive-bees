@@ -1,10 +1,8 @@
 package cy.jdkdigital.productivebees;
 
-import com.google.common.collect.ImmutableList;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ProductiveBeesConfig

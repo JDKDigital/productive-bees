@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.common.crafting.ingredient;
 
 import com.mojang.serialization.Codec;
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;

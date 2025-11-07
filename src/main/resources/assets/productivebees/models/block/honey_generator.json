@@ -1,5 +1,6 @@
 {
     "parent": "block/orientable",
+    "render_type": "cutout",
     "textures": {
         "top": "productivebees:block/honey_generator/top",
         "bottom": "productivebees:block/centrifuge/bottom",

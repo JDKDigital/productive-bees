@@ -3,7 +3,6 @@ package cy.jdkdigital.productivebees.common.entity.bee.hive;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.compat.harvest.HarvestCompatHandler;
-import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivelib.registry.LibItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;

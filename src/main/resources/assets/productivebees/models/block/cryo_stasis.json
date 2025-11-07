@@ -1,5 +1,6 @@
 {
   "parent": "block/block",
+  "render_type": "cutout",
   "textures": {
     "top": "productivebees:block/bottler/top",
     "bottom": "productivebees:block/centrifuge/bottom",

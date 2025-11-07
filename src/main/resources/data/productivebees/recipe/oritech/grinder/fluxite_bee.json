@@ -30,7 +30,7 @@
     }
   ],
   "time": 210,
-  "conditions": [
+  "neoforge:conditions": [
     {
       "modid": "oritech",
       "type": "neoforge:mod_loaded"

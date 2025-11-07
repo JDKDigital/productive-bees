@@ -12,7 +12,6 @@ import cy.jdkdigital.productivebees.common.entity.bee.hive.RancherBee;
 import cy.jdkdigital.productivebees.common.entity.bee.solitary.ResinBee;
 import cy.jdkdigital.productivebees.common.recipe.BlockConversionRecipe;
 import cy.jdkdigital.productivebees.common.recipe.ItemConversionRecipe;
-import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.*;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
