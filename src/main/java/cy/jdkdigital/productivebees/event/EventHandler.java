@@ -159,7 +159,7 @@ public class EventHandler
                     event.addValidBlock(Component.translatable("productivebees.devices.centrifuge"));
                 }
                 case "upgrade_stability" -> {
-                    event.addValidBlock(Component.literal("Centrifuge"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.centrifuge"));
                 }
             }
         }
