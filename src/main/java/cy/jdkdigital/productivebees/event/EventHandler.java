@@ -311,6 +311,8 @@ public class EventHandler
                             break;
                     }
                 }
+            } else if (event.getEntity() instanceof Player player) {
+                player.displayClientMessage(Component.translatable("productivebees.information.beebee_death"), false);
             }
         }
     }

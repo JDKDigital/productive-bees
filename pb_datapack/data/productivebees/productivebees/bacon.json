@@ -1,12 +1,11 @@
 {
-    "primaryColor": "#ff00ff",
-    "secondaryColor": "#d0581f",
-    "flowerTag": "minecraft:flowers",
-    "name": "Baconator",
-    "neoforge:conditions": [
-        {
-            "type": "neoforge:mod_loaded",
-            "modid": "productivebees"
-        }
-    ]
+  "primaryColor": "#ff00ff",
+  "secondaryColor": "#d0581f",
+  "flowerTag": "minecraft:flowers",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "productivebees"
+    }
+  ]
 }

@@ -61,10 +61,8 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
             "FallFlying", "Fire", "HandDropChances", "HurtByTimestamp", "HurtTime", "LeftHanded",
             "Motion", "NoGravity", "OnGround", "PortalCooldown", "Pos", "Rotation",
             "SleepingX", "SleepingY", "SleepingZ", "CannotEnterHiveTicks",
-            "TicksSincePollination", "CropsGrownSincePollination", "hive_pos", "Passengers", "leash", "UUID"
-    );
-    private static final List<String> OPTIONAL_IGNORED_BEE_TAGS = Arrays.asList(
-            "ForgeCaps", "ForgeData"
+            "TicksSincePollination", "CropsGrownSincePollination", "hive_pos", "Passengers", "leash", "UUID",
+            "attributes"
     );
     public int MAX_BEES = 3;
 
@@ -94,13 +92,14 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
     private static void tickBees(ServerLevel pLevel, BlockPos pPos, BlockState pState, AdvancedBeehiveBlockEntityAbstract blockEntity) {
         List<ProductiveBeeData> beesToKeep = new ArrayList<>();
 
-        List<BeehiveBlockEntity.BeeData> pData = blockEntity.stored;
-        boolean hasReleased = false;
+        List<BeehiveBlockEntity.BeeData> pData = new ArrayList<>(blockEntity.stored);
+        boolean hasChanged = false;
         ListIterator<BeeData> iterator = pData.listIterator();
 
         while (iterator.hasNext()) {
             BeehiveBlockEntity.BeeData beedata = iterator.next();
             if (beedata.tick()) {
+                hasChanged = true;
                 BeehiveBlockEntity.BeeReleaseStatus beeReleaseStatus = BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED;
                 var hasConverted = beedata.occupant.entityData().getUnsafe().getBoolean("HasConverted");
                 if (!hasConverted && beedata.hasNectar()) {
@@ -117,7 +116,6 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                     if (ticksInHive > (minOccupationTicks + 450)) {
                         Entity simulatedBee = simulateBee(pLevel, pPos, pState, blockEntity, inhabitant);
                         if (simulatedBee != null) { // someone managed to make this happen, wtf so here's a null check
-                            hasReleased = true;
                             ticksInHive = 0;
 
                             minOccupationTicks = blockEntity.getTimeInHive(beeReleaseStatus.equals(BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED), inhabitant);
@@ -134,13 +132,14 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                     var newInhabitant = new BeehiveBlockEntity.Occupant(entityData, ticksInHive, minOccupationTicks);
                     iterator.set(new ProductiveBeeData(newInhabitant));
                 } else if (releaseOccupant(pLevel, pPos, pState, beedata.toOccupant(), blockEntity, null, beeReleaseStatus)) {
-                    hasReleased = true;
                     iterator.remove();
                 }
             }
         }
 
-        if (hasReleased) {
+        if (hasChanged) {
+            blockEntity.stored.clear();
+            blockEntity.stored.addAll(pData);
             setChanged(pLevel, pPos, pState);
         }
     }
@@ -274,7 +273,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         return list;
     }
 
-    public static boolean releaseOccupant(Level pLevel, BlockPos pPos, BlockState pState, BeehiveBlockEntity.Occupant pOccupant, AdvancedBeehiveBlockEntityAbstract blockEntity, @Nullable List<Entity> pStoredInHives, BeehiveBlockEntity.BeeReleaseStatus pReleaseStatus) {
+    public static boolean releaseOccupant(Level pLevel, BlockPos pPos, BlockState pState, BeehiveBlockEntity.Occupant pOccupant, AdvancedBeehiveBlockEntityAbstract blockEntity, @Nullable List<Entity> releasedBees, BeehiveBlockEntity.BeeReleaseStatus pReleaseStatus) {
         if (pState.getBlock().equals(Blocks.AIR) || pLevel == null) {
             return false;
         }
@@ -321,8 +320,8 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                     spawned = pLevel.addFreshEntity(entity);
                     if (spawned && entity instanceof Bee bee) {
                         blockEntity.beeReleasePostAction(pLevel, bee, pState, pReleaseStatus);
-                        if (pStoredInHives != null) {
-                            pStoredInHives.add(bee);
+                        if (releasedBees != null) {
+                            releasedBees.add(bee);
                         }
                     }
                     return spawned;

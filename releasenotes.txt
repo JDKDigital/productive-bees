@@ -1,6 +1,19 @@
 
+- Clear more junk data from bees when added to cages or hives
+- Fixed Inert Crystal comb centrifuge recipe
+
+
+1.21.1-13.11.1
+
+- Fixed bees leaving simmed hives when there's fire nearby
+- Fixed CME crash
+
+
+1.21.1-13.11.0
+
 - Beekeeper hive trades are now correctly randomized
 - Amber blocks don't spawn extra mobs when tick accelerated
+- BeeBee won't destroy armor above 50% durability, only damage it a lot (Satherov)
 
 
 1.21.1-13.10.0

@@ -1,5 +1,7 @@
 package cy.jdkdigital.productivebees.common.block;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import net.minecraft.ChatFormatting;
@@ -170,8 +172,10 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
     public BlockState updateShape(BlockState state, Direction direction, BlockState state1, LevelAccessor world, BlockPos pos, BlockPos fireBlockPos) {
         if (world.getBlockState(fireBlockPos).getBlock() instanceof FireBlock) {
             BlockEntity tileEntity = world.getBlockEntity(pos);
-            if (tileEntity instanceof AdvancedBeehiveBlockEntityAbstract beehiveTileEntity) {
-                beehiveTileEntity.emptyAllLivingFromHive(null, state, BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY);
+            if (tileEntity instanceof AdvancedBeehiveBlockEntityAbstract abstractBeehiveTileEntity) {
+                if (!(abstractBeehiveTileEntity instanceof AdvancedBeehiveBlockEntity beehiveTileEntity) || !beehiveTileEntity.isSim()) {
+                    abstractBeehiveTileEntity.emptyAllLivingFromHive(null, state, BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY);
+                }
             }
         }
 

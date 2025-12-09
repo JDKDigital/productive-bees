@@ -1,0 +1,40 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "item": {
+      "type": "productivebees:component",
+      "components": {
+        "productivebees:bee_type": "productivebees:example"
+      },
+      "items": "productivebees:configurable_honeycomb"
+    }
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "productivebees:bee_cage"
+      },
+      "min": 1,
+      "max": 4,
+      "chance": 0.9
+    },
+    {
+      "item": {
+        "tag": "c:wax"
+      }
+    }
+  ],
+  "fluid": {
+    "amount": 150,
+    "fluid": "productivebees:honey"
+  },
+  "conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "productivebees"
+      }
+    }
+  ]
+}

@@ -134,6 +134,11 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
         return true;
     }
 
+    @Override
+    public boolean isFireNearby() {
+        return !isSim() && super.isFireNearby();
+    }
+
     public boolean isSim() {
         return ProductiveBeesConfig.BEES.forceBeeSimulation.get() || (ProductiveBeesConfig.BEES.allowBeeSimulation.get() && (
                 getUpgradeCount(LibItems.UPGRADE_SIMULATOR.get()) > 0 ||
