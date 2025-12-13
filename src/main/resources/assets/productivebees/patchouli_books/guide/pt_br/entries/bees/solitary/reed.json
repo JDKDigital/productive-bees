@@ -1,19 +1,19 @@
 {
-    "name": "Abelha de Cana",
-    "icon": "productivebees:spawn_egg_reed_bee",
-    "read_by_default": true,
-    "sortnum": 11,
-    "category": "productivebees:bees_solitary",
-    "pages": [
-        {
-            "type": "patchouli:text",
-            "title": "Abelha de Cana",
-            "text": "[Exoneura robusta]",
-            "anchor": "reed"
-        },
-        {
-            "type": "patchouli:entity",
-            "entity": "productivebees:reed_bee"
-        }
-    ]
+  "name": "Abelha de Cana",
+  "icon": "productivebees:spawn_egg_reed_bee",
+  "read_by_default": true,
+  "sortnum": 11,
+  "category": "productivebees:bees_solitary",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Abelha de Cana",
+      "text": "[Exoneura robusta]",
+      "anchor": "reed"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "productivebees:reed_bee"
+    }
+  ]
 }

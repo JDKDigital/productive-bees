@@ -13,8 +13,9 @@ import cy.jdkdigital.productivebees.util.BeeCreator;
 import cy.jdkdigital.productivebees.util.GeneAttribute;
 import cy.jdkdigital.productivebees.util.GeneGroup;
 import cy.jdkdigital.productivelib.common.block.entity.CapabilityBlockEntity;
+import cy.jdkdigital.productivelib.common.block.entity.ICapabilityBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
-import cy.jdkdigital.productivelib.common.block.entity.UpgradeableBlockEntity;
+import cy.jdkdigital.productivelib.common.block.entity.IUpgradeableBlockEntity;
 import cy.jdkdigital.productivelib.registry.LibItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -44,7 +45,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuProvider, UpgradeableBlockEntity, IRecipeProcessingBlockEntity
+public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuProvider, IUpgradeableBlockEntity, IRecipeProcessingBlockEntity
 {
     public int recipeProgress = 0;
     public boolean isRunning = false;

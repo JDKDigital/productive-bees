@@ -5,6 +5,7 @@ import cy.jdkdigital.productivebees.client.helper.RecipeHelper;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.ComponentIngredient;
+import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.recipe.*;
 import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredientHelper;
 import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredientRenderer;
@@ -204,7 +205,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         registration.addRecipes(BEE_SPAWNING_TYPE, beeSpawningRecipesMap.stream().map(RecipeHolder::value).toList());
         // Breeding recipes
         List<RecipeHolder<BeeBreedingRecipe>> beeBreedingRecipeMap = recipeManager.getAllRecipesFor(ModRecipeTypes.BEE_BREEDING_TYPE.get());
-        registration.addRecipes(BEE_BREEDING_TYPE,beeBreedingRecipeMap.stream().map(RecipeHolder::value).toList());
+        registration.addRecipes(BEE_BREEDING_TYPE, beeBreedingRecipeMap.stream().map(RecipeHolder::value).toList());
         // Bee conversion recipes
         List<RecipeHolder<BeeConversionRecipe>> beeConversionRecipeMap = recipeManager.getAllRecipesFor(ModRecipeTypes.BEE_CONVERSION_TYPE.get());
         registration.addRecipes(BEE_CONVERSION_TYPE, beeConversionRecipeMap.stream().map(RecipeHolder::value).toList());
@@ -218,8 +219,21 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         List<RecipeHolder<BottlerRecipe>> bottlerRecipeMap = recipeManager.getAllRecipesFor(ModRecipeTypes.BOTTLER_TYPE.get());
         registration.addRecipes(BOTTLER_TYPE, bottlerRecipeMap.stream().map(RecipeHolder::value).toList());
 
-        // Bee ingredient descriptions
+        var minecraft = Minecraft.getInstance();
         Map<String, BeeIngredient> beeList = BeeIngredientFactory.getOrCreateList();
+        // Self breeding bees
+        List<RecipeHolder<BeeBreedingRecipe>> beeSelfBreedingRecipeMap = new ArrayList<>();
+        for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()) {
+            if (entry.getValue().getCachedEntity(minecraft.level) instanceof ConfigurableBee configurableBee && configurableBee.canSelfBreed()) {
+                beeSelfBreedingRecipeMap.add(new RecipeHolder<>(
+                        ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "self_breeding/" + ResourceLocation.parse(entry.getKey()).getPath()),
+                        new BeeBreedingRecipe(() -> entry.getValue(), () -> entry.getValue(), () -> entry.getValue(), 0f)
+                ));
+            }
+        }
+        registration.addRecipes(BEE_BREEDING_TYPE, beeSelfBreedingRecipeMap.stream().map(RecipeHolder::value).toList());
+
+        // Bee ingredient descriptions
         for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()) {
             if (entry.getKey().contains(ProductiveBees.MODID)) {
                 String beeId = entry.getKey().replace("productivebees:", "");

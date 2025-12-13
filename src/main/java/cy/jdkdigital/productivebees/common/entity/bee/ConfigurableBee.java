@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.particle.NectarParticleType;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.AmberBlockEntity;
+import cy.jdkdigital.productivebees.common.recipe.BeeFloweringRecipe;
 import cy.jdkdigital.productivebees.compat.sussy.SussyCompatHandler;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModParticles;
@@ -17,6 +18,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -28,6 +30,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.PoiTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
@@ -44,6 +47,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -58,6 +62,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
 
@@ -473,6 +478,15 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             }
             if (nbt.contains("flowerItem")) {
                 return flowerItem.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse(nbt.getString("flowerItem"))));
+            }
+            if (nbt.contains("flowerFluid") && flowerItem.getItem() instanceof BucketItem bucketItem) {
+                if (nbt.getString("flowerFluid").contains("#")) {
+                    TagKey<Fluid> flowerFluid = ModTags.getFluidTag(ResourceLocation.parse(nbt.getString("flowerFluid").replace("#", "")));
+                    return bucketItem.content.is(flowerFluid);
+                } else {
+                    Fluid flowerFluid = BuiltInRegistries.FLUID.get(ResourceLocation.parse(nbt.getString("flowerFluid")));
+                    return bucketItem.content.isSame(flowerFluid);
+                }
             }
         }
         if (flowerItem.getItem() instanceof BlockItem blockItem && BeeHelper.hasBlockConversionRecipe(this, blockItem.getBlock().defaultBlockState())) {

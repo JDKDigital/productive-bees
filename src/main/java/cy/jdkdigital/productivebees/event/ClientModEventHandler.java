@@ -16,6 +16,7 @@ import cy.jdkdigital.productivebees.common.block.CanvasExpansionBox;
 import cy.jdkdigital.productivebees.common.block.CombBlock;
 import cy.jdkdigital.productivebees.common.block.entity.CanvasBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.CanvasExpansionBoxBlockEntity;
+import cy.jdkdigital.productivebees.common.block.entity.CentrifugeBlockEntity;
 import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
 import cy.jdkdigital.productivebees.common.entity.bee.GeckoBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
@@ -23,9 +24,11 @@ import cy.jdkdigital.productivebees.common.fluid.HoneyFluid;
 import cy.jdkdigital.productivebees.common.item.*;
 import cy.jdkdigital.productivebees.compat.curios.CuriosCompat;
 import cy.jdkdigital.productivebees.compat.geckolib.client.render.GeckoBeeRenderer;
+import cy.jdkdigital.productivebees.container.CentrifugeContainer;
 import cy.jdkdigital.productivebees.container.gui.*;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.util.ColorUtil;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.BiomeColors;
@@ -67,7 +70,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-@EventBusSubscriber(modid = ProductiveBees.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = ProductiveBees.MODID, value = Dist.CLIENT)
 public class ClientModEventHandler
 {
     @SubscribeEvent
@@ -265,9 +268,9 @@ public class ClientModEventHandler
     @SubscribeEvent
     public static void init(final RegisterMenuScreensEvent event) {
         event.register(ModContainerTypes.ADVANCED_BEEHIVE.get(), AdvancedBeehiveScreen::new);
-        event.register(ModContainerTypes.CENTRIFUGE.get(), CentrifugeScreen::new);
-        event.register(ModContainerTypes.POWERED_CENTRIFUGE.get(), CentrifugeScreen::new);
-        event.register(ModContainerTypes.HEATED_CENTRIFUGE.get(), CentrifugeScreen::new);
+        event.register(ModContainerTypes.CENTRIFUGE.get(), (MenuScreens.ScreenConstructor<CentrifugeContainer<? extends CentrifugeBlockEntity>, CentrifugeScreen<CentrifugeContainer<? extends CentrifugeBlockEntity>>>) CentrifugeScreen::new);
+        event.register(ModContainerTypes.POWERED_CENTRIFUGE.get(), (MenuScreens.ScreenConstructor<CentrifugeContainer<? extends CentrifugeBlockEntity>, CentrifugeScreen<CentrifugeContainer<? extends CentrifugeBlockEntity>>>) CentrifugeScreen::new);
+        event.register(ModContainerTypes.HEATED_CENTRIFUGE.get(), (MenuScreens.ScreenConstructor<CentrifugeContainer<? extends CentrifugeBlockEntity>, CentrifugeScreen<CentrifugeContainer<? extends CentrifugeBlockEntity>>>) CentrifugeScreen::new);
         event.register(ModContainerTypes.BOTTLER.get(), BottlerScreen::new);
         event.register(ModContainerTypes.FEEDER.get(), FeederScreen::new);
         event.register(ModContainerTypes.INCUBATOR.get(), IncubatorScreen::new);

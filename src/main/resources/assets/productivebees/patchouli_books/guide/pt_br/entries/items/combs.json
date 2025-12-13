@@ -1,11 +1,11 @@
 {
-    "name": "Favos",
-    "icon": "minecraft:honeycomb",
-    "category": "productivebees:items",
-    "pages": [
-        {
-            "type": "patchouli:text",
-            "text": "Abelhas vivendo em colmeias avançadas produzirão favos de recursos que podem ser colocados em uma centrífuga para extrair recursos.$(br)Favos também podem ser comprimidos em blocos de favo para facilitar o armazenamento."
-        }
-    ]
+  "name": "Favos",
+  "icon": "minecraft:honeycomb",
+  "category": "productivebees:items",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Abelhas vivendo em colmeias avançadas produzirão favos de recursos que podem ser colocados em uma centrífuga para extrair recursos.$(br)Favos também podem ser comprimidos em blocos de favo para facilitar o armazenamento."
+    }
+  ]
 }

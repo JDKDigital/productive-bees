@@ -1,19 +1,18 @@
 {
-    "name": "Antigua abeja",
-    "icon": "minecraft:netherite_scrap",
-    "read_by_default": true,
-    "category": "productivebees:bees_hive",
-    "flag": "productivebees:netherite",
-    "pages": [
-        {
-            "type": "patchouli:text",
-            "title": "Antigua abeja",
-            "text": "Convertida de una $(l:bees/hive/diamond)Abeja Diamante$(/l) alimentándola con un bloque de netherite.",
-            "anchor": "netherite"
-        },
-        {
-            "type": "patchouli:entity",
-            "entity": "productivebees:configurable_bee{type:'productivebees:netherite'}"
-        }
-    ]
+  "name": "Antigua abeja",
+  "icon": "minecraft:netherite_scrap",
+  "read_by_default": true,
+  "category": "productivebees:bees_hive",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Antigua abeja",
+      "text": "Convertida de una $(l:bees/hive/diamond)Abeja Diamante$(/l) alimentándola con un bloque de netherite.",
+      "anchor": "netherite"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "productivebees:configurable_bee{type:'productivebees:netherite'}"
+    }
+  ]
 }

@@ -1,19 +1,18 @@
 {
-    "name": "Abelha de Obsidiana",
-    "icon": "minecraft:obsidian",
-    "read_by_default": true,
-    "category": "productivebees:bees_hive",
-    "flag": "productivebees:obsidian",
-    "pages": [
-        {
-            "type": "patchouli:text",
-            "title": "Abelha de Obsidiana",
-            "text": "Cruzada de uma $(l:bees/wild/magmatic)Abelha Magmática$(/l) e uma $(l:bees/solitary/sweat)Abelha do Suor$(/l).",
-            "anchor": "obsidian"
-        },
-        {
-            "type": "patchouli:entity",
-            "entity": "productivebees:configurable_bee{type:'productivebees:obsidian'}"
-        }
-    ]
+  "name": "Abelha de Obsidiana",
+  "icon": "minecraft:obsidian",
+  "read_by_default": true,
+  "category": "productivebees:bees_hive",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Abelha de Obsidiana",
+      "text": "Cruzada de uma $(l:bees/wild/magmatic)Abelha Magmática$(/l) e uma $(l:bees/solitary/sweat)Abelha do Suor$(/l).",
+      "anchor": "obsidian"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "productivebees:configurable_bee{type:'productivebees:obsidian'}"
+    }
+  ]
 }

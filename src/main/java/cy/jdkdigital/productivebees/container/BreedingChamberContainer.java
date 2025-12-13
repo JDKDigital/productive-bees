@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.container;
 
-import cy.jdkdigital.productivebees.common.block.BreedingChamber;
 import cy.jdkdigital.productivebees.common.block.entity.BreedingChamberBlockEntity;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
@@ -8,22 +7,13 @@ import cy.jdkdigital.productivelib.container.AbstractContainer;
 import cy.jdkdigital.productivelib.container.ManualSlotItemHandler;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.DataSlot;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Objects;
 
-public class BreedingChamberContainer extends AbstractContainer
+public class BreedingChamberContainer extends AbstractContainer<BreedingChamberBlockEntity>
 {
-    public final BreedingChamberBlockEntity blockEntity;
-
-    public final ContainerLevelAccess canInteractWithCallable;
-
     public final static int SLOT_CAGE = 0;
     public final static int SLOT_BEE_1 = 1;
     public final static int SLOT_BEE_2 = 2;
@@ -36,14 +26,7 @@ public class BreedingChamberContainer extends AbstractContainer
     }
 
     public BreedingChamberContainer(final int windowId, final Inventory playerInventory, final BreedingChamberBlockEntity blockEntity) {
-        this(ModContainerTypes.BREEDING_CHAMBER.get(), windowId, playerInventory, blockEntity);
-    }
-
-    public BreedingChamberContainer(@Nullable MenuType<?> type, final int windowId, final Inventory playerInventory, final BreedingChamberBlockEntity blockEntity) {
-        super(type, windowId);
-
-        this.blockEntity = blockEntity;
-        this.canInteractWithCallable = ContainerLevelAccess.create(blockEntity.getLevel(), blockEntity.getBlockPos());
+        super(ModContainerTypes.BREEDING_CHAMBER.get(), blockEntity, windowId);
 
         // Energy
         addDataSlot(new DataSlot()
@@ -77,16 +60,16 @@ public class BreedingChamberContainer extends AbstractContainer
             }
         });
 
-        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.blockEntity.inventoryHandler, SLOT_CAGE, 134 - 13, 41));
-        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.blockEntity.inventoryHandler, SLOT_BEE_1, 26 - 13, 17));
-        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.blockEntity.inventoryHandler, SLOT_BEE_2, 62 - 13, 17));
-        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.blockEntity.inventoryHandler, SLOT_BREED_ITEM_1, 26 - 13, 37));
-        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.blockEntity.inventoryHandler, SLOT_BREED_ITEM_2, 62 - 13, 37));
-        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.blockEntity.inventoryHandler, SLOT_OUTPUT, 152 - 13, 41));
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.getBlockEntity().getItemHandler(), SLOT_CAGE, 134, 41));
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.getBlockEntity().getItemHandler(), SLOT_BEE_1, 26, 17));
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.getBlockEntity().getItemHandler(), SLOT_BEE_2, 62, 17));
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.getBlockEntity().getItemHandler(), SLOT_BREED_ITEM_1, 26, 37));
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.getBlockEntity().getItemHandler(), SLOT_BREED_ITEM_2, 62, 37));
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.getBlockEntity().getItemHandler(), SLOT_OUTPUT, 152, 41));
 
-        addSlotBox(this.blockEntity.getUpgradeHandler(), 0, 165, 8, 1, 18, 4, 18);
+        addSlotBox(this.getBlockEntity().getUpgradeHandler(), 0, 178, 8, 1, 18, 4, 18);
 
-        layoutPlayerInventorySlots(playerInventory, 0, -5, 84);
+        layoutPlayerInventorySlots(playerInventory, 0, 8, 84);
     }
 
     private static BreedingChamberBlockEntity getTileEntity(final Inventory playerInventory, final FriendlyByteBuf data) {
@@ -97,15 +80,5 @@ public class BreedingChamberContainer extends AbstractContainer
             return (BreedingChamberBlockEntity) tileAtPos;
         }
         throw new IllegalStateException("Block entity is not correct! " + tileAtPos);
-    }
-
-    @Override
-    public boolean stillValid(@Nonnull final Player player) {
-        return canInteractWithCallable.evaluate((world, pos) -> world.getBlockState(pos).getBlock() instanceof BreedingChamber && player.distanceToSqr((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D, true);
-    }
-
-    @Override
-    protected BlockEntity getBlockEntity() {
-        return blockEntity;
     }
 }

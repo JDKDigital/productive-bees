@@ -1,6 +1,9 @@
 package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.common.block.entity.CentrifugeBlockEntity;
+import cy.jdkdigital.productivebees.common.block.entity.HeatedCentrifugeBlockEntity;
+import cy.jdkdigital.productivebees.common.block.entity.PoweredCentrifugeBlockEntity;
 import cy.jdkdigital.productivebees.container.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.MenuType;
@@ -15,13 +18,13 @@ public class ModContainerTypes
     public static final DeferredHolder<MenuType<?>, MenuType<AdvancedBeehiveContainer>> ADVANCED_BEEHIVE = CONTAINER_TYPES.register("advanced_beehive", () ->
             IMenuTypeExtension.create(AdvancedBeehiveContainer::new)
     );
-    public static final DeferredHolder<MenuType<?>, MenuType<CentrifugeContainer>> CENTRIFUGE = CONTAINER_TYPES.register("centrifuge", () ->
+    public static final DeferredHolder<MenuType<?>, MenuType<? extends CentrifugeContainer<? extends CentrifugeBlockEntity>>> CENTRIFUGE = CONTAINER_TYPES.register("centrifuge", () ->
             IMenuTypeExtension.create(CentrifugeContainer::new)
     );
-    public static final DeferredHolder<MenuType<?>, MenuType<PoweredCentrifugeContainer>> POWERED_CENTRIFUGE = CONTAINER_TYPES.register("powered_centrifuge", () ->
+    public static final DeferredHolder<MenuType<?>, MenuType<? extends CentrifugeContainer<? extends PoweredCentrifugeBlockEntity>>> POWERED_CENTRIFUGE = CONTAINER_TYPES.register("powered_centrifuge", () ->
             IMenuTypeExtension.create(PoweredCentrifugeContainer::new)
     );
-    public static final DeferredHolder<MenuType<?>, MenuType<HeatedCentrifugeContainer>> HEATED_CENTRIFUGE = CONTAINER_TYPES.register("heated_centrifuge", () ->
+    public static final DeferredHolder<MenuType<?>, MenuType<? extends CentrifugeContainer<? extends HeatedCentrifugeBlockEntity>>> HEATED_CENTRIFUGE = CONTAINER_TYPES.register("heated_centrifuge", () ->
             IMenuTypeExtension.create(HeatedCentrifugeContainer::new)
     );
     public static final DeferredHolder<MenuType<?>, MenuType<BottlerContainer>> BOTTLER = CONTAINER_TYPES.register("bottler", () ->

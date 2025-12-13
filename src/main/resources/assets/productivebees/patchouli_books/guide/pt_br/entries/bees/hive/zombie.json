@@ -1,19 +1,18 @@
 {
-    "name": "Abelha Zumbi",
-    "icon": "minecraft:rotten_flesh",
-    "read_by_default": true,
-    "category": "productivebees:bees_hive",
-    "flag": "productivebees:zombie",
-    "pages": [
-        {
-            "type": "patchouli:text",
-            "title": "Abelha Zumbi",
-            "text": "Irá se mudar para uma colmeia avançada se a colmeia for deixada vazia no escuro.",
-            "anchor": "zombie"
-        },
-        {
-            "type": "patchouli:entity",
-            "entity": "productivebees:configurable_bee{type:'productivebees:zombie'}"
-        }
-    ]
+  "name": "Abelha Zumbi",
+  "icon": "minecraft:rotten_flesh",
+  "read_by_default": true,
+  "category": "productivebees:bees_hive",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Abelha Zumbi",
+      "text": "Irá se mudar para uma colmeia avançada se a colmeia for deixada vazia no escuro.",
+      "anchor": "zombie"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "productivebees:configurable_bee{type:'productivebees:zombie'}"
+    }
+  ]
 }

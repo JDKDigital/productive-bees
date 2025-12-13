@@ -1,12 +1,12 @@
 {
-    "name": "Guloseimas de Mel",
-    "icon": "productivebees:honey_treat",
-    "category": "productivebees:items",
-    "pages": [
-        {
-            "type": "patchouli:spotlight",
-            "item": "productivebees:honey_treat",
-            "text": "Guloseimas de Mel podem ser dadas a abelhas zangadas para acalmá-las. Alimentar abelhas bebês com elas as fará crescer mais rápido.$(br2)Guloseimas de Mel também podem ser combinadas com genes para transferir a genética de uma abelha para outra. Leia mais na $(l:genetics/transferring)página de genética$(/l)"
-        }
-    ]
+  "name": "Guloseimas de Mel",
+  "icon": "productivebees:honey_treat",
+  "category": "productivebees:items",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "productivebees:honey_treat",
+      "text": "Guloseimas de Mel podem ser dadas a abelhas zangadas para acalmá-las. Alimentar abelhas bebês com elas as fará crescer mais rápido.$(br2)Guloseimas de Mel também podem ser combinadas com genes para transferir a genética de uma abelha para outra. Leia mais na $(l:genetics/transferring)página de genética$(/l)"
+    }
+  ]
 }

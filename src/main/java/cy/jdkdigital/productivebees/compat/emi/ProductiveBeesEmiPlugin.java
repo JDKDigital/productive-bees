@@ -5,6 +5,7 @@ import cy.jdkdigital.productivebees.client.helper.RecipeHelper;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.ComponentIngredient;
+import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.recipe.*;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
@@ -22,6 +23,7 @@ import dev.emi.emi.api.render.EmiTexture;
 import dev.emi.emi.api.stack.Comparison;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -189,10 +191,28 @@ public class ProductiveBeesEmiPlugin implements EmiPlugin
         // Incubation recipes
         RecipeHelper.getRecipes(beeList).forEach(recipeHolder -> registry.addRecipe(new IncubationEmiRecipe(recipeHolder)));
 
+        addSelfBreedingRecipes(registry, beeList);
         addBlockDupeRecipes(registry);
         addBeeInfo(registry);
         addCombRecipeAndInfo(registry);
         addNestInfo(registry);
+    }
+
+    private void addSelfBreedingRecipes(EmiRegistry registry, Map<String, BeeIngredient> beeList) {
+        // Self breeding bees
+        var minecraft = Minecraft.getInstance();
+        if (minecraft != null) {
+            List<RecipeHolder<BeeBreedingRecipe>> beeSelfBreedingRecipeMap = new ArrayList<>();
+            for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()) {
+                if (entry.getValue().getCachedEntity(minecraft.level) instanceof ConfigurableBee configurableBee && configurableBee.canSelfBreed()) {
+                    beeSelfBreedingRecipeMap.add(new RecipeHolder<>(
+                            ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "self_breeding/" + ResourceLocation.parse(entry.getKey()).getPath()),
+                            new BeeBreedingRecipe(() -> entry.getValue(), () -> entry.getValue(), () -> entry.getValue(), 0f)
+                    ));
+                }
+            }
+            beeSelfBreedingRecipeMap.forEach(recipeHolder -> registry.addRecipe(new BeeBreedingEmiRecipe(recipeHolder)));
+        }
     }
 
     private void addBlockDupeRecipes(EmiRegistry registry) {

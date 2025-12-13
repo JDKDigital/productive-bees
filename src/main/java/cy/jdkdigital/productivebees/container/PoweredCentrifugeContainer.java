@@ -1,45 +1,39 @@
 package cy.jdkdigital.productivebees.container;
 
-import cy.jdkdigital.productivebees.common.block.PoweredCentrifuge;
+import cy.jdkdigital.productivebees.common.block.entity.CentrifugeBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.PoweredCentrifugeBlockEntity;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-import javax.annotation.Nonnull;
 import java.util.Objects;
 
-public class PoweredCentrifugeContainer extends CentrifugeContainer
+public class PoweredCentrifugeContainer<T extends CentrifugeBlockEntity> extends CentrifugeContainer<T>
 {
-    public final PoweredCentrifugeBlockEntity tileEntity;
-
     public PoweredCentrifugeContainer(final int windowId, final Inventory playerInventory, final FriendlyByteBuf data) {
-        this(windowId, playerInventory, getTileEntity(playerInventory, data));
+        this(windowId, playerInventory, (T)getTileEntity(playerInventory, data));
     }
 
-    public PoweredCentrifugeContainer(final int windowId, final Inventory playerInventory, final PoweredCentrifugeBlockEntity tileEntity) {
-        super(ModContainerTypes.POWERED_CENTRIFUGE.get(), windowId, playerInventory, tileEntity);
-
-        this.tileEntity = tileEntity;
+    public PoweredCentrifugeContainer(final int windowId, final Inventory playerInventory, final T blockEntity) {
+        super(ModContainerTypes.POWERED_CENTRIFUGE.get(), windowId, playerInventory, blockEntity);
 
         // Energy
         addDataSlot(new DataSlot()
         {
             @Override
             public int get() {
-                return tileEntity.energyHandler.getEnergyStored();
+                return blockEntity.getEnergyHandler().getEnergyStored();
             }
 
             @Override
             public void set(int value) {
-                if (tileEntity.energyHandler.getEnergyStored() > 0) {
-                    tileEntity.energyHandler.extractEnergy(tileEntity.energyHandler.getEnergyStored(), false);
+                if (blockEntity.getEnergyHandler().getEnergyStored() > 0) {
+                    blockEntity.getEnergyHandler().extractEnergy(blockEntity.getEnergyHandler().getEnergyStored(), false);
                 }
                 if (value > 0) {
-                    tileEntity.energyHandler.receiveEnergy(value, false);
+                    blockEntity.getEnergyHandler().receiveEnergy(value, false);
                 }
             }
         });
@@ -53,15 +47,5 @@ public class PoweredCentrifugeContainer extends CentrifugeContainer
             return (PoweredCentrifugeBlockEntity) tileAtPos;
         }
         throw new IllegalStateException("Block entity is not correct! " + tileAtPos);
-    }
-
-    @Override
-    public boolean stillValid(@Nonnull final Player player) {
-        return canInteractWithCallable.evaluate((world, pos) -> world.getBlockState(pos).getBlock() instanceof PoweredCentrifuge && player.distanceToSqr((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D, true);
-    }
-
-    @Override
-    protected BlockEntity getBlockEntity() {
-        return tileEntity;
     }
 }

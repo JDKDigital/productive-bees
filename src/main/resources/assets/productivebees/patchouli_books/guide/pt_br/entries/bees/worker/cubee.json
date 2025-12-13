@@ -1,18 +1,18 @@
 {
-    "name": "Abelha Cupido",
-    "icon": "minecraft:arrow",
-    "read_by_default": true,
-    "sortnum": 7,
-    "category": "productivebees:bees_worker",
-    "pages": [
-        {
-            "type": "patchouli:text",
-            "title": "Abelha Cupido",
-            "text": "Os feromônios secretados por esta abelha deixam os animais no clima."
-        },
-        {
-            "type": "patchouli:entity",
-            "entity": "productivebees:cupid_bee"
-        }
-    ]
+  "name": "Abelha Cupido",
+  "icon": "minecraft:arrow",
+  "read_by_default": true,
+  "sortnum": 7,
+  "category": "productivebees:bees_worker",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Abelha Cupido",
+      "text": "Os feromônios secretados por esta abelha deixam os animais no clima."
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "productivebees:cupid_bee"
+    }
+  ]
 }

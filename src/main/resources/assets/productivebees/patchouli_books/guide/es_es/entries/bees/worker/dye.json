@@ -1,18 +1,18 @@
 {
-    "name": "Dye Bee",
-    "icon": "minecraft:red_dye",
-    "read_by_default": true,
-    "sortnum": 6,
-    "category": "productivebees:bees_worker",
-    "pages": [
-        {
-            "type": "patchouli:text",
-            "title": "Tinte",
-            "text": "Produce tinte en base a la flor que ha polinizado.."
-        },
-        {
-            "type": "patchouli:entity",
-            "entity": "productivebees:dye_bee"
-        }
-    ]
+  "name": "Dye Bee",
+  "icon": "minecraft:red_dye",
+  "read_by_default": true,
+  "sortnum": 6,
+  "category": "productivebees:bees_worker",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Tinte",
+      "text": "Produce tinte en base a la flor que ha polinizado.."
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "productivebees:dye_bee"
+    }
+  ]
 }

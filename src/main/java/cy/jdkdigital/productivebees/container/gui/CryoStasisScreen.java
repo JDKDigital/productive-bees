@@ -70,8 +70,7 @@ public class CryoStasisScreen extends AbstractContainerScreen<CryoStasisContaine
 
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        guiGraphics.drawString(font, this.title, 8, 6, 4210752, false);
-        guiGraphics.drawString(font, this.playerInventoryTitle, 107, (this.getYSize() - 94), 4210752, false);
+        super.renderLabels(guiGraphics, mouseX, mouseY);
 
         List<FormattedCharSequence> tooltipList = new ArrayList<>();
 

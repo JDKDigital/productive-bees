@@ -18,8 +18,9 @@ import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import cy.jdkdigital.productivebees.util.GeneAttribute;
 import cy.jdkdigital.productivebees.util.GeneValue;
+import cy.jdkdigital.productivelib.common.block.entity.ICapabilityBlockEntity;
+import cy.jdkdigital.productivelib.common.block.entity.IUpgradeableBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
-import cy.jdkdigital.productivelib.common.block.entity.UpgradeableBlockEntity;
 import cy.jdkdigital.productivelib.registry.LibItems;
 import cy.jdkdigital.productivelib.registry.ModDataComponents;
 import net.minecraft.core.BlockPos;
@@ -46,6 +47,9 @@ import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.neoforged.neoforge.energy.EnergyStorage;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
@@ -56,7 +60,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstract implements MenuProvider, UpgradeableBlockEntity, Container
+public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstract implements MenuProvider, ICapabilityBlockEntity, IUpgradeableBlockEntity, Container
 {
     protected int specialTickCounter = 0;
     protected int abandonCountdown = 0;
@@ -96,7 +100,6 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
             LibItems.UPGRADE_ANTI_TELEPORT.get(),
             LibItems.UPGRADE_GENE_SAMPLER.get(),
             LibItems.UPGRADE_CHILD.get(),
-            LibItems.UPGRADE_ADULT.get(),
             LibItems.UPGRADE_ENTITY_FILTER.get(),
             LibItems.UPGRADE_RANGE.get(),
             LibItems.UPGRADE_SIMULATOR.get(),
@@ -253,6 +256,21 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
     @Override
     public IItemHandlerModifiable getUpgradeHandler() {
         return upgradeHandler;
+    }
+
+    @Override
+    public IItemHandler getItemHandler() {
+        return inventoryHandler;
+    }
+
+    @Override
+    public EnergyStorage getEnergyHandler() {
+        return null;
+    }
+
+    @Override
+    public IFluidHandler getFluidHandler() {
+        return null;
     }
 
     @Override

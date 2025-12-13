@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.container;
 
-import cy.jdkdigital.productivebees.common.block.Catcher;
 import cy.jdkdigital.productivebees.common.block.entity.CatcherBlockEntity;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
@@ -8,43 +7,27 @@ import cy.jdkdigital.productivelib.container.AbstractContainer;
 import cy.jdkdigital.productivelib.container.ManualSlotItemHandler;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Objects;
 
-public class CatcherContainer extends AbstractContainer
+public class CatcherContainer extends AbstractContainer<CatcherBlockEntity>
 {
-    public final CatcherBlockEntity tileEntity;
-
-    public final ContainerLevelAccess canInteractWithCallable;
-
     public CatcherContainer(final int windowId, final Inventory playerInventory, final FriendlyByteBuf data) {
         this(windowId, playerInventory, getTileEntity(playerInventory, data));
     }
 
-    public CatcherContainer(final int windowId, final Inventory playerInventory, final CatcherBlockEntity tileEntity) {
-        this(ModContainerTypes.CATCHER.get(), windowId, playerInventory, tileEntity);
-    }
+    public CatcherContainer(final int windowId, final Inventory playerInventory, final CatcherBlockEntity blockEntity) {
+        super(ModContainerTypes.CATCHER.get(), blockEntity, windowId);
 
-    public CatcherContainer(@Nullable MenuType<?> type, final int windowId, final Inventory playerInventory, final CatcherBlockEntity tileEntity) {
-        super(type, windowId);
-
-        this.tileEntity = tileEntity;
-        this.canInteractWithCallable = ContainerLevelAccess.create(tileEntity.getLevel(), tileEntity.getBlockPos());
-
-        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.tileEntity.inventoryHandler, InventoryHandlerHelper.BOTTLE_SLOT, 13, 35));
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.getBlockEntity().getItemHandler(), InventoryHandlerHelper.BOTTLE_SLOT, 26, 35));
 
         // Inventory slots
-        addSlotBox(this.tileEntity.inventoryHandler, InventoryHandlerHelper.OUTPUT_SLOTS[0], 67, 17, 3, 18, 3, 18);
+        addSlotBox(this.getBlockEntity().getItemHandler(), InventoryHandlerHelper.OUTPUT_SLOTS[0], 80, 17, 3, 18, 3, 18);
 
-        addSlotBox(this.tileEntity.getUpgradeHandler(), 0, 165, 8, 1, 18, 4, 18);
+        addSlotBox(this.getBlockEntity().getUpgradeHandler(), 0, 178, 8, 1, 18, 4, 18);
 
-        layoutPlayerInventorySlots(playerInventory, 0, -5, 84);
+        layoutPlayerInventorySlots(playerInventory, 0, 8, 84);
     }
 
     private static CatcherBlockEntity getTileEntity(final Inventory playerInventory, final FriendlyByteBuf data) {
@@ -55,15 +38,5 @@ public class CatcherContainer extends AbstractContainer
             return (CatcherBlockEntity) tileAtPos;
         }
         throw new IllegalStateException("Block entity is not correct! " + tileAtPos);
-    }
-
-    @Override
-    public boolean stillValid(@Nonnull final Player player) {
-        return canInteractWithCallable.evaluate((world, pos) -> world.getBlockState(pos).getBlock() instanceof Catcher && player.distanceToSqr((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D, true);
-    }
-
-    @Override
-    protected BlockEntity getBlockEntity() {
-        return tileEntity;
     }
 }

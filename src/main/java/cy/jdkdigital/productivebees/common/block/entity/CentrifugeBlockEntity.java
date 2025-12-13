@@ -18,7 +18,7 @@ import cy.jdkdigital.productivebees.util.BeeHelper;
 import cy.jdkdigital.productivebees.util.GeneGroup;
 import cy.jdkdigital.productivelib.common.block.entity.FluidTankBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
-import cy.jdkdigital.productivelib.common.block.entity.UpgradeableBlockEntity;
+import cy.jdkdigital.productivelib.common.block.entity.IUpgradeableBlockEntity;
 import cy.jdkdigital.productivelib.registry.LibItems;
 import cy.jdkdigital.productivelib.registry.ModDataComponents;
 import net.minecraft.core.BlockPos;
@@ -62,7 +62,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuProvider, UpgradeableBlockEntity, IRecipeProcessingBlockEntity
+public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuProvider, IUpgradeableBlockEntity, IRecipeProcessingBlockEntity
 {
     private RecipeHolder<? extends CentrifugeRecipe> currentRecipe = null;
     public int recipeProgress = 0;
@@ -224,7 +224,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
 
     @Override
     public void tickFluidTank(Level level, BlockPos pos, BlockState state, FluidTankBlockEntity blockEntity) {
-        if (getUpgradeCount(LibItems.UPGRADE_STABILITY.get()) == 0) {
+        if (ProductiveBeesConfig.GENERAL.centrifugeFluidSharing.get()) {
             IFluidHandler fluidHandler = blockEntity.getFluidHandler();
             FluidStack fluidStack = fluidHandler.getFluidInTank(0);
             if (fluidStack.getAmount() > 0) {
@@ -364,8 +364,9 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
     protected void completeRecipeProcessing(RecipeHolder<CentrifugeRecipe> recipe, IItemHandlerModifiable invHandler, RandomSource random, boolean stripWax, int productivityModifier) {
         var inputStack = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
 
+        double stabilityBonus = (getUpgradeCount(LibItems.UPGRADE_STABILITY.get()) + 1) * ProductiveBeesConfig.UPGRADES.stabilityChanceIncrease.get();
         recipe.value().getRecipeOutputs().forEach((itemStack, recipeValues) -> {
-            if ((!stripWax || !itemStack.is(ModTags.Common.WAXES)) && random.nextFloat() <= recipeValues.chance()) {
+            if ((!stripWax || !itemStack.is(ModTags.Common.WAXES)) && random.nextFloat() <= (recipeValues.chance() + stabilityBonus)) {
                 int count = Mth.nextInt(random, Mth.floor(recipeValues.min()), Mth.floor(recipeValues.max()));
                 ItemStack output = itemStack.copy();
                 output.setCount(count * productivityModifier);

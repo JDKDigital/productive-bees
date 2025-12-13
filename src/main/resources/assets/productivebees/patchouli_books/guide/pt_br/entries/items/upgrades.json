@@ -1,152 +1,162 @@
 {
-    "name": "Melhorias",
-    "icon": "productivebees:upgrade_base",
-    "category": "productivebees:items",
-    "pages": [
-        {
-            "type": "patchouli:spotlight",
-            "item": "productivebees:upgrade_base",
-            "text": "Melhorias podem ser colocadas em máquinas e colmeias para aumentar sua funcionalidade ou melhorar o desempenho"
+  "name": "Melhorias",
+  "icon": "productivelib:upgrade_base",
+  "category": "productivebees:items",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "productivelib:upgrade_base",
+      "text": "Melhorias podem ser colocadas em máquinas e colmeias para aumentar sua funcionalidade ou melhorar o desempenho"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "productivelib:upgrades/base",
+      "text": "A base para todas as outras melhorias."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "productivelib:upgrades/breeding",
+      "text": "Utilizável em: $(l:hives/advanced_hives#expanded)Colmeias Expandidas$(/l), $(l:blocks/catcher)Apanhador$(/l).",
+      "anchor": "babee"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Quando instalada em uma colmeia, a melhoria BaBee dará uma pequena chance para as abelhas que vivem dentro da colmeia de se reproduzirem e gerarem novos filhotes sem a sua intervenção. Note que abelhas que normalmente não podem se reproduzir não funcionam com esta melhoria. $(br)Quando instalada em um $(l:blocks/catcher)apanhador$(/l), apenas BaBees serão capturadas e colocadas em gaiolas."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "productivelib:upgrades/productivity",
+      "text": "Utilizável em: $(l:hives/advanced_hives#expanded)Colmeias Expandidas$(/l), $(l:blocks/honey_generator)Gerador de Mel(/l).",
+      "anchor": "productivity"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Quando instalada em uma colmeia, a melhoria de produtividade aumentará o número de favos que uma abelha produz por viagem. Múltiplas melhorias de produtividade podem ser instaladas."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "productivelib:upgrades/time",
+      "text": "Utilizável em: $(l:hives/advanced_hives#expanded)Colmeias Expandidas$(/l), $(l:blocks/centrifuge)Centrífuga$(/l), $(l:blocks/incubator)Incubadora$(/l), $(l:blocks/honey_generator)Gerador de Mel(/l).",
+      "anchor": "speed"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Quando instalada em uma colmeia, a melhoria de Velocidade diminuirá o tempo que uma abelha passa dentro da colmeia. $(br)Quando instalada em uma $(l:blocks/centrifuge)centrífuga$(/l) ou em uma $(l:blocks/incubator)incubadora$(/l), ela aumentará a velocidade de operação."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "productivelib:upgrades/filter",
+      "text": "Utilizável em: $(l:hives/advanced_hives#expanded)Colmeias Expandidas$(/l), $(l:blocks/catcher)Apanhador$(/l).",
+      "anchor": "filter"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Clique com o botão direito em uma abelha para adicioná-la ao filtro. Coloque o filtro em uma grade de criação para limpá-lo. Quando instalado em uma colmeia, apenas as abelhas especificadas no filtro poderão entrar. $(br)Quando instalado em um apanhador, apenas as abelhas especificadas no filtro serão coletadas."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "productivelib:upgrades/range",
+      "text": "Utilizável em: $(l:hives/advanced_hives#expanded)Colmeias Expandidas$(/l), $(l:blocks/catcher)Apanhador$(/l).",
+      "anchor": "range"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Quando instalada em uma colmeia, a área de operação das abelhas Fazendeiras e Coletoras/Acumuladoras é aumentada em 1 por melhoria, a partir do padrão de 4. Quando instalada em um apanhador, a melhoria de Alcance expandirá a área de operação em 1 bloco em todas as direções. Múltiplas melhorias de alcance podem ser instaladas."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "productivelib:upgrades/anti_teleport",
+      "text": "Utilizável em: $(l:hives/advanced_hives#expanded)Colmeias Expandidas$(/l).",
+      "anchor": "anti_teleport"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Quando instalada em uma colmeia, abelhas que podem se teleportar não se teleportarão mais enquanto viverem na colmeia com a melhoria."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "productivelib:upgrades/bee_sampler",
+      "text": "Utilizável em: $(l:hives/advanced_hives#expanded)Colmeias Expandidas$(/l).",
+      "anchor": "sampler"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Quando instalada em uma colmeia, uma pequena amostra das abelhas polinizadoras será extraída a cada visita. Isso não deve machucá-las de forma alguma. Múltiplas podem ser instaladas na mesma colmeia para uma taxa aprimorada."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "productivelib:upgrades/comb_block",
+      "text": "Utilizável em: $(l:hives/advanced_hives#expanded)Colmeias Expandidas$(/l).",
+      "anchor": "comb_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Quando instalada em uma colmeia, as abelhas produzirão blocos de favo cheios em vez de favos de mel."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "productivelib:upgrades/simulator",
+      "text": "Utilizável em: $(l:hives/advanced_hives#expanded)Colmeias Expandidas$(/l).",
+      "anchor": "simulator"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Quando instalada em uma colmeia, as abelhas não sairão mais da colmeia; sua viagem até a flor será simulada para melhor desempenho do servidor. O bloco de flor da abelha ou a laje de alimentação com blocos de flor deve ser colocado na base da colmeia, não bloqueando a frente, mas logo abaixo."
+    },
+    {
+      "type": "multiblock",
+      "name": "Colmeia Simulada",
+      "multiblock": {
+        "mapping": {
+          "H": "productivebees:advanced_oak_beehive[expanded=up]",
+          "E": "productivebees:expansion_box_oak[expanded=up]",
+          "F": "productivebees:feeder[type=top]"
         },
-        {
-            "type": "patchouli:crafting",
-            "recipe": "productivebees:upgrades/base",
-            "text": "A base para todas as outras melhorias."
+        "pattern": [
+          [
+            " E"
+          ],
+          [
+            " H"
+          ],
+          [
+            "F0"
+          ]
+        ],
+        "offset": [
+          0,
+          1,
+          0
+        ]
+      },
+      "enable_visualize": false
+    },
+    {
+      "type": "multiblock",
+      "name": "Colmeia Simulada",
+      "multiblock": {
+        "mapping": {
+          "H": "productivebees:advanced_oak_beehive[expanded=left,facing=east]",
+          "E": "productivebees:expansion_box_oak[expanded=left,facing=east]",
+          "F": "minecraft:iron_block"
         },
-        {
-            "type": "patchouli:crafting",
-            "recipe": "productivebees:upgrades/breeding",
-            "text": "Utilizável em: $(l:hives/advanced_hives#expanded)Colmeias Expandidas$(/l), $(l:blocks/catcher)Apanhador$(/l).",
-            "anchor": "babee"
-        },
-        {
-            "type": "patchouli:text",
-            "text": "Quando instalada em uma colmeia, a melhoria BaBee dará uma pequena chance para as abelhas que vivem dentro da colmeia de se reproduzirem e gerarem novos filhotes sem a sua intervenção. Note que abelhas que normalmente não podem se reproduzir não funcionam com esta melhoria. $(br)Quando instalada em um $(l:blocks/catcher)apanhador$(/l), apenas BaBees serão capturadas e colocadas em gaiolas."
-        },
-        {
-            "type": "patchouli:crafting",
-            "recipe": "productivebees:upgrades/productivity",
-            "text": "Utilizável em: $(l:hives/advanced_hives#expanded)Colmeias Expandidas$(/l), $(l:blocks/honey_generator)Gerador de Mel(/l).",
-            "anchor": "productivity"
-        },
-        {
-            "type": "patchouli:text",
-            "text": "Quando instalada em uma colmeia, a melhoria de produtividade aumentará o número de favos que uma abelha produz por viagem. Múltiplas melhorias de produtividade podem ser instaladas."
-        },
-        {
-            "type": "patchouli:crafting",
-            "recipe": "productivebees:upgrades/time",
-            "text": "Utilizável em: $(l:hives/advanced_hives#expanded)Colmeias Expandidas$(/l), $(l:blocks/centrifuge)Centrífuga$(/l), $(l:blocks/incubator)Incubadora$(/l), $(l:blocks/honey_generator)Gerador de Mel(/l).",
-            "anchor": "speed"
-        },
-        {
-            "type": "patchouli:text",
-            "text": "Quando instalada em uma colmeia, a melhoria de Velocidade diminuirá o tempo que uma abelha passa dentro da colmeia. $(br)Quando instalada em uma $(l:blocks/centrifuge)centrífuga$(/l) ou em uma $(l:blocks/incubator)incubadora$(/l), ela aumentará a velocidade de operação."
-        },
-        {
-            "type": "patchouli:crafting",
-            "recipe": "productivebees:upgrades/filter",
-            "text": "Utilizável em: $(l:hives/advanced_hives#expanded)Colmeias Expandidas$(/l), $(l:blocks/catcher)Apanhador$(/l).",
-            "anchor": "filter"
-        },
-        {
-            "type": "patchouli:text",
-            "text": "Clique com o botão direito em uma abelha para adicioná-la ao filtro. Coloque o filtro em uma grade de criação para limpá-lo. Quando instalado em uma colmeia, apenas as abelhas especificadas no filtro poderão entrar. $(br)Quando instalado em um apanhador, apenas as abelhas especificadas no filtro serão coletadas."
-        },
-        {
-            "type": "patchouli:crafting",
-            "recipe": "productivebees:upgrades/range",
-            "text": "Utilizável em: $(l:hives/advanced_hives#expanded)Colmeias Expandidas$(/l), $(l:blocks/catcher)Apanhador$(/l).",
-            "anchor": "range"
-        },
-        {
-            "type": "patchouli:text",
-            "text": "Quando instalada em uma colmeia, a área de operação das abelhas Fazendeiras e Coletoras/Acumuladoras é aumentada em 1 por melhoria, a partir do padrão de 4. Quando instalada em um apanhador, a melhoria de Alcance expandirá a área de operação em 1 bloco em todas as direções. Múltiplas melhorias de alcance podem ser instaladas."
-        },
-        {
-            "type": "patchouli:crafting",
-            "recipe": "productivebees:upgrades/anti_teleport",
-            "text": "Utilizável em: $(l:hives/advanced_hives#expanded)Colmeias Expandidas$(/l).",
-            "anchor": "anti_teleport"
-        },
-        {
-            "type": "patchouli:text",
-            "text": "Quando instalada em uma colmeia, abelhas que podem se teleportar não se teleportarão mais enquanto viverem na colmeia com a melhoria."
-        },
-        {
-            "type": "patchouli:crafting",
-            "recipe": "productivebees:upgrades/bee_sampler",
-            "text": "Utilizável em: $(l:hives/advanced_hives#expanded)Colmeias Expandidas$(/l).",
-            "anchor": "sampler"
-        },
-        {
-            "type": "patchouli:text",
-            "text": "Quando instalada em uma colmeia, uma pequena amostra das abelhas polinizadoras será extraída a cada visita. Isso não deve machucá-las de forma alguma. Múltiplas podem ser instaladas na mesma colmeia para uma taxa aprimorada."
-        },
-        {
-            "type": "patchouli:crafting",
-            "recipe": "productivebees:upgrades/comb_block",
-            "text": "Utilizável em: $(l:hives/advanced_hives#expanded)Colmeias Expandidas$(/l).",
-            "anchor": "comb_block"
-        },
-        {
-            "type": "patchouli:text",
-            "text": "Quando instalada em uma colmeia, as abelhas produzirão blocos de favo cheios em vez de favos de mel."
-        },
-        {
-            "type": "patchouli:crafting",
-            "recipe": "productivebees:upgrades/simulator",
-            "text": "Utilizável em: $(l:hives/advanced_hives#expanded)Colmeias Expandidas$(/l).",
-            "anchor": "simulator"
-        },
-        {
-            "type": "patchouli:text",
-            "text": "Quando instalada em uma colmeia, as abelhas não sairão mais da colmeia; sua viagem até a flor será simulada para melhor desempenho do servidor. O bloco de flor da abelha ou a laje de alimentação com blocos de flor deve ser colocado na base da colmeia, não bloqueando a frente, mas logo abaixo."
-        },
-        {
-            "type": "multiblock",
-            "name": "Colmeia Simulada",
-            "multiblock": {
-                "mapping": {
-                    "H": "productivebees:advanced_oak_beehive[expanded=up]",
-                    "E": "productivebees:expansion_box_oak[expanded=up]",
-                    "F": "productivebees:feeder[type=top]"
-                },
-                "pattern": [
-                    [
-                        " E"
-                    ],
-                    [
-                        " H"
-                    ],
-                    [
-                        "F0"
-                    ]
-                ],
-                "offset": [
-                    0, 1, 0
-                ]
-            },
-            "enable_visualize": false
-        },
-        {
-            "type": "multiblock",
-            "name": "Colmeia Simulada",
-            "multiblock": {
-                "mapping": {
-                    "H": "productivebees:advanced_oak_beehive[expanded=left,facing=east]",
-                    "E": "productivebees:expansion_box_oak[expanded=left,facing=east]",
-                    "F": "minecraft:iron_block"
-                },
-                "pattern": [
-                    ["HE","  "],
-                    ["0 ", "F "]
-                ],
-                "offset": [
-                    0, 1, 0
-                ]
-            },
-            "enable_visualize": false
-        }
-    ]
+        "pattern": [
+          [
+            "HE",
+            "  "
+          ],
+          [
+            "0 ",
+            "F "
+          ]
+        ],
+        "offset": [
+          0,
+          1,
+          0
+        ]
+      },
+      "enable_visualize": false
+    }
+  ]
 }

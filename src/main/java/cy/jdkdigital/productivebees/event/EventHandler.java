@@ -35,7 +35,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
@@ -109,7 +112,7 @@ public class EventHandler
         } else {
             var upgradeType = BuiltInRegistries.ITEM.getKey(event.getStack().getItem());
 
-            double value = switch (upgradeType.getPath()) {
+            int value = (int)(switch (upgradeType.getPath()) {
                 case "upgrade_child" -> ProductiveBeesConfig.UPGRADES.breedingChance.get();
                 case "upgrade_time" -> ProductiveBeesConfig.UPGRADES.timeBonus.get();
                 case "upgrade_time_2" -> ProductiveBeesConfig.UPGRADES.timeBonus.get() * 2;
@@ -117,49 +120,52 @@ public class EventHandler
                 case "upgrade_productivity_2" -> ProductiveBeesConfig.UPGRADES.productivityMultiplier2.get();
                 case "upgrade_productivity_3" -> ProductiveBeesConfig.UPGRADES.productivityMultiplier3.get();
                 case "upgrade_productivity_4" -> ProductiveBeesConfig.UPGRADES.productivityMultiplier4.get();
+                case "upgrade_gene_sampler" -> ProductiveBeesConfig.UPGRADES.samplerChance.get();
+                case "upgrade_stability" -> ProductiveBeesConfig.UPGRADES.stabilityChanceIncrease.get();
                 default -> 0.0F;
-            };
-            if (upgradeType.getNamespace().equals(ProductiveLib.MODID)) {
-                event.getTooltipComponents().add(Component.translatable("productivebees.information.upgrade." + upgradeType.getPath(), (int) (value * 100)).withStyle(ChatFormatting.GOLD));
-            }
+            } * 100);
 
+            String tPrefix = "productivebees.information.upgrade." + upgradeType.getPath() + ".";
             switch (upgradeType.getPath()) {
                 case "upgrade_entity_filter" -> {
-                    event.addValidBlock(Component.translatable("productivebees.devices.advanced_beehive"));
-                    event.addValidBlock(Component.translatable("productivebees.devices.catcher"));
-                    event.addValidBlock(Component.translatable("productivebees.devices.centrifuge"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.advanced_beehive"), tPrefix + "advanced_beehive", value);
+                    event.addValidBlock(Component.translatable("productivebees.devices.catcher"), tPrefix + "catcher", value);
+                    event.addValidBlock(Component.translatable("productivebees.devices.centrifuge"), tPrefix + "centrifuge", value);
                 }
-                case "upgrade_adult", "upgrade_child", "upgrade_range" -> {
-                    event.addValidBlock(Component.translatable("productivebees.devices.advanced_beehive"));
-                    event.addValidBlock(Component.translatable("productivebees.devices.catcher"));
+                case "upgrade_child", "upgrade_range" -> {
+                    event.addValidBlock(Component.translatable("productivebees.devices.advanced_beehive"), tPrefix + "advanced_beehive", value);
+                    event.addValidBlock(Component.translatable("productivebees.devices.catcher"), tPrefix + "catcher", value);
+                }
+                case "upgrade_adult" -> {
+                    event.addValidBlock(Component.translatable("productivebees.devices.catcher"), tPrefix + "catcher", value);
                 }
                 case "upgrade_productivity_2", "upgrade_productivity_3", "upgrade_productivity_4" -> {
-                    event.addValidBlock(Component.translatable("productivebees.devices.advanced_beehive"));
-                    event.addValidBlock(Component.translatable("productivebees.devices.centrifuge"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.advanced_beehive"), tPrefix + "advanced_beehive", value);
+                    event.addValidBlock(Component.translatable("productivebees.devices.centrifuge"), tPrefix + "centrifuge", value);
                 }
                 case "upgrade_gene_sampler", "upgrade_anti_teleport", "upgrade_block", "upgrade_simulator" -> {
-                    event.addValidBlock(Component.translatable("productivebees.devices.advanced_beehive"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.advanced_beehive"), tPrefix + "advanced_beehive", value);
                 }
                 case "upgrade_time" -> {
-                    event.addValidBlock(Component.translatable("productivebees.devices.advanced_beehive"));
-                    event.addValidBlock(Component.translatable("productivebees.devices.centrifuge"));
-                    event.addValidBlock(Component.translatable("productivebees.devices.breeding_chamber"));
-                    event.addValidBlock(Component.translatable("productivebees.devices.incubator"));
-                    event.addValidBlock(Component.translatable("productivebees.devices.honey_generator"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.advanced_beehive"), tPrefix + "advanced_beehive", value);
+                    event.addValidBlock(Component.translatable("productivebees.devices.centrifuge"), tPrefix + "centrifuge", value);
+                    event.addValidBlock(Component.translatable("productivebees.devices.breeding_chamber"), tPrefix + "breeding_chamber", value);
+                    event.addValidBlock(Component.translatable("productivebees.devices.incubator"), tPrefix + "incubator", value);
+                    event.addValidBlock(Component.translatable("productivebees.devices.honey_generator"), tPrefix + "honey_generator", value);
                 }
                 case "upgrade_time_2" -> {
-                    event.addValidBlock(Component.translatable("productivebees.devices.centrifuge"));
-                    event.addValidBlock(Component.translatable("productivebees.devices.breeding_chamber"));
-                    event.addValidBlock(Component.translatable("productivebees.devices.incubator"));
-                    event.addValidBlock(Component.translatable("productivebees.devices.honey_generator"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.centrifuge"), tPrefix + "centrifuge", value);
+                    event.addValidBlock(Component.translatable("productivebees.devices.breeding_chamber"), tPrefix + "breeding_chamber", value);
+                    event.addValidBlock(Component.translatable("productivebees.devices.incubator"), tPrefix + "incubator", value);
+                    event.addValidBlock(Component.translatable("productivebees.devices.honey_generator"), tPrefix + "honey_generator", value);
                 }
                 case "upgrade_productivity" -> {
-                    event.addValidBlock(Component.translatable("productivebees.devices.advanced_beehive"));
-                    event.addValidBlock(Component.translatable("productivebees.devices.honey_generator"));
-                    event.addValidBlock(Component.translatable("productivebees.devices.centrifuge"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.advanced_beehive"), tPrefix + "advanced_beehive", value);
+                    event.addValidBlock(Component.translatable("productivebees.devices.honey_generator"), tPrefix + "honey_generator", value);
+                    event.addValidBlock(Component.translatable("productivebees.devices.centrifuge"), tPrefix + "centrifuge", value);
                 }
                 case "upgrade_stability" -> {
-                    event.addValidBlock(Component.translatable("productivebees.devices.centrifuge"));
+                    event.addValidBlock(Component.translatable("productivebees.devices.centrifuge"), tPrefix + "centrifuge", value);
                 }
             }
         }

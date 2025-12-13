@@ -1,12 +1,12 @@
 {
-    "name": "Honey Generator",
-    "icon": "productivebees:honey_generator",
-    "category": "productivebees:blocks",
-    "pages": [
-        {
-            "type": "patchouli:spotlight",
-            "item": "productivebees:honey_generator",
-            "text": "Quema miel para producir energía. La miel se puede canalizar o se pueden agregar botellas, bloques y cubos de miel en la GUI"
-        }
-    ]
+  "name": "Honey Generator",
+  "icon": "productivebees:honey_generator",
+  "category": "productivebees:blocks",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "productivebees:honey_generator",
+      "text": "Quema miel para producir energía. La miel se puede canalizar o se pueden agregar botellas, bloques y cubos de miel en la GUI"
+    }
+  ]
 }

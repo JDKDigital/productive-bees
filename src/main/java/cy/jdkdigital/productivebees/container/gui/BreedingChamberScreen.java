@@ -8,6 +8,7 @@ import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFact
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.container.BreedingChamberContainer;
+import cy.jdkdigital.productivelib.client.screen.AbstractUpgradeableContainerScreen;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -24,7 +25,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamberContainer>
+public class BreedingChamberScreen extends AbstractUpgradeableContainerScreen<BreedingChamberContainer>
 {
     private static final ResourceLocation GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/breeding_chamber.png");
 
@@ -40,11 +41,10 @@ public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamb
 
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        guiGraphics.drawString(font, this.title, -5, 6, 4210752, false);
-        guiGraphics.drawString(font, this.playerInventoryTitle, -5, (this.getYSize() - 96 + 2), 4210752, false);
+        super.renderLabels(guiGraphics, mouseX, mouseY);
 
         List<FormattedCharSequence> tooltipList = new ArrayList<>();
-        int energyAmount = this.menu.blockEntity.energyHandler.getEnergyStored();
+        int energyAmount = this.menu.getBlockEntity().energyHandler.getEnergyStored();
 
         // Energy level tooltip
         if (isHovering(-5, 16, 6, 54, mouseX, mouseY)) {
@@ -52,8 +52,8 @@ public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamb
         }
 
         // Bee output tooltip
-        if (this.menu.blockEntity.chosenRecipe != null && minecraft != null) {
-            BeeIngredient beeIngredient = this.menu.blockEntity.chosenRecipe.value().offspring.get();
+        if (this.menu.getBlockEntity().chosenRecipe != null && minecraft != null) {
+            BeeIngredient beeIngredient = this.menu.getBlockEntity().chosenRecipe.value().offspring.get();
             Entity bee = null;
             if (beeIngredient != null) {
                 bee = beeIngredient.getCachedEntity(minecraft.level);
@@ -78,7 +78,7 @@ public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamb
 
         // Empty cage slot
         if (isHovering(85 - 13, 14, 18, 18, mouseX, mouseY)) {
-            if (this.menu.blockEntity.inventoryHandler.getStackInSlot(BreedingChamberContainer.SLOT_CAGE).isEmpty()) {
+            if (this.menu.getBlockEntity().inventoryHandler.getStackInSlot(BreedingChamberContainer.SLOT_CAGE).isEmpty()) {
                 tooltipList.add(Component.translatable("productivebees.breeding_chamber.tooltip.cage").getVisualOrderText());
             }
         }
@@ -92,28 +92,28 @@ public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamb
         RenderSystem.setShaderTexture(0, GUI_TEXTURE);
 
         // Draw main screen
-        guiGraphics.blit(GUI_TEXTURE, getGuiLeft() - 13, getGuiTop(), 0, 0, this.getXSize() + 26, this.getYSize());
+        guiGraphics.blit(GUI_TEXTURE, getGuiLeft(), getGuiTop(), 0, 0, this.getXSize(), this.getYSize());
 
         // Draw progress
-        int progress = (int) (this.menu.blockEntity.getRecipeProgress() * (45 / (float) this.menu.blockEntity.getProcessingTime(this.menu.blockEntity.chosenRecipe)));
-        guiGraphics.blit(GUI_TEXTURE, getGuiLeft() + 85 - 13, getGuiTop() + 14, 202, 52, progress + 1, 22);
+        int progress = (int) (this.menu.getBlockEntity().getRecipeProgress() * (45 / (float) this.menu.getBlockEntity().getProcessingTime(this.menu.getBlockEntity().chosenRecipe)));
+        guiGraphics.blit(GUI_TEXTURE, getGuiLeft() + 85, getGuiTop() + 14, 202, 52, progress + 1, 22);
 
         // Draw energy level
-        guiGraphics.blit(GUI_TEXTURE, getGuiLeft() - 5, getGuiTop() + 17, 206, 0, 4, 52);
-        int energyAmount = this.menu.blockEntity.energyHandler.getEnergyStored();
+        guiGraphics.blit(GUI_TEXTURE, getGuiLeft() + 8, getGuiTop() + 17, 206, 0, 4, 52);
+        int energyAmount = this.menu.getBlockEntity().energyHandler.getEnergyStored();
         int energyLevel = (int) (energyAmount * (52 / 10000F));
-        guiGraphics.blit(GUI_TEXTURE, getGuiLeft() - 5, getGuiTop() + 17, 8, 17, 4, 52 - energyLevel);
+        guiGraphics.blit(GUI_TEXTURE, getGuiLeft() + 8, getGuiTop() + 17, 8, 17, 4, 52 - energyLevel);
 
         // Draw output bee
         if (minecraft != null) {
-            if (this.menu.blockEntity.chosenRecipe != null) {
-                BeeIngredient beeIngredient = this.menu.blockEntity.chosenRecipe.value().offspring.get();
+            if (this.menu.getBlockEntity().chosenRecipe != null) {
+                BeeIngredient beeIngredient = this.menu.getBlockEntity().chosenRecipe.value().offspring.get();
                 if (beeIngredient != null) {
-                    BeeRenderer.render(guiGraphics, getGuiLeft() + 134 - 13, getGuiTop() + 17, beeIngredient, minecraft);
+                    BeeRenderer.render(guiGraphics, getGuiLeft() + 134, getGuiTop() + 17, beeIngredient, minecraft);
                 }
             } else {
-                ItemStack cage1 = this.menu.blockEntity.inventoryHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1);
-                ItemStack cage2 = this.menu.blockEntity.inventoryHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2);
+                ItemStack cage1 = this.menu.getBlockEntity().inventoryHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1);
+                ItemStack cage2 = this.menu.getBlockEntity().inventoryHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2);
                 if (BeeCage.isFilled(cage1) && BeeCage.isFilled(cage2)) {
                     CompoundTag tag1 = cage1.get(DataComponents.CUSTOM_DATA).copyTag();
                     CompoundTag tag2 = cage2.get(DataComponents.CUSTOM_DATA).copyTag();
@@ -124,13 +124,13 @@ public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamb
                             !tag1.getBoolean("isProductiveBee") ||
                             (
                                 beeIngredient.get() != null &&
-                                (beeIngredient.get().getCachedEntity(this.menu.blockEntity.getLevel()) instanceof ProductiveBee pBee) &&
+                                (beeIngredient.get().getCachedEntity(this.menu.getBlockEntity().getLevel()) instanceof ProductiveBee pBee) &&
                                 pBee.canSelfBreed()
                             )
                         )
                     ) {
                         if (beeIngredient.get() != null) {
-                            BeeRenderer.render(guiGraphics, getGuiLeft() + 134 - 13, getGuiTop() + 17, beeIngredient.get(), minecraft);
+                            BeeRenderer.render(guiGraphics, getGuiLeft() + 134, getGuiTop() + 17, beeIngredient.get(), minecraft);
                         }
                     }
                 }

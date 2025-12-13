@@ -1,18 +1,18 @@
 {
-    "name": "Abelha de Corante",
-    "icon": "minecraft:red_dye",
-    "read_by_default": true,
-    "sortnum": 6,
-    "category": "productivebees:bees_worker",
-    "pages": [
-        {
-            "type": "patchouli:text",
-            "title": "Abelha de Corante",
-            "text": "Produz corante com base na flor que polinizou."
-        },
-        {
-            "type": "patchouli:entity",
-            "entity": "productivebees:dye_bee"
-        }
-    ]
+  "name": "Abelha de Corante",
+  "icon": "minecraft:red_dye",
+  "read_by_default": true,
+  "sortnum": 6,
+  "category": "productivebees:bees_worker",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Abelha de Corante",
+      "text": "Produz corante com base na flor que polinizou."
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "productivebees:dye_bee"
+    }
+  ]
 }

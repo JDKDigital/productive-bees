@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.container;
 
-import cy.jdkdigital.productivebees.common.block.Centrifuge;
 import cy.jdkdigital.productivebees.common.block.entity.CentrifugeBlockEntity;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
@@ -9,38 +8,28 @@ import cy.jdkdigital.productivelib.container.ManualSlotItemHandler;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
-public class CentrifugeContainer extends AbstractContainer
+public class CentrifugeContainer<T extends CentrifugeBlockEntity> extends AbstractContainer<T>
 {
-    public final CentrifugeBlockEntity blockEntity;
-
-    public final ContainerLevelAccess canInteractWithCallable;
-
     public CentrifugeContainer(final int windowId, final Inventory playerInventory, final FriendlyByteBuf data) {
-        this(windowId, playerInventory, getBlockEntity(playerInventory, data));
+        this(windowId, playerInventory, (T)getBlockEntity(playerInventory, data));
     }
 
-    public CentrifugeContainer(final int windowId, final Inventory playerInventory, final CentrifugeBlockEntity blockEntity) {
+    public CentrifugeContainer(final int windowId, final Inventory playerInventory, final T blockEntity) {
         this(ModContainerTypes.CENTRIFUGE.get(), windowId, playerInventory, blockEntity);
     }
 
-    public CentrifugeContainer(@Nullable MenuType<?> type, final int windowId, final Inventory playerInventory, final CentrifugeBlockEntity blockEntity) {
-        super(type, windowId);
-
-        this.blockEntity = blockEntity;
-        this.canInteractWithCallable = ContainerLevelAccess.create(blockEntity.getLevel(), blockEntity.getBlockPos());
+    public CentrifugeContainer(@Nullable MenuType<?> type, final int windowId, final Inventory playerInventory, final T blockEntity) {
+        super(type, blockEntity, windowId);
 
         addDataSlots(new ContainerData()
         {
@@ -87,14 +76,14 @@ public class CentrifugeContainer extends AbstractContainer
         });
 
         // Comb slot
-        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.blockEntity.inventoryHandler, InventoryHandlerHelper.INPUT_SLOT, 13, 35));
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.getBlockEntity().getItemHandler(), InventoryHandlerHelper.INPUT_SLOT, 26, 35));
 
         // Inventory slots
-        addSlotBox(this.blockEntity.inventoryHandler, InventoryHandlerHelper.OUTPUT_SLOTS[0], 67, 17, 3, 18, 3, 18);
+        addSlotBox(this.getBlockEntity().getItemHandler(), InventoryHandlerHelper.OUTPUT_SLOTS[0], 80, 17, 3, 18, 3, 18);
 
-        addSlotBox(this.blockEntity.getUpgradeHandler(), 0, 165, 8, 1, 18, 4, 18);
+        addSlotBox(this.getBlockEntity().getUpgradeHandler(), 0, 178, 8, 1, 18, 4, 18);
 
-        layoutPlayerInventorySlots(playerInventory, 0, -5, 84);
+        layoutPlayerInventorySlots(playerInventory, 0, 8, 84);
     }
 
     private static CentrifugeBlockEntity getBlockEntity(final Inventory playerInventory, final FriendlyByteBuf data) {
@@ -105,15 +94,5 @@ public class CentrifugeContainer extends AbstractContainer
             return (CentrifugeBlockEntity) tileAtPos;
         }
         throw new IllegalStateException("Block entity is not correct! " + tileAtPos);
-    }
-
-    @Override
-    public boolean stillValid(@Nonnull final Player player) {
-        return canInteractWithCallable.evaluate((world, pos) -> world.getBlockState(pos).getBlock() instanceof Centrifuge && player.distanceToSqr((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D, true);
-    }
-
-    @Override
-    protected BlockEntity getBlockEntity() {
-        return blockEntity;
     }
 }

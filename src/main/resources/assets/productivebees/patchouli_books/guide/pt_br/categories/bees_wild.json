@@ -1,6 +1,6 @@
 {
-    "name": "Abelhas Selvagens",
-    "description": "Abelhas selvagens, assim como as Abelhas Solitárias, vivem em ninhos encontrados pelo mundo, mas, ao contrário das solitárias, elas também se mudam facilmente para uma colmeia. Abelhas selvagens vivem principalmente no Nether e no End.",
-    "icon": "minecraft:lily_of_the_valley",
-    "parent": "productivebees:bees"
+  "name": "Abelhas Selvagens",
+  "description": "Abelhas selvagens, assim como as Abelhas Solitárias, vivem em ninhos encontrados pelo mundo, mas, ao contrário das solitárias, elas também se mudam facilmente para uma colmeia. Abelhas selvagens vivem principalmente no Nether e no End.",
+  "icon": "minecraft:lily_of_the_valley",
+  "parent": "productivebees:bees"
 }

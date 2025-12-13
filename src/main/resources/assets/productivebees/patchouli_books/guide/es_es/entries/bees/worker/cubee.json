@@ -1,18 +1,18 @@
 {
-    "name": "CuBee",
-    "icon": "minecraft:arrow",
-    "read_by_default": true,
-    "sortnum": 7,
-    "category": "productivebees:bees_worker",
-    "pages": [
-        {
-            "type": "patchouli:text",
-            "title": "Cupido",
-            "text": "Las feromonas secretadas por esta abeja animan a los animales."
-        },
-        {
-            "type": "patchouli:entity",
-            "entity": "productivebees:cupid_bee"
-        }
-    ]
+  "name": "CuBee",
+  "icon": "minecraft:arrow",
+  "read_by_default": true,
+  "sortnum": 7,
+  "category": "productivebees:bees_worker",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Cupido",
+      "text": "Las feromonas secretadas por esta abeja animan a los animales."
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "productivebees:cupid_bee"
+    }
+  ]
 }

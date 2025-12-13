@@ -1,16 +1,16 @@
 {
-    "name": "Ninhos",
-    "icon": "productivebees:oak_wood_nest",
-    "category": "productivebees:hives",
-    "sortnum": 1,
-    "pages": [
-        {
-            "type": "patchouli:text",
-            "text": "Ninhos podem ser encontrados espalhados pelo mundo e cada um será o lar de 1 abelha solitária. Ninhos podem ser coletados com a abelha dentro ao quebrá-los, não há necessidade de toque suave. Para limpar um ninho de sua abelha e quaisquer ovos, você simplesmente precisa criá-lo consigo mesmo."
-        },
-        {
-            "type": "patchouli:text",
-            "text": "Ninhos vazios podem atrair novas abelhas se você colocar uma ou mais guloseimas de mel neles. Clique com o botão direito com uma guloseima de mel para iniciar o tempo de recarga da repopulação."
-        }
-    ]
+  "name": "Ninhos",
+  "icon": "productivebees:oak_wood_nest",
+  "category": "productivebees:hives",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Ninhos podem ser encontrados espalhados pelo mundo e cada um será o lar de 1 abelha solitária. Ninhos podem ser coletados com a abelha dentro ao quebrá-los, não há necessidade de toque suave. Para limpar um ninho de sua abelha e quaisquer ovos, você simplesmente precisa criá-lo consigo mesmo."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Ninhos vazios podem atrair novas abelhas se você colocar uma ou mais guloseimas de mel neles. Clique com o botão direito com uma guloseima de mel para iniciar o tempo de recarga da repopulação."
+    }
+  ]
 }

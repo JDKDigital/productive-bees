@@ -1,19 +1,18 @@
 {
-    "name": "Abelha de Esmeralda",
-    "icon": "minecraft:emerald",
-    "read_by_default": true,
-    "category": "productivebees:bees_hive",
-    "flag": "productivebees:emerald",
-    "pages": [
-        {
-            "type": "patchouli:text",
-            "title": "Abelha de Esmeralda",
-            "text": "Cruzada de uma $(l:bees/wild/slimy)Abelha de Slime$(/l) e uma $(l:bees/hive/diamond)Abelha de Diamante$(/l).",
-            "anchor": "emerald"
-        },
-        {
-            "type": "patchouli:entity",
-            "entity": "productivebees:configurable_bee{type:'productivebees:emerald'}"
-        }
-    ]
+  "name": "Abelha de Esmeralda",
+  "icon": "minecraft:emerald",
+  "read_by_default": true,
+  "category": "productivebees:bees_hive",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Abelha de Esmeralda",
+      "text": "Cruzada de uma $(l:bees/wild/slimy)Abelha de Slime$(/l) e uma $(l:bees/hive/diamond)Abelha de Diamante$(/l).",
+      "anchor": "emerald"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "productivebees:configurable_bee{type:'productivebees:emerald'}"
+    }
+  ]
 }

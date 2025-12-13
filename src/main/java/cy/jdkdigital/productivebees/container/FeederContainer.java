@@ -1,39 +1,28 @@
 package cy.jdkdigital.productivebees.container;
 
-import cy.jdkdigital.productivebees.common.block.Feeder;
 import cy.jdkdigital.productivebees.common.block.entity.FeederBlockEntity;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
 import cy.jdkdigital.productivelib.container.AbstractContainer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 
-import javax.annotation.Nonnull;
 import java.util.Objects;
 
-public class FeederContainer extends AbstractContainer
+public class FeederContainer extends AbstractContainer<FeederBlockEntity>
 {
-    public final FeederBlockEntity tileEntity;
-
-    private final ContainerLevelAccess canInteractWithCallable;
-
     public FeederContainer(final int windowId, final Inventory playerInventory, final FriendlyByteBuf data) {
         this(windowId, playerInventory, getTileEntity(playerInventory, data));
     }
 
-    public FeederContainer(final int windowId, final Inventory playerInventory, final FeederBlockEntity tileEntity) {
-        super(ModContainerTypes.FEEDER.get(), windowId);
+    public FeederContainer(final int windowId, final Inventory playerInventory, final FeederBlockEntity blockEntity) {
+        super(ModContainerTypes.FEEDER.get(), blockEntity, windowId);
 
-        this.tileEntity = tileEntity;
-        this.canInteractWithCallable = ContainerLevelAccess.create(tileEntity.getLevel(), tileEntity.getBlockPos());
-
-        var inv = this.tileEntity.getLevel().getCapability(Capabilities.ItemHandler.BLOCK, this.tileEntity.getBlockPos(), null);
+        var inv = this.getBlockEntity().getLevel().getCapability(Capabilities.ItemHandler.BLOCK, this.getBlockEntity().getBlockPos(), null);
         if (inv instanceof IItemHandler itemHandler) {
-            addSlotBox(itemHandler, 0, 62, tileEntity.isDouble() ? 26 : 35, 3, 18, tileEntity.isDouble() ? 2 : 1, 18);
+            addSlotBox(itemHandler, 0, 62, blockEntity.isDouble() ? 26 : 35, 3, 18, blockEntity.isDouble() ? 2 : 1, 18);
         }
 
         layoutPlayerInventorySlots(playerInventory, 0, 8, 84);
@@ -47,15 +36,5 @@ public class FeederContainer extends AbstractContainer
             return (FeederBlockEntity) tileAtPos;
         }
         throw new IllegalStateException("Block entity is not correct! " + tileAtPos);
-    }
-
-    @Override
-    public boolean stillValid(@Nonnull final Player player) {
-        return canInteractWithCallable.evaluate((world, pos) -> world.getBlockState(pos).getBlock() instanceof Feeder && player.distanceToSqr((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D, true);
-    }
-
-    @Override
-    protected BlockEntity getBlockEntity() {
-        return tileEntity;
     }
 }

@@ -301,6 +301,8 @@ public final class ModBlocks
 
             if (name.equals("configurable_comb")) {
                 ModItems.CONFIGURABLE_COMB_BLOCK = ProductiveBees.ITEMS.register(name, () -> new CombBlockItem(block.get(), properties));
+            } else if (name.equals("honey_generator")) {
+                ProductiveBees.ITEMS.register(name, () -> new BlockItem(block.get(), properties));
             } else if (name.equals("jar_oak")) {
                 ProductiveBees.ITEMS.register(name, () -> new BlockItem(block.get(), properties));
             } else if (name.equals("amber")) {

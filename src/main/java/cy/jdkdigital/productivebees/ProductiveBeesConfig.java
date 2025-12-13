@@ -81,6 +81,7 @@ public class ProductiveBeesConfig
         public final ModConfigSpec.IntValue nestLocatorDistance;
         public final ModConfigSpec.IntValue nestSpawnCooldown;
         public final ModConfigSpec.BooleanValue centrifugeHopperMode;
+        public final ModConfigSpec.BooleanValue centrifugeFluidSharing;
         public final ModConfigSpec.BooleanValue forceEnableFarmerBeeRightClickHarvest;
         public final ModConfigSpec.BooleanValue enableJokes;
         public final ModConfigSpec.DoubleValue quantumArmorFailureChance;
@@ -152,6 +153,10 @@ public class ProductiveBeesConfig
             centrifugeHopperMode = builder
                     .comment("Centrifuges will pick up items thrown on it")
                     .define("centrifugeHopperMode", true);
+
+            centrifugeFluidSharing = builder
+                    .comment("Centrifuges will output fluid to any adjacent fluid containers including other centrifuges")
+                    .define("centrifugeFluidSharing", true);
 
             forceEnableFarmerBeeRightClickHarvest = builder
                     .comment("Enable this if you have a right click harvest handler but none of the following mods: right_click_get_crops, croptopia, quark, harvest, simplefarming, reap")
@@ -326,6 +331,7 @@ public class ProductiveBeesConfig
         public final ModConfigSpec.DoubleValue breedingChance;
         public final ModConfigSpec.IntValue breedingMaxNearbyEntities;
         public final ModConfigSpec.DoubleValue samplerChance;
+        public final ModConfigSpec.DoubleValue stabilityChanceIncrease;
 
         public Upgrades(ModConfigSpec.Builder builder) {
             builder.push("Hive Upgrades");
@@ -354,6 +360,9 @@ public class ProductiveBeesConfig
             samplerChance = builder
                     .comment("Chance for a gene sample to be taken from a bee after a hive visit.")
                     .defineInRange("samplerChance", 0.05, 0, 1);
+            stabilityChanceIncrease = builder
+                    .comment("Chance increase for centrifuge output that is not guaranteed.")
+                    .defineInRange("stabilityChanceIncrease", 0.15, 0, 1);
 
             builder.pop();
         }

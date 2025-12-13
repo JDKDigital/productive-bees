@@ -1,18 +1,18 @@
 {
-    "name": "Abelha Magmática",
-    "icon": "minecraft:magma_block",
-    "read_by_default": true,
-    "category": "productivebees:bees_wild",
-    "pages": [
-        {
-            "type": "patchouli:text",
-            "title": "Abelha Magmática",
-            "text": "Encontrada vivendo em ninhos de tijolos do nether em fortalezas do Nether. As Abelhas Magmáticas preferem polinizar blocos de magma ou fungos do nether.$(br)Tenha cuidado com o material que você usa para construir o cercado delas, esses bichinhos podem transformar pedregulhos em lava.",
-            "anchor": "magmatic"
-        },
-        {
-            "type": "patchouli:entity",
-            "entity": "productivebees:configurable_bee{type:'productivebees:magmatic'}"
-        }
-    ]
+  "name": "Abelha Magmática",
+  "icon": "minecraft:magma_block",
+  "read_by_default": true,
+  "category": "productivebees:bees_wild",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Abelha Magmática",
+      "text": "Encontrada vivendo em ninhos de tijolos do nether em fortalezas do Nether. As Abelhas Magmáticas preferem polinizar blocos de magma ou fungos do nether.$(br)Tenha cuidado com o material que você usa para construir o cercado delas, esses bichinhos podem transformar pedregulhos em lava.",
+      "anchor": "magmatic"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "productivebees:configurable_bee{type:'productivebees:magmatic'}"
+    }
+  ]
 }

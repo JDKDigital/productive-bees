@@ -1,42 +1,42 @@
 {
-    "name": "Coletando Genes",
-    "icon": "productivebees:gene",
-    "category": "productivebees:genetics",
-    "pages": [
-        {
-            "type": "patchouli:text",
-            "text": "O engarrafador junto com um pistão pode ser usado para engarrafar abelhas. Coloque uma abelha no meio e puxe a alavanca. Certifique-se de que o engarrafador tenha garrafas vazias dentro. Jogue a abelha engarrafada em uma centrífuga para separar o material útil do lixo."
+  "name": "Coletando Genes",
+  "icon": "productivebees:gene",
+  "category": "productivebees:genetics",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "O engarrafador junto com um pistão pode ser usado para engarrafar abelhas. Coloque uma abelha no meio e puxe a alavanca. Certifique-se de que o engarrafador tenha garrafas vazias dentro. Jogue a abelha engarrafada em uma centrífuga para separar o material útil do lixo."
+    },
+    {
+      "type": "multiblock",
+      "name": "Engarrafador de Abelhas",
+      "multiblock": {
+        "mapping": {
+          "P": "minecraft:piston[facing=down]",
+          "B": "productivebees:bottler[has_bottle=true]"
         },
-        {
-            "type": "multiblock",
-            "name": "Engarrafador de Abelhas",
-            "multiblock": {
-                "mapping": {
-                    "P": "minecraft:piston[facing=down]",
-                    "B": "productivebees:bottler[has_bottle=true]"
-                },
-                "pattern": [
-                    [
-                        "P"
-                    ],
-                    [
-                        " "
-                    ],
-                    [
-                        "B"
-                    ],
-                    [
-                        "0"
-                    ]
-                ],
-                "symmetrical": true,
-                "offset": [
-                    0,
-                    1,
-                    0
-                ]
-            },
-            "enable_visualize": false
-        }
-    ]
+        "pattern": [
+          [
+            "P"
+          ],
+          [
+            " "
+          ],
+          [
+            "B"
+          ],
+          [
+            "0"
+          ]
+        ],
+        "symmetrical": true,
+        "offset": [
+          0,
+          1,
+          0
+        ]
+      },
+      "enable_visualize": false
+    }
+  ]
 }

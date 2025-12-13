@@ -2,7 +2,7 @@
   "parent": "productivebees:husbandry/advanced_beehive/expansion_box",
   "display": {
     "icon": {
-      "item": "productivebees:upgrade_base"
+      "item": "productivelib:upgrade_base"
     },
     "title": {
       "translate": "advancements.husbandry.hive_upgrades.title"
@@ -22,7 +22,7 @@
         "items": [
           {
             "items": [
-              "productivebees:upgrade_base"
+              "productivelib:upgrade_base"
             ]
           }
         ]

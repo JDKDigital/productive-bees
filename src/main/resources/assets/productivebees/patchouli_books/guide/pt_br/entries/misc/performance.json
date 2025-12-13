@@ -1,19 +1,19 @@
 {
-    "name": "Desempenho",
-    "icon": "productivebees:upgrade_time",
-    "category": "productivebees:misc",
-    "pages": [
-        {
-            "type": "patchouli:text",
-            "text": "Algumas coisas neste mod podem consumir muitos recursos se não forem configuradas corretamente. Esta seção dará algumas dicas de como aproveitar ao máximo suas abelhas sem sobrecarregar seu computador."
-        },
-        {
-            "type": "patchouli:text",
-            "text": "Como as abelhas são entidades no mundo e não apenas blocos ou itens, elas naturalmente usam mais recursos. Um dos maiores consumidores de recursos entre entidades é o cálculo de caminhos e IA, área em que as abelhas não são muito eficientes. Para evitar cálculos de IA desnecessários, certifique-se de que todas as abelhas tenham um lugar para viver e o bloco de flor necessário. Além disso, mantenha as abelhas em um recinto que não seja muito grande, ou elas começarão a se afastar. Alternativamente, você pode usar um upgrade de simulador na colmeia para evitar que as entidades das abelhas fiquem no mundo."
-        },
-        {
-            "type": "patchouli:text",
-            "text": "Outro grande consumidor de recursos pode ser a renderização dos favos nas centrífugas. Se você tiver muitas centrífugas funcionando, considere desativar a renderização dos favos. A opção pode ser encontrada no arquivo config/productivebees-client.toml"
-        }
-    ]
+  "name": "Desempenho",
+  "icon": "productivelib:upgrade_time",
+  "category": "productivebees:misc",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Algumas coisas neste mod podem consumir muitos recursos se não forem configuradas corretamente. Esta seção dará algumas dicas de como aproveitar ao máximo suas abelhas sem sobrecarregar seu computador."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Como as abelhas são entidades no mundo e não apenas blocos ou itens, elas naturalmente usam mais recursos. Um dos maiores consumidores de recursos entre entidades é o cálculo de caminhos e IA, área em que as abelhas não são muito eficientes. Para evitar cálculos de IA desnecessários, certifique-se de que todas as abelhas tenham um lugar para viver e o bloco de flor necessário. Além disso, mantenha as abelhas em um recinto que não seja muito grande, ou elas começarão a se afastar. Alternativamente, você pode usar um upgrade de simulador na colmeia para evitar que as entidades das abelhas fiquem no mundo."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Outro grande consumidor de recursos pode ser a renderização dos favos nas centrífugas. Se você tiver muitas centrífugas funcionando, considere desativar a renderização dos favos. A opção pode ser encontrada no arquivo config/productivebees-client.toml"
+    }
+  ]
 }

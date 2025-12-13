@@ -10,10 +10,10 @@ import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import cy.jdkdigital.productivebees.util.BeeHelper;
+import cy.jdkdigital.productivelib.client.screen.AbstractUpgradeableContainerScreen;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -29,14 +29,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class AdvancedBeehiveScreen extends AbstractContainerScreen<AdvancedBeehiveContainer>
+public class AdvancedBeehiveScreen extends AbstractUpgradeableContainerScreen<AdvancedBeehiveContainer>
 {
     private static final ResourceLocation GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/advanced_beehive.png");
     private static final ResourceLocation GUI_TEXTURE_EXPANDED = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/advanced_beehive_expanded.png");
     private static final ResourceLocation GUI_TEXTURE_SIMULATED = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/advanced_beehive_simulated.png");
+    private final boolean expanded;
 
     public AdvancedBeehiveScreen(AdvancedBeehiveContainer screenContainer, Inventory inv, Component titleIn) {
         super(screenContainer, inv, titleIn);
+        this.expanded = this.menu.getBlockEntity().getBlockState().getValue(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
+        if (!this.expanded) {
+            this.imageWidth = 179;
+        }
     }
 
     @Override
@@ -47,24 +52,22 @@ public class AdvancedBeehiveScreen extends AbstractContainerScreen<AdvancedBeehi
 
     @Override
     protected void renderLabels(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        boolean expanded = this.menu.blockEntity.getBlockState().getValue(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
-        boolean simulated = expanded && this.menu.blockEntity.isSim();
-
-        guiGraphics.drawString(font, this.title, expanded ? -5 : 8, 6, 4210752, false);
-        guiGraphics.drawString(font, this.playerInventoryTitle, expanded ? -5 : 8, (this.getYSize() - 96 + 2), 4210752, false);
+        super.renderLabels(guiGraphics, mouseX, mouseY);
+        boolean expanded = this.menu.getBlockEntity().getBlockState().getValue(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
+        boolean simulated = expanded && this.menu.getBlockEntity().isSim();
 
         assert minecraft != null;
         HashMap<Integer, List<Integer>> positions = expanded ? AdvancedBeehiveContainer.BEE_POSITIONS_EXPANDED : AdvancedBeehiveContainer.BEE_POSITIONS;
         List<FormattedCharSequence> tooltipList = new ArrayList<FormattedCharSequence>();
 
         // Cage slot tooltip
-        if (simulated && isHovering(86 - 13, 53, 16, 16, mouseX, mouseY) && this.menu.blockEntity.inventoryHandler.getStackInSlot(AdvancedBeehiveContainer.SLOT_CAGE).isEmpty()) {
+        if (simulated && isHovering(86 - 13, 53, 16, 16, mouseX, mouseY) && this.menu.getBlockEntity().inventoryHandler.getStackInSlot(AdvancedBeehiveContainer.SLOT_CAGE).isEmpty()) {
             tooltipList.add(Component.translatable("productivebees.advanced_hive.tooltip.bee_cage").getVisualOrderText());
         }
 
         // Bee Tooltips
         int j = 0;
-        for (BeehiveBlockEntity.BeeData inhabitant : this.menu.blockEntity.stored) {
+        for (BeehiveBlockEntity.BeeData inhabitant : this.menu.getBlockEntity().stored) {
             var occupant = inhabitant.occupant.entityData().copyTag();
 
             Entity bee = null;
@@ -82,7 +85,7 @@ public class AdvancedBeehiveScreen extends AbstractContainerScreen<AdvancedBeehi
                     ((ConfigurableBee) bee).setBeeType(occupant.getString("type"));
                 }
 
-                if (positions.containsKey(j) && isHovering(positions.get(j).get(0) - (expanded ? 13 : 0), positions.get(j).get(1), 16, 16, mouseX, mouseY)) {
+                if (positions.containsKey(j) && isHovering(positions.get(j).get(0), positions.get(j).get(1), 16, 16, mouseX, mouseY)) {
                     CompoundTag tag = occupant.copy();
                     tooltipList.add(bee.getName().getVisualOrderText());
 
@@ -115,27 +118,26 @@ public class AdvancedBeehiveScreen extends AbstractContainerScreen<AdvancedBeehi
 
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
-        boolean expanded = this.menu.blockEntity.getBlockState().getValue(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
-        boolean simulated = expanded && this.menu.blockEntity.isSim();
-        var GUI = expanded ? (simulated ? GUI_TEXTURE_SIMULATED : GUI_TEXTURE_EXPANDED) : GUI_TEXTURE;
+        boolean simulated = this.expanded && this.menu.getBlockEntity().isSim();
+        var GUI = this.expanded ? (simulated ? GUI_TEXTURE_SIMULATED : GUI_TEXTURE_EXPANDED) : GUI_TEXTURE;
 
-        int honeyLevel = this.menu.blockEntity.getBlockState().getValue(BeehiveBlock.HONEY_LEVEL);
+        int honeyLevel = this.menu.getBlockEntity().getBlockState().getValue(BeehiveBlock.HONEY_LEVEL);
         // Draw main screen
-        guiGraphics.blit(GUI, getGuiLeft() - (expanded ? 13 : 0), getGuiTop(), 0, 0, this.getXSize() + (expanded ? 26 : 0), this.getYSize());
-        HashMap<Integer, List<Integer>> positions = expanded ? AdvancedBeehiveContainer.BEE_POSITIONS_EXPANDED : AdvancedBeehiveContainer.BEE_POSITIONS;
+        guiGraphics.blit(GUI, getGuiLeft(), getGuiTop(), 0, 0, this.getXSize(), this.getYSize());
+        HashMap<Integer, List<Integer>> positions = this.expanded ? AdvancedBeehiveContainer.BEE_POSITIONS_EXPANDED : AdvancedBeehiveContainer.BEE_POSITIONS;
 
         // Draw honey level
-        int xOffset = this.menu.blockEntity instanceof DragonEggHiveBlockEntity ? 13 : 0;
-        guiGraphics.blit(GUI, getGuiLeft() + 87 - (expanded ? 13 : 0), getGuiTop() + 37, 202 + xOffset, honeyLevel * 13, 13, 13);
+        int xOffset = this.menu.getBlockEntity() instanceof DragonEggHiveBlockEntity ? 13 : 0;
+        guiGraphics.blit(GUI, getGuiLeft() + 87 , getGuiTop() + 37, 202 + xOffset, honeyLevel * 13, 13, 13);
 
         // draw bee cage
-        if (simulated && this.menu.blockEntity.inventoryHandler.getStackInSlot(AdvancedBeehiveContainer.SLOT_CAGE).isEmpty()) {
-            guiGraphics.blit(GUI, getGuiLeft() + 87 - 13, getGuiTop() + 53, 202 + xOffset, 78, 14, 16);
+        if (simulated && this.menu.getBlockEntity().inventoryHandler.getStackInSlot(AdvancedBeehiveContainer.SLOT_CAGE).isEmpty()) {
+            guiGraphics.blit(GUI, getGuiLeft() + 87, getGuiTop() + 53, 202 + xOffset, 78, 14, 16);
         }
 
         // Bees
         int i = 0;
-        for (BeehiveBlockEntity.BeeData inhabitant : this.menu.blockEntity.stored) {
+        for (BeehiveBlockEntity.BeeData inhabitant : this.menu.getBlockEntity().stored) {
             var occupant = inhabitant.occupant.entityData().copyTag();
             if (minecraft != null && positions.containsKey(i)) {
                 String type = occupant.getString("type");
@@ -148,10 +150,15 @@ public class AdvancedBeehiveScreen extends AbstractContainerScreen<AdvancedBeehi
                 }
 
                 if (beeIngredient != null) {
-                    BeeRenderer.render(guiGraphics, getGuiLeft() + positions.get(i).get(0) - (expanded ? 13 : 0), getGuiTop() + positions.get(i).get(1), beeIngredient, minecraft);
+                    BeeRenderer.render(guiGraphics, getGuiLeft() + positions.get(i).get(0), getGuiTop() + positions.get(i).get(1), beeIngredient, minecraft);
                 }
             }
             i++;
         }
+    }
+
+//    @Override
+    protected boolean insideUpgradeSlots(double mouseX, double mouseY) {
+        return this.expanded ? isHovering(this.imageWidth - 24, 8, 18, 72, mouseX, mouseY) : false;
     }
 }

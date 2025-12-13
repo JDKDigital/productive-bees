@@ -1,16 +1,16 @@
 {
-    "name": "Apanhador",
-    "icon": "productivebees:catcher",
-    "category": "productivebees:blocks",
-    "pages": [
-        {
-            "type": "patchouli:spotlight",
-            "item": "productivebees:catcher",
-            "text": "Carregue-o com gaiolas e ele capturará qualquer abelha que voar sobre ele. Você pode colocar uma flor ou uma $(l:blocks/feeder)laje de alimentação$(/l) no topo para atrair abelhas."
-        },
-        {
-            "type": "patchouli:text",
-            "text": "O Apanhador aceita três melhorias; Uma $(l:items/upgrades#babee)melhoria BaBee$(/l) filtrará abelhas adultas e capturará apenas BaBees. A $(l:items/upgrades#filter)melhoria de Filtro$(/l) fará com que capture apenas as abelhas no filtro. Uma $(l:items/upgrades#range)melhoria de Alcance$(/l) aumentará o alcance. Múltiplas melhorias de Alcance podem ser instaladas."
-        }
-    ]
+  "name": "Apanhador",
+  "icon": "productivebees:catcher",
+  "category": "productivebees:blocks",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "productivebees:catcher",
+      "text": "Carregue-o com gaiolas e ele capturará qualquer abelha que voar sobre ele. Você pode colocar uma flor ou uma $(l:blocks/feeder)laje de alimentação$(/l) no topo para atrair abelhas."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "O Apanhador aceita três melhorias; Uma $(l:items/upgrades#babee)melhoria BaBee$(/l) filtrará abelhas adultas e capturará apenas BaBees. A $(l:items/upgrades#filter)melhoria de Filtro$(/l) fará com que capture apenas as abelhas no filtro. Uma $(l:items/upgrades#range)melhoria de Alcance$(/l) aumentará o alcance. Múltiplas melhorias de Alcance podem ser instaladas."
+    }
+  ]
 }

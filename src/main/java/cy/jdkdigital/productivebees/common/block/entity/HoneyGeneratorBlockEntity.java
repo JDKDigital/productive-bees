@@ -8,8 +8,9 @@ import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModFluids;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivelib.common.block.entity.FluidTankBlockEntity;
+import cy.jdkdigital.productivelib.common.block.entity.ICapabilityBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
-import cy.jdkdigital.productivelib.common.block.entity.UpgradeableBlockEntity;
+import cy.jdkdigital.productivelib.common.block.entity.IUpgradeableBlockEntity;
 import cy.jdkdigital.productivelib.registry.LibItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -45,7 +46,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements MenuProvider, UpgradeableBlockEntity
+public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements MenuProvider, IUpgradeableBlockEntity
 {
     protected int tickCounter = 0;
     public int fluidId = 0;

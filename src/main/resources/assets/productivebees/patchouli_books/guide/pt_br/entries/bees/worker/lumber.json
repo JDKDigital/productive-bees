@@ -1,18 +1,18 @@
 {
-    "name": "Abelha Lenhadora",
-    "icon": "minecraft:wooden_axe",
-    "read_by_default": true,
-    "sortnum": 3,
-    "category": "productivebees:bees_worker",
-    "pages": [
-        {
-            "type": "patchouli:text",
-            "title": "Abelha Lenhadora",
-            "text": "Mordisca madeira próxima e a coleta em sua colmeia."
-        },
-        {
-            "type": "patchouli:entity",
-            "entity": "productivebees:lumber_bee"
-        }
-    ]
+  "name": "Abelha Lenhadora",
+  "icon": "minecraft:wooden_axe",
+  "read_by_default": true,
+  "sortnum": 3,
+  "category": "productivebees:bees_worker",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Abelha Lenhadora",
+      "text": "Mordisca madeira próxima e a coleta em sua colmeia."
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "productivebees:lumber_bee"
+    }
+  ]
 }

@@ -1,18 +1,18 @@
 {
-    "name": "Abeja Explosiva",
-    "icon": "minecraft:gunpowder",
-    "read_by_default": true,
-    "category": "productivebees:bees_hive",
-    "pages": [
-        {
-            "type": "patchouli:text",
-            "title": "Abeja Explosiva",
-            "text": "Obtenido al alimentar un bloque de TNT a una abeja vainilla.",
-            "anchor": "creeper"
-        },
-        {
-            "type": "patchouli:entity",
-            "entity": "productivebees:creeper_bee"
-        }
-    ]
+  "name": "Abeja Explosiva",
+  "icon": "minecraft:gunpowder",
+  "read_by_default": true,
+  "category": "productivebees:bees_hive",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Abeja Explosiva",
+      "text": "Obtenido al alimentar un bloque de TNT a una abeja vainilla.",
+      "anchor": "creeper"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "productivebees:creeper_bee"
+    }
+  ]
 }

@@ -1,20 +1,20 @@
 {
-    "name": "Laje de Alimentação",
-    "icon": "productivebees:feeder",
-    "category": "productivebees:blocks",
-    "pages": [
-        {
-            "type": "patchouli:spotlight",
-            "item": "productivebees:feeder",
-            "text": "Pode ser usada como um ponto de coleta para alimentar abelhas. Ela comporta 3 blocos de itens. Quando abelhas Lenhadoras ou de Pedreira se alimentam daqui, ela produzirá a partir de um item aleatório no alimentador."
-        },
-        {
-            "type": "patchouli:text",
-            "text": "Lajes de alimentação podem ser 'encharcadas com mel', dando às abelhas um excelente lugar para mergulhar os pés e se recuperar de um longo dia de trabalho, ou seja, isso lhes dá regeneração."
-        },
-        {
-            "type": "patchouli:text",
-            "text": "Como uma $(l:items/upgrades#simulator)colmeia simulada$(/l) tem apenas 1 posição para bloco de flor, as lajes de alimentação funcionam muito bem com elas, permitindo que você tenha até 3 abelhas diferentes trabalhando na colmeia."
-        }
-    ]
+  "name": "Laje de Alimentação",
+  "icon": "productivebees:feeder",
+  "category": "productivebees:blocks",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "productivebees:feeder",
+      "text": "Pode ser usada como um ponto de coleta para alimentar abelhas. Ela comporta 3 blocos de itens. Quando abelhas Lenhadoras ou de Pedreira se alimentam daqui, ela produzirá a partir de um item aleatório no alimentador."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Lajes de alimentação podem ser 'encharcadas com mel', dando às abelhas um excelente lugar para mergulhar os pés e se recuperar de um longo dia de trabalho, ou seja, isso lhes dá regeneração."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Como uma $(l:items/upgrades#simulator)colmeia simulada$(/l) tem apenas 1 posição para bloco de flor, as lajes de alimentação funcionam muito bem com elas, permitindo que você tenha até 3 abelhas diferentes trabalhando na colmeia."
+    }
+  ]
 }

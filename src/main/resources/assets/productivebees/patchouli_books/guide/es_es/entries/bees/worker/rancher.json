@@ -1,18 +1,18 @@
 {
-    "name": "Rancher Bee",
-    "icon": "minecraft:milk_bucket",
-    "read_by_default": true,
-    "sortnum": 2,
-    "category": "productivebees:bees_worker",
-    "pages": [
-        {
-            "type": "patchouli:text",
-            "title": "Ranchera",
-            "text": "Ordeñará vacas, ovejas o llamas cercanas para crear panales lechosos en su colmena..$(br2)Muchas vacas resultaron dañadas en la fabricación de esta abeja."
-        },
-        {
-            "type": "patchouli:entity",
-            "entity": "productivebees:rancher_bee"
-        }
-    ]
+  "name": "Rancher Bee",
+  "icon": "minecraft:milk_bucket",
+  "read_by_default": true,
+  "sortnum": 2,
+  "category": "productivebees:bees_worker",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Ranchera",
+      "text": "Ordeñará vacas, ovejas o llamas cercanas para crear panales lechosos en su colmena..$(br2)Muchas vacas resultaron dañadas en la fabricación de esta abeja."
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "productivebees:rancher_bee"
+    }
+  ]
 }

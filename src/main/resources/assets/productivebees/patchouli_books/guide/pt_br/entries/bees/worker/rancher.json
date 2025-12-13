@@ -1,18 +1,18 @@
 {
-    "name": "Abelha Criadora",
-    "icon": "minecraft:milk_bucket",
-    "read_by_default": true,
-    "sortnum": 2,
-    "category": "productivebees:bees_worker",
-    "pages": [
-        {
-            "type": "patchouli:text",
-            "title": "Abelha Criadora",
-            "text": "Irá ordenhar vacas, ovelhas ou lhamas próximas para criar favos leitosos em sua colmeia. As ovelhas também serão tosquiadas.$(br2)Muitas vacas foram feridas na criação desta abelha."
-        },
-        {
-            "type": "patchouli:entity",
-            "entity": "productivebees:rancher_bee"
-        }
-    ]
+  "name": "Abelha Criadora",
+  "icon": "minecraft:milk_bucket",
+  "read_by_default": true,
+  "sortnum": 2,
+  "category": "productivebees:bees_worker",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Abelha Criadora",
+      "text": "Irá ordenhar vacas, ovelhas ou lhamas próximas para criar favos leitosos em sua colmeia. As ovelhas também serão tosquiadas.$(br2)Muitas vacas foram feridas na criação desta abelha."
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "productivebees:rancher_bee"
+    }
+  ]
 }

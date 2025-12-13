@@ -1,27 +1,27 @@
 {
-    "name": "Guia Inicial",
-    "icon": "minecraft:writable_book",
-    "category": "productivebees:guide",
-    "pages": [
-        {
-            "type": "patchouli:text",
-            "text": "O mod Productive Bees é construído sobre as abelhas vanilla. Algum entendimento do sistema vanilla é pressuposto neste guia."
-        },
-        {
-            "type": "patchouli:text",
-            "text": "Além das abelhas vanilla, você encontrará uma variedade de novas abelhas vivendo em $(l:hives/nests)ninhos$(/l) bem escondidos em diferentes biomas pelo Mundo Superior. Essas abelhas são solitárias, o que significa que não viverão em uma colmeia. No entanto, sua genética permite a criação de diferentes tipos de abelhas, e além disso, elas são legais."
-        },
-        {
-            "type": "patchouli:text",
-            "text": "A primeira coisa que você precisa encontrar é um ninho de abelha vanilla para obter alguns frascos de mel e favos de mel. Os frascos de mel são necessários para criar $(l:items/bee_cage)Gaiolas de Abelha$(/l), o que torna muito mais fácil transportar as abelhas para sua casa."
-        },
-        {
-            "type": "patchouli:text",
-            "text": "Assim que você coletar favos de mel suficientes, construa uma $(l:hives/advanced_hives)colmeia avançada$(/l) e uma $(l:hives/expansion_boxes)caixa de expansão$(/l). A $(l:hives/advanced_hives)colmeia avançada$(/l) permite que você olhe para dentro e fique de olho em suas abelhas e no que elas produzem."
-        },
-        {
-            "type": "patchouli:text",
-            "text": "Algumas abelhas só podem ser encontradas em outras dimensões ou obtidas através de cruzamento. Use o JEI para procurar as receitas de cruzamento para que você saiba quais abelhas precisa encontrar."
-        }
-    ]
+  "name": "Guia Inicial",
+  "icon": "minecraft:writable_book",
+  "category": "productivebees:guide",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "O mod Productive Bees é construído sobre as abelhas vanilla. Algum entendimento do sistema vanilla é pressuposto neste guia."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Além das abelhas vanilla, você encontrará uma variedade de novas abelhas vivendo em $(l:hives/nests)ninhos$(/l) bem escondidos em diferentes biomas pelo Mundo Superior. Essas abelhas são solitárias, o que significa que não viverão em uma colmeia. No entanto, sua genética permite a criação de diferentes tipos de abelhas, e além disso, elas são legais."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A primeira coisa que você precisa encontrar é um ninho de abelha vanilla para obter alguns frascos de mel e favos de mel. Os frascos de mel são necessários para criar $(l:items/bee_cage)Gaiolas de Abelha$(/l), o que torna muito mais fácil transportar as abelhas para sua casa."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Assim que você coletar favos de mel suficientes, construa uma $(l:hives/advanced_hives)colmeia avançada$(/l) e uma $(l:hives/expansion_boxes)caixa de expansão$(/l). A $(l:hives/advanced_hives)colmeia avançada$(/l) permite que você olhe para dentro e fique de olho em suas abelhas e no que elas produzem."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Algumas abelhas só podem ser encontradas em outras dimensões ou obtidas através de cruzamento. Use o JEI para procurar as receitas de cruzamento para que você saiba quais abelhas precisa encontrar."
+    }
+  ]
 }

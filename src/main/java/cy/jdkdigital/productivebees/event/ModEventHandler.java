@@ -44,7 +44,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.Map;
 
-@EventBusSubscriber(modid = ProductiveBees.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = ProductiveBees.MODID)
 public class ModEventHandler
 {
     @SubscribeEvent
@@ -59,7 +59,6 @@ public class ModEventHandler
                                 !item.equals(ModItems.GENE_BOTTLE) &&
                                 !item.equals(ModItems.ADV_BREED_ALL_BEES) &&
                                 !item.equals(ModItems.ADV_BREED_BEE) &&
-                                !item.equals(ModItems.UPGRADE_BASE) &&
                                 !(item.get() instanceof SpawnEggItem) &&
                                 !(item.get() instanceof AbstractUpgradeItem)
                 ) {

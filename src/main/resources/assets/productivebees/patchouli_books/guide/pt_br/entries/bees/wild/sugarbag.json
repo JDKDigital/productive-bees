@@ -1,18 +1,18 @@
 {
-    "name": "Abelha Saco de Açúcar",
-    "icon": "minecraft:cocoa_beans",
-    "read_by_default": true,
-    "category": "productivebees:bees_wild",
-    "pages": [
-        {
-            "type": "patchouli:text",
-            "title": "Abelha Saco de Açúcar",
-            "text": "Esta pequena abelha de clima quente e úmido pode ser encontrada em áreas tropicais. Ela produz um tipo especial de favo superdelicioso.$(br)Ela consegue encontrar o caminho até as sementes de cacau mesmo quando cultivadas fora de seu clima natural.",
-            "anchor": "sugarbag"
-        },
-        {
-            "type": "patchouli:entity",
-            "entity": "productivebees:configurable_bee{type:'productivebees:sugarbag'}"
-        }
-    ]
+  "name": "Abelha Saco de Açúcar",
+  "icon": "minecraft:cocoa_beans",
+  "read_by_default": true,
+  "category": "productivebees:bees_wild",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Abelha Saco de Açúcar",
+      "text": "Esta pequena abelha de clima quente e úmido pode ser encontrada em áreas tropicais. Ela produz um tipo especial de favo superdelicioso.$(br)Ela consegue encontrar o caminho até as sementes de cacau mesmo quando cultivadas fora de seu clima natural.",
+      "anchor": "sugarbag"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "productivebees:configurable_bee{type:'productivebees:sugarbag'}"
+    }
+  ]
 }

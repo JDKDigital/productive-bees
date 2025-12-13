@@ -1,71 +1,71 @@
 {
-    "name": "Caixas de Expansão",
-    "icon": "productivebees:expansion_box_oak",
-    "category": "productivebees:hives",
-    "sortnum": 3,
-    "pages": [
-        {
-            "type": "patchouli:text",
-            "text": "Caixas de expansão podem ser anexadas a colmeias avançadas para aumentar a capacidade de abelhas da colmeia de 3 para 5. Caixas de expansão podem ser colocadas em cima ou ao lado da colmeia. Cada colmeia pode ter apenas uma caixa de expansão."
+  "name": "Caixas de Expansão",
+  "icon": "productivebees:expansion_box_oak",
+  "category": "productivebees:hives",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Caixas de expansão podem ser anexadas a colmeias avançadas para aumentar a capacidade de abelhas da colmeia de 3 para 5. Caixas de expansão podem ser colocadas em cima ou ao lado da colmeia. Cada colmeia pode ter apenas uma caixa de expansão."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "productivebees:boxes/expansion_box_oak"
+    },
+    {
+      "type": "multiblock",
+      "name": "Expandida Verticalmente",
+      "multiblock": {
+        "mapping": {
+          "H": "productivebees:advanced_oak_beehive[expanded=up]",
+          "E": "productivebees:expansion_box_oak[expanded=up]"
         },
-        {
-            "type": "patchouli:crafting",
-            "recipe": "productivebees:boxes/expansion_box_oak"
+        "pattern": [
+          [
+            "E"
+          ],
+          [
+            "H"
+          ],
+          [
+            "0"
+          ]
+        ],
+        "symmetrical": true,
+        "offset": [
+          0,
+          1,
+          0
+        ]
+      },
+      "enable_visualize": false
+    },
+    {
+      "type": "multiblock",
+      "name": "Expandida Horizontalmente",
+      "multiblock": {
+        "mapping": {
+          "H": "productivebees:advanced_oak_beehive[expanded=left]",
+          "E": "productivebees:expansion_box_oak[expanded=left]"
         },
-        {
-            "type": "multiblock",
-            "name": "Expandida Verticalmente",
-            "multiblock": {
-                "mapping": {
-                    "H": "productivebees:advanced_oak_beehive[expanded=up]",
-                    "E": "productivebees:expansion_box_oak[expanded=up]"
-                },
-                "pattern": [
-                    [
-                        "E"
-                    ],
-                    [
-                        "H"
-                    ],
-                    [
-                        "0"
-                    ]
-                ],
-                "symmetrical": true,
-                "offset": [
-                    0,
-                    1,
-                    0
-                ]
-            },
-            "enable_visualize": false
-        },
-        {
-            "type": "multiblock",
-            "name": "Expandida Horizontalmente",
-            "multiblock": {
-                "mapping": {
-                    "H": "productivebees:advanced_oak_beehive[expanded=left]",
-                    "E": "productivebees:expansion_box_oak[expanded=left]"
-                },
-                "pattern": [
-                    [
-                        "H",
-                        "E"
-                    ],
-                    [
-                        "0",
-                        " "
-                    ]
-                ],
-                "symmetrical": true,
-                "offset": [
-                    0,
-                    1,
-                    0
-                ]
-            },
-            "enable_visualize": false
-        }
-    ]
+        "pattern": [
+          [
+            "H",
+            "E"
+          ],
+          [
+            "0",
+            " "
+          ]
+        ],
+        "symmetrical": true,
+        "offset": [
+          0,
+          1,
+          0
+        ]
+      },
+      "enable_visualize": false
+    }
+  ]
 }

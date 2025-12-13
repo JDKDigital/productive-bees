@@ -1,18 +1,18 @@
 {
-    "name": "Abelha Agricultora",
-    "icon": "minecraft:wheat",
-    "read_by_default": true,
-    "sortnum": 1,
-    "category": "productivebees:bees_worker",
-    "pages": [
-        {
-            "type": "patchouli:text",
-            "title": "Abelha Agricultora",
-            "text": "Irá colher plantações próximas e deixar os produtos no chão. Ela opera em um raio de 4 blocos ao redor de sua colmeia, que pode ser aumentado com melhorias de alcance. Se você tiver um mod que adiciona colheita com clique direito, a abelha fará exatamente isso."
-        },
-        {
-            "type": "patchouli:entity",
-            "entity": "productivebees:farmer_bee"
-        }
-    ]
+  "name": "Abelha Agricultora",
+  "icon": "minecraft:wheat",
+  "read_by_default": true,
+  "sortnum": 1,
+  "category": "productivebees:bees_worker",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Abelha Agricultora",
+      "text": "Irá colher plantações próximas e deixar os produtos no chão. Ela opera em um raio de 4 blocos ao redor de sua colmeia, que pode ser aumentado com melhorias de alcance. Se você tiver um mod que adiciona colheita com clique direito, a abelha fará exatamente isso."
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "productivebees:farmer_bee"
+    }
+  ]
 }

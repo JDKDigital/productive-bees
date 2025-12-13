@@ -28,6 +28,6 @@ public class FeederScreen extends AbstractContainerScreen<FeederContainer>
     @Override
     protected void renderBg(@Nonnull GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
         // Draw main screen
-        guiGraphics.blit(menu.tileEntity.isDouble() ? GUI_TEXTURE_DOUBLE : GUI_TEXTURE, this.getGuiLeft(), this.getGuiTop(), 0, 0, this.getXSize(), this.getYSize());
+        guiGraphics.blit(menu.getBlockEntity().isDouble() ? GUI_TEXTURE_DOUBLE : GUI_TEXTURE, this.getGuiLeft(), this.getGuiTop(), 0, 0, this.getXSize(), this.getYSize());
     }
 }

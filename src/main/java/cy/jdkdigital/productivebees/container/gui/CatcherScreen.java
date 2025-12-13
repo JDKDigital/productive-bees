@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.container.gui;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.container.CatcherContainer;
+import cy.jdkdigital.productivelib.client.screen.AbstractUpgradeableContainerScreen;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -10,7 +11,7 @@ import net.minecraft.world.entity.player.Inventory;
 
 import javax.annotation.Nonnull;
 
-public class CatcherScreen extends AbstractContainerScreen<CatcherContainer>
+public class CatcherScreen extends AbstractUpgradeableContainerScreen<CatcherContainer>
 {
     private static final ResourceLocation GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/catcher.png");
 
@@ -25,14 +26,8 @@ public class CatcherScreen extends AbstractContainerScreen<CatcherContainer>
     }
 
     @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        guiGraphics.drawString(font, this.title, 8, 6, 4210752, false);
-        guiGraphics.drawString(font, this.playerInventoryTitle, 8, (this.getYSize() - 96 + 2), 4210752, false);
-    }
-
-    @Override
     protected void renderBg(@Nonnull GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
         // Draw main screen
-        guiGraphics.blit(GUI_TEXTURE, this.getGuiLeft() - 13, this.getGuiTop(), 0, 0, this.getXSize() + 26, this.getYSize());
+        guiGraphics.blit(GUI_TEXTURE, this.getGuiLeft(), this.getGuiTop(), 0, 0, this.getXSize(), this.getYSize());
     }
 }

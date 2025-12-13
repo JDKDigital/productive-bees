@@ -30,11 +30,10 @@ public class BottlerScreen extends AbstractContainerScreen<BottlerContainer>
 
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        guiGraphics.drawString(font, this.title, 8, 6, 4210752, false);
-        guiGraphics.drawString(font, this.playerInventoryTitle, 8, (this.getYSize() - 96 + 2), 4210752, false);
+        super.renderLabels(guiGraphics, mouseX, mouseY);
 
         // Draw fluid tank
-        FluidStack fluidStack = this.menu.blockEntity.fluidHandler.getFluidInTank(0);
+        FluidStack fluidStack = this.menu.getBlockEntity().fluidHandler.getFluidInTank(0);
 
         // Fluid level tooltip
         if (isHovering(139, 16, 6, 54, mouseX, mouseY)) {
@@ -56,10 +55,10 @@ public class BottlerScreen extends AbstractContainerScreen<BottlerContainer>
         guiGraphics.blit(GUI_TEXTURE, this.getGuiLeft(), this.getGuiTop(), 0, 0, this.getXSize(), this.getYSize());
 
         // Draw fluid tank
-        FluidStack fluidStack = this.menu.blockEntity.fluidHandler.getFluidInTank(0);
+        FluidStack fluidStack = this.menu.getBlockEntity().fluidHandler.getFluidInTank(0);
 
         if (fluidStack.getAmount() > 0) {
-            FluidContainerUtil.renderFluidTank(guiGraphics, this, fluidStack, this.menu.blockEntity.fluidHandler.getTankCapacity(0), 140, 17, 4, 52, 0);
+            FluidContainerUtil.renderFluidTank(guiGraphics, this, fluidStack, this.menu.getBlockEntity().fluidHandler.getTankCapacity(0), 140, 17, 4, 52, 0);
         }
     }
 }
