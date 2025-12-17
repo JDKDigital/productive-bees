@@ -6,5 +6,6 @@
   "results": [
     "productivebees:green_carpenter_bee",
     "productivebees:yellow_black_carpenter_bee"
-  ]
+  ],
+  "biomes": "#c:is_overworld"
 }

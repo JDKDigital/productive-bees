@@ -191,6 +191,7 @@ public class ProductiveBeesConfig
         public final ModConfigSpec.DoubleValue kamikazBeeChance;
         public final ModConfigSpec.BooleanValue disableWanderGoal;
         public final ModConfigSpec.BooleanValue enableResinBeeEncasing;
+        public final ModConfigSpec.BooleanValue allowBeeBreeding;
 
         public Bees(ModConfigSpec.Builder builder) {
             builder.push("Bees");
@@ -235,6 +236,10 @@ public class ProductiveBeesConfig
             enableResinBeeEncasing = builder
                     .comment("Allow resin bees to encase mobs in amber. With this disabled it's only possible with an amber bee and it's also not as fun.")
                     .define("enableResinBeeEncasing", true);
+
+            allowBeeBreeding = builder
+                    .comment("Setting this to false will completely disable bee breeding. This overwrites any bee breeding recipes and selfbreed settings in the bee files.")
+                    .define("allowBeeBreeding", true);
 
             builder.pop();
         }

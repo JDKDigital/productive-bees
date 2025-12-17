@@ -273,7 +273,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
 
     @Override
     public void setInLove(@Nullable Player player) {
-        if (this.breedItemCount >= getBreedingItemCount()) {
+        if (this.breedItemCount >= getBreedingItemCount() && ProductiveBeesConfig.BEES.allowBeeBreeding.get()) {
             super.setInLove(player);
             this.breedItemCount = 0;
         }

@@ -5,5 +5,6 @@
   },
   "results": [
     "productivebees:mason_bee"
-  ]
+  ],
+  "biomes": "#c:is_overworld"
 }

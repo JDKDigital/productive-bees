@@ -142,7 +142,7 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, BreedingChamberBlockEntity blockEntity) {
-        if (level instanceof ServerLevel serverLevel) {
+        if (level instanceof ServerLevel serverLevel && ProductiveBeesConfig.BEES.allowBeeBreeding.get()) {
             blockEntity.fbiCooldown = blockEntity.fbiCooldown > 0 ? blockEntity.fbiCooldown-1 : 0;
             if (blockEntity.isRunning) {
                 blockEntity.energyHandler.extractEnergy((int) (ProductiveBeesConfig.GENERAL.breedingChamberPowerUse.get() * blockEntity.getEnergyConsumptionModifier()), false);
