@@ -10,12 +10,12 @@
     },
     {
       "type": "patchouli:crafting",
-      "recipe": "productivelib:upgrades/base",
+      "recipe": "productivelib:upgrades/base_pb",
       "text": "Основа для всех «Улучшений»."
     },
     {
       "type": "patchouli:crafting",
-      "recipe": "productivelib:upgrades/breeding",
+      "recipe": "productivelib:upgrades/child",
       "text": "Используется в: $(l:hives/advanced_hives#expanded)«Расширенных ульях»$(/l), $(l:blocks/catcher)«Ловце»$(/l).",
       "anchor": "babee"
     },
@@ -75,7 +75,7 @@
     },
     {
       "type": "patchouli:crafting",
-      "recipe": "productivelib:upgrades/bee_sampler",
+      "recipe": "productivelib:upgrades/gene_sampler",
       "text": "Используется в: $(l:hives/advanced_hives#expanded)«Расширенных ульях»$(/l).",
       "anchor": "sampler"
     },
@@ -85,7 +85,7 @@
     },
     {
       "type": "patchouli:crafting",
-      "recipe": "productivelib:upgrades/comb_block",
+      "recipe": "productivelib:upgrades/block",
       "text": "Используется в: $(l:hives/advanced_hives#expanded)«Расширенных ульях»$(/l).",
       "anchor": "comb_block"
     },

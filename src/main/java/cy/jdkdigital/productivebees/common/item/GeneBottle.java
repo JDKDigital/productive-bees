@@ -7,10 +7,13 @@ import cy.jdkdigital.productivebees.init.ModDataComponents;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.util.GeneAttribute;
 import cy.jdkdigital.productivebees.util.GeneGroup;
+import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -64,5 +67,12 @@ public class GeneBottle extends Item
             return stack.get(ModDataComponents.GENE_GROUP_LIST);
         }
         return null;
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+        tooltipComponents.add(Component.translatable("productivebees.gene_bottle.tooltip.bee", Component.literal(stack.get(ModDataComponents.BEE_NAME)).withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.DARK_GREEN));
+        tooltipComponents.add(Component.translatable("productivebees.gene_bottle.tooltip.use").withStyle(ChatFormatting.DARK_GREEN));
     }
 }

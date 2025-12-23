@@ -1,3 +1,7 @@
+
+- Added tooltip to Squashed Bee Material
+
+
 1.21.1-13.12.0
 
 - Upgrade item tooltip updates
