@@ -3,6 +3,7 @@
   "secondaryColor": "#06030b",
   "particleColor": "#3b2754",
   "flowerBlock": "productivebees:amber",
+  "description": "productivebees.ingredient.description.only_spawnegg",
   "beeTexture": "productivebees:textures/entity/bee/wanna/bee",
   "createComb": false,
   "renderer": "thicc",

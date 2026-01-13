@@ -15,7 +15,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nonnull;
@@ -24,6 +26,14 @@ import java.util.List;
 
 public class HeatedCentrifuge extends PoweredCentrifuge
 {
+    protected static final VoxelShape SHAPE = Shapes.join(
+            Shapes.block(),
+            Shapes.or(
+                    box(0.0D, 0.0D, 3.0D, 16.0D, 3.0D, 13.0D),
+                    box(3.0D, 0.0D, 0.0D, 13.0D, 3.0D, 16.0D),
+                    box(1.0D, 0.0D, 1.0D, 15.0D, 3.0D, 15.0D)
+            ), BooleanOp.ONLY_FIRST);
+
     public HeatedCentrifuge(Properties properties) {
         super(properties);
     }
@@ -51,6 +61,6 @@ public class HeatedCentrifuge extends PoweredCentrifuge
     @Nonnull
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
-        return Block.box(0, 0, 0, 16, 16, 16);
+        return SHAPE;
     }
 }

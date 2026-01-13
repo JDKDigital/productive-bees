@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
-@EventBusSubscriber(modid = ProductiveBees.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = ProductiveBees.MODID)
 public class ProductiveBeeDataProvider
 {
     @SubscribeEvent

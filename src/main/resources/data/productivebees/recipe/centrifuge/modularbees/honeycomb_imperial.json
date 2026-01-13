@@ -1,0 +1,23 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:imperial"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "modularbees:honey_jelly"
+      },
+      "chance": 0.1
+    },
+    {
+      "item": {
+        "item": "productivebees:wax"
+      }
+    }
+  ]
+}

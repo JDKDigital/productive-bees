@@ -1,0 +1,63 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "QPQ",
+        "MEM",
+        "QPQ"
+    ],
+    "key": {
+        "M": {
+            "type": "productivebees:component",
+            "components": {
+                "minecraft:entity_data": {
+                    "type": "productivebees:draconic",
+                    "id": "productivebees:configurable_bee"
+                }
+            },
+            "items": "productivebees:spawn_egg_configurable_bee"
+        },
+        "E": {
+            "item": "modularbees:soul_treat"
+        },
+        "P": {
+            "type": "productivebees:component",
+            "components": {
+                "minecraft:entity_data": {
+                    "type": "productivebees:wanna",
+                    "id": "productivebees:configurable_bee"
+                }
+            },
+            "items": "productivebees:spawn_egg_configurable_bee"
+        },
+        "Q": {
+            "item": "modularbees:honey_jelly"
+        }
+    },
+    "result": {
+        "components": {
+            "minecraft:entity_data": {
+                "type": "productivebees:imperial",
+                "id": "productivebees:configurable_bee"
+            }
+        },
+        "count": 1,
+        "id": "productivebees:spawn_egg_configurable_bee"
+    },
+    "neoforge:conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:imperial"
+        },
+        {
+            "type": "neoforge:mod_loaded",
+            "modid": "modularbees"
+        },
+        {
+            "type": "neoforge:not",
+            "value": {
+                "type": "neoforge:mod_loaded",
+                "modid": "allthetweaks"
+            }
+        }
+    ]
+}
