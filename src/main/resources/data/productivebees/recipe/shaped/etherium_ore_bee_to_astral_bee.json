@@ -7,7 +7,7 @@
   ],
   "key": {
     "x": {
-      "item": "enigmaticlegacy:astral_dust"
+      "item": "enigmaticlegacyplus:astral_dust"
     },
     "y": {
       "type": "productivebees:component",
@@ -33,7 +33,7 @@
   "neoforge:conditions": [
     {
       "type": "neoforge:mod_loaded",
-      "modid": "enigmaticlegacy"
+      "modid": "enigmaticlegacyplus"
     },
     {
       "type": "productivebees:bee_exists",

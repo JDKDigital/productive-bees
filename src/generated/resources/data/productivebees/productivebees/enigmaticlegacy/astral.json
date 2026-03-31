@@ -3,14 +3,14 @@
   "secondaryColor": "#d85cd8",
   "tertiaryColor": "#dc502d",
   "particleColor": "#fee645",
-  "flowerBlock": "enigmaticlegacy:astral_block",
+  "flowerBlock": "enigmaticlegacyplus:astral_block",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "beeTexture": "productivebees:textures/entity/bee/astral/bee",
   "size": 0.6,
   "selfbreed": false,
   "conditions": [
     {
-      "modid": "enigmaticlegacy",
+      "modid": "enigmaticlegacyplus",
       "type": "neoforge:mod_loaded"
     }
   ]

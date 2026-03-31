@@ -82,9 +82,7 @@ public class AdvancedBeehiveContainer extends AbstractContainer<AdvancedBeehiveB
         // Bottle slot
         addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) blockEntity.inventoryHandler, SLOT_BOTTLE, 86, 17));
         // Cage slot for simulated hives
-        if (blockEntity.isSim()) {
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) blockEntity.inventoryHandler, SLOT_CAGE, 86, 53));
-        }
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) blockEntity.inventoryHandler, SLOT_CAGE, 86, 53));
         addSlotBox(blockEntity.inventoryHandler, InventoryHandlerHelper.OUTPUT_SLOTS[0], 116, 17, 3, 18, 3, 18);
 
         if (blockEntity.acceptsUpgrades()) {

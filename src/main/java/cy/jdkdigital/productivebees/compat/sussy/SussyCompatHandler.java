@@ -21,6 +21,11 @@ public class SussyCompatHandler
                 possibleTables.addAll(SussyATM.getLootTables(level, pos));
             }
         }
+        if (ModList.get().isLoaded("mega_showdown")) {
+            if (SussyMegaShowdown.isBlockValid(level, pos)) {
+                possibleTables.addAll(SussyMegaShowdown.getLootTables(level, pos));
+            }
+        }
         return possibleTables;
     }
 }

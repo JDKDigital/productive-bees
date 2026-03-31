@@ -91,8 +91,8 @@ public class CentrifugeRecipeBuilder extends AbstractRecipeBuilder {
 
     @Override
     public void save(RecipeOutput consumer, ResourceLocation id) {
-        consumer.accept(id, new CentrifugeRecipe(input, output, SizedFluidIngredient.of(fluid), 0), null, conditions.toArray(new ICondition[0]));
-    }
+            consumer.accept(id, new CentrifugeRecipe(input, output, SizedFluidIngredient.of(fluid), 0), null, conditions.toArray(new ICondition[0]));
+        }
 
     public CentrifugeRecipeBuilder clearOutput() {
         output.clear();

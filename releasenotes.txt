@@ -1,3 +1,9 @@
+1.21.1-13.13.1
+
+- Added sussy bee compat for Cobblemon: Mega Showdown archaeological site
+- Fixed disconnect when opening a hive after inserting a sim upgrade with sneak right click
+
+
 1.21.1-13.13.0
 
 - Added tooltip to Squashed Bee Material

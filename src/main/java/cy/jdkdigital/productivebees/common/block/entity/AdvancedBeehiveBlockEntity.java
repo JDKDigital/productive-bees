@@ -79,7 +79,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
 
         @Override
         public boolean isInputSlot(int slot) {
-            return slot == AdvancedBeehiveContainer.SLOT_CAGE || super.isInputSlot(slot);
+            return (slot == AdvancedBeehiveContainer.SLOT_CAGE && blockEntity instanceof AdvancedBeehiveBlockEntity advancedBeehiveBlockEntity && advancedBeehiveBlockEntity.isSim()) || super.isInputSlot(slot);
         }
 
         @Override
