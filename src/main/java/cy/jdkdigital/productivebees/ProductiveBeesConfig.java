@@ -30,6 +30,7 @@ public class ProductiveBeesConfig
         public final ModConfigSpec.BooleanValue mutedBeeNestHelmet;
         public final ModConfigSpec.BooleanValue alwaysChristmas;
         public final ModConfigSpec.BooleanValue neverChristmas;
+        public final ModConfigSpec.BooleanValue enableJokes;
         public final ModConfigSpec.BooleanValue renderEntitiesInAmber;
 
         public Client(ModConfigSpec.Builder builder) {
@@ -54,6 +55,10 @@ public class ProductiveBeesConfig
             neverChristmas = builder
                     .comment("Bees never wear santa hats.")
                     .define("neverChristmas", false);
+
+            enableJokes = builder
+                    .comment("Enable april fools jokes")
+                    .define("enableJokes", true);
 
             renderEntitiesInAmber = builder
                     .comment("Render entities inside amber blocks.")
@@ -80,10 +85,10 @@ public class ProductiveBeesConfig
         public final ModConfigSpec.IntValue numberOfBeesPerBomb;
         public final ModConfigSpec.IntValue nestLocatorDistance;
         public final ModConfigSpec.IntValue nestSpawnCooldown;
+        public final ModConfigSpec.BooleanValue enableJokes;
         public final ModConfigSpec.BooleanValue centrifugeHopperMode;
         public final ModConfigSpec.BooleanValue centrifugeFluidSharing;
         public final ModConfigSpec.BooleanValue forceEnableFarmerBeeRightClickHarvest;
-        public final ModConfigSpec.BooleanValue enableJokes;
         public final ModConfigSpec.DoubleValue quantumArmorFailureChance;
         public final ModConfigSpec.IntValue beeBeeArmorDurabilityPercentageRemainder;
 

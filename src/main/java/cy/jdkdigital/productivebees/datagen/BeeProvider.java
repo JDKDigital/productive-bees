@@ -308,8 +308,7 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("elementalcraft/swift_alloy").primaryColor("#ebb760").secondaryColor("#c58114").particleColor("#ebb760").onlySpawnegg().flowerTag("c:storage_blocks/swift_alloy").noSelfBreed().size(0.6).requireMod("elementalcraft"));
             add(new BeeConfig("elementalcraft/water_crystal").primaryColor("#293c76").secondaryColor("#484849").tertiaryColor("#cccccc").particleColor("#293c76").renderer("default_crystal").flowerBlock("elementalcraft:watercrystal_block").size(0.6).requireMod("elementalcraft"));
 
-            add(new BeeConfig("enderio/conductive_alloy").primaryColor("#ecccc8").secondaryColor("#987e77").particleColor("#d3aa9e").flowerBlock("enderio:conductive_alloy_block").onlySpawnegg().requireMod("enderio"));
-            add(new BeeConfig("enderio/copper_alloy").primaryColor("#b67c07").secondaryColor("#7a5305").particleColor("#b67c07").flowerBlock("enderio:copper_alloy_block").onlySpawnegg().requireMod("enderio"));
+            add(new BeeConfig("enderio/conductive_alloy").primaryColor("#b86769").secondaryColor("#987e77").particleColor("#d3aa9e").flowerBlock("enderio:conductive_alloy_block").onlySpawnegg().requireMod("enderio"));
             add(new BeeConfig("enderio/dark_steel").primaryColor("#3b3b3b").secondaryColor("#171717").particleColor("#7a7a7a").size(0.7).flowerBlock("enderio:dark_steel_block").onlySpawnegg().requireMod("enderio"));
             add(new BeeConfig("enderio/end_steel").primaryColor("#fcf29b").secondaryColor("#b0a654").particleColor("#fcf29b").size(0.7).flowerBlock("enderio:end_steel_block").onlySpawnegg().requireMod("enderio"));
             add(new BeeConfig("enderio/energetic_alloy").primaryColor("#fcebc5").secondaryColor("#e6a100").particleColor("#fcd989").flowerBlock("enderio:energetic_alloy_block").onlySpawnegg().requireMod("enderio"));

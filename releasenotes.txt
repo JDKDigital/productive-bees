@@ -1,3 +1,9 @@
+1.21.1-13.13.2
+
+- Removed Ender IO copper alloy bee
+- Fix config loading error
+
+
 1.21.1-13.13.1
 
 - Added sussy bee compat for Cobblemon: Mega Showdown archaeological site
