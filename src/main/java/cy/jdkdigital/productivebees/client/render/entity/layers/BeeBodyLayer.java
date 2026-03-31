@@ -26,7 +26,6 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
 {
     private final String modelType;
     private final EntityModel<ProductiveBee> model;
-    private final boolean isChristmas;
 
     public static Map<String, Map<String, ResourceLocation>> baseTextures = new HashMap<>() {{
         put("default", new HashMap<>() {{
@@ -67,12 +66,11 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
         }});
     }};
 
-    public BeeBodyLayer(RenderLayerParent<ProductiveBee, ProductiveBeeModel<ProductiveBee>> rendererIn, ModelPart layer, String modelType, boolean isChristmas) {
+    public BeeBodyLayer(RenderLayerParent<ProductiveBee, ProductiveBeeModel<ProductiveBee>> rendererIn, ModelPart layer, String modelType) {
         super(rendererIn);
 
         this.modelType = modelType;
         model = new ProductiveBeeModel<>(layer, modelType);
-        this.isChristmas = isChristmas;
     }
 
     public void render(@Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn, @Nonnull ProductiveBee entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
@@ -161,7 +159,7 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
     }
 
     private void renderChristmasHat(@Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn, @Nonnull ProductiveBee entity) {
-        if (isChristmas && !entity.getRenderStatic() && this.modelType.contains("default")) {
+        if (ProductiveBeeRenderer.isChristmas() && !entity.getRenderStatic() && this.modelType.contains("default")) {
             ResourceLocation location = ProductiveBeeRenderer.resLoc(ProductiveBees.MODID + ":textures/entity/bee/base/" + this.modelType + "/santa_hat.png");
             renderColoredCutoutModel(this.model, location, matrixStackIn, bufferIn, packedLightIn, entity, -1);
         }

@@ -39,41 +39,56 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBee, Productive
     public static final ModelLayerLocation PB_TINY_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "tiny"), "main");
     public static final ModelLayerLocation PB_SLIMY_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "translucent_with_center"), "main");
 
-    protected boolean isChristmas;
-    protected boolean isAprilFool;
-
     public ProductiveBeeRenderer(EntityRendererProvider.Context context) {
         this(context, new ProductiveBeeModel<>(context.bakeLayer(PB_MAIN_LAYER)));
 
-        addLayer(new BeeBodyLayer(this, context.bakeLayer(PB_THICC_LAYER), "thicc", isChristmas));
-        addLayer(new BeeBodyLayer(this, context.bakeLayer(PB_DEFAULT_LAYER), "default", isChristmas));
-        addLayer(new BeeBodyLayer(this, context.bakeLayer(PB_DEFAULT_CRYSTAL_LAYER), "default_crystal", isChristmas));
-        addLayer(new BeeBodyLayer(this, context.bakeLayer(PB_DEFAULT_SHELL_LAYER), "default_shell", isChristmas));
-        addLayer(new BeeBodyLayer(this, context.bakeLayer(PB_DEFAULT_FOLIAGE_LAYER), "default_foliage", isChristmas));
-        addLayer(new BeeBodyLayer(this, context.bakeLayer(PB_ELVIS_LAYER), "elvis", isChristmas));
-        addLayer(new BeeBodyLayer(this, context.bakeLayer(PB_SMALL_LAYER), "small", isChristmas));
-        addLayer(new BeeBodyLayer(this, context.bakeLayer(PB_SLIM_LAYER), "slim", isChristmas));
-        addLayer(new BeeBodyLayer(this, context.bakeLayer(PB_TINY_LAYER), "tiny", isChristmas));
-        addLayer(new BeeBodyLayer(this, context.bakeLayer(PB_SLIMY_LAYER), "translucent_with_center", isChristmas));
+        addLayer(new BeeBodyLayer(this, context.bakeLayer(PB_THICC_LAYER), "thicc"));
+        addLayer(new BeeBodyLayer(this, context.bakeLayer(PB_DEFAULT_LAYER), "default"));
+        addLayer(new BeeBodyLayer(this, context.bakeLayer(PB_DEFAULT_CRYSTAL_LAYER), "default_crystal"));
+        addLayer(new BeeBodyLayer(this, context.bakeLayer(PB_DEFAULT_SHELL_LAYER), "default_shell"));
+        addLayer(new BeeBodyLayer(this, context.bakeLayer(PB_DEFAULT_FOLIAGE_LAYER), "default_foliage"));
+        addLayer(new BeeBodyLayer(this, context.bakeLayer(PB_ELVIS_LAYER), "elvis"));
+        addLayer(new BeeBodyLayer(this, context.bakeLayer(PB_SMALL_LAYER), "small"));
+        addLayer(new BeeBodyLayer(this, context.bakeLayer(PB_SLIM_LAYER), "slim"));
+        addLayer(new BeeBodyLayer(this, context.bakeLayer(PB_TINY_LAYER), "tiny"));
+        addLayer(new BeeBodyLayer(this, context.bakeLayer(PB_SLIMY_LAYER), "translucent_with_center"));
     }
+
+    private static boolean cachedIsChristmas;
+    private static boolean cachedIsAprilFool;
+    private static long lastCacheUpdate;
 
     public ProductiveBeeRenderer(EntityRendererProvider.Context context, ProductiveBeeModel<ProductiveBee> model) {
         super(context, model, 0.4F);
+    }
 
+    private static void updateCache() {
+        long now = System.currentTimeMillis();
+        if (now - lastCacheUpdate < 60_000) {
+            return;
+        }
+        lastCacheUpdate = now;
         Calendar calendar = Calendar.getInstance();
-        if (ProductiveBeesConfig.CLIENT.alwaysChristmas.get() || (calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) >= 21 && calendar.get(Calendar.DATE) <= 26)) {
-            this.isChristmas = !ProductiveBeesConfig.CLIENT.neverChristmas.get();
-        }
-        if (calendar.get(Calendar.MONTH) + 1 == 4 && calendar.get(Calendar.DATE) <= 1) {
-            this.isAprilFool = ProductiveBeesConfig.GENERAL.enableJokes.get();
-        }
+        boolean isChristmasSeason = calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) >= 21 && calendar.get(Calendar.DATE) <= 26;
+        cachedIsChristmas = (ProductiveBeesConfig.CLIENT.alwaysChristmas.get() || isChristmasSeason) && !ProductiveBeesConfig.CLIENT.neverChristmas.get();
+        cachedIsAprilFool = (calendar.get(Calendar.MONTH) + 1 == 4 && calendar.get(Calendar.DATE) <= 1) && ProductiveBeesConfig.CLIENT.enableAprilFoolRendering.get();
+    }
+
+    public static boolean isChristmas() {
+        updateCache();
+        return cachedIsChristmas;
+    }
+
+    public static boolean isAprilFool() {
+        updateCache();
+        return cachedIsAprilFool;
     }
 
     @Override
     protected void setupRotations(ProductiveBee pEntity, PoseStack pPoseStack, float pBob, float pYBodyRot, float pPartialTick, float pScale) {
         super.setupRotations(pEntity, pPoseStack, pBob, pYBodyRot, pPartialTick, pScale);
 
-        if (isAprilFool || (pEntity instanceof ConfigurableBee configurableBee && configurableBee.getRenderTransform().equals("flipped"))) {
+        if (isAprilFool() || (pEntity instanceof ConfigurableBee configurableBee && configurableBee.getRenderTransform().equals("flipped"))) {
             pPoseStack.translate(0.0D, pEntity.getBbHeight() + 0.1F, 0.0D);
             pPoseStack.mulPose(Axis.ZP.rotationDegrees(180.0F));
         }

@@ -31,6 +31,7 @@ public class ProductiveBeesConfig
         public final ModConfigSpec.BooleanValue alwaysChristmas;
         public final ModConfigSpec.BooleanValue neverChristmas;
         public final ModConfigSpec.BooleanValue renderEntitiesInAmber;
+        public final ModConfigSpec.BooleanValue enableAprilFoolRendering;
 
         public Client(ModConfigSpec.Builder builder) {
             builder.push("Client");
@@ -58,6 +59,10 @@ public class ProductiveBeesConfig
             renderEntitiesInAmber = builder
                     .comment("Render entities inside amber blocks.")
                     .define("renderEntitiesInAmber", true);
+
+            enableAprilFoolRendering = builder
+                    .comment("Enable april fools rendering effects (flipped bees).")
+                    .define("enableAprilFoolRendering", true);
 
             builder.pop();
         }

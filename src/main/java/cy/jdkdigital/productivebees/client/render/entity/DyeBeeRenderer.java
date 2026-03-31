@@ -14,7 +14,7 @@ public class DyeBeeRenderer extends ProductiveBeeRenderer
     public DyeBeeRenderer(EntityRendererProvider.Context context) {
         super(context, new ProductiveBeeModel<>(context.bakeLayer(PB_MAIN_LAYER), "default"));
 
-        addLayer(new BeeBodyLayer(this, context.bakeLayer(PB_DEFAULT_LAYER), "default", isChristmas));
+        addLayer(new BeeBodyLayer(this, context.bakeLayer(PB_DEFAULT_LAYER), "default"));
     }
 
     @Nonnull
