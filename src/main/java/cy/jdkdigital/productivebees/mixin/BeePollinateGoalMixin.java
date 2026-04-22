@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -27,7 +28,8 @@ public abstract class BeePollinateGoalMixin
     @Shadow
     private Bee this$0;
 
-    private final Predicate<BlockPos> VALID_POLLINATION_BLOCKS = blockPos -> {
+    @Unique
+    private final Predicate<BlockPos> PB_VALID_POLLINATION_BLOCKS = blockPos -> {
         var blockState = this$0.level().getBlockState(blockPos);
         if (blockState.hasProperty(BlockStateProperties.WATERLOGGED) && blockState.getValue(BlockStateProperties.WATERLOGGED)) {
             return false;
@@ -40,7 +42,8 @@ public abstract class BeePollinateGoalMixin
         }
     };
 
-    private Optional<BlockPos> findNearestBlock(Predicate<BlockPos> predicate, double distance) {
+    @Unique
+    private Optional<BlockPos> pb$findNearestBlock(Predicate<BlockPos> predicate, double distance) {
         BlockPos blockpos = this$0.blockPosition();
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
@@ -61,10 +64,11 @@ public abstract class BeePollinateGoalMixin
         return Optional.empty();
     }
 
-    @Inject(at = {@At(value = "RETURN")}, method = {"findNearbyFlower"})
+    @Inject(at = {@At(value = "RETURN")}, method = {"findNearbyFlower"}, cancellable = true)
     public void findNearbyFlower(CallbackInfoReturnable<Optional<BlockPos>> ci) {
         if (ci.getReturnValue().isEmpty()) {
-            this.findNearestBlock(VALID_POLLINATION_BLOCKS, 5.0);
+            Optional<BlockPos> nearestBlock = this.pb$findNearestBlock(PB_VALID_POLLINATION_BLOCKS, 5.0);
+            ci.setReturnValue(nearestBlock);
         }
     }
 }
