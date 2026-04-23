@@ -207,7 +207,7 @@ public class BeeHelper
                         bee1Data.getBoolean("selfbreed")
                 );
         var bee1Ingredient = BeeIngredientFactory.getIngredient(beeInv.getIdentifier());
-        if (bee1Ingredient != null) {
+        if (bee1Ingredient != null && bee1Ingredient.get() != null) {
             if (canSelfBreed && bee1Data == null) {
                 var bee = bee1Ingredient.get().getCachedEntity(level);
                 canSelfBreed = !(bee instanceof ProductiveBee pBee) || pBee.canSelfBreed();

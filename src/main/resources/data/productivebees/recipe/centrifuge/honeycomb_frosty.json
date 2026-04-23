@@ -12,8 +12,7 @@
       "item": {
         "item": "minecraft:snowball"
       },
-      "min": 2,
-      "max": 4
+      "min": 2
     },
     {
       "item": {

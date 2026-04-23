@@ -1,7 +1,19 @@
 {
     "variants": {
-        "": {
+        "facing=east": {
+            "model": "productivebees:block/feeder",
+            "y": 90
+        },
+        "facing=north": {
             "model": "productivebees:block/feeder"
+        },
+        "facing=south": {
+            "model": "productivebees:block/feeder",
+            "y": 180
+        },
+        "facing=west": {
+            "model": "productivebees:block/feeder",
+            "y": 270
         }
     }
 }

@@ -9,6 +9,9 @@
   "injectors": {
     "defaultRequire": 1
   },
+  "overwrites": {
+    "requireAnnotations": true
+  },
   "refmap": "productivebees.refmap.json",
   "minVersion": "0.8.5"
 }

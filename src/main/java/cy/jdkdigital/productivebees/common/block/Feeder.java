@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.*;
@@ -19,9 +20,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -45,7 +44,7 @@ public class Feeder extends SlabBlock implements EntityBlock
 
     public Feeder(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.defaultBlockState().setValue(HONEYLOGGED, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(HONEYLOGGED, false).setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
     }
 
     @Nullable
@@ -56,7 +55,17 @@ public class Feeder extends SlabBlock implements EntityBlock
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(HONEYLOGGED);
+        builder.add(HONEYLOGGED).add(BlockStateProperties.HORIZONTAL_FACING);
+    }
+
+    @Override
+    protected BlockState rotate(BlockState state, Rotation rotation) {
+        return state.setValue(BlockStateProperties.HORIZONTAL_FACING, rotation.rotate(state.getValue(BlockStateProperties.HORIZONTAL_FACING)));
+    }
+
+    @Override
+    protected BlockState mirror(BlockState state, Mirror mirror) {
+        return state.rotate(mirror.getRotation(state.getValue(BlockStateProperties.HORIZONTAL_FACING)));
     }
 
     @Nullable
@@ -64,9 +73,13 @@ public class Feeder extends SlabBlock implements EntityBlock
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         BlockState state = super.getStateForPlacement(context);
 
-        FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-        if (fluidstate.is(ModTags.HONEY) && fluidstate.isSource() && state != null) {
-            return state.setValue(HONEYLOGGED, true);
+        if (state != null) {
+            state = state.setValue(BlockStateProperties.HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
+
+            FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
+            if (fluidstate.is(ModTags.HONEY) && fluidstate.isSource()) {
+                return state.setValue(HONEYLOGGED, true);
+            }
         }
         return state;
     }

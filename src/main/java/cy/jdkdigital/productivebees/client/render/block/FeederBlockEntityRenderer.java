@@ -8,12 +8,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.core.Direction;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -65,7 +68,7 @@ public class FeederBlockEntityRenderer implements BlockEntityRenderer<FeederBloc
                     }
                 }
 
-                if (filledSlots.size() > 0) {
+                if (!filledSlots.isEmpty()) {
                     for (int slot = 0; slot < Math.min(3, invHandler.getSlots()); ++slot) {
                         ItemStack slotStack = invHandler.getStackInSlot(slot);
 
@@ -78,8 +81,19 @@ public class FeederBlockEntityRenderer implements BlockEntityRenderer<FeederBloc
                         float rotation = isFlower ? 90F : 35.0F * slot;
                         float scale = isFlower ? 0.775F : 0.575F;
 
+                        Direction facing = blockEntity.getBlockState().getValue(HorizontalDirectionalBlock.FACING);
+                        var angle = 0f;
+                        if (facing == Direction.NORTH) {
+                            angle = 180f;
+                        } else if (facing == Direction.EAST) {
+                            angle = 90f;
+                        } else if (facing == Direction.WEST) {
+                            angle = 270f;
+                        }
+
                         poseStack.pushPose();
-                        poseStack.translate(pos.getFirst(), 0.52D + (slabType.equals(SlabType.TOP) || slabType.equals(SlabType.DOUBLE) ? 0.5d : 0), pos.getSecond());
+                        poseStack.translate(pos.getFirst(), 0.52D + (slabType.equals(SlabType.TOP) || slabType.equals(SlabType.DOUBLE) ? 0.5d : 0) + (slot * 0.01f), pos.getSecond());
+                        poseStack.mulPose(Axis.YP.rotationDegrees(angle));
                         poseStack.mulPose(Axis.XP.rotationDegrees(rotation));
                         poseStack.scale(scale, scale, scale);
                         Minecraft.getInstance().getItemRenderer().renderStatic(slotStack, ItemDisplayContext.FIXED, combinedLightIn, combinedOverlayIn, poseStack, bufferIn, blockEntity.getLevel(), 0);

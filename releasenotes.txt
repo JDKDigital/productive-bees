@@ -1,3 +1,17 @@
+1.21.1-13.13.4
+
+- Fixed incompatibility with Botania
+- Added directionality to feeding slab
+- Sheol Fire bee no longer dies in Sheol Fire
+- Added recipe for stability upgrade
+
+
+1.21.1-13.13.3
+
+- Fixed a crash with breeding chamber when breeding invalid bees
+- Fixed a crash with pipez filters when using a gene bottle with no data
+
+
 1.21.1-13.13.2
 
 - Removed Ender IO copper alloy bee

@@ -28,10 +28,10 @@ public class AmberBlockEntityRenderer implements BlockEntityRenderer<AmberBlockE
         }
     }
 
-    public static void renderEntity(AmberBlockEntity tileEntityIn, Entity entity, PoseStack matrixStack, int combinedLightIn) {
+    public static void renderEntity(AmberBlockEntity blockEntity, Entity entity, PoseStack matrixStack, int combinedLightIn) {
         float angle = 0;
-        if (tileEntityIn.getLevel() != null) {
-            Direction facing = tileEntityIn.getBlockState().getValue(HorizontalDirectionalBlock.FACING);
+        if (blockEntity.getLevel() != null) {
+            Direction facing = blockEntity.getBlockState().getValue(HorizontalDirectionalBlock.FACING);
             if (facing == Direction.NORTH) {
                 angle = 180f;
             } else if (facing == Direction.SOUTH) {

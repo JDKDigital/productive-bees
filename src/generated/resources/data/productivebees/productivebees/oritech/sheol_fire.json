@@ -7,6 +7,7 @@
   "beeTexture": "productivebees:textures/entity/bee/sheol_fire/bee",
   "size": 0.7,
   "selfbreed": false,
+  "fireproof": true,
   "renderer": "default_shell",
   "conditions": [
     {

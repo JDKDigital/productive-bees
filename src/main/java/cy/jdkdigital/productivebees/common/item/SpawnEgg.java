@@ -79,7 +79,7 @@ public class SpawnEgg extends DeferredSpawnEggItem
         if (stack.has(DataComponents.ENTITY_DATA)) {
             var beeType = ResourceLocation.parse(stack.get(DataComponents.ENTITY_DATA).getUnsafe().getString("type"));
             CompoundTag nbt = BeeReloadListener.INSTANCE.getData(beeType);
-            if (!nbt.getString("group").isEmpty()) {
+            if (nbt != null && !nbt.getString("group").isEmpty()) {
                 tooltipComponents.add(Component.literal(LangUtil.capName(nbt.getString("group"))).withStyle(ChatFormatting.DARK_GRAY));
             }
         }

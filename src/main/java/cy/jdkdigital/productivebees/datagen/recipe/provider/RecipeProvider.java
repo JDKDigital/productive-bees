@@ -8,6 +8,7 @@ import cy.jdkdigital.productivebees.init.ModFluids;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.setup.HiveType;
 import cy.jdkdigital.productivelib.common.recipe.TagOutputRecipe;
+import cy.jdkdigital.productivelib.registry.LibItems;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -56,6 +57,15 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 }
             });
         });
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LibItems.UPGRADE_STABILITY.get())
+                .pattern("CEC").pattern("EBE").pattern("CEC")
+                .define('E', Ingredient.of(Tags.Items.ENDER_PEARLS))
+                .define('C', Ingredient.of(ModTags.getItemTag(ResourceLocation.fromNamespaceAndPath("c", "honeycombs"))))
+                .define('B', Ingredient.of(LibItems.UPGRADE_BASE.get()))
+                .unlockedBy("has_hive", InventoryChangeTrigger.TriggerInstance.hasItems(Items.BEEHIVE))
+                .save(consumer, ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "upgrade_stability"));
+
 
         ModBlocks.hiveStyles.forEach(style -> {
             buildCanvasStonecutterRecipes(style, consumer);
