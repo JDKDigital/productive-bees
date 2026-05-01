@@ -1,3 +1,9 @@
+1.21.1-13.13.5
+
+- Fixed conductive alloy bee recipe
+- Combs with custom recipes no longer show the generated one in JEI/EMI
+
+
 1.21.1-13.13.4
 
 - Fixed incompatibility with Botania

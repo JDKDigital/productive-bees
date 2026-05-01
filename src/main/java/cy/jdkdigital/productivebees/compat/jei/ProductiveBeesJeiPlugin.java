@@ -183,15 +183,21 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         List<RecipeHolder<CentrifugeRecipe>> centrifugeRecipesMap = recipeManager.getAllRecipesFor(ModRecipeTypes.CENTRIFUGE_TYPE.get());
         registration.addRecipes(CENTRIFUGE_TYPE, centrifugeRecipesMap.stream().map(RecipeHolder::value).toList());
 
+        // Map out all combs that have a direct block centrifuge recipe
+        List<ResourceLocation> beesWithCombRecipes = centrifugeRecipesMap.stream().filter(recipe ->{
+            return recipe.value().ingredient.getItems()[0].is(ModTags.Common.STORAGE_BLOCK_HONEYCOMBS);
+        }).map(r -> r.value().ingredient.getItems()[0].get(ModDataComponents.BEE_TYPE)).toList();
         List<CentrifugeRecipe> blockCentrifugeRecipesMap = centrifugeRecipesMap.stream().map(recipe -> {
             var item = recipe.value().ingredient.getItems()[0];
-            if (item.getItem() instanceof HoneycombItem) {
-                List<TagOutputRecipe.ChancedOutput> outputs = new ArrayList<>();
-                recipe.value().itemOutput.forEach((chanceOutput) -> {
-                    outputs.add(new TagOutputRecipe.ChancedOutput(chanceOutput.ingredient(), chanceOutput.min() * 4, chanceOutput.max() * 4, chanceOutput.chance()));
-                });
-                var fluid = new SizedFluidIngredient(recipe.value().fluidOutput.ingredient(), recipe.value().fluidOutput.amount() * 4);
-                return new CentrifugeRecipe(ComponentIngredient.of(BeeHelper.getCombBlockFromHoneyComb(item)), outputs, fluid, recipe.value().getProcessingTime());
+            if (!beesWithCombRecipes.contains(item.get(ModDataComponents.BEE_TYPE))) {
+                if (item.getItem() instanceof HoneycombItem) {
+                    List<TagOutputRecipe.ChancedOutput> outputs = new ArrayList<>();
+                    recipe.value().itemOutput.forEach((chanceOutput) -> {
+                        outputs.add(new TagOutputRecipe.ChancedOutput(chanceOutput.ingredient(), chanceOutput.min() * 4, chanceOutput.max() * 4, chanceOutput.chance()));
+                    });
+                    var fluid = new SizedFluidIngredient(recipe.value().fluidOutput.ingredient(), recipe.value().fluidOutput.amount() * 4);
+                    return new CentrifugeRecipe(ComponentIngredient.of(BeeHelper.getCombBlockFromHoneyComb(item)), outputs, fluid, recipe.value().getProcessingTime());
+                }
             }
             return null;
         }).filter(Objects::nonNull).toList();
