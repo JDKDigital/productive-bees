@@ -5,6 +5,7 @@ import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.init.ModAdvancements;
 import cy.jdkdigital.productivebees.util.BeeHelper;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -216,10 +217,12 @@ public class BeeCage extends Item
     public Component getName(ItemStack stack) {
         if (!isFilled(stack)) {
             return Component.translatable(this.getDescriptionId());
+        } else {
+            String typeId = ((CustomData) stack.get(DataComponents.CUSTOM_DATA)).copyTag().getString("type");
+            String entityId = ((CustomData) stack.get(DataComponents.CUSTOM_DATA)).copyTag().getString("entity");
+            // return Component.translatable(self.getDescriptionId()).append(Component.literal(" (" + entityId + ")"));
+            return Component.translatable(this.getDescriptionId()).append(Component.literal(" (")).append(getTranslationKey(typeId, entityId)).append(Component.literal(")"));
         }
-
-        String entityId = stack.get(DataComponents.CUSTOM_DATA).copyTag().getString("name");
-        return Component.translatable(this.getDescriptionId()).append(Component.literal(" (" + entityId + ")"));
     }
 
     @Override
@@ -242,6 +245,29 @@ public class BeeCage extends Item
             } else {
                 pTooltipComponents.add(Component.translatable("productivebees.information.hold_shift").withStyle(ChatFormatting.WHITE));
             }
+        }
+    }
+
+    private Component getTranslationKey(String typeId, String entityId) {
+        boolean should_add_prefix = true;
+        String id;
+        if (entityId.equals(ProductiveBees.MODID + ":configurable_bee")) {
+            id = typeId;
+        } else {
+            id = entityId;
+            should_add_prefix = false;
+        }
+        String[] splits = id.split(":");
+        if (splits.length < 2) {
+            return Component.literal(id);
+        }
+        // gen an entity.productivebee.xxx_bee name from lang.json
+        Component translatable = Component.translatable("entity." + ProductiveBees.MODID + "." + (id.split(":"))[1] + (should_add_prefix ? "_bee" : ""));
+        // equal return or base return
+        if (translatable.getString().equals(id)) {
+            return Component.literal(id);
+        } else {
+            return translatable;
         }
     }
 }
