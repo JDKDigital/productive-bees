@@ -1,0 +1,19 @@
+{
+  "name": "游牧蜜蜂",
+  "icon": "productivebees:spawn_egg_nomad_bee",
+  "read_by_default": true,
+  "sortnum": 10,
+  "category": "productivebees:bees_solitary",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "游牧蜜蜂",
+      "text": "[诺玛达·马尔沙梅拉]",
+      "anchor": "nomad"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "productivebees:nomad_bee"
+    }
+  ]
+}

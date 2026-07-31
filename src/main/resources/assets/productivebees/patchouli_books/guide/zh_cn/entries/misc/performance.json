@@ -1,0 +1,19 @@
+{
+  "name": "性能",
+  "icon": "productivelib:upgrade_time",
+  "category": "productivebees:misc",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "这个模组里有些东西如果设置不当，会比较吃资源。本节会给你一些建议，帮助你在不拖慢电脑的情况下，尽可能发挥蜜蜂的作用。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "由于蜜蜂是世界中的实体，而不只是一个方块或物品，它们天生就会占用更多资源。实体最吃资源的一点是寻路和 AI，而蜜蜂在这方面并不出色。为了避免不必要的 AI 计算，请确保所有蜜蜂都有住处和所需的花朵方块。同时也别把它们关在太大的围栏里，否则它们会开始到处乱飞。或者，你也可以在蜂箱中使用模拟升级，避免蜜蜂实体出现在世界中。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "另一个吃资源的地方，是离心机中蜜脾的渲染。如果你同时运行了很多离心机，可以考虑关闭蜜脾渲染。该选项位于 config/productivebees-client.toml"
+    }
+  ]
+}

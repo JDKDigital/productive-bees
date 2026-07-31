@@ -1,0 +1,15 @@
+{
+  "name": "基因转移",
+  "icon": "productivebees:gene",
+  "category": "productivebees:genetics",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "要将基因转移给蜜蜂，你需要先把基因与蜜蜂小食结合。再将这个蜜蜂小食喂给蜜蜂，它就有机会根据基因的纯度获得这一新属性。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "可以通过将两个相同的基因合并，或在一份小食上放入更多相同基因，来提高基因的纯度。"
+    }
+  ]
+}

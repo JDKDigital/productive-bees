@@ -1,0 +1,16 @@
+{
+  "name": "基因检索器",
+  "icon": "productivebees:gene_indexer",
+  "category": "productivebees:blocks",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "productivebees:gene_indexer",
+      "text": "你的基因样本是不是已经多到泛滥了？合成基因是不是合到手腕酸痛了？那这个方块就是为你准备的！"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "把你手头所有零散的基因都塞进这个超大容器里，拨动开关，然后看着内部那个自动基因索引器帮你把基因组合起来。它或许不是最高效的方法……但它是自动化的！$(br2)需要红石信号。"
+    }
+  ]
+}

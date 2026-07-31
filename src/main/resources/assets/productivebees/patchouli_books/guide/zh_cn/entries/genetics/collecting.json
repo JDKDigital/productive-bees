@@ -1,0 +1,42 @@
+{
+  "name": "收集基因",
+  "icon": "productivebees:gene",
+  "category": "productivebees:genetics",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "装瓶机配合活塞可以用来把蜜蜂装进瓶子里。将蜜蜂放在中间，然后拉下拉杆。确保装瓶机内有空瓶。把装瓶后的蜜蜂丢进离心机中，就能把有用的东西和废料分离开。"
+    },
+    {
+      "type": "multiblock",
+      "name": "蜜蜂装瓶机",
+      "multiblock": {
+        "mapping": {
+          "P": "minecraft:piston[facing=down]",
+          "B": "productivebees:bottler[has_bottle=true]"
+        },
+        "pattern": [
+          [
+            "P"
+          ],
+          [
+            " "
+          ],
+          [
+            "B"
+          ],
+          [
+            "0"
+          ]
+        ],
+        "symmetrical": true,
+        "offset": [
+          0,
+          1,
+          0
+        ]
+      },
+      "enable_visualize": false
+    }
+  ]
+}
