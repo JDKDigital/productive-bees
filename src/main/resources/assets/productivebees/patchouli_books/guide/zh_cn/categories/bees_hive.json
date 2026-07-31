@@ -1,0 +1,6 @@
+{
+  "name": "蜂巢蜜蜂",
+  "description": "蜂巢蜜蜂和原版蜜蜂一样，生活在蜂巢中，并产出蜂蜜和资源。它们必须生活在$(l:hives/advanced_hives)高级蜂巢$(/l)中才能产出资源蜂脾。大多数蜂巢蜜蜂都是由独居蜜蜂和其他蜂巢蜜蜂杂交而来，但也有一些需要给蜜蜂特定物品，或通过合成刷怪蛋获得。所有蜜蜂配方和花朵需求都可以在 JEI 中找到。",
+  "icon": "productivebees:adv_breed_bee",
+  "parent": "productivebees:bees"
+}

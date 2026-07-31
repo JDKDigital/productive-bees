@@ -1,0 +1,18 @@
+{
+  "name": "远古蜜蜂",
+  "icon": "minecraft:netherite_scrap",
+  "read_by_default": true,
+  "category": "productivebees:bees_hive",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "远古蜜蜂",
+      "text": "给一只$(l:bees/hive/diamond)钻石蜜蜂$(/l)喂食一整块下界合金块即可转化而来。",
+      "anchor": "netherite"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "productivebees:configurable_bee{type:'productivebees:netherite'}"
+    }
+  ]
+}

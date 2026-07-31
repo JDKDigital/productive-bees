@@ -1,0 +1,12 @@
+{
+  "name": "育种室",
+  "icon": "productivebees:breeding_chamber",
+  "category": "productivebees:blocks",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "productivebees:breeding_chamber",
+      "text": "在这台机器中，你可以在安全的环境下繁殖蜜蜂。向机器提供两只亲代蜜蜂、它们各自所需的繁殖物品、电力以及用于装幼蜂的空蜂笼。你还可以使用速度升级来加快流程。"
+    }
+  ]
+}

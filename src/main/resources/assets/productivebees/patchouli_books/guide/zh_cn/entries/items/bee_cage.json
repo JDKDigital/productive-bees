@@ -1,0 +1,21 @@
+{
+  "name": "蜜蜂笼",
+  "icon": "productivebees:bee_cage",
+  "category": "productivebees:items",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "productivebees:bee_cage",
+      "text": "蜜蜂笼可用于捕捉蜜蜂，以便储存或运输。要捕捉蜜蜂，只需手持蜂笼右键点击蜜蜂。右键点击地面上的已装满蜂笼，即可再次释放蜜蜂。$(br2)旅行时记得随身多带几个蜂笼，以防遇到有趣的蜜蜂。"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "productivebees:bee_cage",
+      "text": "在游戏前期很容易获得"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "在有效的花朵方块上释放蜜蜂，会将该方块设为蜜蜂的花朵位置。同样地，潜行时对有效的蜂箱或蜂巢释放蜜蜂，会将该蜂箱或蜂巢设为蜜蜂的家。"
+    }
+  ]
+}

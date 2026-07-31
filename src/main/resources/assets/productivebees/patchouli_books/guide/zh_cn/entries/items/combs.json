@@ -1,0 +1,11 @@
+{
+  "name": "蜂蜡",
+  "icon": "minecraft:honeycomb",
+  "category": "productivebees:items",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "居住在高级蜂箱中的蜜蜂会产出资源蜜脾，这些蜜脾可以放入离心机中提取资源。$(br)蜜脾还可以压缩成蜜脾块，便于储存。"
+    }
+  ]
+}
