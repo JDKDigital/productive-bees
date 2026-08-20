@@ -1,9 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    "#c:ores/quartz",
-    "minecraft:quartz_pillar",
-    "minecraft:quartz_block",
-    "productivebees:quartz_netherrack"
-  ]
-}

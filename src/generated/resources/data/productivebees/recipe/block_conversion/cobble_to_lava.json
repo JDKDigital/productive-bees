@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:magmatic"
+    }
+  ],
+  "type": "productivebees:block_conversion",
+  "bees": [
+    "productivebees:magmatic"
+  ],
+  "chance": 0.3,
+  "from": {
+    "Name": "minecraft:cobblestone"
+  },
+  "to": {
+    "Name": "minecraft:lava"
+  }
+}

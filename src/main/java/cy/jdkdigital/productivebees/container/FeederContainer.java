@@ -1,13 +1,12 @@
 package cy.jdkdigital.productivebees.container;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.entity.FeederBlockEntity;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
 import cy.jdkdigital.productivelib.container.AbstractContainer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandler;
 
 import java.util.Objects;
 
@@ -20,10 +19,7 @@ public class FeederContainer extends AbstractContainer<FeederBlockEntity>
     public FeederContainer(final int windowId, final Inventory playerInventory, final FeederBlockEntity blockEntity) {
         super(ModContainerTypes.FEEDER.get(), blockEntity, windowId);
 
-        var inv = this.getBlockEntity().getLevel().getCapability(Capabilities.ItemHandler.BLOCK, this.getBlockEntity().getBlockPos(), null);
-        if (inv instanceof IItemHandler itemHandler) {
-            addSlotBox(itemHandler, 0, 62, blockEntity.isDouble() ? 26 : 35, 3, 18, blockEntity.isDouble() ? 2 : 1, 18);
-        }
+        addSlotBox(this.getBlockEntity().getItemHandler(), 0, 62, blockEntity.isDouble() ? 26 : 35, 3, 18, blockEntity.isDouble() ? 2 : 1, 18);
 
         layoutPlayerInventorySlots(playerInventory, 0, 8, 84);
     }

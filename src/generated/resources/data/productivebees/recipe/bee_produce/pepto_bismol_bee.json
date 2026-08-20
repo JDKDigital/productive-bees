@@ -1,0 +1,28 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:sugarbag"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:pepto_bismol"
+    }
+  ],
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:pepto_bismol",
+  "results": [
+    {
+      "chance": 0.4,
+      "item": "productivebees:sugarbag_honeycomb",
+      "max": 1,
+      "min": 1
+    },
+    {
+      "chance": 0.05,
+      "item": "#c:pollens",
+      "max": 1,
+      "min": 1
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:undergarden/regalium"
+    }
+  ],
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:undergarden/regalium",
+  "results": [
+    {
+      "chance": 1.0,
+      "item": {
+        "neoforge:ingredient_type": "productivebees:component",
+        "components": {
+          "productivebees:bee_type": "productivebees:undergarden/regalium"
+        },
+        "items": "productivebees:configurable_honeycomb"
+      },
+      "max": 1,
+      "min": 1
+    },
+    {
+      "chance": 0.05,
+      "item": "#c:pollens",
+      "max": 1,
+      "min": 1
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gtceu/naquadah"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gtceu/neutronium"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "gtceu"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "gtceu:nan_certificate",
+  "result": "productivebees:gtceu/neutronium",
+  "source": "productivebees:gtceu/naquadah"
+}

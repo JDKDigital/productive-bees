@@ -1,0 +1,13 @@
+{
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/creaking/bee",
+  "flowerBlock": "minecraft:resin_block",
+  "model": "productivebees:entity/royal",
+  "particleColor": "#b5580f",
+  "pollinatedSize": 1.0,
+  "primaryColor": "#545852",
+  "secondaryColor": "#b3a3a3",
+  "selfbreed": false,
+  "size": 0.8,
+  "useGlowLayer": true
+}

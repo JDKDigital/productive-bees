@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productivebees:item/advanced_biomesoplenty_dead_beehive",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -6975867
+      },
+      {
+        "type": "minecraft:constant",
+        "value": -1
+      }
+    ]
+  }
+}

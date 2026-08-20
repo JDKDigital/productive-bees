@@ -1,0 +1,8 @@
+{
+  "type": "productivebees:bee_spawning",
+  "biomes": "#productivebees:is_beach_or_river",
+  "ingredient": "productivebees:gravel_nest",
+  "results": [
+    "productivebees:digger_bee"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "megacells"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/sky_bronze/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "megacells:sky_bronze_block",
+  "particleColor": "#bfb57c",
+  "primaryColor": "#2e0b05",
+  "renderer": "default_crystal",
+  "secondaryColor": "#5c2513",
+  "selfbreed": false,
+  "size": 0.8,
+  "tertiaryColor": "#804a2b"
+}

@@ -1,7 +1,7 @@
 {
   "type": "mekanism:oxidizing",
   "input": {
-    "type": "productivebees:component",
+    "neoforge:ingredient_type": "productivebees:component",
     "components": {
       "productivebees:bee_type": "productivebees:wasted_radioactive"
     },
@@ -18,7 +18,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:wasted_radioactive"
+      "bee": "productivebees:mekanism/wasted_radioactive"
     }
   ]
 }

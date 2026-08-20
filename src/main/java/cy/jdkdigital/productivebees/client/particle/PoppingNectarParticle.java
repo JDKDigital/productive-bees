@@ -1,25 +1,37 @@
 package cy.jdkdigital.productivebees.client.particle;
 
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.*;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.SingleQuadParticle;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.util.RandomSource;
 
 import javax.annotation.Nonnull;
 
-public class PoppingNectarParticle extends LavaParticle
+public class PoppingNectarParticle extends SingleQuadParticle
 {
-    public PoppingNectarParticle(ClientLevel world, double x, double y, double z) {
-        super(world, x, y, z);
-        this.lifetime = (int) (10.0D / (world.random.nextDouble() * 0.8D + 0.2D));
+    public PoppingNectarParticle(ClientLevel level, double x, double y, double z, SpriteSet sprites) {
+        super(level, x, y, z, sprites.first());
+        this.lifetime = (int) (10.0D / (level.getRandom().nextDouble() * 0.8D + 0.2D));
+        setSpriteFromAge(sprites);
     }
 
-    @Nonnull
     @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_LIT;
+    public Layer getLayer() {
+        return Layer.OPAQUE;
+    }
+
+    @Override
+    public int getLightCoords(float partialTick) {
+        return 240;
     }
 
     @Override
     public void tick() {
+        this.xo = this.x;
+        this.yo = this.y;
+        this.zo = this.z;
         if (this.age++ >= this.lifetime) {
             this.remove();
         } else {
@@ -43,17 +55,15 @@ public class PoppingNectarParticle extends LavaParticle
         }
 
         @Override
-        public Particle createParticle(@Nonnull NectarParticleType typeIn, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            PoppingNectarParticle dripparticle = new PoppingNectarParticle(world, x, y, z);
+        public Particle createParticle(@Nonnull NectarParticleType typeIn, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, @Nonnull RandomSource random) {
+            PoppingNectarParticle particle = new PoppingNectarParticle(world, x, y, z, this.sprite);
 
             float[] colors = typeIn.getColor();
             if (colors != null) {
-                dripparticle.setColor(colors[0], colors[1], colors[2]);
+                particle.setColor(colors[0], colors[1], colors[2]);
             }
 
-            dripparticle.pickSprite(this.sprite);
-
-            return dripparticle;
+            return particle;
         }
     }
 }

@@ -1,13 +1,11 @@
 {
   "type": "astralsorcery:infuser",
   "fluidInput": "astralsorcery:liquid_starlight",
-  "input": {
-    "item": "productivebees:spawn_egg_quarry_bee"
-  },
+  "input": "productivebees:spawn_egg_quarry_bee",
   "output": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:rock_crystal",
+        "type": "productivebees:astralsorcery/rock_crystal",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -26,7 +24,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:rock_crystal"
+      "bee": "productivebees:astralsorcery/rock_crystal"
     }
   ]
 }

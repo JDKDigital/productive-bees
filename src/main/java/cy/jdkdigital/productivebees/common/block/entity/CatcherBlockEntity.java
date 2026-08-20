@@ -12,9 +12,9 @@ import cy.jdkdigital.productivelib.registry.LibItems;
 import cy.jdkdigital.productivelib.registry.ModDataComponents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -23,8 +23,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -35,7 +35,7 @@ public class CatcherBlockEntity extends CapabilityBlockEntity implements MenuPro
 {
     protected int tickCounter = 0;
 
-    public IItemHandlerModifiable inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(11, this)
+    public InventoryHandlerHelper.BlockEntityItemStackHandler inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(11, this)
     {
         @Override
         public boolean isContainerItem(Item item) {
@@ -43,7 +43,7 @@ public class CatcherBlockEntity extends CapabilityBlockEntity implements MenuPro
         }
     };
 
-    protected IItemHandlerModifiable upgradeHandler = new InventoryHandlerHelper.UpgradeHandler(4, this, List.of(
+    protected InventoryHandlerHelper.UpgradeHandler upgradeHandler = new InventoryHandlerHelper.UpgradeHandler(4, this, List.of(
             LibItems.UPGRADE_CHILD.get(),
             LibItems.UPGRADE_ADULT.get(),
             LibItems.UPGRADE_RANGE.get(),
@@ -61,7 +61,7 @@ public class CatcherBlockEntity extends CapabilityBlockEntity implements MenuPro
                 if (invItem.getItem() instanceof BeeCage && !BeeCage.isFilled(invItem)) {
                     // Check if there's an empty output slot
                     int availableSlot = 0;
-                    for (int slot = 1; slot < blockEntity.inventoryHandler.getSlots(); slot++) {
+                    for (int slot = 1; slot < blockEntity.inventoryHandler.size(); slot++) {
                         if (blockEntity.inventoryHandler.getStackInSlot(slot).isEmpty()) {
                             availableSlot = slot;
                             break;
@@ -86,8 +86,8 @@ public class CatcherBlockEntity extends CapabilityBlockEntity implements MenuPro
 
                             if (!filterUpgrades.isEmpty()) {
                                 for (ItemStack filter : filterUpgrades) {
-                                    List<ResourceLocation> entities = filter.getOrDefault(ModDataComponents.ENTITY_TYPE_LIST, new ArrayList<>());
-                                    for (ResourceLocation allowedBee : entities) {
+                                    List<Identifier> entities = filter.getOrDefault(ModDataComponents.ENTITY_TYPE_LIST, new ArrayList<>());
+                                    for (Identifier allowedBee : entities) {
                                         String type = BeeIngredientFactory.getIngredientKey(bee);
                                         if (allowedBee.toString().equals(type)) {
                                             isAllowed = true;
@@ -98,12 +98,12 @@ public class CatcherBlockEntity extends CapabilityBlockEntity implements MenuPro
 
                             if (isAllowed && invItem.getCount() > 0) {
                                 bee.setSavedFlowerPos(null);
-                                bee.hivePos = null;
+                                bee.setHivePos(null);
                                 ItemStack cageStack = new ItemStack(invItem.getItem());
                                 BeeCage.captureEntity(bee, cageStack);
                                 ((InventoryHandlerHelper.BlockEntityItemStackHandler) blockEntity.inventoryHandler).addOutput(cageStack);
                                 bee.discard();
-                                invItem.shrink(1);
+                                ((InventoryHandlerHelper.BlockEntityItemStackHandler) blockEntity.inventoryHandler).extractItem(0, 1, false, false);
                             }
                         }
                     }
@@ -118,7 +118,7 @@ public class CatcherBlockEntity extends CapabilityBlockEntity implements MenuPro
     }
 
     @Override
-    public IItemHandlerModifiable getUpgradeHandler() {
+    public ResourceHandler<ItemResource> getUpgradeHandler() {
         return upgradeHandler;
     }
 
@@ -140,7 +140,7 @@ public class CatcherBlockEntity extends CapabilityBlockEntity implements MenuPro
     }
 
     @Override
-    public IItemHandler getItemHandler() {
+    public ResourceHandler<ItemResource> getItemHandler() {
         return inventoryHandler;
     }
 }

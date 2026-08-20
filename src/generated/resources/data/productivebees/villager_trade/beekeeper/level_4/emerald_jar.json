@@ -1,0 +1,12 @@
+{
+  "gives": {
+    "id": "productivebees:jar_oak"
+  },
+  "max_uses": 12.0,
+  "reputation_discount": 0.2,
+  "wants": {
+    "count": 6.0,
+    "id": "minecraft:emerald"
+  },
+  "xp": 8.0
+}

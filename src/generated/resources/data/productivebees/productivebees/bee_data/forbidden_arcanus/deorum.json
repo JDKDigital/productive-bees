@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "forbidden_arcanus"
+    }
+  ],
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "forbidden_arcanus:deorum_block",
+  "particleColor": "#f4d167",
+  "primaryColor": "#ca831a",
+  "secondaryColor": "#ebb02f",
+  "size": 0.8,
+  "useGlowLayer": true
+}

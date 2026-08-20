@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productivebees:item/configurable_honeycomb",
+    "tints": [
+      {
+        "type": "productivebees:bee",
+        "colorKey": "primaryColor"
+      },
+      {
+        "type": "productivebees:bee",
+        "colorKey": "tertiaryColor"
+      }
+    ]
+  }
+}

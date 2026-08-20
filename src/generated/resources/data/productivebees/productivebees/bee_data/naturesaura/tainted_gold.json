@@ -1,0 +1,18 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "naturesaura"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/tainted_gold/bee",
+  "flowerBlock": "naturesaura:tainted_gold_block",
+  "particleColor": "#cb7225",
+  "primaryColor": "#ca7328",
+  "secondaryColor": "#a05a1e",
+  "selfbreed": false,
+  "size": 0.8,
+  "tertiaryColor": "#734721",
+  "useGlowLayer": true
+}

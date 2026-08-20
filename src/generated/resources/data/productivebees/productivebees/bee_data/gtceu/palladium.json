@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "gtceu"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/palladium/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/palladium",
+  "particleColor": "#c3989a",
+  "primaryColor": "#b78187",
+  "selfbreed": false,
+  "size": 0.8,
+  "useGlowLayer": true
+}

@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:chemlib/neodymium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:chemlib/praseodymium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:chemlib/promethium"
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:chemlib/promethium",
+  "parent1": "productivebees:chemlib/neodymium",
+  "parent2": "productivebees:chemlib/praseodymium"
+}

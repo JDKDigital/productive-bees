@@ -1,0 +1,29 @@
+{
+  "values": [
+    {
+      "id": "#c:capturing_not_supported",
+      "required": false
+    },
+    "#minecraft:beehive_inhabitors",
+    {
+      "id": "minecolonies:citizen",
+      "required": false
+    },
+    {
+      "id": "minecolonies:visitor",
+      "required": false
+    },
+    {
+      "id": "minecolonies:mercenary",
+      "required": false
+    },
+    {
+      "id": "ars_nouveau:starbuncle",
+      "required": false
+    },
+    {
+      "id": "cobblemon:pokemon",
+      "required": false
+    }
+  ]
+}

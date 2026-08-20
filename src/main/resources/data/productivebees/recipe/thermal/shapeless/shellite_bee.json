@@ -2,37 +2,34 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
+      "neoforge:ingredient_type": "productivebees:component",
+      "items": "productivebees:spawn_egg_configurable_bee",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:apatite",
+          "type": "productivebees:gems/apatite",
           "id": "productivebees:configurable_bee"
         }
-      },
-      "count": 1,
-      "id": "productivebees:spawn_egg_configurable_bee"
+      }
     },
+    "minecraft:shulker_shell",
+    "minecraft:shulker_shell",
     {
-      "item": "minecraft:shulker_shell"
-    },
-    {
-      "item": "minecraft:shulker_shell"
-    },
-    {
+      "neoforge:ingredient_type": "productivebees:component",
+      "items": "productivebees:spawn_egg_configurable_bee",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:bronze",
+          "type": "productivebees:alloys/bronze",
           "id": "productivebees:configurable_bee"
         }
-      },
-      "count": 1,
-      "id": "productivebees:spawn_egg_configurable_bee"
+      }
     }
   ],
   "result": {
     "id": "productivebees:spawn_egg_configurable_bee",
-    "nbt": {
-      "EntityTag": {
-        "type": "productivebees:shellite"
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:thermal_extra/shellite",
+        "id": "productivebees:configurable_bee"
       }
     }
   },
@@ -47,15 +44,15 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:apatite"
+      "bee": "productivebees:gems/apatite"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:bronze"
+      "bee": "productivebees:alloys/bronze"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:shellite"
+      "bee": "productivebees:thermal_extra/shellite"
     }
   ]
 }

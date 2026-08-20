@@ -1,0 +1,12 @@
+{
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:rancher_bee",
+  "results": [
+    {
+      "chance": 1.0,
+      "item": "productivebees:honeycomb_milky",
+      "max": 1,
+      "min": 1
+    }
+  ]
+}

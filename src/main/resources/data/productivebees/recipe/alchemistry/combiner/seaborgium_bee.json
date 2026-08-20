@@ -5,27 +5,25 @@
     {
       "count": 1,
       "ingredient": {
+        "neoforge:ingredient_type": "productivebees:component",
+        "items": "productivebees:spawn_egg_configurable_bee",
         "components": {
           "minecraft:entity_data": {
-            "type": "productivebees:californium",
+            "type": "productivebees:chemlib/californium",
             "id": "productivebees:configurable_bee"
           }
-        },
-        "count": 1,
-        "id": "productivebees:spawn_egg_configurable_bee"
+        }
       }
     },
     {
       "count": 16,
-      "ingredient": {
-        "item": "chemlib:oxygen"
-      }
+      "ingredient": "chemlib:oxygen"
     }
   ],
   "result": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:seaborgium",
+        "type": "productivebees:chemlib/seaborgium",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -39,11 +37,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:californium"
+      "bee": "productivebees:chemlib/californium"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:seaborgium"
+      "bee": "productivebees:chemlib/seaborgium"
     }
   ]
 }

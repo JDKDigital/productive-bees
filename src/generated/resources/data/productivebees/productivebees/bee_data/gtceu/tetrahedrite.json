@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "gtceu"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/tetrahedrite/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/raw_tetrahedrite",
+  "particleColor": "#a19e99",
+  "primaryColor": "#273125",
+  "secondaryColor": "#7d7f77",
+  "selfbreed": false,
+  "size": 0.8,
+  "tertiaryColor": "#474f44",
+  "useGlowLayer": true
+}

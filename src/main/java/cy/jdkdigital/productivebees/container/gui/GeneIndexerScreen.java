@@ -2,37 +2,27 @@ package cy.jdkdigital.productivebees.container.gui;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.container.GeneIndexerContainer;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
-
-import javax.annotation.Nonnull;
 
 public class GeneIndexerScreen extends AbstractContainerScreen<GeneIndexerContainer>
 {
-    private static final ResourceLocation GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/gene_indexer.png");
+    private static final Identifier GUI_TEXTURE = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/gene_indexer.png");
 
     public GeneIndexerScreen(GeneIndexerContainer container, Inventory inv, Component titleIn) {
         super(container, inv, titleIn);
         imageWidth = 256;
         imageHeight = 256;
+        inventoryLabelY = imageHeight - 94;
     }
 
     @Override
-    public void render(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        super.render(guiGraphics, mouseX, mouseY, partialTicks);
-        try {
-            this.renderTooltip(guiGraphics, mouseX, mouseY);
-        } catch (Exception e) {
-            ProductiveBees.LOGGER.info("something crashed when rendering tooltip in gene indexer" + e.getMessage());
-        }
-    }
-
-    @Override
-    protected void renderBg(@Nonnull GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
-        // Draw main screen
-        guiGraphics.blit(GUI_TEXTURE, this.getGuiLeft(), this.getGuiTop(), 0, 0, this.getXSize(), this.getYSize());
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        super.extractBackground(graphics, mouseX, mouseY, partialTick);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, GUI_TEXTURE, this.leftPos, this.topPos, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
     }
 }

@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "oritech"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/prometheum/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "oritech:machine_core_7",
+  "particleColor": "#2486f8",
+  "primaryColor": "#414758",
+  "secondaryColor": "#f7bc42",
+  "selfbreed": false,
+  "size": 0.4,
+  "tertiaryColor": "#3dffb1",
+  "useGlowLayer": true
+}

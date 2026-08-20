@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/plutonium/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerItem": "chemlib:plutonium",
+  "particleColor": "#c9c6a8",
+  "primaryColor": "#cdccd1",
+  "selfbreed": false,
+  "size": 0.6,
+  "useGlowLayer": true
+}

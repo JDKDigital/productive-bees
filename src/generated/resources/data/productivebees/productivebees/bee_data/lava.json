@@ -1,0 +1,9 @@
+{
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/lava/bee",
+  "fireproof": true,
+  "flowerFluid": "minecraft:lava",
+  "primaryColor": "#d56c1a",
+  "secondaryColor": "#000000",
+  "useGlowLayer": true
+}

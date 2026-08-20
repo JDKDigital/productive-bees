@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "gtceu"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/naquadah/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "gtceu:naquadah_block",
+  "particleColor": "#fcefbd",
+  "primaryColor": "#522629",
+  "secondaryColor": "#211722",
+  "selfbreed": false,
+  "size": 0.6,
+  "tertiaryColor": "#cc9c59",
+  "useGlowLayer": true
+}

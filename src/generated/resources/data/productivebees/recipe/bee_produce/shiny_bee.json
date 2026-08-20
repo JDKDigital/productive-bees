@@ -1,0 +1,24 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "shiny"
+    }
+  ],
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "shiny:shiny_bee",
+  "results": [
+    {
+      "chance": 1.0,
+      "item": "minecraft:honeycomb",
+      "max": 4,
+      "min": 4
+    },
+    {
+      "chance": 0.15,
+      "item": "#c:pollens",
+      "max": 1,
+      "min": 1
+    }
+  ]
+}

@@ -3,7 +3,7 @@
   "energy": 19200,
   "input": {
     "basePredicate": {
-      "type": "productivebees:component",
+      "neoforge:ingredient_type": "productivebees:component",
       "components": {
         "minecraft:entity_data": {
           "type": "productivebees:coal",
@@ -17,7 +17,7 @@
   "result": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:hop_graphite",
+        "type": "productivebees:immersiveengineering/hop_graphite",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -31,7 +31,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:hop_graphite"
+      "bee": "productivebees:immersiveengineering/hop_graphite"
     },
     {
       "type": "neoforge:mod_loaded",

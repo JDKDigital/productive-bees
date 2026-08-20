@@ -1,0 +1,30 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:forbidden_arcanus/deorum"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "forbidden_arcanus"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:forbidden_arcanus/deorum"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": "forbidden_arcanus:deorum_nugget",
+      "max": 8,
+      "min": 4
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

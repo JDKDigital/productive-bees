@@ -1,5 +1,5 @@
 {
-  "type": "productivebees:dark_oak_wood_nest",
+  "type": "productivebees:nest",
   "config": {
     "targets": [
       {
@@ -11,6 +11,10 @@
           "Name": "productivebees:dark_oak_wood_nest"
         }
       }
-    ]
+    ],
+    "search": {
+      "type": "tree"
+    },
+    "config_key": "dark_oak_wood_nest"
   }
 }

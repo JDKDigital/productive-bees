@@ -4,12 +4,8 @@
     "RCR"
   ],
   "key": {
-    "R": {
-      "tag": "c:dusts/redstone"
-    },
-    "C": {
-      "item": "productivebees:centrifuge"
-    }
+    "R": "#c:dusts/redstone",
+    "C": "productivebees:centrifuge"
   },
   "result": {
     "id": "productivebees:powered_centrifuge"

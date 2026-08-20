@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productivebees:item/template_spawn_egg",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -2970880
+      },
+      {
+        "type": "minecraft:constant",
+        "value": -10538459
+      }
+    ]
+  }
+}

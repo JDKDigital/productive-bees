@@ -1,0 +1,29 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "eternal_starlight"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:eternal_starlight/glacite"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:eternal_starlight/glacite"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "chance": 0.7,
+      "item": "eternal_starlight:glacite_shard"
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

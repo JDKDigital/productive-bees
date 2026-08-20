@@ -11,15 +11,13 @@ import cy.jdkdigital.productivelib.common.block.entity.FluidTankBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -32,18 +30,16 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.fluids.FluidActionResult;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidUtil;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidStacksResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -54,7 +50,7 @@ public class BottlerBlockEntity extends FluidTankBlockEntity implements MenuProv
     protected int tickCounter = 0;
     public int fluidId = 0;
 
-    public IItemHandlerModifiable inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(12, this)
+    public InventoryHandlerHelper.BlockEntityItemStackHandler inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(12, this)
     {
         @Override
         public boolean isContainerItem(Item item) {
@@ -62,12 +58,12 @@ public class BottlerBlockEntity extends FluidTankBlockEntity implements MenuProv
         }
     };
 
-    public FluidTank fluidHandler = new FluidTank(10000)
+    public FluidStacksResourceHandler fluidHandler = new FluidStacksResourceHandler(1, 10000)
     {
         @Override
-        protected void onContentsChanged() {
-            super.onContentsChanged();
-            BottlerBlockEntity.this.fluidId = BuiltInRegistries.FLUID.getId(getFluid().getFluid());
+        protected void onContentsChanged(int index, FluidStack previousContents) {
+            super.onContentsChanged(index, previousContents);
+            BottlerBlockEntity.this.fluidId = BuiltInRegistries.FLUID.getId(getResource(index).getFluid());
             BottlerBlockEntity.this.updateBottleState();
         }
     };
@@ -90,11 +86,17 @@ public class BottlerBlockEntity extends FluidTankBlockEntity implements MenuProv
         BlockState aboveState = level.getBlockState(pos.above());
         if (++blockEntity.tickCounter % 7 == 0 && aboveState.getBlock() == Blocks.PISTON_HEAD && aboveState.getValue(DirectionalBlock.FACING) == Direction.DOWN) {
             // Check for bees on top of block
-            List<Bee> bees = level.getEntitiesOfClass(Bee.class, (new AABB(pos).expandTowards(0.0D, 1.0D, 0.0D))).stream().filter(e -> !e.isBaby()).toList();
-            if (!bees.isEmpty()) {
-                Bee bee = bees.iterator().next();
+            List<Bee> bees = level.getEntitiesOfClass(Bee.class, new AABB(pos).expandTowards(0.0D, 1.0D, 0.0D));
+            Bee bee = null;
+            for (Bee candidate : bees) {
+                if (!candidate.isBaby()) {
+                    bee = candidate;
+                    break;
+                }
+            }
+            if (bee != null) {
                 ItemStack bottles = blockEntity.inventoryHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
-                if (!bottles.isEmpty() && bottles.getItem().equals(Items.GLASS_BOTTLE) && !bee.isBaby() && bee.isAlive()) {
+                if (!bottles.isEmpty() && bottles.getItem().equals(Items.GLASS_BOTTLE) && bee.isAlive()) {
                     // Generate item
                     ItemStack geneBottle = GeneBottle.getStack(bee);
                     if (!geneBottle.isEmpty()) {
@@ -115,8 +117,10 @@ public class BottlerBlockEntity extends FluidTankBlockEntity implements MenuProv
                         level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BOTTLE_FILL, SoundSource.NEUTRAL, 1.0F, 1.0F);
                         
                         // Consume resources and process entity (moved to after item generation to ensure items appear first)
-                        bottles.shrink(1);
-                        bee.kill();
+                        blockEntity.inventoryHandler.extractItem(InventoryHandlerHelper.BOTTLE_SLOT, 1, false, false);
+                        if (level instanceof ServerLevel sl) {
+                            bee.kill(sl);
+                        }
                     }
                 }
             }
@@ -126,38 +130,63 @@ public class BottlerBlockEntity extends FluidTankBlockEntity implements MenuProv
 
     @Override
     public void tickFluidTank(Level level, BlockPos pos, BlockState state, FluidTankBlockEntity blockEntity) {
-        FluidStack fluidStack = blockEntity.getFluidHandler().getFluidInTank(0);
-        if (fluidStack.getAmount() >= 0 && level instanceof ServerLevel && blockEntity instanceof BottlerBlockEntity bottlerBlockEntity) {
-            IItemHandler invHandler = bottlerBlockEntity.getItemHandler();
-            if (invHandler instanceof ItemStackHandler) {
-                ItemStack fluidContainerItem = invHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
-                ItemStack existingOutput = invHandler.getStackInSlot(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT);
-                if (fluidContainerItem.getCount() > 0 && (existingOutput.isEmpty() || (existingOutput.getCount() < existingOutput.getMaxStackSize()))) {
-                    // Look up bottler recipes from input
-                    List<BottlerRecipe> recipes = new ArrayList<>();
-                    List<RecipeHolder<BottlerRecipe>> allRecipes = level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.BOTTLER_TYPE.get());
-                    for (RecipeHolder<BottlerRecipe> entry : allRecipes) {
-                        BottlerRecipe recipe = entry.value();
-                        if (recipe.matches(fluidStack, fluidContainerItem)) {
-                            recipes.add(recipe);
-                        }
-                    }
+        if (!(level instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        FluidResource tankResource = fluidHandler.getResource(0);
+        int tankAmount = fluidHandler.getAmountAsInt(0);
+        if (tankResource.isEmpty() || tankAmount <= 0) {
+            return;
+        }
+        ItemStack fluidContainerItem = inventoryHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
+        ItemStack existingOutput = inventoryHandler.getStackInSlot(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT);
+        if (fluidContainerItem.isEmpty() || (!existingOutput.isEmpty() && existingOutput.getCount() >= existingOutput.getMaxStackSize())) {
+            return;
+        }
 
-                    if (recipes.size() > 0) {
-                        BottlerRecipe recipe = recipes.iterator().next();
-                        if (existingOutput.isEmpty() || existingOutput.getItem().equals(recipe.getResultItem(level.registryAccess()).getItem())) {
-                            processOutput(fluidHandler, invHandler, recipe.getResultItem(level.registryAccess()).copy(), recipe.fluidInput.amount(), true);
-                        }
-                    } else if (fluidContainerItem.getCapability(Capabilities.FluidHandler.ITEM) instanceof IFluidHandlerItem itemFluidHandler) {
-                        // try filling fluid container
-//                        var h = fluidContainerItem.getCapability(Capabilities.FluidHandler.ITEM);
-                        int amount = itemFluidHandler.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
-                        processOutput(fluidHandler, invHandler, itemFluidHandler.getFluidInTank(0).getAmount() == itemFluidHandler.getTankCapacity(0) ? fluidContainerItem : null, amount, false);
-                    } else {
-                        // try to fill bucket
-                        FluidActionResult fillResult = FluidUtil.tryFillContainer(fluidContainerItem, fluidHandler, Integer.MAX_VALUE, null, true);
-                        if (fillResult.isSuccess()) {
-                            processOutput(fluidHandler, invHandler, fillResult.getResult(), 0, true);
+        FluidStack tankStack = tankResource.toStack(tankAmount);
+
+        // 1) Bottler recipe match — produces a configured result item.
+        RecipeHolder<BottlerRecipe> matched = null;
+        for (RecipeHolder<BottlerRecipe> entry : serverLevel.recipeAccess().recipeMap().byType(ModRecipeTypes.BOTTLER_TYPE.get())) {
+            if (entry.value().matches(tankStack, fluidContainerItem)) {
+                matched = entry;
+                break;
+            }
+        }
+        if (matched != null) {
+            BottlerRecipe recipe = matched.value();
+            ItemStack resultItem = recipe.getResult().copy();
+            if (existingOutput.isEmpty() || existingOutput.getItem().equals(resultItem.getItem())) {
+                int drainAmount = recipe.fluidInput.amount();
+                try (Transaction tx = Transaction.openRoot()) {
+                    int drained = fluidHandler.extract(0, tankResource, drainAmount, tx);
+                    if (drained >= drainAmount) {
+                        tx.commit();
+                        inventoryHandler.extractItem(InventoryHandlerHelper.BOTTLE_SLOT, 1, false, false);
+                        inventoryHandler.insertItem(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, resultItem, false);
+                    }
+                }
+            }
+            return;
+        }
+
+        // 2) Generic fluid-container item — fill the item from the tank in place.
+        ResourceHandler<FluidResource> itemFluidHandler = ItemAccess.forHandlerIndex(inventoryHandler, InventoryHandlerHelper.BOTTLE_SLOT).getCapability(Capabilities.Fluid.ITEM);
+        if (itemFluidHandler != null) {
+            try (Transaction tx = Transaction.openRoot()) {
+                int inserted = itemFluidHandler.insert(tankResource, tankAmount, tx);
+                if (inserted > 0) {
+                    int drained = fluidHandler.extract(0, tankResource, inserted, tx);
+                    if (drained > 0) {
+                        tx.commit();
+                        // If the item ended up at capacity, move it to the output slot.
+                        if (itemFluidHandler.getAmountAsInt(0) >= itemFluidHandler.getCapacityAsInt(0, tankResource)) {
+                            ItemStack filled = inventoryHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
+                            if (!filled.isEmpty() && (existingOutput.isEmpty() || existingOutput.getItem().equals(filled.getItem()))) {
+                                ItemStack toMove = filled.split(1);
+                                inventoryHandler.insertItem(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, toMove, false);
+                            }
                         }
                     }
                 }
@@ -165,23 +194,13 @@ public class BottlerBlockEntity extends FluidTankBlockEntity implements MenuProv
         }
     }
 
-    private static void processOutput(IFluidHandler fluidHandler, IItemHandler itemHandler, ItemStack outputItem, int drainedAmount, boolean shrinkInputStack) {
-        if (shrinkInputStack) {
-            itemHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT).shrink(1);
-        }
-        if (outputItem != null) {
-            itemHandler.insertItem(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, outputItem, false);
-        }
-        fluidHandler.drain(drainedAmount, IFluidHandler.FluidAction.EXECUTE);
-    }
-
     @Override
-    public void loadPacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
-        super.loadPacketNBT(tag, provider);
+    public void loadPacketNBT(ValueInput input) {
+        super.loadPacketNBT(input);
 
         // set fluid ID for screens
-        Fluid fluid = fluidHandler.getFluidInTank(0).getFluid();
-        fluidId = BuiltInRegistries.FLUID.getId(fluid);
+        FluidStack fluidStack = fluidHandler.getResource(0).toStack(fluidHandler.getAmountFrom(fluidHandler.getResource(0).toStack(0)));
+        fluidId = BuiltInRegistries.FLUID.getId(fluidStack.getFluid());
     }
 
     @Override
@@ -195,12 +214,12 @@ public class BottlerBlockEntity extends FluidTankBlockEntity implements MenuProv
     }
 
     @Override
-    public IItemHandler getItemHandler() {
+    public ResourceHandler<ItemResource> getItemHandler() {
         return inventoryHandler;
     }
 
     @Override
-    public FluidTank getFluidHandler() {
+    public ResourceHandler<FluidResource> getFluidHandler() {
         return fluidHandler;
     }
 

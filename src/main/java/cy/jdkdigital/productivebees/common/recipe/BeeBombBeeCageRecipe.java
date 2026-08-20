@@ -8,12 +8,11 @@ import cy.jdkdigital.productivebees.common.item.BeeBomb;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 
@@ -23,10 +22,23 @@ import java.util.List;
 
 public class BeeBombBeeCageRecipe implements CraftingRecipe
 {
-    public final ItemStack beeBomb;
+    public static final MapCodec<BeeBombBeeCageRecipe> MAP_CODEC = RecordCodecBuilder.mapCodec(
+            builder -> builder.group(
+                            ItemStackTemplate.CODEC.fieldOf("bee_bomb").forGetter(recipe -> recipe.beeBombTemplate)
+                    )
+                    .apply(builder, BeeBombBeeCageRecipe::new)
+    );
 
-    public BeeBombBeeCageRecipe(ItemStack beeBomb) {
-        this.beeBomb = beeBomb;
+    public static final StreamCodec<RegistryFriendlyByteBuf, BeeBombBeeCageRecipe> STREAM_CODEC = StreamCodec.of(
+            BeeBombBeeCageRecipe::toNetwork, BeeBombBeeCageRecipe::fromNetwork
+    );
+
+    public static final RecipeSerializer<BeeBombBeeCageRecipe> SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
+
+    public final ItemStackTemplate beeBombTemplate;
+
+    public BeeBombBeeCageRecipe(ItemStackTemplate beeBombTemplate) {
+        this.beeBombTemplate = beeBombTemplate;
     }
 
     @Override
@@ -78,7 +90,7 @@ public class BeeBombBeeCageRecipe implements CraftingRecipe
 
     @Nonnull
     @Override
-    public ItemStack assemble(CraftingInput inv, HolderLookup.Provider provider) {
+    public ItemStack assemble(CraftingInput inv) {
         // Combine bee cages with bee bomb
         ItemStack bomb = null;
         List<ItemStack> beeCages = new ArrayList<>();
@@ -108,79 +120,40 @@ public class BeeBombBeeCageRecipe implements CraftingRecipe
     }
 
     @Override
-    public boolean canCraftInDimensions(int width, int height) {
-        return width >= 2 && height >= 2;
+    public RecipeSerializer<BeeBombBeeCageRecipe> getSerializer() {
+        return SERIALIZER;
     }
 
-    @Nonnull
     @Override
-    public ItemStack getResultItem(HolderLookup.Provider provider) {
-        return this.beeBomb;
+    public String group() {
+        return "";
     }
 
-    @Nonnull
     @Override
-    public NonNullList<Ingredient> getIngredients() {
-        NonNullList<Ingredient> list = NonNullList.create();
-
-        list.add(Ingredient.of(beeBomb.copy()));
-
-        ItemStack cage = new ItemStack(ModItems.BEE_CAGE.get());
-
-        // TODO 1.21 reimplement bee bombs
-//        CompoundTag nbt = new CompoundTag();
-//        nbt.putString("entity", EntityType.getKey(EntityType.BEE).toString());
-//        cage.setTag(nbt);
-        list.add(Ingredient.of(cage));
-
-        return list;
+    public boolean showNotification() {
+        return true;
     }
 
-    @Nonnull
     @Override
-    public RecipeSerializer<?> getSerializer() {
-        return ModRecipeTypes.BEE_CAGE_BOMB.get();
+    public PlacementInfo placementInfo() {
+        return PlacementInfo.NOT_PLACEABLE;
     }
 
-    public static class Serializer implements RecipeSerializer<BeeBombBeeCageRecipe>
-    {
-        private static final MapCodec<BeeBombBeeCageRecipe> CODEC = RecordCodecBuilder.mapCodec(
-                builder -> builder.group(
-                                ItemStack.CODEC.fieldOf("bee_bomb").forGetter(recipe -> recipe.beeBomb)
-                        )
-                        .apply(builder, BeeBombBeeCageRecipe::new)
-        );
-
-        public static final StreamCodec<RegistryFriendlyByteBuf, BeeBombBeeCageRecipe> STREAM_CODEC = StreamCodec.of(
-                BeeBombBeeCageRecipe.Serializer::toNetwork, BeeBombBeeCageRecipe.Serializer::fromNetwork
-        );
-
-        @Override
-        public MapCodec<BeeBombBeeCageRecipe> codec() {
-            return CODEC;
+    public static BeeBombBeeCageRecipe fromNetwork(@Nonnull RegistryFriendlyByteBuf buffer) {
+        try {
+            return new BeeBombBeeCageRecipe(ItemStackTemplate.STREAM_CODEC.decode(buffer));
+        } catch (Exception e) {
+            ProductiveBees.LOGGER.error("Error reading bee bomb cage recipe from packet. ", e);
+            throw e;
         }
+    }
 
-        @Override
-        public StreamCodec<RegistryFriendlyByteBuf, BeeBombBeeCageRecipe> streamCodec() {
-            return STREAM_CODEC;
-        }
-
-        public static BeeBombBeeCageRecipe fromNetwork(@Nonnull RegistryFriendlyByteBuf buffer) {
-            try {
-                return new BeeBombBeeCageRecipe(ItemStack.STREAM_CODEC.decode(buffer));
-            } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error reading bee bomb cage recipe from packet. ", e);
-                throw e;
-            }
-        }
-
-        public static void toNetwork(@Nonnull RegistryFriendlyByteBuf buffer, BeeBombBeeCageRecipe recipe) {
-            try {
-                ItemStack.STREAM_CODEC.encode(buffer, recipe.beeBomb);
-            } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error writing bee bomb cage recipe to packet. ", e);
-                throw e;
-            }
+    public static void toNetwork(@Nonnull RegistryFriendlyByteBuf buffer, BeeBombBeeCageRecipe recipe) {
+        try {
+            ItemStackTemplate.STREAM_CODEC.encode(buffer, recipe.beeBombTemplate);
+        } catch (Exception e) {
+            ProductiveBees.LOGGER.error("Error writing bee bomb cage recipe to packet. ", e);
+            throw e;
         }
     }
 }

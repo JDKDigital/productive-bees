@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:dusts/glowing"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:dusts/redstone"
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:dusts/redstone",
+  "parent1": "productivebees:dusts/glowing",
+  "parent2": "productivebees:chocolate_mining_bee"
+}

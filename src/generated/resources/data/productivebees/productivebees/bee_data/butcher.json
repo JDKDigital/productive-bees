@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "productivemetalworks"
+      }
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/butcher/bee",
+  "flowerTag": "productivebees:animals",
+  "flowerType": "entity_types",
+  "model": "productivebees:entity/butcher",
+  "particleColor": "#630800",
+  "primaryColor": "#852315",
+  "secondaryColor": "#dd9283",
+  "useGlowLayer": true
+}

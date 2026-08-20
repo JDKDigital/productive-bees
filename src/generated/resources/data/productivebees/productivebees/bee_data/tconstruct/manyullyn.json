@@ -1,0 +1,9 @@
+{
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/manyullyn",
+  "particleColor": "#ab6cd7",
+  "primaryColor": "#ab6cd7",
+  "secondaryColor": "#652e87",
+  "useGlowLayer": true
+}

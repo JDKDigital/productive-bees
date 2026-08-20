@@ -5,6 +5,7 @@ import cy.jdkdigital.productivebees.common.block.entity.CatcherBlockEntity;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivelib.common.block.CapabilityContainerBlock;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
@@ -18,7 +19,7 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.neoforged.neoforge.common.util.TriState;
+import net.minecraft.util.TriState;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -39,7 +40,7 @@ public class Catcher extends CapabilityContainerBlock
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.CATCHER.get(), CatcherBlockEntity::tick);
+        return level.isClientSide() ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.CATCHER.get(), CatcherBlockEntity::tick);
     }
 
     @Nonnull
@@ -55,7 +56,7 @@ public class Catcher extends CapabilityContainerBlock
     }
 
     @Override
-    public TriState canSustainPlant(BlockState state, BlockGetter level, BlockPos soilPosition, net.minecraft.core.Direction facing, BlockState plant) {
+    public TriState canSustainPlant(BlockState state, BlockGetter level, BlockPos soilPosition, Direction facing, BlockState plant) {
         return !(plant instanceof BonemealableBlock) || plant.getBlock() instanceof TallFlowerBlock ? TriState.TRUE : TriState.DEFAULT;
     }
 
@@ -66,7 +67,7 @@ public class Catcher extends CapabilityContainerBlock
             if (!pLevel.isClientSide()) {
                 pPlayer.openMenu(catcherBlockEntity, pPos);
             }
-            return InteractionResult.SUCCESS_NO_ITEM_USED;
+            return InteractionResult.SUCCESS;
         }
         return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);
     }

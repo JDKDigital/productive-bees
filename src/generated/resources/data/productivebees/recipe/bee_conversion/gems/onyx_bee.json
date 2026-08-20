@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "productivebees:flowers/onyx"
+      }
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gems/diamond"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gems/onyx"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "#productivebees:flowers/onyx",
+  "result": "productivebees:gems/onyx",
+  "source": "productivebees:gems/diamond"
+}

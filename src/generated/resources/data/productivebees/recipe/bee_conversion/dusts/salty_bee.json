@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:dusts/salt"
+      }
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:dusts/salty"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "#c:dusts/salt",
+  "result": "productivebees:dusts/salty",
+  "source": "minecraft:bee"
+}

@@ -1,0 +1,30 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "allthetweaks"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "gtceu"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/gregstar/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "fireproof": true,
+  "flowerBlock": "allthetweaks:greg_star_block",
+  "invulnerability": [
+    "mekanism.radiation"
+  ],
+  "particleColor": "#36dfff",
+  "particleType": "pop",
+  "primaryColor": "#282e6f",
+  "renderer": "thicc",
+  "secondaryColor": "#21bce6",
+  "selfbreed": false,
+  "selfheal": true,
+  "size": 1.2,
+  "tertiaryColor": "#576cb5",
+  "useGlowLayer": true
+}

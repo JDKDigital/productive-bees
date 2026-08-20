@@ -41,7 +41,7 @@ public class HeatedCentrifuge extends PoweredCentrifuge
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.HEATED_CENTRIFUGE.get(), HeatedCentrifugeBlockEntity::tick);
+        return level.isClientSide() ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.HEATED_CENTRIFUGE.get(), HeatedCentrifugeBlockEntity::tick);
     }
 
     @Nullable
@@ -49,6 +49,8 @@ public class HeatedCentrifuge extends PoweredCentrifuge
         return new HeatedCentrifugeBlockEntity(pos, state);
     }
 
+    // Tooltip logic lives in SimpleTooltipBlockItem registration for "heated_centrifuge".
+    /*
     @Override
     public void appendHoverText(ItemStack pStack, Item.TooltipContext pContext, List<Component> pTootipComponents, TooltipFlag pTooltipFlag) {
         super.appendHoverText(pStack, pContext, pTootipComponents, pTooltipFlag);
@@ -56,6 +58,7 @@ public class HeatedCentrifuge extends PoweredCentrifuge
         pTootipComponents.add(Component.translatable("productivebees.heated_centrifuge.tooltip").withStyle(ChatFormatting.GOLD));
         pTootipComponents.add(Component.translatable("productivebees.heated_centrifuge.tooltip2").withStyle(ChatFormatting.DARK_RED));
     }
+    */
 
     @SuppressWarnings("deprecation")
     @Nonnull

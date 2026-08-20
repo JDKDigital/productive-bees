@@ -1,0 +1,13 @@
+{
+  "amount": 2.0,
+  "trades": [
+    "productivebees:beekeeper/level_5/emerald_bee_nest",
+    "productivebees:beekeeper/level_5/spawn_egg_quarry_bee",
+    "productivebees:beekeeper/level_5/spawn_egg_rancher_bee",
+    "productivebees:beekeeper/level_5/spawn_egg_farmer_bee",
+    "productivebees:beekeeper/level_5/spawn_egg_cupid_bee",
+    "productivebees:beekeeper/level_5/spawn_egg_collector_bee",
+    "productivebees:beekeeper/level_5/spawn_egg_dye_bee",
+    "productivebees:beekeeper/level_5/spawn_egg_lumber_bee"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "attack": 1.0,
+  "attributes": {
+    "endurance": "endurance.medium"
+  },
+  "beeTexture": "productivebees:textures/entity/bee/quartz/bee",
+  "flowerTag": "productivebees:flowers/crystalline",
+  "nestingPreference": "productivebees:nests/nether_quartz_nests",
+  "particleColor": "#ede5dd",
+  "primaryColor": "#ede5dd",
+  "secondaryColor": "#804f40",
+  "size": 0.9,
+  "useGlowLayer": true
+}

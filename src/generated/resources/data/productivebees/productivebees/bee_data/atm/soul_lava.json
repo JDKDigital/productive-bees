@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "allthemodium"
+    }
+  ],
+  "attack": 1.0,
+  "breedingItem": "allthemodium:soul_lava_bucket",
+  "fireproof": true,
+  "flowerFluid": "allthemodium:soul_lava",
+  "invulnerability": [
+    "mekanism.radiation"
+  ],
+  "particleColor": "#323e8f",
+  "particleType": "lava",
+  "primaryColor": "#323e8f",
+  "secondaryColor": "#5a8eb7",
+  "selfbreed": false,
+  "useGlowLayer": true
+}

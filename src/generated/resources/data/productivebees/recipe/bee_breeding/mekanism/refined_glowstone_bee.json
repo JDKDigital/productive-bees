@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/osmium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:dusts/glowing"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:mekanism/refined_glowstone"
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:mekanism/refined_glowstone",
+  "parent1": "productivebees:raw_materials/osmium",
+  "parent2": "productivebees:dusts/glowing"
+}

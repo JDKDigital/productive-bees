@@ -1,0 +1,31 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:raw_materials/iesnium"
+      }
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:occultism/iesnium"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:occultism/iesnium"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": "#c:raw_materials/iesnium"
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

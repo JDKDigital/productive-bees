@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "productivebees:flowers/spinel"
+      }
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gems/diamond"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gems/spinel"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "#productivebees:flowers/spinel",
+  "result": "productivebees:gems/spinel",
+  "source": "productivebees:gems/diamond"
+}

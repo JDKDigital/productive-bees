@@ -1,0 +1,29 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:eidolon/soul_shard"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "eidolon"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:eidolon/soul_shard"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "chance": 0.25,
+      "item": "eidolon:soul_shard"
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

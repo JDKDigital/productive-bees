@@ -6,14 +6,12 @@
     "xxx"
   ],
   "key": {
-    "x": {
-      "item": "irons_spellbooks:arcane_essence"
-    },
+    "x": "irons_spellbooks:arcane_essence",
     "y": {
-      "type": "productivebees:component",
+      "neoforge:ingredient_type": "productivebees:component",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:diamond",
+          "type": "productivebees:gems/diamond",
           "id": "productivebees:configurable_bee"
         }
       },
@@ -23,7 +21,7 @@
   "result": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:arcane_essence",
+        "type": "productivebees:irons_spellbooks/arcane_essence",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -37,11 +35,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:diamond"
+      "bee": "productivebees:gems/diamond"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:arcane_essence"
+      "bee": "productivebees:irons_spellbooks/arcane_essence"
     }
   ]
 }

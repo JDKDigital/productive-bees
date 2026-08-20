@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:tetra/geode"
+    }
+  ],
+  "type": "productivebees:block_conversion",
+  "bees": [
+    "productivebees:tetra/geode"
+  ],
+  "chance": 0.15,
+  "from": {
+    "Name": "minecraft:deepslate"
+  },
+  "to": {
+    "Name": "tetra:block_geode"
+  }
+}

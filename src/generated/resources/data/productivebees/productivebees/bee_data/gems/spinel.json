@@ -1,0 +1,10 @@
+{
+  "attack": 1.0,
+  "flowerTag": "productivebees:flowers/spinel",
+  "particleColor": "#741200",
+  "primaryColor": "#741200",
+  "renderer": "default_crystal",
+  "secondaryColor": "#2e0b17",
+  "size": 0.6,
+  "tertiaryColor": "#c25500"
+}

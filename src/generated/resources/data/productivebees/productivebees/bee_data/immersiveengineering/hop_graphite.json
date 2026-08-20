@@ -1,0 +1,18 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "immersiveengineering"
+    }
+  ],
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerItem": "immersiveengineering:graphite_electrode",
+  "particleColor": "#191919",
+  "primaryColor": "#242424",
+  "secondaryColor": "#202020",
+  "selfbreed": false,
+  "size": 0.9,
+  "tertiaryColor": "#0a0a0a",
+  "useGlowLayer": true
+}

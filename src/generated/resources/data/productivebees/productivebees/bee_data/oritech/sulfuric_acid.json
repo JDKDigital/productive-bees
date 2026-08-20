@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "oritech"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/sulfuric_acid/bee",
+  "flowerFluid": "oritech:still_sulfuric_acid",
+  "particleColor": "#91f38f",
+  "primaryColor": "#5eee47",
+  "renderer": "default_shell",
+  "secondaryColor": "#36aa38",
+  "selfbreed": false,
+  "size": 0.6,
+  "tertiaryColor": "#43bb43",
+  "useGlowLayer": true
+}

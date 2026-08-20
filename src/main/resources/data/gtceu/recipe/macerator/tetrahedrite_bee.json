@@ -8,14 +8,14 @@
           "type": "gtceu:sized",
           "count": 1,
           "ingredient": {
-            "type": "productivebees:component",
             "items": "productivebees:spawn_egg_configurable_bee",
             "components": {
               "minecraft:entity_data": {
-                "type": "productivebees:copper",
+                "type": "productivebees:raw_materials/copper",
                 "id": "productivebees:configurable_bee"
               }
-            }
+            },
+            "neoforge:ingredient_type": "productivebees:component"
           }
         },
         "chance": 10000,
@@ -30,14 +30,14 @@
           "type": "gtceu:sized",
           "count": 1,
           "ingredient": {
-            "type": "productivebees:component",
             "items": "productivebees:spawn_egg_configurable_bee",
             "components": {
               "minecraft:entity_data": {
-                "type": "productivebees:tetrahedrite",
+                "type": "productivebees:gtceu/tetrahedrite",
                 "id": "productivebees:configurable_bee"
               }
-            }
+            },
+            "neoforge:ingredient_type": "productivebees:component"
           }
         },
         "chance": 10000,
@@ -62,11 +62,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:copper"
+      "bee": "productivebees:raw_materials/copper"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:tetrahedrite"
+      "bee": "productivebees:gtceu/tetrahedrite"
     }
   ]
 }

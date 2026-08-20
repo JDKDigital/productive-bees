@@ -1,0 +1,16 @@
+{
+  "attack": 1.0,
+  "attributes": {
+    "temper": "temper.passive"
+  },
+  "beeTexture": "productivebees:textures/entity/bee/sugarbag/bee",
+  "createComb": false,
+  "flowerBlock": "minecraft:sugar_cane",
+  "nestingPreference": "productivebees:nests/sugarbag_nests",
+  "particleColor": "#99bf02",
+  "primaryColor": "#000000",
+  "renderer": "tiny",
+  "secondaryColor": "#623875",
+  "stingless": true,
+  "useGlowLayer": true
+}

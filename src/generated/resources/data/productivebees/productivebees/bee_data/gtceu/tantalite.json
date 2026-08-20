@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "gtceu"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/tantalite/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/raw_tantalite",
+  "particleColor": "#4d6a92",
+  "primaryColor": "#291206",
+  "secondaryColor": "#476287",
+  "selfbreed": false,
+  "size": 0.8,
+  "tertiaryColor": "#514444",
+  "useGlowLayer": true
+}

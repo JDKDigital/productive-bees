@@ -6,9 +6,7 @@
     "DDD"
   ],
   "key": {
-    "D": {
-      "item": "productivebees:draconic_dust"
-    }
+    "D": "productivebees:draconic_dust"
   },
   "result": {
     "id": "productivebees:draconic_chunk"

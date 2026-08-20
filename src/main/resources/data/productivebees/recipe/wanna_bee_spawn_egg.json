@@ -6,14 +6,10 @@
     "HCH"
   ],
   "key": {
-    "M": {
-      "item": "minecraft:music_disc_5"
-    },
-    "E": {
-      "item": "minecraft:echo_shard"
-    },
+    "M": "minecraft:music_disc_5",
+    "E": "minecraft:echo_shard",
     "P": {
-      "type": "productivebees:component",
+      "neoforge:ingredient_type": "productivebees:component",
       "components": {
         "minecraft:entity_data": {
           "type": "productivebees:pepto_bismol",
@@ -22,15 +18,9 @@
       },
       "items": "productivebees:spawn_egg_configurable_bee"
     },
-    "R": {
-      "item": "productivebees:spawn_egg_rancher_bee"
-    },
-    "H": {
-      "item": "productivebees:spawn_egg_hoarder_bee"
-    },
-    "C": {
-      "item": "productivebees:spawn_egg_cupid_bee"
-    }
+    "R": "productivebees:spawn_egg_rancher_bee",
+    "H": "productivebees:spawn_egg_hoarder_bee",
+    "C": "productivebees:spawn_egg_cupid_bee"
   },
   "result": {
     "components": {

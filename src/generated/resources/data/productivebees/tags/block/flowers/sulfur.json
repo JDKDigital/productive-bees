@@ -1,0 +1,9 @@
+{
+  "values": [
+    {
+      "id": "#c:storage_blocks/sulfur",
+      "required": false
+    },
+    "minecraft:coal_ore"
+  ]
+}

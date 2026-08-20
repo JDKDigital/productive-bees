@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "productivebees:gravel_nest"
+  ],
+  "result": {
+    "id": "productivebees:gravel_nest"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:chemlib/mercury"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "chemlib:mercury_bucket",
+  "result": "productivebees:chemlib/mercury",
+  "source": "productivebees:raw_materials/iron"
+}

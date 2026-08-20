@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gems/crystalline"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/iridium"
+    },
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "ftbic"
+      }
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:raw_materials/iridium",
+  "parent1": "productivebees:gems/crystalline",
+  "parent2": "productivebees:neon_cuckoo_bee"
+}

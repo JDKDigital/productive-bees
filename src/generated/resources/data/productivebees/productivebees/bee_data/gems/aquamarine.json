@@ -1,0 +1,10 @@
+{
+  "attack": 1.0,
+  "flowerTag": "productivebees:flowers/aquamarine",
+  "particleColor": "#17cadd",
+  "primaryColor": "#17cadd",
+  "renderer": "default_crystal",
+  "secondaryColor": "#064f2c",
+  "size": 0.6,
+  "tertiaryColor": "#007b70"
+}

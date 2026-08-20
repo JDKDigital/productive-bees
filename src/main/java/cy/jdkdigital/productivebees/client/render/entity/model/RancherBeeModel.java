@@ -1,6 +1,6 @@
 package cy.jdkdigital.productivebees.client.render.entity.model;
 
-import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
+import cy.jdkdigital.productivebees.client.render.entity.state.ProductiveBeeRenderState;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -8,7 +8,7 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 
-public class RancherBeeModel<T extends ProductiveBee> extends ProductiveBeeModel<T>
+public class RancherBeeModel<S extends ProductiveBeeRenderState> extends ProductiveBeeModel<S>
 {
     public RancherBeeModel(ModelPart modelPart) {
         super(modelPart);

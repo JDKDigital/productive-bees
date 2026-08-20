@@ -1,0 +1,10 @@
+{
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/prismalium/bee",
+  "flowerTag": "c:storage_blocks/prismalium",
+  "particleColor": "#f7fdfd",
+  "primaryColor": "#43806e",
+  "secondaryColor": "#9fe1cb",
+  "size": 0.7,
+  "useGlowLayer": true
+}

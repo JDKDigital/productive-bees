@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "#c:storage_blocks/honeycombs",
+      "required": false
+    },
+    {
+      "id": "#c:storage_blocks/wax",
+      "required": false
+    }
+  ]
+}

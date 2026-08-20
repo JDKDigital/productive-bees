@@ -7,11 +7,10 @@ import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -19,6 +18,8 @@ import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public class SolitaryNestBlockEntity extends AdvancedBeehiveBlockEntityAbstract
 {
@@ -44,7 +45,7 @@ public class SolitaryNestBlockEntity extends AdvancedBeehiveBlockEntityAbstract
             Block block = state.getBlock();
             if (--blockEntity.nestTickTimer <= 0) {
                 if (blockEntity.canRepopulate() && block instanceof SolitaryNest nest) {
-                    Entity newBee = SolitaryNest.getNestingBeeType(nest, level, level.getBiome(pos), level.random);
+                    Entity newBee = SolitaryNest.getNestingBeeType(nest, level, level.getBiome(pos), level.getRandom());
                     if (newBee != null) {
                         if (newBee instanceof ProductiveBee pBee) {
                             pBee.setDefaultAttributes();
@@ -54,7 +55,7 @@ public class SolitaryNestBlockEntity extends AdvancedBeehiveBlockEntityAbstract
                         blockEntity.nestTickTimer = -1;
                         if (newBee instanceof Bee bee) {
                             bee.setHealth(((Bee) newBee).getMaxHealth());
-                            bee.hivePos = pos;
+                            bee.setHivePos(pos);
                         }
                     }
                 }
@@ -94,18 +95,18 @@ public class SolitaryNestBlockEntity extends AdvancedBeehiveBlockEntityAbstract
     protected void beeReleasePostAction(Level level, Bee beeEntity, BlockState state, BeeReleaseStatus beeState) {
         super.beeReleasePostAction(level, beeEntity, state, beeState);
 
-        if (beeEntity.getEncodeId() != null && getSpawnCount() < ProductiveBeesConfig.BEES.cuckooSpawnCount.get() && !beeEntity.isBaby() && beeState == BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED && level.random.nextFloat() <= 0.1f) {
+        if (beeEntity.getEncodeId() != null && getSpawnCount() < ProductiveBeesConfig.BEES.cuckooSpawnCount.get() && !beeEntity.isBaby() && beeState == BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED && level.getRandom().nextFloat() <= 0.1f) {
             // Cuckoo behavior
             Bee offspring = switch (beeEntity.getEncodeId()) {
-                case "productivebees:blue_banded_bee" -> ModEntities.NEON_CUCKOO_BEE.get().create(level);
-                case "productivebees:ashy_mining_bee" -> ModEntities.NOMAD_BEE.get().create(level);
+                case "productivebees:blue_banded_bee" -> ModEntities.NEON_CUCKOO_BEE.get().create(level, EntitySpawnReason.NATURAL);
+                case "productivebees:ashy_mining_bee" -> ModEntities.NOMAD_BEE.get().create(level, EntitySpawnReason.NATURAL);
                 default -> null;
             };
 
             if (offspring != null) {
                 spawnCount++;
                 offspring.setAge(-24000);
-                offspring.moveTo(beeEntity.getX(), beeEntity.getY(), beeEntity.getZ(), 0.0F, 0.0F);
+                offspring.snapTo(beeEntity.getX(), beeEntity.getY(), beeEntity.getZ(), 0.0F, 0.0F);
                 if (offspring instanceof ProductiveBee pBee) {
                     pBee.setDefaultAttributes();
                 }
@@ -117,22 +118,18 @@ public class SolitaryNestBlockEntity extends AdvancedBeehiveBlockEntityAbstract
     }
 
     @Override
-    public void loadPacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
-        super.loadPacketNBT(tag, provider);
+    public void loadPacketNBT(ValueInput input) {
+        super.loadPacketNBT(input);
 
-        if (tag.contains("nestTickTimer")) {
-            nestTickTimer = tag.getInt("nestTickTimer");
-        }
-        if (tag.contains("spawnCount")) {
-            spawnCount = tag.getInt("spawnCount");
-        }
+        nestTickTimer = input.getIntOr("nestTickTimer", -1);
+        spawnCount = input.getIntOr("spawnCount", 0);
     }
 
     @Override
-    public void savePacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
-        super.savePacketNBT(tag, provider);
+    public void savePacketNBT(ValueOutput output) {
+        super.savePacketNBT(output);
 
-        tag.putInt("nestTickTimer", nestTickTimer);
-        tag.putInt("spawnCount", spawnCount);
+        output.putInt("nestTickTimer", nestTickTimer);
+        output.putInt("spawnCount", spawnCount);
     }
 }

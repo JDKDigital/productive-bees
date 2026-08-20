@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "eternal_starlight"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/malarite/bee",
+  "flowerBlock": "eternal_starlight:malarite_block",
+  "particleColor": "#7a518a",
+  "primaryColor": "#415548",
+  "secondaryColor": "#aa519e",
+  "size": 0.4,
+  "useGlowLayer": true
+}

@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "tetra"
+    }
+  ],
+  "attack": 1.0,
+  "createComb": false,
+  "flowerBlock": "minecraft:deepslate",
+  "particleColor": "#747474",
+  "primaryColor": "#747474",
+  "renderer": "thicc",
+  "secondaryColor": "#804f40",
+  "useGlowLayer": true
+}

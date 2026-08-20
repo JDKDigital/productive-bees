@@ -5,27 +5,25 @@
     {
       "count": 1,
       "ingredient": {
+        "neoforge:ingredient_type": "productivebees:component",
+        "items": "productivebees:spawn_egg_configurable_bee",
         "components": {
           "minecraft:entity_data": {
-            "type": "productivebees:krypton",
+            "type": "productivebees:chemlib/krypton",
             "id": "productivebees:configurable_bee"
           }
-        },
-        "count": 1,
-        "id": "productivebees:spawn_egg_configurable_bee"
+        }
       }
     },
     {
       "count": 48,
-      "ingredient": {
-        "item": "chemlib:xenon"
-      }
+      "ingredient": "chemlib:xenon"
     }
   ],
   "result": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:xenon",
+        "type": "productivebees:chemlib/xenon",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -39,11 +37,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:krypton"
+      "bee": "productivebees:chemlib/krypton"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:xenon"
+      "bee": "productivebees:chemlib/xenon"
     }
   ]
 }

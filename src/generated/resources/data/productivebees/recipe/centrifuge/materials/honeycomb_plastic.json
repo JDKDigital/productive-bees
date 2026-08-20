@@ -1,0 +1,32 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:plastics"
+      }
+    },
+    {
+      "type": "productivelib:fluid_tag_empty",
+      "tag": "c:latex"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:materials/plastic"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "chance": 0.5,
+      "item": "#c:plastics"
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

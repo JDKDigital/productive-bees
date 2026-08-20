@@ -1,9 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "productivebees:milk_bottle"
-    }
+    "productivebees:milk_bottle"
   ],
   "result": {
     "id": "pamhc2foodcore:freshmilkitem",

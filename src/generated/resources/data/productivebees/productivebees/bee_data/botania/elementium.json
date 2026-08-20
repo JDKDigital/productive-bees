@@ -1,0 +1,18 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "botania"
+    }
+  ],
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/elementium",
+  "invulnerability": [
+    "mekanism.radiation"
+  ],
+  "primaryColor": "#dc5af8",
+  "secondaryColor": "#804f40",
+  "selfbreed": false,
+  "useGlowLayer": true
+}

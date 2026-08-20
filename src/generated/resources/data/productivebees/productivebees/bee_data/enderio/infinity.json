@@ -1,0 +1,18 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "enderio"
+    }
+  ],
+  "attack": 1.0,
+  "breedingItem": "minecraft:flint_and_steel",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "enderio:reinforced_obsidian_block",
+  "particleColor": "#717171",
+  "particleType": "pop",
+  "primaryColor": "#191919",
+  "secondaryColor": "#717171",
+  "size": 0.5,
+  "useGlowLayer": true
+}

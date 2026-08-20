@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/fluorine/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerFluid": "chemlib:fluorine_fluid",
+  "particleColor": "#f3ee80",
+  "primaryColor": "#cac12c",
+  "size": 0.4,
+  "translucent": true,
+  "useGlowLayer": true
+}

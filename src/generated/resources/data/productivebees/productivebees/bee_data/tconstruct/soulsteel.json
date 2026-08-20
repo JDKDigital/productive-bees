@@ -1,0 +1,9 @@
+{
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/soulsteel",
+  "particleColor": "#5c4436",
+  "primaryColor": "#5c4436",
+  "secondaryColor": "#1f0700",
+  "useGlowLayer": true
+}

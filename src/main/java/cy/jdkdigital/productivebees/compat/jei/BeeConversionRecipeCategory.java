@@ -12,22 +12,26 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.core.Holder;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
 
 public class BeeConversionRecipeCategory implements IRecipeCategory<BeeConversionRecipe>
 {
+    private static final int BACKGROUND_WIDTH = 126;
+    private static final int BACKGROUND_HEIGHT = 70;
     private final IDrawable background;
     private final IDrawable icon;
 
     public BeeConversionRecipeCategory(IGuiHelper guiHelper) {
-        ResourceLocation location = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/jei/bee_conversion_recipe.png");
-        this.background = guiHelper.createDrawable(location, 0, 0, 126, 70);
+        Identifier location = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/jei/bee_conversion_recipe.png");
+        this.background = guiHelper.createDrawable(location, 0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
         this.icon = guiHelper.createDrawableIngredient(ProductiveBeesJeiPlugin.BEE_INGREDIENT, BeeIngredientFactory.getOrCreateList().get(ProductiveBees.MODID + ":quarry_bee"));
     }
 
@@ -42,8 +46,17 @@ public class BeeConversionRecipeCategory implements IRecipeCategory<BeeConversio
         return Component.translatable("jei.productivebees.bee_conversion");
     }
 
-    @Nonnull
     @Override
+    public int getWidth() {
+        return BACKGROUND_WIDTH;
+    }
+
+    @Override
+    public int getHeight() {
+        return BACKGROUND_HEIGHT;
+    }
+
+    @SuppressWarnings("unused")
     public IDrawable getBackground() {
         return this.background;
     }
@@ -64,15 +77,16 @@ public class BeeConversionRecipeCategory implements IRecipeCategory<BeeConversio
                 .setSlotName("result");
 
         builder.addSlot(RecipeIngredientRole.INPUT, 10, 26)
-                .addItemStacks(Arrays.stream(recipe.item.getItems()).toList())
+                .addItemStacks(recipe.item.items().<ItemStack>map(h -> new ItemStack(h.value())).toList())
                 .setSlotName("conversionItems");
     }
 
     @Override
-    public void draw(BeeConversionRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(BeeConversionRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
+        this.background.draw(guiGraphics);
         if (recipe.chance < 1f) {
             Minecraft minecraft = Minecraft.getInstance();
-            guiGraphics.drawString(minecraft.font, Language.getInstance().getVisualOrder(Component.translatable("jei.productivebees.block_conversion.chance", recipe.chance * 100)), 0, 60, 0xFF000000, false);
+            guiGraphics.text(minecraft.font, Language.getInstance().getVisualOrder(Component.translatable("jei.productivebees.block_conversion.chance", recipe.chance * 100)), 0, 60, 0xFF000000, false);
         }
     }
 }

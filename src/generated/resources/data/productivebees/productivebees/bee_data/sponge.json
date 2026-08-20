@@ -1,0 +1,16 @@
+{
+  "attack": 1.0,
+  "attributes": {
+    "endurance": "endurance.normal"
+  },
+  "beeTexture": "productivebees:textures/entity/bee/sponge/bee",
+  "createComb": false,
+  "flowerBlock": "minecraft:sponge",
+  "particleColor": "#3c4c9c",
+  "pollinatedSize": 1.1,
+  "primaryColor": "#cccc4c",
+  "secondaryColor": "#9c8c3c",
+  "size": 0.7,
+  "useGlowLayer": true,
+  "waterproof": true
+}

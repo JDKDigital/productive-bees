@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "gtceu"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/graphite/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/raw_graphite",
+  "particleColor": "#a6a69c",
+  "primaryColor": "#1b2012",
+  "secondaryColor": "#77796d",
+  "selfbreed": false,
+  "size": 0.8,
+  "tertiaryColor": "#4a4e40",
+  "useGlowLayer": true
+}

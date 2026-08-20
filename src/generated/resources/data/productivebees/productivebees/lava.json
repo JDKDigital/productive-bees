@@ -1,7 +1,0 @@
-{
-  "primaryColor": "#d56c1a",
-  "secondaryColor": "#000000",
-  "flowerFluid": "minecraft:lava",
-  "beeTexture": "productivebees:textures/entity/bee/lava/bee",
-  "fireproof": true
-}

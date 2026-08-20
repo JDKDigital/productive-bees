@@ -1,0 +1,29 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:thermal_extra/dragonsteel"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thermal_extra"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:thermal_extra/dragonsteel"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "chance": 0.25,
+      "item": "thermal_extra:dragonsteel_dust"
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

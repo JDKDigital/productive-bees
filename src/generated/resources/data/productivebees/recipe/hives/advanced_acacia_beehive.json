@@ -9,21 +9,11 @@
   "category": "misc",
   "group": "hives",
   "key": {
-    "C": {
-      "tag": "c:honeycombs"
-    },
-    "F": {
-      "tag": "c:campfires"
-    },
-    "H": {
-      "tag": "c:hives"
-    },
-    "S": {
-      "tag": "c:tools/shear"
-    },
-    "W": {
-      "item": "minecraft:acacia_planks"
-    }
+    "C": "#c:honeycombs",
+    "F": "#c:campfires",
+    "H": "#c:hives",
+    "S": "#c:tools/shear",
+    "W": "minecraft:acacia_planks"
   },
   "pattern": [
     "WWW",
@@ -31,7 +21,6 @@
     "FWS"
   ],
   "result": {
-    "count": 1,
     "id": "productivebees:advanced_acacia_beehive"
   }
 }

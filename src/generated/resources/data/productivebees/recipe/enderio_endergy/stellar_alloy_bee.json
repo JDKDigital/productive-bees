@@ -1,0 +1,51 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "enderio_endergy"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:enderio_endergy/stellar_alloy"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:enderio_endergy/melodic_alloy"
+    }
+  ],
+  "type": "enderio:alloy_smelting",
+  "energy": 60000,
+  "experience": 0.3,
+  "inputs": [
+    {
+      "count": 1,
+      "ingredient": {
+        "neoforge:ingredient_type": "productivebees:component",
+        "components": {
+          "minecraft:entity_data": {
+            "type": "productivebees:enderio_endergy/melodic_alloy",
+            "id": "productivebees:configurable_bee"
+          }
+        },
+        "items": "productivebees:spawn_egg_configurable_bee"
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": "minecraft:nether_star"
+    },
+    {
+      "count": 1,
+      "ingredient": "#c:dusts/grains_of_the_end"
+    }
+  ],
+  "output": {
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:enderio_endergy/stellar_alloy",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "id": "productivebees:spawn_egg_configurable_bee"
+  }
+}

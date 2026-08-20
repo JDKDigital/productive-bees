@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.common.block.entity;
 import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.Centrifuge;
+import net.minecraft.world.phys.AABB;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.item.GeneBottle;
@@ -23,17 +24,15 @@ import cy.jdkdigital.productivelib.registry.LibItems;
 import cy.jdkdigital.productivelib.registry.ModDataComponents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.EntitySelector;
-import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -44,14 +43,15 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidStacksResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -69,13 +69,13 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
     public int fluidId = 0;
     public int transferCooldown = -1;
 
-    public IItemHandlerModifiable inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(11, this)
+    public InventoryHandlerHelper.BlockEntityItemStackHandler inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(11, this)
     {
         @Override
-        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+        public boolean isItemValid(int slot, @NotNull ItemStack stack, boolean fromAutomation) {
             if (slot == InventoryHandlerHelper.BOTTLE_SLOT) return false;
 
-            return super.isItemValid(slot, stack);
+            return super.isItemValid(slot, stack, fromAutomation);
         }
 
         @Override
@@ -114,8 +114,8 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
         }
 
         @Override
-        protected void onContentsChanged(int slot) {
-            super.onContentsChanged(slot);
+        protected void onContentsChanged(int slot, ItemStack previousContents) {
+            super.onContentsChanged(slot, previousContents);
             if (CentrifugeBlockEntity.this.level instanceof ServerLevel serverLevel && slot == InventoryHandlerHelper.INPUT_SLOT && this.getStackInSlot(slot).isEmpty()) {
                 CentrifugeBlockEntity.this.recipeProgress = 0;
                 serverLevel.setBlockAndUpdate(CentrifugeBlockEntity.this.getBlockPos(), CentrifugeBlockEntity.this.getBlockState().setValue(Centrifuge.RUNNING, false));
@@ -123,17 +123,17 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
         }
     };
 
-    public FluidTank fluidHandler = new FluidTank(10000)
+    public FluidStacksResourceHandler fluidHandler = new FluidStacksResourceHandler(1, 10000)
     {
         @Override
-        protected void onContentsChanged() {
-            super.onContentsChanged();
-            CentrifugeBlockEntity.this.fluidId = BuiltInRegistries.FLUID.getId(getFluid().getFluid());
+        protected void onContentsChanged(int index, FluidStack previousContents) {
+            super.onContentsChanged(index, previousContents);
+            CentrifugeBlockEntity.this.fluidId = BuiltInRegistries.FLUID.getId(getResource(index).getFluid());
             CentrifugeBlockEntity.this.setChanged();
         }
     };
 
-    protected IItemHandlerModifiable upgradeHandler = new InventoryHandlerHelper.UpgradeHandler(4, this, List.of(
+    protected InventoryHandlerHelper.UpgradeHandler upgradeHandler = new InventoryHandlerHelper.UpgradeHandler(4, this, List.of(
             LibItems.UPGRADE_TIME.get(),
             LibItems.UPGRADE_TIME_2.get(),
             LibItems.UPGRADE_ENTITY_FILTER.get(),
@@ -183,13 +183,13 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
                 if (state.getValue(Centrifuge.RUNNING) && --blockEntity.recipeProgress <= 0) {
                     // Progress and complete
                     if (invItem.getItem().equals(ModItems.GENE_BOTTLE.get())) {
-                        blockEntity.completeGeneProcessing(itemStackHandler, level.random);
+                        blockEntity.completeGeneProcessing(itemStackHandler, level.getRandom());
                     } else if (invItem.getItem().equals(ModItems.HONEY_TREAT.get())) {
                         blockEntity.completeTreatProcessing(itemStackHandler);
                     } else if (!invItem.isEmpty()) {
                         RecipeHolder<CentrifugeRecipe> recipe = blockEntity.getRecipe(itemStackHandler);
                         if (blockEntity.canProcessRecipe(recipe, itemStackHandler)) {
-                            blockEntity.completeRecipeProcessing(recipe, itemStackHandler, level.random);
+                            blockEntity.completeRecipeProcessing(recipe, itemStackHandler, level.getRandom());
                         }
                     }
                     level.setBlockAndUpdate(pos, state.setValue(Centrifuge.RUNNING, false));
@@ -224,28 +224,37 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
 
     @Override
     public void tickFluidTank(Level level, BlockPos pos, BlockState state, FluidTankBlockEntity blockEntity) {
-        if (ProductiveBeesConfig.GENERAL.centrifugeFluidSharing.get()) {
-            IFluidHandler fluidHandler = blockEntity.getFluidHandler();
-            FluidStack fluidStack = fluidHandler.getFluidInTank(0);
-            if (fluidStack.getAmount() > 0) {
-                Direction[] directions = Direction.values();
-                for (Direction direction : directions) {
-                    if (fluidStack.getAmount() > 0) {
-                        IFluidHandler h = level.getCapability(Capabilities.FluidHandler.BLOCK, pos.relative(direction.getOpposite()), null);
-                        if (h != null) {
-                            int amount = h.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE);
-                            if (amount > 0) {
-                                amount = h.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
-                                fluidHandler.drain(amount, IFluidHandler.FluidAction.EXECUTE);
-                            }
-                        }
+        if (!(level instanceof ServerLevel serverLevel) || getUpgradeCount(LibItems.UPGRADE_STABILITY.get()) > 0) {
+            return;
+        }
+        FluidResource resource = fluidHandler.getResource(0);
+        long available = fluidHandler.getAmountAsLong(0);
+        if (resource.isEmpty() || available <= 0) {
+            return;
+        }
+        for (Direction direction : Direction.values()) {
+            if (available <= 0) {
+                break;
+            }
+            ResourceHandler<FluidResource> neighbour = serverLevel.getCapability(Capabilities.Fluid.BLOCK, pos.relative(direction.getOpposite()), direction);
+            if (neighbour == null) {
+                continue;
+            }
+            try (Transaction tx = Transaction.openRoot()) {
+                int sendable = (int) Math.min(available, Integer.MAX_VALUE);
+                int inserted = neighbour.insert(resource, sendable, tx);
+                if (inserted > 0) {
+                    int extracted = fluidHandler.extract(0, resource, inserted, tx);
+                    if (extracted > 0) {
+                        tx.commit();
+                        available -= extracted;
                     }
                 }
             }
         }
     }
 
-    private void suckInItems(ItemStackHandler invHandler) {
+    private void suckInItems(InventoryHandlerHelper.BlockEntityItemStackHandler invHandler) {
         for (ItemEntity itemEntity : getCaptureItems()) {
             ItemStack itemStack = itemEntity.getItem();
             if (
@@ -262,10 +271,15 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
 
     private List<ItemEntity> getCaptureItems() {
         assert level != null;
-        return Centrifuge.COLLECTION_AREA_SHAPE.toAabbs().stream().flatMap((blockPos) -> level.getEntitiesOfClass(ItemEntity.class, blockPos.move(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ()), EntitySelector.ENTITY_STILL_ALIVE).stream()).collect(Collectors.toList());
+        List<AABB> boxes = Centrifuge.COLLECTION_AREA_SHAPE.toAabbs();
+        List<ItemEntity> result = new ArrayList<>();
+        for (AABB box : boxes) {
+            result.addAll(level.getEntitiesOfClass(ItemEntity.class, box.move(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ()), EntitySelector.ENTITY_STILL_ALIVE));
+        }
+        return result;
     }
 
-    private static void captureItem(IItemHandlerModifiable invHandler, ItemEntity itemEntity) {
+    private static void captureItem(InventoryHandlerHelper.BlockEntityItemStackHandler invHandler, ItemEntity itemEntity) {
         ItemStack leftoverStack = invHandler.insertItem(InventoryHandlerHelper.INPUT_SLOT, itemEntity.getItem(), false);
         if (leftoverStack.isEmpty()) {
             itemEntity.discard();
@@ -279,7 +293,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
     }
 
     @Override
-    public IItemHandlerModifiable getUpgradeHandler() {
+    public ResourceHandler<ItemResource> getUpgradeHandler() {
         return upgradeHandler;
     }
 
@@ -292,8 +306,8 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
         if (!filterUpgrades.isEmpty()) {
             isAllowedByFilter = false;
             for (ItemStack filter : filterUpgrades) {
-                List<ResourceLocation> entities = filter.getOrDefault(ModDataComponents.ENTITY_TYPE_LIST, new ArrayList<>());
-                for (ResourceLocation beeType : entities) {
+                List<Identifier> entities = filter.getOrDefault(ModDataComponents.ENTITY_TYPE_LIST, new ArrayList<>());
+                for (Identifier beeType : entities) {
                     var allowedBee = BeeIngredientFactory.getIngredient(beeType);
                     if (allowedBee.get() != null) {
                         List<ItemStack> produceList = BeeHelper.getBeeProduce(level, (Bee) allowedBee.get().getCachedEntity(level), false, 1.0);
@@ -331,7 +345,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
         return recipeMap.getOrDefault(cacheKey, null);
     }
 
-    protected boolean canProcessRecipe(@Nullable RecipeHolder<CentrifugeRecipe> recipe, IItemHandlerModifiable invHandler) {
+    protected boolean canProcessRecipe(@Nullable RecipeHolder<CentrifugeRecipe> recipe, InventoryHandlerHelper.BlockEntityItemStackHandler invHandler) {
         if (recipe != null) {
             // Check if output slots has space for recipe output
             List<ItemStack> outputList = Lists.newArrayList();
@@ -349,19 +363,19 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
 //                fluidFlag = fluidHandler.getFluidInTank(0).isEmpty() || fluidHandler.getFluidInTank(0).getFluid().equals(fluidOutput.getFluid());
 //            }
 
-            return ((InventoryHandlerHelper.BlockEntityItemStackHandler) invHandler).canFitStacks(outputList);
+            return invHandler.canFitStacks(outputList);
         }
         return false;
     }
 
-    protected void completeRecipeProcessing(RecipeHolder<CentrifugeRecipe> recipe, IItemHandlerModifiable invHandler, RandomSource random) {
+    protected void completeRecipeProcessing(RecipeHolder<CentrifugeRecipe> recipe, InventoryHandlerHelper.BlockEntityItemStackHandler invHandler, RandomSource random) {
         var inputStack = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
         int productivityModifier = Math.min(inputStack.getCount(), Math.min(64, getProductivityModifier()));
 
         this.completeRecipeProcessing(recipe, invHandler, random, false, productivityModifier);
     }
 
-    protected void completeRecipeProcessing(RecipeHolder<CentrifugeRecipe> recipe, IItemHandlerModifiable invHandler, RandomSource random, boolean stripWax, int productivityModifier) {
+    protected void completeRecipeProcessing(RecipeHolder<CentrifugeRecipe> recipe, InventoryHandlerHelper.BlockEntityItemStackHandler invHandler, RandomSource random, boolean stripWax, int productivityModifier) {
         var inputStack = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
 
         double stabilityBonus = (getUpgradeCount(LibItems.UPGRADE_STABILITY.get()) + 1) * ProductiveBeesConfig.UPGRADES.stabilityChanceIncrease.get();
@@ -374,16 +388,19 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
             }
         });
 
-        inputStack.shrink(productivityModifier);
+        invHandler.extractItem(InventoryHandlerHelper.INPUT_SLOT, productivityModifier, false, false);
 
         FluidStack fluidOutput = recipe.value().getFluidOutputs().copy();
         if (!fluidOutput.isEmpty()) {
             fluidOutput.setAmount(fluidOutput.getAmount() * productivityModifier);
-            fluidHandler.fill(fluidOutput, IFluidHandler.FluidAction.EXECUTE);
+            try (Transaction tx = Transaction.openRoot()) {
+                fluidHandler.insert(0, FluidResource.of(fluidOutput), fluidOutput.getAmount(), tx);
+                tx.commit();
+            }
         }
     }
 
-    private void completeGeneProcessing(IItemHandlerModifiable invHandler, RandomSource random) {
+    private void completeGeneProcessing(InventoryHandlerHelper.BlockEntityItemStackHandler invHandler, RandomSource random) {
         ItemStack geneBottle = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
 
         List<GeneGroup> entityData = GeneBottle.getGenes(geneBottle);
@@ -398,10 +415,10 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
             }
         }
 
-        invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).shrink(1);
+        invHandler.extractItem(InventoryHandlerHelper.INPUT_SLOT, 1, false, false);
     }
 
-    private void completeTreatProcessing(IItemHandlerModifiable invHandler) {
+    private void completeTreatProcessing(InventoryHandlerHelper.BlockEntityItemStackHandler invHandler) {
         ItemStack honeyTreat = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
 
         List<GeneGroup> genes = HoneyTreat.getGenes(honeyTreat);
@@ -412,7 +429,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
             }
         }
 
-        invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).shrink(1);
+        invHandler.extractItem(InventoryHandlerHelper.INPUT_SLOT, 1, false, false);
     }
 
     protected int getProductivityModifier() {
@@ -424,20 +441,19 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
     }
 
     @Override
-    public void loadPacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
-        super.loadPacketNBT(tag, provider);
+    public void loadPacketNBT(ValueInput input) {
+        super.loadPacketNBT(input);
 
-        recipeProgress = tag.getInt("RecipeProgress");
+        recipeProgress = input.getIntOr("RecipeProgress", 0);
 
         // set fluid ID for screens
-        Fluid fluid = fluidHandler.getFluidInTank(0).getFluid();
-        fluidId = BuiltInRegistries.FLUID.getId(fluid);
+        fluidId = BuiltInRegistries.FLUID.getId(fluidHandler.getResource(0).getFluid());
     }
 
     @Override
-    public void savePacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
-        super.savePacketNBT(tag, provider);
-        tag.putInt("RecipeProgress", recipeProgress);
+    public void savePacketNBT(ValueOutput output) {
+        super.savePacketNBT(output);
+        output.putInt("RecipeProgress", recipeProgress);
     }
 
     @Nonnull
@@ -453,12 +469,12 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
     }
 
     @Override
-    public IItemHandler getItemHandler() {
+    public ResourceHandler<ItemResource> getItemHandler() {
         return inventoryHandler;
     }
 
     @Override
-    public FluidTank getFluidHandler() {
+    public ResourceHandler<FluidResource> getFluidHandler() {
         return fluidHandler;
     }
 }

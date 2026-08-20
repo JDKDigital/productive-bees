@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thermal_extra"
+    }
+  ],
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "thermal_extra:twinite_block",
+  "particleColor": "#fee9f0",
+  "primaryColor": "#e44f76",
+  "selfbreed": false,
+  "size": 0.7,
+  "tertiaryColor": "#ec6f86",
+  "useGlowLayer": true
+}

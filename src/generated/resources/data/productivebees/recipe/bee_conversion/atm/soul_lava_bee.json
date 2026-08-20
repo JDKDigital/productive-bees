@@ -1,0 +1,34 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "tconstruct"
+      }
+    },
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "productivemetalworks"
+      }
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "allthemodium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ghostly"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:atm/soul_lava"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "allthemodium:soul_lava_bucket",
+  "result": "productivebees:atm/soul_lava",
+  "source": "productivebees:ghostly"
+}

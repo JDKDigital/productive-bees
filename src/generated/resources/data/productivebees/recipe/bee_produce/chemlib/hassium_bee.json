@@ -1,0 +1,30 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:chemlib/hassium"
+    }
+  ],
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:chemlib/hassium",
+  "results": [
+    {
+      "chance": 1.0,
+      "item": {
+        "neoforge:ingredient_type": "productivebees:component",
+        "components": {
+          "productivebees:bee_type": "productivebees:chemlib/hassium"
+        },
+        "items": "productivebees:configurable_honeycomb"
+      },
+      "max": 1,
+      "min": 1
+    },
+    {
+      "chance": 0.05,
+      "item": "#c:pollens",
+      "max": 1,
+      "min": 1
+    }
+  ]
+}

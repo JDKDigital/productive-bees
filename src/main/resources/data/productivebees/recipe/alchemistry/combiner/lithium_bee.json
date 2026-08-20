@@ -5,27 +5,25 @@
     {
       "count": 1,
       "ingredient": {
+        "neoforge:ingredient_type": "productivebees:component",
+        "items": "productivebees:spawn_egg_configurable_bee",
         "components": {
           "minecraft:entity_data": {
-            "type": "productivebees:water",
+            "type": "productivebees:fluids/water",
             "id": "productivebees:configurable_bee"
           }
-        },
-        "count": 1,
-        "id": "productivebees:spawn_egg_configurable_bee"
+        }
       }
     },
     {
       "count": 16,
-      "ingredient": {
-        "item": "chemlib:lithium"
-      }
+      "ingredient": "chemlib:lithium"
     }
   ],
   "result": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:lithium",
+        "type": "productivebees:chemlib/lithium",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -39,11 +37,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:water"
+      "bee": "productivebees:fluids/water"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:lithium"
+      "bee": "productivebees:chemlib/lithium"
     }
   ]
 }

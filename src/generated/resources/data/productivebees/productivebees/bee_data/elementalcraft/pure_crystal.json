@@ -1,0 +1,25 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "elementalcraft"
+    }
+  ],
+  "attack": 1.0,
+  "attributes": {
+    "endurance": "endurance.strong"
+  },
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "elementalcraft:purerock",
+  "invulnerability": [
+    "mekanism.radiation"
+  ],
+  "particleColor": "#fffffe",
+  "primaryColor": "#fffffe",
+  "renderer": "default_crystal",
+  "secondaryColor": "#beb0dd",
+  "selfbreed": false,
+  "selfheal": true,
+  "size": 0.6,
+  "tertiaryColor": "#beb0dd"
+}

@@ -1,0 +1,29 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "enigmaticlegacyplus"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:enigmaticlegacyplus/etherium_ore"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:enigmaticlegacyplus/etherium_ore"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "chance": 0.75,
+      "item": "enigmaticlegacyplus:etherium_ore"
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

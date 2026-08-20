@@ -1,0 +1,19 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:breeze"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "chance": 0.3,
+      "item": "minecraft:wind_charge"
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

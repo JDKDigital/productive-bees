@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "bigreactors"
+    }
+  ],
+  "attack": 1.0,
+  "flowerBlock": "bigreactors:benitoite_ore",
+  "particleColor": "#84dcf9",
+  "primaryColor": "#5ed1f7",
+  "renderer": "default_crystal",
+  "secondaryColor": "#47aacb",
+  "size": 0.6,
+  "tertiaryColor": "#96e1fa"
+}

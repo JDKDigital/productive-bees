@@ -11,8 +11,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
 
 import java.util.Objects;
 
@@ -30,17 +29,12 @@ public class HoneyGeneratorContainer extends AbstractContainer<HoneyGeneratorBlo
         {
             @Override
             public int get() {
-                return tileEntity.energyHandler.getEnergyStored();
+                return tileEntity.energyHandler.getAmountAsInt();
             }
 
             @Override
             public void set(int value) {
-                if (tileEntity.energyHandler.getEnergyStored() > 0) {
-                    tileEntity.energyHandler.extractEnergy(tileEntity.energyHandler.getEnergyStored(), false);
-                }
-                if (value > 0) {
-                    tileEntity.energyHandler.receiveEnergy(value, false);
-                }
+                tileEntity.energyHandler.set(value);
             }
         });
 
@@ -51,7 +45,7 @@ public class HoneyGeneratorContainer extends AbstractContainer<HoneyGeneratorBlo
             public int get(int i) {
                 return i == 0 ?
                         tileEntity.fluidId :
-                        tileEntity.fluidHandler.getFluidInTank(0).getAmount();
+                        tileEntity.fluidHandler.getAmountAsInt(0);
             }
 
             @Override
@@ -60,11 +54,11 @@ public class HoneyGeneratorContainer extends AbstractContainer<HoneyGeneratorBlo
                     case 0:
                         tileEntity.fluidId = value;
                     case 1:
-                        FluidStack fluid = tileEntity.fluidHandler.getFluidInTank(0);
-                        if (fluid.isEmpty()) {
-                            tileEntity.fluidHandler.fill(new FluidStack(BuiltInRegistries.FLUID.byId(tileEntity.fluidId), value), IFluidHandler.FluidAction.EXECUTE);
+                        FluidResource resource = tileEntity.fluidHandler.getResource(0);
+                        if (resource.isEmpty()) {
+                            tileEntity.fluidHandler.set(0, FluidResource.of(BuiltInRegistries.FLUID.byIdOrThrow(tileEntity.fluidId)), value);
                         } else {
-                            fluid.setAmount(value);
+                            tileEntity.fluidHandler.set(0, resource, value);
                         }
                 }
             }

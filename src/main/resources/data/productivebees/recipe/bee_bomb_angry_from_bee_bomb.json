@@ -1,9 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "productivebees:bee_bomb"
-    }
+    "productivebees:bee_bomb"
   ],
   "result": {
     "id": "productivebees:bee_bomb_angry"

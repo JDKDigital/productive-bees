@@ -1,0 +1,13 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "mekanism"
+    }
+  ],
+  "attack": 1.0,
+  "flowerTag": "c:storage_blocks/refined_obsidian",
+  "primaryColor": "#5e5077",
+  "secondaryColor": "#372856",
+  "useGlowLayer": true
+}

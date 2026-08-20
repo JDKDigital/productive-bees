@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "enderio_endergy"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/crude_steel/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "enderio_endergy:crude_steel_block",
+  "particleColor": "#ddd1cb",
+  "primaryColor": "#807a76",
+  "secondaryColor": "#bcb2ad",
+  "size": 0.7,
+  "useGlowLayer": true
+}

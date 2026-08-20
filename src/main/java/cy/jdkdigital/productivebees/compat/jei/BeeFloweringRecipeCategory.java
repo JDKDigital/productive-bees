@@ -9,13 +9,15 @@ import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
@@ -27,13 +29,15 @@ import java.util.List;
 
 public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringRecipe>
 {
-    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "bee_flowering");
+    public static final Identifier ID = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "bee_flowering");
+    private static final int BACKGROUND_WIDTH = 70;
+    private static final int BACKGROUND_HEIGHT = 82;
     private final IDrawable icon;
     private final IDrawable background;
 
     public BeeFloweringRecipeCategory(IGuiHelper guiHelper) {
-        ResourceLocation location = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/jei/bee_flowering_recipe.png");
-        this.background = guiHelper.createDrawable(location, 0, 0, 70, 82);
+        Identifier location = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/jei/bee_flowering_recipe.png");
+        this.background = guiHelper.createDrawable(location, 0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
         this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(Items.POPPY));
     }
 
@@ -48,6 +52,16 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
     }
 
     @Override
+    public int getWidth() {
+        return BACKGROUND_WIDTH;
+    }
+
+    @Override
+    public int getHeight() {
+        return BACKGROUND_HEIGHT;
+    }
+
+    @SuppressWarnings("unused")
     public IDrawable getBackground() {
         return background;
     }
@@ -105,4 +119,9 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
                     .setSlotName("inputItem");
         }
     }
+    @Override
+    public void draw(BeeFloweringRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
+        this.background.draw(guiGraphics);
+    }
+
 }

@@ -1,0 +1,36 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:dusts/titanium"
+      }
+    },
+    {
+      "type": "neoforge:tag_empty",
+      "tag": "c:raw_materials/titanium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/titanium"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:raw_materials/titanium"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "chance": 0.4,
+      "item": "#c:dusts/titanium"
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

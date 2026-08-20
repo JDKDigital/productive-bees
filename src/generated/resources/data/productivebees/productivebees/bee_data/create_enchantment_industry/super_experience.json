@@ -1,0 +1,18 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create_enchantment_industry"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/super_experience/bee",
+  "flowerBlock": "create_enchantment_industry:super_experience_block",
+  "particleColor": "#a1d0ff",
+  "primaryColor": "#3fcbff",
+  "secondaryColor": "#5698db",
+  "selfbreed": false,
+  "size": 0.6,
+  "tertiaryColor": "#b0cdeb",
+  "useGlowLayer": true
+}

@@ -9,20 +9,21 @@ import cy.jdkdigital.productivebees.init.ModDataComponents;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.PoiTypeTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.ai.village.poi.PoiRecord;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BeehiveBlock;
@@ -38,6 +39,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.function.Consumer;
 
 public class NestLocator extends Item
 {
@@ -54,14 +56,14 @@ public class NestLocator extends Item
         return nestBlock != null ? nestBlock.getName().getString() : "";
     }
 
-    public static ResourceLocation getNestRegistryName(ItemStack stack) {
+    public static Identifier getNestRegistryName(ItemStack stack) {
         return stack.get(ModDataComponents.NEST_BLOCK);
     }
 
     public static Block getNestBlock(ItemStack stack) {
-        ResourceLocation registryName = getNestRegistryName(stack);
+        Identifier registryName = getNestRegistryName(stack);
         if (registryName != null) {
-            return BuiltInRegistries.BLOCK.get(registryName);
+            return BuiltInRegistries.BLOCK.get(registryName).map(Holder::value).orElse(null);
         }
         return null;
     }
@@ -70,7 +72,7 @@ public class NestLocator extends Item
         if (nest != null) {
             stack.set(ModDataComponents.NEST_BLOCK, BuiltInRegistries.BLOCK.getKey(nest));
 
-            player.displayClientMessage(Component.translatable("productivebees.nest_locator.tuned", nest.getName().getString()), false);
+            player.sendSystemMessage(Component.translatable("productivebees.nest_locator.tuned", nest.getName().getString()));
         }
     }
 
@@ -98,7 +100,7 @@ public class NestLocator extends Item
     @Override
     public InteractionResult useOn(UseOnContext context) {
         Level world = context.getLevel();
-        if (!world.isClientSide && context.getPlayer() != null && context.getPlayer().isShiftKeyDown()) {
+        if (!world.isClientSide() && context.getPlayer() != null && context.getPlayer().isShiftKeyDown()) {
             ItemStack stack = context.getPlayer().getItemInHand(context.getHand());
             BlockState state = world.getBlockState(context.getClickedPos());
             Block block = state.getBlock();
@@ -127,8 +129,8 @@ public class NestLocator extends Item
 
     @Nonnull
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, @Nonnull InteractionHand hand) {
-        if (!world.isClientSide && world instanceof ServerLevel) {
+    public InteractionResult use(Level world, Player player, @Nonnull InteractionHand hand) {
+        if (!world.isClientSide() && world instanceof ServerLevel) {
             // If it has a type specified
             ItemStack stack = player.getItemInHand(hand);
             if (!player.isShiftKeyDown()) {
@@ -141,28 +143,28 @@ public class NestLocator extends Item
 
                 if (nearest != null) {
                     // Show distance in chat
-                    player.displayClientMessage(Component.translatable("productivebees.nest_locator.found_hive", Math.round(nearest.getFirst() * 100.0) / 100.0), false);
+                    player.sendSystemMessage(Component.translatable("productivebees.nest_locator.found_hive", Math.round(nearest.getFirst() * 100.0) / 100.0));
                     setPosition(stack, nearest.getSecond());
                 } else {
                     // Unset position
-                    player.displayClientMessage(Component.translatable("productivebees.nest_locator.not_found_hive", getNestName(stack)), false);
+                    player.sendSystemMessage(Component.translatable("productivebees.nest_locator.not_found_hive", getNestName(stack)));
                     setPosition(stack, null);
                 }
             }
-            return InteractionResultHolder.success(player.getItemInHand(hand));
+            return InteractionResult.SUCCESS;
         }
 
-        return InteractionResultHolder.pass(player.getItemInHand(hand));
+        return InteractionResult.PASS;
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
-        super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
+    public void appendHoverText(ItemStack pStack, TooltipContext pContext, TooltipDisplay tooltipDisplay, Consumer<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
+        super.appendHoverText(pStack, pContext, tooltipDisplay, pTooltipComponents, pTooltipFlag);
 
         if (hasNest(pStack)) {
-            pTooltipComponents.add(Component.translatable("productivebees.information.nestlocator.configured", getNestName(pStack)).withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.accept(Component.translatable("productivebees.information.nestlocator.configured", getNestName(pStack)).withStyle(ChatFormatting.GOLD));
         } else {
-            pTooltipComponents.add(Component.translatable("productivebees.information.nestlocator.unconfigured").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.accept(Component.translatable("productivebees.information.nestlocator.unconfigured").withStyle(ChatFormatting.GOLD));
         }
     }
 

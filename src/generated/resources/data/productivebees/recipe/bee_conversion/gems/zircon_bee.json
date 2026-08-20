@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gems/diamond"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gems/zircon"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "#productivebees:flowers/zircon",
+  "result": "productivebees:gems/zircon",
+  "source": "productivebees:gems/diamond"
+}

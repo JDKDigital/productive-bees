@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "evilcraft"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gems/diamond"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:evilcraft/dark_gem"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "evilcraft:dark_block",
+  "result": "productivebees:evilcraft/dark_gem",
+  "source": "productivebees:gems/diamond"
+}

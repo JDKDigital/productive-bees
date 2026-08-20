@@ -1,5 +1,7 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.container.CryoStasisContainer;
@@ -8,12 +10,9 @@ import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivelib.common.block.entity.CapabilityBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -23,9 +22,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.util.INBTSerializable;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -33,15 +33,17 @@ import java.util.List;
 
 public class CryoStasisBlockEntity extends CapabilityBlockEntity implements MenuProvider
 {
+    private static final String CRYO_BEES_KEY = "CryoBees";
+
     List<BeeEntry> cryoBees = new ArrayList<>();
 
     public static int SLOT_INPUT = 0;
     public static int SLOT_CAGE = 1;
     public static int SLOT_OUT = 2;
-    public final IItemHandlerModifiable inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(3, this)
+    public final InventoryHandlerHelper.BlockEntityItemStackHandler inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(3, this)
     {
         @Override
-        public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+        public boolean isItemValid(int slot, @Nonnull ItemStack stack, boolean fromAutomation) {
             return slot < SLOT_OUT && stack.getItem().asItem() instanceof BeeCage && (slot != SLOT_INPUT || BeeCage.isFilled(stack));
         }
 
@@ -61,24 +63,21 @@ public class CryoStasisBlockEntity extends CapabilityBlockEntity implements Menu
     }
 
     @Override
-    public void savePacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
-        super.savePacketNBT(tag, provider);
-        ListTag listNBT = new ListTag();
-        cryoBees.forEach(beeEntry -> {
-            listNBT.add(beeEntry.serializeNBT(provider));
-        });
-        tag.put("BeeList", listNBT);
+    public void savePacketNBT(ValueOutput output) {
+        super.savePacketNBT(output);
+        if (!cryoBees.isEmpty()) {
+            ValueOutput.TypedOutputList<BeeEntry> list = output.list(CRYO_BEES_KEY, BeeEntry.CODEC);
+            for (BeeEntry entry : cryoBees) {
+                list.add(entry);
+            }
+        }
     }
 
     @Override
-    public void loadPacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
-        super.loadPacketNBT(tag, provider);
-        if (tag.contains("BeeList")) {
-            ListTag listNBT = tag.getList("BeeList", 10);
-            listNBT.forEach(beeTag -> {
-                this.cryoBees.add(BeeEntry.fromNbt((CompoundTag) beeTag));
-            });
-        }
+    public void loadPacketNBT(ValueInput input) {
+        super.loadPacketNBT(input);
+        cryoBees = new ArrayList<>();
+        input.listOrEmpty(CRYO_BEES_KEY, BeeEntry.CODEC).stream().forEach(cryoBees::add);
     }
 
     public static <E extends BlockEntity> void tick(Level level, BlockPos blockPos, BlockState blockState, CryoStasisBlockEntity blockEntity) {
@@ -88,7 +87,7 @@ public class CryoStasisBlockEntity extends CapabilityBlockEntity implements Menu
             if (entity != null) {
                 if (entity instanceof ProductiveBee pBee) {
 //                    blockEntity.cryoBees.add(new BeeEntry(
-//                            new ResourceLocation(pBee.getBeeType()),
+//                            new Identifier(pBee.getBeeType()),
 //                            true, 1200,
 //                            pBee.getAttributeValue(GeneAttribute.PRODUCTIVITY),
 //                            pBee.getAttributeValue(GeneAttribute.WEATHER_TOLERANCE),
@@ -119,90 +118,30 @@ public class CryoStasisBlockEntity extends CapabilityBlockEntity implements Menu
         return new CryoStasisContainer(index, inventory, this);
     }
 
-    static final class BeeEntry implements INBTSerializable<CompoundTag>
-    {
-        private final ResourceLocation id;
-        private final Boolean isProductive;
-        private final Integer cooldown;
-        private final Integer productivity;
-        private final Integer weatherTolerance;
-        private final Integer behavior;
-        private final Integer endurance;
-        private final Integer temper;
-
-        BeeEntry(ResourceLocation id, boolean isProductive, Integer cooldown, Integer productivity, Integer weatherTolerance, Integer behavior, Integer endurance, Integer temper) {
-            this.id = id;
-            this.isProductive = isProductive;
-            this.cooldown = cooldown;
-            this.productivity = productivity;
-            this.weatherTolerance = weatherTolerance;
-            this.behavior = behavior;
-            this.endurance = endurance;
-            this.temper = temper;
-        }
-
-        public static BeeEntry fromNbt(CompoundTag tag) {
-            return new BeeEntry(
-                    ResourceLocation.parse(tag.getString("id")),
-                    tag.getBoolean("isProductive"),
-                    tag.getInt("cooldown"),
-                    tag.getInt("productivity"),
-                    tag.getInt("weatherTolerance"),
-                    tag.getInt("behavior"),
-                    tag.getInt("endurance"),
-                    tag.getInt("temper")
-                    );
-        }
-
-        @Override
-        public CompoundTag serializeNBT(HolderLookup.Provider provider) {
-            var tag = new CompoundTag();
-            tag.putString("id", id.toString());
-            tag.putBoolean("isProductive", isProductive);
-            tag.putInt("cooldown", cooldown);
-            tag.putInt("productivity", productivity);
-            tag.putInt("weatherTolerance", weatherTolerance);
-            tag.putInt("behavior", behavior);
-            tag.putInt("endurance", endurance);
-            tag.putInt("temper", temper);
-            return tag;
-        }
-
-        @Override
-        public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt) {
-        }
-
-        public ResourceLocation id() {
-            return id;
-        }
-
-        public Integer cooldown() {
-            return cooldown;
-        }
-
-        public Integer productivity() {
-            return productivity;
-        }
-
-        public Integer weatherTolerance() {
-            return weatherTolerance;
-        }
-
-        public Integer behavior() {
-            return behavior;
-        }
-
-        public Integer endurance() {
-            return endurance;
-        }
-
-        public Integer temper() {
-            return temper;
-        }
+    public record BeeEntry(
+            Identifier id,
+            Boolean isProductive,
+            Integer cooldown,
+            Integer productivity,
+            Integer weatherTolerance,
+            Integer behavior,
+            Integer endurance,
+            Integer temper
+    ) {
+        public static final Codec<BeeEntry> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+                Identifier.CODEC.fieldOf("id").forGetter(BeeEntry::id),
+                Codec.BOOL.fieldOf("isProductive").forGetter(BeeEntry::isProductive),
+                Codec.INT.fieldOf("cooldown").forGetter(BeeEntry::cooldown),
+                Codec.INT.fieldOf("productivity").forGetter(BeeEntry::productivity),
+                Codec.INT.fieldOf("weatherTolerance").forGetter(BeeEntry::weatherTolerance),
+                Codec.INT.fieldOf("behavior").forGetter(BeeEntry::behavior),
+                Codec.INT.fieldOf("endurance").forGetter(BeeEntry::endurance),
+                Codec.INT.fieldOf("temper").forGetter(BeeEntry::temper)
+        ).apply(instance, BeeEntry::new));
     }
 
     @Override
-    public IItemHandler getItemHandler() {
+    public ResourceHandler<ItemResource> getItemHandler() {
         return inventoryHandler;
     }
 }

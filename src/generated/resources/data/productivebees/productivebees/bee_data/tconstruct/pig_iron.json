@@ -1,0 +1,9 @@
+{
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/pig_iron",
+  "particleColor": "#dbaaa9",
+  "primaryColor": "#dbaaa9",
+  "secondaryColor": "#804f40",
+  "useGlowLayer": true
+}

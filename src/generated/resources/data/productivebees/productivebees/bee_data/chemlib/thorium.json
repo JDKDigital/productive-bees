@@ -1,0 +1,15 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/thorium/bee",
+  "breedingItem": "chemlib:thorium_ingot",
+  "flowerBlock": "chemlib:thorium_metal_block",
+  "particleColor": "#ffffff",
+  "primaryColor": "#e6e6ea",
+  "useGlowLayer": true
+}

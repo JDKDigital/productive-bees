@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "productivebees:soul_sand_nest"
+  ],
+  "result": {
+    "id": "productivebees:soul_sand_nest"
+  }
+}

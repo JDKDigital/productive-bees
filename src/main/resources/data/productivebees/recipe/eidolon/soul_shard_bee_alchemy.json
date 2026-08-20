@@ -8,7 +8,7 @@
           "count": 2
         },
         {
-          "type": "productivebees:component",
+          "neoforge:ingredient_type": "productivebees:component",
           "components": {
             "minecraft:entity_data": {
               "type": "productivebees:withered",
@@ -22,19 +22,15 @@
     {
       "stirs": 1,
       "items": [
-        {
-          "item": "eidolon:soul_shard"
-        },
-        {
-          "item": "eidolon:soul_shard"
-        }
+        "eidolon:soul_shard",
+        "eidolon:soul_shard"
       ]
     }
   ],
   "result": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:soul_shard",
+        "type": "productivebees:eidolon/soul_shard",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -48,7 +44,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:soul_shard"
+      "bee": "productivebees:eidolon/soul_shard"
     },
     {
       "type": "neoforge:mod_loaded",

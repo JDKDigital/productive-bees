@@ -1,0 +1,9 @@
+{
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/amethyst_bronze",
+  "particleColor": "#c687bd",
+  "primaryColor": "#c687bd",
+  "secondaryColor": "#7a5800",
+  "useGlowLayer": true
+}

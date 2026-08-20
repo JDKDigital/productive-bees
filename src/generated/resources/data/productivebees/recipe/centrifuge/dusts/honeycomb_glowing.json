@@ -1,0 +1,18 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:dusts/glowing"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": "#c:dusts/glowstone"
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

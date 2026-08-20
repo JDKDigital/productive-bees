@@ -1,0 +1,11 @@
+{
+  "attack": 1.0,
+  "attributes": {
+    "behavior": "behavior.nocturnal"
+  },
+  "beeTexture": "productivebees:textures/entity/bee/skeletal/bee",
+  "flowerBlock": "minecraft:bone_block",
+  "primaryColor": "#c1c1c1",
+  "selfbreed": false,
+  "useGlowLayer": true
+}

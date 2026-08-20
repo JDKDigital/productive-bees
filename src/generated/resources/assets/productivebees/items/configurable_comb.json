@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productivebees:block/comb/configurable",
+    "tints": [
+      {
+        "type": "productivebees:bee",
+        "colorKey": "primaryColor"
+      }
+    ]
+  }
+}

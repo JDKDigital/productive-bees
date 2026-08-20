@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "mekanism"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/lithium/bee",
+  "flowerFluid": "mekanism:lithium",
+  "particleColor": "#e2af3a",
+  "primaryColor": "#694d0c",
+  "secondaryColor": "#b6830c",
+  "selfbreed": false,
+  "tertiaryColor": "#dd9f11",
+  "useGlowLayer": true
+}

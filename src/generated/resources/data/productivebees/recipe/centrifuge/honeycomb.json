@@ -1,0 +1,13 @@
+{
+  "type": "productivebees:centrifuge",
+  "fluid": {
+    "amount": 100,
+    "ingredient": "productivebees:honey"
+  },
+  "ingredient": "minecraft:honeycomb",
+  "outputs": [
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

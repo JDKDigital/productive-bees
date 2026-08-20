@@ -6,6 +6,8 @@ import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.GeneAttribute;
 import cy.jdkdigital.productivebees.util.GeneValue;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -13,7 +15,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.Shearable;
-import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.bee.Bee;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -25,7 +28,7 @@ public class RancherBee extends ProductiveBee
 {
     public PathfinderMob target = null;
 
-    public static Predicate<Entity> predicate = (entity -> entity.getType().is(ModTags.RANCHABLES));
+    public static Predicate<Entity> predicate = (entity -> BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(entity.getType()).is(ModTags.RANCHABLES));
 
     public RancherBee(EntityType<? extends Bee> entityType, Level world) {
         super(entityType, world);
@@ -59,7 +62,7 @@ public class RancherBee extends ProductiveBee
 
         if (level().getBlockEntity(pos) instanceof AmberBlockEntity amberBlockEntity) {
             var entity = amberBlockEntity.getCachedEntity();
-            return entity != null && entity.getType().is(ModTags.RANCHABLES);
+            return entity != null && BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(entity.getType()).is(ModTags.RANCHABLES);
         } else {
             List<Entity> entities = level().getEntities(this, (new AABB(pos).inflate(1.0D, 1.0D, 1.0D)), predicate);
             if (!entities.isEmpty()) {
@@ -78,8 +81,8 @@ public class RancherBee extends ProductiveBee
     public void postPollinate() {
         super.postPollinate();
 
-        if (target instanceof Shearable sheep && sheep.readyForShearing()) {
-            sheep.shear(SoundSource.BLOCKS);
+        if (target instanceof Shearable sheep && sheep.readyForShearing() && level() instanceof ServerLevel sl) {
+            sheep.shear(sl, SoundSource.BLOCKS, ItemStack.EMPTY);
         }
     }
 

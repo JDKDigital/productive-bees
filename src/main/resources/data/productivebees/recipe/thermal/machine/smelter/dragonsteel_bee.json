@@ -2,10 +2,10 @@
   "type": "thermal:smelter",
   "input": [
     {
-      "type": "productivebees:component",
+      "neoforge:ingredient_type": "productivebees:component",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:apatite",
+          "type": "productivebees:gems/apatite",
           "id": "productivebees:configurable_bee"
         }
       },
@@ -16,10 +16,10 @@
       "count": 3
     },
     {
-      "type": "productivebees:component",
+      "neoforge:ingredient_type": "productivebees:component",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:netherite",
+          "type": "productivebees:raw_materials/netherite",
           "id": "productivebees:configurable_bee"
         }
       },
@@ -29,7 +29,7 @@
   "result": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:dragonsteel",
+        "type": "productivebees:thermal_extra/dragonsteel",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -48,15 +48,15 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:apatite"
+      "bee": "productivebees:gems/apatite"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:netherite"
+      "bee": "productivebees:raw_materials/netherite"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:dragonsteel"
+      "bee": "productivebees:thermal_extra/dragonsteel"
     }
   ]
 }

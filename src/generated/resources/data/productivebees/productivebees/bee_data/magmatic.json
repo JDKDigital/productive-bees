@@ -1,0 +1,14 @@
+{
+  "attack": 1.0,
+  "attackResponse": "lava",
+  "beeTexture": "productivebees:textures/entity/bee/magmatic/bee",
+  "fireproof": true,
+  "flowerTag": "productivebees:flowers/magmatic",
+  "nestingPreference": "productivebees:nests/nether_brick_nests",
+  "particleColor": "#d06a1b",
+  "particleType": "lava",
+  "primaryColor": "#d06a1b",
+  "renderer": "translucent_with_center",
+  "secondaryColor": "#100000",
+  "useGlowLayer": true
+}

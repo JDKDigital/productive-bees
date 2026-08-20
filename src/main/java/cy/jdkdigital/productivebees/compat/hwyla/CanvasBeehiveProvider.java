@@ -4,7 +4,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.entity.CanvasBeehiveBlockEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.ITooltip;
@@ -12,7 +12,7 @@ import snownee.jade.api.config.IPluginConfig;
 
 public class CanvasBeehiveProvider implements IBlockComponentProvider
 {
-    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "canvas_beehive");
+    public static final Identifier UID = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "canvas_beehive");
 
     static final CanvasBeehiveProvider INSTANCE = new CanvasBeehiveProvider();
 
@@ -28,7 +28,7 @@ public class CanvasBeehiveProvider implements IBlockComponentProvider
     }
 
     @Override
-    public ResourceLocation getUid() {
+    public Identifier getUid() {
         return UID;
     }
 }

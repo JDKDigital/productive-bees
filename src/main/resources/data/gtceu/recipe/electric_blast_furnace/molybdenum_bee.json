@@ -11,14 +11,14 @@
           "type": "gtceu:sized",
           "count": 1,
           "ingredient": {
-            "type": "productivebees:component",
             "items": "productivebees:spawn_egg_configurable_bee",
             "components": {
               "minecraft:entity_data": {
-                "type": "productivebees:iron",
+                "type": "productivebees:raw_materials/iron",
                 "id": "productivebees:configurable_bee"
               }
-            }
+            },
+            "neoforge:ingredient_type": "productivebees:component"
           }
         },
         "chance": 10000,
@@ -42,14 +42,14 @@
           "type": "gtceu:sized",
           "count": 1,
           "ingredient": {
-            "type": "productivebees:component",
             "items": "productivebees:spawn_egg_configurable_bee",
             "components": {
               "minecraft:entity_data": {
-                "type": "productivebees:molybdenum",
+                "type": "productivebees:gtceu/molybdenum",
                 "id": "productivebees:configurable_bee"
               }
-            }
+            },
+            "neoforge:ingredient_type": "productivebees:component"
           }
         },
         "chance": 10000,
@@ -74,7 +74,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:iron"
+      "bee": "productivebees:raw_materials/iron"
     },
     {
       "type": "productivebees:bee_exists",

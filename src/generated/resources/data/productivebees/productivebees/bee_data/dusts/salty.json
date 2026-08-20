@@ -1,0 +1,9 @@
+{
+  "attack": 1.0,
+  "flowerFluid": "minecraft:water",
+  "particleColor": "#fa7d73",
+  "primaryColor": "#fa9f98",
+  "secondaryColor": "#8a8a8a",
+  "useGlowLayer": true,
+  "waterproof": true
+}

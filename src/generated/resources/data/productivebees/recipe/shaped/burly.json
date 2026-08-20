@@ -1,0 +1,28 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:burly"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": "minecraft:golden_dandelion",
+    "E": "minecraft:bee_spawn_egg"
+  },
+  "pattern": [
+    "DDD",
+    "DED",
+    "DDD"
+  ],
+  "result": {
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:burly",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "id": "productivebees:spawn_egg_configurable_bee"
+  }
+}

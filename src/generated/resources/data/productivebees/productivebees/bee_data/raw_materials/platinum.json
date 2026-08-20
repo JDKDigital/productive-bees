@@ -1,0 +1,10 @@
+{
+  "attack": 1.0,
+  "attributes": {
+    "endurance": "endurance.medium"
+  },
+  "flowerTag": "c:storage_blocks/platinum",
+  "primaryColor": "#6feaef",
+  "secondaryColor": "#804f40",
+  "useGlowLayer": true
+}

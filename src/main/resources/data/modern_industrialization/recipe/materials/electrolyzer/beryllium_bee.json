@@ -3,37 +3,37 @@
   "eu": 32,
   "duration": 400,
   "item_inputs": {
-    "type": "productivebees:component",
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:emerald",
+        "type": "productivebees:gems/emerald",
         "id": "productivebees:configurable_bee"
       }
     },
     "items": "productivebees:spawn_egg_configurable_bee",
-    "amount": 3
+    "amount": 3,
+    "neoforge:ingredient_type": "productivebees:component"
   },
   "item_outputs": [
     {
-      "type": "productivebees:component",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:beryllium",
+          "type": "productivebees:modern_industrialization/beryllium",
           "id": "productivebees:configurable_bee"
         }
       },
       "item": "productivebees:spawn_egg_configurable_bee",
-      "amount": 1
+      "amount": 1,
+      "neoforge:ingredient_type": "productivebees:component"
     }
   ],
   "neoforge:conditions": [
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:emerald"
+      "bee": "productivebees:gems/emerald"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:beryllium"
+      "bee": "productivebees:modern_industrialization/beryllium"
     },
     {
       "type": "neoforge:mod_loaded",

@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "refinedstorage"
+    }
+  ],
+  "attack": 1.0,
+  "flowerBlock": "refinedstorage:machine_casing",
+  "particleColor": "#c9c7c2",
+  "primaryColor": "#c9c7c2",
+  "secondaryColor": "#4f4e4b",
+  "useGlowLayer": true
+}

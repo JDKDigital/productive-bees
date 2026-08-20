@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "megacells"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/sky_steel/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "megacells:sky_steel_block",
+  "particleColor": "#99ffcd",
+  "primaryColor": "#424546",
+  "secondaryColor": "#87dfff",
+  "selfbreed": false,
+  "size": 0.5,
+  "tertiaryColor": "#3b5146",
+  "useGlowLayer": true
+}

@@ -5,12 +5,8 @@
     "C"
   ],
   "key": {
-    "G": {
-      "item": "minecraft:grindstone"
-    },
-    "C": {
-      "item": "minecraft:cauldron"
-    }
+    "G": "minecraft:grindstone",
+    "C": "minecraft:cauldron"
   },
   "result": {
     "id": "productivebees:centrifuge"

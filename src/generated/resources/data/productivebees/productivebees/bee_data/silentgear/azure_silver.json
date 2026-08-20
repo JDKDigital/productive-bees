@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "silentgear"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/azure_silver/bee",
+  "flowerBlock": "silentgear:azure_silver_block",
+  "particleColor": "#fdc0ff",
+  "primaryColor": "#702ccc",
+  "secondaryColor": "#b678ff",
+  "size": 0.6,
+  "useGlowLayer": true
+}

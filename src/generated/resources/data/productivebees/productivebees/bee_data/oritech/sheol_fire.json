@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "oritech"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/sheol_fire/bee",
+  "fireproof": true,
+  "flowerFluid": "oritech:still_sheol_fire",
+  "particleColor": "#f48a47",
+  "primaryColor": "#de6417",
+  "renderer": "default_shell",
+  "secondaryColor": "#4e0017",
+  "selfbreed": false,
+  "size": 0.7,
+  "tertiaryColor": "#64080f",
+  "useGlowLayer": true
+}

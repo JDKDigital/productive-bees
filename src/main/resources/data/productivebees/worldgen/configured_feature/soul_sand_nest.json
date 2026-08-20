@@ -1,5 +1,5 @@
 {
-  "type": "productivebees:soul_sand_nest",
+  "type": "productivebees:nest",
   "config": {
     "targets": [
       {
@@ -11,6 +11,11 @@
           "Name": "productivebees:soul_sand_nest"
         }
       }
-    ]
+    ],
+    "search": {
+      "type": "cavern",
+      "top": true
+    },
+    "config_key": "soul_sand_nest"
   }
 }

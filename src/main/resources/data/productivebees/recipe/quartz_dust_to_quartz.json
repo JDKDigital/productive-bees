@@ -6,9 +6,7 @@
     "DDD"
   ],
   "key": {
-    "D": {
-      "tag": "c:dusts/quartz"
-    }
+    "D": "#c:dusts/quartz"
   },
   "result": {
     "id": "minecraft:quartz"

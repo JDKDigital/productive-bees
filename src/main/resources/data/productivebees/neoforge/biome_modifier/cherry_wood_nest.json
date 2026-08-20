@@ -1,7 +1,6 @@
 {
+  "type": "neoforge:add_features",
   "biomes": "minecraft:cherry_grove",
-  "generation_stage": "TOP_LAYER_MODIFICATION",
   "features": "productivebees:cherry_wood_nest",
-  "type": "productivebees:nest",
-  "maxTemperature": 100
+  "step": "top_layer_modification"
 }

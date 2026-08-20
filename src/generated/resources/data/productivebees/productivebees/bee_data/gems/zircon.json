@@ -1,0 +1,10 @@
+{
+  "attack": 1.0,
+  "flowerTag": "productivebees:flowers/zircon",
+  "particleColor": "#787800",
+  "primaryColor": "#787800",
+  "renderer": "default_crystal",
+  "secondaryColor": "#2e0b17",
+  "size": 0.6,
+  "tertiaryColor": "#b3b600"
+}

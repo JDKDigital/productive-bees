@@ -8,14 +8,14 @@
           "type": "gtceu:sized",
           "count": 1,
           "ingredient": {
-            "type": "productivebees:component",
             "items": "productivebees:spawn_egg_configurable_bee",
             "components": {
               "minecraft:entity_data": {
-                "type": "productivebees:gold",
+                "type": "productivebees:raw_materials/gold",
                 "id": "productivebees:configurable_bee"
               }
-            }
+            },
+            "neoforge:ingredient_type": "productivebees:component"
           }
         },
         "chance": 10000,
@@ -30,14 +30,14 @@
           "type": "gtceu:sized",
           "count": 1,
           "ingredient": {
-            "type": "productivebees:component",
             "items": "productivebees:spawn_egg_configurable_bee",
             "components": {
               "minecraft:entity_data": {
-                "type": "productivebees:vanadium_magnetite",
+                "type": "productivebees:gtceu/vanadium_magnetite",
                 "id": "productivebees:configurable_bee"
               }
-            }
+            },
+            "neoforge:ingredient_type": "productivebees:component"
           }
         },
         "chance": 10000,
@@ -62,11 +62,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:gold"
+      "bee": "productivebees:raw_materials/gold"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:vanadium_magnetite"
+      "bee": "productivebees:gtceu/vanadium_magnetite"
     }
   ]
 }

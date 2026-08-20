@@ -1,12 +1,8 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "productivebees:treat_on_a_stick"
-    },
-    {
-      "item": "productivebees:honey_treat"
-    }
+    "productivebees:treat_on_a_stick",
+    "productivebees:honey_treat"
   ],
   "result": {
     "id": "productivebees:treat_on_a_stick"

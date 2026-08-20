@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:function",
+  "environment": "productivebees:centrifuge_recipe_lookup_env",
+  "function": "productivebees:centrifuge_recipe_lookup",
+  "structure": "productivebees:empty_7x7",
+  "max_ticks": 100,
+  "required": true,
+  "setup_ticks": 0
+}

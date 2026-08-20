@@ -3,14 +3,14 @@
   "group": "alchemistry:dissolver",
   "input": {
     "ingredient": {
+      "neoforge:ingredient_type": "productivebees:component",
+      "items": "productivebees:spawn_egg_configurable_bee",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:platinum",
+          "type": "productivebees:raw_materials/platinum",
           "id": "productivebees:configurable_bee"
         }
-      },
-      "count": 1,
-      "id": "productivebees:spawn_egg_configurable_bee"
+      }
     }
   },
   "output": {
@@ -21,10 +21,11 @@
         "probability": 100,
         "results": [
           {
-            "item": "productivebees:spawn_egg_configurable_bee",
-            "nbt": {
-              "EntityTag": {
-                "type": "productivebees:rhodium"
+            "id": "productivebees:spawn_egg_configurable_bee",
+            "components": {
+              "minecraft:entity_data": {
+                "type": "productivebees:chemlib/rhodium",
+                "id": "productivebees:configurable_bee"
               }
             }
           },
@@ -43,11 +44,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:platinum"
+      "bee": "productivebees:raw_materials/platinum"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:rhodium"
+      "bee": "productivebees:chemlib/rhodium"
     }
   ]
 }

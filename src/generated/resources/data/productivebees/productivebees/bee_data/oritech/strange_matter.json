@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "oritech"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/strange_matter/bee",
+  "flowerFluid": "oritech:still_strange_matter",
+  "particleColor": "#8c002e",
+  "primaryColor": "#770029",
+  "renderer": "default_shell",
+  "secondaryColor": "#3c003b",
+  "selfbreed": false,
+  "size": 0.4,
+  "tertiaryColor": "#5d0130",
+  "useGlowLayer": true
+}

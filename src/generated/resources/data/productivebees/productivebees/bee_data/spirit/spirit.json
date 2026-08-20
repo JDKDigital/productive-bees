@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "spirit"
+    }
+  ],
+  "attack": 1.0,
+  "flowerBlock": "spirit:soul_steel_block",
+  "particleColor": "#5c687d",
+  "primaryColor": "#839cb8",
+  "secondaryColor": "#0d1119",
+  "useGlowLayer": true
+}

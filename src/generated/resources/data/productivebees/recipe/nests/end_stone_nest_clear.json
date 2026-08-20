@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "productivebees:end_stone_nest"
+  ],
+  "result": {
+    "id": "productivebees:end_stone_nest"
+  }
+}

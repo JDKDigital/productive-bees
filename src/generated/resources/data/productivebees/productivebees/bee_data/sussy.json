@@ -1,0 +1,13 @@
+{
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/sussy/bee",
+  "createComb": false,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "minecraft:air",
+  "particleColor": "#4200ba",
+  "postPollination": "sus",
+  "primaryColor": "#610bff",
+  "secondaryColor": "#b70000",
+  "size": 0.3,
+  "useGlowLayer": true
+}

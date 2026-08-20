@@ -6,15 +6,9 @@
     "III"
   ],
   "key": {
-    "G": {
-      "item": "minecraft:dirt"
-    },
-    "I": {
-      "tag": "c:ingots/iron"
-    },
-    "D": {
-      "item": "minecraft:dispenser"
-    }
+    "G": "minecraft:dirt",
+    "I": "#c:ingots/iron",
+    "D": "minecraft:dispenser"
   },
   "result": {
     "id": "productivebees:catcher"

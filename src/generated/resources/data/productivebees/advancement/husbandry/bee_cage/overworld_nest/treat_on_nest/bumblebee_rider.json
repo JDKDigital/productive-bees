@@ -1,0 +1,28 @@
+{
+  "parent": "productivebees:husbandry/bee_cage/overworld_nest/treat_on_nest",
+  "criteria": {
+    "saddle_bee": {
+      "conditions": {
+        "bee": "any"
+      },
+      "trigger": "productivebees:saddle_bee"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.husbandry.bumblebee_rider.description"
+    },
+    "icon": {
+      "id": "minecraft:saddle"
+    },
+    "title": {
+      "translate": "advancements.husbandry.bumblebee_rider.title"
+    }
+  },
+  "requirements": [
+    [
+      "saddle_bee"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

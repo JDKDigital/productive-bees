@@ -9,12 +9,9 @@
   "category": "misc",
   "group": "hives",
   "ingredients": [
-    {
-      "item": "productivebees:advanced_crimson_beehive"
-    }
+    "productivebees:advanced_crimson_beehive"
   ],
   "result": {
-    "count": 1,
     "id": "productivebees:advanced_crimson_beehive"
   }
 }

@@ -5,8 +5,15 @@ import cy.jdkdigital.productivebees.common.block.*;
 import cy.jdkdigital.productivebees.common.block.nest.BumbleBeeNest;
 import cy.jdkdigital.productivebees.common.block.nest.SugarCaneNest;
 import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
+import cy.jdkdigital.productivebees.common.item.AdvancedBeehiveBlockItem;
 import cy.jdkdigital.productivebees.common.item.AmberItem;
+import cy.jdkdigital.productivebees.common.item.CanvasBlockItem;
 import cy.jdkdigital.productivebees.common.item.CombBlockItem;
+import cy.jdkdigital.productivebees.common.item.JarBlockItem;
+import cy.jdkdigital.productivebees.common.item.SimpleTooltipBlockItem;
+import cy.jdkdigital.productivebees.common.item.SolitaryNestBlockItem;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import cy.jdkdigital.productivebees.setup.HiveType;
 import cy.jdkdigital.productivebees.util.FakeIngredient;
 import net.minecraft.world.item.BlockItem;
@@ -17,6 +24,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
@@ -24,77 +32,75 @@ import net.minecraft.world.level.material.MapColor;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public final class ModBlocks
 {
-    public static final DeferredHolder<Block, ? extends Block> BOTTLER = createBlock("bottler", () -> new Bottler(Block.Properties.ofFullCopy(Blocks.CAULDRON)));
-    public static final DeferredHolder<Block, ? extends Block> CENTRIFUGE = createBlock("centrifuge", () -> new Centrifuge(Block.Properties.ofFullCopy(Blocks.CAULDRON)));
-    public static final DeferredHolder<Block, ? extends Block> POWERED_CENTRIFUGE = createBlock("powered_centrifuge", () -> new PoweredCentrifuge(Block.Properties.ofFullCopy(Blocks.CAULDRON)));
-    public static final DeferredHolder<Block, ? extends Block> HEATED_CENTRIFUGE = createBlock("heated_centrifuge", () -> new HeatedCentrifuge(Block.Properties.ofFullCopy(Blocks.CAULDRON)));
-    public static final DeferredHolder<Block, ? extends Block> HONEY_GENERATOR = createBlock("honey_generator", () -> new HoneyGenerator(Block.Properties.ofFullCopy(Blocks.CAULDRON)));
-    public static final DeferredHolder<Block, ? extends Block> CATCHER = createBlock("catcher", () -> new Catcher(Block.Properties.ofFullCopy(Blocks.CAULDRON)));
-    public static final DeferredHolder<Block, ? extends Block> INCUBATOR = createBlock("incubator", () -> new Incubator(Block.Properties.ofFullCopy(Blocks.CAULDRON)));
-    public static final DeferredHolder<Block, ? extends Block> INACTIVE_DRAGON_EGG = createBlock("inactive_dragon_egg", () -> new InactiveDragonEgg(Block.Properties.ofFullCopy(Blocks.DRAGON_EGG)));
-    public static final DeferredHolder<Block, ? extends Block> INVISIBLE_REDSTONE_BLOCK = createBlock("invisible_redstone_block", () -> new InvisibleRedstone(Block.Properties.ofFullCopy(Blocks.REDSTONE_BLOCK).noOcclusion().noCollission()));
-    public static final DeferredHolder<Block, ? extends Block> FEEDER = createBlock("feeder", () -> new Feeder(Block.Properties.ofFullCopy(Blocks.STONE_SLAB).noOcclusion()));
-    public static final DeferredHolder<Block, ? extends Block> JAR = createBlock("jar_oak", () -> new Jar(Block.Properties.ofFullCopy(Blocks.GLASS)));
-    public static final DeferredHolder<Block, ? extends Block> QUARTZ_NETHERRACK = createBlock("quartz_netherrack", () -> new Block(Block.Properties.ofFullCopy(Blocks.NETHER_QUARTZ_ORE)));
-    public static final DeferredHolder<Block, ? extends Block> WAX_BLOCK = createBlock("wax_block", () -> new WaxBlock(Block.Properties.ofFullCopy(Blocks.HONEYCOMB_BLOCK)));
-    public static final DeferredHolder<Block, ? extends Block> GENE_INDEXER = createBlock("gene_indexer", () -> new GeneIndexer(Block.Properties.ofFullCopy(Blocks.CAULDRON)));
-    public static final DeferredHolder<Block, ? extends Block> BREEDING_CHAMBER = createBlock("breeding_chamber", () -> new BreedingChamber(Block.Properties.ofFullCopy(Blocks.CAULDRON)));
-    public static final DeferredHolder<Block, ? extends Block> CRYO_STASIS = createBlock("cryo_stasis", () -> new CryoStasis(Block.Properties.ofFullCopy(Blocks.CAULDRON)), false);
+    public static final DeferredHolder<Block, ? extends Block> BOTTLER = createBlock("bottler", Bottler::new, () -> Block.Properties.ofFullCopy(Blocks.CAULDRON));
+    public static final DeferredHolder<Block, ? extends Block> CENTRIFUGE = createBlock("centrifuge", Centrifuge::new, () -> Block.Properties.ofFullCopy(Blocks.CAULDRON));
+    public static final DeferredHolder<Block, ? extends Block> POWERED_CENTRIFUGE = createBlock("powered_centrifuge", PoweredCentrifuge::new, () -> Block.Properties.ofFullCopy(Blocks.CAULDRON));
+    public static final DeferredHolder<Block, ? extends Block> HEATED_CENTRIFUGE = createBlock("heated_centrifuge", HeatedCentrifuge::new, () -> Block.Properties.ofFullCopy(Blocks.CAULDRON));
+    public static final DeferredHolder<Block, ? extends Block> HONEY_GENERATOR = createBlock("honey_generator", HoneyGenerator::new, () -> Block.Properties.ofFullCopy(Blocks.CAULDRON));
+    public static final DeferredHolder<Block, ? extends Block> CATCHER = createBlock("catcher", Catcher::new, () -> Block.Properties.ofFullCopy(Blocks.CAULDRON));
+    public static final DeferredHolder<Block, ? extends Block> INCUBATOR = createBlock("incubator", Incubator::new, () -> Block.Properties.ofFullCopy(Blocks.CAULDRON));
+    public static final DeferredHolder<Block, ? extends Block> INACTIVE_DRAGON_EGG = createBlock("inactive_dragon_egg", InactiveDragonEgg::new, () -> Block.Properties.ofFullCopy(Blocks.DRAGON_EGG));
+    public static final DeferredHolder<Block, ? extends Block> INVISIBLE_REDSTONE_BLOCK = createBlock("invisible_redstone_block", InvisibleRedstone::new, () -> Block.Properties.ofFullCopy(Blocks.REDSTONE_BLOCK).noOcclusion().noCollision());
+    public static final DeferredHolder<Block, ? extends Block> FEEDER = createBlock("feeder", Feeder::new, () -> Block.Properties.ofFullCopy(Blocks.STONE_SLAB).noOcclusion());
+    public static final DeferredHolder<Block, ? extends Block> JAR = createBlock("jar_oak", Jar::new, () -> Block.Properties.ofFullCopy(Blocks.GLASS));
+    public static final DeferredHolder<Block, ? extends Block> QUARTZ_NETHERRACK = createBlock("quartz_netherrack", Block::new, () -> Block.Properties.ofFullCopy(Blocks.NETHER_QUARTZ_ORE));
+    public static final DeferredHolder<Block, ? extends Block> WAX_BLOCK = createBlock("wax_block", WaxBlock::new, () -> Block.Properties.ofFullCopy(Blocks.HONEYCOMB_BLOCK));
+    public static final DeferredHolder<Block, ? extends Block> GENE_INDEXER = createBlock("gene_indexer", GeneIndexer::new, () -> Block.Properties.ofFullCopy(Blocks.CAULDRON));
+    public static final DeferredHolder<Block, ? extends Block> BREEDING_CHAMBER = createBlock("breeding_chamber", BreedingChamber::new, () -> Block.Properties.ofFullCopy(Blocks.CAULDRON));
+    public static final DeferredHolder<Block, ? extends Block> CRYO_STASIS = createBlock("cryo_stasis", CryoStasis::new, () -> Block.Properties.ofFullCopy(Blocks.CAULDRON), false);
 
-    public static final DeferredHolder<Block, ? extends Block> OAK_WOOD_NEST = createBlock("oak_wood_nest", () -> new WoodNest("#382b18", Block.Properties.ofFullCopy(Blocks.OAK_LOG)));
-    public static final DeferredHolder<Block, ? extends Block> SPRUCE_WOOD_NEST = createBlock("spruce_wood_nest", () -> new WoodNest("#2e1608", Block.Properties.ofFullCopy(Blocks.SPRUCE_LOG)));
-    public static final DeferredHolder<Block, ? extends Block> DARK_OAK_WOOD_NEST = createBlock("dark_oak_wood_nest", () -> new WoodNest("#292011", Block.Properties.ofFullCopy(Blocks.DARK_OAK_LOG)));
-    public static final DeferredHolder<Block, ? extends Block> BIRCH_WOOD_NEST = createBlock("birch_wood_nest", () -> new WoodNest("#36342a", Block.Properties.ofFullCopy(Blocks.BIRCH_LOG)));
-    public static final DeferredHolder<Block, ? extends Block> JUNGLE_WOOD_NEST = createBlock("jungle_wood_nest", () -> new WoodNest("#3e3013", Block.Properties.ofFullCopy(Blocks.JUNGLE_LOG)));
-    public static final DeferredHolder<Block, ? extends Block> ACACIA_WOOD_NEST = createBlock("acacia_wood_nest", () -> new WoodNest("#504b40", Block.Properties.ofFullCopy(Blocks.ACACIA_LOG)));
-    public static final DeferredHolder<Block, ? extends Block> CHERRY_WOOD_NEST = createBlock("cherry_wood_nest", () -> new WoodNest("#271620", Block.Properties.ofFullCopy(Blocks.CHERRY_LOG)));
-    public static final DeferredHolder<Block, ? extends Block> MANGROVE_WOOD_NEST = createBlock("mangrove_wood_nest", () -> new WoodNest("#443522", Block.Properties.ofFullCopy(Blocks.MANGROVE_LOG)));
+    public static final DeferredHolder<Block, ? extends Block> OAK_WOOD_NEST = createBlock("oak_wood_nest", p -> new WoodNest("#382b18", p), () -> Block.Properties.ofFullCopy(Blocks.OAK_LOG));
+    public static final DeferredHolder<Block, ? extends Block> SPRUCE_WOOD_NEST = createBlock("spruce_wood_nest", p -> new WoodNest("#2e1608", p), () -> Block.Properties.ofFullCopy(Blocks.SPRUCE_LOG));
+    public static final DeferredHolder<Block, ? extends Block> DARK_OAK_WOOD_NEST = createBlock("dark_oak_wood_nest", p -> new WoodNest("#292011", p), () -> Block.Properties.ofFullCopy(Blocks.DARK_OAK_LOG));
+    public static final DeferredHolder<Block, ? extends Block> BIRCH_WOOD_NEST = createBlock("birch_wood_nest", p -> new WoodNest("#36342a", p), () -> Block.Properties.ofFullCopy(Blocks.BIRCH_LOG));
+    public static final DeferredHolder<Block, ? extends Block> JUNGLE_WOOD_NEST = createBlock("jungle_wood_nest", p -> new WoodNest("#3e3013", p), () -> Block.Properties.ofFullCopy(Blocks.JUNGLE_LOG));
+    public static final DeferredHolder<Block, ? extends Block> ACACIA_WOOD_NEST = createBlock("acacia_wood_nest", p -> new WoodNest("#504b40", p), () -> Block.Properties.ofFullCopy(Blocks.ACACIA_LOG));
+    public static final DeferredHolder<Block, ? extends Block> CHERRY_WOOD_NEST = createBlock("cherry_wood_nest", p -> new WoodNest("#271620", p), () -> Block.Properties.ofFullCopy(Blocks.CHERRY_LOG));
+    public static final DeferredHolder<Block, ? extends Block> MANGROVE_WOOD_NEST = createBlock("mangrove_wood_nest", p -> new WoodNest("#443522", p), () -> Block.Properties.ofFullCopy(Blocks.MANGROVE_LOG));
 
-    public static final DeferredHolder<Block, ? extends Block> BAMBOO_HIVE = createBlock("bamboo_hive", () -> new BambooHive(Block.Properties.ofFullCopy(Blocks.BAMBOO_BLOCK)));
-    public static final DeferredHolder<Block, ? extends Block> DRAGON_EGG_HIVE = createBlock("dragon_egg_hive", () -> new DragonEggHive(Block.Properties.ofFullCopy(Blocks.DRAGON_EGG)));
-    public static final DeferredHolder<Block, ? extends Block> STONE_NEST = createBlock("stone_nest", () -> new SolitaryNest(Block.Properties.ofFullCopy(Blocks.STONE)));
-    public static final DeferredHolder<Block, ? extends Block> COARSE_DIRT_NEST = createBlock("coarse_dirt_nest", () -> new SolitaryNest(Block.Properties.ofFullCopy(Blocks.COARSE_DIRT)));
-    public static final DeferredHolder<Block, ? extends Block> SAND_NEST = createBlock("sand_nest", () -> new SolitaryNest(Block.Properties.ofFullCopy(Blocks.SAND)));
-    public static final DeferredHolder<Block, ? extends Block> SNOW_NEST = createBlock("snow_nest", () -> new SolitaryNest(Block.Properties.ofFullCopy(Blocks.SNOW_BLOCK).strength(0.2F)));
-    public static final DeferredHolder<Block, ? extends Block> GRAVEL_NEST = createBlock("gravel_nest", () -> new SolitaryNest(Block.Properties.ofFullCopy(Blocks.GRAVEL)));
-    public static final DeferredHolder<Block, ? extends Block> SUGAR_CANE_NEST = createBlock("sugar_cane_nest", () -> new SugarCaneNest(Block.Properties.ofFullCopy(Blocks.SUGAR_CANE)));
-    public static final DeferredHolder<Block, ? extends Block> SLIMY_NEST = createBlock("slimy_nest", () -> new SolitaryNest(Block.Properties.ofFullCopy(Blocks.SLIME_BLOCK)));
-    public static final DeferredHolder<Block, ? extends Block> GLOWSTONE_NEST = createBlock("glowstone_nest", () -> new SolitaryNest(Block.Properties.ofFullCopy(Blocks.GLOWSTONE)));
-    public static final DeferredHolder<Block, ? extends Block> SOUL_SAND_NEST = createBlock("soul_sand_nest", () -> new SolitaryNest(Block.Properties.ofFullCopy(Blocks.SOUL_SAND)));
-    public static final DeferredHolder<Block, ? extends Block> NETHER_QUARTZ_NEST = createBlock("nether_quartz_nest", () -> new SolitaryNest(Block.Properties.ofFullCopy(Blocks.NETHER_QUARTZ_ORE)));
-    public static final DeferredHolder<Block, ? extends Block> NETHER_GOLD_NEST = createBlock("nether_gold_nest", () -> new SolitaryNest(Block.Properties.ofFullCopy(Blocks.NETHER_GOLD_ORE)));
-    public static final DeferredHolder<Block, ? extends Block> NETHER_BRICK_NEST = createBlock("nether_brick_nest", () -> new SolitaryNest(Block.Properties.ofFullCopy(Blocks.NETHER_BRICKS)));
-    public static final DeferredHolder<Block, ? extends Block> END_NEST = createBlock("end_stone_nest", () -> new SolitaryNest(Block.Properties.ofFullCopy(Blocks.END_STONE)));
-    public static final DeferredHolder<Block, ? extends Block> OBSIDIAN_PILLAR_NEST = createBlock("obsidian_nest", () -> new SolitaryNest(Block.Properties.ofFullCopy(Blocks.OBSIDIAN)));
+    public static final DeferredHolder<Block, ? extends Block> BAMBOO_NEST = createBlock("bamboo_nest", BambooHive::new, () -> Block.Properties.ofFullCopy(Blocks.BAMBOO_BLOCK));
+    public static final DeferredHolder<Block, ? extends Block> DRAGON_EGG_HIVE = createBlock("dragon_egg_hive", DragonEggHive::new, () -> Block.Properties.ofFullCopy(Blocks.DRAGON_EGG));
+    public static final DeferredHolder<Block, ? extends Block> STONE_NEST = createBlock("stone_nest", SolitaryNest::new, () -> Block.Properties.ofFullCopy(Blocks.STONE));
+    public static final DeferredHolder<Block, ? extends Block> COARSE_DIRT_NEST = createBlock("coarse_dirt_nest", SolitaryNest::new, () -> Block.Properties.ofFullCopy(Blocks.COARSE_DIRT));
+    public static final DeferredHolder<Block, ? extends Block> SAND_NEST = createBlock("sand_nest", SolitaryNest::new, () -> Block.Properties.ofFullCopy(Blocks.SAND));
+    public static final DeferredHolder<Block, ? extends Block> SNOW_NEST = createBlock("snow_nest", SolitaryNest::new, () -> Block.Properties.ofFullCopy(Blocks.SNOW_BLOCK).strength(0.2F));
+    public static final DeferredHolder<Block, ? extends Block> GRAVEL_NEST = createBlock("gravel_nest", SolitaryNest::new, () -> Block.Properties.ofFullCopy(Blocks.GRAVEL));
+    public static final DeferredHolder<Block, ? extends Block> SUGAR_CANE_NEST = createBlock("sugar_cane_nest", SugarCaneNest::new, () -> Block.Properties.ofFullCopy(Blocks.SUGAR_CANE));
+    public static final DeferredHolder<Block, ? extends Block> SLIMY_NEST = createBlock("slimy_nest", SolitaryNest::new, () -> Block.Properties.ofFullCopy(Blocks.SLIME_BLOCK));
+    public static final DeferredHolder<Block, ? extends Block> GLOWSTONE_NEST = createBlock("glowstone_nest", SolitaryNest::new, () -> Block.Properties.ofFullCopy(Blocks.GLOWSTONE));
+    public static final DeferredHolder<Block, ? extends Block> SOUL_SAND_NEST = createBlock("soul_sand_nest", SolitaryNest::new, () -> Block.Properties.ofFullCopy(Blocks.SOUL_SAND));
+    public static final DeferredHolder<Block, ? extends Block> NETHER_QUARTZ_NEST = createBlock("nether_quartz_nest", SolitaryNest::new, () -> Block.Properties.ofFullCopy(Blocks.NETHER_QUARTZ_ORE));
+    public static final DeferredHolder<Block, ? extends Block> NETHER_GOLD_NEST = createBlock("nether_gold_nest", SolitaryNest::new, () -> Block.Properties.ofFullCopy(Blocks.NETHER_GOLD_ORE));
+    public static final DeferredHolder<Block, ? extends Block> NETHER_BRICK_NEST = createBlock("nether_brick_nest", SolitaryNest::new, () -> Block.Properties.ofFullCopy(Blocks.NETHER_BRICKS));
+    public static final DeferredHolder<Block, ? extends Block> END_NEST = createBlock("end_stone_nest", SolitaryNest::new, () -> Block.Properties.ofFullCopy(Blocks.END_STONE));
+    public static final DeferredHolder<Block, ? extends Block> OBSIDIAN_PILLAR_NEST = createBlock("obsidian_nest", SolitaryNest::new, () -> Block.Properties.ofFullCopy(Blocks.OBSIDIAN));
     public static final DeferredHolder<Block, LiquidBlock> HONEY = createBlock("honey",
-            () -> new HoneyFluidBlock(
-                    ModFluids.HONEY,
-                    Block.Properties.of().noCollission().strength(100.0F).noLootTable().mapColor(MapColor.TERRACOTTA_ORANGE).noCollission().replaceable().liquid().noLootTable().speedFactor(0.3F).jumpFactor(0.3F).friction(1.0f)
-            ),
+            p -> new HoneyFluidBlock(ModFluids.HONEY, p), () -> Block.Properties.of().noCollision().strength(100.0F).noLootTable().mapColor(MapColor.TERRACOTTA_ORANGE).noCollision().replaceable().liquid().noLootTable().speedFactor(0.3F).jumpFactor(0.3F).friction(1.0f),
             false
     );
 
-    public static final DeferredHolder<Block, ? extends Block> CONFIGURABLE_COMB = createBlock("configurable_comb", () -> new ConfigurableCombBlock(Block.Properties.ofFullCopy(Blocks.HONEYCOMB_BLOCK), "#c8df24"));
+    public static final DeferredHolder<Block, ? extends Block> CONFIGURABLE_COMB = createBlock("configurable_comb", p -> new ConfigurableCombBlock(p, "#c8df24"), () -> Block.Properties.ofFullCopy(Blocks.HONEYCOMB_BLOCK));
 
-    public static final DeferredHolder<Block, ? extends Block> COMB_GHOSTLY = createBlock("comb_ghostly", () -> new TranslucentCombBlock(Block.Properties.ofFullCopy(Blocks.HONEYCOMB_BLOCK).noCollission()));
-    public static final DeferredHolder<Block, ? extends Block> COMB_MILKY = createBlock("comb_milky", () -> new Block(Block.Properties.ofFullCopy(Blocks.HONEYCOMB_BLOCK)));
-    public static final DeferredHolder<Block, ? extends Block> COMB_POWDERY = createBlock("comb_powdery", () -> new Block(Block.Properties.ofFullCopy(Blocks.HONEYCOMB_BLOCK)));
+    public static final DeferredHolder<Block, ? extends Block> COMB_GHOSTLY = createBlock("comb_ghostly", TranslucentCombBlock::new, () -> Block.Properties.ofFullCopy(Blocks.HONEYCOMB_BLOCK).noCollision());
+    public static final DeferredHolder<Block, ? extends Block> COMB_MILKY = createBlock("comb_milky", Block::new, () -> Block.Properties.ofFullCopy(Blocks.HONEYCOMB_BLOCK));
+    public static final DeferredHolder<Block, ? extends Block> COMB_POWDERY = createBlock("comb_powdery", Block::new, () -> Block.Properties.ofFullCopy(Blocks.HONEYCOMB_BLOCK));
 
-    public static final DeferredHolder<Block, ? extends Block> BUMBLE_BEE_NEST = createBlock("bumble_bee_nest", () -> new BumbleBeeNest(Block.Properties.ofFullCopy(Blocks.GRASS_BLOCK)));
-    public static final DeferredHolder<Block, ? extends Block> SUGARBAG_NEST = createBlock("sugarbag_nest", () -> new SugarbagNest(Block.Properties.ofFullCopy(Blocks.BEE_NEST)));
-    public static final DeferredHolder<Block, ? extends Block> WARPED_BEE_NEST = createBlock("warped_bee_nest", () -> new NetherBeeNest(Block.Properties.ofFullCopy(Blocks.BEE_NEST)));
-    public static final DeferredHolder<Block, ? extends Block> CRIMSON_BEE_NEST = createBlock("crimson_bee_nest", () -> new NetherBeeNest(Block.Properties.ofFullCopy(Blocks.BEE_NEST)));
+    public static final DeferredHolder<Block, ? extends Block> BUMBLE_BEE_NEST = createBlock("bumble_bee_nest", BumbleBeeNest::new, () -> Block.Properties.ofFullCopy(Blocks.GRASS_BLOCK));
+    public static final DeferredHolder<Block, ? extends Block> SUGARBAG_NEST = createBlock("sugarbag_nest", SugarbagNest::new, () -> Block.Properties.ofFullCopy(Blocks.BEE_NEST));
+    public static final DeferredHolder<Block, ? extends Block> WARPED_BEE_NEST = createBlock("warped_bee_nest", NetherBeeNest::new, () -> Block.Properties.ofFullCopy(Blocks.BEE_NEST));
+    public static final DeferredHolder<Block, ? extends Block> CRIMSON_BEE_NEST = createBlock("crimson_bee_nest", NetherBeeNest::new, () -> Block.Properties.ofFullCopy(Blocks.BEE_NEST));
 
-    public static final DeferredHolder<Block, ? extends Block> AMBER = createBlock("amber", () -> new Amber(Block.Properties.ofFullCopy(Blocks.ORANGE_STAINED_GLASS)));
+    public static final DeferredHolder<Block, ? extends Block> AMBER = createBlock("amber", Amber::new, () -> Block.Properties.ofFullCopy(Blocks.ORANGE_STAINED_GLASS));
 
-    public static final DeferredHolder<Block, ? extends Block> PETRIFIED_HONEY = createBlock("petrified_honey", () -> new Block(Block.Properties.of().mapColor(MapColor.TERRACOTTA_ORANGE).strength(0.3F).noOcclusion().sound(SoundType.BONE_BLOCK)));
+    public static final DeferredHolder<Block, ? extends Block> PETRIFIED_HONEY = createBlock("petrified_honey", Block::new, () -> Block.Properties.of().mapColor(MapColor.TERRACOTTA_ORANGE).strength(0.3F).noOcclusion().sound(SoundType.BONE_BLOCK));
     public static final List<DeferredHolder<Block, Block>> PETRIFIED_HONEY_BLOCKS = Arrays.stream(DyeColor.values()).map(dyeColor -> {
-        return createBlock(dyeColor.getSerializedName() + "_petrified_honey", () -> new Block(Block.Properties.of().mapColor(dyeColor.getMapColor()).strength(0.3F).noOcclusion().sound(SoundType.BONE_BLOCK)));
+        return createBlock(dyeColor.getSerializedName() + "_petrified_honey", Block::new, () -> Block.Properties.of().mapColor(dyeColor.getMapColor()).strength(0.3F).noOcclusion().sound(SoundType.BONE_BLOCK));
     }).toList();
 
     public static final Map<String, DeferredHolder<Block, ? extends Block>> HIVES = new HashMap<>();
@@ -265,8 +271,8 @@ public final class ModBlocks
                     String boxName = "expansion_box_" + name;
                     if (!HIVES.containsKey(hiveName)) {
                         var properties = type.planks() instanceof Block plankBlock ? Block.Properties.ofFullCopy(plankBlock).instrument(NoteBlockInstrument.BASS).strength(0.6F) : Block.Properties.ofFullCopy(Blocks.BEEHIVE);
-                        HIVES.put(hiveName, createBlock(hiveName, () -> new AdvancedBeehive(properties), true));
-                        EXPANSIONS.put(boxName, createBlock(boxName, () -> new ExpansionBox(properties), true));
+                        HIVES.put(hiveName, createBlock(hiveName, AdvancedBeehive::new, () -> properties, true));
+                        EXPANSIONS.put(boxName, createBlock(boxName, ExpansionBox::new, () -> properties, true));
                     }
                 });
             }
@@ -274,11 +280,11 @@ public final class ModBlocks
 
         hiveStyles.forEach(style -> {
             String canvasHiveName = "advanced_" + style + "_canvas_beehive";
-            var hiveBlock = createBlock(canvasHiveName, () -> new CanvasBeehive(Block.Properties.ofFullCopy(Blocks.BEEHIVE)), true);
+            var hiveBlock = createBlock(canvasHiveName, CanvasBeehive::new, () -> Block.Properties.ofFullCopy(Blocks.BEEHIVE), true);
             HIVES.put(canvasHiveName, hiveBlock);
             CANVAS_HIVES.put(canvasHiveName, hiveBlock);
             String canvasBoxName = "expansion_box_" + style + "_canvas";
-            var boxBlock = createBlock(canvasBoxName, () -> new CanvasExpansionBox(Block.Properties.ofFullCopy(Blocks.BEEHIVE)), true);
+            var boxBlock = createBlock(canvasBoxName, CanvasExpansionBox::new, () -> Block.Properties.ofFullCopy(Blocks.BEEHIVE), true);
             EXPANSIONS.put(canvasBoxName, boxBlock);
             CANVAS_EXPANSIONS.put(canvasBoxName, boxBlock);
         });
@@ -287,31 +293,42 @@ public final class ModBlocks
     }
 
     public static <E extends BlockEntity> BlockEntityType<E> createBlockEntityType(BlockEntityType.BlockEntitySupplier<E> factory, Block... blocks) {
-        return BlockEntityType.Builder.of(factory, blocks).build(null);
+        return new BlockEntityType<>(factory, blocks);
     }
 
-    public static <B extends Block> DeferredHolder<Block, B> createBlock(String name, Supplier<? extends B> supplier) {
-        return createBlock(name, supplier, true);
+    public static <B extends Block> DeferredHolder<Block, B> createBlock(String name, Function<BlockBehaviour.Properties, ? extends B> factory, Supplier<BlockBehaviour.Properties> properties) {
+        return createBlock(name, factory, properties, true);
     }
 
-    public static <B extends Block> DeferredHolder<Block, B> createBlock(String name, Supplier<? extends B> supplier, boolean createItem) {
-        DeferredHolder<Block, B> block = ProductiveBees.BLOCKS.register(name, supplier);
+    @SuppressWarnings("unchecked")
+    public static <B extends Block> DeferredHolder<Block, B> createBlock(String name, Function<BlockBehaviour.Properties, ? extends B> factory, Supplier<BlockBehaviour.Properties> properties, boolean createItem) {
+        DeferredHolder<Block, B> block = (DeferredHolder<Block, B>) ProductiveBees.BLOCKS.registerBlock(name, factory::apply, properties);
         if (createItem) {
-            Item.Properties properties = new Item.Properties();
-
             if (name.equals("configurable_comb")) {
-                ModItems.CONFIGURABLE_COMB_BLOCK = ProductiveBees.ITEMS.register(name, () -> new CombBlockItem(block.get(), properties));
-            } else if (name.equals("honey_generator")) {
-                ProductiveBees.ITEMS.register(name, () -> new BlockItem(block.get(), properties));
-            } else if (name.equals("jar_oak")) {
-                ProductiveBees.ITEMS.register(name, () -> new BlockItem(block.get(), properties));
+                ModItems.CONFIGURABLE_COMB_BLOCK = ProductiveBees.ITEMS.registerItem(name, p -> new CombBlockItem(block.get(), p.useBlockDescriptionPrefix()));
             } else if (name.equals("amber")) {
-                ProductiveBees.ITEMS.register(name, () -> new AmberItem(block.get(), properties));
+                ProductiveBees.ITEMS.registerItem(name, p -> new AmberItem(block.get(), p.useBlockDescriptionPrefix()));
+            } else if (name.equals("comb_netherite")) {
+                ProductiveBees.ITEMS.registerSimpleBlockItem(name, block, p -> p.fireResistant());
+            } else if (name.equals("jar_oak")) {
+                ProductiveBees.ITEMS.registerItem(name, p -> new JarBlockItem(block.get(), p.useBlockDescriptionPrefix()));
+            } else if (name.equals("feeder")) {
+                ProductiveBees.ITEMS.registerItem(name, p -> new SimpleTooltipBlockItem(block.get(), p.useBlockDescriptionPrefix(), List.of(
+                        Component.translatable(block.get().getDescriptionId() + ".tooltip").withStyle(ChatFormatting.GOLD))));
+            } else if (name.equals("heated_centrifuge")) {
+                ProductiveBees.ITEMS.registerItem(name, p -> new SimpleTooltipBlockItem(block.get(), p.useBlockDescriptionPrefix(), List.of(
+                        Component.translatable("productivebees.heated_centrifuge.tooltip").withStyle(ChatFormatting.GOLD),
+                        Component.translatable("productivebees.heated_centrifuge.tooltip2").withStyle(ChatFormatting.DARK_RED))));
+            } else if (name.contains("canvas_beehive")) {
+                ProductiveBees.ITEMS.registerItem(name, p -> new CanvasBlockItem(block.get(), p.useBlockDescriptionPrefix(), "block.productivebees.advanced_", "_canvas_beehive"));
+            } else if (name.startsWith("expansion_box_") && name.endsWith("_canvas")) {
+                ProductiveBees.ITEMS.registerItem(name, p -> new CanvasBlockItem(block.get(), p.useBlockDescriptionPrefix(), "block.productivebees.expansion_box_", "_canvas"));
+            } else if ((name.startsWith("advanced_") && name.endsWith("_beehive")) || name.startsWith("expansion_box_")) {
+                ProductiveBees.ITEMS.registerItem(name, p -> new AdvancedBeehiveBlockItem(block.get(), p.useBlockDescriptionPrefix()));
+            } else if (name.endsWith("_nest")) {
+                ProductiveBees.ITEMS.registerItem(name, p -> new SolitaryNestBlockItem(block.get(), p.useBlockDescriptionPrefix()));
             } else {
-                if (name.equals("comb_netherite")) {
-                    properties.fireResistant();
-                }
-                ProductiveBees.ITEMS.register(name, () -> new BlockItem(block.get(), properties));
+                ProductiveBees.ITEMS.registerSimpleBlockItem(name, block);
             }
         }
         return block;

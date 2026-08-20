@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:function",
+  "environment": "productivebees:beebee_spawn_biomes_tag_includes_the_other_env",
+  "function": "productivebees:beebee_spawn_biomes_tag_includes_the_other",
+  "structure": "productivebees:empty_7x7",
+  "max_ticks": 60,
+  "required": true,
+  "setup_ticks": 0
+}

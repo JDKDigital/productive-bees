@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "mythicbotany"
+    }
+  ],
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "mythicbotany:alfsteel_block",
+  "invulnerability": [
+    "mekanism.radiation"
+  ],
+  "primaryColor": "#ffd238",
+  "secondaryColor": "#b77d04",
+  "useGlowLayer": true
+}

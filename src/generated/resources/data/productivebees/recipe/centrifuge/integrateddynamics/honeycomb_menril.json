@@ -1,0 +1,29 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "integrateddynamics"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "fluid": {
+    "amount": 50,
+    "ingredient": "integrateddynamics:menril_resin"
+  },
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:integrateddynamics/menril"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": "productivebees:wax"
+    },
+    {
+      "chance": 0.1,
+      "item": "integrateddynamics:crystalized_menril_chunk"
+    }
+  ]
+}

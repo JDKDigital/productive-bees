@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/seaborgium/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerItem": "chemlib:seaborgium",
+  "particleColor": "#7d659e",
+  "primaryColor": "#4d54bb",
+  "selfbreed": false,
+  "size": 0.5,
+  "useGlowLayer": true
+}

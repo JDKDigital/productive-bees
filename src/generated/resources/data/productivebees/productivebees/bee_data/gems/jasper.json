@@ -1,0 +1,10 @@
+{
+  "attack": 1.0,
+  "flowerTag": "productivebees:flowers/jasper",
+  "particleColor": "#342b00",
+  "primaryColor": "#342b00",
+  "renderer": "default_crystal",
+  "secondaryColor": "#2e0b17",
+  "size": 0.6,
+  "tertiaryColor": "#85794c"
+}

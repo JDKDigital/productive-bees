@@ -1,0 +1,32 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:gems/white_diamond"
+      }
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gems/white_diamond"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:gems/white_diamond"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "chance": 0.5,
+      "item": "#c:gems/white_diamond"
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

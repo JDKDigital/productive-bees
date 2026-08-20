@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "attack": 1.0,
+  "flowerTag": "minecraft:leaves",
+  "particleColor": "#ca7157",
+  "primaryColor": "#ca7157",
+  "secondaryColor": "#804f40",
+  "useGlowLayer": true
+}

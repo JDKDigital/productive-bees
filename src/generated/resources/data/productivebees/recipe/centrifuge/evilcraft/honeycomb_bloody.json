@@ -1,0 +1,25 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "evilcraft"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "fluid": {
+    "amount": 100,
+    "ingredient": "evilcraft:blood"
+  },
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:evilcraft/bloody"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

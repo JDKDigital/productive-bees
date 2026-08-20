@@ -1,72 +1,70 @@
 {
-    "type": "ars_nouveau:enchanting_apparatus",
-    "keepNbtOfReagent": false,
-    "pedestalItems": [
-        {
-            "type": "productivebees:component",
-            "components": {
-                "minecraft:entity_data": {
-                    "type": "productivebees:frosty",
-                    "id": "productivebees:configurable_bee"
-                }
-            },
-            "items": "productivebees:spawn_egg_configurable_bee"
-        },
-        {
-            "type": "productivebees:component",
-            "components": {
-                "minecraft:entity_data": {
-                    "type": "productivebees:water",
-                    "id": "productivebees:configurable_bee"
-                }
-            },
-            "items": "productivebees:spawn_egg_configurable_bee"
-        },
-        {
-            "item": "minecraft:kelp"
+  "type": "ars_nouveau:enchanting_apparatus",
+  "keepNbtOfReagent": false,
+  "pedestalItems": [
+    {
+      "neoforge:ingredient_type": "productivebees:component",
+      "components": {
+        "minecraft:entity_data": {
+          "type": "productivebees:frosty",
+          "id": "productivebees:configurable_bee"
         }
-    ],
-    "reagent": {
-        "type": "productivebees:component",
-        "components": {
-            "minecraft:entity_data": {
-                "type": "productivebees:arcane",
-                "id": "productivebees:configurable_bee"
-            }
-        },
-        "items": "productivebees:spawn_egg_configurable_bee"
+      },
+      "items": "productivebees:spawn_egg_configurable_bee"
     },
-    "result": {
-        "components": {
-            "minecraft:entity_data": {
-                "type": "productivebees:water_essence",
-                "id": "productivebees:configurable_bee"
-            }
-        },
-        "count": 1,
-        "id": "productivebees:spawn_egg_configurable_bee"
-    },
-    "sourceCost": 10000,
-    "neoforge:conditions": [
-        {
-            "type": "neoforge:mod_loaded",
-            "modid": "ars_nouveau"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:frosty"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:water"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:arcane"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:water_essence"
+    {
+      "neoforge:ingredient_type": "productivebees:component",
+      "components": {
+        "minecraft:entity_data": {
+          "type": "productivebees:fluids/water",
+          "id": "productivebees:configurable_bee"
         }
-    ]
+      },
+      "items": "productivebees:spawn_egg_configurable_bee"
+    },
+    "minecraft:kelp"
+  ],
+  "reagent": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:ars_nouveau/arcane",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "items": "productivebees:spawn_egg_configurable_bee"
+  },
+  "result": {
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:ars_nouveau/water_essence",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "count": 1,
+    "id": "productivebees:spawn_egg_configurable_bee"
+  },
+  "sourceCost": 10000,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "ars_nouveau"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:frosty"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:fluids/water"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ars_nouveau/arcane"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ars_nouveau/water_essence"
+    }
+  ]
 }

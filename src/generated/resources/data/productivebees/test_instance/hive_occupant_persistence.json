@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:function",
+  "environment": "productivebees:hive_occupant_persistence_env",
+  "function": "productivebees:hive_occupant_persistence",
+  "structure": "productivebees:empty_7x7",
+  "max_ticks": 100,
+  "required": true,
+  "setup_ticks": 0
+}

@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "pokecube"
+    }
+  ],
+  "attack": 1.0,
+  "flowerTag": "c:ores/cosmic",
+  "particleColor": "#2394cc",
+  "primaryColor": "#2394cc",
+  "secondaryColor": "#0f0f66",
+  "useGlowLayer": true
+}

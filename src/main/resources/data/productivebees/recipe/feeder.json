@@ -5,12 +5,8 @@
     "C"
   ],
   "key": {
-    "S": {
-      "item": "minecraft:smooth_stone_slab"
-    },
-    "C": {
-      "tag": "c:chests"
-    }
+    "S": "minecraft:smooth_stone_slab",
+    "C": "#c:chests"
   },
   "result": {
     "id": "productivebees:feeder"

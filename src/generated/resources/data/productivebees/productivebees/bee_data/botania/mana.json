@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "botania"
+    }
+  ],
+  "attack": 1.0,
+  "breedingItem": "botania:blacker_lotus",
+  "createComb": false,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "botania:gaia_pylon",
+  "particleColor": "#316ff5",
+  "primaryColor": "#316ff5",
+  "renderer": "default_foliage",
+  "secondaryColor": "#08080f",
+  "size": 0.5,
+  "tertiaryColor": "#400438",
+  "useGlowLayer": true
+}

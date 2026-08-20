@@ -6,12 +6,8 @@
     "III"
   ],
   "key": {
-    "I": {
-      "tag": "c:ingots/iron"
-    },
-    "G": {
-      "item": "minecraft:grindstone"
-    }
+    "I": "#c:ingots/iron",
+    "G": "minecraft:grindstone"
   },
   "result": {
     "id": "productivebees:centrifuge"

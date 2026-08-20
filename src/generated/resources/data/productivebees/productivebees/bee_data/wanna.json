@@ -1,0 +1,16 @@
+{
+  "attack": 1.0,
+  "attributes": {
+    "endurance": "endurance.strong"
+  },
+  "beeTexture": "productivebees:textures/entity/bee/wanna/bee",
+  "breedingItem": "minecraft:disc_fragment_5",
+  "createComb": false,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "productivebees:amber",
+  "particleColor": "#3b2754",
+  "primaryColor": "#3b2754",
+  "renderer": "thicc",
+  "secondaryColor": "#06030b",
+  "useGlowLayer": true
+}

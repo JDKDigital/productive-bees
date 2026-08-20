@@ -2,63 +2,58 @@ package cy.jdkdigital.productivebees.container.gui;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.container.BottlerContainer;
-import cy.jdkdigital.productivebees.util.FluidContainerUtil;
-import net.minecraft.client.gui.GuiGraphics;
+import cy.jdkdigital.productivelib.util.FluidContainerUtil;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FormattedCharSequence;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class BottlerScreen extends AbstractContainerScreen<BottlerContainer>
 {
-    private static final ResourceLocation GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/bottler.png");
+    private static final Identifier GUI_TEXTURE = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/bottler.png");
 
     public BottlerScreen(BottlerContainer container, Inventory inv, Component titleIn) {
         super(container, inv, titleIn);
     }
 
     @Override
-    public void render(GuiGraphics matrixStack, int mouseX, int mouseY, float partialTicks) {
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.renderTooltip(matrixStack, mouseX, mouseY);
-    }
+    protected void extractTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
+        super.extractTooltip(graphics, mouseX, mouseY);
 
-    @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        super.renderLabels(guiGraphics, mouseX, mouseY);
-
-        // Draw fluid tank
-        FluidStack fluidStack = this.menu.getBlockEntity().fluidHandler.getFluidInTank(0);
-
-        // Fluid level tooltip
         if (isHovering(139, 16, 6, 54, mouseX, mouseY)) {
-            List<FormattedCharSequence> tooltipList = new ArrayList<>();
-
-            if (fluidStack.getAmount() > 0) {
-                tooltipList.add(Component.translatable("productivebees.screen.fluid_level", fluidStack.getHoverName().getString(), fluidStack.getAmount() + "mB").getVisualOrderText());
+            FluidResource resource = this.menu.getBlockEntity().fluidHandler.getResource(0);
+            int amount = this.menu.getBlockEntity().fluidHandler.getAmountAsInt(0);
+            if (amount > 0 && !resource.isEmpty()) {
+                FluidStack stack = resource.toStack(amount);
+                graphics.setTooltipForNextFrame(
+                        List.of(Component.translatable("productivebees.screen.fluid_level", stack.getHoverName().getString(), amount + "mB").getVisualOrderText()),
+                        mouseX, mouseY);
             } else {
-                tooltipList.add(Component.translatable("productivebees.hive.tooltip.empty").getVisualOrderText());
+                graphics.setTooltipForNextFrame(
+                        List.of(Component.translatable("productivebees.hive.tooltip.empty").getVisualOrderText()),
+                        mouseX, mouseY);
             }
-
-            guiGraphics.renderTooltip(font, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
         }
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
-        // Draw main screen
-        guiGraphics.blit(GUI_TEXTURE, this.getGuiLeft(), this.getGuiTop(), 0, 0, this.getXSize(), this.getYSize());
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        super.extractBackground(graphics, mouseX, mouseY, partialTick);
 
-        // Draw fluid tank
-        FluidStack fluidStack = this.menu.getBlockEntity().fluidHandler.getFluidInTank(0);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, GUI_TEXTURE, this.leftPos, this.topPos, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
 
-        if (fluidStack.getAmount() > 0) {
-            FluidContainerUtil.renderFluidTank(guiGraphics, this, fluidStack, this.menu.getBlockEntity().fluidHandler.getTankCapacity(0), 140, 17, 4, 52, 0);
+        FluidResource resource = this.menu.getBlockEntity().fluidHandler.getResource(0);
+        int amount = this.menu.getBlockEntity().fluidHandler.getAmountAsInt(0);
+        if (amount > 0 && !resource.isEmpty()) {
+            FluidStack stack = resource.toStack(amount);
+            int capacity = this.menu.getBlockEntity().fluidHandler.getCapacityAsInt(0, resource);
+            FluidContainerUtil.renderTiledFluid(graphics, this, stack, amount, capacity, 140, 17, 4, 52);
         }
     }
 }

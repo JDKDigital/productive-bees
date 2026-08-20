@@ -6,9 +6,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.block.Block;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class HoneyGeneratorItem extends BlockItem
 {
@@ -17,9 +19,9 @@ public class HoneyGeneratorItem extends BlockItem
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
-        super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
+    public void appendHoverText(ItemStack pStack, TooltipContext pContext, TooltipDisplay tooltipDisplay, Consumer<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
+        super.appendHoverText(pStack, pContext, tooltipDisplay, pTooltipComponents, pTooltipFlag);
 
-        pTooltipComponents.add(Component.translatable("productivebees.information.upgrade.valid_blocks.list_item_content", ProductiveBeesConfig.GENERAL.generatorPowerGen).withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.accept(Component.translatable("productivebees.information.upgrade.valid_blocks.list_item_content", ProductiveBeesConfig.GENERAL.generatorPowerGen).withStyle(ChatFormatting.GRAY));
     }
 }

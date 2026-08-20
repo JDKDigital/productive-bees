@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "actuallyadditions"
+    }
+  ],
+  "attack": 1.0,
+  "flowerBlock": "actuallyadditions:black_quartz_block",
+  "particleColor": "#101118",
+  "primaryColor": "#6d9195",
+  "renderer": "default_crystal",
+  "secondaryColor": "#415764",
+  "size": 0.7,
+  "tertiaryColor": "#1a1d27"
+}

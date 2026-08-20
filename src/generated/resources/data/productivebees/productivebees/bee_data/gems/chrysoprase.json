@@ -1,0 +1,10 @@
+{
+  "attack": 1.0,
+  "flowerTag": "productivebees:flowers/chrysoprase",
+  "particleColor": "#6cf631",
+  "primaryColor": "#6cf631",
+  "renderer": "default_crystal",
+  "secondaryColor": "#3e5b68",
+  "size": 0.6,
+  "tertiaryColor": "#54943a"
+}

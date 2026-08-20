@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "oritech"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/uranite_crystal/bee",
+  "flowerItem": "oritech:uranite_crystal",
+  "particleColor": "#99bfa2",
+  "primaryColor": "#00b730",
+  "renderer": "default_crystal",
+  "secondaryColor": "#00bfbb",
+  "size": 0.8,
+  "tertiaryColor": "#006b00"
+}

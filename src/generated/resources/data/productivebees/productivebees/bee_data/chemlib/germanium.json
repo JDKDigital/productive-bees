@@ -1,0 +1,15 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/germanium/bee",
+  "flowerItem": "chemlib:germanium",
+  "particleColor": "#e9e9eb",
+  "primaryColor": "#dfdfe0",
+  "size": 0.7,
+  "useGlowLayer": true
+}

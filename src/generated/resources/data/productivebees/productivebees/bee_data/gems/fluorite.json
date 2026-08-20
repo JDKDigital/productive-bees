@@ -1,0 +1,10 @@
+{
+  "attack": 1.0,
+  "flowerTag": "productivebees:flowers/fluorite",
+  "particleColor": "#32e1f6",
+  "primaryColor": "#b9f3fa",
+  "renderer": "default_crystal",
+  "secondaryColor": "#1b2c33",
+  "size": 0.6,
+  "tertiaryColor": "#28a0b1"
+}

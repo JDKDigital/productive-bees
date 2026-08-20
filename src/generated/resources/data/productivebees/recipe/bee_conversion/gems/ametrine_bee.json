@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "productivebees:flowers/ametrine"
+      }
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gems/diamond"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gems/ametrine"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "#productivebees:flowers/ametrine",
+  "result": "productivebees:gems/ametrine",
+  "source": "productivebees:gems/diamond"
+}

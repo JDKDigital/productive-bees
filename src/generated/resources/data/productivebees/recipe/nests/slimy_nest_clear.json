@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "productivebees:slimy_nest"
+  ],
+  "result": {
+    "id": "productivebees:slimy_nest"
+  }
+}

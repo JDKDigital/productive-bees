@@ -1,7 +1,6 @@
 {
   "type": "productivelib:item_modifier",
   "addition": {
-    "count": 1,
     "id": "minecraft:turtle_scute"
   },
   "chance": 0.15,
@@ -19,5 +18,6 @@
         -32989763
       ]
     }
-  ]
+  ],
+  "priority": 0
 }

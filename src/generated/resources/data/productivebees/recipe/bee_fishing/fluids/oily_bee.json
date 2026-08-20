@@ -1,0 +1,12 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:fluids/oily"
+    }
+  ],
+  "type": "productivebees:bee_fishing",
+  "bee": "productivebees:fluids/oily",
+  "biomes": "#minecraft:is_deep_ocean",
+  "chance": 0.05
+}

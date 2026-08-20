@@ -1,0 +1,12 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:pokecube/spectrum"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "#c:gems/spectrum",
+  "result": "productivebees:pokecube/spectrum",
+  "source": "productivebees:gems/diamond"
+}

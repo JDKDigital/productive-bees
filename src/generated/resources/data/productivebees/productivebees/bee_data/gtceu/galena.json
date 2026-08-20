@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "gtceu"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/galena/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/raw_galena",
+  "particleColor": "#f0e5f7",
+  "primaryColor": "#2c2034",
+  "secondaryColor": "#ded4e5",
+  "selfbreed": false,
+  "size": 0.8,
+  "tertiaryColor": "#5a4f61",
+  "useGlowLayer": true
+}

@@ -1,27 +1,35 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
+import com.mojang.logging.LogUtils;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivelib.common.block.entity.AbstractBlockEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.component.TypedEntityData;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.world.level.storage.TagValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +37,7 @@ import java.util.Map;
 
 public class AmberBlockEntity extends AbstractBlockEntity
 {
+    private static final Logger LOGGER = LogUtils.getLogger();
     private int tickCounter = 0;
     private int meltCounter = 0;
 
@@ -56,12 +65,14 @@ public class AmberBlockEntity extends AbstractBlockEntity
     @Nullable
     public static Entity createEntity(Level world, CompoundTag tag) {
         if (tag != null) {
-            EntityType<?> type = EntityType.byString(tag.getString("id")).orElse(null);
+            EntityType<?> type = EntityType.byString(tag.getString("id").orElse("")).orElse(null);
             if (type != null) {
                 try {
-                    Entity loadedEntity = type.create(world);
+                    Entity loadedEntity = type.create(world, EntitySpawnReason.NATURAL);
                     if (loadedEntity != null) {
-                        loadedEntity.load(tag);
+                        try (ProblemReporter.ScopedCollector reporter = new ProblemReporter.ScopedCollector(loadedEntity.problemPath(), LOGGER)) {
+                            loadedEntity.load(TagValueInput.create(reporter, world.registryAccess(), tag));
+                        }
                         return loadedEntity;
                     }
                 } catch (Exception e) {
@@ -73,40 +84,53 @@ public class AmberBlockEntity extends AbstractBlockEntity
     }
 
     @Override
-    public void savePacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
-        super.savePacketNBT(tag, provider);
+    public void savePacketNBT(ValueOutput output) {
+        super.savePacketNBT(output);
 
         if (entityTag != null) {
-            tag.put("EntityData", entityTag);
+            output.store("entityTag", CompoundTag.CODEC, entityTag);
         }
-        tag.putInt("meltCounter", meltCounter);
+        output.putInt("meltCounter", meltCounter);
     }
 
     @Override
-    public void loadPacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
-        super.loadPacketNBT(tag, provider);
-        if (tag.contains("EntityData")) {
-            this.entityTag = tag.getCompound("EntityData");
+    public void loadPacketNBT(ValueInput input) {
+        super.loadPacketNBT(input);
+        this.entityTag = input.read("entityTag", CompoundTag.CODEC).orElse(null);
+        this.meltCounter = input.getIntOr("meltCounter", 0);
+    }
+
+    @Override
+    protected void applyImplicitComponents(DataComponentGetter components) {
+        super.applyImplicitComponents(components);
+        TypedEntityData<EntityType<?>> entityData = components.get(DataComponents.ENTITY_DATA);
+        if (entityData != null) {
+            CompoundTag tag = entityData.copyTagWithoutId();
+            tag.putString("id", BuiltInRegistries.ENTITY_TYPE.getKey(entityData.type()).toString());
+            this.entityTag = tag;
         }
-        this.meltCounter = tag.contains("meltCounter") ? tag.getInt("meltCounter") : 0;
     }
 
     @Override
-    protected void applyImplicitComponents(BlockEntity.DataComponentInput pComponentInput) {
-        super.applyImplicitComponents(pComponentInput);
-        this.entityTag = pComponentInput.getOrDefault(DataComponents.ENTITY_DATA, CustomData.of(new CompoundTag())).copyTag();
-    }
-
-    @Override
-    protected void collectImplicitComponents(DataComponentMap.Builder pComponents) {
-        super.collectImplicitComponents(pComponents);
-        pComponents.set(DataComponents.ENTITY_DATA, CustomData.of(this.entityTag));
+    protected void collectImplicitComponents(DataComponentMap.Builder components) {
+        super.collectImplicitComponents(components);
+        if (this.entityTag != null) {
+            String id = this.entityTag.getString("id").orElse("");
+            EntityType<?> type = EntityType.byString(id).orElse(null);
+            if (type != null) {
+                components.set(DataComponents.ENTITY_DATA, TypedEntityData.of(type, this.entityTag));
+            }
+        }
     }
 
     public void setEntity(Mob target) {
-        var entityDataTag = target.saveWithoutId(new CompoundTag());
+        CompoundTag entityDataTag;
+        try (ProblemReporter.ScopedCollector reporter = new ProblemReporter.ScopedCollector(target.problemPath(), LOGGER)) {
+            TagValueOutput out = TagValueOutput.createWithContext(reporter, target.registryAccess());
+            target.saveWithoutId(out);
+            entityDataTag = out.buildResult();
+        }
         entityDataTag.putString("id", BuiltInRegistries.ENTITY_TYPE.getKey(target.getType()).toString());
-        entityDataTag.putString("lootTable", target.getLootTable().toString());
         if (target.hasCustomName()) {
             entityDataTag.putString("name", target.getCustomName().getString());
         } else {
@@ -114,9 +138,6 @@ public class AmberBlockEntity extends AbstractBlockEntity
         }
         this.entityTag = entityDataTag;
         AdvancedBeehiveBlockEntityAbstract.removeIgnoredTags(this.entityTag);
-        if (this.entityTag.contains("ActiveEffects")) {
-            this.entityTag.remove("ActiveEffects");
-        }
     }
 
     public static <E extends BlockEntity> void serverTick(Level level, BlockPos blockPos, BlockState blockState, AmberBlockEntity amberBlockEntity) {

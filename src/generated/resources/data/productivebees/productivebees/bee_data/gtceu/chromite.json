@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "gtceu"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/chromite/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/raw_chromite",
+  "particleColor": "#c3bfa6",
+  "primaryColor": "#554256",
+  "secondaryColor": "#b4b09a",
+  "selfbreed": false,
+  "size": 0.8,
+  "tertiaryColor": "#8d7c85",
+  "useGlowLayer": true
+}

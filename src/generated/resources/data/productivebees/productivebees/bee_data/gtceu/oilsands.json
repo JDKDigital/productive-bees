@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "gtceu"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/oilsands/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "gtceu:raw_oilsands_block",
+  "particleColor": "#e0c588",
+  "primaryColor": "#292822",
+  "secondaryColor": "#a18f66",
+  "selfbreed": false,
+  "size": 0.8,
+  "tertiaryColor": "#665d45",
+  "useGlowLayer": true
+}

@@ -44,20 +44,20 @@ public class DragonEggHive extends AdvancedBeehive
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.DRACONIC_BEEHIVE.get(), DragonEggHiveBlockEntity::tick);
+        return level.isClientSide() ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.DRACONIC_BEEHIVE.get(), DragonEggHiveBlockEntity::tick);
     }
 
     @Override
     public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
         if (state.getValue(BeehiveBlock.HONEY_LEVEL) >= getMaxHoneyLevel()) {
             for (int i = 0; i < 22; ++i) {
-                double rnd = world.random.nextDouble();
-                float xSpeed = (world.random.nextFloat() - 0.5F) * 0.2F;
-                float ySpeed = (world.random.nextFloat() - 0.5F) * 0.2F;
-                float zSpeed = (world.random.nextFloat() - 0.5F) * 0.2F;
-                double x = Mth.lerp(rnd, pos.getX(), pos.getX()) + (world.random.nextDouble() - 0.5D) + 0.5D;
-                double y = Mth.lerp(rnd, pos.getY(), pos.getY()) + world.random.nextDouble() - 0.5D;
-                double z = Mth.lerp(rnd, pos.getZ(), pos.getZ()) + (world.random.nextDouble() - 0.5D) + 0.5D;
+                double rnd = world.getRandom().nextDouble();
+                float xSpeed = (world.getRandom().nextFloat() - 0.5F) * 0.2F;
+                float ySpeed = (world.getRandom().nextFloat() - 0.5F) * 0.2F;
+                float zSpeed = (world.getRandom().nextFloat() - 0.5F) * 0.2F;
+                double x = Mth.lerp(rnd, pos.getX(), pos.getX()) + (world.getRandom().nextDouble() - 0.5D) + 0.5D;
+                double y = Mth.lerp(rnd, pos.getY(), pos.getY()) + world.getRandom().nextDouble() - 0.5D;
+                double z = Mth.lerp(rnd, pos.getZ(), pos.getZ()) + (world.getRandom().nextDouble() - 0.5D) + 0.5D;
                 world.addParticle(ParticleTypes.PORTAL, x, y, z, xSpeed, ySpeed, zSpeed);
             }
         }

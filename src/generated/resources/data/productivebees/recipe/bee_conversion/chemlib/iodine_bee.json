@@ -1,0 +1,12 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:chemlib/iodine"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "minecraft:dried_kelp_block",
+  "result": "productivebees:chemlib/iodine",
+  "source": "productivebees:chemlib/potassium"
+}

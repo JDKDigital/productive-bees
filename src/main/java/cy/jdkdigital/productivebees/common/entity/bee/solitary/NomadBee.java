@@ -2,9 +2,10 @@ package cy.jdkdigital.productivebees.common.entity.bee.solitary;
 
 import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBee;
 import cy.jdkdigital.productivebees.init.ModTags;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -14,8 +15,8 @@ public class NomadBee extends SolitaryBee
         super(entityType, world);
     }
 
-    public boolean isInvulnerableTo(DamageSource source) {
-        return source.equals(this.level().damageSources().cactus()) || super.isInvulnerableTo(source);
+    public boolean isInvulnerableTo(ServerLevel serverLevel, DamageSource source) {
+        return source.equals(this.level().damageSources().cactus()) || super.isInvulnerableTo(serverLevel, source);
     }
 
     @Override

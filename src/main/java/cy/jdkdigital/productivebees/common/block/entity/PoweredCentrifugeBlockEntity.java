@@ -15,15 +15,18 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.energy.EnergyStorage;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 import javax.annotation.Nullable;
 
 public class PoweredCentrifugeBlockEntity extends CentrifugeBlockEntity
 {
-    public EnergyStorage energyHandler = new EnergyStorage(10000);
+    public SimpleEnergyHandler energyHandler = new SimpleEnergyHandler(10000);
 
     public PoweredCentrifugeBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.POWERED_CENTRIFUGE.get(), pos, state);
@@ -36,7 +39,10 @@ public class PoweredCentrifugeBlockEntity extends CentrifugeBlockEntity
     public static void tick(Level level, BlockPos pos, BlockState state, PoweredCentrifugeBlockEntity blockEntity) {
         CentrifugeBlockEntity.tick(level, pos, state, blockEntity);
         if (state.getValue(Centrifuge.RUNNING) && level instanceof ServerLevel) {
-            blockEntity.energyHandler.extractEnergy((int) (ProductiveBeesConfig.GENERAL.centrifugePowerUse.get() * blockEntity.getEnergyConsumptionModifier()), false);
+            try (Transaction tx = Transaction.openRoot()) {
+                blockEntity.energyHandler.extract((int) (ProductiveBeesConfig.GENERAL.centrifugePowerUse.get() * blockEntity.getEnergyConsumptionModifier()), tx);
+                tx.commit();
+            }
         }
     }
 
@@ -52,7 +58,7 @@ public class PoweredCentrifugeBlockEntity extends CentrifugeBlockEntity
     }
 
     protected boolean canOperate() {
-        return energyHandler.getEnergyStored() >= ProductiveBeesConfig.GENERAL.centrifugePowerUse.get();
+        return energyHandler.getAmountAsInt() >= ProductiveBeesConfig.GENERAL.centrifugePowerUse.get() * getEnergyConsumptionModifier();
     }
 
     @Override
@@ -67,17 +73,17 @@ public class PoweredCentrifugeBlockEntity extends CentrifugeBlockEntity
     }
 
     @Override
-    public IItemHandler getItemHandler() {
+    public ResourceHandler<ItemResource> getItemHandler() {
         return inventoryHandler;
     }
 
     @Override
-    public EnergyStorage getEnergyHandler() {
+    public EnergyHandler getEnergyHandler() {
         return energyHandler;
     }
 
     @Override
-    public FluidTank getFluidHandler() {
+    public ResourceHandler<FluidResource> getFluidHandler() {
         return fluidHandler;
     }
 }

@@ -1,0 +1,26 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:or",
+      "values": [
+        {
+          "type": "neoforge:mod_loaded",
+          "modid": "gtceu"
+        },
+        {
+          "type": "neoforge:mod_loaded",
+          "modid": "ic2"
+        }
+      ]
+    }
+  ],
+  "attack": 1.0,
+  "attributes": {
+    "endurance": "endurance.weak"
+  },
+  "flowerTag": "minecraft:flowers",
+  "primaryColor": "#000001",
+  "secondaryColor": "#d98b24",
+  "size": 0.7,
+  "useGlowLayer": true
+}

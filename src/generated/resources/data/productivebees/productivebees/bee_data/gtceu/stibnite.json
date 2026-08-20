@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "gtceu"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/stibnite/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/raw_stibnite",
+  "particleColor": "#7d7c7c",
+  "primaryColor": "#141824",
+  "secondaryColor": "#646464",
+  "selfbreed": false,
+  "size": 0.8,
+  "tertiaryColor": "#363840",
+  "useGlowLayer": true
+}

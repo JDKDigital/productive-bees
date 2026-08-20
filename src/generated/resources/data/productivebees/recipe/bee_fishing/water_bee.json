@@ -1,0 +1,12 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:fluids/water"
+    }
+  ],
+  "type": "productivebees:bee_fishing",
+  "bee": "productivebees:fluids/water",
+  "biomes": "#minecraft:is_river",
+  "chance": 0.05
+}

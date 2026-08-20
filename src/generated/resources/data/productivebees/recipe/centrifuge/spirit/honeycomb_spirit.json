@@ -1,0 +1,29 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "spirit"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:spirit/spirit"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "chance": 0.5,
+      "item": "spirit:soul_steel_ingot"
+    },
+    {
+      "chance": 0.5,
+      "item": "spirit:soul_powder"
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

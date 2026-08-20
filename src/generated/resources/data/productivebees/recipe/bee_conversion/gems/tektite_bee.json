@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "productivebees:flowers/tektite"
+      }
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gems/diamond"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gems/tektite"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "#productivebees:flowers/tektite",
+  "result": "productivebees:gems/tektite",
+  "source": "productivebees:gems/diamond"
+}

@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:dusts/redstone"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gems/lapis"
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:gems/lapis",
+  "parent1": "productivebees:dusts/redstone",
+  "parent2": "productivebees:blue_banded_bee"
+}

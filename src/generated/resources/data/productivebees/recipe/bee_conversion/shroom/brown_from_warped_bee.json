@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:shroom/warped"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:shroom/brown_shroom"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "minecraft:brown_mushroom",
+  "result": "productivebees:shroom/brown_shroom",
+  "source": "productivebees:shroom/warped"
+}

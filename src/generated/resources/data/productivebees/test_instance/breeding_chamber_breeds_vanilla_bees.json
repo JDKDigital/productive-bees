@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:function",
+  "environment": "productivebees:breeding_chamber_breeds_vanilla_bees_env",
+  "function": "productivebees:breeding_chamber_breeds_vanilla_bees",
+  "structure": "productivebees:empty_7x7",
+  "max_ticks": 200,
+  "required": true,
+  "setup_ticks": 0
+}

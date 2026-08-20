@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "electrodynamics:resourceblocklead",
+      "required": false
+    },
+    {
+      "id": "ftbic:lead_block",
+      "required": false
+    }
+  ]
+}

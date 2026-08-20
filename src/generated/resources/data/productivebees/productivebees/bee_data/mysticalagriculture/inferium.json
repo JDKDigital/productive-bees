@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "mysticalagriculture"
+    }
+  ],
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "mysticalagriculture:inferium_block",
+  "particleColor": "#748e00",
+  "primaryColor": "#748e00",
+  "secondaryColor": "#804f40",
+  "size": 0.8,
+  "useGlowLayer": true
+}

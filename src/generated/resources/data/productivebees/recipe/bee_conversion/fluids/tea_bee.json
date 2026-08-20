@@ -1,0 +1,12 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:fluids/tea"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "minecraft:water_bucket",
+  "result": "productivebees:fluids/tea",
+  "source": "productivebees:leafcutter_bee"
+}

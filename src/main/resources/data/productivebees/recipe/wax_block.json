@@ -6,9 +6,7 @@
     "WWW"
   ],
   "key": {
-    "W": {
-      "tag": "c:waxes"
-    }
+    "W": "#c:waxes"
   },
   "result": {
     "id": "productivebees:wax_block"

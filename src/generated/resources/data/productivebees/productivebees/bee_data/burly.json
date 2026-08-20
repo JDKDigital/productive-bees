@@ -1,0 +1,14 @@
+{
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/burly/bee",
+  "createComb": false,
+  "flowerItem": "minecraft:golden_dandelion",
+  "particleColor": "#f6f892",
+  "pollinatedSize": 1.0,
+  "primaryColor": "#b26411",
+  "renderer": "default_shell",
+  "secondaryColor": "#eccb45",
+  "selfbreed": false,
+  "size": 0.8,
+  "useGlowLayer": true
+}

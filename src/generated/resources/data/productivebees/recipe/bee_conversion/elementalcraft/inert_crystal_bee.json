@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "elementalcraft"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gems/diamond"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:elementalcraft/inert_crystal"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "elementalcraft:inert_crystal_block",
+  "result": "productivebees:elementalcraft/inert_crystal",
+  "source": "productivebees:gems/diamond"
+}

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:function",
+  "environment": "productivebees:amber_bee_in_sim_hive_encases_mob_in_front_env",
+  "function": "productivebees:amber_bee_in_sim_hive_encases_mob_in_front",
+  "structure": "productivebees:empty_7x7",
+  "max_ticks": 100,
+  "required": true,
+  "setup_ticks": 0
+}

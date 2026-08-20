@@ -1,28 +1,14 @@
 package cy.jdkdigital.productivebees.setup;
 
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.world.entity.LivingEntity;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.RenderLivingEvent;
-
-import javax.annotation.Nullable;
-
-@EventBusSubscriber(Dist.CLIENT)
-public class ClientProxy
+/**
+ * Empty client proxy — the pre-26.1 implementation captured a {@code MultiBufferSource} during
+ * {@code RenderLivingEvent.Pre} so the bee-nest-helmet armor model could draw a 3D beehive on
+ * top of the head. 26.1 reshaped the player render pipeline into state extraction +
+ * {@code SubmitNodeCollector}, and the helmet overlay was dropped along with the legacy
+ * {@code HumanoidModel.renderToBuffer} hook. Rebuild the visual as a proper player render layer
+ * (registered via {@code EntityRenderersEvent.AddLayers}) if it's ever wanted back.
+ */
+public final class ClientProxy
 {
-    @Nullable
-    public static MultiBufferSource buffer;
-
-    @SubscribeEvent
-    public static void prePlayerRender(RenderLivingEvent.Pre<? extends LivingEntity, ? extends HumanoidModel<? extends LivingEntity>> event) {
-        buffer = event.getMultiBufferSource();
-    }
-
-    @SubscribeEvent
-    public static void postPlayerRender(RenderLivingEvent.Post<? extends LivingEntity, ? extends HumanoidModel<? extends LivingEntity>> event) {
-        buffer = null;
-    }
+    private ClientProxy() {}
 }

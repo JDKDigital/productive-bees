@@ -3,7 +3,7 @@
   "output": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:fey",
+        "type": "productivebees:feywild/fey",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -11,21 +11,11 @@
     "id": "productivebees:spawn_egg_configurable_bee"
   },
   "ingredients": [
-    {
-      "item": "productivebees:spawn_egg_neon_cuckoo_bee"
-    },
-    {
-      "item": "feywild:honeycomb"
-    },
-    {
-      "item": "feywild:fey_dust"
-    },
-    {
-      "item": "feywild:honeycomb"
-    },
-    {
-      "item": "feywild:fey_dust"
-    }
+    "productivebees:spawn_egg_neon_cuckoo_bee",
+    "feywild:honeycomb",
+    "feywild:fey_dust",
+    "feywild:honeycomb",
+    "feywild:fey_dust"
   ],
   "neoforge:conditions": [
     {
@@ -34,7 +24,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:fey"
+      "bee": "productivebees:feywild/fey"
     }
   ]
 }

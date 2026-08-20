@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:function",
+  "environment": "productivebees:honey_generator_fills_tank_with_blocks_env",
+  "function": "productivebees:honey_generator_fills_tank_with_blocks",
+  "structure": "productivebees:empty_7x7",
+  "max_ticks": 200,
+  "required": true,
+  "setup_ticks": 0
+}

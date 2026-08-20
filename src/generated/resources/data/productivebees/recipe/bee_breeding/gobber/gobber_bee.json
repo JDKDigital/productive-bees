@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gems/diamond"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/gold"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gobber/gobber"
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:gobber/gobber",
+  "parent1": "productivebees:gems/diamond",
+  "parent2": "productivebees:raw_materials/gold"
+}

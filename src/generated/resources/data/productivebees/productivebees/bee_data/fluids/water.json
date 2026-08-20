@@ -1,0 +1,15 @@
+{
+  "attack": 1.0,
+  "attributes": {
+    "weather_tolerance": "weather_tolerance.any"
+  },
+  "createComb": false,
+  "flowerFluid": "minecraft:water",
+  "particleColor": "#0b1e42",
+  "primaryColor": "#4977f5",
+  "secondaryColor": "#232b3d",
+  "size": 0.8,
+  "tertiaryColor": "#5e94e0",
+  "useGlowLayer": true,
+  "waterproof": true
+}

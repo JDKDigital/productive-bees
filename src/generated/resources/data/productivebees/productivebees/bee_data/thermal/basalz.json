@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/basalz/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "fireproof": true,
+  "flowerTag": "productivebees:flowers/burning",
+  "particleColor": "#0e080a",
+  "primaryColor": "#2b2b2f",
+  "secondaryColor": "#ff8219",
+  "useGlowLayer": true
+}

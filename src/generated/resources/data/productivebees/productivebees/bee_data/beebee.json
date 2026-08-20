@@ -1,0 +1,18 @@
+{
+  "attack": 2.147483647E9,
+  "attributes": {
+    "behavior": "behavior.metaturnal",
+    "endurance": "endurance.weak",
+    "productivity": "productivity.very_high",
+    "temper": "temper.aggressive"
+  },
+  "beeTexture": "productivebees:textures/entity/bee/beebee/bee",
+  "createComb": false,
+  "flowerBlock": "minecraft:air",
+  "model": "productivebees:entity/beebee",
+  "particleColor": "#141414",
+  "primaryColor": "#141414",
+  "selfbreed": false,
+  "speed": 5.0,
+  "useGlowLayer": true
+}

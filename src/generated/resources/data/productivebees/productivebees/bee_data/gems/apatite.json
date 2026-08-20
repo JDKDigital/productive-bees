@@ -1,0 +1,10 @@
+{
+  "attack": 1.0,
+  "flowerTag": "productivebees:flowers/apatite",
+  "particleColor": "#69ffff",
+  "primaryColor": "#69ffff",
+  "renderer": "default_crystal",
+  "secondaryColor": "#3e5b68",
+  "size": 0.6,
+  "tertiaryColor": "#20afce"
+}

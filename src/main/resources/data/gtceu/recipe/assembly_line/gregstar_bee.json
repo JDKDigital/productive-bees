@@ -19,14 +19,14 @@
           "type": "gtceu:sized",
           "count": 1,
           "ingredient": {
-            "type": "productivebees:component",
             "items": "productivebees:spawn_egg_configurable_bee",
             "components": {
               "minecraft:entity_data": {
-                "type": "productivebees:neutronium",
+                "type": "productivebees:gtceu/neutronium",
                 "id": "productivebees:configurable_bee"
               }
-            }
+            },
+            "neoforge:ingredient_type": "productivebees:component"
           }
         },
         "chance": 10000,
@@ -37,14 +37,14 @@
           "type": "gtceu:sized",
           "count": 1,
           "ingredient": {
-            "type": "productivebees:component",
             "items": "productivebees:spawn_egg_configurable_bee",
             "components": {
               "minecraft:entity_data": {
-                "type": "productivebees:starry",
+                "type": "productivebees:atm/starry",
                 "id": "productivebees:configurable_bee"
               }
-            }
+            },
+            "neoforge:ingredient_type": "productivebees:component"
           }
         },
         "chance": 10000,
@@ -55,14 +55,14 @@
           "type": "gtceu:sized",
           "count": 1,
           "ingredient": {
-            "type": "productivebees:component",
             "items": "productivebees:spawn_egg_configurable_bee",
             "components": {
               "minecraft:entity_data": {
-                "type": "productivebees:neutronium",
+                "type": "productivebees:gtceu/neutronium",
                 "id": "productivebees:configurable_bee"
               }
-            }
+            },
+            "neoforge:ingredient_type": "productivebees:component"
           }
         },
         "chance": 10000,
@@ -110,14 +110,14 @@
           "type": "gtceu:sized",
           "count": 1,
           "ingredient": {
-            "type": "productivebees:component",
             "items": "productivebees:spawn_egg_configurable_bee",
             "components": {
               "minecraft:entity_data": {
-                "type": "productivebees:gregstar",
+                "type": "productivebees:atm/gregstar",
                 "id": "productivebees:configurable_bee"
               }
-            }
+            },
+            "neoforge:ingredient_type": "productivebees:component"
           }
         },
         "chance": 10000,
@@ -142,15 +142,15 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:neutronium"
+      "bee": "productivebees:gtceu/neutronium"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:starry"
+      "bee": "productivebees:atm/starry"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:gregstar"
+      "bee": "productivebees:atm/gregstar"
     }
   ]
 }

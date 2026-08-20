@@ -1,0 +1,12 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ae2/silicon"
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:ae2/silicon",
+  "parent1": "productivebees:nomad_bee",
+  "parent2": "productivebees:reed_bee"
+}

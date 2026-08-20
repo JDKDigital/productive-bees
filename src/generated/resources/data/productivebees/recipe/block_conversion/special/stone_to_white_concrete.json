@@ -1,0 +1,18 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:special/phil"
+    }
+  ],
+  "type": "productivebees:block_conversion",
+  "bees": [
+    "productivebees:special/phil"
+  ],
+  "from": {
+    "Name": "minecraft:stone"
+  },
+  "to": {
+    "Name": "minecraft:white_concrete"
+  }
+}

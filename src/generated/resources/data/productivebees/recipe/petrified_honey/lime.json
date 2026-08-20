@@ -2,15 +2,10 @@
   "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "item": "productivebees:petrified_honey"
-    },
-    {
-      "tag": "c:dyes/lime"
-    }
+    "productivebees:petrified_honey",
+    "#c:dyes/lime"
   ],
   "result": {
-    "count": 1,
     "id": "productivebees:lime_petrified_honey"
   }
 }

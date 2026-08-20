@@ -8,14 +8,14 @@
           "type": "gtceu:sized",
           "count": 1,
           "ingredient": {
-            "type": "productivebees:component",
             "items": "productivebees:spawn_egg_configurable_bee",
             "components": {
               "minecraft:entity_data": {
-                "type": "productivebees:zinc",
+                "type": "productivebees:raw_materials/zinc",
                 "id": "productivebees:configurable_bee"
               }
-            }
+            },
+            "neoforge:ingredient_type": "productivebees:component"
           }
         },
         "chance": 10000,
@@ -41,14 +41,14 @@
           "type": "gtceu:sized",
           "count": 1,
           "ingredient": {
-            "type": "productivebees:component",
             "items": "productivebees:spawn_egg_configurable_bee",
             "components": {
               "minecraft:entity_data": {
-                "type": "productivebees:galena",
+                "type": "productivebees:gtceu/galena",
                 "id": "productivebees:configurable_bee"
               }
-            }
+            },
+            "neoforge:ingredient_type": "productivebees:component"
           }
         },
         "chance": 10000,
@@ -73,11 +73,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:zinc"
+      "bee": "productivebees:raw_materials/zinc"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:galena"
+      "bee": "productivebees:gtceu/galena"
     }
   ]
 }

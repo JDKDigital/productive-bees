@@ -1,0 +1,10 @@
+{
+  "attack": 1.0,
+  "flowerTag": "productivebees:flowers/malachite",
+  "particleColor": "#22d946",
+  "primaryColor": "#22d946",
+  "renderer": "default_crystal",
+  "secondaryColor": "#2e0b17",
+  "size": 0.6,
+  "tertiaryColor": "#127625"
+}

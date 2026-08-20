@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "undergarden"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/froststeel/bee",
+  "flowerBlock": "undergarden:froststeel_block",
+  "particleColor": "#f5f5f5",
+  "primaryColor": "#4f5781",
+  "secondaryColor": "#9fc8ef",
+  "size": 0.6,
+  "useGlowLayer": true
+}

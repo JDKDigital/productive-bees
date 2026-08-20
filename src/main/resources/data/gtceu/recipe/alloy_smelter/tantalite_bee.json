@@ -8,14 +8,14 @@
           "type": "gtceu:sized",
           "count": 1,
           "ingredient": {
-            "type": "productivebees:component",
             "items": "productivebees:spawn_egg_configurable_bee",
             "components": {
               "minecraft:entity_data": {
-                "type": "productivebees:chromite",
+                "type": "productivebees:gtceu/chromite",
                 "id": "productivebees:configurable_bee"
               }
-            }
+            },
+            "neoforge:ingredient_type": "productivebees:component"
           }
         },
         "chance": 10000,
@@ -41,14 +41,14 @@
           "type": "gtceu:sized",
           "count": 1,
           "ingredient": {
-            "type": "productivebees:component",
             "items": "productivebees:spawn_egg_configurable_bee",
             "components": {
               "minecraft:entity_data": {
-                "type": "productivebees:tantalite",
+                "type": "productivebees:gtceu/tantalite",
                 "id": "productivebees:configurable_bee"
               }
-            }
+            },
+            "neoforge:ingredient_type": "productivebees:component"
           }
         },
         "chance": 10000,
@@ -73,11 +73,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:chromite"
+      "bee": "productivebees:gtceu/chromite"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:tantalite"
+      "bee": "productivebees:gtceu/tantalite"
     }
   ]
 }

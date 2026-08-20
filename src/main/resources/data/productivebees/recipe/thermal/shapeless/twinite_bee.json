@@ -2,41 +2,42 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
+      "neoforge:ingredient_type": "productivebees:component",
+      "items": "productivebees:spawn_egg_configurable_bee",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:apatite",
+          "type": "productivebees:gems/apatite",
           "id": "productivebees:configurable_bee"
         }
-      },
-      "count": 1,
-      "id": "productivebees:spawn_egg_configurable_bee"
+      }
     },
     {
+      "neoforge:ingredient_type": "productivebees:component",
+      "items": "productivebees:spawn_egg_configurable_bee",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:amethyst",
+          "type": "productivebees:gems/amethyst",
           "id": "productivebees:configurable_bee"
         }
-      },
-      "count": 1,
-      "id": "productivebees:spawn_egg_configurable_bee"
+      }
     },
     {
+      "neoforge:ingredient_type": "productivebees:component",
+      "items": "productivebees:spawn_egg_configurable_bee",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:enderium",
+          "type": "productivebees:alloys/enderium",
           "id": "productivebees:configurable_bee"
         }
-      },
-      "count": 1,
-      "id": "productivebees:spawn_egg_configurable_bee"
+      }
     }
   ],
   "result": {
     "id": "productivebees:spawn_egg_configurable_bee",
-    "nbt": {
-      "EntityTag": {
-        "type": "productivebees:twinite"
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:thermal_extra/twinite",
+        "id": "productivebees:configurable_bee"
       }
     }
   },
@@ -51,19 +52,19 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:apatite"
+      "bee": "productivebees:gems/apatite"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:amethyst"
+      "bee": "productivebees:gems/amethyst"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:enderium"
+      "bee": "productivebees:alloys/enderium"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:twinite"
+      "bee": "productivebees:thermal_extra/twinite"
     }
   ]
 }

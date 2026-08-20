@@ -1,0 +1,10 @@
+{
+  "attack": 1.0,
+  "flowerTag": "productivebees:flowers/green_sapphire",
+  "particleColor": "#8adb18",
+  "primaryColor": "#8adb18",
+  "renderer": "default_crystal",
+  "secondaryColor": "#064f2c",
+  "size": 0.6,
+  "tertiaryColor": "#019500"
+}

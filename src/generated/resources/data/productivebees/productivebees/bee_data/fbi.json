@@ -1,0 +1,16 @@
+{
+  "attack": 1.0,
+  "attributes": {
+    "endurance": "endurance.strong",
+    "temper": "temper.aggressive"
+  },
+  "beeTexture": "productivebees:textures/entity/bee/fbi/bee",
+  "createComb": false,
+  "flowerBlock": "minecraft:air",
+  "model": "productivebees:entity/fbi",
+  "primaryColor": "#edc343",
+  "secondaryColor": "#1f0088",
+  "selfbreed": false,
+  "speed": 5.0,
+  "useGlowLayer": true
+}

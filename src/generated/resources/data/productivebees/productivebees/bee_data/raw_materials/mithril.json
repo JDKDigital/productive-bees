@@ -1,0 +1,9 @@
+{
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/mithril/bee",
+  "flowerTag": "productivebees:flowers/mithril",
+  "particleColor": "#92e7ae",
+  "primaryColor": "#0b2638",
+  "secondaryColor": "#0e6a61",
+  "useGlowLayer": true
+}

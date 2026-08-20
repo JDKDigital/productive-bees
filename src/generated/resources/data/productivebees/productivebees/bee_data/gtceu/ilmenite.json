@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "gtceu"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/ilmenite/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/raw_ilmenite",
+  "particleColor": "#28251e",
+  "primaryColor": "#171006",
+  "secondaryColor": "#2a2924",
+  "selfbreed": false,
+  "size": 0.8,
+  "tertiaryColor": "#251a0d",
+  "useGlowLayer": true
+}

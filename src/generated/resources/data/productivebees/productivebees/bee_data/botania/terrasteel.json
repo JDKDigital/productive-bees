@@ -1,0 +1,18 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "botania"
+    }
+  ],
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/terrasteel",
+  "invulnerability": [
+    "mekanism.radiation"
+  ],
+  "primaryColor": "#49cc1d",
+  "secondaryColor": "#804f40",
+  "selfbreed": false,
+  "useGlowLayer": true
+}

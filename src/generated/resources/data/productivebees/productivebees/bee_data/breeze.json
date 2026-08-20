@@ -1,0 +1,11 @@
+{
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/breeze/bee",
+  "flowerItem": "minecraft:heavy_core",
+  "particleColor": "#f3f5ff",
+  "primaryColor": "#2b425e",
+  "secondaryColor": "#686394",
+  "speed": 0.8,
+  "tertiaryColor": "#bbabd1",
+  "useGlowLayer": true
+}

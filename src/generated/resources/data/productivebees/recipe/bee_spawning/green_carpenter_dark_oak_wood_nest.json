@@ -1,0 +1,8 @@
+{
+  "type": "productivebees:bee_spawning",
+  "biomes": "#c:is_overworld",
+  "ingredient": "productivebees:dark_oak_wood_nest",
+  "results": [
+    "productivebees:green_carpenter_bee"
+  ]
+}

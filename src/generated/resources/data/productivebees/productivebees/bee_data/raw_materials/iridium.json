@@ -1,0 +1,9 @@
+{
+  "attack": 1.0,
+  "flowerTag": "c:storage_blocks/iridium",
+  "particleColor": "#8c9fac",
+  "primaryColor": "#ffccff",
+  "secondaryColor": "#d4e4fc",
+  "size": 0.8,
+  "useGlowLayer": true
+}

@@ -1,0 +1,30 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "enderio"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:enderio/energetic_alloy"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:enderio/energetic_alloy"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": "enderio:energetic_alloy_nugget",
+      "max": 8,
+      "min": 6
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

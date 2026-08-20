@@ -1,0 +1,6 @@
+{
+  "type": "productivebees:bee_conversion",
+  "item": "minecraft:hopper",
+  "result": "productivebees:collector_bee",
+  "source": "minecraft:bee"
+}

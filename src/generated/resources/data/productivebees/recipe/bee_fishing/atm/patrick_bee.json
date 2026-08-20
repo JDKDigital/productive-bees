@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:atm/patrick"
+    }
+  ],
+  "type": "productivebees:bee_fishing",
+  "bee": "productivebees:atm/patrick",
+  "biomes": [
+    "minecraft:warm_ocean"
+  ],
+  "chance": 0.01
+}

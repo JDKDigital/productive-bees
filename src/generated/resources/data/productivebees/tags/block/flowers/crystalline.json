@@ -1,0 +1,11 @@
+{
+  "values": [
+    {
+      "id": "#c:ores/quartz",
+      "required": false
+    },
+    "minecraft:quartz_pillar",
+    "minecraft:quartz_block",
+    "productivebees:quartz_netherrack"
+  ]
+}

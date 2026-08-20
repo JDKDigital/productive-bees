@@ -1,0 +1,18 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:amber"
+    }
+  ],
+  "type": "productivebees:block_conversion",
+  "bees": [
+    "productivebees:amber"
+  ],
+  "from": {
+    "Name": "minecraft:honey_block"
+  },
+  "to": {
+    "Name": "productivebees:petrified_honey"
+  }
+}

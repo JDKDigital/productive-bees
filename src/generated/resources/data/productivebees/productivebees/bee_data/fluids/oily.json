@@ -1,0 +1,10 @@
+{
+  "attack": 1.0,
+  "flowerFluid": "#c:crude_oil",
+  "particleColor": "#3b2754",
+  "primaryColor": "#010000",
+  "renderer": "thicc",
+  "secondaryColor": "#804f40",
+  "useGlowLayer": true,
+  "waterproof": true
+}

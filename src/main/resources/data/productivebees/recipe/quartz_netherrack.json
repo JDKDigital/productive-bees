@@ -6,12 +6,8 @@
     "QQQ"
   ],
   "key": {
-    "N": {
-      "item": "minecraft:netherrack"
-    },
-    "Q": {
-      "item": "minecraft:quartz"
-    }
+    "N": "minecraft:netherrack",
+    "Q": "minecraft:quartz"
   },
   "result": {
     "id": "productivebees:quartz_netherrack"

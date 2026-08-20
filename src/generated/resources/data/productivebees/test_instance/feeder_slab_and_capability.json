@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:function",
+  "environment": "productivebees:feeder_slab_and_capability_env",
+  "function": "productivebees:feeder_slab_and_capability",
+  "structure": "productivebees:empty_7x7",
+  "max_ticks": 100,
+  "required": true,
+  "setup_ticks": 0
+}

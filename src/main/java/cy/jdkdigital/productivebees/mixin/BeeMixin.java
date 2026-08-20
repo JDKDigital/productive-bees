@@ -11,7 +11,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,15 +26,7 @@ public abstract class BeeMixin extends Animal
         super(entityType, level);
     }
 
-    @Inject(at = {@At(value = "RETURN")}, method = {"isFlowerValid"}, cancellable = true)
-    public void isFlowerValid(BlockPos pos, CallbackInfoReturnable<Boolean> ci) {
-        if (!ci.getReturnValue()) {
-            if (this.level().getBlockEntity(pos) instanceof FeederBlockEntity feederBlockEntity) {
-                Bee bee = (Bee)(Object) this;
-                ci.setReturnValue(ProductiveBee.isValidFeeder(bee, feederBlockEntity, (state) -> state.is(BlockTags.FLOWERS), (stack) -> stack.is(ItemTags.FLOWERS)));
-            }
-        }
-    }
+    // 26.1 removed Bee.isFlowerValid; the Feeder-as-flower path now lives in BeePollinateGoalMixin#findNearbyFlower.
 
     @Inject(at = {@At(value = "RETURN")}, method = {"registerGoals"})
     protected void registerGoals(CallbackInfo ci) {
@@ -50,7 +42,7 @@ public abstract class BeeMixin extends Animal
 
             if (!shouldReturnToHive && !level().dimensionType().hasFixedTime()) { // in overworld, return to hive if raining or when night
                 shouldReturnToHive =
-                    (this.level().isNight() && attributes.getAttributeValue(GeneAttribute.BEHAVIOR).equals(GeneValue.BEHAVIOR_DIURNAL)) ||
+                    (this.level().getOverworldClockTime() % 24000L >= 12000L && attributes.getAttributeValue(GeneAttribute.BEHAVIOR).equals(GeneValue.BEHAVIOR_DIURNAL)) ||
                     (this.level().isRaining() && attributes.getAttributeValue(GeneAttribute.WEATHER_TOLERANCE).equals(GeneValue.WEATHER_TOLERANCE_NONE)) ||
                     (this.level().isThundering() && !attributes.getAttributeValue(GeneAttribute.WEATHER_TOLERANCE).equals(GeneValue.WEATHER_TOLERANCE_ANY));
             }

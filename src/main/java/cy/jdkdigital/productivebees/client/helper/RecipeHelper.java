@@ -11,23 +11,30 @@ import cy.jdkdigital.productivebees.common.recipe.BeeFloweringRecipe;
 import cy.jdkdigital.productivebees.common.recipe.IncubationRecipe;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
-import cy.jdkdigital.productivebees.setup.BeeReloadListener;
+import cy.jdkdigital.productivebees.setup.BeeData;
+import cy.jdkdigital.productivebees.setup.BeeRegistries;
 import cy.jdkdigital.productivebees.util.BeeCreator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 
@@ -59,36 +66,39 @@ public class RecipeHelper
         TagKey<Block> defaultBlockTag = ModTags.DEFAULT_FLOWERING_BLOCK;
 
         for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()) {
+            if (!entry.getKey().equals(entry.getValue().getBeeType().toString())) continue;
             if (entry.getValue().isConfigurable()) {
-                CompoundTag nbt = BeeReloadListener.INSTANCE.getData(entry.getValue().getBeeType());
-                if (nbt.getString("flowerType").equals("entity_types")) {
-                    if (nbt.contains("flowerTag")) {
-                        TagKey<EntityType<?>> flowerTag = ModTags.getEntityTag(ResourceLocation.parse(nbt.getString("flowerTag")));
+                BeeData beeData = BeeRegistries.lookup(entry.getValue().getBeeType());
+                if (beeData == null) continue;
+                if (beeData.flowerType().equals("entity_types")) {
+                    if (beeData.flowerTag().isPresent()) {
+                        TagKey<EntityType<?>> flowerTag = ModTags.getEntityTag(Identifier.parse(beeData.flowerTag().get()));
                         var entityTypeList = Streams.stream(BuiltInRegistries.ENTITY_TYPE.getTagOrEmpty(flowerTag)).map(Holder::value).toList();
                         entityTypeList.forEach(entityType -> {
                             recipes.add(BeeFloweringRecipe.createItem(id(entry.getValue().getBeeType().getPath() + "_" + entityType.getDescriptionId().replace(".", "")), AmberItem.getFakeAmberItem(entityType), entry.getValue()));
                         });
                     }
                 } else {
-                    if (nbt.contains("flowerTag")) {
-                        TagKey<Block> flowerTag = ModTags.getBlockTag(ResourceLocation.parse(nbt.getString("flowerTag")));
-                        TagKey<Item> itemFlowerTag = ModTags.getItemTag(ResourceLocation.parse(nbt.getString("flowerTag")));
+                    if (beeData.flowerTag().isPresent()) {
+                        TagKey<Block> flowerTag = ModTags.getBlockTag(Identifier.parse(beeData.flowerTag().get()));
+                        TagKey<Item> itemFlowerTag = ModTags.getItemTag(Identifier.parse(beeData.flowerTag().get()));
                         recipes.add(BeeFloweringRecipe.createBlock(id(entry.getValue().getBeeType().getPath()), flowerTag, itemFlowerTag, entry.getValue()));
-                    } else if (nbt.contains("flowerBlock")) {
-                        Block flowerBlock = BuiltInRegistries.BLOCK.get(ResourceLocation.parse(nbt.getString("flowerBlock")));
-                        if (flowerBlock != null && !flowerBlock.equals(Blocks.AIR)) {
+                    } else if (beeData.flowerBlock().isPresent()) {
+                        Block flowerBlock = BuiltInRegistries.BLOCK.get(Identifier.parse(beeData.flowerBlock().get())).map(Holder::value).orElse(Blocks.AIR);
+                        if (!flowerBlock.equals(Blocks.AIR)) {
                             recipes.add(BeeFloweringRecipe.createBlock(id(entry.getValue().getBeeType().getPath()), flowerBlock, entry.getValue()));
                         }
-                    } else if (nbt.contains("flowerFluid")) {
-                        if (nbt.getString("flowerFluid").contains("#")) {
-                            TagKey<Fluid> flowerFluid = ModTags.getFluidTag(ResourceLocation.parse(nbt.getString("flowerFluid").replace("#", "")));
+                    } else if (beeData.flowerFluid().isPresent()) {
+                        String flowerFluidId = beeData.flowerFluid().get();
+                        if (flowerFluidId.contains("#")) {
+                            TagKey<Fluid> flowerFluid = ModTags.getFluidTag(Identifier.parse(flowerFluidId.replace("#", "")));
                             recipes.add(BeeFloweringRecipe.createFluid(id(entry.getValue().getBeeType().getPath()), flowerFluid, entry.getValue()));
                         } else {
-                            Fluid flowerFluid = BuiltInRegistries.FLUID.get(ResourceLocation.parse(nbt.getString("flowerFluid")));
+                            Fluid flowerFluid = BuiltInRegistries.FLUID.get(Identifier.parse(flowerFluidId)).map(Holder::value).orElse(Fluids.EMPTY);
                             recipes.add(BeeFloweringRecipe.createFluid(id(entry.getValue().getBeeType().getPath()), flowerFluid, entry.getValue()));
                         }
-                    } else if (nbt.contains("flowerItem")) {
-                        Item flowerItem = BuiltInRegistries.ITEM.get(ResourceLocation.parse(nbt.getString("flowerItem")));
+                    } else if (beeData.flowerItem().isPresent()) {
+                        Item flowerItem = BuiltInRegistries.ITEM.get(Identifier.parse(beeData.flowerItem().get())).map(Holder::value).orElse(Items.AIR);
                         recipes.add(BeeFloweringRecipe.createItem(id(entry.getValue().getBeeType().getPath()), new ItemStack(flowerItem), entry.getValue()));
                     } else {
                         recipes.add(BeeFloweringRecipe.createBlock(id(entry.getValue().getBeeType().getPath()), defaultBlockTag, null, entry.getValue()));
@@ -114,8 +124,8 @@ public class RecipeHelper
 
         if (Minecraft.getInstance().level != null) {
             // babee to adult incubation
-            Bee bee = EntityType.BEE.create(Minecraft.getInstance().level);
-            Bee baBee = EntityType.BEE.create(Minecraft.getInstance().level);
+            Bee bee = EntityType.BEE.create(Minecraft.getInstance().level, EntitySpawnReason.NATURAL);
+            Bee baBee = EntityType.BEE.create(Minecraft.getInstance().level, EntitySpawnReason.NATURAL);
             if (bee != null && baBee != null) {
                 ItemStack cage = new ItemStack(ModItems.BEE_CAGE.get());
                 ItemStack babeeCage = new ItemStack(ModItems.BEE_CAGE.get());
@@ -124,21 +134,22 @@ public class RecipeHelper
                 BeeCage.captureEntity(bee, cage);
                 BeeCage.captureEntity(baBee, babeeCage);
                 ItemStack treats = new ItemStack(ModItems.HONEY_TREAT.get(), ProductiveBeesConfig.GENERAL.incubatorTreatUse.get());
-                recipes.add(new RecipeHolder<>(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "/babee_incubation"), new IncubationRecipe(DataComponentIngredient.of(false, babeeCage), Ingredient.of(treats), cage, 300)));
+                recipes.add(new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "/babee_incubation")), new IncubationRecipe(DataComponentIngredient.of(false, babeeCage), Ingredient.of(treats.getItem()), ItemStackTemplate.fromNonEmptyStack(cage), 300)));
             }
 
             // Spawn egg incubation
             for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()) {
-                ItemStack spawnEgg = BeeCreator.getSpawnEgg(ResourceLocation.parse(entry.getKey()));
+                if (!entry.getKey().equals(entry.getValue().getBeeType().toString())) continue;
+                ItemStack spawnEgg = BeeCreator.getSpawnEgg(Identifier.parse(entry.getKey()));
                 Ingredient treat = DataComponentIngredient.of(false, HoneyTreat.getTypeStack(entry.getKey(), 100));
-                recipes.add(new RecipeHolder<>(ResourceLocation.parse(entry.getKey()).withPath(p -> "/" + p + "_incubation"), new IncubationRecipe(Ingredient.of(Tags.Items.EGGS), treat, spawnEgg, 300)));
+                recipes.add(new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, Identifier.parse(entry.getKey()).withPath(p -> "/" + p + "_incubation")), new IncubationRecipe(Ingredient.of(BuiltInRegistries.ITEM.get(Tags.Items.EGGS).orElseThrow()), treat, ItemStackTemplate.fromNonEmptyStack(spawnEgg), 300)));
             }
         }
 
         return recipes;
     }
 
-    private static ResourceLocation id(String name) {
-        return ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, name);
+    private static Identifier id(String name) {
+        return Identifier.fromNamespaceAndPath(ProductiveBees.MODID, name);
     }
 }

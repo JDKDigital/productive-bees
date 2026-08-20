@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "astralsorcery"
+    }
+  ],
+  "attack": 1.0,
+  "createComb": false,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "minecraft:stone",
+  "particleColor": "#dbdbdb",
+  "primaryColor": "#ffffff",
+  "renderer": "thicc",
+  "secondaryColor": "#5c5350",
+  "selfbreed": false,
+  "size": 0.8,
+  "useGlowLayer": true
+}

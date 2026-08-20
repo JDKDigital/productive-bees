@@ -11,7 +11,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
@@ -21,14 +21,15 @@ import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.WitherSkull;
-import net.minecraft.world.entity.vehicle.MinecartTNT;
+import net.minecraft.world.entity.projectile.hurtingprojectile.WitherSkull;
+import net.minecraft.world.entity.vehicle.minecart.MinecartTNT;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.FireBlock;
@@ -59,13 +60,15 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
     }
 
     @Override
-    public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+    public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos, Direction direction) {
         if (level.getBlockEntity(pos) instanceof AdvancedBeehiveBlockEntityAbstract beehiveBlockEntityAbstract) {
             return beehiveBlockEntityAbstract.getOccupantCount();
         }
         return 0;
     }
 
+    // Tooltip logic lives in AdvancedBeehiveBlockItem (26.1 removed Block.appendHoverText).
+    /*
     @Override
     public void appendHoverText(ItemStack pStack, Item.TooltipContext pContext, List<Component> pTootipComponents, TooltipFlag pTooltipFlag) {
         super.appendHoverText(pStack, pContext, pTootipComponents, pTooltipFlag);
@@ -87,9 +90,9 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
                 for (int i = 0; i < occupants.size(); ++i) {
                     var tag = occupants.get(i).entityData().getUnsafe();
                     if (tag.contains("type")) {
-                        pTootipComponents.add(Component.translatable("entity.productivebees." + ProductiveBee.getBeeName(ResourceLocation.parse(tag.getString("type"))) + "_bee").withStyle(ChatFormatting.GREEN));
+                        pTootipComponents.add(Component.translatable("entity.productivebees." + ProductiveBee.getBeeName(Identifier.parse(tag.getString("type"))) + "_bee").withStyle(ChatFormatting.GREEN));
                     } else {
-                        pTootipComponents.add(Component.translatable(BuiltInRegistries.ENTITY_TYPE.get(ResourceLocation.parse(tag.getString("id"))).getDescriptionId()).withStyle(ChatFormatting.GREEN));
+                        pTootipComponents.add(Component.translatable(BuiltInRegistries.ENTITY_TYPE.get(Identifier.parse(tag.getString("id"))).getDescriptionId()).withStyle(ChatFormatting.GREEN));
                     }
                 }
             } else {
@@ -97,6 +100,7 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
             }
         }
     }
+    */
 
     @Override
     public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
@@ -108,7 +112,7 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
     }
 
     private void dripHoney(Level world, BlockPos pos, BlockState state) {
-        if (state.getFluidState().isEmpty() && world.random.nextFloat() >= 0.3F) {
+        if (state.getFluidState().isEmpty() && world.getRandom().nextFloat() >= 0.3F) {
             VoxelShape shape = state.getCollisionShape(world, pos);
             double shapeEnd = shape.max(Direction.Axis.Y);
             if (shapeEnd >= 1.0D && !state.is(BlockTags.IMPERMEABLE)) {
@@ -133,7 +137,7 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
     }
 
     private static void spawnFluidParticle(Level level, double d1, double d2, double d3, double d4, double d5) {
-        level.addParticle(ParticleTypes.DRIPPING_HONEY, Mth.lerp(level.random.nextDouble(), d1, d2), d5, Mth.lerp(level.random.nextDouble(), d3, d4), 0.0D, 0.0D, 0.0D);
+        level.addParticle(ParticleTypes.DRIPPING_HONEY, Mth.lerp(level.getRandom().nextDouble(), d1, d2), d5, Mth.lerp(level.getRandom().nextDouble(), d3, d4), 0.0D, 0.0D, 0.0D);
     }
 
     @Nonnull
@@ -168,7 +172,7 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState state1, LevelAccessor world, BlockPos pos, BlockPos fireBlockPos) {
+    public BlockState updateShape(BlockState state, LevelReader world, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos fireBlockPos, BlockState state1, RandomSource random) {
         if (world.getBlockState(fireBlockPos).getBlock() instanceof FireBlock) {
             BlockEntity tileEntity = world.getBlockEntity(pos);
             if (tileEntity instanceof AdvancedBeehiveBlockEntityAbstract abstractBeehiveTileEntity) {
@@ -178,6 +182,6 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
             }
         }
 
-        return super.updateShape(state, direction, state1, world, pos, fireBlockPos);
+        return super.updateShape(state, world, scheduledTickAccess, pos, direction, fireBlockPos, state1, random);
     }
 }

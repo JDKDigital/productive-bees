@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "oritech"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/biosteel/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "oritech:biosteel",
+  "particleColor": "#a0b49f",
+  "primaryColor": "#225d22",
+  "secondaryColor": "#a4a7a4",
+  "tertiaryColor": "#152014",
+  "useGlowLayer": true
+}

@@ -1,0 +1,24 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "neovitae"
+    }
+  ],
+  "attack": 1.0,
+  "attributes": {
+    "behavior": "behavior.metaturnal",
+    "endurance": "endurance.strong",
+    "temper": "temper.aggressive"
+  },
+  "createComb": false,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "minecraft:flowers",
+  "particleColor": "#940e00",
+  "primaryColor": "#940e00",
+  "renderer": "thicc",
+  "secondaryColor": "#0f0f66",
+  "selfbreed": false,
+  "selfheal": true,
+  "useGlowLayer": true
+}

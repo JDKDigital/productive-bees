@@ -1,5 +1,5 @@
 {
-  "type": "productivebees:cherry_wood_nest",
+  "type": "productivebees:nest",
   "config": {
     "targets": [
       {
@@ -11,6 +11,10 @@
           "Name": "productivebees:cherry_wood_nest"
         }
       }
-    ]
+    ],
+    "search": {
+      "type": "tree"
+    },
+    "config_key": "cherry_wood_nest"
   }
 }

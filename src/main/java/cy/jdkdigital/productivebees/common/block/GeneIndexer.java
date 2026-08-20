@@ -62,7 +62,7 @@ public class GeneIndexer extends CapabilityContainerBlock
             if (!pLevel.isClientSide()) {
                 pPlayer.openMenu(blockEntity, pPos);
             }
-            return InteractionResult.SUCCESS_NO_ITEM_USED;
+            return InteractionResult.SUCCESS;
         }
         return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);
     }
@@ -76,7 +76,7 @@ public class GeneIndexer extends CapabilityContainerBlock
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.GENE_INDEXER.get(), GeneIndexerBlockEntity::tick);
+        return level.isClientSide() ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.GENE_INDEXER.get(), GeneIndexerBlockEntity::tick);
     }
 
     @Override
@@ -85,16 +85,16 @@ public class GeneIndexer extends CapabilityContainerBlock
     }
 
     @Override
-    public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+    public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos, Direction direction) {
         int value = 0;
         if (level.getBlockEntity(pos) instanceof GeneIndexerBlockEntity blockEntity) {
             int filledSlots = 0;
-            for (int i = 0; i < blockEntity.inventoryHandler.getSlots(); i++) {
+            for (int i = 0; i < blockEntity.inventoryHandler.size(); i++) {
                 if (!blockEntity.inventoryHandler.getStackInSlot(i).isEmpty()) {
                     filledSlots++;
                 }
             }
-            value = (int) Math.floor(15 * ((float) filledSlots / blockEntity.inventoryHandler.getSlots()));
+            value = (int) Math.floor(15 * ((float) filledSlots / blockEntity.inventoryHandler.size()));
         }
         return value;
     }

@@ -1,0 +1,17 @@
+{
+  "attack": 6.0,
+  "attributes": {
+    "endurance": "endurance.weak",
+    "productivity": "productivity.very_high",
+    "temper": "temper.hostile"
+  },
+  "createComb": false,
+  "flowerTag": "minecraft:flowers",
+  "particleType": "pop",
+  "primaryColor": "#ffff00",
+  "secondaryColor": "#000001",
+  "selfbreed": false,
+  "size": 0.2,
+  "speed": 5.0,
+  "useGlowLayer": true
+}

@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/iron"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/nickel"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:alloys/invar"
+    },
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "productivemetalworks"
+      }
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:alloys/invar",
+  "parent1": "productivebees:raw_materials/iron",
+  "parent2": "productivebees:raw_materials/nickel"
+}

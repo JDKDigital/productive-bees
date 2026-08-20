@@ -1,0 +1,12 @@
+{
+  "attack": 1.0,
+  "flowerTag": "productivebees:flowers/redstone",
+  "particleColor": "#ff0000",
+  "particleType": "lava",
+  "primaryColor": "#d03621",
+  "redstoned": true,
+  "renderer": "default_crystal",
+  "secondaryColor": "#804f40",
+  "tertiaryColor": "#730c00",
+  "useGlowLayer": false
+}

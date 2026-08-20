@@ -1,0 +1,32 @@
+{
+  "parent": "productivebees:husbandry/advanced_beehive/expansion_box",
+  "criteria": {
+    "get_item": {
+      "conditions": {
+        "items": [
+          {
+            "items": "productivelib:upgrade_base"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.husbandry.hive_upgrades.description"
+    },
+    "icon": {
+      "id": "productivelib:upgrade_base"
+    },
+    "title": {
+      "translate": "advancements.husbandry.hive_upgrades.title"
+    }
+  },
+  "requirements": [
+    [
+      "get_item"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

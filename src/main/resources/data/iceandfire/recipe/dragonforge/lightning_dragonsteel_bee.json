@@ -3,14 +3,14 @@
   "dragonType": "lightning",
   "cookTime": 1000,
   "input": {
-    "type": "productivebees:component",
     "components": {
       "minecraft:entity_data": {
         "type": "productivebees:draconic",
         "id": "productivebees:configurable_bee"
       }
     },
-    "items": "productivebees:spawn_egg_configurable_bee"
+    "items": "productivebees:spawn_egg_configurable_bee",
+    "neoforge:ingredient_type": "productivebees:component"
   },
   "blood": {
     "item": "iceandfire:lightning_dragon_blood"
@@ -18,7 +18,7 @@
   "result": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:lightning_dragonsteel",
+        "type": "productivebees:iceandfire/lightning_dragonsteel",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -32,7 +32,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:lightning_dragonsteel"
+      "bee": "productivebees:iceandfire/lightning_dragonsteel"
     }
   ]
 }

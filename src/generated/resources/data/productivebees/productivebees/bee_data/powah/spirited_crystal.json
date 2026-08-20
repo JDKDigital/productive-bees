@@ -1,0 +1,15 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "powah"
+    }
+  ],
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "powah:spirited_crystal_block",
+  "primaryColor": "#7cff1f",
+  "secondaryColor": "#61bf1f",
+  "selfbreed": false,
+  "useGlowLayer": true
+}

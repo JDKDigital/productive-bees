@@ -6,16 +6,16 @@ import cy.jdkdigital.productivebees.util.GeneGroup;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.List;
 import java.util.function.Supplier;
 
 public class ModDataComponents
 {
-    public static final Supplier<DataComponentType<ResourceLocation>> BEE_TYPE = ProductiveBees.DATA_COMPONENTS.register("bee_type", () -> DataComponentType.<ResourceLocation>builder().persistent(ResourceLocation.CODEC).networkSynchronized(ResourceLocation.STREAM_CODEC).build());
-    public static final Supplier<DataComponentType<List<ResourceLocation>>> BEE_TYPE_LIST = ProductiveBees.DATA_COMPONENTS.register("bee_type_list", () -> DataComponentType.<List<ResourceLocation>>builder().persistent(ResourceLocation.CODEC.listOf()).cacheEncoding().build());
-    public static final Supplier<DataComponentType<ResourceLocation>> NEST_BLOCK = ProductiveBees.DATA_COMPONENTS.register("nest_block", () -> DataComponentType.<ResourceLocation>builder().persistent(ResourceLocation.CODEC).networkSynchronized(ResourceLocation.STREAM_CODEC).build());
+    public static final Supplier<DataComponentType<Identifier>> BEE_TYPE = ProductiveBees.DATA_COMPONENTS.register("bee_type", () -> DataComponentType.<Identifier>builder().persistent(Identifier.CODEC).networkSynchronized(Identifier.STREAM_CODEC).build());
+    public static final Supplier<DataComponentType<List<Identifier>>> BEE_TYPE_LIST = ProductiveBees.DATA_COMPONENTS.register("bee_type_list", () -> DataComponentType.<List<Identifier>>builder().persistent(Identifier.CODEC.listOf()).cacheEncoding().build());
+    public static final Supplier<DataComponentType<Identifier>> NEST_BLOCK = ProductiveBees.DATA_COMPONENTS.register("nest_block", () -> DataComponentType.<Identifier>builder().persistent(Identifier.CODEC).networkSynchronized(Identifier.STREAM_CODEC).build());
     public static final Supplier<DataComponentType<String>> BEE_NAME = ProductiveBees.DATA_COMPONENTS.register("bee_name", () -> DataComponentType.<String>builder().persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8).build());
     public static final Supplier<DataComponentType<BlockPos>> POSITION = ProductiveBees.DATA_COMPONENTS.register("blockpos", () -> DataComponentType.<BlockPos>builder().persistent(BlockPos.CODEC).networkSynchronized(BlockPos.STREAM_CODEC).build());
 

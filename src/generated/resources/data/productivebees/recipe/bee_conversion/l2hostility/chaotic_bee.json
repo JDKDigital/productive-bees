@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:wanna"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:l2hostility/chaotic"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "l2hostility"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "chance": 30.0,
+  "item": "l2hostility:hostility_orb",
+  "result": "productivebees:l2hostility/chaotic",
+  "source": "productivebees:wanna"
+}

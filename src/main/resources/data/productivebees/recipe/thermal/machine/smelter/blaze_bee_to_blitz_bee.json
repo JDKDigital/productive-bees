@@ -6,10 +6,10 @@
       "count": 4
     },
     {
-      "type": "productivebees:component",
+      "neoforge:ingredient_type": "productivebees:component",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:blazing",
+          "type": "productivebees:dusts/blazing",
           "id": "productivebees:configurable_bee"
         }
       },
@@ -19,7 +19,7 @@
   "result": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:blitz",
+        "type": "productivebees:thermal/blitz",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -34,11 +34,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:blazing"
+      "bee": "productivebees:dusts/blazing"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:blitz"
+      "bee": "productivebees:thermal/blitz"
     }
   ]
 }

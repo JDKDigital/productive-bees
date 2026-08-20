@@ -2,8 +2,8 @@ package cy.jdkdigital.productivebees.common.item;
 
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.init.ModDataComponents;
-import cy.jdkdigital.productivebees.setup.BeeReloadListener;
-import net.minecraft.nbt.CompoundTag;
+import cy.jdkdigital.productivebees.setup.BeeData;
+import cy.jdkdigital.productivebees.setup.BeeRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -20,9 +20,9 @@ public class CombBlockItem extends BlockItem
     public static int getColor(ItemStack stack) {
         var tag = stack.get(ModDataComponents.BEE_TYPE);
         if (tag != null) {
-            CompoundTag nbt = BeeReloadListener.INSTANCE.getData(tag);
-            if (nbt != null) {
-                return nbt.getInt("primaryColor");
+            BeeData beeData = BeeRegistries.lookup(tag);
+            if (beeData != null) {
+                return beeData.primaryColor();
             }
         }
         return -1;
@@ -33,8 +33,8 @@ public class CombBlockItem extends BlockItem
     public Component getName(ItemStack stack) {
         var type = stack.get(ModDataComponents.BEE_TYPE);
         if (type != null) {
-            CompoundTag nbt = BeeReloadListener.INSTANCE.getData(type);
-            if (nbt != null) {
+            BeeData beeData = BeeRegistries.lookup(type);
+            if (beeData != null) {
                 String name = Component.translatable("entity.productivebees." + ProductiveBee.getBeeName(type) + "_bee").getString();
                 return Component.translatable("block.productivebees.comb_configurable", name.endsWith(" Bee") ? name.replace(" Bee", "") : name);
             }

@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/meitnerium/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerItem": "chemlib:meitnerium",
+  "particleColor": "#b4a19d",
+  "primaryColor": "#9c8984",
+  "selfbreed": false,
+  "size": 0.5,
+  "useGlowLayer": true
+}

@@ -8,21 +8,24 @@ import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 public class BeeSpawningRecipeCategory implements IRecipeCategory<BeeSpawningRecipe>
 {
+    private static final int BACKGROUND_WIDTH = 126;
+    private static final int BACKGROUND_HEIGHT = 70;
     private final IDrawable background;
     private final IDrawable icon;
 
@@ -43,8 +46,8 @@ public class BeeSpawningRecipeCategory implements IRecipeCategory<BeeSpawningRec
     }};
 
     public BeeSpawningRecipeCategory(IGuiHelper guiHelper) {
-        ResourceLocation location = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/jei/bee_spawning_recipe.png");
-        this.background = guiHelper.createDrawable(location, 0, 0, 126, 70);
+        Identifier location = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/jei/bee_spawning_recipe.png");
+        this.background = guiHelper.createDrawable(location, 0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
         this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.COARSE_DIRT_NEST.get()));
     }
 
@@ -59,8 +62,17 @@ public class BeeSpawningRecipeCategory implements IRecipeCategory<BeeSpawningRec
         return Component.translatable("jei.productivebees.bee_spawning");
     }
 
-    @Nonnull
     @Override
+    public int getWidth() {
+        return BACKGROUND_WIDTH;
+    }
+
+    @Override
+    public int getHeight() {
+        return BACKGROUND_HEIGHT;
+    }
+
+    @SuppressWarnings("unused")
     public IDrawable getBackground() {
         return this.background;
     }
@@ -74,14 +86,19 @@ public class BeeSpawningRecipeCategory implements IRecipeCategory<BeeSpawningRec
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, BeeSpawningRecipe recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 36, 27)
-                .addItemStacks(Arrays.asList(recipe.ingredient.getItems()))
+                .addItemStacks(recipe.ingredient.items().<ItemStack>map(h -> new ItemStack(h.value())).toList())
                 .setSlotName("nestBlock");
         builder.addSlot(RecipeIngredientRole.INPUT, 11, 27)
-                .addItemStacks(Arrays.asList(recipe.spawnItem.getItems()))
+                .addItemStacks(recipe.spawnItem.items().<ItemStack>map(h -> new ItemStack(h.value())).toList())
                 .setSlotName("spawnItem");
 
         builder.addSlot(RecipeIngredientRole.OUTPUT, 95, 27)
                 .addIngredient(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.output.get(0).get())
                 .setSlotName("spawn");
     }
+    @Override
+    public void draw(BeeSpawningRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
+        this.background.draw(guiGraphics);
+    }
+
 }

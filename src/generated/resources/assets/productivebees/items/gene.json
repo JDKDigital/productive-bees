@@ -1,0 +1,47 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/gene/productivity"
+        },
+        "when": "productivity"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/gene/endurance"
+        },
+        "when": "endurance"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/gene/temper"
+        },
+        "when": "temper"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/gene/behavior"
+        },
+        "when": "behavior"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/gene/tolerance"
+        },
+        "when": "weather_tolerance"
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "productivebees:item/gene"
+    },
+    "property": "productivebees:gene_attribute"
+  }
+}

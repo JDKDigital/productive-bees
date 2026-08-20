@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/iron"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:fluids/water"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:chemlib/cesium"
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:chemlib/cesium",
+  "parent1": "productivebees:raw_materials/iron",
+  "parent2": "productivebees:fluids/water"
+}

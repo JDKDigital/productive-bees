@@ -1,5 +1,5 @@
 {
-  "type": "productivebees:obsidian_pillar_nest",
+  "type": "productivebees:nest",
   "config": {
     "targets": [
       {
@@ -11,6 +11,11 @@
           "Name": "productivebees:obsidian_nest"
         }
       }
-    ]
+    ],
+    "search": {
+      "type": "structure",
+      "offset_span": 25
+    },
+    "config_key": "obsidian_nest"
   }
 }

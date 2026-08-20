@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:function",
+  "environment": "productivebees:centrifuge_stability_blocks_fluid_share_env",
+  "function": "productivebees:centrifuge_stability_blocks_fluid_share",
+  "structure": "productivebees:empty_7x7",
+  "max_ticks": 200,
+  "required": true,
+  "setup_ticks": 0
+}

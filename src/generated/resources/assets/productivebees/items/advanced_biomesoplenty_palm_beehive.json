@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productivebees:item/advanced_biomesoplenty_palm_beehive",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -3042235
+      },
+      {
+        "type": "minecraft:constant",
+        "value": -1
+      }
+    ]
+  }
+}

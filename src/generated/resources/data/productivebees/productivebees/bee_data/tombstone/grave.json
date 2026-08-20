@@ -1,0 +1,15 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "tombstone"
+    }
+  ],
+  "attack": 1.0,
+  "flowerTag": "productivebees:flowers/graves",
+  "particleColor": "#c9c7c2",
+  "primaryColor": "#c9c7c2",
+  "secondaryColor": "#4f4e4b",
+  "size": 0.5,
+  "useGlowLayer": true
+}

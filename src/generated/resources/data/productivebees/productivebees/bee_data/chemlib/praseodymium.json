@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/praseodymium/bee",
+  "flowerBlock": "chemlib:praseodymium_metal_block",
+  "particleColor": "#a2bc6e",
+  "primaryColor": "#86a245",
+  "useGlowLayer": true
+}

@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gems/crystalline"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gems/amber_gem"
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:gems/amber_gem",
+  "parent1": "productivebees:gems/crystalline",
+  "parent2": "productivebees:resin_bee"
+}

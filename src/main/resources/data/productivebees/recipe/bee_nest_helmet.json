@@ -1,12 +1,8 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "minecraft:bee_nest"
-    },
-    {
-      "item": "minecraft:diamond_helmet"
-    }
+    "minecraft:bee_nest",
+    "minecraft:diamond_helmet"
   ],
   "result": {
     "id": "productivebees:bee_nest_diamond_helmet"

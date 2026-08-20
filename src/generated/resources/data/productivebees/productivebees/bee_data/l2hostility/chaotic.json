@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "l2hostility"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/chaotic/bee",
+  "flowerBlock": "l2hostility:chaos_block",
+  "particleColor": "#ffa268",
+  "primaryColor": "#6400ab",
+  "secondaryColor": "#f627f3",
+  "selfbreed": false,
+  "size": 0.8,
+  "useGlowLayer": true
+}

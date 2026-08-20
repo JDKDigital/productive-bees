@@ -5,27 +5,25 @@
     {
       "count": 1,
       "ingredient": {
+        "neoforge:ingredient_type": "productivebees:component",
+        "items": "productivebees:spawn_egg_configurable_bee",
         "components": {
           "minecraft:entity_data": {
-            "type": "productivebees:plutonium",
+            "type": "productivebees:chemlib/plutonium",
             "id": "productivebees:configurable_bee"
           }
-        },
-        "count": 1,
-        "id": "productivebees:spawn_egg_configurable_bee"
+        }
       }
     },
     {
       "count": 16,
-      "ingredient": {
-        "item": "chemlib:plutonium"
-      }
+      "ingredient": "chemlib:plutonium"
     }
   ],
   "result": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:americium",
+        "type": "productivebees:chemlib/americium",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -39,11 +37,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:plutonium"
+      "bee": "productivebees:chemlib/plutonium"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:americium"
+      "bee": "productivebees:chemlib/americium"
     }
   ]
 }

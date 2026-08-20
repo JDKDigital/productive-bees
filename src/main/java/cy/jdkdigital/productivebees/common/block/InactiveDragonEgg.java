@@ -6,7 +6,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -23,17 +23,17 @@ public class InactiveDragonEgg extends DragonEggBlock
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
-        if (!pLevel.isClientSide && pStack.getItem() == Items.DRAGON_BREATH) {
+    protected InteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+        if (!pLevel.isClientSide() && pStack.getItem() == Items.DRAGON_BREATH) {
             BlockPos posUp = pPos.above(2);
             for (int i = 0; i < 42; ++i) {
-                double rnd = pLevel.random.nextDouble();
-                float xSpeed = (pLevel.random.nextFloat() - 0.5F) * 0.2F;
-                float ySpeed = (pLevel.random.nextFloat() - 0.5F) * 0.2F;
-                float zSpeed = (pLevel.random.nextFloat() - 0.5F) * 0.2F;
-                double x = Mth.lerp(rnd, posUp.getX(), pPos.getX()) + (pLevel.random.nextDouble() - 0.5D) + 0.5D;
-                double y = Mth.lerp(rnd, posUp.getY(), pPos.getY()) + pLevel.random.nextDouble() - 0.5D;
-                double z = Mth.lerp(rnd, posUp.getZ(), pPos.getZ()) + (pLevel.random.nextDouble() - 0.5D) + 0.5D;
+                double rnd = pLevel.getRandom().nextDouble();
+                float xSpeed = (pLevel.getRandom().nextFloat() - 0.5F) * 0.2F;
+                float ySpeed = (pLevel.getRandom().nextFloat() - 0.5F) * 0.2F;
+                float zSpeed = (pLevel.getRandom().nextFloat() - 0.5F) * 0.2F;
+                double x = Mth.lerp(rnd, posUp.getX(), pPos.getX()) + (pLevel.getRandom().nextDouble() - 0.5D) + 0.5D;
+                double y = Mth.lerp(rnd, posUp.getY(), pPos.getY()) + pLevel.getRandom().nextDouble() - 0.5D;
+                double z = Mth.lerp(rnd, posUp.getZ(), pPos.getZ()) + (pLevel.getRandom().nextDouble() - 0.5D) + 0.5D;
                 pLevel.addParticle(ParticleTypes.PORTAL, x, y, z, xSpeed, ySpeed, zSpeed);
             }
 
@@ -46,7 +46,7 @@ public class InactiveDragonEgg extends DragonEggBlock
                 pStack.shrink(1);
             }
 
-            return ItemInteractionResult.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
         return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
     }

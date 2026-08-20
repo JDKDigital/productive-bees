@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "productivemetalworks"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/butcher/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "productivemetalworks:meat_block",
+  "model": "productivebees:entity/butcher",
+  "particleColor": "#630800",
+  "primaryColor": "#852315",
+  "secondaryColor": "#dd9283",
+  "useGlowLayer": true
+}

@@ -1,0 +1,49 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "extendedae"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ae2/fluix"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ae2/entro"
+    }
+  ],
+  "type": "extendedae:crystal_assembler",
+  "energy": 8000,
+  "input_fluid": {
+    "amount": 1000,
+    "ingredient": "minecraft:water"
+  },
+  "input_items": [
+    {
+      "ingredient": {
+        "neoforge:ingredient_type": "productivebees:component",
+        "components": {
+          "minecraft:entity_data": {
+            "type": "productivebees:ae2/fluix",
+            "id": "productivebees:configurable_bee"
+          }
+        },
+        "items": "productivebees:spawn_egg_configurable_bee"
+      }
+    },
+    {
+      "amount": 16,
+      "ingredient": "#c:dusts/entro"
+    }
+  ],
+  "output": {
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:ae2/entro",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "id": "productivebees:spawn_egg_configurable_bee"
+  }
+}

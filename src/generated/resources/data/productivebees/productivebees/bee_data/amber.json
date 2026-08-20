@@ -1,0 +1,13 @@
+{
+  "attack": 1.0,
+  "createComb": false,
+  "flowerTag": "!productivebees:bee_encase_blacklist",
+  "flowerType": "entity_types",
+  "particleColor": "#fa9310",
+  "postPollination": "amber_encase",
+  "primaryColor": "#fa9310",
+  "renderer": "default_crystal",
+  "secondaryColor": "#064f2c",
+  "size": 0.7,
+  "tertiaryColor": "#d4700e"
+}

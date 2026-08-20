@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gems/lapis"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:skeletal"
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:dye_bee",
+  "parent1": "productivebees:gems/lapis",
+  "parent2": "productivebees:skeletal"
+}

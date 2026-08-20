@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/cesium/bee",
+  "flowerBlock": "chemlib:cesium_metal_block",
+  "particleColor": "#e8d9a5",
+  "primaryColor": "#e3cb7b",
+  "useGlowLayer": true
+}

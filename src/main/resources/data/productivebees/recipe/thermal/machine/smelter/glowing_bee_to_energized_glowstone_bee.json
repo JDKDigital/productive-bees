@@ -2,10 +2,10 @@
   "type": "thermal:smelter",
   "input": [
     {
-      "type": "productivebees:component",
+      "neoforge:ingredient_type": "productivebees:component",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:glowing",
+          "type": "productivebees:dusts/glowing",
           "id": "productivebees:configurable_bee"
         }
       },
@@ -15,7 +15,7 @@
   "result": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:energized_glowstone",
+        "type": "productivebees:thermal/energized_glowstone",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -30,11 +30,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:glowing"
+      "bee": "productivebees:dusts/glowing"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:energized_glowstone"
+      "bee": "productivebees:thermal/energized_glowstone"
     }
   ]
 }

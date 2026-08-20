@@ -1,0 +1,15 @@
+{
+  "attack": 1.0,
+  "attackResponse": "fire",
+  "attributes": {
+    "endurance": "endurance.medium"
+  },
+  "fireproof": true,
+  "flowerTag": "c:storage_blocks/netherite",
+  "particleColor": "#4d494d",
+  "primaryColor": "#4d494d",
+  "secondaryColor": "#804f40",
+  "size": 0.7,
+  "useGlowLayer": true,
+  "withered": true
+}

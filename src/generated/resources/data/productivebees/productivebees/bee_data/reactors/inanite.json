@@ -1,0 +1,11 @@
+{
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/inanite",
+  "particleColor": "#ed2b89",
+  "primaryColor": "#bd0d62",
+  "secondaryColor": "#db046c",
+  "selfbreed": false,
+  "size": 0.8,
+  "useGlowLayer": true
+}

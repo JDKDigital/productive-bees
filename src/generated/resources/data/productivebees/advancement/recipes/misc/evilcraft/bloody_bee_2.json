@@ -1,0 +1,42 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "evilcraft"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:evilcraft/bloody"
+    }
+  ],
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_nomad_bee": {
+      "conditions": {
+        "items": [
+          {
+            "items": "productivebees:spawn_egg_nomad_bee"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "productivebees:evilcraft/bloody_bee_2"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_nomad_bee"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "productivebees:evilcraft/bloody_bee_2"
+    ]
+  }
+}

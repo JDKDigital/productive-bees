@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:coal"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:chemlib/oxygen"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:chemlib/molybdenum"
+    },
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "gtceu"
+      }
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:chemlib/molybdenum",
+  "parent1": "productivebees:coal",
+  "parent2": "productivebees:chemlib/oxygen"
+}

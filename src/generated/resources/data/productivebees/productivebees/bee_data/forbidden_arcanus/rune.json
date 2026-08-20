@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "forbidden_arcanus"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/rune/bee",
+  "flowerBlock": "forbidden_arcanus:rune_block",
+  "particleColor": "#eebcbe",
+  "primaryColor": "#620d5f",
+  "renderer": "default_crystal",
+  "secondaryColor": "#8d2171",
+  "size": 0.7,
+  "tertiaryColor": "#c12383"
+}

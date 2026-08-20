@@ -1,0 +1,12 @@
+{
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/stellarium/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/stellarium",
+  "particleColor": "#deeaea",
+  "primaryColor": "#1e2626",
+  "secondaryColor": "#728e8e",
+  "selfbreed": false,
+  "size": 0.3,
+  "useGlowLayer": true
+}

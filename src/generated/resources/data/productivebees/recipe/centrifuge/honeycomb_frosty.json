@@ -1,0 +1,20 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:frosty"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": "minecraft:snowball",
+      "min": 2
+    },
+    {
+      "chance": 0.4,
+      "item": "minecraft:ice"
+    }
+  ]
+}

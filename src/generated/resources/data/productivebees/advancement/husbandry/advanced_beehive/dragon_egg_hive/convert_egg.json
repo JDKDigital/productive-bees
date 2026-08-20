@@ -1,0 +1,43 @@
+{
+  "parent": "productivebees:husbandry/advanced_beehive/dragon_egg_hive",
+  "criteria": {
+    "dragon_breath": {
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "blocks": "productivebees:inactive_dragon_egg"
+              }
+            }
+          },
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": "minecraft:dragon_breath"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:item_used_on_block"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.husbandry.convert_egg.description"
+    },
+    "icon": {
+      "id": "productivebees:inactive_dragon_egg"
+    },
+    "title": {
+      "translate": "advancements.husbandry.convert_egg.title"
+    }
+  },
+  "requirements": [
+    [
+      "dragon_breath"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

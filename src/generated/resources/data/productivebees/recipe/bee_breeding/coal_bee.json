@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:magmatic"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:coal"
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:coal",
+  "parent1": "productivebees:magmatic",
+  "parent2": "productivebees:leafcutter_bee"
+}

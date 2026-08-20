@@ -1,0 +1,10 @@
+{
+  "attack": 1.0,
+  "flowerTag": "productivebees:flowers/ammolite",
+  "particleColor": "#e4481f",
+  "primaryColor": "#e4481f",
+  "renderer": "default_crystal",
+  "secondaryColor": "#3e5b68",
+  "size": 0.6,
+  "tertiaryColor": "#0900c9"
+}

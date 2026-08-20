@@ -1,0 +1,16 @@
+{
+  "attack": 1.0,
+  "attributes": {
+    "productivity": "productivity.medium",
+    "temper": "temper.hostile",
+    "weather_tolerance": "weather_tolerance.any"
+  },
+  "flowerTag": "productivebees:flowers/prismarine",
+  "particleColor": "#267a4b",
+  "primaryColor": "#79b7ab",
+  "renderer": "default_crystal",
+  "secondaryColor": "#315041",
+  "size": 0.6,
+  "tertiaryColor": "#5e85a4",
+  "waterproof": true
+}

@@ -12,17 +12,20 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -66,7 +69,7 @@ public class HoneyGenerator extends CapabilityContainerBlock
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.HONEY_GENERATOR.get(), HoneyGeneratorBlockEntity::tick);
+        return level.isClientSide() ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.HONEY_GENERATOR.get(), HoneyGeneratorBlockEntity::tick);
     }
 
     @SuppressWarnings("deprecation")
@@ -95,13 +98,13 @@ public class HoneyGenerator extends CapabilityContainerBlock
 
     @SuppressWarnings("deprecation")
     @Override
-    public BlockState rotate(BlockState state, LevelAccessor level, BlockPos pos, net.minecraft.world.level.block.Rotation direction) {
+    public BlockState rotate(BlockState state, LevelAccessor level, BlockPos pos, Rotation direction) {
         return state.setValue(HorizontalDirectionalBlock.FACING, direction.rotate(state.getValue(HorizontalDirectionalBlock.FACING)));
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public BlockState mirror(BlockState state, net.minecraft.world.level.block.Mirror mirrorIn) {
+    public BlockState mirror(BlockState state, Mirror mirrorIn) {
         return state.rotate(mirrorIn.getRotation(state.getValue(HorizontalDirectionalBlock.FACING)));
     }
 
@@ -139,15 +142,15 @@ public class HoneyGenerator extends CapabilityContainerBlock
             if (!pLevel.isClientSide()) {
                 pPlayer.openMenu(honeyGeneratorBlockEntity, pPos);
             }
-            return InteractionResult.SUCCESS_NO_ITEM_USED;
+            return InteractionResult.SUCCESS;
         }
         return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+    protected InteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
         if (!pLevel.isClientSide() && pLevel.getBlockEntity(pPos) instanceof HoneyGeneratorBlockEntity && FluidUtil.interactWithFluidHandler(pPlayer, pHand, pLevel, pPos, null)) {
-            return ItemInteractionResult.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
         return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
     }
@@ -162,11 +165,11 @@ public class HoneyGenerator extends CapabilityContainerBlock
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState stae, LevelAccessor level, BlockPos pos, BlockPos facingPos) {
+    public BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction direction, BlockPos neighbourPos, BlockState neighbourState, RandomSource random) {
         BlockEntity generatorTile = level.getBlockEntity(pos);
         if (generatorTile instanceof HoneyGeneratorBlockEntity) {
             ((HoneyGeneratorBlockEntity) generatorTile).refreshConnectedTileEntityCache();
         }
-        return super.updateShape(state, direction, stae, level, pos, facingPos);
+        return super.updateShape(state, level, ticks, pos, direction, neighbourPos, neighbourState, random);
     }
 }

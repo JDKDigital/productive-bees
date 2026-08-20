@@ -1,0 +1,19 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:raw_materials/iron"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "chance": 0.4,
+      "item": "minecraft:raw_iron"
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

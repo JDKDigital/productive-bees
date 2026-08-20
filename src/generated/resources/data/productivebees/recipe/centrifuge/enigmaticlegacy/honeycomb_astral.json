@@ -1,0 +1,29 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "enigmaticlegacyplus"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:enigmaticlegacyplus/astral"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:enigmaticlegacyplus/astral"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "chance": 0.1,
+      "item": "enigmaticlegacyplus:astral_dust"
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

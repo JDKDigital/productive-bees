@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/tantalum/bee",
+  "flowerBlock": "chemlib:tantalum_metal_block",
+  "particleColor": "#bfc2e7",
+  "primaryColor": "#b9bbde",
+  "useGlowLayer": true
+}

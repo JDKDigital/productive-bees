@@ -2,10 +2,10 @@
   "type": "thermal:smelter",
   "input": [
     {
-      "type": "productivebees:component",
+      "neoforge:ingredient_type": "productivebees:component",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:apatite",
+          "type": "productivebees:gems/apatite",
           "id": "productivebees:configurable_bee"
         }
       },
@@ -16,10 +16,10 @@
       "count": 2
     },
     {
-      "type": "productivebees:component",
+      "neoforge:ingredient_type": "productivebees:component",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:invar",
+          "type": "productivebees:alloys/invar",
           "id": "productivebees:configurable_bee"
         }
       },
@@ -29,7 +29,7 @@
   "result": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:soul_infused",
+        "type": "productivebees:thermal_extra/soul_infused",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -48,15 +48,15 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:apatite"
+      "bee": "productivebees:gems/apatite"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:invar"
+      "bee": "productivebees:alloys/invar"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:soul_infused"
+      "bee": "productivebees:thermal_extra/soul_infused"
     }
   ]
 }

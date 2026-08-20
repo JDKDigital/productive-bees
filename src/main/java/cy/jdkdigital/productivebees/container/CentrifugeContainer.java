@@ -12,8 +12,7 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
 
 import javax.annotation.Nullable;
 import java.util.Objects;
@@ -37,7 +36,7 @@ public class CentrifugeContainer<T extends CentrifugeBlockEntity> extends Abstra
             public int get(int i) {
                 return i == 0 ?
                         blockEntity.fluidId :
-                        blockEntity.fluidHandler.getFluidInTank(0).getAmount();
+                        blockEntity.fluidHandler.getAmountAsInt(0);
             }
 
             @Override
@@ -45,14 +44,23 @@ public class CentrifugeContainer<T extends CentrifugeBlockEntity> extends Abstra
                 switch (i) {
                     case 0:
                         blockEntity.fluidId = value;
+                        break;
                     case 1:
-                        FluidStack fluid = blockEntity.fluidHandler.getFluidInTank(0);
-                        if (fluid.isEmpty()) {
-                            blockEntity.fluidHandler.fill(new FluidStack(BuiltInRegistries.FLUID.byId(blockEntity.fluidId), value), IFluidHandler.FluidAction.EXECUTE);
+                        if (value <= 0) {
+                            blockEntity.fluidHandler.set(0, FluidResource.EMPTY, 0);
+                            break;
+                        }
+                        FluidResource resource = blockEntity.fluidHandler.getResource(0);
+                        if (resource.isEmpty()) {
+                            if (blockEntity.fluidId <= 0) {
+                                break;
+                            }
+                            blockEntity.fluidHandler.set(0, FluidResource.of(BuiltInRegistries.FLUID.byIdOrThrow(blockEntity.fluidId)), value);
                         }
                         else {
-                            fluid.setAmount(value);
+                            blockEntity.fluidHandler.set(0, resource, value);
                         }
+                        break;
                 }
             }
 

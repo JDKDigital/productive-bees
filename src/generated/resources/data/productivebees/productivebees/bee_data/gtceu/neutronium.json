@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "gtceu"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/neutronium/bee",
+  "flowerTag": "c:storage_blocks/neutronium",
+  "particleColor": "#dcdcdc",
+  "primaryColor": "#272727",
+  "secondaryColor": "#383838",
+  "selfbreed": false,
+  "tertiaryColor": "#b3b3b3",
+  "useGlowLayer": true
+}

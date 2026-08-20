@@ -1,0 +1,25 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "allthemodium"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "fluid": {
+    "amount": 20,
+    "ingredient": "allthemodium:soul_lava"
+  },
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:atm/soul_lava"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

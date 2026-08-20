@@ -72,13 +72,5 @@
                 0.68
             ]
         }
-    },
-    "overrides": [
-        {
-            "predicate": {
-                "filled": 1
-            },
-            "model": "productivebees:item/bee_cage_filled"
-        }
-    ]
+    }
 }

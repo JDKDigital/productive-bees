@@ -1,0 +1,26 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:sussy"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "lootr"
+    }
+  ],
+  "type": "productivebees:block_conversion",
+  "bees": [
+    "productivebees:sussy"
+  ],
+  "chance": 0.5,
+  "from": {
+    "Name": "lootr:suspicious_gravel",
+    "Properties": {
+      "dusted": "0"
+    }
+  },
+  "to": {
+    "Name": "minecraft:suspicious_gravel"
+  }
+}

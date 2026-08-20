@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/hydrogen/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerFluid": "chemlib:hydrogen_fluid",
+  "particleColor": "#bcbcd7",
+  "primaryColor": "#adafe4",
+  "size": 0.7,
+  "translucent": true,
+  "useGlowLayer": true
+}

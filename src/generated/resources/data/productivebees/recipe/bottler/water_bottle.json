@@ -1,0 +1,11 @@
+{
+  "type": "productivebees:bottler",
+  "fluid": {
+    "amount": 250,
+    "ingredient": "minecraft:water"
+  },
+  "ingredient": "minecraft:glass_bottle",
+  "result": {
+    "id": "minecraft:potion"
+  }
+}

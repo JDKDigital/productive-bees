@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:tconstruct/cobalt"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:chemlib/lanthanum"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:chemlib/samarium"
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:chemlib/samarium",
+  "parent1": "productivebees:tconstruct/cobalt",
+  "parent2": "productivebees:chemlib/lanthanum"
+}

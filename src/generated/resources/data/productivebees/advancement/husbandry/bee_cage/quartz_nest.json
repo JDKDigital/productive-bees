@@ -1,0 +1,32 @@
+{
+  "parent": "productivebees:husbandry/bee_cage",
+  "criteria": {
+    "get_item": {
+      "conditions": {
+        "items": [
+          {
+            "items": "productivebees:nether_quartz_nest"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.husbandry.quartz_nest.description"
+    },
+    "icon": {
+      "id": "productivebees:nether_quartz_nest"
+    },
+    "title": {
+      "translate": "advancements.husbandry.quartz_nest.title"
+    }
+  },
+  "requirements": [
+    [
+      "get_item"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

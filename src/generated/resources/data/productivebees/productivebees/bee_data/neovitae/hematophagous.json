@@ -1,0 +1,15 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "neovitae"
+    }
+  ],
+  "attack": 1.0,
+  "flowerTag": "productivebees:animals",
+  "flowerType": "entity_types",
+  "particleColor": "#7a0300",
+  "primaryColor": "#7a0300",
+  "secondaryColor": "#0f0f66",
+  "useGlowLayer": true
+}

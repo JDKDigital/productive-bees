@@ -48,7 +48,7 @@ public class BambooHive extends AdvancedBeehiveAbstract
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.SOLITARY_HIVE.get(), SolitaryHiveBlockEntity::tick);
+        return level.isClientSide() ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.SOLITARY_HIVE.get(), SolitaryHiveBlockEntity::tick);
     }
 
     @Override

@@ -1,0 +1,30 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:tconstruct/queens_slime"
+    }
+  ],
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:tconstruct/queens_slime",
+  "results": [
+    {
+      "chance": 1.0,
+      "item": {
+        "neoforge:ingredient_type": "productivebees:component",
+        "components": {
+          "productivebees:bee_type": "productivebees:tconstruct/queens_slime"
+        },
+        "items": "productivebees:configurable_honeycomb"
+      },
+      "max": 1,
+      "min": 1
+    },
+    {
+      "chance": 0.05,
+      "item": "#c:pollens",
+      "max": 1,
+      "min": 1
+    }
+  ]
+}

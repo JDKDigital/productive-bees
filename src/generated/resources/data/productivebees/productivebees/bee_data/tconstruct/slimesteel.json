@@ -1,0 +1,9 @@
+{
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/slimesteel",
+  "particleColor": "#7ae7e0",
+  "primaryColor": "#7ae7e0",
+  "secondaryColor": "#73d2dc",
+  "useGlowLayer": true
+}

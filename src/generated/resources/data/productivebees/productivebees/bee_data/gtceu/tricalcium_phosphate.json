@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "gtceu"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/tricalcium_phosphate/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/raw_tricalcium_phosphate",
+  "particleColor": "#fbf9d8",
+  "primaryColor": "#94941e",
+  "secondaryColor": "#dfde97",
+  "selfbreed": false,
+  "size": 0.8,
+  "tertiaryColor": "#bebd49",
+  "useGlowLayer": true
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "productivebees:husbandry/bee_cage/professional_bee",
+  "criteria": {
+    "get_item": {
+      "conditions": {
+        "items": [
+          {
+            "items": "productivebees:feeder"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.husbandry.feeding_slab.description"
+    },
+    "icon": {
+      "id": "productivebees:feeder"
+    },
+    "title": {
+      "translate": "advancements.husbandry.feeding_slab.title"
+    }
+  },
+  "requirements": [
+    [
+      "get_item"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "ae2"
+    }
+  ],
+  "attack": 1.0,
+  "flowerBlock": "ae2:fluix_block",
+  "particleColor": "#6d4fa8",
+  "primaryColor": "#3d3270",
+  "renderer": "default_crystal",
+  "secondaryColor": "#2e0b17",
+  "size": 0.7,
+  "tertiaryColor": "#6d4fa8"
+}

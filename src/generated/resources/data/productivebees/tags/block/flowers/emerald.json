@@ -1,0 +1,16 @@
+{
+  "values": [
+    {
+      "id": "#c:storage_blocks/emerald",
+      "required": false
+    },
+    {
+      "id": "#c:ores/emerald",
+      "required": false
+    },
+    {
+      "id": "gemsnjewels:emerald_block",
+      "required": false
+    }
+  ]
+}

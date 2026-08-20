@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/fermium/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerItem": "chemlib:fermium",
+  "particleColor": "#e1d6a2",
+  "primaryColor": "#dece8a",
+  "selfbreed": false,
+  "size": 0.4,
+  "useGlowLayer": true
+}

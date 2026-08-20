@@ -2,7 +2,7 @@
   "neoforge:conditions": [
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:inanite"
+      "bee": "productivebees:reactors/inanite"
     },
     {
       "type": "neoforge:not",
@@ -15,29 +15,25 @@
   "type": "productivebees:centrifuge",
   "fluid": {
     "amount": 50,
-    "fluid": "productivebees:honey"
+    "ingredient": "productivebees:honey"
   },
   "ingredient": {
-    "type": "productivebees:component",
+    "neoforge:ingredient_type": "productivebees:component",
     "components": {
-      "productivebees:bee_type": "productivebees:inanite"
+      "productivebees:bee_type": "productivebees:reactors/inanite"
     },
     "items": "productivebees:configurable_honeycomb"
   },
   "outputs": [
     {
       "chance": 1.0,
-      "item": {
-        "tag": "c:waxes"
-      },
+      "item": "productivebees:wax",
       "max": 1,
       "min": 1
     },
     {
-      "chance": 0.6,
-      "item": {
-        "tag": "c:ingots/inanite"
-      },
+      "chance": 1.0,
+      "item": "#c:ingots/inanite",
       "max": 1,
       "min": 1
     }

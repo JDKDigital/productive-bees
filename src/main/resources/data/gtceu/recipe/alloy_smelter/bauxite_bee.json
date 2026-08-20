@@ -8,14 +8,14 @@
           "type": "gtceu:sized",
           "count": 1,
           "ingredient": {
-            "type": "productivebees:component",
             "items": "productivebees:spawn_egg_configurable_bee",
             "components": {
               "minecraft:entity_data": {
-                "type": "productivebees:pyrolusite",
+                "type": "productivebees:gtceu/pyrolusite",
                 "id": "productivebees:configurable_bee"
               }
-            }
+            },
+            "neoforge:ingredient_type": "productivebees:component"
           }
         },
         "chance": 10000,
@@ -41,14 +41,14 @@
           "type": "gtceu:sized",
           "count": 1,
           "ingredient": {
-            "type": "productivebees:component",
             "items": "productivebees:spawn_egg_configurable_bee",
             "components": {
               "minecraft:entity_data": {
-                "type": "productivebees:bauxite",
+                "type": "productivebees:gtceu/bauxite",
                 "id": "productivebees:configurable_bee"
               }
-            }
+            },
+            "neoforge:ingredient_type": "productivebees:component"
           }
         },
         "chance": 10000,
@@ -73,11 +73,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:pyrolusite"
+      "bee": "productivebees:gtceu/pyrolusite"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:bauxite"
+      "bee": "productivebees:gtceu/bauxite"
     }
   ]
 }

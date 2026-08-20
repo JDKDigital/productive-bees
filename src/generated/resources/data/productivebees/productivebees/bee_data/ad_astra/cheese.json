@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "ad_astra"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/cheese/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "ad_astra:cheese_block",
+  "particleColor": "#edc76d",
+  "primaryColor": "#d99c0d",
+  "size": 0.8,
+  "useGlowLayer": true
+}

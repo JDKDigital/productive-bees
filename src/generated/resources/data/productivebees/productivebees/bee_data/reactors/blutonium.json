@@ -1,0 +1,10 @@
+{
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/blutonium",
+  "particleColor": "#2b38bd",
+  "primaryColor": "#1929d4",
+  "secondaryColor": "#0c1899",
+  "size": 0.8,
+  "useGlowLayer": true
+}

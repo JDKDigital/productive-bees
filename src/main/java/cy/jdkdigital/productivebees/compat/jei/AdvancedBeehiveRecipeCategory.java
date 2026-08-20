@@ -9,11 +9,13 @@ import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
@@ -24,12 +26,14 @@ import java.util.stream.IntStream;
 
 public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBeehiveRecipe>
 {
+    private static final int BACKGROUND_WIDTH = 126;
+    private static final int BACKGROUND_HEIGHT = 70;
     private final IDrawable background;
     private final IDrawable icon;
 
     public AdvancedBeehiveRecipeCategory(IGuiHelper guiHelper) {
-        ResourceLocation location = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/jei/bee_produce_recipe.png");
-        this.background = guiHelper.createDrawable(location, 0, 0, 126, 70);
+        Identifier location = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/jei/bee_produce_recipe.png");
+        this.background = guiHelper.createDrawable(location, 0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
         this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.HIVES.get("advanced_oak_beehive").get()));
     }
 
@@ -44,8 +48,17 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
         return Component.translatable("jei.productivebees.advanced_beehive");
     }
 
-    @Nonnull
     @Override
+    public int getWidth() {
+        return BACKGROUND_WIDTH;
+    }
+
+    @Override
+    public int getHeight() {
+        return BACKGROUND_HEIGHT;
+    }
+
+    @SuppressWarnings("unused")
     public IDrawable getBackground() {
         return this.background;
     }
@@ -83,7 +96,7 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
 
                 builder.addSlot(RecipeIngredientRole.OUTPUT, startX + (i%3 * 18), startY + ((int) (Math.floor((i / 3.0F)) * 18)))
                         .addItemStacks(innerList)
-                        .addTooltipCallback((recipeSlotView, tooltip) -> {
+                        .addRichTooltipCallback((recipeSlotView, tooltip) -> {
                             float chance = countRange.chance() * 100f;
                             tooltip.add(Component.translatable("productivebees.centrifuge.tooltip.chance", chance < 1 ? "<1%" : chance + "%"));
 
@@ -98,4 +111,9 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
             }
         }
     }
+    @Override
+    public void draw(AdvancedBeehiveRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
+        this.background.draw(guiGraphics);
+    }
+
 }

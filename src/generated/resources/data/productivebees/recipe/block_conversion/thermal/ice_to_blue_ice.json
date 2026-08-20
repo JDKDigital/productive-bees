@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:thermal/blizz"
+    }
+  ],
+  "type": "productivebees:block_conversion",
+  "bees": [
+    "productivebees:thermal/blizz"
+  ],
+  "chance": 0.8,
+  "from": {
+    "Name": "minecraft:ice"
+  },
+  "to": {
+    "Name": "minecraft:blue_ice"
+  }
+}

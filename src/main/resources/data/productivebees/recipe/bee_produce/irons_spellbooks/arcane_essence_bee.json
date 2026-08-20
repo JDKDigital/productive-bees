@@ -1,37 +1,36 @@
 {
-  "type": "productivebees:advanced_beehive",
-  "ingredient": "productivebees:arcane_essence",
-  "results": [
-    {
-      "item": {
-        "type": "productivebees:component",
-        "components": {
-          "productivebees:bee_type": "productivebees:arcane_essence"
-        },
-        "items": "productivebees:configurable_honeycomb"
-      }
-    },
-    {
-      "item": {
-        "item": "irons_spellbooks:blank_rune"
-      },
-      "chance": 0.15
-    },
-    {
-      "item": {
-        "tag": "c:pollens"
-      },
-      "chance": 0.05
-    }
-  ],
   "neoforge:conditions": [
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:arcane_essence"
+      "bee": "productivebees:irons_spellbooks/arcane_essence"
+    }
+  ],
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:irons_spellbooks/arcane_essence",
+  "results": [
+    {
+      "chance": 1.0,
+      "item": {
+        "neoforge:ingredient_type": "productivebees:component",
+        "components": {
+          "productivebees:bee_type": "productivebees:irons_spellbooks/arcane_essence"
+        },
+        "items": "productivebees:configurable_honeycomb"
+      },
+      "min": 1,
+      "max": 1
     },
     {
-      "type": "neoforge:mod_loaded",
-      "modid": "irons_spellbooks"
+      "chance": 0.15,
+      "item": "irons_spellbooks:blank_rune",
+      "min": 1,
+      "max": 1
+    },
+    {
+      "chance": 0.05,
+      "item": "#c:pollens",
+      "min": 1,
+      "max": 1
     }
   ]
 }

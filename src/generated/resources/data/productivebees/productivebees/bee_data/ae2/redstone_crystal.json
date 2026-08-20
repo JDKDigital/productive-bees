@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "appflux"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/redstone_crystal/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "appflux:charged_redstone_block",
+  "particleColor": "#ffa58c",
+  "primaryColor": "#5c0404",
+  "renderer": "default_crystal",
+  "secondaryColor": "#b51d1d",
+  "selfbreed": false,
+  "size": 0.7,
+  "tertiaryColor": "#e34848"
+}

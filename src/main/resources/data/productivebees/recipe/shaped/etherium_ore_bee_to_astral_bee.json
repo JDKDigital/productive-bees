@@ -6,14 +6,12 @@
     "xxx"
   ],
   "key": {
-    "x": {
-      "item": "enigmaticlegacyplus:astral_dust"
-    },
+    "x": "enigmaticlegacyplus:astral_dust",
     "y": {
-      "type": "productivebees:component",
+      "neoforge:ingredient_type": "productivebees:component",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:etherium_ore",
+          "type": "productivebees:enigmaticlegacyplus/etherium_ore",
           "id": "productivebees:configurable_bee"
         }
       },
@@ -23,7 +21,7 @@
   "result": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:astral",
+        "type": "productivebees:enigmaticlegacyplus/astral",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -37,11 +35,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:etherium_ore"
+      "bee": "productivebees:enigmaticlegacyplus/etherium_ore"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:astral"
+      "bee": "productivebees:enigmaticlegacyplus/astral"
     }
   ]
 }

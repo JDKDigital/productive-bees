@@ -23,7 +23,7 @@ public class ModBlockEntityTypes
     }
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SolitaryNestBlockEntity>> SOLITARY_NEST = ProductiveBees.BLOCK_ENTITIES.register("solitary_nest", () ->
-            BlockEntityType.Builder.of(SolitaryNestBlockEntity::new,
+            new BlockEntityType<>(SolitaryNestBlockEntity::new,
                     ModBlocks.SAND_NEST.get(),
                     ModBlocks.SNOW_NEST.get(),
                     ModBlocks.STONE_NEST.get(),
@@ -46,25 +46,25 @@ public class ModBlockEntityTypes
                     ModBlocks.SPRUCE_WOOD_NEST.get(),
                     ModBlocks.CHERRY_WOOD_NEST.get(),
                     ModBlocks.MANGROVE_WOOD_NEST.get()
-            ).build(null)
+            )
     );
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<NetherBeeNestBlockEntity>> NETHER_BEE_NEST = ProductiveBees.BLOCK_ENTITIES.register("nether_bee_nest", () ->
-            BlockEntityType.Builder.of(NetherBeeNestBlockEntity::new,
+            new BlockEntityType<>(NetherBeeNestBlockEntity::new,
                     ModBlocks.CRIMSON_BEE_NEST.get(),
                     ModBlocks.WARPED_BEE_NEST.get()
-            ).build(null)
+            )
     );
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AmberBlockEntity>> AMBER = ProductiveBees.BLOCK_ENTITIES.register("amber", () ->
-            BlockEntityType.Builder.of(AmberBlockEntity::new,
+            new BlockEntityType<>(AmberBlockEntity::new,
                     ModBlocks.AMBER.get()
-            ).build(null)
+            )
     );
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SugarbagNestBlockEntity>> SUGARBAG_NEST = registerBlockEntity("sugarbag_nest", SugarbagNestBlockEntity::new, ModBlocks.SUGARBAG_NEST);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AdvancedBeehiveBlockEntity>> DRACONIC_BEEHIVE = registerBlockEntity("draconic_beehive", DragonEggHiveBlockEntity::new, ModBlocks.DRAGON_EGG_HIVE);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SolitaryHiveBlockEntity>> SOLITARY_HIVE = registerBlockEntity("solitary_hive", SolitaryHiveBlockEntity::new, ModBlocks.BAMBOO_HIVE);
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SolitaryHiveBlockEntity>> SOLITARY_HIVE = registerBlockEntity("solitary_hive", SolitaryHiveBlockEntity::new, ModBlocks.BAMBOO_NEST);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BumbleBeeNestBlockEntity>> BUMBLE_BEE_NEST = registerBlockEntity("bumble_bee_nest", BumbleBeeNestBlockEntity::new, ModBlocks.BUMBLE_BEE_NEST);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CentrifugeBlockEntity>> CENTRIFUGE = registerBlockEntity("centrifuge", CentrifugeBlockEntity::new, ModBlocks.CENTRIFUGE);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<PoweredCentrifugeBlockEntity>> POWERED_CENTRIFUGE = registerBlockEntity("powered_centrifuge", PoweredCentrifugeBlockEntity::new, ModBlocks.POWERED_CENTRIFUGE);
@@ -81,7 +81,7 @@ public class ModBlockEntityTypes
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BreedingChamberBlockEntity>> BREEDING_CHAMBER = registerBlockEntity("breeding_chamber", BreedingChamberBlockEntity::new, ModBlocks.BREEDING_CHAMBER);
 
     private static <T extends BlockEntity> DeferredHolder<BlockEntityType<?>, BlockEntityType<T>> registerBlockEntity(String name, BlockEntityType.BlockEntitySupplier<T> factory, DeferredHolder<Block, ? extends Block> block) {
-        return ProductiveBees.BLOCK_ENTITIES.register(name, () -> BlockEntityType.Builder.of(factory, block.get()).build(null));
+        return ProductiveBees.BLOCK_ENTITIES.register(name, () -> new BlockEntityType<>(factory, block.get()));
     }
 
     public static <E extends BlockEntity, T extends BlockEntityType<E>> Supplier<T> registerBlockEntity(String id, Supplier<T> supplier) {
@@ -89,6 +89,6 @@ public class ModBlockEntityTypes
     }
 
     public static <E extends BlockEntity> BlockEntityType<E> createBlockEntityType(BlockEntityType.BlockEntitySupplier<E> factory, Block... blocks) {
-        return BlockEntityType.Builder.of(factory, blocks).build(null);
+        return new BlockEntityType<>(factory, blocks);
     }
 }

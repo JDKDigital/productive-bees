@@ -1,17 +1,17 @@
 package cy.jdkdigital.productivebees.common.entity.bee;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.level.Level;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import com.geckolib.animatable.GeoEntity;
+import com.geckolib.animatable.instance.AnimatableInstanceCache;
+import com.geckolib.animatable.manager.AnimatableManager;
+import com.geckolib.animation.AnimationController;
+import com.geckolib.animation.RawAnimation;
+import com.geckolib.animation.object.PlayState;
+import com.geckolib.util.GeckoLibUtil;
 
 public class GeckoBee extends ConfigurableBee implements GeoEntity
 {
@@ -26,7 +26,7 @@ public class GeckoBee extends ConfigurableBee implements GeoEntity
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "animation", 0, state -> {
+        controllers.add(new AnimationController<GeckoBee>("animation", 0, state -> {
             if (swinging && !hasStung()) {
                 state.setAndContinue(BEE_ATTACK);
                 return PlayState.STOP;
@@ -40,13 +40,14 @@ public class GeckoBee extends ConfigurableBee implements GeoEntity
         return this.geoCache;
     }
 
-    public ResourceLocation getModelLocation() {
-        var data  = getNBTData();
-        return data.contains("model") ? ResourceLocation.parse(data.getString("model")) :
-                ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "geo/entity/" + (getRenderer().isEmpty() ? "default" : getRenderer()) + ".geo.json");
+    public Identifier getModelLocation() {
+        var data = getBeeData();
+        return data != null && data.model().isPresent()
+                ? Identifier.parse(data.model().get())
+                : Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "entity/" + (getRenderer().isEmpty() ? "default" : getRenderer()));
     }
 
-    public ResourceLocation getTextureLocation() {
+    public Identifier getTextureLocation() {
         String textureLocation = ProductiveBees.MODID + ":textures/entity/bee/" + getBeeName() + "/bee";
 
         // Colored bees use tinted base texture
@@ -67,11 +68,13 @@ public class GeckoBee extends ConfigurableBee implements GeoEntity
             textureLocation = textureLocation + "_nectar";
         }
 
-        return ResourceLocation.parse(textureLocation + ".png");
+        return Identifier.parse(textureLocation + ".png");
     }
 
-    public ResourceLocation getAnimationLocation() {
-        var data  = getNBTData();
-        return data.contains("animation") ? ResourceLocation.parse(data.getString("animation")) : ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "animations/entity/bee.animation.json");
+    public Identifier getAnimationLocation() {
+        var data = getBeeData();
+        return data != null && data.animation().isPresent()
+                ? Identifier.parse(data.animation().get())
+                : Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "entity/bee");
     }
 }

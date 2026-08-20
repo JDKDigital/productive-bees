@@ -1,0 +1,15 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "byg"
+    }
+  ],
+  "attack": 1.0,
+  "flowerBlock": "byg:pendorite_block",
+  "particleColor": "#8984d3",
+  "primaryColor": "#482e76",
+  "secondaryColor": "#30174d",
+  "size": 1.2,
+  "useGlowLayer": true
+}

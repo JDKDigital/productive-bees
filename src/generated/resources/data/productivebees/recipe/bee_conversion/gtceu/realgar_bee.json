@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gems/diamond"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gtceu/realgar"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "gtceu"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "#c:storage_blocks/realgar",
+  "result": "productivebees:gtceu/realgar",
+  "source": "productivebees:gems/diamond"
+}

@@ -2,12 +2,12 @@ package cy.jdkdigital.productivebees.common.advancements.criterion;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.advancements.critereon.ContextAwarePredicate;
-import net.minecraft.advancements.critereon.EntityPredicate;
-import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
+import cy.jdkdigital.productivebees.common.entity.bee.solitary.BumbleBee;
+import net.minecraft.advancements.criterion.ContextAwarePredicate;
+import net.minecraft.advancements.criterion.EntityPredicate;
+import net.minecraft.advancements.criterion.SimpleCriterionTrigger;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Saddleable;
-import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.bee.Bee;
 
 import java.util.Optional;
 
@@ -41,7 +41,7 @@ public class SaddleBeeTrigger extends SimpleCriterionTrigger<SaddleBeeTrigger.Tr
         }
 
         public boolean test(Bee bee) {
-            return bee instanceof Saddleable && ((Saddleable) bee).isSaddled();
+            return bee instanceof BumbleBee bumbleBee && bumbleBee.isSaddled();
         }
     }
 }

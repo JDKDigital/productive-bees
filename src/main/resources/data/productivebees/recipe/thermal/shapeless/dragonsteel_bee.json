@@ -2,40 +2,35 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
+      "neoforge:ingredient_type": "productivebees:component",
+      "items": "productivebees:spawn_egg_configurable_bee",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:apatite",
+          "type": "productivebees:gems/apatite",
           "id": "productivebees:configurable_bee"
         }
-      },
-      "count": 1,
-      "id": "productivebees:spawn_egg_configurable_bee"
+      }
     },
+    "minecraft:dragon_breath",
+    "minecraft:dragon_breath",
+    "minecraft:dragon_breath",
     {
-      "item": "minecraft:dragon_breath"
-    },
-    {
-      "item": "minecraft:dragon_breath"
-    },
-    {
-      "item": "minecraft:dragon_breath"
-    },
-    {
+      "neoforge:ingredient_type": "productivebees:component",
+      "items": "productivebees:spawn_egg_configurable_bee",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:netherite",
+          "type": "productivebees:raw_materials/netherite",
           "id": "productivebees:configurable_bee"
         }
-      },
-      "count": 1,
-      "id": "productivebees:spawn_egg_configurable_bee"
+      }
     }
   ],
   "result": {
     "id": "productivebees:spawn_egg_configurable_bee",
-    "nbt": {
-      "EntityTag": {
-        "type": "productivebees:dragonsteel"
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:thermal_extra/dragonsteel",
+        "id": "productivebees:configurable_bee"
       }
     }
   },
@@ -50,15 +45,15 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:apatite"
+      "bee": "productivebees:gems/apatite"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:netherite"
+      "bee": "productivebees:raw_materials/netherite"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:dragonsteel"
+      "bee": "productivebees:thermal_extra/dragonsteel"
     }
   ]
 }

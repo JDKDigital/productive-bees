@@ -3,30 +3,27 @@
   "group": "infuser",
   "result": {
     "id": "productivebees:spawn_egg_configurable_bee",
-    "nbt": {
-      "EntityTag": {
-        "type": "productivebees:terrasteel"
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:botania/terrasteel",
+        "id": "productivebees:configurable_bee"
       }
     }
   },
   "mana": 500000,
   "ingredients": [
     {
+      "neoforge:ingredient_type": "productivebees:component",
+      "items": "productivebees:spawn_egg_configurable_bee",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:manasteel",
+          "type": "productivebees:botania/manasteel",
           "id": "productivebees:configurable_bee"
         }
-      },
-      "count": 1,
-      "id": "productivebees:spawn_egg_configurable_bee"
+      }
     },
-    {
-      "item": "botania:mana_diamond"
-    },
-    {
-      "item": "botania:mana_pearl"
-    }
+    "botania:mana_diamond",
+    "botania:mana_pearl"
   ],
   "neoforge:conditions": [
     {
@@ -39,11 +36,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:gaiasteel"
+      "bee": "productivebees:botanicadds/gaiasteel"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:elementium"
+      "bee": "productivebees:botania/elementium"
     }
   ]
 }

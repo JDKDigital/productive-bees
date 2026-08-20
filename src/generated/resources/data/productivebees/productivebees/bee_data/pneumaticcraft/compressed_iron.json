@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "pneumaticcraft"
+    }
+  ],
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "pneumaticcraft:compressed_iron_block",
+  "particleColor": "#b6b6b6",
+  "primaryColor": "#737373",
+  "secondaryColor": "#804f40",
+  "size": 0.5,
+  "useGlowLayer": true
+}

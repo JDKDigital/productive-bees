@@ -9,12 +9,9 @@
   "category": "misc",
   "group": "hives",
   "ingredients": [
-    {
-      "item": "productivebees:advanced_oak_beehive"
-    }
+    "productivebees:advanced_oak_beehive"
   ],
   "result": {
-    "count": 1,
     "id": "productivebees:advanced_oak_beehive"
   }
 }

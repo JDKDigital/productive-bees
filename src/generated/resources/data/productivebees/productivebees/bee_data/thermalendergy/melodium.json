@@ -1,0 +1,12 @@
+{
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/melodium/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/melodium",
+  "particleColor": "#fcd9ea",
+  "primaryColor": "#523a8b",
+  "secondaryColor": "#b390f4",
+  "selfbreed": false,
+  "size": 0.5,
+  "useGlowLayer": true
+}

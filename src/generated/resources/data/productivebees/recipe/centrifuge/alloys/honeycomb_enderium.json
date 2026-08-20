@@ -1,0 +1,33 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:nuggets/enderium"
+      }
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:alloys/enderium"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:alloys/enderium"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": "#c:nuggets/enderium",
+      "max": 5,
+      "min": 3
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

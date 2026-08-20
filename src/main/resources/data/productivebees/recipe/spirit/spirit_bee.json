@@ -3,30 +3,14 @@
   "entityInput": "minecraft:bee",
   "consumesActivator": false,
   "itemInputs": [
-    {
-      "item": "spirit:crude_soul_crystal"
-    },
-    {
-      "item": "spirit:soul_steel_ingot"
-    },
-    {
-      "item": "spirit:soul_powder"
-    },
-    {
-      "item": "spirit:soul_steel_ingot"
-    },
-    {
-      "item": "spirit:soul_powder"
-    },
-    {
-      "item": "spirit:soul_steel_ingot"
-    },
-    {
-      "item": "spirit:soul_powder"
-    },
-    {
-      "item": "spirit:soul_steel_ingot"
-    }
+    "spirit:crude_soul_crystal",
+    "spirit:soul_steel_ingot",
+    "spirit:soul_powder",
+    "spirit:soul_steel_ingot",
+    "spirit:soul_powder",
+    "spirit:soul_steel_ingot",
+    "spirit:soul_powder",
+    "spirit:soul_steel_ingot"
   ],
   "entityOutput": "productivebees:configurable_bee",
   "outputNbt": {
@@ -41,7 +25,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:spirit"
+      "bee": "productivebees:spirit/spirit"
     }
   ]
 }

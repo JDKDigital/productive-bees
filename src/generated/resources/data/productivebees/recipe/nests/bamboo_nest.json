@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": "minecraft:bamboo",
+    "S": "minecraft:string"
+  },
+  "pattern": [
+    "BBB",
+    "SBS",
+    "BBB"
+  ],
+  "result": {
+    "id": "productivebees:bamboo_nest"
+  }
+}

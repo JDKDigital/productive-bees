@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "industrialforegoing"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/ether_gas/bee",
+  "flowerTag": "c:withers",
+  "flowerType": "entity_types",
+  "particleColor": "#b5f3ff",
+  "primaryColor": "#9ad7e3",
+  "renderer": "translucent_with_center",
+  "secondaryColor": "#70b4c2",
+  "selfbreed": false,
+  "size": 0.5,
+  "useGlowLayer": true
+}

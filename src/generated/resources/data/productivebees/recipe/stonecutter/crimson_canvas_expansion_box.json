@@ -1,11 +1,7 @@
 {
   "type": "minecraft:stonecutting",
-  "group": "expansion_boxes",
-  "ingredient": {
-    "tag": "productivebees:canvas_expansion_boxes"
-  },
+  "ingredient": "#productivebees:canvas_expansion_boxes",
   "result": {
-    "count": 1,
     "id": "productivebees:expansion_box_crimson_canvas"
   }
 }

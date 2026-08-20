@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/lead"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/tin"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:chemlib/antimony"
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:chemlib/antimony",
+  "parent1": "productivebees:raw_materials/lead",
+  "parent2": "productivebees:raw_materials/tin"
+}

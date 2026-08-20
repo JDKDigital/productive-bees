@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.block;
 
+import com.mojang.logging.LogUtils;
 import cy.jdkdigital.productivebees.common.block.entity.FeederBlockEntity;
 import cy.jdkdigital.productivebees.init.ModFluids;
 import cy.jdkdigital.productivebees.init.ModItems;
@@ -9,7 +10,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.*;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -19,7 +23,6 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -32,7 +35,10 @@ import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.world.level.storage.TagValueOutput;
 import net.minecraft.world.phys.BlockHitResult;
+import org.slf4j.Logger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -40,6 +46,7 @@ import java.util.List;
 
 public class Feeder extends SlabBlock implements EntityBlock
 {
+    private static final Logger LOGGER = LogUtils.getLogger();
     public static final BooleanProperty HONEYLOGGED = BooleanProperty.create("honeylogged");
 
     public Feeder(Properties properties) {
@@ -50,7 +57,7 @@ public class Feeder extends SlabBlock implements EntityBlock
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : FeederBlockEntity::tick;
+        return level.isClientSide() ? null : FeederBlockEntity::tick;
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
@@ -85,7 +92,7 @@ public class Feeder extends SlabBlock implements EntityBlock
     }
 
     @Override
-    public boolean canPlaceLiquid(@org.jetbrains.annotations.Nullable Player pPlayer, BlockGetter pLevel, BlockPos pPos, BlockState pState, Fluid pFluid) {
+    public boolean canPlaceLiquid(@Nullable LivingEntity user, BlockGetter pLevel, BlockPos pPos, BlockState pState, Fluid pFluid) {
         return pState.getValue(TYPE) != SlabType.DOUBLE && (!pState.getValue(BlockStateProperties.WATERLOGGED) && (pFluid == Fluids.WATER || pFluid.isSame(ModFluids.HONEY.get())));
     }
 
@@ -96,11 +103,14 @@ public class Feeder extends SlabBlock implements EntityBlock
             if (fluidState.getType() == Fluids.WATER || isHoney) {
                 if (!level.isClientSide()) {
                     if (level.getBlockEntity(pos) instanceof FeederBlockEntity feederBlockEntity) {
-                        var nbt = new CompoundTag();
-                        feederBlockEntity.savePacketNBT(nbt, level.registryAccess());
-                        level.setBlock(pos, state.setValue(BlockStateProperties.WATERLOGGED, true).setValue(HONEYLOGGED, isHoney), 3);
-                        level.scheduleTick(pos, fluidState.getType(), fluidState.getType().getTickDelay(level));
-                        feederBlockEntity.loadPacketNBT(nbt, level.registryAccess());
+                        try (ProblemReporter.ScopedCollector reporter = new ProblemReporter.ScopedCollector(feederBlockEntity.problemPath(), LOGGER)) {
+                            TagValueOutput out = TagValueOutput.createWithContext(reporter, level.registryAccess());
+                            feederBlockEntity.savePacketNBT(out);
+                            CompoundTag nbt = out.buildResult();
+                            level.setBlock(pos, state.setValue(BlockStateProperties.WATERLOGGED, true).setValue(HONEYLOGGED, isHoney), 3);
+                            level.scheduleTick(pos, fluidState.getType(), fluidState.getType().getTickDelay(level));
+                            feederBlockEntity.loadPacketNBT(TagValueInput.create(reporter, level.registryAccess(), nbt));
+                        }
                     }
                 }
                 return true;
@@ -116,27 +126,14 @@ public class Feeder extends SlabBlock implements EntityBlock
     }
 
     @Override
-    public void onBlockStateChange(LevelReader level, BlockPos pos, BlockState oldState, BlockState newState) {
-        super.onBlockStateChange(level, pos, oldState, newState);
-        // Refresh inventory handler
-        if (level.getBlockEntity(pos) instanceof FeederBlockEntity feederBlockEntity) {
-            var nbt = new CompoundTag();
-            feederBlockEntity.savePacketNBT(nbt, level.registryAccess());
-            feederBlockEntity.refreshInventoryHandler();
-            feederBlockEntity.loadPacketNBT(nbt, level.registryAccess());
-        }
-    }
-
-    @Override
-    public ItemStack pickupBlock(@Nullable Player pPlayer, LevelAccessor pLevel, BlockPos pPos, BlockState pState) {
+    public ItemStack pickupBlock(@Nullable LivingEntity user, LevelAccessor pLevel, BlockPos pPos, BlockState pState) {
         if (pState.getValue(HONEYLOGGED)) {
             pLevel.setBlock(pPos, pState.setValue(HONEYLOGGED, false).setValue(BlockStateProperties.WATERLOGGED, false), 3);
             return new ItemStack(ModItems.HONEY_BUCKET.get());
         }
-        return super.pickupBlock(pPlayer, pLevel, pPos, pState);
+        return super.pickupBlock(user, pLevel, pPos, pState);
     }
 
-    @SuppressWarnings("deprecation")
     @Nullable
     @Override
     public MenuProvider getMenuProvider(BlockState state, Level world, BlockPos pos) {
@@ -144,36 +141,39 @@ public class Feeder extends SlabBlock implements EntityBlock
         return tile instanceof MenuProvider ? (MenuProvider) tile : null;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public void onRemove(BlockState oldState, @Nonnull Level worldIn, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
-        if (oldState.getBlock() != newState.getBlock()) {
-            BlockEntity tileEntity = worldIn.getBlockEntity(pos);
-            if (tileEntity instanceof FeederBlockEntity feederBlockEntity) {
-                // Drop inventory
-                for (int slot = 0; slot < feederBlockEntity.inventoryHandler.getSlots(); ++slot) {
-                    Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), feederBlockEntity.inventoryHandler.getStackInSlot(slot));
-                }
+    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston) {
+        BlockEntity tileEntity = level.getBlockEntity(pos);
+        if (tileEntity instanceof FeederBlockEntity feederBlockEntity) {
+            // Drop inventory
+            for (int slot = 0; slot < feederBlockEntity.inventoryHandler.size(); ++slot) {
+                Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), feederBlockEntity.inventoryHandler.getStackInSlot(slot));
             }
         }
-        super.onRemove(oldState, worldIn, pos, newState, isMoving);
+        super.affectNeighborsAfterRemoval(state, level, pos, movedByPiston);
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+    protected InteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
         ItemStack heldItem = pPlayer.getItemInHand(pHand);
         if (heldItem.getItem() instanceof BlockItem) {
             Block heldBlock = ((BlockItem) heldItem.getItem()).getBlock();
-            if (heldBlock instanceof SlabBlock && !(heldBlock instanceof Feeder)) {
+            if (heldBlock instanceof Feeder) {
+                if (pState.getValue(BlockStateProperties.SLAB_TYPE) == SlabType.DOUBLE) {
+                    return InteractionResult.TRY_WITH_EMPTY_HAND;
+                }
+                return InteractionResult.PASS;
+            }
+            if (heldBlock instanceof SlabBlock) {
                 final BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
                 if (blockEntity instanceof FeederBlockEntity) {
                     ((FeederBlockEntity) blockEntity).baseBlock = heldBlock;
                     blockEntity.setChanged();
-                    return ItemInteractionResult.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 }
             }
         }
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        return InteractionResult.TRY_WITH_EMPTY_HAND;
     }
 
     @Override
@@ -181,7 +181,7 @@ public class Feeder extends SlabBlock implements EntityBlock
         if (!pLevel.isClientSide() && pLevel.getBlockEntity(pPos) instanceof FeederBlockEntity feederBlockEntity) {
             pPlayer.openMenu(feederBlockEntity, pPos);
         }
-        return InteractionResult.SUCCESS_NO_ITEM_USED;
+        return InteractionResult.SUCCESS;
     }
 
     @Nullable
@@ -189,9 +189,12 @@ public class Feeder extends SlabBlock implements EntityBlock
         return new FeederBlockEntity(pos, state);
     }
 
+    // Tooltip logic lives in SimpleTooltipBlockItem registration for "feeder".
+    /*
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         tooltipComponents.add(Component.translatable(this.getDescriptionId() + ".tooltip").withStyle(ChatFormatting.GOLD));
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
+    */
 }

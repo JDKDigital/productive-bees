@@ -1,0 +1,18 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thermal_extra"
+    }
+  ],
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "thermal_extra:dragonsteel_block",
+  "particleColor": "#79a3ea",
+  "primaryColor": "#15174c",
+  "secondaryColor": "#2b377f",
+  "selfbreed": false,
+  "size": 0.7,
+  "tertiaryColor": "#5f7ecc",
+  "useGlowLayer": true
+}

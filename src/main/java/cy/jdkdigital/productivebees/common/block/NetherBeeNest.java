@@ -21,7 +21,7 @@ public class NetherBeeNest extends BeehiveBlock
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.NETHER_BEE_NEST.get(), NetherBeeNestBlockEntity::tick);
+        return level.isClientSide() ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.NETHER_BEE_NEST.get(), NetherBeeNestBlockEntity::tick);
     }
 
     @Nullable

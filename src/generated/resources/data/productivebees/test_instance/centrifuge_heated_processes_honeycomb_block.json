@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:function",
+  "environment": "productivebees:centrifuge_heated_processes_honeycomb_block_env",
+  "function": "productivebees:centrifuge_heated_processes_honeycomb_block",
+  "structure": "productivebees:empty_7x7",
+  "max_ticks": 400,
+  "required": true,
+  "setup_ticks": 0
+}

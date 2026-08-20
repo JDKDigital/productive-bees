@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "productivebees:sugar_cane_nest"
+  ],
+  "result": {
+    "id": "productivebees:sugar_cane_nest"
+  }
+}

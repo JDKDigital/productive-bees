@@ -1,0 +1,32 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:dusts/aluminum"
+      }
+    },
+    {
+      "type": "neoforge:tag_empty",
+      "tag": "c:raw_materials/aluminum"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:raw_materials/aluminum"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "chance": 0.4,
+      "item": "#c:dusts/aluminum"
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "attack": 1.0,
+  "flowerTag": "productivebees:flowers/euclase",
+  "particleColor": "#005782",
+  "primaryColor": "#005782",
+  "renderer": "default_crystal",
+  "secondaryColor": "#2e0b17",
+  "size": 0.6,
+  "tertiaryColor": "#001b28"
+}

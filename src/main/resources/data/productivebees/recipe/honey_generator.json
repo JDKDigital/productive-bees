@@ -6,15 +6,9 @@
     "III"
   ],
   "key": {
-    "H": {
-      "tag": "c:buckets/honey"
-    },
-    "I": {
-      "tag": "c:ingots/iron"
-    },
-    "F": {
-      "item": "minecraft:furnace"
-    }
+    "H": "#c:buckets/honey",
+    "I": "#c:ingots/iron",
+    "F": "minecraft:furnace"
   },
   "result": {
     "id": "productivebees:honey_generator"

@@ -1,0 +1,18 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/gold"
+    }
+  ],
+  "type": "productivebees:block_conversion",
+  "bees": [
+    "productivebees:raw_materials/gold"
+  ],
+  "from": {
+    "Name": "minecraft:blackstone"
+  },
+  "to": {
+    "Name": "minecraft:gilded_blackstone"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:sussy"
+    }
+  ],
+  "type": "productivebees:block_conversion",
+  "bees": [
+    "productivebees:sussy"
+  ],
+  "chance": 0.5,
+  "from": {
+    "Name": "minecraft:sand"
+  },
+  "to": {
+    "Name": "minecraft:suspicious_sand"
+  }
+}

@@ -8,14 +8,14 @@
           "type": "gtceu:sized",
           "count": 1,
           "ingredient": {
-            "type": "productivebees:component",
             "items": "productivebees:spawn_egg_configurable_bee",
             "components": {
               "minecraft:entity_data": {
-                "type": "productivebees:platinum",
+                "type": "productivebees:raw_materials/platinum",
                 "id": "productivebees:configurable_bee"
               }
-            }
+            },
+            "neoforge:ingredient_type": "productivebees:component"
           }
         },
         "chance": 10000,
@@ -30,14 +30,14 @@
           "type": "gtceu:sized",
           "count": 1,
           "ingredient": {
-            "type": "productivebees:component",
             "items": "productivebees:spawn_egg_configurable_bee",
             "components": {
               "minecraft:entity_data": {
-                "type": "productivebees:sheldonite",
+                "type": "productivebees:gtceu/sheldonite",
                 "id": "productivebees:configurable_bee"
               }
-            }
+            },
+            "neoforge:ingredient_type": "productivebees:component"
           }
         },
         "chance": 10000,
@@ -62,11 +62,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:platinum"
+      "bee": "productivebees:raw_materials/platinum"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:sheldonite"
+      "bee": "productivebees:gtceu/sheldonite"
     }
   ]
 }

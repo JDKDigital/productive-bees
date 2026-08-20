@@ -1,0 +1,29 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "fluxnetworks"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:fluxnetworks/flux"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:fluxnetworks/flux"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "chance": 0.5,
+      "item": "fluxnetworks:flux_dust"
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

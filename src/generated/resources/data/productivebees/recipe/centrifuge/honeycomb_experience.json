@@ -1,0 +1,29 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivelib:fluid_tag_empty",
+      "tag": "c:experience"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "fluid": {
+    "amount": 0,
+    "ingredient": "productivebees:honey"
+  },
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:experience"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "chance": 0.3,
+      "item": "minecraft:experience_bottle"
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

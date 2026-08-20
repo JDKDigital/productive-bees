@@ -1,0 +1,8 @@
+{
+  "type": "productivebees:bee_spawning",
+  "biomes": "#c:is_snowy",
+  "ingredient": "productivebees:snow_nest",
+  "results": [
+    "productivebees:sweat_bee"
+  ]
+}

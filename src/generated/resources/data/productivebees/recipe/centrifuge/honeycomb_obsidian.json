@@ -1,0 +1,20 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:obsidian"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": "productivebees:obsidian_shard",
+      "max": 6,
+      "min": 3
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

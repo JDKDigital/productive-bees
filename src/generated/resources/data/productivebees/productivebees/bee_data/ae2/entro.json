@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "extendedae"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/entro/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "extendedae:entro_block",
+  "particleColor": "#f4ffb5",
+  "primaryColor": "#035256",
+  "renderer": "default_crystal",
+  "secondaryColor": "#03b99a",
+  "selfbreed": false,
+  "size": 0.8,
+  "tertiaryColor": "#65e883"
+}

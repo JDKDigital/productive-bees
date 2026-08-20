@@ -1,61 +1,57 @@
 {
-    "type": "ars_nouveau:enchanting_apparatus",
-    "keepNbtOfReagent": false,
-    "pedestalItems": [
-        {
-            "type": "productivebees:component",
-            "components": {
-                "minecraft:entity_data": {
-                    "type": "productivebees:skeletal",
-                    "id": "productivebees:configurable_bee"
-                }
-            },
-            "items": "productivebees:spawn_egg_configurable_bee"
-        },
-        {
-            "item": "productivebees:spawn_egg_rancher_bee"
-        },
-        {
-            "item": "ars_nouveau:wilden_wing"
+  "type": "ars_nouveau:enchanting_apparatus",
+  "keepNbtOfReagent": false,
+  "pedestalItems": [
+    {
+      "neoforge:ingredient_type": "productivebees:component",
+      "components": {
+        "minecraft:entity_data": {
+          "type": "productivebees:skeletal",
+          "id": "productivebees:configurable_bee"
         }
-    ],
-    "reagent": {
-        "type": "productivebees:component",
-        "components": {
-            "minecraft:entity_data": {
-                "type": "productivebees:arcane",
-                "id": "productivebees:configurable_bee"
-            }
-        },
-        "items": "productivebees:spawn_egg_configurable_bee"
+      },
+      "items": "productivebees:spawn_egg_configurable_bee"
     },
-    "result": {
-        "components": {
-            "minecraft:entity_data": {
-                "type": "productivebees:air_essence",
-                "id": "productivebees:configurable_bee"
-            }
-        },
-        "count": 1,
-        "id": "productivebees:spawn_egg_configurable_bee"
+    "productivebees:spawn_egg_rancher_bee",
+    "ars_nouveau:wilden_wing"
+  ],
+  "reagent": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:ars_nouveau/arcane",
+        "id": "productivebees:configurable_bee"
+      }
     },
-    "sourceCost": 10000,
-    "neoforge:conditions": [
-        {
-            "type": "neoforge:mod_loaded",
-            "modid": "ars_nouveau"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:iron"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:arcane"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:air_essence"
-        }
-    ]
+    "items": "productivebees:spawn_egg_configurable_bee"
+  },
+  "result": {
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:ars_nouveau/air_essence",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "count": 1,
+    "id": "productivebees:spawn_egg_configurable_bee"
+  },
+  "sourceCost": 10000,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "ars_nouveau"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/iron"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ars_nouveau/arcane"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ars_nouveau/air_essence"
+    }
+  ]
 }

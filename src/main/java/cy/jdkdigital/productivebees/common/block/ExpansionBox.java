@@ -139,8 +139,8 @@ public class ExpansionBox extends Block implements EntityBlock
     }
 
     @Override
-    public boolean onDestroyedByPlayer(BlockState state, Level world, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
-        boolean removed = super.onDestroyedByPlayer(state, world, pos, player, willHarvest, fluid);
+    public boolean onDestroyedByPlayer(BlockState state, Level world, BlockPos pos, Player player, ItemStack tool, boolean willHarvest, FluidState fluid) {
+        boolean removed = super.onDestroyedByPlayer(state, world, pos, player, tool, willHarvest, fluid);
 
         if (!world.isClientSide()) {
             this.updateState(world, pos, state, true);
@@ -160,7 +160,7 @@ public class ExpansionBox extends Block implements EntityBlock
                     pLevel.sendBlockUpdated(pPos.relative(dir), hiveState, hiveState, 3);
                     pPlayer.openMenu(hiveBlockEntity, pPos.relative(dir));
                 }
-                return InteractionResult.SUCCESS_NO_ITEM_USED;
+                return InteractionResult.SUCCESS;
             }
         }
         return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);

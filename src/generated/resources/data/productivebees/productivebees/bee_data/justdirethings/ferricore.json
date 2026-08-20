@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "justdirethings"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/ferricore/bee",
+  "flowerBlock": "justdirethings:ferricore_block",
+  "particleColor": "#e4fff9",
+  "primaryColor": "#32474e",
+  "secondaryColor": "#53777e",
+  "tertiaryColor": "#bdf4ea",
+  "useGlowLayer": true
+}

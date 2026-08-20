@@ -5,11 +5,11 @@ import cy.jdkdigital.productivebees.init.ModDataComponents;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.util.BeeCreator;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.EntityBlock;
@@ -51,10 +51,10 @@ public class ConfigurableCombBlock extends CombBlock implements EntityBlock
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player) {
         ItemStack stack = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
         if (level.getBlockEntity(pos) instanceof CombBlockBlockEntity combBlockBlockEntity) {
-            ResourceLocation type = combBlockBlockEntity.getCombType();
+            Identifier type = combBlockBlockEntity.getCombType();
             if (type != null) {
                 BeeCreator.setType(type, stack);
             }

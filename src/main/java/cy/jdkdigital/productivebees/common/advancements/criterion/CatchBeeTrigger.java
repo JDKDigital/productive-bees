@@ -3,9 +3,9 @@ package cy.jdkdigital.productivebees.common.advancements.criterion;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
-import net.minecraft.advancements.critereon.ContextAwarePredicate;
-import net.minecraft.advancements.critereon.EntityPredicate;
-import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
+import net.minecraft.advancements.criterion.ContextAwarePredicate;
+import net.minecraft.advancements.criterion.EntityPredicate;
+import net.minecraft.advancements.criterion.SimpleCriterionTrigger;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
@@ -47,7 +47,7 @@ public class CatchBeeTrigger extends SimpleCriterionTrigger<CatchBeeTrigger.Trig
                 CompoundTag tag = cage.get(DataComponents.CUSTOM_DATA).copyTag();
 
                 if (tag.contains("type")) {
-                    String type = tag.getString("type");
+                    String type = tag.getString("type").orElse("");
                     return this.beeName.equals("any") || type.equals(this.beeName);
                 }
             }

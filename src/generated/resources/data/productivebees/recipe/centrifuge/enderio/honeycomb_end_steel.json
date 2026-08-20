@@ -1,0 +1,29 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "enderio"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:enderio/end_steel"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:enderio/end_steel"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": "enderio:end_steel_nugget",
+      "max": 3
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

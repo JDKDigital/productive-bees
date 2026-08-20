@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:skeletal"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:withered"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "minecraft:wither_rose",
+  "result": "productivebees:withered",
+  "source": "productivebees:skeletal"
+}

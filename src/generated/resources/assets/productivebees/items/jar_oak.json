@@ -1,0 +1,18 @@
+{
+  "model": {
+    "type": "minecraft:composite",
+    "models": [
+      {
+        "type": "minecraft:model",
+        "model": "productivebees:block/jar"
+      },
+      {
+        "type": "minecraft:special",
+        "base": "productivebees:block/jar",
+        "model": {
+          "type": "productivebees:jar_bee"
+        }
+      }
+    ]
+  }
+}

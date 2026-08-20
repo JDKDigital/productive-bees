@@ -1,0 +1,20 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:gems/crystalline"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "chance": 0.5,
+      "item": "#c:gems/quartz",
+      "max": 3
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

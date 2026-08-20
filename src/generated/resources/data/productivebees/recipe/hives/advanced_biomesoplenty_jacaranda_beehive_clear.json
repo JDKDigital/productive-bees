@@ -9,12 +9,9 @@
   "category": "misc",
   "group": "hives",
   "ingredients": [
-    {
-      "item": "productivebees:advanced_biomesoplenty_jacaranda_beehive"
-    }
+    "productivebees:advanced_biomesoplenty_jacaranda_beehive"
   ],
   "result": {
-    "count": 1,
     "id": "productivebees:advanced_biomesoplenty_jacaranda_beehive"
   }
 }

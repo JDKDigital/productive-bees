@@ -1,0 +1,10 @@
+{
+  "attack": 1.0,
+  "coldResistant": true,
+  "flowerTag": "productivebees:flowers/frozen",
+  "particleColor": "#cccccc",
+  "primaryColor": "#ffffff",
+  "secondaryColor": "#228b22",
+  "useGlowLayer": true,
+  "waterproof": true
+}

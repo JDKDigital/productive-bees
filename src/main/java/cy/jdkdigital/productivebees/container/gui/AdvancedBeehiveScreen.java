@@ -11,12 +11,16 @@ import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import cy.jdkdigital.productivelib.client.screen.AbstractUpgradeableContainerScreen;
+import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
+import org.lwjgl.glfw.GLFW;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
@@ -24,16 +28,15 @@ import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.neoforged.fml.ModList;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class AdvancedBeehiveScreen extends AbstractUpgradeableContainerScreen<AdvancedBeehiveContainer>
 {
-    private static final ResourceLocation GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/advanced_beehive.png");
-    private static final ResourceLocation GUI_TEXTURE_EXPANDED = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/advanced_beehive_expanded.png");
-    private static final ResourceLocation GUI_TEXTURE_SIMULATED = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/advanced_beehive_simulated.png");
+    private static final Identifier GUI_TEXTURE = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/advanced_beehive.png");
+    private static final Identifier GUI_TEXTURE_EXPANDED = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/advanced_beehive_expanded.png");
+    private static final Identifier GUI_TEXTURE_SIMULATED = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/advanced_beehive_simulated.png");
     private final boolean expanded;
 
     public AdvancedBeehiveScreen(AdvancedBeehiveContainer screenContainer, Inventory inv, Component titleIn) {
@@ -45,52 +48,42 @@ public class AdvancedBeehiveScreen extends AbstractUpgradeableContainerScreen<Ad
     }
 
     @Override
-    public void render(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        super.render(guiGraphics, mouseX, mouseY, partialTicks);
-        this.renderTooltip(guiGraphics, mouseX, mouseY);
-    }
-
-    @Override
-    protected void renderLabels(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        super.renderLabels(guiGraphics, mouseX, mouseY);
-        boolean expanded = this.menu.getBlockEntity().getBlockState().getValue(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
-        boolean simulated = expanded && this.menu.getBlockEntity().isSim();
-
+    protected void extractTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
+        super.extractTooltip(graphics, mouseX, mouseY);
+        boolean simulated = this.expanded && this.menu.getBlockEntity().isSim();
         assert minecraft != null;
-        HashMap<Integer, List<Integer>> positions = expanded ? AdvancedBeehiveContainer.BEE_POSITIONS_EXPANDED : AdvancedBeehiveContainer.BEE_POSITIONS;
-        List<FormattedCharSequence> tooltipList = new ArrayList<FormattedCharSequence>();
+        HashMap<Integer, List<Integer>> positions = this.expanded ? AdvancedBeehiveContainer.BEE_POSITIONS_EXPANDED : AdvancedBeehiveContainer.BEE_POSITIONS;
 
-        // Cage slot tooltip
-        if (simulated && isHovering(86 - 13, 53, 16, 16, mouseX, mouseY) && this.menu.getBlockEntity().inventoryHandler.getStackInSlot(AdvancedBeehiveContainer.SLOT_CAGE).isEmpty()) {
+        List<FormattedCharSequence> tooltipList = new ArrayList<>();
+
+        if (simulated && isHovering(86 - 13, 53, 16, 16, mouseX, mouseY)
+                && this.menu.getBlockEntity().inventoryHandler.getStackInSlot(AdvancedBeehiveContainer.SLOT_CAGE).isEmpty()) {
             tooltipList.add(Component.translatable("productivebees.advanced_hive.tooltip.bee_cage").getVisualOrderText());
         }
 
-        // Bee Tooltips
         int j = 0;
         for (BeehiveBlockEntity.BeeData inhabitant : this.menu.getBlockEntity().stored) {
-            var occupant = inhabitant.occupant.entityData().copyTag();
+            CompoundTag occupant = inhabitant.occupant.entityData().copyTagWithoutId();
 
             Entity bee = null;
-            String type = occupant.getString("type");
-            if (type.isEmpty()) {
-                type = occupant.getString("id");
-            }
-            BeeIngredient beeIngredient = BeeIngredientFactory.getIngredient(type).get();
+            BeeIngredient beeIngredient = resolveBeeIngredient(inhabitant);
             if (beeIngredient != null) {
                 bee = beeIngredient.getCachedEntity(minecraft.level);
             }
 
             if (bee != null && bee.getEncodeId() != null) {
-                if (bee instanceof ConfigurableBee && occupant.contains("type")) {
-                    ((ConfigurableBee) bee).setBeeType(occupant.getString("type"));
+                if (bee instanceof ConfigurableBee configurableBee && occupant.contains("type")) {
+                    configurableBee.setBeeType(occupant.getString("type").orElse(""));
                 }
 
                 if (positions.containsKey(j) && isHovering(positions.get(j).get(0), positions.get(j).get(1), 16, 16, mouseX, mouseY)) {
                     CompoundTag tag = occupant.copy();
                     tooltipList.add(bee.getName().getVisualOrderText());
 
-                    if (Screen.hasShiftDown()) {
-                        String modId = ResourceLocation.parse(bee.getEncodeId()).getNamespace();
+                    var window = Minecraft.getInstance().getWindow();
+                    boolean shiftDown = InputConstants.isKeyDown(window, GLFW.GLFW_KEY_LEFT_SHIFT) || InputConstants.isKeyDown(window, GLFW.GLFW_KEY_RIGHT_SHIFT);
+                    if (shiftDown) {
+                        String modId = Identifier.parse(bee.getEncodeId()).getNamespace();
                         if (modId.equals(ProductiveBees.MODID)) {
                             tag.putBoolean("isProductiveBee", true);
                         }
@@ -101,8 +94,7 @@ public class AdvancedBeehiveScreen extends AbstractUpgradeableContainerScreen<Ad
                         }
                         tag.putString("mod", modName);
 
-                        List<Component> list = BeeHelper.populateBeeInfoFromTag(tag, null);
-
+                        List<Component> list = BeeHelper.populateBeeInfoFromTag(tag, (List<Component>) null);
                         for (Component textComponent : list) {
                             tooltipList.add(textComponent.getVisualOrderText());
                         }
@@ -113,52 +105,55 @@ public class AdvancedBeehiveScreen extends AbstractUpgradeableContainerScreen<Ad
             }
             j++;
         }
-        guiGraphics.renderTooltip(font, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
+
+        if (!tooltipList.isEmpty()) {
+            graphics.setTooltipForNextFrame(tooltipList, mouseX, mouseY);
+        }
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        super.extractBackground(graphics, mouseX, mouseY, partialTick);
         boolean simulated = this.expanded && this.menu.getBlockEntity().isSim();
-        var GUI = this.expanded ? (simulated ? GUI_TEXTURE_SIMULATED : GUI_TEXTURE_EXPANDED) : GUI_TEXTURE;
+        Identifier texture = this.expanded ? (simulated ? GUI_TEXTURE_SIMULATED : GUI_TEXTURE_EXPANDED) : GUI_TEXTURE;
 
         int honeyLevel = this.menu.getBlockEntity().getBlockState().getValue(BeehiveBlock.HONEY_LEVEL);
-        // Draw main screen
-        guiGraphics.blit(GUI, getGuiLeft(), getGuiTop(), 0, 0, this.getXSize(), this.getYSize());
+        graphics.blit(RenderPipelines.GUI_TEXTURED, texture, this.leftPos, this.topPos, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
         HashMap<Integer, List<Integer>> positions = this.expanded ? AdvancedBeehiveContainer.BEE_POSITIONS_EXPANDED : AdvancedBeehiveContainer.BEE_POSITIONS;
 
-        // Draw honey level
         int xOffset = this.menu.getBlockEntity() instanceof DragonEggHiveBlockEntity ? 13 : 0;
-        guiGraphics.blit(GUI, getGuiLeft() + 87 , getGuiTop() + 37, 202 + xOffset, honeyLevel * 13, 13, 13);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, texture, this.leftPos + 87, this.topPos + 37, 202.0F + xOffset, honeyLevel * 13.0F, 13, 13, 256, 256);
 
-        // draw bee cage
         if (simulated && this.menu.getBlockEntity().inventoryHandler.getStackInSlot(AdvancedBeehiveContainer.SLOT_CAGE).isEmpty()) {
-            guiGraphics.blit(GUI, getGuiLeft() + 87, getGuiTop() + 53, 202 + xOffset, 78, 14, 16);
+            graphics.blit(RenderPipelines.GUI_TEXTURED, texture, this.leftPos + 87, this.topPos + 53, 202.0F + xOffset, 78.0F, 14, 16, 256, 256);
         }
 
-        // Bees
         int i = 0;
         for (BeehiveBlockEntity.BeeData inhabitant : this.menu.getBlockEntity().stored) {
-            var occupant = inhabitant.occupant.entityData().copyTag();
             if (minecraft != null && positions.containsKey(i)) {
-                String type = occupant.getString("type");
-                if (type.isEmpty() || type.equals("minecraft:")) {
-                    type = occupant.getString("id");
-                }
-                BeeIngredient beeIngredient = BeeIngredientFactory.getIngredient(type).get();
+                BeeIngredient beeIngredient = resolveBeeIngredient(inhabitant);
                 if (beeIngredient == null) {
-                    ProductiveBees.LOGGER.info("render bee in hive " + positions.get(i) + " " + type + " " + occupant);
-                }
-
-                if (beeIngredient != null) {
-                    BeeRenderer.render(guiGraphics, getGuiLeft() + positions.get(i).get(0), getGuiTop() + positions.get(i).get(1), beeIngredient, minecraft);
+                    ProductiveBees.LOGGER.info("render bee in hive " + positions.get(i) + " " + inhabitant.occupant.entityData());
+                } else {
+                    BeeRenderer.render(graphics, this.leftPos + positions.get(i).get(0), this.topPos + positions.get(i).get(1), beeIngredient, minecraft);
                 }
             }
             i++;
         }
     }
 
-//    @Override
+    private static BeeIngredient resolveBeeIngredient(BeehiveBlockEntity.BeeData inhabitant) {
+        var entityData = inhabitant.occupant.entityData();
+        CompoundTag tag = entityData.copyTagWithoutId();
+        String type = tag.getString("type").orElse("");
+        if (!type.isEmpty() && !type.equals("minecraft:")) {
+            return BeeIngredientFactory.getIngredient(type).get();
+        }
+        Identifier entityId = BuiltInRegistries.ENTITY_TYPE.getKey(entityData.type());
+        return BeeIngredientFactory.getIngredient(entityId.toString()).get();
+    }
+
     protected boolean insideUpgradeSlots(double mouseX, double mouseY) {
-        return this.expanded ? isHovering(this.imageWidth - 24, 8, 18, 72, mouseX, mouseY) : false;
+        return this.expanded && isHovering(this.imageWidth - 24, 8, 18, 72, mouseX, mouseY);
     }
 }

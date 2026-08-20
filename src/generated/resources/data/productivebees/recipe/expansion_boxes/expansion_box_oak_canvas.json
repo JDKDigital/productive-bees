@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "expansion_boxes",
   "key": {
-    "H": {
-      "item": "productivebees:expansion_box_oak"
-    },
-    "P": {
-      "item": "minecraft:paper"
-    }
+    "H": "productivebees:expansion_box_oak",
+    "P": "minecraft:paper"
   },
   "pattern": [
     "PPP",
@@ -16,7 +12,6 @@
     "PPP"
   ],
   "result": {
-    "count": 1,
     "id": "productivebees:expansion_box_oak_canvas"
   }
 }

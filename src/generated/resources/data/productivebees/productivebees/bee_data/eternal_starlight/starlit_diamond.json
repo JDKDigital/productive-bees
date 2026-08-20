@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "eternal_starlight"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/starlit_diamond/bee",
+  "flowerBlock": "eternal_starlight:starlit_diamond_block",
+  "particleColor": "#5863be",
+  "primaryColor": "#9584e4",
+  "renderer": "default_crystal",
+  "secondaryColor": "#ece3ff",
+  "size": 0.6
+}

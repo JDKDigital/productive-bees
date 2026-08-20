@@ -1,12 +1,11 @@
 {
+  "type": "neoforge:add_features",
   "biomes": [
     "minecraft:end_highlands",
     "minecraft:end_midlands",
     "minecraft:small_end_islands",
     "minecraft:end_barrens"
   ],
-  "generation_stage": "TOP_LAYER_MODIFICATION",
   "features": "productivebees:end_nest",
-  "type": "productivebees:nest",
-  "maxTemperature": 100
+  "step": "top_layer_modification"
 }

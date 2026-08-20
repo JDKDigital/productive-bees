@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:storage_blocks/calorite"
+      }
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ad_astra/ostrum"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ad_astra/calorite"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "#c:storage_blocks/calorite",
+  "result": "productivebees:ad_astra/calorite",
+  "source": "productivebees:ad_astra/ostrum"
+}

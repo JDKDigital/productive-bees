@@ -1,0 +1,10 @@
+{
+  "attack": 1.0,
+  "flowerTag": "productivebees:flowers/coral",
+  "particleColor": "#ff732f",
+  "primaryColor": "#ff732f",
+  "renderer": "default_crystal",
+  "secondaryColor": "#3e5b68",
+  "size": 0.6,
+  "tertiaryColor": "#dc1e4b"
+}

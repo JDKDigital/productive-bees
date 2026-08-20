@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "powah"
+    }
+  ],
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "powah:energized_steel_block",
+  "primaryColor": "#bfb49d",
+  "secondaryColor": "#7d7565",
+  "useGlowLayer": true
+}

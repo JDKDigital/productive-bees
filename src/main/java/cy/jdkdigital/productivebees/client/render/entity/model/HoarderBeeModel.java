@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.client.render.entity.model;
 
-import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
-import cy.jdkdigital.productivebees.common.entity.bee.hive.HoarderBee;
+import cy.jdkdigital.productivebees.client.render.entity.state.ProductiveBeeRenderState;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -10,7 +9,7 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 
-public class HoarderBeeModel<T extends ProductiveBee> extends ProductiveBeeModel<T>
+public class HoarderBeeModel<S extends ProductiveBeeRenderState> extends ProductiveBeeModel<S>
 {
     public HoarderBeeModel(ModelPart modelPart) {
         super(modelPart);
@@ -42,19 +41,15 @@ public class HoarderBeeModel<T extends ProductiveBee> extends ProductiveBeeModel
     }
 
     @Override
-    public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-        assert entity instanceof HoarderBee;
+    public void setupAnim(S state) {
+        super.setupAnim(state);
 
-        HoarderBee beeEntity = (HoarderBee) entity;
-
-        float time = ageInTicks - (float) beeEntity.tickCount;
-        float peekAmount = (0.5F + beeEntity.getClientPeekAmount(time)) * 3.1415927F;
+        float peekAmount = (0.5F + state.hoarderPeekAmount) * 3.1415927F;
         float rotation = -1.0F + Mth.sin(peekAmount);
 
         externals.setPos(0.0F, 0.0F, 3.0F + Mth.sin(peekAmount) * 3.0F);
         stinger.setPos(0.0F, 0.0F, 3.0F + Mth.sin(peekAmount) * 3.0F);
-        if (beeEntity.getClientPeekAmount(time) > 0.3F) {
+        if (state.hoarderPeekAmount > 0.3F) {
             externals.zRot = rotation * rotation * rotation * rotation * 3.1415927F * 0.125F;
         } else {
             externals.zRot = 0.0F;

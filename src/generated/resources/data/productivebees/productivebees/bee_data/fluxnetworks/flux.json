@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "fluxnetworks"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/flux/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "fluxnetworks:flux_block",
+  "particleColor": "#222924",
+  "primaryColor": "#141715",
+  "size": 0.5,
+  "useGlowLayer": true
+}

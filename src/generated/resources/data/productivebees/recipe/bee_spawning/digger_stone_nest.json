@@ -1,0 +1,8 @@
+{
+  "type": "productivebees:bee_spawning",
+  "biomes": "#c:is_overworld",
+  "ingredient": "productivebees:stone_nest",
+  "results": [
+    "productivebees:digger_bee"
+  ]
+}

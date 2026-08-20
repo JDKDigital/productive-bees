@@ -1,0 +1,15 @@
+{
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/ribbeet/bee",
+  "createComb": false,
+  "flowerTag": "c:magma_cubes",
+  "flowerType": "entity_types",
+  "particleColor": "#f3f5ff",
+  "pollinatedSize": 1.0,
+  "primaryColor": "#3a5a19",
+  "renderer": "thicc",
+  "secondaryColor": "#73964b",
+  "selfbreed": false,
+  "size": 0.5,
+  "useGlowLayer": true
+}

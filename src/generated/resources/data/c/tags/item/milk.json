@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "#c:milk/freshmilk",
+      "required": false
+    },
+    {
+      "id": "#c:milk/milk_bottle",
+      "required": false
+    }
+  ]
+}

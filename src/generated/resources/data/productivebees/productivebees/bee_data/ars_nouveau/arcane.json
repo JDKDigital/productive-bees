@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "ars_nouveau"
+    }
+  ],
+  "attack": 1.0,
+  "attributes": {
+    "endurance": "endurance.medium"
+  },
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "ars_nouveau:source_gem_block",
+  "particleColor": "#c203fc",
+  "primaryColor": "#c203fc",
+  "renderer": "default_crystal",
+  "secondaryColor": "#6c2482",
+  "size": 0.8
+}

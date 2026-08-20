@@ -3,13 +3,14 @@ package cy.jdkdigital.productivebees.compat.jei.ingredients;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.compat.jei.ProductiveBeesJeiPlugin;
-import cy.jdkdigital.productivebees.setup.BeeReloadListener;
+import cy.jdkdigital.productivebees.setup.BeeData;
+import cy.jdkdigital.productivebees.setup.BeeRegistries;
 import mezz.jei.api.ingredients.IIngredientHelper;
 import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.ingredients.subtypes.UidContext;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -26,20 +27,18 @@ public class BeeIngredientHelper implements IIngredientHelper<BeeIngredient>
     @Override
     public String getDisplayName(BeeIngredient beeIngredient) {
         String name = beeIngredient.getBeeEntity().getDescription().getString();
-        CompoundTag nbt = BeeReloadListener.INSTANCE.getData(beeIngredient.getBeeType());
-        if (nbt != null) {
+        BeeData beeData = BeeRegistries.lookup(beeIngredient.getBeeType());
+        if (beeData != null) {
             name = Component.translatable("entity.productivebees." + ProductiveBee.getBeeName(beeIngredient.getBeeType()) + "_bee").toString();
-            if (!nbt.getString("group").isEmpty()) {
-                name = name + " (" + nbt.getString("group") + ")";
-            }
+            name = name + " (" + BeeData.groupFor(BeeRegistries.resolveId(beeIngredient.getBeeType())) + ")";
         }
         return name;
     }
 
     @Nonnull
     @Override
-    public String getUniqueId(BeeIngredient beeIngredient, UidContext uidContext) {
-        return beeIngredient.getBeeType().toString();
+    public Object getUid(BeeIngredient beeIngredient, UidContext uidContext) {
+        return beeIngredient.getBeeType();
     }
 
     @Override
@@ -48,7 +47,7 @@ public class BeeIngredientHelper implements IIngredientHelper<BeeIngredient>
     }
 
     @Override
-    public ResourceLocation getResourceLocation(BeeIngredient ingredient) {
+    public Identifier getIdentifier(BeeIngredient ingredient) {
         return ingredient.getBeeType();
     }
 
@@ -56,6 +55,12 @@ public class BeeIngredientHelper implements IIngredientHelper<BeeIngredient>
     @Override
     public BeeIngredient copyIngredient(BeeIngredient beeIngredient) {
         return new BeeIngredient(beeIngredient.getBeeEntity(), beeIngredient.getBeeType());
+    }
+
+    @Override
+    public ItemStack getCheatItemStack(BeeIngredient ingredient) {
+        ItemStack cage = BeeIngredientRenderer.getCageStack(ingredient);
+        return cage.isEmpty() ? ItemStack.EMPTY : cage.copy();
     }
 
     @Nonnull

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:function",
+  "environment": "productivebees:gene_indexer_merges_to_full_purity_env",
+  "function": "productivebees:gene_indexer_merges_to_full_purity",
+  "structure": "productivebees:empty_7x7",
+  "max_ticks": 100,
+  "required": true,
+  "setup_ticks": 0
+}

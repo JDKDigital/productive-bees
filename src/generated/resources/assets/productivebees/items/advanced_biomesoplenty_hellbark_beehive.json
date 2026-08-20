@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productivebees:item/advanced_biomesoplenty_hellbark_beehive",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -12898255
+      },
+      {
+        "type": "minecraft:constant",
+        "value": -1
+      }
+    ]
+  }
+}

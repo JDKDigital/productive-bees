@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "minecraft:wooden_sword",
+    "minecraft:acacia_log"
+  ],
+  "result": {
+    "id": "productivebees:acacia_wood_nest"
+  }
+}

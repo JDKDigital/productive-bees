@@ -1,5 +1,5 @@
 {
-  "type": "productivebees:end_nest",
+  "type": "productivebees:nest",
   "config": {
     "targets": [
       {
@@ -11,6 +11,10 @@
           "Name": "productivebees:end_stone_nest"
         }
       }
-    ]
+    ],
+    "search": {
+      "type": "surface"
+    },
+    "config_key": "end_stone_nest"
   }
 }

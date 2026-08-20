@@ -1,0 +1,14 @@
+{
+  "attack": 1.0,
+  "createComb": false,
+  "flowerTag": "minecraft:flowers",
+  "invulnerability": [
+    "mekanism.radiation"
+  ],
+  "particleColor": "#ffc0cb",
+  "primaryColor": "#ffc0cb",
+  "renderer": "thicc",
+  "secondaryColor": "#ffff00",
+  "size": 0.6,
+  "useGlowLayer": true
+}

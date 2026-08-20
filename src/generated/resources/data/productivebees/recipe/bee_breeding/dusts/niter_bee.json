@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:coal"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:dusts/niter"
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:dusts/niter",
+  "parent1": "productivebees:creeper_bee",
+  "parent2": "productivebees:coal"
+}

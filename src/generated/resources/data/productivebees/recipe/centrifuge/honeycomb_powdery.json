@@ -1,0 +1,13 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": "productivebees:honeycomb_powdery",
+  "outputs": [
+    {
+      "chance": 0.5,
+      "item": "minecraft:gunpowder"
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

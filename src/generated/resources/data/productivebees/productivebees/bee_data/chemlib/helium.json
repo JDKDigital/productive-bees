@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/helium/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerFluid": "chemlib:helium_fluid",
+  "particleColor": "#efe8d4",
+  "primaryColor": "#e5dec7",
+  "size": 0.7,
+  "translucent": true,
+  "useGlowLayer": true
+}

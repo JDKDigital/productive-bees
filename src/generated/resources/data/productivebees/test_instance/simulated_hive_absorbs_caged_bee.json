@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:function",
+  "environment": "productivebees:simulated_hive_absorbs_caged_bee_env",
+  "function": "productivebees:simulated_hive_absorbs_caged_bee",
+  "structure": "productivebees:empty_7x7",
+  "max_ticks": 200,
+  "required": true,
+  "setup_ticks": 0
+}

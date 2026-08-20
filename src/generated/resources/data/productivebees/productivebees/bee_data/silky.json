@@ -1,0 +1,9 @@
+{
+  "attack": 1.0,
+  "flowerBlock": "minecraft:cobweb",
+  "particleColor": "#cccccc",
+  "primaryColor": "#ffffff",
+  "secondaryColor": "#228b22",
+  "stringy": true,
+  "useGlowLayer": true
+}

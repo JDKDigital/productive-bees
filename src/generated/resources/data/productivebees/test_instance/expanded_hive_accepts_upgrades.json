@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:function",
+  "environment": "productivebees:expanded_hive_accepts_upgrades_env",
+  "function": "productivebees:expanded_hive_accepts_upgrades",
+  "structure": "productivebees:empty_7x7",
+  "max_ticks": 100,
+  "required": true,
+  "setup_ticks": 0
+}

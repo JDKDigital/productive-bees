@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/oxygen/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerFluid": "chemlib:oxygen_fluid",
+  "particleColor": "#f5f5ed",
+  "primaryColor": "#edede1",
+  "size": 0.7,
+  "translucent": true,
+  "useGlowLayer": true
+}

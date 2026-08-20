@@ -1,12 +1,8 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "minecraft:book"
-    },
-    {
-      "item": "productivebees:sturdy_bee_cage"
-    }
+    "minecraft:book",
+    "productivebees:sturdy_bee_cage"
   ],
   "result": {
     "type": "component",

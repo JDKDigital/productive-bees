@@ -1,0 +1,10 @@
+{
+  "attack": 1.0,
+  "flowerTag": "productivebees:flowers/phosphophyllite",
+  "particleColor": "#18db8a",
+  "primaryColor": "#18db8a",
+  "renderer": "default_crystal",
+  "secondaryColor": "#064f2c",
+  "size": 0.6,
+  "tertiaryColor": "#007b33"
+}

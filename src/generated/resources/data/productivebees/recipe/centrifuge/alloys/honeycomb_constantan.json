@@ -1,0 +1,33 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:nuggets/constantan"
+      }
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:alloys/constantan"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:alloys/constantan"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": "#c:nuggets/constantan",
+      "max": 6,
+      "min": 4
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

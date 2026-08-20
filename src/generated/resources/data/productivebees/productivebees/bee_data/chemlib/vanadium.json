@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/vanadium/bee",
+  "flowerBlock": "chemlib:vanadium_metal_block",
+  "particleColor": "#adafd5",
+  "primaryColor": "#9da1d6",
+  "useGlowLayer": true
+}

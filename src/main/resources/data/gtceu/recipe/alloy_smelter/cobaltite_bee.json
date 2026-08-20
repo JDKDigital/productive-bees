@@ -8,14 +8,14 @@
           "type": "gtceu:sized",
           "count": 1,
           "ingredient": {
-            "type": "productivebees:component",
             "items": "productivebees:spawn_egg_configurable_bee",
             "components": {
               "minecraft:entity_data": {
-                "type": "productivebees:cobalt",
+                "type": "productivebees:tconstruct/cobalt",
                 "id": "productivebees:configurable_bee"
               }
-            }
+            },
+            "neoforge:ingredient_type": "productivebees:component"
           }
         },
         "chance": 10000,
@@ -41,14 +41,14 @@
           "type": "gtceu:sized",
           "count": 1,
           "ingredient": {
-            "type": "productivebees:component",
             "items": "productivebees:spawn_egg_configurable_bee",
             "components": {
               "minecraft:entity_data": {
-                "type": "productivebees:cobaltite",
+                "type": "productivebees:gtceu/cobaltite",
                 "id": "productivebees:configurable_bee"
               }
-            }
+            },
+            "neoforge:ingredient_type": "productivebees:component"
           }
         },
         "chance": 10000,
@@ -73,11 +73,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:cobalt"
+      "bee": "productivebees:tconstruct/cobalt"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:cobaltite"
+      "bee": "productivebees:gtceu/cobaltite"
     }
   ]
 }

@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productivebees:item/expansion_box_biomesoplenty_redwood",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -5941958
+      },
+      {
+        "type": "minecraft:constant",
+        "value": -1
+      }
+    ]
+  }
+}

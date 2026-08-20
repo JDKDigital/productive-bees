@@ -6,15 +6,9 @@
     "III"
   ],
   "key": {
-    "S": {
-      "item": "minecraft:smooth_stone_slab"
-    },
-    "I": {
-      "tag": "c:ingots/iron"
-    },
-    "G": {
-      "tag": "c:glass_blocks"
-    }
+    "S": "minecraft:smooth_stone_slab",
+    "I": "#c:ingots/iron",
+    "G": "#c:glass_blocks"
   },
   "result": {
     "id": "productivebees:bottler"

@@ -1,0 +1,18 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "naturesaura"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/sky_ingot/bee",
+  "flowerBlock": "naturesaura:sky_ingot_block",
+  "particleColor": "#9ce0ff",
+  "primaryColor": "#b7e8ff",
+  "secondaryColor": "#6ec7f1",
+  "selfbreed": false,
+  "size": 0.5,
+  "tertiaryColor": "#4ea3cb",
+  "useGlowLayer": true
+}

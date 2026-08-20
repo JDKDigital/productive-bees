@@ -1,8 +1,6 @@
 {
   "type": "tconstruct:melting",
-  "ingredient": {
-    "item": "minecraft:honey_block"
-  },
+  "ingredient": "minecraft:honey_block",
   "result": {
     "fluid": "productivebees:honey",
     "amount": 1000

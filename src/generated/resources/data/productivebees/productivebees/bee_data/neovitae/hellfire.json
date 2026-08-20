@@ -1,0 +1,18 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "neovitae"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/hellfire/bee",
+  "flowerBlock": "neovitae:dungeon_metal",
+  "particleColor": "#e1f9f9",
+  "primaryColor": "#b9f3e9",
+  "secondaryColor": "#386058",
+  "selfbreed": false,
+  "size": 0.4,
+  "tertiaryColor": "#5fa295",
+  "useGlowLayer": true
+}

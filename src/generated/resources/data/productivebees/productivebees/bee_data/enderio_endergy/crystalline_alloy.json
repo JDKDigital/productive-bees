@@ -1,0 +1,18 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "enderio_endergy"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/crystalline_alloy/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "enderio_endergy:crystalline_alloy_block",
+  "particleColor": "#d3f3f3",
+  "primaryColor": "#477f7f",
+  "renderer": "default_crystal",
+  "secondaryColor": "#98ebeb",
+  "selfbreed": false,
+  "size": 0.7
+}

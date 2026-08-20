@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "eternal_starlight"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/amaramber/bee",
+  "flowerBlock": "eternal_starlight:raw_amaramber_block",
+  "particleColor": "#2a2637",
+  "primaryColor": "#4f5781",
+  "secondaryColor": "#503746",
+  "size": 0.5,
+  "useGlowLayer": true
+}

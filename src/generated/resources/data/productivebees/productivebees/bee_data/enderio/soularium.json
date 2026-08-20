@@ -1,0 +1,15 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "enderio"
+    }
+  ],
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "enderio:soularium_block",
+  "particleColor": "#5b4223",
+  "primaryColor": "#5b4223",
+  "secondaryColor": "#2a1d0a",
+  "useGlowLayer": true
+}

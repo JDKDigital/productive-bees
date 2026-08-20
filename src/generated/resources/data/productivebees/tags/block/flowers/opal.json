@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "#c:storage_blocks/opal",
+      "required": false
+    },
+    {
+      "id": "gemsnjewels:opal_block",
+      "required": false
+    }
+  ]
+}

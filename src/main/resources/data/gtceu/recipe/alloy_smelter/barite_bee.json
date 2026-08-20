@@ -8,14 +8,14 @@
           "type": "gtceu:sized",
           "count": 1,
           "ingredient": {
-            "type": "productivebees:component",
             "items": "productivebees:spawn_egg_configurable_bee",
             "components": {
               "minecraft:entity_data": {
-                "type": "productivebees:sulfur",
+                "type": "productivebees:dusts/sulfur",
                 "id": "productivebees:configurable_bee"
               }
-            }
+            },
+            "neoforge:ingredient_type": "productivebees:component"
           }
         },
         "chance": 10000,
@@ -41,14 +41,14 @@
           "type": "gtceu:sized",
           "count": 1,
           "ingredient": {
-            "type": "productivebees:component",
             "items": "productivebees:spawn_egg_configurable_bee",
             "components": {
               "minecraft:entity_data": {
-                "type": "productivebees:barite",
+                "type": "productivebees:gtceu/barite",
                 "id": "productivebees:configurable_bee"
               }
-            }
+            },
+            "neoforge:ingredient_type": "productivebees:component"
           }
         },
         "chance": 10000,
@@ -73,11 +73,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:sulfur"
+      "bee": "productivebees:dusts/sulfur"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:barite"
+      "bee": "productivebees:gtceu/barite"
     }
   ]
 }

@@ -1,0 +1,29 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "ad_astra"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ad_astra/cheese"
+    }
+  ],
+  "type": "productivebees:item_conversion",
+  "bees": [
+    "productivebees:rancher_bee"
+  ],
+  "ingredients": {
+    "item": "ad_astra:cheese_block"
+  },
+  "result": {
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:ad_astra/cheese",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "count": 1,
+    "id": "productivebees:spawn_egg_configurable_bee"
+  }
+}

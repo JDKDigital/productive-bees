@@ -1,0 +1,11 @@
+{
+  "attack": 1.0,
+  "attributes": {
+    "endurance": "endurance.weak"
+  },
+  "flowerTag": "productivebees:flowers/gilded",
+  "particleColor": "#fffd6e",
+  "primaryColor": "#fcd979",
+  "secondaryColor": "#804f40",
+  "useGlowLayer": true
+}

@@ -5,9 +5,7 @@
     "amount": 1000
   },
   "result": [
-    {
-      "item": "minecraft:honey_block"
-    }
+    "minecraft:honey_block"
   ],
   "energy": 2000,
   "neoforge:conditions": [

@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productivebees:item/advanced_biomesoplenty_mahogany_beehive",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -3176057
+      },
+      {
+        "type": "minecraft:constant",
+        "value": -1
+      }
+    ]
+  }
+}

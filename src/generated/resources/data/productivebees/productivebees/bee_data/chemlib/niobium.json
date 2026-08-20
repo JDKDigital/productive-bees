@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/niobium/bee",
+  "flowerBlock": "chemlib:niobium_metal_block",
+  "particleColor": "#c3beea",
+  "primaryColor": "#bfb1e6",
+  "useGlowLayer": true
+}

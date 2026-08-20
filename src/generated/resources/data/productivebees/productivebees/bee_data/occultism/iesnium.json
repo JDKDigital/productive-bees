@@ -1,0 +1,9 @@
+{
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/iesnium",
+  "particleColor": "#3c8794",
+  "primaryColor": "#52a0ae",
+  "secondaryColor": "#8ecbce",
+  "useGlowLayer": true
+}

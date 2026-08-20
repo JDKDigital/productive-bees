@@ -1,0 +1,10 @@
+{
+  "attack": 1.0,
+  "flowerTag": "productivebees:flowers/cats_eye",
+  "particleColor": "#ffe59e",
+  "primaryColor": "#ffe59e",
+  "renderer": "default_crystal",
+  "secondaryColor": "#3e5b68",
+  "size": 0.6,
+  "tertiaryColor": "#d59042"
+}

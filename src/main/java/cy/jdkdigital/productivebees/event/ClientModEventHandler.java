@@ -1,216 +1,263 @@
 package cy.jdkdigital.productivebees.event;
 
-import com.mojang.serialization.DataResult;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.client.model.BeeNestHelmetModel;
+import net.minecraft.resources.Identifier;
+import cy.jdkdigital.productivebees.client.color.BeeTintSource;
+import cy.jdkdigital.productivebees.client.color.CanvasBlockTintSource;
+import cy.jdkdigital.productivebees.client.color.CombBlockTintSource;
+import cy.jdkdigital.productivebees.client.color.WoodNestTintSource;
 import cy.jdkdigital.productivebees.client.particle.*;
-import cy.jdkdigital.productivebees.client.render.block.*;
+import cy.jdkdigital.productivebees.client.render.block.AmberBlockEntityRenderer;
+import cy.jdkdigital.productivebees.client.render.block.BottlerBlockEntityRenderer;
+import cy.jdkdigital.productivebees.client.render.block.CentrifugeBlockEntityRenderer;
+import cy.jdkdigital.productivebees.client.render.block.FeederBlockEntityRenderer;
+import cy.jdkdigital.productivebees.client.render.block.JarBlockEntityRenderer;
 import cy.jdkdigital.productivebees.client.render.entity.DyeBeeRenderer;
 import cy.jdkdigital.productivebees.client.render.entity.HoarderBeeRenderer;
 import cy.jdkdigital.productivebees.client.render.entity.ProductiveBeeRenderer;
 import cy.jdkdigital.productivebees.client.render.entity.RancherBeeRenderer;
-import cy.jdkdigital.productivebees.client.render.entity.model.*;
+import cy.jdkdigital.productivebees.client.render.entity.layers.BeeNestHelmetLayer;
 import cy.jdkdigital.productivebees.client.render.item.JarBlockItemRenderer;
-import cy.jdkdigital.productivebees.common.block.CanvasBeehive;
-import cy.jdkdigital.productivebees.common.block.CanvasExpansionBox;
+import cy.jdkdigital.productivebees.client.render.item.property.NestAngle;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.client.renderer.entity.player.AvatarRenderer;
+import cy.jdkdigital.productivebees.client.render.entity.model.HoarderBeeModel;
+import cy.jdkdigital.productivebees.client.render.entity.model.MediumBeeModel;
+import cy.jdkdigital.productivebees.client.render.entity.model.MediumCrystalBeeModel;
+import cy.jdkdigital.productivebees.client.render.entity.model.MediumElvisBeeModel;
+import cy.jdkdigital.productivebees.client.render.entity.model.MediumFoliageBeeModel;
+import cy.jdkdigital.productivebees.client.render.entity.model.MediumShellBeeModel;
+import cy.jdkdigital.productivebees.client.render.entity.model.ProductiveBeeModel;
+import cy.jdkdigital.productivebees.client.render.entity.model.RancherBeeModel;
+import cy.jdkdigital.productivebees.client.render.entity.model.SlimBeeModel;
+import cy.jdkdigital.productivebees.client.render.entity.model.SlimyBeeModel;
+import cy.jdkdigital.productivebees.client.render.entity.model.SmallBeeModel;
+import cy.jdkdigital.productivebees.client.render.entity.model.ThiccBeeModel;
+import cy.jdkdigital.productivebees.client.render.entity.model.TinyBeeModel;
 import cy.jdkdigital.productivebees.common.block.CombBlock;
-import cy.jdkdigital.productivebees.common.block.entity.CanvasBeehiveBlockEntity;
-import cy.jdkdigital.productivebees.common.block.entity.CanvasExpansionBoxBlockEntity;
-import cy.jdkdigital.productivebees.common.block.entity.CentrifugeBlockEntity;
 import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
+import cy.jdkdigital.productivebees.setup.HiveType;
 import cy.jdkdigital.productivebees.common.entity.bee.GeckoBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.fluid.HoneyFluid;
-import cy.jdkdigital.productivebees.common.item.*;
-import cy.jdkdigital.productivebees.compat.curios.CuriosCompat;
 import cy.jdkdigital.productivebees.compat.geckolib.client.render.GeckoBeeRenderer;
+import cy.jdkdigital.productivebees.container.gui.AdvancedBeehiveScreen;
+import cy.jdkdigital.productivebees.container.gui.BottlerScreen;
+import cy.jdkdigital.productivebees.common.block.entity.CentrifugeBlockEntity;
 import cy.jdkdigital.productivebees.container.CentrifugeContainer;
-import cy.jdkdigital.productivebees.container.gui.*;
-import cy.jdkdigital.productivebees.init.*;
-import cy.jdkdigital.productivebees.util.ColorUtil;
+import cy.jdkdigital.productivebees.container.gui.BreedingChamberScreen;
+import cy.jdkdigital.productivebees.container.gui.CatcherScreen;
+import cy.jdkdigital.productivebees.container.gui.CentrifugeScreen;
+import cy.jdkdigital.productivebees.container.gui.CryoStasisScreen;
+import cy.jdkdigital.productivebees.container.gui.FeederScreen;
+import cy.jdkdigital.productivebees.container.gui.GeneIndexerScreen;
+import cy.jdkdigital.productivebees.container.gui.HoneyGeneratorScreen;
+import cy.jdkdigital.productivebees.container.gui.IncubatorScreen;
+import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
+import cy.jdkdigital.productivebees.init.ModBlocks;
+import cy.jdkdigital.productivebees.init.ModContainerTypes;
+import cy.jdkdigital.productivebees.init.ModEntities;
+import cy.jdkdigital.productivebees.init.ModFluids;
+import cy.jdkdigital.productivebees.init.ModParticles;
+import net.minecraft.client.color.block.BlockTintSource;
+import net.minecraft.client.color.block.BlockTintSources;
+import net.minecraft.client.entity.ClientMannequin;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.BiomeColors;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
-import net.minecraft.client.renderer.entity.ThrownItemRenderer;
-import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
-import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponents;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.block.FluidModel;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.decoration.ItemFrame;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.GrassColor;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.fml.ModList;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.PlayerModelType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.client.event.RegisterFluidModelsEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
+import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFactory;
+import cy.jdkdigital.productivebees.setup.BeeRegistries;
+import net.minecraft.core.RegistryAccess;
+import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
+import net.neoforged.neoforge.event.TagsUpdatedEvent;
+import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
-import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
-import net.neoforged.neoforge.client.model.DynamicFluidContainerModel;
+import cy.jdkdigital.productivebees.client.render.item.property.GeneAttributeProperty;
+import cy.jdkdigital.productivebees.client.render.item.property.HoneyTreatVariantProperty;
+import net.neoforged.neoforge.client.event.RegisterRangeSelectItemModelPropertyEvent;
+import net.neoforged.neoforge.client.event.RegisterSelectItemModelPropertyEvent;
+import net.neoforged.neoforge.client.event.RegisterSpecialModelRendererEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import java.util.List;
 
 @EventBusSubscriber(modid = ProductiveBees.MODID, value = Dist.CLIENT)
 public class ClientModEventHandler
 {
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @SubscribeEvent
-    public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
-        event.registerItem(new IClientItemExtensions()
-        {
-            @Override
-            public HumanoidModel<?> getHumanoidArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> _default) {
-                return BeeNestHelmetModel.INSTANCE.get();
-            }
-        }, ModItems.BEE_NEST_DIAMOND_HELMET.get());
-
-        event.registerItem(new IClientItemExtensions() {
-            final BlockEntityWithoutLevelRenderer myRenderer = new JarBlockItemRenderer();
-
-            @Override
-            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
-                return myRenderer;
-            }
-        }, ModBlocks.JAR.get().asItem());
-
-        event.registerFluidType(new IClientFluidTypeExtensions() {
-            @Override
-            public ResourceLocation getStillTexture() {
-                return HoneyFluid.STILL;
-            }
-
-            @Override
-            public ResourceLocation getFlowingTexture() {
-                return HoneyFluid.FLOWING;
-            }
-
-            @Override
-            public ResourceLocation getOverlayTexture() {
-                return HoneyFluid.OVERLAY;
-            }
-
-            @Override
-            public int getTintColor() {
-                return 0xffffc916;
-            }
-        }, ModFluids.HONEY_FLUID_TYPE.get());
+    public static void registerScreens(RegisterMenuScreensEvent event) {
+        event.register(ModContainerTypes.ADVANCED_BEEHIVE.get(), AdvancedBeehiveScreen::new);
+        // Centrifuge variants share one Screen class generic over the menu type — wildcards in
+        // MenuType<? extends CentrifugeContainer<...>> prevent the bare ::new method reference
+        // from resolving, so route each through an explicit lambda.
+        event.register((MenuType) ModContainerTypes.CENTRIFUGE.get(),
+                (MenuScreens.ScreenConstructor<CentrifugeContainer<CentrifugeBlockEntity>, CentrifugeScreen<CentrifugeContainer<CentrifugeBlockEntity>>>) (menu, inv, title) -> new CentrifugeScreen<>(menu, inv, title));
+        event.register((MenuType) ModContainerTypes.POWERED_CENTRIFUGE.get(),
+                (MenuScreens.ScreenConstructor<CentrifugeContainer<CentrifugeBlockEntity>, CentrifugeScreen<CentrifugeContainer<CentrifugeBlockEntity>>>) (menu, inv, title) -> new CentrifugeScreen<>(menu, inv, title));
+        event.register((MenuType) ModContainerTypes.HEATED_CENTRIFUGE.get(),
+                (MenuScreens.ScreenConstructor<CentrifugeContainer<CentrifugeBlockEntity>, CentrifugeScreen<CentrifugeContainer<CentrifugeBlockEntity>>>) (menu, inv, title) -> new CentrifugeScreen<>(menu, inv, title));
+        event.register(ModContainerTypes.BOTTLER.get(), BottlerScreen::new);
+        event.register(ModContainerTypes.FEEDER.get(), FeederScreen::new);
+        event.register(ModContainerTypes.INCUBATOR.get(), IncubatorScreen::new);
+        event.register(ModContainerTypes.CATCHER.get(), CatcherScreen::new);
+        event.register(ModContainerTypes.HONEY_GENERATOR.get(), HoneyGeneratorScreen::new);
+        event.register(ModContainerTypes.GENE_INDEXER.get(), GeneIndexerScreen::new);
+        event.register(ModContainerTypes.BREEDING_CHAMBER.get(), BreedingChamberScreen::new);
+        event.register(ModContainerTypes.CRYO_STASIS.get(), CryoStasisScreen::new);
     }
 
     @SubscribeEvent
-    public static void registerItemColors(final RegisterColorHandlersEvent.Item event) {
-        for (DeferredHolder<Item, ? extends Item> eggItem : ModItems.SPAWN_EGGS) {
-            Item item = eggItem.get();
-            if (item instanceof SpawnEgg) {
-                event.register((stack, tintIndex) -> ((SpawnEgg) item).getColor(tintIndex, stack), item);
-            }
-        }
-
-        // Honeycomb colors
-        for (DeferredHolder<Item, ? extends Item> registryItem : ProductiveBees.ITEMS.getEntries()) {
-            Item item = registryItem.get();
-            if (item instanceof Honeycomb) {
-                event.register(((Honeycomb) item)::getColor, item);
-            } else if (item instanceof BlockItem) {
-                Block block = ((BlockItem) item).getBlock();
-                if (block instanceof CombBlock) {
-                    event.register((stack, tintIndex) -> ((CombBlock) block).getColor(stack), item);
-                }
-                // tinted opening for nests
-                if (block instanceof WoodNest) {
-                    event.register((stack, tintIndex) -> ((WoodNest) block).getColor(tintIndex), block);
-                }
-            }
-        }
-
-        event.register((stack, tintIndex) -> {
-            BlockState blockstate = ((BlockItem)stack.getItem()).getBlock().defaultBlockState();
-            return event.getBlockColors().getColor(blockstate, null, null, tintIndex);
-        }, ModBlocks.BUMBLE_BEE_NEST.get());
-
-        event.register(new DynamicFluidContainerModel.Colors(), ModItems.HONEY_BUCKET.get());
-
-        ModBlocks.HIVELIST.forEach((modid, strings) -> {
-            if (ProductiveBees.includeMod(modid)) {
-                strings.forEach((name, type) -> {
-                    if (!type.hasTexture()) {
-                        name = modid.equals(ProductiveBees.MODID) ? name : modid + "_" + name;
-                        DataResult<TextColor> primary = TextColor.parseColor(type.primary());
-                        event.register((stack, tintIndex) -> tintIndex == 0 ? primary.result().get().getValue() : -1, ModBlocks.HIVES.get("advanced_" + name + "_beehive").get(), ModBlocks.EXPANSIONS.get("expansion_box_" + name).get());
-                    }
-                });
-            }
-        });
-        ModBlocks.hiveStyles.forEach(style -> event.register((stack, tintIndex) -> {
-            if (tintIndex == 0 && stack.getItem() instanceof BlockItem blockItem) {
-                if ((blockItem.getBlock() instanceof CanvasBeehive || blockItem.getBlock() instanceof CanvasExpansionBox) && stack.has(DataComponents.DYED_COLOR)) {
-                    return stack.get(DataComponents.DYED_COLOR).rgb();
-                }
-            }
-            return 16777215;
-        }, ModBlocks.HIVES.get("advanced_" + style + "_canvas_beehive").get(), ModBlocks.EXPANSIONS.get("expansion_box_" + style + "_canvas").get()));
+    public static void registerItemTintSources(RegisterColorHandlersEvent.ItemTintSources event) {
+        event.register(Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "bee"), BeeTintSource.MAP_CODEC);
     }
 
     @SubscribeEvent
-    public static void registerBlockColors(final RegisterColorHandlersEvent.Block event) {
-        event.register((blockState, lightReader, pos, tintIndex) -> {
-            return lightReader != null && pos != null ? BiomeColors.getAverageGrassColor(lightReader, pos) : -1;
-        }, ModBlocks.SUGAR_CANE_NEST.get());
+    public static void registerSpecialModelRenderers(RegisterSpecialModelRendererEvent event) {
+        event.register(JarBlockItemRenderer.Unbaked.ID, JarBlockItemRenderer.Unbaked.MAP_CODEC);
+    }
 
-        event.register((blockState, lightReader, pos, tintIndex) -> {
-            return lightReader != null && pos != null ? BiomeColors.getAverageGrassColor(lightReader, pos) : GrassColor.get(0.5D, 1.0D);
-        }, ModBlocks.BUMBLE_BEE_NEST.get());
+    @SubscribeEvent
+    public static void registerRangeSelectItemModelProperties(RegisterRangeSelectItemModelPropertyEvent event) {
+        event.register(Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "nest_angle"), NestAngle.MAP_CODEC);
+    }
 
-        for (DeferredHolder<Block, ? extends Block> registryBlock : ProductiveBees.BLOCKS.getEntries()) {
-            Block block = registryBlock.get();
-            if (block instanceof CombBlock) {
-                event.register((blockState, lightReader, pos, tintIndex) -> tintIndex == 0 ? ((CombBlock) block).getColor(lightReader, pos) : -1, block);
-            }
-            if (block instanceof WoodNest) {
-                event.register((blockState, lightReader, pos, tintIndex) -> ((WoodNest) block).getColor(tintIndex), block);
+    @SubscribeEvent
+    public static void registerSelectItemModelProperties(RegisterSelectItemModelPropertyEvent event) {
+        event.register(Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "gene_attribute"), GeneAttributeProperty.TYPE);
+        event.register(Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "honey_treat_variant"), HoneyTreatVariantProperty.TYPE);
+    }
+
+    @SubscribeEvent
+    public static void onClientLogin(ClientPlayerNetworkEvent.LoggingIn event) {
+        if (event.getPlayer() != null) {
+            var registries = event.getPlayer().connection.registryAccess();
+            BeeRegistries.setRegistries(registries);
+            BeeRegistries.evaluateRuntimeGates(registries);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onClientTagsUpdated(TagsUpdatedEvent event) {
+        RegistryAccess registries = event.getRegistries();
+        BeeRegistries.setRegistries(registries);
+        BeeRegistries.evaluateRuntimeGates(registries);
+        BeeIngredientFactory.invalidate();
+    }
+
+    @SubscribeEvent
+    public static void onClientLogout(ClientPlayerNetworkEvent.LoggingOut event) {
+        BeeRegistries.setRegistries(null);
+        BeeIngredientFactory.invalidate();
+    }
+
+    @SubscribeEvent
+    public static void onClientLevelUnload(LevelEvent.Unload event) {
+        if (event.getLevel().isClientSide()) {
+            BeeIngredient.clearEntityCache();
+        }
+    }
+
+    @SubscribeEvent
+    public static void registerBlockTintSources(RegisterColorHandlersEvent.BlockTintSources event) {
+        registerWoodNestTint(event, ModBlocks.OAK_WOOD_NEST.get());
+        registerWoodNestTint(event, ModBlocks.SPRUCE_WOOD_NEST.get());
+        registerWoodNestTint(event, ModBlocks.DARK_OAK_WOOD_NEST.get());
+        registerWoodNestTint(event, ModBlocks.BIRCH_WOOD_NEST.get());
+        registerWoodNestTint(event, ModBlocks.JUNGLE_WOOD_NEST.get());
+        registerWoodNestTint(event, ModBlocks.ACACIA_WOOD_NEST.get());
+        registerWoodNestTint(event, ModBlocks.CHERRY_WOOD_NEST.get());
+        registerWoodNestTint(event, ModBlocks.MANGROVE_WOOD_NEST.get());
+
+        // Grass-tinted nests. sugarCane() returns -1 in inventory (matching the pre-26.1
+        // SugarCaneNest behaviour); grass() supplies the default grass colour in inventory.
+        event.register(List.of(BlockTintSources.sugarCane()), ModBlocks.SUGAR_CANE_NEST.get());
+        event.register(List.of(BlockTintSources.grass()), ModBlocks.BUMBLE_BEE_NEST.get());
+
+        // Configurable / fixed comb blocks. Each CombBlock-subclass renders tintindex 0 only.
+        for (var holder : ProductiveBees.BLOCKS.getEntries()) {
+            if (holder.get() instanceof CombBlock combBlock) {
+                event.register(List.of(new CombBlockTintSource(combBlock)), combBlock);
             }
         }
 
+        // Non-textured advanced beehives + expansion boxes — tintindex 0 = primary type colour.
+        // Iterates HIVELIST so per-mod entries with a primary colour become constant tint sources.
         ModBlocks.HIVELIST.forEach((modid, strings) -> {
             if (ProductiveBees.includeMod(modid)) {
-                strings.forEach((name, type) -> {
+                strings.forEach((typeName, type) -> {
                     if (!type.hasTexture()) {
-                        name = modid.equals(ProductiveBees.MODID) ? name : modid + "_" + name;
-                        event.register((blockState, lightReader, pos, tintIndex) -> tintIndex == 0 && type.primary() != null ? ColorUtil.getCacheColor(type.primary()) : -1, ModBlocks.HIVES.get("advanced_" + name + "_beehive").get(), ModBlocks.EXPANSIONS.get("expansion_box_" + name).get());
+                        registerNonTexturedHiveTint(event, modid, typeName, type);
                     }
                 });
             }
         });
 
-        ModBlocks.hiveStyles.forEach(style -> event.register((blockState, lightReader, pos, tintIndex) -> {
-            if (tintIndex == 0 && pos != null && (blockState.getBlock() instanceof CanvasBeehive || blockState.getBlock() instanceof CanvasExpansionBox) && lightReader != null) {
-                if (lightReader.getBlockEntity(pos) instanceof CanvasBeehiveBlockEntity canvasBlockEntity) {
-                    return canvasBlockEntity.getColor(tintIndex);
-                }
-                if (lightReader.getBlockEntity(pos) instanceof CanvasExpansionBoxBlockEntity canvasBlockEntity) {
-                    return canvasBlockEntity.getColor(tintIndex);
-                }
+        // Canvas hives + expansion boxes — tintindex 0 reads dye colour from the canvas BE.
+        ModBlocks.CANVAS_HIVES.values().forEach(holder -> event.register(List.of(CanvasBlockTintSource.INSTANCE, NO_TINT), holder.get()));
+        ModBlocks.CANVAS_EXPANSIONS.values().forEach(holder -> event.register(List.of(CanvasBlockTintSource.INSTANCE, NO_TINT), holder.get()));
+    }
+
+    // Wood-nest opening face uses tintindex 1; tintindex 0 keeps the native log texture.
+    private static final BlockTintSource NO_TINT = new BlockTintSource() {
+        @Override public int color(BlockState state) { return -1; }
+    };
+
+    private static void registerWoodNestTint(RegisterColorHandlersEvent.BlockTintSources event, Block block) {
+        if (block instanceof WoodNest woodNest) {
+            event.register(List.of(NO_TINT, new WoodNestTintSource(woodNest.getColor(1))), block);
+        }
+    }
+
+    private static void registerNonTexturedHiveTint(RegisterColorHandlersEvent.BlockTintSources event, String modid, String typeName, HiveType type) {
+        String prefix = modid.equals(ProductiveBees.MODID) ? typeName : modid + "_" + typeName;
+        Block hive = ModBlocks.HIVES.get("advanced_" + prefix + "_beehive").get();
+        Block box = ModBlocks.EXPANSIONS.get("expansion_box_" + prefix).get();
+        int color = TextColor.parseColor(type.primary()).result().map(TextColor::getValue).orElse(-1);
+        BlockTintSource primaryTint = BlockTintSources.constant(color);
+        event.register(List.of(primaryTint, NO_TINT), hive, box);
+    }
+
+    @SubscribeEvent
+    public static void registerFluidModels(RegisterFluidModelsEvent event) {
+        event.register(
+                new FluidModel.Unbaked(
+                        new Material(HoneyFluid.STILL),
+                        new Material(HoneyFluid.FLOWING),
+                        new Material(HoneyFluid.OVERLAY),
+                        BlockTintSources.constant(0xffffc916)),
+                ModFluids.HONEY, ModFluids.HONEY_FLOWING);
+    }
+
+    @SubscribeEvent
+    public static void addBeeNestHelmetLayer(EntityRenderersEvent.AddLayers event) {
+        for (PlayerModelType skin : event.getSkins()) {
+            AvatarRenderer<AbstractClientPlayer> playerRenderer = event.getPlayerRenderer(skin);
+            if (playerRenderer != null) {
+                playerRenderer.addLayer(new BeeNestHelmetLayer<>(playerRenderer, event.getContext().getBlockModelResolver()));
             }
-            return -1;
-        }, ModBlocks.HIVES.get("advanced_" + style + "_canvas_beehive").get(), ModBlocks.EXPANSIONS.get("expansion_box_" + style + "_canvas").get()));
+            AvatarRenderer<ClientMannequin> mannequinRenderer = event.getMannequinRenderer(skin);
+            if (mannequinRenderer != null) {
+                mannequinRenderer.addLayer(new BeeNestHelmetLayer<>(mannequinRenderer, event.getContext().getBlockModelResolver()));
+            }
+        }
     }
 
     @SubscribeEvent
@@ -227,12 +274,10 @@ public class ClientModEventHandler
         event.registerLayerDefinition(ProductiveBeeRenderer.PB_SLIM_LAYER, SlimBeeModel::createLayer);
         event.registerLayerDefinition(ProductiveBeeRenderer.PB_SLIMY_LAYER, SlimyBeeModel::createLayer);
         event.registerLayerDefinition(ProductiveBeeRenderer.PB_SMALL_LAYER, SmallBeeModel::createLayer);
-        event.registerLayerDefinition(ProductiveBeeRenderer.PB_SMALL_LAYER, SmallBeeModel::createLayer);
         event.registerLayerDefinition(ProductiveBeeRenderer.PB_TINY_LAYER, TinyBeeModel::createLayer);
-
-        event.registerLayerDefinition(BeeNestHelmetModel.LAYER_LOCATION, BeeNestHelmetModel::createBodyLayer);
     }
 
+    @SuppressWarnings("unchecked")
     @SubscribeEvent
     public static void registerEntityRendering(EntityRenderersEvent.RegisterRenderers event) {
         for (DeferredHolder<EntityType<?>, ? extends EntityType<?>> registryObject : ModEntities.HIVE_BEES.getEntries()) {
@@ -263,66 +308,6 @@ public class ClientModEventHandler
         event.registerBlockEntityRenderer(ModBlockEntityTypes.FEEDER.get(), FeederBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntityTypes.JAR.get(), JarBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntityTypes.AMBER.get(), AmberBlockEntityRenderer::new);
-    }
-
-    @SubscribeEvent
-    public static void init(final RegisterMenuScreensEvent event) {
-        event.register(ModContainerTypes.ADVANCED_BEEHIVE.get(), AdvancedBeehiveScreen::new);
-        event.register(ModContainerTypes.CENTRIFUGE.get(), (MenuScreens.ScreenConstructor<CentrifugeContainer<? extends CentrifugeBlockEntity>, CentrifugeScreen<CentrifugeContainer<? extends CentrifugeBlockEntity>>>) CentrifugeScreen::new);
-        event.register(ModContainerTypes.POWERED_CENTRIFUGE.get(), (MenuScreens.ScreenConstructor<CentrifugeContainer<? extends CentrifugeBlockEntity>, CentrifugeScreen<CentrifugeContainer<? extends CentrifugeBlockEntity>>>) CentrifugeScreen::new);
-        event.register(ModContainerTypes.HEATED_CENTRIFUGE.get(), (MenuScreens.ScreenConstructor<CentrifugeContainer<? extends CentrifugeBlockEntity>, CentrifugeScreen<CentrifugeContainer<? extends CentrifugeBlockEntity>>>) CentrifugeScreen::new);
-        event.register(ModContainerTypes.BOTTLER.get(), BottlerScreen::new);
-        event.register(ModContainerTypes.FEEDER.get(), FeederScreen::new);
-        event.register(ModContainerTypes.INCUBATOR.get(), IncubatorScreen::new);
-        event.register(ModContainerTypes.CATCHER.get(), CatcherScreen::new);
-        event.register(ModContainerTypes.HONEY_GENERATOR.get(), HoneyGeneratorScreen::new);
-        event.register(ModContainerTypes.GENE_INDEXER.get(), GeneIndexerScreen::new);
-        event.register(ModContainerTypes.BREEDING_CHAMBER.get(), BreedingChamberScreen::new);
-        event.register(ModContainerTypes.CRYO_STASIS.get(), CryoStasisScreen::new);
-    }
-
-    @SubscribeEvent
-    public static void init(final FMLClientSetupEvent event) {
-        event.enqueueWork(() -> {
-            ItemProperties.register(ModItems.BEE_CAGE.get(), ResourceLocation.withDefaultNamespace("filled"), (stack, world, entity, i) -> BeeCage.isFilled(stack) ? 1.0F : 0.0F);
-            ItemProperties.register(ModItems.STURDY_BEE_CAGE.get(), ResourceLocation.withDefaultNamespace("filled"), (stack, world, entity, i) -> BeeCage.isFilled(stack) ? 1.0F : 0.0F);
-            ItemProperties.register(ModItems.BEE_BOMB.get(), ResourceLocation.withDefaultNamespace("loaded"), (stack, world, entity, i) -> BeeBomb.isLoaded(stack) ? 1.0F : 0.0F);
-            ItemProperties.register(ModItems.HONEY_TREAT.get(), ResourceLocation.withDefaultNamespace("genetic"), (stack, world, entity, i) -> HoneyTreat.hasGene(stack) ? (HoneyTreat.hasBeeType(stack) ? 0.5F : 1.0F) : 0.0F);
-            ItemProperties.register(ModItems.GENE.get(), ResourceLocation.withDefaultNamespace("genetic"), (stack, world, entity, i) -> Gene.color(stack));
-            ItemProperties.register(ModItems.NEST_LOCATOR.get(), ResourceLocation.withDefaultNamespace("angle"), new ClampedItemPropertyFunction() {
-                public float unclampedCall(@Nonnull ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity player, int i) {
-                    if ((player != null || stack.isFramed()) && NestLocator.hasPosition(stack)) {
-                        boolean flag = player != null;
-                        Entity entity = flag ? player : stack.getFrame();
-                        if (level == null && entity != null && entity.level() instanceof ClientLevel) {
-                            level = (ClientLevel) entity.level();
-                        }
-                        BlockPos pos = NestLocator.getPosition(stack);
-                        if (entity != null && level != null && pos != null) {
-                            double d1 = flag ? (double) entity.getYRot() : this.getFrameRotation((ItemFrame) entity);
-                            d1 = Mth.positiveModulo(d1 / 360.0D, 1.0D);
-                            double d2 = this.getPositionToAngle(pos, entity) / (double) ((float) Math.PI * 2F);
-                            double d0 = 0.5D - (d1 - 0.25D - d2);
-
-                            return Mth.positiveModulo((float) d0, 1.0F);
-                        }
-                    }
-                    return 0.5F;
-                }
-
-                private double getFrameRotation(ItemFrame frameEntity) {
-                    return Mth.wrapDegrees(180 + frameEntity.getDirection().get2DDataValue() * 90);
-                }
-
-                private double getPositionToAngle(BlockPos blockpos, Entity entityIn) {
-                    return Math.atan2((double) blockpos.getZ() - entityIn.getZ(), (double) blockpos.getX() - entityIn.getX());
-                }
-            });
-
-            if (ModList.get().isLoaded("curios")) {
-                CuriosCompat.registerRenderers();
-            }
-        });
     }
 
     @SubscribeEvent

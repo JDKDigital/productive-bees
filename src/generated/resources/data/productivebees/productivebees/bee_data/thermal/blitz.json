@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "attack": 1.0,
+  "attributes": {
+    "weather_tolerance": "weather_tolerance.any"
+  },
+  "beeTexture": "productivebees:textures/entity/bee/blitz/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "thermal:niter_block",
+  "particleColor": "#ffd86f",
+  "primaryColor": "#e9edf3",
+  "secondaryColor": "#bdccd9",
+  "useGlowLayer": true
+}

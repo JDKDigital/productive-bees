@@ -1,0 +1,55 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "oritech"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:oritech/adamant"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gems/diamond"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/nickel"
+    }
+  ],
+  "type": "oritech:foundry",
+  "itemInputs": [
+    {
+      "neoforge:ingredient_type": "productivebees:component",
+      "components": {
+        "minecraft:entity_data": {
+          "type": "productivebees:gems/diamond",
+          "id": "productivebees:configurable_bee"
+        }
+      },
+      "items": "productivebees:spawn_egg_configurable_bee"
+    },
+    {
+      "neoforge:ingredient_type": "productivebees:component",
+      "components": {
+        "minecraft:entity_data": {
+          "type": "productivebees:raw_materials/nickel",
+          "id": "productivebees:configurable_bee"
+        }
+      },
+      "items": "productivebees:spawn_egg_configurable_bee"
+    }
+  ],
+  "itemResults": [
+    {
+      "components": {
+        "minecraft:entity_data": {
+          "type": "productivebees:oritech/adamant",
+          "id": "productivebees:configurable_bee"
+        }
+      },
+      "id": "productivebees:spawn_egg_configurable_bee"
+    }
+  ],
+  "time": 80
+}

@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:shroom/warped"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:shroom/red_shroom"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "minecraft:red_mushroom",
+  "result": "productivebees:shroom/red_shroom",
+  "source": "productivebees:shroom/warped"
+}

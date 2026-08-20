@@ -11,6 +11,7 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Containers;
@@ -18,12 +19,14 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -34,7 +37,7 @@ import java.util.List;
 public class HoarderBee extends ProductiveBee
 {
     protected static final EntityDataAccessor<Byte> PEEK_TICK = SynchedEntityData.defineId(HoarderBee.class, EntityDataSerializers.BYTE);
-    private float prevPeekAmount;
+    private float prevPeekAmount = 1.0F;
     private float peekAmount = 1.0F;
     public BlockPos targetItemPos = null;
     private final SimpleContainer inventory;
@@ -95,47 +98,35 @@ public class HoarderBee extends ProductiveBee
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        this.entityData.set(PEEK_TICK, tag.getByte("Peek"));
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        this.entityData.set(PEEK_TICK, (byte) input.getIntOr("Peek", 0));
 
-        if (tag.contains("targetItemPos")) {
-            targetItemPos = NbtUtils.readBlockPos(tag, "targetItemPos").orElse(null);
-        }
+        targetItemPos = input.read("targetItemPos", BlockPos.CODEC).orElse(null);
 
-        if (tag.contains("inventory")) {
-            ListTag listnbt = tag.getList("inventory", 10);
-
-            for (int i = 0; i < listnbt.size(); ++i) {
-                ItemStack itemstack = ItemStack.parseOptional(this.registryAccess(), listnbt.getCompound(i));
-                if (!itemstack.isEmpty()) {
-                    inventory.addItem(itemstack);
-                }
+        input.list("inventory", ItemStack.CODEC).ifPresent(items -> items.forEach(itemstack -> {
+            if (!itemstack.isEmpty()) {
+                inventory.addItem(itemstack);
             }
-            tag.remove("inventory");
-        }
+        }));
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putByte("Peek", this.entityData.get(PEEK_TICK));
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putInt("Peek", this.entityData.get(PEEK_TICK));
 
-        if (targetItemPos != null) {
-            tag.put("targetItemPos", NbtUtils.writeBlockPos(targetItemPos));
-        }
+        output.storeNullable("targetItemPos", BlockPos.CODEC, targetItemPos);
 
         if (!inventory.isEmpty()) {
-            ListTag listnbt = new ListTag();
-
+            List<ItemStack> stacks = new ArrayList<>();
             for (int i = 0; i < inventory.getContainerSize(); ++i) {
                 ItemStack itemstack = inventory.getItem(i);
                 if (!itemstack.isEmpty()) {
-                    listnbt.add(itemstack.save(this.registryAccess()));
+                    stacks.add(itemstack);
                 }
             }
-
-            tag.put("inventory", listnbt);
+            output.store("inventory", ItemStack.CODEC.listOf(), stacks);
         }
     }
 
@@ -146,9 +137,9 @@ public class HoarderBee extends ProductiveBee
     }
 
     @Override
-    protected void dropEquipment() {
-        super.dropEquipment();
-        this.spawnAtLocation(Items.SHULKER_SHELL);
+    protected void dropEquipment(ServerLevel level) {
+        super.dropEquipment(level);
+        this.spawnAtLocation(level, Items.SHULKER_SHELL);
     }
 
     public void openAbdomen() {

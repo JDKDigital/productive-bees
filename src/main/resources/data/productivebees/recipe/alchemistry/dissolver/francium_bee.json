@@ -3,14 +3,14 @@
   "group": "alchemistry:dissolver",
   "input": {
     "ingredient": {
+      "neoforge:ingredient_type": "productivebees:component",
+      "items": "productivebees:spawn_egg_configurable_bee",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:actinium",
+          "type": "productivebees:chemlib/actinium",
           "id": "productivebees:configurable_bee"
         }
-      },
-      "count": 1,
-      "id": "productivebees:spawn_egg_configurable_bee"
+      }
     }
   },
   "output": {
@@ -21,10 +21,11 @@
         "probability": 100,
         "results": [
           {
-            "item": "productivebees:spawn_egg_configurable_bee",
-            "nbt": {
-              "EntityTag": {
-                "type": "productivebees:francium"
+            "id": "productivebees:spawn_egg_configurable_bee",
+            "components": {
+              "minecraft:entity_data": {
+                "type": "productivebees:chemlib/francium",
+                "id": "productivebees:configurable_bee"
               }
             }
           },
@@ -43,11 +44,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:actinium"
+      "bee": "productivebees:chemlib/actinium"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:francium"
+      "bee": "productivebees:chemlib/francium"
     }
   ]
 }

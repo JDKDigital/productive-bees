@@ -1,0 +1,21 @@
+{
+  "amount": 2.0,
+  "trades": [
+    "productivebees:beekeeper/level_3/advanced_jungle_beehive",
+    "productivebees:beekeeper/level_3/expansion_box_jungle",
+    "productivebees:beekeeper/level_3/advanced_acacia_beehive",
+    "productivebees:beekeeper/level_3/expansion_box_acacia",
+    "productivebees:beekeeper/level_3/advanced_birch_beehive",
+    "productivebees:beekeeper/level_3/expansion_box_birch",
+    "productivebees:beekeeper/level_3/advanced_dark_oak_beehive",
+    "productivebees:beekeeper/level_3/expansion_box_dark_oak",
+    "productivebees:beekeeper/level_3/advanced_mangrove_beehive",
+    "productivebees:beekeeper/level_3/expansion_box_mangrove",
+    "productivebees:beekeeper/level_3/advanced_spruce_beehive",
+    "productivebees:beekeeper/level_3/expansion_box_spruce",
+    "productivebees:beekeeper/level_3/advanced_cherry_beehive",
+    "productivebees:beekeeper/level_3/expansion_box_cherry",
+    "productivebees:beekeeper/level_3/advanced_oak_beehive",
+    "productivebees:beekeeper/level_3/expansion_box_oak"
+  ]
+}

@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.common.entity.bee;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
+import cy.jdkdigital.productivebees.setup.BeeData;
 import cy.jdkdigital.productivebees.ai.BeeAggressiveGoal;
 import cy.jdkdigital.productivebees.common.block.Feeder;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
@@ -22,7 +23,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.PoiTypeTags;
@@ -39,7 +40,7 @@ import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.ai.village.poi.PoiRecord;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -57,6 +58,8 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.level.pathfinder.PathType;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.common.NeoForge;
@@ -139,11 +142,11 @@ public class ProductiveBee extends Bee implements IProductiveBee
         super.tick();
 
         // "Positive" effect to nearby entities
-        if (!level().isClientSide && tickCount % ProductiveBeesConfig.BEE_ATTRIBUTES.effectTicks.get() == 0) {
+        if (!level().isClientSide() && tickCount % ProductiveBeesConfig.BEE_ATTRIBUTES.effectTicks.get() == 0) {
             BeeEffect effect = getBeeEffect();
             if (effect != null && !effect.getEffects().isEmpty()) {
                 List<LivingEntity> entities;
-                if (getBeeType().equals(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "pepto_bismol"))) {
+                if (getBeeType().equals(Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "pepto_bismol"))) {
                     entities = level().getEntitiesOfClass(LivingEntity.class, (new AABB(new BlockPos(ProductiveBee.this.blockPosition()))).inflate(8.0D, 6.0D, 8.0D));
                 } else {
                     entities = level().getEntitiesOfClass(Player.class, (new AABB(new BlockPos(ProductiveBee.this.blockPosition()))).inflate(8.0D, 6.0D, 8.0D)).stream().map(player -> (LivingEntity) player).collect(Collectors.toList());
@@ -181,21 +184,21 @@ public class ProductiveBee extends Bee implements IProductiveBee
     }
 
     @Override
-    protected void customServerAiStep() {
+    protected void customServerAiStep(ServerLevel serverLevel) {
         // Reset target if the target has a bee nest helmet
         Entity target = this.getTarget();
         if (target instanceof LivingEntity livingEntity && BeeHelper.isWearingBeeNestHelmet(livingEntity)) {
             this.stopBeingAngry();
         }
 
-        super.customServerAiStep();
+        super.customServerAiStep(serverLevel);
     }
 
     @Override
     public void setHasNectar(boolean hasNectar) {
         // Only allow removing nectar state or setting on an allowed list of bees.
         // Use internal method to prevent other mods from setting nectar state
-        if (!hasNectar || this.getType().is(ModTags.EXTERNAL_CAN_POLLINATE)) {
+        if (!hasNectar || BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(this.getType()).is(ModTags.EXTERNAL_CAN_POLLINATE)) {
             internalSetHasNectar(hasNectar);
         }
     }
@@ -204,7 +207,6 @@ public class ProductiveBee extends Bee implements IProductiveBee
         super.setHasNectar(hasNectar);
     }
 
-    @Override
     public boolean isFlowerValid(BlockPos pos) {
         return isFlowerValid(pos, ProductiveBee.this::isFlowerBlock, ProductiveBee.this::isFlowerItem);
     }
@@ -221,7 +223,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
 
     public List<ItemStack> getBreedingItems() {
         int count = getBreedingItemCount();
-        return Arrays.stream(getBreedingIngredient().getItems()).map(itemStack -> itemStack.copyWithCount(count)).toList();
+        return getBreedingIngredient().items().map(holder -> new ItemStack(holder.value(), count)).toList();
     }
 
     @Override
@@ -286,7 +288,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
 
             if (!shouldReturnToHive && !level().dimensionType().hasFixedTime()) { // in overworld, return to hive if raining or when night
                 shouldReturnToHive =
-                    (level().isNight() && !canOperateDuringNight()) ||
+                    (level().getOverworldClockTime() % 24000L >= 12000L && !canOperateDuringNight()) ||
                     (level().isRaining() && !canOperateDuringRain()) ||
                     (level().isThundering() && !canOperateDuringThunder());
             }
@@ -301,7 +303,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
     public void setHasStung(boolean hasStung) {
         if (hasStung && getAttributeValue(GeneAttribute.ENDURANCE).equals(GeneValue.ENDURANCE_MEDIUM)) {
             // 70% chance to not lose stinger
-            hasStung = level().random.nextBoolean();
+            hasStung = level().getRandom().nextBoolean();
         }
         if (hasStung && getAttributeValue(GeneAttribute.ENDURANCE).equals(GeneValue.ENDURANCE_STRONG)) {
             // 100% chance to not lose stinger
@@ -314,7 +316,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
         }
     }
 
-    public ResourceLocation getBeeType() {
+    public Identifier getBeeType() {
         return EntityType.getKey(this.getType());
     }
 
@@ -322,11 +324,15 @@ public class ProductiveBee extends Bee implements IProductiveBee
         return getBeeName(getBeeType());
     }
 
-    public static String getBeeName(ResourceLocation beeType) {
+    public static String getBeeName(Identifier beeType) {
         String[] types = beeType.toString().split("[:]");
         String type = types[0];
         if (types.length > 1) {
             type = types[1];
+        }
+        int slashIdx = type.lastIndexOf('/');
+        if (slashIdx >= 0) {
+            type = type.substring(slashIdx + 1);
         }
         return type.replace("_bee", "");
     }
@@ -382,8 +388,8 @@ public class ProductiveBee extends Bee implements IProductiveBee
     }
 
     @Override
-    public boolean isInvulnerableTo(DamageSource source) {
-        return source.equals(this.level().damageSources().inWall()) || source.equals(this.level().damageSources().sweetBerryBush()) || (source.equals(this.level().damageSources().wither()) && getBeeType().getPath().contains("dye_bee")) || super.isInvulnerableTo(source);
+    public boolean isInvulnerableTo(ServerLevel level, DamageSource source) {
+        return source.equals(this.level().damageSources().inWall()) || source.equals(this.level().damageSources().sweetBerryBush()) || (source.equals(this.level().damageSources().wither()) && getBeeType().getPath().contains("dye_bee")) || super.isInvulnerableTo(level, source);
     }
 
     @Nonnull
@@ -393,31 +399,30 @@ public class ProductiveBee extends Bee implements IProductiveBee
 
         if (navigator instanceof FlyingPathNavigation) {
             navigator.setCanFloat(false);
-            ((FlyingPathNavigation) navigator).setCanPassDoors(false);
         }
         return navigator;
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
 
-        tag.putString("bee_type", this instanceof SolitaryBee ? "solitary" : "hive");
-        tag.putFloat("MaxHealth", getMaxHealth());
-        tag.putBoolean("HasConverted", hasConverted());
+        output.putString("bee_type", this instanceof SolitaryBee ? "solitary" : "hive");
+        output.putFloat("MaxHealth", getMaxHealth());
+        output.putBoolean("HasConverted", hasConverted());
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
 
-        this.internalSetHasNectar(tag.getBoolean("HasNectar"));
+        this.internalSetHasNectar(input.getBooleanOr("HasNectar", false));
 
-        setHasConverted(tag.contains("HasConverted") && tag.getBoolean("HasConverted"));
+        setHasConverted(input.getBooleanOr("HasConverted", false));
     }
 
     @Override
-    public ItemStack getPickedResult(HitResult target) {
+    public ItemStack getPickResult() {
         return BeeCreator.getSpawnEgg(this.getBeeType());
     }
 
@@ -472,7 +477,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
             if (BeeHelper.hasBlockConversionRecipe(this, flowerBlockState)) {
                 RecipeHolder<BlockConversionRecipe> recipe = BeeHelper.getBlockConversionRecipe(this, flowerBlockState);
                 if (recipe != null) {
-                    if (level().random.nextFloat() <= recipe.value().chance) {
+                    if (level().getRandom().nextFloat() <= recipe.value().chance) {
                         level().setBlock(savedFlowerPos, recipe.value().stateTo, 3);
                         level().levelEvent(2005, savedFlowerPos, 0);
                     }
@@ -487,7 +492,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
                         if (stack.getItem() instanceof BlockItem blockItem) {
                             RecipeHolder<BlockConversionRecipe> blockRecipe = BeeHelper.getBlockConversionRecipe(this, blockItem.getBlock().defaultBlockState());
                             if (blockRecipe != null && hiveBlockEntity instanceof AdvancedBeehiveBlockEntity beehiveBlockEntity) {
-                                if (level().random.nextFloat() <= blockRecipe.value().chance) {
+                                if (level().getRandom().nextFloat() <= blockRecipe.value().chance) {
                                     ItemStack output = new ItemStack(blockRecipe.value().stateTo.getBlock().asItem());
                                     if (beehiveBlockEntity.isSim()) {
                                         if (!output.equals(ItemStack.EMPTY) &&
@@ -507,14 +512,14 @@ public class ProductiveBee extends Bee implements IProductiveBee
                         }
                         RecipeHolder<ItemConversionRecipe> itemRecipe = BeeHelper.getItemConversionRecipe(this, stack);
                         if (itemRecipe != null && hiveBlockEntity instanceof AdvancedBeehiveBlockEntity beehiveBlockEntity) {
-                            if (level().random.nextFloat() <= itemRecipe.value().chance) {
+                            if (level().getRandom().nextFloat() <= itemRecipe.value().chance) {
                                 if (beehiveBlockEntity.isSim()) {
                                     if (beehiveBlockEntity.inventoryHandler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler itemHandler
-                                            && itemHandler.addOutput(itemRecipe.value().output.copy()).getCount() == 0) {
+                                            && itemHandler.addOutput(itemRecipe.value().getResult().copy()).getCount() == 0) {
                                         stack.shrink(1);
                                     }
                                 } else {
-                                    Block.popResourceFromFace(level(), feederBlockEntity.getBlockPos(), Direction.UP, itemRecipe.value().output.copy());
+                                    Block.popResourceFromFace(level(), feederBlockEntity.getBlockPos(), Direction.UP, itemRecipe.value().getResult().copy());
                                     stack.shrink(1);
                                 }
                             }
@@ -616,7 +621,8 @@ public class ProductiveBee extends Bee implements IProductiveBee
                     isInterested = isValidFeeder(ProductiveBee.this, level().getBlockEntity(blockPos), ProductiveBee.this::isFlowerBlock, ProductiveBee.this::isFlowerItem);
                 } else if (!getFlowerType().equals("entity_type")) {
                     isInterested = ProductiveBee.this.isFlowerBlock(blockState);
-                    if (isInterested && blockState.is(BlockTags.TALL_FLOWERS)) {
+                    boolean isTallFlower = blockState.is(Blocks.SUNFLOWER) || blockState.is(Blocks.LILAC) || blockState.is(Blocks.ROSE_BUSH) || blockState.is(Blocks.PEONY) || blockState.is(Blocks.PITCHER_PLANT);
+                    if (isInterested && isTallFlower) {
                         if (blockState.getBlock() == Blocks.SUNFLOWER) {
                             isInterested = blockState.getValue(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER;
                         }
@@ -651,7 +657,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
                     return true;
                 }
                 // Failing to find a target will set a cooldown before next attempt
-                ProductiveBee.this.remainingCooldownBeforeLocatingNewFlower = 70 + level().random.nextInt(50);
+                ProductiveBee.this.remainingCooldownBeforeLocatingNewFlower = 70 + level().getRandom().nextInt(50);
                 return false;
             }
         }
@@ -707,25 +713,24 @@ public class ProductiveBee extends Bee implements IProductiveBee
                     return entities;
                 }
             }
-            if (ProductiveBee.this instanceof ConfigurableBee && ProductiveBee.this.getFlowerType().equals("entity_types")) {
-                CompoundTag nbt = ((ConfigurableBee) ProductiveBee.this).getNBTData();
-                if (nbt != null) {
-                    if (nbt.contains("flowerTag")) {
-                        var flowerTag = ModTags.getEntityTag(ResourceLocation.parse(nbt.getString("flowerTag")));
-                        var amberBlocks = this.findNearestBlock(pos -> {
-                            if (ProductiveBee.this.level().getBlockEntity(pos) instanceof AmberBlockEntity amberBlockEntity) {
-                                var entity = amberBlockEntity.getCachedEntity();
-                                return entity != null && entity.getType().is(flowerTag);
-                            }
-                            return false;
-                        }, 5);
-                        if (amberBlocks.isPresent()) {
-                            return amberBlocks;
+            if (ProductiveBee.this instanceof ConfigurableBee configurableBee && ProductiveBee.this.getFlowerType().equals("entity_types")) {
+                BeeData data = configurableBee.getBeeData();
+                if (data != null && data.flowerTag().isPresent()) {
+                    var flowerTag = ModTags.getEntityTag(Identifier.parse(data.flowerTag().get()));
+                    var amberBlocks = this.findNearestBlock(pos -> {
+                        if (ProductiveBee.this.level().getBlockEntity(pos) instanceof AmberBlockEntity amberBlockEntity) {
+                            var entity = amberBlockEntity.getCachedEntity();
+                            return entity != null && BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(entity.getType()).is(flowerTag);
                         }
-                        var entityPositions = findEntities(entity -> entity instanceof Mob && nbt.getBoolean("inverseFlower") != entity.getType().is(flowerTag), 5D);
-                        if (entityPositions.isPresent()) {
-                            return entityPositions;
-                        }
+                        return false;
+                    }, 5);
+                    if (amberBlocks.isPresent()) {
+                        return amberBlocks;
+                    }
+                    boolean inverse = data.inverseFlower();
+                    var entityPositions = findEntities(entity -> entity instanceof Mob && inverse != BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(entity.getType()).is(flowerTag), 5D);
+                    if (entityPositions.isPresent()) {
+                        return entityPositions;
                     }
                 }
             }
@@ -782,7 +787,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
                 return false;
             }
 
-            HolderSet.Named<Block> nestTag = BuiltInRegistries.BLOCK.getOrCreateTag(ProductiveBee.this.getNestingTag());
+            HolderSet.Named<Block> nestTag = BuiltInRegistries.BLOCK.get(ProductiveBee.this.getNestingTag()).orElseThrow();
             try {
                 if (nestTag.size() == 0) {
                     return false;
@@ -795,8 +800,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
                 ProductiveBees.LOGGER.debug("Nesting tag for " + bee + " not found. Looking for " + nestTag);
             }
 
-            return !ProductiveBee.this.hasRestriction() &&
-                    ProductiveBee.this.wantsToEnterHive() &&
+            return ProductiveBee.this.wantsToEnterHive() &&
                     !this.isCloseEnough(ProductiveBee.this.hivePos) &&
                     ProductiveBee.this.level().getBlockState(ProductiveBee.this.hivePos).is(nestTag);
         }
@@ -886,7 +890,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
     public class ProductiveTemptGoal extends TemptGoal
     {
         public ProductiveTemptGoal(PathfinderMob entity, double speed) {
-            super(entity, speed, Ingredient.of(ModTags.BEE_TEMPT_ITEMS), false);
+            super(entity, speed, Ingredient.of(BuiltInRegistries.ITEM.get(ModTags.BEE_TEMPT_ITEMS).orElseThrow()), false);
         }
     }
 

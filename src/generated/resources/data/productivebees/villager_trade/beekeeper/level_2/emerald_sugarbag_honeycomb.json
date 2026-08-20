@@ -1,0 +1,12 @@
+{
+  "gives": {
+    "id": "productivebees:sugarbag_honeycomb"
+  },
+  "max_uses": 32.0,
+  "reputation_discount": 0.2,
+  "wants": {
+    "count": 2.0,
+    "id": "minecraft:emerald"
+  },
+  "xp": 3.0
+}

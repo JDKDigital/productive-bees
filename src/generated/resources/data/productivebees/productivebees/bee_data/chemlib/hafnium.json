@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/hafnium/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "chemlib:hafnium_metal_block",
+  "particleColor": "#5b5e9a",
+  "primaryColor": "#444784",
+  "size": 0.7,
+  "useGlowLayer": true
+}

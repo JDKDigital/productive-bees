@@ -1,0 +1,11 @@
+{
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/ludicrite",
+  "particleColor": "#ad5bd4",
+  "primaryColor": "#7d10b0",
+  "secondaryColor": "#8f21c2",
+  "selfbreed": false,
+  "size": 0.8,
+  "useGlowLayer": true
+}

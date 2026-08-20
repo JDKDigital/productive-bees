@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/chlorine/bee",
+  "flowerFluid": "chemlib:chlorine_fluid",
+  "particleColor": "#d0ef76",
+  "primaryColor": "#cbf747",
+  "size": 0.6,
+  "translucent": true,
+  "useGlowLayer": true
+}

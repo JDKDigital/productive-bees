@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:husbandry/safely_harvest_honey",
+  "criteria": {
+    "get_hive": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#productivebees:advanced_beehives"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.husbandry.advanced_beehive.description"
+    },
+    "icon": {
+      "id": "productivebees:advanced_oak_beehive"
+    },
+    "title": {
+      "translate": "advancements.husbandry.advanced_beehive.title"
+    }
+  },
+  "requirements": [
+    [
+      "get_hive"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

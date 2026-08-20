@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:chemlib/cerium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:dusts/sulfur"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:chemlib/lanthanum"
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:chemlib/lanthanum",
+  "parent1": "productivebees:chemlib/cerium",
+  "parent2": "productivebees:dusts/sulfur"
+}

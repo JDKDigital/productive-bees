@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "elementalcraft"
+    }
+  ],
+  "attack": 1.0,
+  "flowerBlock": "elementalcraft:earthcrystal_block",
+  "particleColor": "#299652",
+  "primaryColor": "#299652",
+  "renderer": "default_crystal",
+  "secondaryColor": "#484849",
+  "size": 0.6,
+  "tertiaryColor": "#cccccc"
+}

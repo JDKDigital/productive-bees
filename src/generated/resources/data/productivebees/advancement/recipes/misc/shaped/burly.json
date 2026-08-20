@@ -1,0 +1,38 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:burly"
+    }
+  ],
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_bee_spawn_egg": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:bee_spawn_egg"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "productivebees:shaped/burly"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_bee_spawn_egg"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "productivebees:shaped/burly"
+    ]
+  }
+}

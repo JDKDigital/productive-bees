@@ -20,7 +20,7 @@ public class PoweredCentrifuge extends Centrifuge
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.POWERED_CENTRIFUGE.get(), PoweredCentrifugeBlockEntity::tick);
+        return level.isClientSide() ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.POWERED_CENTRIFUGE.get(), PoweredCentrifugeBlockEntity::tick);
     }
 
     @Nullable

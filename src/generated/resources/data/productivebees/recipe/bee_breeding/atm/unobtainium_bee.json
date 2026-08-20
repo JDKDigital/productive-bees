@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:atm/allthemodium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:atm/vibranium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:atm/unobtainium"
+    },
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "productivemetalworks"
+      }
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:atm/unobtainium",
+  "parent1": "productivebees:atm/allthemodium",
+  "parent2": "productivebees:atm/vibranium"
+}

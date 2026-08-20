@@ -64,11 +64,11 @@ public class MinecraftHarvester
         } else if (cropBlock instanceof SweetBerryBushBlock) {
             int i = cropBlockState.getValue(SweetBerryBushBlock.AGE);
             if (i > 1) {
-                int j = 1 + level.random.nextInt(2);
-                var dropStack = cropBlock.getCloneItemStack(level, pos, cropBlockState);
+                int j = 1 + level.getRandom().nextInt(2);
+                var dropStack = cropBlockState.getCloneItemStack(level, pos, false);
                 dropStack.setCount(j + (i == 3 ? 1 : 0));
                 Block.popResource(level, pos, dropStack);
-                level.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + level.random.nextFloat() * 0.4F);
+                level.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + level.getRandom().nextFloat() * 0.4F);
                 level.setBlock(pos, cropBlockState.setValue(SweetBerryBushBlock.AGE, 1), 2);
             }
         } else {

@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/nobelium/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerItem": "chemlib:nobelium",
+  "particleColor": "#ae36c8",
+  "primaryColor": "#9c32b4",
+  "selfbreed": false,
+  "size": 0.5,
+  "useGlowLayer": true
+}

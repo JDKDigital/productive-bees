@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thermal_extra"
+    }
+  ],
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "thermal_extra:soul_infused_block",
+  "particleColor": "#ffd68e",
+  "primaryColor": "#b7785a",
+  "secondaryColor": "#db9e70",
+  "size": 0.7,
+  "tertiaryColor": "#ffd68e",
+  "useGlowLayer": true
+}

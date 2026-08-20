@@ -8,6 +8,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public class CanvasExpansionBoxBlockEntity extends ExpansionBoxBlockEntity implements CanvasBlockEntityInterface
 {
@@ -29,22 +31,20 @@ public class CanvasExpansionBoxBlockEntity extends ExpansionBoxBlockEntity imple
     }
 
     @Override
-    protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider provider) {
-        super.saveAdditional(pTag, provider);
-        pTag.putInt("color", color);
+    protected void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
+        output.putInt("color", color);
     }
 
     @Override
-    public void loadAdditional(CompoundTag pTag, HolderLookup.Provider provider) {
-        super.loadAdditional(pTag, provider);
-        if (pTag.contains("color")) {
-            this.setColor(pTag.getInt("color"));
-        }
+    public void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
+        input.getInt("color").ifPresent(this::setColor);
     }
 
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
-        return saveWithId(pRegistries);
+        return saveWithoutMetadata(pRegistries);
     }
 
     @Override
@@ -53,8 +53,8 @@ public class CanvasExpansionBoxBlockEntity extends ExpansionBoxBlockEntity imple
     }
 
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
-        super.onDataPacket(net, pkt, lookupProvider);
+    public void onDataPacket(Connection net, ValueInput input) {
+        super.onDataPacket(net, input);
         if (level instanceof ClientLevel) {
             level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 0);
         }

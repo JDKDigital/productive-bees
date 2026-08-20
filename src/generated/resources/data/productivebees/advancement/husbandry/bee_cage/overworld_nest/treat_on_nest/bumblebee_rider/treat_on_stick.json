@@ -1,0 +1,32 @@
+{
+  "parent": "productivebees:husbandry/bee_cage/overworld_nest/treat_on_nest/bumblebee_rider",
+  "criteria": {
+    "get_item": {
+      "conditions": {
+        "items": [
+          {
+            "items": "productivebees:treat_on_a_stick"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.husbandry.treat_on_stick.description"
+    },
+    "icon": {
+      "id": "productivebees:treat_on_a_stick"
+    },
+    "title": {
+      "translate": "advancements.husbandry.treat_on_stick.title"
+    }
+  },
+  "requirements": [
+    [
+      "get_item"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

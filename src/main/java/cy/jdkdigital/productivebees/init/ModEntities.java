@@ -10,18 +10,23 @@ import cy.jdkdigital.productivebees.common.entity.bee.hive.*;
 import cy.jdkdigital.productivebees.common.entity.bee.solitary.*;
 import cy.jdkdigital.productivebees.common.item.SpawnEgg;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.util.FastColor;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.animal.Bee;
-import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
+import net.minecraft.world.entity.animal.bee.Bee;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class ModEntities
@@ -31,6 +36,8 @@ public class ModEntities
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, ProductiveBees.MODID);
     public static final DeferredRegister<EntityType<?>> HIVE_BEES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, ProductiveBees.MODID);
     public static final DeferredRegister<EntityType<?>> SOLITARY_BEES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, ProductiveBees.MODID);
+
+    public static final Map<DeferredHolder<Item, ? extends Item>, int[]> SPAWN_EGG_COLORS = new HashMap<>();
 
     public static DeferredHolder<EntityType<?>, EntityType<ThrowableItemProjectile>> BEE_BOMB = createEntity("bee_bomb", EntityType.Builder.<ThrowableItemProjectile>of(BeeBombEntity::new, MobCategory.MISC).sized(0.25F, 0.25F));
 
@@ -72,19 +79,20 @@ public class ModEntities
     public static <E extends Bee> DeferredHolder<EntityType<?>, EntityType<E>> createBee(DeferredRegister<EntityType<?>> registry, String name, EntityType.EntityFactory<E> supplier, int primaryColor, int secondaryColor) {
         EntityType.Builder<E> builder = EntityType.Builder.of(supplier, MobCategory.CREATURE).sized(0.7F, 0.6F).setTrackingRange(8);
 
-        DeferredHolder<EntityType<?>, EntityType<E>> entity = registry.register(name, () -> builder.build(ProductiveBees.MODID + ":" + name));
+        DeferredHolder<EntityType<?>, EntityType<E>> entity = registry.register(name, () -> builder.build(ResourceKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(ProductiveBees.MODID, name))));
 
-        DeferredHolder<Item, ? extends Item> spawnEgg = ProductiveBees.ITEMS.register("spawn_egg_" + name, () -> new SpawnEgg(entity::get, FastColor.ARGB32.color(255, primaryColor), FastColor.ARGB32.color(255, secondaryColor), new Item.Properties()));
+        DeferredHolder<Item, ? extends Item> spawnEgg = ProductiveBees.ITEMS.registerItem("spawn_egg_" + name, p -> new SpawnEgg(p.spawnEgg(entity.get())));
         if (name.equals("configurable_bee")) {
             ModItems.CONFIGURABLE_SPAWN_EGG = spawnEgg;
         }
         ModItems.SPAWN_EGGS.add(spawnEgg);
+        SPAWN_EGG_COLORS.put(spawnEgg, new int[]{primaryColor, secondaryColor});
 
         return entity;
     }
 
     public static <E extends Entity> DeferredHolder<EntityType<?>, EntityType<E>> createEntity(String name, EntityType.Builder<E> builder) {
-        DeferredHolder<EntityType<?>, EntityType<E>> entity = ENTITIES.register(name, () -> builder.build(ProductiveBees.MODID + ":" + name));
+        DeferredHolder<EntityType<?>, EntityType<E>> entity = ENTITIES.register(name, () -> builder.build(ResourceKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(ProductiveBees.MODID, name))));
 
         return entity;
     }

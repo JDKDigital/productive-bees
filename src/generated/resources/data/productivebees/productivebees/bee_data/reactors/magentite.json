@@ -1,0 +1,9 @@
+{
+  "attack": 1.0,
+  "flowerTag": "c:storage_blocks/magentite",
+  "particleColor": "#da6fde",
+  "primaryColor": "#c418c9",
+  "secondaryColor": "#970c9c",
+  "size": 0.8,
+  "useGlowLayer": true
+}

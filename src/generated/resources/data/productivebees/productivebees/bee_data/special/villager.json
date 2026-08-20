@@ -1,0 +1,12 @@
+{
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/villager/bee",
+  "createComb": false,
+  "flowerBlock": "minecraft:air",
+  "model": "productivebees:entity/villager",
+  "particleColor": "#ff0000",
+  "primaryColor": "#3a5a19",
+  "secondaryColor": "#73964b",
+  "selfbreed": false,
+  "useGlowLayer": true
+}

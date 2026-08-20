@@ -1,0 +1,10 @@
+{
+  "attack": 1.0,
+  "flowerTag": "productivebees:flowers/opal",
+  "particleColor": "#dbdbdb",
+  "primaryColor": "#dbdbdb",
+  "renderer": "default_crystal",
+  "secondaryColor": "#064f2c",
+  "size": 0.6,
+  "tertiaryColor": "#8c8c8c"
+}

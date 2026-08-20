@@ -1,7 +1,6 @@
 {
+  "type": "neoforge:add_features",
   "biomes": "#c:is_sandy",
-  "generation_stage": "TOP_LAYER_MODIFICATION",
   "features": "productivebees:sand_nest",
-  "type": "productivebees:nest",
-  "maxTemperature": 100
+  "step": "top_layer_modification"
 }

@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/roentgenium/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerItem": "chemlib:roentgenium",
+  "particleColor": "#b0d248",
+  "primaryColor": "#aacb46",
+  "selfbreed": false,
+  "size": 0.5,
+  "useGlowLayer": true
+}

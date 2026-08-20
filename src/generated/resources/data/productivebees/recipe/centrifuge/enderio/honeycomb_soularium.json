@@ -1,0 +1,30 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "enderio"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:enderio/soularium"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:enderio/soularium"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": "enderio:soularium_nugget",
+      "max": 5,
+      "min": 5
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "attack": 1.0,
+  "attributes": {
+    "endurance": "endurance.strong"
+  },
+  "flowerTag": "c:obsidians",
+  "particleColor": "#3b2754",
+  "primaryColor": "#3b2754",
+  "renderer": "thicc",
+  "secondaryColor": "#06030b",
+  "size": 0.85,
+  "useGlowLayer": true
+}

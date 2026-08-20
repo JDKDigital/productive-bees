@@ -1,0 +1,37 @@
+{
+  "parent": "productivebees:husbandry/bee_cage/quartz_nest/catch_crystalline_bee",
+  "criteria": {
+    "iron_bee": {
+      "conditions": {
+        "child": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "productivebees:configurable_bee",
+              "nbt": "{type:\"productivebees:raw_materials/iron\"}"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:bred_animals"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.husbandry.breed_iron_bee.description"
+    },
+    "icon": {
+      "id": "productivebees:adv_breed_bee"
+    },
+    "title": {
+      "translate": "advancements.husbandry.breed_iron_bee.title"
+    }
+  },
+  "requirements": [
+    [
+      "iron_bee"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

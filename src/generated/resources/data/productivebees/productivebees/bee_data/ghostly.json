@@ -1,0 +1,13 @@
+{
+  "attack": 1.0,
+  "attributes": {
+    "behavior": "behavior.nocturnal"
+  },
+  "beeTexture": "productivebees:textures/entity/bee/ghostly/bee",
+  "createComb": false,
+  "flowerTag": "productivebees:flowers/souled",
+  "nestingPreference": "productivebees:nests/soul_sand_nests",
+  "primaryColor": "#eeeeee",
+  "translucent": true,
+  "useGlowLayer": true
+}

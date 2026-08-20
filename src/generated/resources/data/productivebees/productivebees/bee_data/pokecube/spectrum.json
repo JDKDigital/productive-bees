@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "pokecube"
+    }
+  ],
+  "attack": 1.0,
+  "flowerTag": "c:storage_blocks/spectrum",
+  "particleColor": "#ffc9a7",
+  "primaryColor": "#ffc9a7",
+  "secondaryColor": "#ff762c",
+  "useGlowLayer": true
+}

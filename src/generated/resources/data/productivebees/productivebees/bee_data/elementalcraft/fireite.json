@@ -1,0 +1,25 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "elementalcraft"
+    }
+  ],
+  "attack": 1.0,
+  "attributes": {
+    "endurance": "endurance.strong"
+  },
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "fireproof": true,
+  "flowerTag": "c:storage_blocks/fireite",
+  "invulnerability": [
+    "mekanism.radiation"
+  ],
+  "particleColor": "#db750e",
+  "primaryColor": "#db750e",
+  "secondaryColor": "#2c0d0d",
+  "selfbreed": false,
+  "selfheal": true,
+  "size": 0.6,
+  "useGlowLayer": true
+}

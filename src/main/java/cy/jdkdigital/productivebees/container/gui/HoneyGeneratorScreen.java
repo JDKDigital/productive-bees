@@ -2,78 +2,72 @@ package cy.jdkdigital.productivebees.container.gui;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.container.HoneyGeneratorContainer;
-import cy.jdkdigital.productivebees.util.FluidContainerUtil;
+import cy.jdkdigital.productivelib.util.FluidContainerUtil;
 import cy.jdkdigital.productivelib.client.screen.AbstractUpgradeableContainerScreen;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FormattedCharSequence;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
 
-import javax.annotation.Nonnull;
-import java.util.ArrayList;
 import java.util.List;
 
 public class HoneyGeneratorScreen extends AbstractUpgradeableContainerScreen<HoneyGeneratorContainer>
 {
-    private static final ResourceLocation GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/honey_generator.png");
+    private static final Identifier GUI_TEXTURE = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/honey_generator.png");
 
     public HoneyGeneratorScreen(HoneyGeneratorContainer container, Inventory inv, Component titleIn) {
         super(container, inv, titleIn);
     }
 
     @Override
-    public void render(@Nonnull GuiGraphics matrixStack, int mouseX, int mouseY, float partialTicks) {
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.renderTooltip(matrixStack, mouseX, mouseY);
-    }
+    protected void extractTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
+        super.extractTooltip(graphics, mouseX, mouseY);
 
-    @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        super.renderLabels(guiGraphics, mouseX, mouseY);
-
-        FluidStack fluidStack = this.menu.getBlockEntity().getFluidHandler().getFluidInTank(0);
-        // Fluid level tooltip
         if (isHovering(142, 16, 6, 54, mouseX, mouseY)) {
-            List<FormattedCharSequence> tooltipList = new ArrayList<>();
-
-            if (fluidStack.getAmount() > 0) {
-                tooltipList.add(Component.translatable("productivebees.screen.fluid_level", fluidStack.getHoverName().getString(), fluidStack.getAmount() + "mB").getVisualOrderText());
+            FluidResource resource = this.menu.getBlockEntity().getFluidHandler().getResource(0);
+            int amount = this.menu.getBlockEntity().getFluidHandler().getAmountAsInt(0);
+            if (amount > 0 && !resource.isEmpty()) {
+                FluidStack stack = resource.toStack(amount);
+                graphics.setTooltipForNextFrame(
+                        List.of(Component.translatable("productivebees.screen.fluid_level", stack.getHoverName().getString(), amount + "mB").getVisualOrderText()),
+                        mouseX, mouseY);
             } else {
-                tooltipList.add(Component.translatable("productivebees.screen.empty").getVisualOrderText());
+                graphics.setTooltipForNextFrame(
+                        List.of(Component.translatable("productivebees.screen.empty").getVisualOrderText()),
+                        mouseX, mouseY);
             }
-
-            guiGraphics.renderTooltip(font, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
         }
 
-        int energyAmount = this.menu.getBlockEntity().getEnergyHandler().getEnergyStored();
-        // Energy level tooltip
         if (isHovering(8, 16, 6, 54, mouseX, mouseY)) {
-            List<FormattedCharSequence> tooltipList = new ArrayList<>();
-            tooltipList.add(Component.translatable("productivebees.screen.energy_level", energyAmount + "FE").getVisualOrderText());
-
-            guiGraphics.renderTooltip(font, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
+            int energyAmount = this.menu.getBlockEntity().getEnergyHandler().getAmountAsInt();
+            graphics.setTooltipForNextFrame(
+                    List.of(Component.translatable("productivebees.screen.energy_level", energyAmount + "FE").getVisualOrderText()),
+                    mouseX, mouseY);
         }
     }
 
     @Override
-    protected void renderBg(@Nonnull GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
-        // Draw main screen
-        guiGraphics.blit(GUI_TEXTURE, getGuiLeft(), getGuiTop(), 0, 0, this.getXSize(), this.getYSize());
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        super.extractBackground(graphics, mouseX, mouseY, partialTick);
 
-        // Draw energy level
-        guiGraphics.blit(GUI_TEXTURE, getGuiLeft() + 8, getGuiTop() + 17, 206, 0, 4, 52);
-        float energyAmount = (float) this.menu.getBlockEntity().getEnergyHandler().getEnergyStored();
-        int energyLevel = (int) (energyAmount * (52f / (float) this.menu.getBlockEntity().getEnergyHandler().getMaxEnergyStored()));
-        guiGraphics.blit(GUI_TEXTURE, getGuiLeft() + 8, getGuiTop() + 17, 8, 17, 4, 52 - energyLevel);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, GUI_TEXTURE, this.leftPos, this.topPos, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
 
-        // Draw fluid tank
-        FluidStack fluidStack = this.menu.getBlockEntity().getFluidHandler().getFluidInTank(0);
+        // Energy bar background
+        graphics.blit(RenderPipelines.GUI_TEXTURED, GUI_TEXTURE, this.leftPos + 8, this.topPos + 17, 206.0F, 0.0F, 4, 52, 256, 256);
+        float energyAmount = this.menu.getBlockEntity().getEnergyHandler().getAmountAsInt();
+        int capacity = this.menu.getBlockEntity().getEnergyHandler().getCapacityAsInt();
+        int energyLevel = capacity > 0 ? (int) (energyAmount * (52f / capacity)) : 0;
+        graphics.blit(RenderPipelines.GUI_TEXTURED, GUI_TEXTURE, this.leftPos + 8, this.topPos + 17, 8.0F, 17.0F, 4, 52 - energyLevel, 256, 256);
 
-        if (fluidStack.getAmount() > 0) {
-            FluidContainerUtil.renderFluidTank(guiGraphics, this, fluidStack, this.menu.getBlockEntity().getFluidHandler().getTankCapacity(0), 140, 17, 4, 52, 0);
+        FluidResource resource = this.menu.getBlockEntity().getFluidHandler().getResource(0);
+        int amount = this.menu.getBlockEntity().getFluidHandler().getAmountAsInt(0);
+        if (amount > 0 && !resource.isEmpty()) {
+            FluidStack stack = resource.toStack(amount);
+            int fluidCapacity = this.menu.getBlockEntity().getFluidHandler().getCapacityAsInt(0, resource);
+            FluidContainerUtil.renderTiledFluid(graphics, this, stack, amount, fluidCapacity, 140, 17, 4, 52);
         }
     }
 }

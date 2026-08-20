@@ -1,0 +1,22 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "draconicevolution"
+    }
+  ],
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "draconic": true,
+  "fireproof": true,
+  "flowerItem": "draconicevolution:chaos_shard",
+  "invulnerability": [
+    "mekanism.radiation"
+  ],
+  "nestingPreference": "productivebees:nests/draconic_nests",
+  "particleColor": "#303030",
+  "primaryColor": "#090909",
+  "renderer": "default_crystal",
+  "selfbreed": false,
+  "tertiaryColor": "#303030"
+}

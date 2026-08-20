@@ -1,0 +1,28 @@
+{
+  "parent": "minecraft:husbandry/fishy_business",
+  "criteria": {
+    "catch": {
+      "conditions": {
+        "bee": "any"
+      },
+      "trigger": "productivebees:fish_bee"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.husbandry.fishy_bees.description"
+    },
+    "icon": {
+      "id": "productivebees:adv_breed_bee"
+    },
+    "title": {
+      "translate": "advancements.husbandry.fishy_bees.title"
+    }
+  },
+  "requirements": [
+    [
+      "catch"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

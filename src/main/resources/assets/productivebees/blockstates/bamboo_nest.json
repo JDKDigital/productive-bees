@@ -1,0 +1,16 @@
+{
+    "variants": {
+        "axis=y": {
+            "model": "productivebees:block/bamboo_nest"
+        },
+        "axis=z": {
+            "model": "productivebees:block/bamboo_nest",
+            "x": 90
+        },
+        "axis=x": {
+            "model": "productivebees:block/bamboo_nest",
+            "x": 90,
+            "y": 90
+        }
+    }
+}

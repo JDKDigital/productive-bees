@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "mysticalagradditions"
+    }
+  ],
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "mysticalagradditions:insanium_block",
+  "invulnerability": [
+    "mekanism.radiation"
+  ],
+  "particleColor": "#410062",
+  "primaryColor": "#4d086d",
+  "secondaryColor": "#804f40",
+  "selfbreed": false,
+  "size": 0.8,
+  "useGlowLayer": true
+}

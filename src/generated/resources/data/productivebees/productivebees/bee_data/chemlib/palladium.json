@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    },
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "gtceu"
+      }
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/palladium/bee",
+  "flowerBlock": "chemlib:palladium_metal_block",
+  "particleColor": "#c3989a",
+  "primaryColor": "#b78187",
+  "useGlowLayer": true
+}

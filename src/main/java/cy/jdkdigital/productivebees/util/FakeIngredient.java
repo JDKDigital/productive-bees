@@ -3,6 +3,8 @@ package cy.jdkdigital.productivebees.util;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.minecraft.core.Holder;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.crafting.ICustomIngredient;
 import net.neoforged.neoforge.common.crafting.IngredientType;
@@ -23,8 +25,8 @@ public class FakeIngredient implements ICustomIngredient
     }
 
     @Override
-    public Stream<ItemStack> getItems() {
-        return null;
+    public Stream<Holder<Item>> items() {
+        return Stream.empty();
     }
 
     @Override

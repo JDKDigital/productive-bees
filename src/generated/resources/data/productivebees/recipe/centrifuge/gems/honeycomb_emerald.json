@@ -1,0 +1,19 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:gems/emerald"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "chance": 0.2,
+      "item": "#c:gems/emerald"
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "evilcraft"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:evilcraft/dark_gem"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:evilcraft/dark_gem"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "chance": 0.7,
+      "item": "evilcraft:dark_gem"
+    },
+    {
+      "chance": 0.3,
+      "item": "evilcraft:dark_gem_crushed"
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

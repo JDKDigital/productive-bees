@@ -1,0 +1,15 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ender"
+    }
+  ],
+  "type": "productivebees:bee_spawning",
+  "biomes": "#minecraft:is_end",
+  "ingredient": "productivebees:end_stone_nest",
+  "results": [
+    "productivebees:ender"
+  ],
+  "spawn_item": "minecraft:popped_chorus_fruit"
+}

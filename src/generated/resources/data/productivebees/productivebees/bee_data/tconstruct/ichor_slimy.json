@@ -1,0 +1,11 @@
+{
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/ichor_slimy/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "minecraft:flowers",
+  "particleColor": "#fcb77b",
+  "primaryColor": "#fcb77b",
+  "renderer": "translucent_with_center",
+  "secondaryColor": "#ae3f00",
+  "useGlowLayer": true
+}

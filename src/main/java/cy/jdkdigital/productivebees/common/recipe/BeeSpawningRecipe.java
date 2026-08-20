@@ -7,7 +7,6 @@ import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -28,6 +27,22 @@ import java.util.stream.IntStream;
 public class BeeSpawningRecipe implements Recipe<RecipeInput>
 {
     static StreamCodec<RegistryFriendlyByteBuf, HolderSet<Biome>> BIOME_STREAM = ByteBufCodecs.holderSet(Registries.BIOME);
+
+    public static final MapCodec<BeeSpawningRecipe> MAP_CODEC = RecordCodecBuilder.mapCodec(
+            builder -> builder.group(
+                    Ingredient.CODEC.fieldOf("ingredient").forGetter(recipe -> recipe.ingredient),
+                    Ingredient.CODEC.fieldOf("spawn_item").orElse(Ingredient.of(ModItems.HONEY_TREAT.get())).forGetter(recipe -> recipe.spawnItem),
+                    BeeIngredient.LIST_CODEC.fieldOf("results").forGetter(recipe -> recipe.output),
+                    Biome.LIST_CODEC.fieldOf("biomes").orElse(HolderSet.empty()).forGetter(recipe -> recipe.biomes)
+            )
+            .apply(builder, BeeSpawningRecipe::new)
+    );
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, BeeSpawningRecipe> STREAM_CODEC = StreamCodec.of(
+            BeeSpawningRecipe::toNetwork, BeeSpawningRecipe::fromNetwork
+    );
+
+    public static final RecipeSerializer<BeeSpawningRecipe> SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
 
     public final Ingredient ingredient;
     public final Ingredient spawnItem;
@@ -61,98 +76,78 @@ public class BeeSpawningRecipe implements Recipe<RecipeInput>
 
     @Nonnull
     @Override
-    public ItemStack assemble(RecipeInput inv, HolderLookup.Provider pRegistries) {
+    public ItemStack assemble(RecipeInput inv) {
         return ItemStack.EMPTY;
     }
 
     @Override
-    public boolean canCraftInDimensions(int width, int height) {
-        return false;
+    public RecipeSerializer<BeeSpawningRecipe> getSerializer() {
+        return SERIALIZER;
     }
 
-    @Nonnull
     @Override
-    public ItemStack getResultItem(HolderLookup.Provider pRegistries) {
-        return ItemStack.EMPTY;
-    }
-
-    @Nonnull
-    @Override
-    public RecipeSerializer<?> getSerializer() {
-        return ModRecipeTypes.BEE_SPAWNING.get();
-    }
-
-    @Nonnull
-    @Override
-    public RecipeType<?> getType() {
+    public RecipeType<BeeSpawningRecipe> getType() {
         return ModRecipeTypes.BEE_SPAWNING_TYPE.get();
     }
 
-    public static class Serializer implements RecipeSerializer<BeeSpawningRecipe>
-    {
-        private static final MapCodec<BeeSpawningRecipe> CODEC = RecordCodecBuilder.mapCodec(
-                builder -> builder.group(
-                        Ingredient.CODEC.fieldOf("ingredient").forGetter(recipe -> recipe.ingredient),
-                        Ingredient.CODEC.fieldOf("spawn_item").orElse(Ingredient.of(ModItems.HONEY_TREAT.get())).forGetter(recipe -> recipe.spawnItem),
-                        BeeIngredient.LIST_CODEC.fieldOf("results").forGetter(recipe -> recipe.output),
-                        Biome.LIST_CODEC.fieldOf("biomes").orElse(HolderSet.empty()).forGetter(recipe -> recipe.biomes)
-                )
-                .apply(builder, BeeSpawningRecipe::new)
-        );
+    @Override
+    public String group() {
+        return "";
+    }
 
-        public static final StreamCodec<RegistryFriendlyByteBuf, BeeSpawningRecipe> STREAM_CODEC = StreamCodec.of(
-                BeeSpawningRecipe.Serializer::toNetwork, BeeSpawningRecipe.Serializer::fromNetwork
-        );
+    @Override
+    public boolean showNotification() {
+        return true;
+    }
 
-        @Override
-        public MapCodec<BeeSpawningRecipe> codec() {
-            return CODEC;
-        }
+    @Override
+    public PlacementInfo placementInfo() {
+        return PlacementInfo.NOT_PLACEABLE;
+    }
 
-        @Override
-        public StreamCodec<RegistryFriendlyByteBuf, BeeSpawningRecipe> streamCodec() {
-            return STREAM_CODEC;
-        }
+    @Override
+    public RecipeBookCategory recipeBookCategory() {
+        return RecipeBookCategories.CRAFTING_MISC;
+    }
 
-        public static BeeSpawningRecipe fromNetwork(@Nonnull RegistryFriendlyByteBuf buffer) {
-            try {
-                Ingredient ingredient = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
-                Ingredient spawnItem = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
+    public static BeeSpawningRecipe fromNetwork(@Nonnull RegistryFriendlyByteBuf buffer) {
+        try {
+            Ingredient ingredient = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
+            Ingredient spawnItem = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
 
-                List<Supplier<BeeIngredient>> output = new ArrayList<>();
-                IntStream.range(0, buffer.readInt()).forEach(
-                        i -> {
-                            BeeIngredient ing = BeeIngredient.fromNetwork(buffer);
-                            output.add(Lazy.of(() -> ing));
-                        }
-                );
-
-                return new BeeSpawningRecipe(ingredient, spawnItem, output, BIOME_STREAM.decode(buffer));
-            } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error reading bee spawning recipe from packet. ", e);
-                throw e;
-            }
-        }
-
-        public static void toNetwork(@Nonnull RegistryFriendlyByteBuf buffer, BeeSpawningRecipe recipe) {
-            try {
-                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.ingredient);
-                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.spawnItem);
-
-                buffer.writeInt(recipe.output.size());
-                for (Supplier<BeeIngredient> beeOutput : recipe.output) {
-                    if (beeOutput.get() != null) {
-                        beeOutput.get().toNetwork(buffer);
-                    } else {
-                        ProductiveBees.LOGGER.error("Bee spawning recipe output missing - " + beeOutput);
+            List<Supplier<BeeIngredient>> output = new ArrayList<>();
+            IntStream.range(0, buffer.readInt()).forEach(
+                    i -> {
+                        BeeIngredient ing = BeeIngredient.fromNetwork(buffer);
+                        output.add(Lazy.of(() -> ing));
                     }
-                }
+            );
 
-                BIOME_STREAM.encode(buffer, recipe.biomes);
-            } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error writing bee spawning recipe to packet. ", e);
-                throw e;
+            return new BeeSpawningRecipe(ingredient, spawnItem, output, BIOME_STREAM.decode(buffer));
+        } catch (Exception e) {
+            ProductiveBees.LOGGER.error("Error reading bee spawning recipe from packet. ", e);
+            throw e;
+        }
+    }
+
+    public static void toNetwork(@Nonnull RegistryFriendlyByteBuf buffer, BeeSpawningRecipe recipe) {
+        try {
+            Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.ingredient);
+            Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.spawnItem);
+
+            buffer.writeInt(recipe.output.size());
+            for (Supplier<BeeIngredient> beeOutput : recipe.output) {
+                if (beeOutput.get() != null) {
+                    beeOutput.get().toNetwork(buffer);
+                } else {
+                    ProductiveBees.LOGGER.error("Bee spawning recipe output missing - " + beeOutput);
+                }
             }
+
+            BIOME_STREAM.encode(buffer, recipe.biomes);
+        } catch (Exception e) {
+            ProductiveBees.LOGGER.error("Error writing bee spawning recipe to packet. ", e);
+            throw e;
         }
     }
 }

@@ -1,0 +1,33 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:nuggets/invar"
+      }
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:alloys/invar"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:alloys/invar"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": "#c:nuggets/invar",
+      "max": 6,
+      "min": 4
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

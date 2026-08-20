@@ -1,0 +1,9 @@
+{
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/cobalt",
+  "particleColor": "#1d77eb",
+  "primaryColor": "#1d77eb",
+  "secondaryColor": "#0c5abe",
+  "useGlowLayer": true
+}

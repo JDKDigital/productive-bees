@@ -1,5 +1,5 @@
 {
-  "type": "productivebees:snow_nest",
+  "type": "productivebees:nest",
   "config": {
     "targets": [
       {
@@ -20,6 +20,11 @@
           "Name": "productivebees:snow_nest"
         }
       }
-    ]
+    ],
+    "search": {
+      "type": "surface",
+      "place_ontop": true
+    },
+    "config_key": "snow_nest"
   }
 }

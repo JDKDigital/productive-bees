@@ -1,0 +1,22 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "draconicevolution"
+    }
+  ],
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "draconic": true,
+  "fireproof": true,
+  "flowerTag": "c:storage_blocks/draconium_awakened",
+  "invulnerability": [
+    "mekanism.radiation"
+  ],
+  "nestingPreference": "productivebees:nests/draconic_nests",
+  "particleColor": "#faa420",
+  "primaryColor": "#bc3500",
+  "renderer": "default_crystal",
+  "secondaryColor": "#5f2525",
+  "selfbreed": false
+}

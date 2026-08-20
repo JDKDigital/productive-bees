@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/cadmium/bee",
+  "flowerBlock": "chemlib:cadmium_metal_block",
+  "particleColor": "#ccc9c8",
+  "primaryColor": "#b0adac",
+  "useGlowLayer": true
+}

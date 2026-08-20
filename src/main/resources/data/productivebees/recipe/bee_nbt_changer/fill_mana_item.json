@@ -1,13 +1,9 @@
 {
   "type": "productivebees:bee_nbt_changer",
-  "bee": "productivebees:mana",
+  "bee": "productivebees:botania/mana",
   "item": [
-    {
-      "item": "botania:mana_tablet"
-    },
-    {
-      "item": "botania:mana_ring"
-    }
+    "botania:mana_tablet",
+    "botania:mana_ring"
   ],
   "attribute": "mana",
   "method": "increment",
@@ -20,7 +16,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:mana"
+      "bee": "productivebees:botania/mana"
     }
   ]
 }

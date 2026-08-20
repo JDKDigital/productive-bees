@@ -15,7 +15,7 @@ import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -47,7 +47,7 @@ public class CreeperBee extends ProductiveBee implements IEffectBeeEntity
 
     @Override
     public void tick() {
-        if (this.isAlive() && !this.level().isClientSide) {
+        if (this.isAlive() && !this.level().isClientSide()) {
             int i = this.getCreeperState();
             if (i > 0 && this.timeSinceIgnited == 0) {
                 this.playSound(SoundEvents.CREEPER_PRIMED, 1.0F, 0.5F);
@@ -74,7 +74,7 @@ public class CreeperBee extends ProductiveBee implements IEffectBeeEntity
     }
 
     private void explode() {
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             float f = this.entityData.get(POWERED) ? 2.0F : 1.0F;
             this.dead = true;
             this.level().explode(this, this.getX(), this.getY(), this.getZ(), 1.6f * f, Level.ExplosionInteraction.MOB);

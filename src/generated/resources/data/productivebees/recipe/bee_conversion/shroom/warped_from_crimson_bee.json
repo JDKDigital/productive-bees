@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:shroom/crimson"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:shroom/warped"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "minecraft:warped_fungus",
+  "result": "productivebees:shroom/warped",
+  "source": "productivebees:shroom/crimson"
+}

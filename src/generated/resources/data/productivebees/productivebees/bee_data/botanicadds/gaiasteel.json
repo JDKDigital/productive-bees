@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "botanicadds"
+    }
+  ],
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "botanicadds:gaiasteel_block",
+  "invulnerability": [
+    "mekanism.radiation"
+  ],
+  "primaryColor": "#862025",
+  "secondaryColor": "#3e0b0c",
+  "useGlowLayer": true
+}

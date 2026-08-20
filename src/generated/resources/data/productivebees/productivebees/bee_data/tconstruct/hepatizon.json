@@ -1,0 +1,9 @@
+{
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/hepatizon",
+  "particleColor": "#675072",
+  "primaryColor": "#675072",
+  "secondaryColor": "#1b0426",
+  "useGlowLayer": true
+}

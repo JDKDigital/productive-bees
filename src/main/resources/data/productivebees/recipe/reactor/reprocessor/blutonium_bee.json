@@ -7,7 +7,7 @@
   "result": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:blutonium",
+        "type": "productivebees:reactors/blutonium",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -17,10 +17,10 @@
   "waste": {
     "count": 1,
     "ingredient": {
-      "type": "productivebees:component",
+      "neoforge:ingredient_type": "productivebees:component",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:cyanite",
+          "type": "productivebees:reactors/cyanite",
           "id": "productivebees:configurable_bee"
         }
       },
@@ -34,11 +34,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:cyanite"
+      "bee": "productivebees:reactors/cyanite"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:blutonium"
+      "bee": "productivebees:reactors/blutonium"
     }
   ]
 }

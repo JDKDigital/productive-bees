@@ -17,9 +17,10 @@
   },
   "result": {
     "id": "productivebees:spawn_egg_configurable_bee",
-    "nbt": {
-      "EntityTag": {
-        "type": "productivebees:ichor_slimy"
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:tconstruct/ichor_slimy",
+        "id": "productivebees:configurable_bee"
       }
     }
   },
@@ -35,7 +36,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:ichor_slimy"
+      "bee": "productivebees:tconstruct/ichor_slimy"
     }
   ]
 }

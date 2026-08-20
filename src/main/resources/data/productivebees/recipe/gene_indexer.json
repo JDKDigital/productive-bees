@@ -6,15 +6,9 @@
     "III"
   ],
   "key": {
-    "H": {
-      "tag": "c:workbenches"
-    },
-    "I": {
-      "tag": "c:ingots/iron"
-    },
-    "D": {
-      "item": "minecraft:comparator"
-    }
+    "H": "#c:workbenches",
+    "I": "#c:ingots/iron",
+    "D": "minecraft:comparator"
   },
   "result": {
     "id": "productivebees:gene_indexer"

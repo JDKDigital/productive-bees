@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.entity.bee;
 
 import cy.jdkdigital.productivebees.init.ModTags;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.crafting.Ingredient;
 
 public interface IProductiveBee
@@ -14,7 +15,7 @@ public interface IProductiveBee
     }
 
     default Ingredient getBreedingIngredient() {
-        return Ingredient.of(ModTags.DEFAULT_BREEDING);
+        return Ingredient.of(BuiltInRegistries.ITEM.get(ModTags.DEFAULT_BREEDING).orElseThrow());
     }
 
     default Integer getBreedingItemCount() {

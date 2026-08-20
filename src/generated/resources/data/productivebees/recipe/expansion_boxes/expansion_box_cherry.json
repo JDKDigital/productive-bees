@@ -9,12 +9,8 @@
   "category": "misc",
   "group": "expansion_boxes",
   "key": {
-    "C": {
-      "tag": "c:honeycombs"
-    },
-    "W": {
-      "item": "minecraft:cherry_planks"
-    }
+    "C": "#c:honeycombs",
+    "W": "minecraft:cherry_planks"
   },
   "pattern": [
     "WWW",
@@ -22,7 +18,6 @@
     "WWW"
   ],
   "result": {
-    "count": 1,
     "id": "productivebees:expansion_box_cherry"
   }
 }

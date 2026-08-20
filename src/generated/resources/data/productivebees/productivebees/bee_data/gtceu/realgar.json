@@ -1,0 +1,18 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "gtceu"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/realgar/bee",
+  "flowerTag": "c:storage_blocks/realgar",
+  "particleColor": "#fc3c32",
+  "primaryColor": "#35080b",
+  "secondaryColor": "#d5312b",
+  "selfbreed": false,
+  "size": 0.8,
+  "tertiaryColor": "#470d0f",
+  "useGlowLayer": true
+}

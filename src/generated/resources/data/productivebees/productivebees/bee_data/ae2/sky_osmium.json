@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "megacells"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/sky_osmium/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "megacells:sky_osmium_block",
+  "particleColor": "#d4a3c0",
+  "primaryColor": "#222030",
+  "secondaryColor": "#353149",
+  "selfbreed": false,
+  "size": 0.6,
+  "tertiaryColor": "#635089",
+  "useGlowLayer": true
+}

@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productivebees:item/advanced_biomesoplenty_umbran_beehive",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -8557937
+      },
+      {
+        "type": "minecraft:constant",
+        "value": -1
+      }
+    ]
+  }
+}

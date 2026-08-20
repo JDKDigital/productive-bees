@@ -1,9 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "tag": "c:buckets/honey"
-    }
+    "#c:buckets/honey"
   ],
   "result": {
     "id": "minecraft:honey_block"

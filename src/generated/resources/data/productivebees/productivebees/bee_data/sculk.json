@@ -1,0 +1,13 @@
+{
+  "attack": 1.0,
+  "attributes": {
+    "behavior": "behavior.nocturnal",
+    "temper": "temper.aggressive"
+  },
+  "beeTexture": "productivebees:textures/entity/bee/sculk/bee",
+  "flowerBlock": "minecraft:sculk_shrieker",
+  "particleColor": "#141414",
+  "primaryColor": "#141414",
+  "selfbreed": false,
+  "useGlowLayer": true
+}

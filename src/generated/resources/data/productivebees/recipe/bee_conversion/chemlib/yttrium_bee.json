@@ -1,0 +1,12 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:chemlib/yttrium"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "chemlib:yttrium_metal_block",
+  "result": "productivebees:chemlib/yttrium",
+  "source": "productivebees:chemlib/potassium"
+}

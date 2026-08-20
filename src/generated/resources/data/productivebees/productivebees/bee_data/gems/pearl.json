@@ -1,0 +1,10 @@
+{
+  "attack": 1.0,
+  "flowerTag": "productivebees:flowers/pearl",
+  "particleColor": "#a4b6d2",
+  "primaryColor": "#a4b6d2",
+  "renderer": "default_crystal",
+  "secondaryColor": "#3e5b68",
+  "size": 0.6,
+  "tertiaryColor": "#7c95be"
+}

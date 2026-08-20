@@ -1,0 +1,12 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:chemlib/ytterbium"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "chemlib:ytterbium_metal_block",
+  "result": "productivebees:chemlib/ytterbium",
+  "source": "productivebees:raw_materials/iron"
+}

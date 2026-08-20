@@ -2,9 +2,9 @@
   "type": "tconstruct:melting",
   "ingredient": [
     {
-      "type": "productivebees:component",
+      "neoforge:ingredient_type": "productivebees:component",
       "components": {
-        "productivebees:bee_type": "productivebees:sky_slimy"
+        "productivebees:bee_type": "productivebees:sky_slime"
       },
       "items": "productivebees:configurable_honeycomb"
     }

@@ -1,0 +1,28 @@
+{
+  "parent": "productivebees:husbandry/bee_cage",
+  "criteria": {
+    "catch": {
+      "conditions": {
+        "bee": "any"
+      },
+      "trigger": "productivebees:catch_bee"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.husbandry.catch_any_bee.description"
+    },
+    "icon": {
+      "id": "productivebees:bee_cage"
+    },
+    "title": {
+      "translate": "advancements.husbandry.catch_any_bee.title"
+    }
+  },
+  "requirements": [
+    [
+      "catch"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "hives",
   "key": {
-    "H": {
-      "item": "productivebees:advanced_snake_block_beehive"
-    },
-    "P": {
-      "item": "minecraft:paper"
-    }
+    "H": "productivebees:advanced_snake_block_beehive",
+    "P": "minecraft:paper"
   },
   "pattern": [
     "PPP",
@@ -16,7 +12,6 @@
     "PPP"
   ],
   "result": {
-    "count": 1,
     "id": "productivebees:advanced_snake_block_canvas_beehive"
   }
 }

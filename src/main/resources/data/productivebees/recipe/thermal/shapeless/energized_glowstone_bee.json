@@ -2,27 +2,24 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
+      "neoforge:ingredient_type": "productivebees:component",
+      "items": "productivebees:spawn_egg_configurable_bee",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:glowing",
+          "type": "productivebees:dusts/glowing",
           "id": "productivebees:configurable_bee"
         }
-      },
-      "count": 1,
-      "id": "productivebees:spawn_egg_configurable_bee"
+      }
     },
-    {
-      "item": "thermal:glowstone_bucket"
-    },
-    {
-      "item": "thermal:glowstone_bucket"
-    }
+    "thermal:glowstone_bucket",
+    "thermal:glowstone_bucket"
   ],
   "result": {
     "id": "productivebees:spawn_egg_configurable_bee",
-    "nbt": {
-      "EntityTag": {
-        "type": "productivebees:energized_glowstone"
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:thermal/energized_glowstone",
+        "id": "productivebees:configurable_bee"
       }
     }
   },
@@ -33,11 +30,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:glowing"
+      "bee": "productivebees:dusts/glowing"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:energized_glowstone"
+      "bee": "productivebees:thermal/energized_glowstone"
     }
   ]
 }

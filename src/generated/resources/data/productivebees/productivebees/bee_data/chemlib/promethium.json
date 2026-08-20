@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/promethium/bee",
+  "flowerItem": "chemlib:promethium",
+  "particleColor": "#cfece9",
+  "primaryColor": "#afd7d4",
+  "useGlowLayer": true
+}

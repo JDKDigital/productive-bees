@@ -9,7 +9,9 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class ExpansionBoxBlockEntity extends BlockEntity
@@ -22,7 +24,7 @@ public class ExpansionBoxBlockEntity extends BlockEntity
         super(pType, pos, state);
     }
 
-    public IItemHandlerModifiable getHiveInventoryHandler() {
+    public InventoryHandlerHelper.BlockEntityItemStackHandler getHiveInventoryHandler() {
         if (level != null && !getBlockState().getValue(AdvancedBeehive.EXPANDED).equals(VerticalHive.NONE)) {
             Pair<Pair<BlockPos, Direction>, BlockState> pair = ExpansionBox.getAttachedHive(getBlockState(), level, getBlockPos());
             if (pair != null) {
@@ -37,7 +39,7 @@ public class ExpansionBoxBlockEntity extends BlockEntity
         return null;
     }
 
-    public IItemHandlerModifiable getHiveUpgradeHandler() {
+    public ResourceHandler<ItemResource> getHiveUpgradeHandler() {
         if (level != null && !getBlockState().getValue(AdvancedBeehive.EXPANDED).equals(VerticalHive.NONE)) {
             Pair<Pair<BlockPos, Direction>, BlockState> pair = ExpansionBox.getAttachedHive(getBlockState(), level, getBlockPos());
             if (pair != null) {

@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:storage_blocks/desh"
+      }
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:alloys/steel"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ad_astra/desh"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "#c:storage_blocks/desh",
+  "result": "productivebees:ad_astra/desh",
+  "source": "productivebees:alloys/steel"
+}

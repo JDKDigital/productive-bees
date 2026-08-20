@@ -1,0 +1,33 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:nuggets/steel"
+      }
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:alloys/steel"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:alloys/steel"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": "#c:nuggets/steel",
+      "max": 12,
+      "min": 7
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

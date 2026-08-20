@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "allthemodium"
+    }
+  ],
+  "attack": 1.0,
+  "breedingItem": "allthemodium:vibranium_ingot",
+  "breedingItemCount": 4,
+  "flowerTag": "c:storage_blocks/allthemodium",
+  "invulnerability": [
+    "mekanism.radiation"
+  ],
+  "primaryColor": "#f2f24f",
+  "secondaryColor": "#d0581f",
+  "selfbreed": false,
+  "useGlowLayer": true
+}

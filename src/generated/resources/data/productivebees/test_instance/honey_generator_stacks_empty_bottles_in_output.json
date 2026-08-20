@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:function",
+  "environment": "productivebees:honey_generator_stacks_empty_bottles_in_output_env",
+  "function": "productivebees:honey_generator_stacks_empty_bottles_in_output",
+  "structure": "productivebees:empty_7x7",
+  "max_ticks": 200,
+  "required": true,
+  "setup_ticks": 0
+}

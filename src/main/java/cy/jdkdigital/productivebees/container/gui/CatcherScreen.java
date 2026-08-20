@@ -3,31 +3,23 @@ package cy.jdkdigital.productivebees.container.gui;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.container.CatcherContainer;
 import cy.jdkdigital.productivelib.client.screen.AbstractUpgradeableContainerScreen;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
-
-import javax.annotation.Nonnull;
 
 public class CatcherScreen extends AbstractUpgradeableContainerScreen<CatcherContainer>
 {
-    private static final ResourceLocation GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/catcher.png");
+    private static final Identifier GUI_TEXTURE = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/container/catcher.png");
 
     public CatcherScreen(CatcherContainer container, Inventory inv, Component titleIn) {
         super(container, inv, titleIn);
     }
 
     @Override
-    public void render(@Nonnull GuiGraphics pGuiGraphics, int mouseX, int mouseY, float partialTicks) {
-        super.render(pGuiGraphics, mouseX, mouseY, partialTicks);
-        this.renderTooltip(pGuiGraphics, mouseX, mouseY);
-    }
-
-    @Override
-    protected void renderBg(@Nonnull GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
-        // Draw main screen
-        guiGraphics.blit(GUI_TEXTURE, this.getGuiLeft(), this.getGuiTop(), 0, 0, this.getXSize(), this.getYSize());
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        super.extractBackground(graphics, mouseX, mouseY, partialTick);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, GUI_TEXTURE, this.leftPos, this.topPos, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
     }
 }

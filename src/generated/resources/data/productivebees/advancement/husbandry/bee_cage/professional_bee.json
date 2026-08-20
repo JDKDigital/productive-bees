@@ -1,0 +1,81 @@
+{
+  "parent": "productivebees:husbandry/bee_cage",
+  "criteria": {
+    "farmer_bee": {
+      "conditions": {
+        "child": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "productivebees:farmer_bee"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:bred_animals"
+    },
+    "lumber_bee": {
+      "conditions": {
+        "child": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "productivebees:lumber_bee"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:bred_animals"
+    },
+    "quarry_bee": {
+      "conditions": {
+        "child": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "productivebees:quarry_bee"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:bred_animals"
+    },
+    "rancher_bee": {
+      "conditions": {
+        "child": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "productivebees:rancher_bee"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:bred_animals"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.husbandry.professional_bee.description"
+    },
+    "icon": {
+      "id": "productivebees:honeycomb_milky"
+    },
+    "title": {
+      "translate": "advancements.husbandry.professional_bee.title"
+    }
+  },
+  "requirements": [
+    [
+      "lumber_bee",
+      "rancher_bee",
+      "quarry_bee",
+      "farmer_bee"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

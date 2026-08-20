@@ -2,36 +2,20 @@
   "type": "ars_nouveau:enchanting_apparatus",
   "keepNbtOfReagent": false,
   "pedestalItems": [
-    {
-      "item": "ars_nouveau:source_gem"
-    },
-    {
-      "item": "ars_nouveau:source_gem"
-    },
-    {
-      "item": "ars_nouveau:source_gem"
-    },
-    {
-      "item": "ars_nouveau:source_gem"
-    },
-    {
-      "item": "ars_nouveau:source_gem"
-    },
-    {
-      "item": "ars_nouveau:source_gem"
-    },
-    {
-      "item": "ars_nouveau:source_gem"
-    },
-    {
-      "item": "ars_nouveau:source_gem"
-    }
+    "ars_nouveau:source_gem",
+    "ars_nouveau:source_gem",
+    "ars_nouveau:source_gem",
+    "ars_nouveau:source_gem",
+    "ars_nouveau:source_gem",
+    "ars_nouveau:source_gem",
+    "ars_nouveau:source_gem",
+    "ars_nouveau:source_gem"
   ],
   "reagent": {
-    "type": "productivebees:component",
+    "neoforge:ingredient_type": "productivebees:component",
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:amethyst",
+        "type": "productivebees:gems/amethyst",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -40,7 +24,7 @@
   "result": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:arcane",
+        "type": "productivebees:ars_nouveau/arcane",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -55,11 +39,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:amethyst"
+      "bee": "productivebees:gems/amethyst"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:arcane"
+      "bee": "productivebees:ars_nouveau/arcane"
     }
   ]
 }

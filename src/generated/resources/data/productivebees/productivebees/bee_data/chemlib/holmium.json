@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/holmium/bee",
+  "flowerBlock": "chemlib:holmium_metal_block",
+  "particleColor": "#94d2ce",
+  "primaryColor": "#8acdcd",
+  "useGlowLayer": true
+}

@@ -1,0 +1,18 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "irons_spellbooks"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/arcane_essence/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerItem": "irons_spellbooks:ruined_book",
+  "particleColor": "#7cd7ea",
+  "primaryColor": "#7cd7ea",
+  "secondaryColor": "#9938c3",
+  "size": 0.8,
+  "tertiaryColor": "#227c8f",
+  "useGlowLayer": true
+}

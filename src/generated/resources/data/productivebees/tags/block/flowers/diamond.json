@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "#c:storage_blocks/diamond",
+      "required": false
+    },
+    {
+      "id": "#c:ores/diamond",
+      "required": false
+    }
+  ]
+}

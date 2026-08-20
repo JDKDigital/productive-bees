@@ -1,0 +1,28 @@
+{
+  "parent": "productivebees:husbandry/bee_cage",
+  "criteria": {
+    "calm_bee": {
+      "conditions": {
+        "bee": "any"
+      },
+      "trigger": "productivebees:calm_bee"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.husbandry.calm_bee.description"
+    },
+    "icon": {
+      "id": "productivebees:honey_treat"
+    },
+    "title": {
+      "translate": "advancements.husbandry.calm_bee.title"
+    }
+  },
+  "requirements": [
+    [
+      "calm_bee"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

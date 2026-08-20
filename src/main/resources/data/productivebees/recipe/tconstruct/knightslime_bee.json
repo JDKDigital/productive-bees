@@ -3,7 +3,7 @@
   "cast": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:iron",
+        "type": "productivebees:raw_materials/iron",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -17,9 +17,10 @@
   },
   "result": {
     "id": "productivebees:spawn_egg_configurable_bee",
-    "nbt": {
-      "EntityTag": {
-        "type": "productivebees:knightslime"
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:tconstruct/knightslime",
+        "id": "productivebees:configurable_bee"
       }
     }
   },
@@ -31,11 +32,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:iron"
+      "bee": "productivebees:raw_materials/iron"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:knightslime"
+      "bee": "productivebees:tconstruct/knightslime"
     }
   ]
 }

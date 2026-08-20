@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "justdirethings"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gems/diamond"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:justdirethings/celestigem"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "justdirethings:gooblock_tier3",
+  "result": "productivebees:justdirethings/celestigem",
+  "source": "productivebees:gems/diamond"
+}

@@ -1,0 +1,6 @@
+{
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:cupid_bee",
+  "parent1": "productivebees:farmer_bee",
+  "parent2": "productivebees:rancher_bee"
+}

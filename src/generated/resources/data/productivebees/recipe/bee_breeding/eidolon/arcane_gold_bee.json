@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:eidolon/soul_shard"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/gold"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:eidolon/arcane_gold"
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:eidolon/arcane_gold",
+  "parent1": "productivebees:eidolon/soul_shard",
+  "parent2": "productivebees:raw_materials/gold"
+}

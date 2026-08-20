@@ -1,0 +1,19 @@
+{
+  "type": "productivebees:centrifuge",
+  "fluid": {
+    "amount": 100,
+    "ingredient": "minecraft:lava"
+  },
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:lava"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

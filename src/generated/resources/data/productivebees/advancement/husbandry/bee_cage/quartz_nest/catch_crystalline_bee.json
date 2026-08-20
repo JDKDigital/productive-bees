@@ -1,0 +1,28 @@
+{
+  "parent": "productivebees:husbandry/bee_cage/quartz_nest",
+  "criteria": {
+    "catch": {
+      "conditions": {
+        "bee": "productivebees:gems/crystalline"
+      },
+      "trigger": "productivebees:catch_bee"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.husbandry.catch_crystalline_bee.description"
+    },
+    "icon": {
+      "id": "productivebees:configurable_honeycomb"
+    },
+    "title": {
+      "translate": "advancements.husbandry.catch_crystalline_bee.title"
+    }
+  },
+  "requirements": [
+    [
+      "catch"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

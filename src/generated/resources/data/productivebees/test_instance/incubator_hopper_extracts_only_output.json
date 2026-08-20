@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:function",
+  "environment": "productivebees:incubator_hopper_extracts_only_output_env",
+  "function": "productivebees:incubator_hopper_extracts_only_output",
+  "structure": "productivebees:empty_7x7",
+  "max_ticks": 80,
+  "required": true,
+  "setup_ticks": 0
+}

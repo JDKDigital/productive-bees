@@ -1,57 +1,77 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
-import cy.jdkdigital.productivebees.setup.BeeReloadListener;
+import cy.jdkdigital.productivebees.init.ModDataComponents;
+import cy.jdkdigital.productivebees.setup.BeeData;
+import cy.jdkdigital.productivebees.setup.BeeRegistries;
 import cy.jdkdigital.productivelib.common.block.entity.AbstractBlockEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public class CombBlockBlockEntity extends AbstractBlockEntity
 {
-    private ResourceLocation combType;
+    private Identifier combType;
 
     public CombBlockBlockEntity(BlockPos pos, BlockState state) {
         this(null, pos, state);
     }
 
-    public CombBlockBlockEntity(ResourceLocation combType, BlockPos pos, BlockState state) {
+    public CombBlockBlockEntity(Identifier combType, BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.COMB_BLOCK.get(), pos, state);
         this.combType = combType;
     }
 
-    public void setCombType(ResourceLocation combType) {
+    public void setCombType(Identifier combType) {
         this.combType = combType;
     }
 
-    public ResourceLocation getCombType() {
+    public Identifier getCombType() {
         return combType;
     }
 
     public int getColor() {
         if (combType != null) {
-            CompoundTag nbt = BeeReloadListener.INSTANCE.getData(combType);
-            if (nbt != null) {
-                return nbt.getInt("primaryColor");
+            BeeData beeData = BeeRegistries.lookup(combType);
+            if (beeData != null) {
+                return beeData.primaryColor();
             }
         }
         return 0;
     }
 
     @Override
-    public void savePacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
-        super.savePacketNBT(tag, provider);
+    public void savePacketNBT(ValueOutput output) {
+        super.savePacketNBT(output);
         if (combType != null) {
-            tag.putString("type", combType.toString());
+            output.putString("type", combType.toString());
         }
     }
 
-    public void loadPacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
-        super.loadPacketNBT(tag, provider);
-        if (tag.contains("type")) {
-            setCombType(ResourceLocation.parse(tag.getString("type")));
+    @Override
+    public void loadPacketNBT(ValueInput input) {
+        super.loadPacketNBT(input);
+        input.getString("type").ifPresent(s -> setCombType(Identifier.parse(s)));
+    }
+
+    @Override
+    protected void collectImplicitComponents(DataComponentMap.Builder builder) {
+        super.collectImplicitComponents(builder);
+        if (combType != null) {
+            builder.set(ModDataComponents.BEE_TYPE.get(), combType);
+        }
+    }
+
+    @Override
+    protected void applyImplicitComponents(DataComponentGetter input) {
+        super.applyImplicitComponents(input);
+        Identifier type = input.get(ModDataComponents.BEE_TYPE.get());
+        if (type != null) {
+            setCombType(type);
         }
     }
 }

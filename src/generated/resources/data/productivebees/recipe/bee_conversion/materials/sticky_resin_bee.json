@@ -1,0 +1,12 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:materials/sticky_resin"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "#c:buckets/honey",
+  "result": "productivebees:materials/sticky_resin",
+  "source": "productivebees:resin_bee"
+}

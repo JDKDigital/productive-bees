@@ -1,41 +1,48 @@
 package cy.jdkdigital.productivebees.compat.geckolib.client.render.model;
 
+import com.geckolib.model.DefaultedEntityGeoModel;
+import com.geckolib.renderer.base.GeoRenderState;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.GeckoBee;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.model.DefaultedEntityGeoModel;
-
-import java.util.HashMap;
-import java.util.Map;
+import cy.jdkdigital.productivebees.compat.geckolib.client.render.state.GeckoBeeRenderState;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.resources.Identifier;
 
 public class GeckoBeeModel extends DefaultedEntityGeoModel<GeckoBee>
 {
-    Map<ResourceLocation, ResourceLocation> modelCache = new HashMap<>();
-    Map<ResourceLocation, ResourceLocation> animationCache = new HashMap<>();
+    private static final Identifier FALLBACK_MODEL = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "entity/default");
+    private static final Identifier FALLBACK_TEXTURE = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/default/bee.png");
 
     public GeckoBeeModel() {
-        super(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "bee"));
+        super(Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "bee"));
     }
 
     @Override
-    public @Nullable RenderType getRenderType(GeckoBee animatable, ResourceLocation texture) {
-        return animatable.isTranslucent() ? RenderType.entityTranslucent(texture) : super.getRenderType(animatable, texture);
+    public Identifier getModelResource(GeoRenderState state) {
+        if (state instanceof GeckoBeeRenderState gecko && gecko.modelLocation != null) {
+            return gecko.modelLocation;
+        }
+        return FALLBACK_MODEL;
     }
 
     @Override
-    public ResourceLocation getModelResource(GeckoBee animatable) {
-        return modelCache.computeIfAbsent(animatable.getBeeType(), resourceLocation -> animatable.getModelLocation());
+    public Identifier getTextureResource(GeoRenderState state) {
+        if (state instanceof GeckoBeeRenderState gecko && gecko.textureLocation != null) {
+            return gecko.textureLocation;
+        }
+        return FALLBACK_TEXTURE;
     }
 
     @Override
-    public ResourceLocation getTextureResource(GeckoBee animatable) {
-        return animatable.getTextureLocation();
+    public Identifier getAnimationResource(GeckoBee animatable) {
+        return animatable.getAnimationLocation();
     }
 
-    @Override
-    public ResourceLocation getAnimationResource(GeckoBee animatable) {
-        return animationCache.computeIfAbsent(animatable.getBeeType(), resourceLocation -> animatable.getAnimationLocation());
+    public RenderType getRenderType(GeoRenderState state, Identifier texture) {
+        if (state instanceof GeckoBeeRenderState gecko && gecko.isTranslucent) {
+            return RenderTypes.entityTranslucent(texture);
+        }
+        return RenderTypes.entityCutout(texture);
     }
 }

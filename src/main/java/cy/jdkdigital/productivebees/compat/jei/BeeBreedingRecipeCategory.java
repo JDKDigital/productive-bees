@@ -9,24 +9,28 @@ import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 
 import javax.annotation.Nonnull;
 
 public class BeeBreedingRecipeCategory implements IRecipeCategory<BeeBreedingRecipe>
 {
+    private static final int BACKGROUND_WIDTH = 126;
+    private static final int BACKGROUND_HEIGHT = 70;
     private final IDrawable background;
     private final IDrawable icon;
 
     public BeeBreedingRecipeCategory(IGuiHelper guiHelper) {
-        ResourceLocation location = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/jei/bee_breeding_recipe.png");
-        this.background = guiHelper.createDrawable(location, 0, 0, 126, 70);
+        Identifier location = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/jei/bee_breeding_recipe.png");
+        this.background = guiHelper.createDrawable(location, 0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
         this.icon = guiHelper.createDrawableIngredient(ProductiveBeesJeiPlugin.BEE_INGREDIENT, BeeIngredientFactory.getOrCreateList().get(ProductiveBees.MODID + ":quarry_bee"));
     }
 
@@ -41,8 +45,17 @@ public class BeeBreedingRecipeCategory implements IRecipeCategory<BeeBreedingRec
         return Component.translatable("jei.productivebees.bee_breeding");
     }
 
-    @Nonnull
     @Override
+    public int getWidth() {
+        return BACKGROUND_WIDTH;
+    }
+
+    @Override
+    public int getHeight() {
+        return BACKGROUND_HEIGHT;
+    }
+
+    @SuppressWarnings("unused")
     public IDrawable getBackground() {
         return this.background;
     }
@@ -84,4 +97,9 @@ public class BeeBreedingRecipeCategory implements IRecipeCategory<BeeBreedingRec
                     .setSlotName("breedingItem2");
         }
     }
+    @Override
+    public void draw(BeeBreedingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
+        this.background.draw(guiGraphics);
+    }
+
 }

@@ -1,0 +1,10 @@
+{
+  "attack": 1.0,
+  "flowerTag": "productivebees:flowers/white_diamond",
+  "particleColor": "#fff9e4",
+  "primaryColor": "#fff9e4",
+  "renderer": "default_crystal",
+  "secondaryColor": "#f7ed91",
+  "size": 0.6,
+  "tertiaryColor": "#c5b520"
+}

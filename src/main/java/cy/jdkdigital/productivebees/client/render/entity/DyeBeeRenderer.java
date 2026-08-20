@@ -3,9 +3,10 @@ package cy.jdkdigital.productivebees.client.render.entity;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.entity.layers.BeeBodyLayer;
 import cy.jdkdigital.productivebees.client.render.entity.model.ProductiveBeeModel;
+import cy.jdkdigital.productivebees.client.render.entity.state.ProductiveBeeRenderState;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import javax.annotation.Nonnull;
 
@@ -17,18 +18,24 @@ public class DyeBeeRenderer extends ProductiveBeeRenderer
         addLayer(new BeeBodyLayer(this, context.bakeLayer(PB_DEFAULT_LAYER), "default", isChristmas));
     }
 
+    @Override
+    public void extractRenderState(ProductiveBee bee, ProductiveBeeRenderState state, float partialTick) {
+        super.extractRenderState(bee, state, partialTick);
+        state.entityId = bee.getId();
+    }
+
     @Nonnull
     @Override
-    public ResourceLocation getTextureLocation(ProductiveBee bee) {
-        int num = bee.getRenderStatic() ? 1 : sum(bee.getId(), 3);
+    public Identifier getTextureLocation(ProductiveBeeRenderState state) {
+        int num = state.renderStatic ? 1 : sum(state.entityId, 3);
 
-        String beeLocation = ProductiveBees.MODID + ":textures/entity/bee/" + bee.getBeeName() + "/" + num + "/bee";
+        String beeLocation = ProductiveBees.MODID + ":textures/entity/bee/" + state.beeName + "/" + num + "/bee";
 
-        if (bee.isAngry()) {
+        if (state.isAngry) {
             beeLocation = beeLocation + "_angry";
         }
 
-        if (bee.hasNectar()) {
+        if (state.hasNectar) {
             beeLocation = beeLocation + "_nectar";
         }
 

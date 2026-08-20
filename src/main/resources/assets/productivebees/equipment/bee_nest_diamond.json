@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "productivebees:bee_nest_diamond"
+      }
+    ],
+    "humanoid_baby": [
+      {
+        "texture": "productivebees:bee_nest_diamond"
+      }
+    ]
+  }
+}

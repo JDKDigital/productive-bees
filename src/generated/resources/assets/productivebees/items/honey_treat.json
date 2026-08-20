@@ -1,0 +1,26 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/honey_treat_type"
+        },
+        "when": "type"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/honey_treat_genetic"
+        },
+        "when": "genetic"
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "productivebees:item/honey_treat"
+    },
+    "property": "productivebees:honey_treat_variant"
+  }
+}

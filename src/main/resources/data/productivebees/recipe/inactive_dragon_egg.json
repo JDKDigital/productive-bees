@@ -6,12 +6,8 @@
     "CCC"
   ],
   "key": {
-    "C": {
-      "item": "productivebees:draconic_chunk"
-    },
-    "E": {
-      "tag": "c:eggs"
-    }
+    "C": "productivebees:draconic_chunk",
+    "E": "#c:eggs"
   },
   "result": {
     "id": "productivebees:inactive_dragon_egg"

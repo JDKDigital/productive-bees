@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "#c:fuels/crude_oil",
+      "required": false
+    },
+    {
+      "id": "oritech:still_oil",
+      "required": false
+    }
+  ]
+}

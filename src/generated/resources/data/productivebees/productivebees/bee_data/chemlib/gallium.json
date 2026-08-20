@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/gallium/bee",
+  "flowerBlock": "chemlib:gallium_metal_block",
+  "particleColor": "#c1cdd4",
+  "primaryColor": "#c6ccd3",
+  "useGlowLayer": true
+}

@@ -11,34 +11,44 @@ import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModTags;
-import cy.jdkdigital.productivebees.setup.BeeReloadListener;
+import cy.jdkdigital.productivebees.setup.BeeData;
+import cy.jdkdigital.productivebees.setup.BeeRegistries;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import cy.jdkdigital.productivelib.common.block.entity.CapabilityBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.common.block.entity.IUpgradeableBlockEntity;
+import cy.jdkdigital.productivelib.compat.jei.RecipeMapCache;
 import cy.jdkdigital.productivelib.registry.LibItems;
+import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.neoforge.energy.EnergyStorage;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -55,7 +65,7 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
     private List<RecipeHolder<BeeBreedingRecipe>> currentBreedingRecipes = new ArrayList<>();
     public RecipeHolder<BeeBreedingRecipe> chosenRecipe;
 
-    public IItemHandlerModifiable inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(6, this)
+    public InventoryHandlerHelper.BlockEntityItemStackHandler inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(6, this)
     {
         @Override
         public boolean isInputSlotItem(int slot, ItemStack item) {
@@ -76,8 +86,8 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
         }
 
         @Override
-        protected void onContentsChanged(int slot) {
-            super.onContentsChanged(slot);
+        protected void onContentsChanged(int slot, ItemStack previousContents) {
+            super.onContentsChanged(slot, previousContents);
 
             if (slot == BreedingChamberContainer.SLOT_BEE_1 || slot == BreedingChamberContainer.SLOT_BEE_2) {
                 // Bee input changed, reset processing
@@ -89,12 +99,12 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
         }
     };
 
-    protected IItemHandlerModifiable upgradeHandler = new InventoryHandlerHelper.UpgradeHandler(4, this, List.of(
+    protected InventoryHandlerHelper.UpgradeHandler upgradeHandler = new InventoryHandlerHelper.UpgradeHandler(4, this, List.of(
             LibItems.UPGRADE_TIME.get(),
             LibItems.UPGRADE_TIME_2.get()
     ));
 
-    public EnergyStorage energyHandler = new EnergyStorage(10000);
+    public SimpleEnergyHandler energyHandler = new SimpleEnergyHandler(10000);
 
     public BreedingChamberBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.BREEDING_CHAMBER.get(), pos, state);
@@ -145,7 +155,10 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
         if (level instanceof ServerLevel serverLevel && ProductiveBeesConfig.BEES.allowBeeBreeding.get()) {
             blockEntity.fbiCooldown = blockEntity.fbiCooldown > 0 ? blockEntity.fbiCooldown-1 : 0;
             if (blockEntity.isRunning) {
-                blockEntity.energyHandler.extractEnergy((int) (ProductiveBeesConfig.GENERAL.breedingChamberPowerUse.get() * blockEntity.getEnergyConsumptionModifier()), false);
+                try (Transaction tx = Transaction.openRoot()) {
+                    blockEntity.energyHandler.extract((int) (ProductiveBeesConfig.GENERAL.breedingChamberPowerUse.get() * blockEntity.getEnergyConsumptionModifier()), tx);
+                    tx.commit();
+                }
             }
             if (!blockEntity.inventoryHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1).isEmpty() && !blockEntity.inventoryHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2).isEmpty()) {
                 if (blockEntity.currentBreedingRecipes.isEmpty() && ++blockEntity.recipeLookupCooldown > 0) {
@@ -155,7 +168,7 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
                         BeeHelper.IdentifierInventory beeInv = new BeeHelper.IdentifierInventory(BeeCage.getBeeType(cage1), BeeCage.getBeeType(cage2));
                         blockEntity.currentBreedingRecipes = BeeHelper.getBreedingRecipes(beeInv, serverLevel);
                         if (!blockEntity.currentBreedingRecipes.isEmpty() && !blockEntity.currentBreedingRecipes.contains(blockEntity.chosenRecipe)) { // Pick a random recipe from the list as active recipe
-                            blockEntity.setRecipe(blockEntity.currentBreedingRecipes.get(level.random.nextInt(blockEntity.currentBreedingRecipes.size())));
+                            blockEntity.setRecipe(blockEntity.currentBreedingRecipes.get(level.getRandom().nextInt(blockEntity.currentBreedingRecipes.size())));
                         }
                         blockEntity.recipeLookupCooldown = -20; // delay between looking up recipe in case the two bees do not produce a recipe result
                     }
@@ -170,12 +183,12 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
                         var cage1 = blockEntity.inventoryHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1);
                         var cage2 = blockEntity.inventoryHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2);
 
-                        var bee1Data = BeeReloadListener.INSTANCE.getData(BeeCage.getBeeType(cage1));
-                        var bee2Data = BeeReloadListener.INSTANCE.getData(BeeCage.getBeeType(cage2));
+                        BeeData bee1Data = BeeRegistries.lookup(Identifier.parse(BeeCage.getBeeType(cage1)));
+                        BeeData bee2Data = BeeRegistries.lookup(Identifier.parse(BeeCage.getBeeType(cage2)));
 
                         // Consume breeding items when starting processing
-                        blockEntity.inventoryHandler.getStackInSlot(BreedingChamberContainer.SLOT_BREED_ITEM_1).shrink(bee1Data != null ? bee1Data.getInt("breedingItemCount") : 1);
-                        blockEntity.inventoryHandler.getStackInSlot(BreedingChamberContainer.SLOT_BREED_ITEM_2).shrink(bee2Data != null ? bee2Data.getInt("breedingItemCount")  : 1);
+                        blockEntity.inventoryHandler.extractItem(BreedingChamberContainer.SLOT_BREED_ITEM_1, bee1Data != null ? bee1Data.breedingItemCount() : 1, false, false);
+                        blockEntity.inventoryHandler.extractItem(BreedingChamberContainer.SLOT_BREED_ITEM_2, bee2Data != null ? bee2Data.breedingItemCount() : 1, false, false);
                     }
 
                     if (++blockEntity.recipeProgress >= totalTime && blockEntity.completeBreeding(blockEntity.inventoryHandler)) {
@@ -195,28 +208,28 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
         return Math.max(1, timeUpgradeModifier);
     }
 
-    private boolean canProcessInput(IItemHandlerModifiable invHandler, boolean firstRun) {
-        int energy = energyHandler.getEnergyStored();
+    private boolean canProcessInput(InventoryHandlerHelper.BlockEntityItemStackHandler invHandler, boolean firstRun) {
+        int energy = energyHandler.getAmountAsInt();
 
         var cage1 = invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1);
         var cage2 = invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2);
 
-        var bee1Data = BeeReloadListener.INSTANCE.getData(BeeCage.getBeeType(cage1));
-        var bee2Data = BeeReloadListener.INSTANCE.getData(BeeCage.getBeeType(cage2));
+        BeeData bee1Data = BeeRegistries.lookup(Identifier.parse(BeeCage.getBeeType(cage1)));
+        BeeData bee2Data = BeeRegistries.lookup(Identifier.parse(BeeCage.getBeeType(cage2)));
 
-        var bee1IsBaby = BeeCage.isFilled(cage1) && cage1.get(DataComponents.CUSTOM_DATA).getUnsafe().contains("Age") && cage1.get(DataComponents.CUSTOM_DATA).copyTag().getInt("Age") < 0;
-        var bee2IsBaby = BeeCage.isFilled(cage2) && cage2.get(DataComponents.CUSTOM_DATA).getUnsafe().contains("Age") && cage2.get(DataComponents.CUSTOM_DATA).copyTag().getInt("Age") < 0;
+        var bee1IsBaby = BeeCage.isFilled(cage1) && cage1.get(DataComponents.CUSTOM_DATA).contains("Age") && cage1.get(DataComponents.CUSTOM_DATA).copyTag().getIntOr("Age", 0) < 0;
+        var bee2IsBaby = BeeCage.isFilled(cage2) && cage2.get(DataComponents.CUSTOM_DATA).contains("Age") && cage2.get(DataComponents.CUSTOM_DATA).copyTag().getIntOr("Age", 0) < 0;
 
         if (bee1IsBaby || bee2IsBaby) {
             if (this.fbiCooldown <= 0 && this.getLevel() != null) {
                 // Spawn FBeeI if there's a player nearby
                 List<Player> players = this.getLevel().getEntitiesOfClass(Player.class, new AABB(this.getBlockPos()).inflate(5, 2, 5));
                 if (!players.isEmpty()) {
-                    Entity entity = ModEntities.CONFIGURABLE_BEE.get().create(this.getLevel());
+                    Entity entity = ModEntities.CONFIGURABLE_BEE.get().create(this.getLevel(), EntitySpawnReason.NATURAL);
                     if (entity instanceof ConfigurableBee bee) {
                         bee.setBeeType("productivebees:fbi");
                         bee.setDefaultAttributes();
-                        bee.moveTo(this.getBlockPos().getX(), this.getBlockPos().getY() + 1, this.getBlockPos().getZ());
+                        bee.snapTo(this.getBlockPos().getX(), this.getBlockPos().getY() + 1, this.getBlockPos().getZ());
                         bee.setTarget(players.getFirst());
                         this.getLevel().addFreshEntity(bee);
                     }
@@ -226,19 +239,10 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
             return false;
         }
 
-        Ingredient breedingIngredient1 = Ingredient.of(ModTags.DEFAULT_BREEDING);
-        int breedingCount1 = 1;
-        Ingredient breedingIngredient2 = Ingredient.of(ModTags.DEFAULT_BREEDING);
-        int breedingCount2 = 1;
-
-        if (bee1Data != null) {
-            breedingIngredient1 = ConfigurableBee.getBreedingIngredientFromString(bee1Data.getString("breedingItem"));
-            breedingCount1 = bee1Data.getInt("breedingItemCount");
-        }
-        if (bee2Data != null) {
-            breedingIngredient2 = ConfigurableBee.getBreedingIngredientFromString(bee2Data.getString("breedingItem"));
-            breedingCount2 = bee2Data.getInt("breedingItemCount");
-        }
+        Ingredient breedingIngredient1 = ConfigurableBee.getBreedingIngredientFromString(bee1Data != null ? bee1Data.breedingItem() : "");
+        int breedingCount1 = bee1Data != null ? bee1Data.breedingItemCount() : 1;
+        Ingredient breedingIngredient2 = ConfigurableBee.getBreedingIngredientFromString(bee2Data != null ? bee2Data.breedingItem() : "");
+        int breedingCount2 = bee2Data != null ? bee2Data.breedingItemCount() : 1;
 
         ItemStack breedingItem1 = invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BREED_ITEM_1);
         ItemStack breedingItem2 = invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BREED_ITEM_2);
@@ -255,7 +259,7 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
                 );
     }
 
-    private boolean completeBreeding(IItemHandlerModifiable invHandler) {
+    private boolean completeBreeding(InventoryHandlerHelper.BlockEntityItemStackHandler invHandler) {
         ItemStack cage = invHandler.getStackInSlot(BreedingChamberContainer.SLOT_CAGE);
         if (cage.isEmpty()) {
             return false;
@@ -264,7 +268,7 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
             var recipe = chosenRecipe.value();
             BeeIngredient beeIngredient = recipe.offspring.get();
 
-            Entity offspring = beeIngredient.getBeeEntity().create(level);
+            Entity offspring = beeIngredient.getBeeEntity().create(level, EntitySpawnReason.NATURAL);
             if (offspring instanceof Bee bee) {
                 if (bee instanceof ConfigurableBee) {
                     ((ConfigurableBee) bee).setBeeType(beeIngredient.getBeeType().toString());
@@ -281,15 +285,15 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
 
                 ItemStack newCage = new ItemStack(cage.getItem());
                 BeeCage.captureEntity(bee, newCage);
-                cage.shrink(1);
+                invHandler.extractItem(BreedingChamberContainer.SLOT_CAGE, 1, false, false);
 
                 invHandler.setStackInSlot(BreedingChamberContainer.SLOT_OUTPUT, newCage);
 
                 // parent death
-                if (recipe.parentDeathChance > level.random.nextFloat()) {
+                if (recipe.parentDeathChance > level.getRandom().nextFloat()) {
                     invHandler.setStackInSlot(BreedingChamberContainer.SLOT_BEE_1, invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1).getItem().getDefaultInstance());
                 }
-                if (recipe.parentDeathChance > level.random.nextFloat()) {
+                if (recipe.parentDeathChance > level.getRandom().nextFloat()) {
                     invHandler.setStackInSlot(BreedingChamberContainer.SLOT_BEE_2, invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2).getItem().getDefaultInstance());
                 }
 
@@ -301,34 +305,44 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
     }
 
     @Override
-    public IItemHandlerModifiable getUpgradeHandler() {
+    public ResourceHandler<ItemResource> getUpgradeHandler() {
         return upgradeHandler;
     }
 
     @Override
-    public void loadPacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
-        super.loadPacketNBT(tag, provider);
+    public void loadPacketNBT(ValueInput input) {
+        super.loadPacketNBT(input);
 
-        if (tag.contains("ChosenRecipe") && level != null) {
-            Optional<RecipeHolder<?>> recipe = level.getRecipeManager().byKey(ResourceLocation.parse(tag.getString("ChosenRecipe")));
-            if (recipe.isPresent() && recipe.get().value() instanceof BeeBreedingRecipe) {
-                setRecipe((RecipeHolder<BeeBreedingRecipe>) recipe.get());
+        input.getString("ChosenRecipe").ifPresent(id -> {
+            ResourceKey<Recipe<?>> key = ResourceKey.create(Registries.RECIPE, Identifier.parse(id));
+            if (level instanceof ServerLevel sl) {
+                Optional<RecipeHolder<?>> recipe = sl.recipeAccess().byKey(key);
+                if (recipe.isPresent() && recipe.get().value() instanceof BeeBreedingRecipe) {
+                    setRecipe((RecipeHolder<BeeBreedingRecipe>) recipe.get());
+                }
+            } else if (level != null) {
+                for (RecipeHolder<BeeBreedingRecipe> holder : RecipeMapCache.getRecipeMap().byType(ModRecipeTypes.BEE_BREEDING_TYPE.get())) {
+                    if (holder.id().equals(key)) {
+                        setRecipe(holder);
+                        break;
+                    }
+                }
             }
-        }
+        });
 
-        recipeProgress = tag.getInt("RecipeProgress");
-        isRunning = tag.contains("IsRunning") && tag.getBoolean("IsRunning");
+        recipeProgress = input.getIntOr("RecipeProgress", 0);
+        isRunning = input.getBooleanOr("IsRunning", false);
     }
 
     @Override
-    public void savePacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
-        super.savePacketNBT(tag, provider);
+    public void savePacketNBT(ValueOutput output) {
+        super.savePacketNBT(output);
 
         if (chosenRecipe != null) {
-            tag.putString("ChosenRecipe", chosenRecipe.id().toString());
+            output.putString("ChosenRecipe", chosenRecipe.id().identifier().toString());
         }
-        tag.putInt("RecipeProgress", recipeProgress);
-        tag.putBoolean("IsRunning", isRunning);
+        output.putInt("RecipeProgress", recipeProgress);
+        output.putBoolean("IsRunning", isRunning);
     }
 
     @Nonnull
@@ -344,12 +358,12 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
     }
 
     @Override
-    public IItemHandler getItemHandler() {
+    public ResourceHandler<ItemResource> getItemHandler() {
         return inventoryHandler;
     }
 
     @Override
-    public EnergyStorage getEnergyHandler() {
+    public EnergyHandler getEnergyHandler() {
         return energyHandler;
     }
 }

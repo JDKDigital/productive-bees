@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:function",
+  "environment": "productivebees:centrifuge_productivity_upgrade_x32_env",
+  "function": "productivebees:centrifuge_productivity_upgrade_x32",
+  "structure": "productivebees:empty_7x7",
+  "max_ticks": 600,
+  "required": true,
+  "setup_ticks": 0
+}

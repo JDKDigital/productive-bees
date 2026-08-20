@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/iron"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/osmium"
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:raw_materials/osmium",
+  "parent1": "productivebees:raw_materials/iron",
+  "parent2": "productivebees:neon_cuckoo_bee"
+}

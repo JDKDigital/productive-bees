@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "gtceu"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/barite/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/raw_barite",
+  "particleColor": "#e5dfcf",
+  "primaryColor": "#836c43",
+  "secondaryColor": "#d8d2c2",
+  "selfbreed": false,
+  "size": 0.8,
+  "tertiaryColor": "#57411a",
+  "useGlowLayer": true
+}

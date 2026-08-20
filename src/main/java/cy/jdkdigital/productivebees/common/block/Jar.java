@@ -42,7 +42,7 @@ public class Jar extends Block implements EntityBlock
     }
 
     @Override
-    public boolean propagatesSkylightDown(BlockState state, BlockGetter world, BlockPos pos) {
+    public boolean propagatesSkylightDown(BlockState state) {
         return true;
     }
 
@@ -52,6 +52,7 @@ public class Jar extends Block implements EntityBlock
         return new JarBlockEntity(pos, state);
     }
 
+    /*
     @Override
     public void appendHoverText(ItemStack pStack, Item.TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
         super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
@@ -70,4 +71,5 @@ public class Jar extends Block implements EntityBlock
             pTooltipComponents.add(Component.translatable("productivebees.information.jar.fill_tip"));
         }
     }
+    */
 }

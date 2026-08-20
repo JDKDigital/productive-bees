@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:dusts/redstone"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gems/cinnabar"
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:gems/cinnabar",
+  "parent1": "productivebees:dusts/redstone",
+  "parent2": "productivebees:sweat_bee"
+}

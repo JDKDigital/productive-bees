@@ -1,0 +1,10 @@
+{
+  "attack": 1.0,
+  "flowerTag": "productivebees:flowers/rose_quartz",
+  "particleColor": "#ffbffb",
+  "primaryColor": "#ffbffb",
+  "renderer": "default_crystal",
+  "secondaryColor": "#3e5b68",
+  "size": 0.6,
+  "tertiaryColor": "#a63367"
+}

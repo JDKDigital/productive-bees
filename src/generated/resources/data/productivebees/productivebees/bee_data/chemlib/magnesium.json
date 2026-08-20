@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/magnesium/bee",
+  "flowerBlock": "chemlib:magnesium_metal_block",
+  "particleColor": "#ccccd1",
+  "primaryColor": "#aaaaad",
+  "useGlowLayer": true
+}

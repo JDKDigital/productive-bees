@@ -24,15 +24,20 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.component.TypedEntityData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.Block;
@@ -52,6 +57,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Optional;
 
 public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEntity
 {
@@ -67,6 +73,16 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
     public int MAX_BEES = 3;
 
     protected int tickCounter = 0;
+
+    private static boolean hasFreeOutputSlot(InventoryHandlerHelper.BlockEntityItemStackHandler inv) {
+        for (int slot : inv.getOutputSlots()) {
+            ItemStack existing = inv.getStackInSlot(slot);
+            if (existing.isEmpty() || existing.getCount() < existing.getMaxStackSize()) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public AdvancedBeehiveBlockEntityAbstract(BlockPos pos, BlockState state) {
         super(pos, state);
@@ -101,7 +117,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
             if (beedata.tick()) {
                 hasChanged = true;
                 BeehiveBlockEntity.BeeReleaseStatus beeReleaseStatus = BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED;
-                var hasConverted = beedata.occupant.entityData().getUnsafe().getBoolean("HasConverted");
+                var hasConverted = beedata.occupant.entityData().getUnsafe().getBooleanOr("HasConverted", false);
                 if (!hasConverted && beedata.hasNectar()) {
                     beeReleaseStatus = BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED;
                 }
@@ -120,10 +136,8 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
 
                             minOccupationTicks = blockEntity.getTimeInHive(beeReleaseStatus.equals(BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED), inhabitant);
 
-                            // update bee data
-                            CompoundTag compoundNBT = new CompoundTag();
-                            simulatedBee.save(compoundNBT);
-                            entityData = CustomData.of(compoundNBT);
+                            // Capture the simulated bee's mutated state back into a fresh TypedEntityData
+                            entityData = BeehiveBlockEntity.Occupant.of(simulatedBee).entityData();
                         }
                     } else if (willLeaveHive(pLevel, inhabitant, beeReleaseStatus)){
                         // only add count if outside is favourable
@@ -163,7 +177,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                     if (!this.isSedated()) {
                         if (bee instanceof Bee pBee) {
                             GeneValue temper = pBee.getData(ProductiveBees.ATTRIBUTE_HANDLER).getAttributeValue(GeneAttribute.TEMPER);
-                            if (temper.equals(GeneValue.TEMPER_PASSIVE) || (temper.equals(GeneValue.TEMPER_NORMAL) && getLevel().random.nextFloat() < .5)) {
+                            if (temper.equals(GeneValue.TEMPER_PASSIVE) || (temper.equals(GeneValue.TEMPER_NORMAL) && getLevel().getRandom().nextFloat() < .5)) {
                                 bee.setStayOutOfHiveCountdown(400);
                                 continue;
                             }
@@ -179,7 +193,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
 
     @Override
     public boolean isFull() {
-        return this.getOccupantCount() == MAX_BEES;
+        return this.getOccupantCount() >= MAX_BEES;
     }
 
     public boolean acceptsBee(Bee bee) {
@@ -188,8 +202,18 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
 
     public void addOccupantFromTag(CompoundTag compoundtag, int ticksInHive, int timeInHive) {
         BeehiveBlockEntity.IGNORED_BEE_TAGS.forEach(compoundtag::remove);
-        this.storeBee(new BeehiveBlockEntity.Occupant(CustomData.of(compoundtag), ticksInHive, timeInHive));
+        String entityId = compoundtag.getString("id").orElse("");
+        EntityType<?> entityType = EntityType.byString(entityId).orElse(null);
+        if (entityType != null) {
+            TypedEntityData<EntityType<?>> entityData = TypedEntityData.of(entityType, compoundtag);
+            this.storeBee(new BeehiveBlockEntity.Occupant(entityData, ticksInHive, timeInHive));
+        }
         this.setNonSuperChanged();
+    }
+
+    @Override
+    public void addOccupant(Bee bee) {
+        addOccupant((Entity) bee);
     }
 
     public void addOccupant(Entity pOccupant) {
@@ -199,7 +223,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
             pOccupant.getData(ProductiveBees.ATTRIBUTE_HANDLER); // Initialize attributes
             this.storeBee(BeehiveBlockEntity.Occupant.of(pOccupant));
             if (this.level != null) {
-                if (pOccupant instanceof Bee bee && bee.hasSavedFlowerPos() && (!this.hasSavedFlowerPos() || this.level.random.nextBoolean())) {
+                if (pOccupant instanceof Bee bee && bee.hasSavedFlowerPos() && (!this.hasSavedFlowerPos() || this.level.getRandom().nextBoolean())) {
                     this.savedFlowerPos = bee.getSavedFlowerPos();
                 }
 
@@ -221,19 +245,19 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
             BeehiveBlockEntity.BeeReleaseStatus beeState = BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED;
             if (data.getString("id").equals("productivebees:farmer_bee")) {
                 List<BlockPos> harvestablesNearby = FarmerBee.findHarvestablesNearby(pLevel, pPos, 5 + advancedBeehiveBlockEntity.getUpgradeCount(LibItems.UPGRADE_RANGE.get()));
-                harvestablesNearby.forEach(pos -> {
-                    if (pos != null && pLevel.isLoaded(pos) && HarvestCompatHandler.isCropValid(pLevel, pos)) {
-                        HarvestCompatHandler.harvestBlock(pLevel, pos);
+                for (BlockPos harvestPos : harvestablesNearby) {
+                    if (HarvestCompatHandler.isCropValid(pLevel, harvestPos)) {
+                        HarvestCompatHandler.harvestBlock(pLevel, harvestPos);
                     }
-                });
+                }
             } else if (data.getString("id").equals("productivebees:hoarder_bee") || data.getString("id").equals("productivebees:collector_bee")) {
-                int distance = 5 + advancedBeehiveBlockEntity.getUpgradeCount(LibItems.UPGRADE_RANGE.get());
-                List<ItemEntity> items = pLevel.getEntitiesOfClass(ItemEntity.class, (new AABB(pPos).inflate(distance, distance, distance)));
-                for (ItemEntity item: items) {
-                    if (advancedBeehiveBlockEntity.inventoryHandler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler inv) {
+                if (advancedBeehiveBlockEntity.inventoryHandler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler inv && hasFreeOutputSlot(inv)) {
+                    int distance = 5 + advancedBeehiveBlockEntity.getUpgradeCount(LibItems.UPGRADE_RANGE.get());
+                    List<ItemEntity> items = pLevel.getEntitiesOfClass(ItemEntity.class, (new AABB(pPos).inflate(distance, distance, distance)));
+                    for (ItemEntity item: items) {
                         var leftOver = inv.addOutput(item.getItem().copy());
                         if (leftOver.isEmpty()) {
-                            item.kill();
+                            item.kill(pLevel);
                         } else {
                             item.setItem(leftOver);
                         }
@@ -250,8 +274,10 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                         pBee.internalSetHasNectar(true);
                         pBee.postPollinate();
                     } else if (!(beeEntity instanceof ProductiveBee)) {
+                        // Vanilla Bee.isFlowerValid was removed in 26.1; the equivalent check is
+                        // the static Bee.attractsBees(BlockState) used by the new pollinate goal.
                         BlockState flowerBlock = pLevel.getBlockState(flowerPos);
-                        if (beeEntity.isFlowerValid(flowerPos) || flowerBlock.getBlock() instanceof Feeder && ProductiveBee.isValidFeeder(beeEntity, pLevel.getBlockEntity(flowerPos), blockState -> blockState.is(ModTags.DEFAULT_FLOWERING_BLOCK), null)) {
+                        if (Bee.attractsBees(flowerBlock) || (flowerBlock.getBlock() instanceof Feeder && ProductiveBee.isValidFeeder(beeEntity, pLevel.getBlockEntity(flowerPos), blockState -> blockState.is(ModTags.DEFAULT_FLOWERING_BLOCK), null))) {
                             beeState = BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED;
                         }
                     }
@@ -288,7 +314,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                 if (entity != null) {
                     boolean spawned;
                     if (entity instanceof Bee bee) {
-                        if (blockEntity.savedFlowerPos != null && !bee.hasSavedFlowerPos() && (bee.getEncodeId().contains("dye_bee") || pLevel.random.nextFloat() <= 0.9F)) {
+                        if (blockEntity.savedFlowerPos != null && !bee.hasSavedFlowerPos() && (bee.getEncodeId().contains("dye_bee") || pLevel.getRandom().nextFloat() <= 0.9F)) {
                             bee.setSavedFlowerPos(blockEntity.savedFlowerPos);
                         }
 
@@ -297,7 +323,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                             if (pState.is(BlockTags.BEEHIVES, p_202037_ -> p_202037_.hasProperty(BeehiveBlock.HONEY_LEVEL))) {
                                 int i = getHoneyLevel(pState);
                                 if (i < 5) {
-                                    int j = pLevel.random.nextInt(100) == 0 ? 2 : 1;
+                                    int j = pLevel.getRandom().nextInt(100) == 0 ? 2 : 1;
                                     if (i + j > 5) {
                                         j--;
                                     }
@@ -312,7 +338,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                         double d0 = (double)pPos.getX() + 0.5 + d3 * (double)direction.getStepX();
                         double d1 = (double)pPos.getY() + 0.5 - (double)(entity.getBbHeight() / 2.0F);
                         double d2 = (double)pPos.getZ() + 0.5 + d3 * (double)direction.getStepZ();
-                        entity.moveTo(d0, d1, d2, entity.getYRot(), entity.getXRot());
+                        entity.snapTo(d0, d1, d2, entity.getYRot(), entity.getXRot());
                     }
 
                     pLevel.playSound(null, pPos, SoundEvents.BEEHIVE_EXIT, SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -334,16 +360,19 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
 
     private static boolean willLeaveHive(Level level, BeehiveBlockEntity.Occupant occupant, BeehiveBlockEntity.BeeReleaseStatus beeState) {
         CompoundTag tag = occupant.entityData().getUnsafe();
-        boolean willLeaveHive = beeState == BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY || level.dimensionType().hasFixedTime() || (!level.isNight() && !level.isRaining()); // in an emergency or dim without time
+        boolean isNight = level.getOverworldClockTime() % 24000 >= 12000;
+        boolean willLeaveHive = beeState == BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY || level.dimensionType().hasFixedTime() || (!isNight && !level.isRaining()); // in an emergency or dim without time
         if (!level.dimensionType().hasFixedTime()) { // Weather and day/night cycle only counts in dim with time
-            if (tag.contains(AttachmentHolder.ATTACHMENTS_NBT_KEY) && tag.getCompound(AttachmentHolder.ATTACHMENTS_NBT_KEY).contains("productivebees:attributes_handler")) {
-                var attributes = tag.getCompound(AttachmentHolder.ATTACHMENTS_NBT_KEY).getCompound("productivebees:attributes_handler");
-                var behavior = GeneValue.byName(attributes.getString("bee_behavior"));
-                var tolerance = GeneValue.byName(attributes.getString("bee_weather_tolerance"));
+            Optional<CompoundTag> attributes = tag.getCompound(AttachmentHolder.ATTACHMENTS_NBT_KEY)
+                    .flatMap(att -> att.getCompound("productivebees:attributes_handler"));
+            if (attributes.isPresent()) {
+                CompoundTag attr = attributes.get();
+                GeneValue behavior = GeneValue.byName(attr.getString("bee_behavior").orElse(""));
+                GeneValue tolerance = GeneValue.byName(attr.getString("bee_weather_tolerance").orElse(""));
 
                 willLeaveHive = willLeaveHive ||
-                        ((!level.isNight() && behavior != GeneValue.BEHAVIOR_NOCTURNAL) || // it's day and the bee is not nocturnal
-                        (level.isNight() && behavior != GeneValue.BEHAVIOR_DIURNAL)) && // it's night and the bee is not diurnal
+                        ((!isNight && behavior != GeneValue.BEHAVIOR_NOCTURNAL) || // it's day and the bee is not nocturnal
+                        (isNight && behavior != GeneValue.BEHAVIOR_DIURNAL)) && // it's night and the bee is not diurnal
                         (!level.isRaining() || tolerance == GeneValue.WEATHER_TOLERANCE_RAIN || tolerance == GeneValue.WEATHER_TOLERANCE_ANY); // it's not raining or the bee is tolerant
             }
         }
@@ -370,7 +399,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         // Hoarder bees should leave their inventory behind
         if (beeEntity instanceof HoarderBee) {
             if (((HoarderBee) beeEntity).holdsItem()) {
-                IItemHandler handler = level.getCapability(Capabilities.ItemHandler.BLOCK, getBlockPos(), null);
+                var handler = level.getCapability(Capabilities.Item.BLOCK, getBlockPos(), null);
                 if (handler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler inv) {
                     ((HoarderBee) beeEntity).emptyIntoInventory(inv);
                 }
@@ -383,7 +412,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                 int honeyLevel = getHoneyLevel(state);
                 int maxHoneyLevel = getMaxHoneyLevel(state);
                 if (honeyLevel < maxHoneyLevel) {
-                    int levelIncrease = level.random.nextInt(100) == 0 ? 2 : 1;
+                    int levelIncrease = level.getRandom().nextInt(100) == 0 ? 2 : 1;
                     if (honeyLevel + levelIncrease > maxHoneyLevel) {
                         --levelIncrease;
                     }
@@ -425,7 +454,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         double d0 = (double) pos.getX() + 0.5D + d3 * (double) direction.getStepX();
         double d1 = (double) pos.getY() + 0.5D - (double) (entity.getBbHeight() / 2.0F);
         double d2 = (double) pos.getZ() + 0.5D + d3 * (double) direction.getStepZ();
-        entity.moveTo(d0, d1, d2, entity.getYRot(), entity.getXRot());
+        entity.snapTo(d0, d1, d2, entity.getYRot(), entity.getXRot());
 
         if (age != null && entity instanceof Bee) {
             ((Bee) entity).setAge(age);
@@ -443,28 +472,28 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
     }
 
     @Override
-    public void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
-        this.loadPacketNBT(tag, provider);
-        super.loadAdditional(tag, provider);
+    public void loadAdditional(ValueInput input) {
+        this.loadPacketNBT(input);
+        super.loadAdditional(input);
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
-        super.saveAdditional(tag, provider);
-        this.savePacketNBT(tag, provider);
+    protected void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
+        this.savePacketNBT(output);
     }
 
-    public void savePacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
-        tag.putInt("tickCounter", tickCounter);
+    public void savePacketNBT(ValueOutput output) {
+        output.putInt("tickCounter", tickCounter);
     }
 
-    public void loadPacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
-        tickCounter = tag.contains("tickCounter") ? tag.getInt("tickCounter") : 0;
+    public void loadPacketNBT(ValueInput input) {
+        tickCounter = input.getIntOr("tickCounter", 0);
     }
 
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
-        return saveWithId(provider);
+        return saveWithoutMetadata(provider);
     }
 
     @Override
@@ -473,9 +502,9 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
     }
 
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider provider) {
-        super.onDataPacket(net, pkt, provider);
-        this.loadPacketNBT(pkt.getTag(), provider);
+    public void onDataPacket(Connection net, ValueInput input) {
+        super.onDataPacket(net, input);
+        this.loadPacketNBT(input);
         if (level instanceof ClientLevel) {
             level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 0);
         }

@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "eidolon"
+    }
+  ],
+  "attack": 1.0,
+  "flowerBlock": "eidolon:pewter_block",
+  "particleColor": "#f0f0f0",
+  "primaryColor": "#63635a",
+  "secondaryColor": "#a1a097",
+  "size": 0.9,
+  "tertiaryColor": "#b8b8b2",
+  "useGlowLayer": true
+}

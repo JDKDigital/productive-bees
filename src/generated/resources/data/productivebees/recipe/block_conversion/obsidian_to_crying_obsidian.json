@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:draconic"
+    }
+  ],
+  "type": "productivebees:block_conversion",
+  "bees": [
+    "productivebees:draconic"
+  ],
+  "chance": 0.1,
+  "from": {
+    "Name": "minecraft:obsidian"
+  },
+  "to": {
+    "Name": "minecraft:crying_obsidian"
+  }
+}

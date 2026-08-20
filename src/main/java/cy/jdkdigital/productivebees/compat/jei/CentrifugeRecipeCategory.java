@@ -10,28 +10,33 @@ import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
 public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecipe>
 {
+    protected static final int BACKGROUND_WIDTH = 126;
+    protected static final int BACKGROUND_HEIGHT = 70;
     private final IDrawable background;
     private final IDrawable icon;
 
     public CentrifugeRecipeCategory(IGuiHelper guiHelper) {
-        ResourceLocation location = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/jei/centrifuge_recipe.png");
-        this.background = guiHelper.createDrawable(location, 0, 0, 126, 70);
+        Identifier location = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/jei/centrifuge_recipe.png");
+        this.background = guiHelper.createDrawable(location, 0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
         this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.CENTRIFUGE.get()));
     }
 
@@ -46,8 +51,17 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
         return Component.translatable("jei.productivebees.centrifuge");
     }
 
-    @Nonnull
     @Override
+    public int getWidth() {
+        return BACKGROUND_WIDTH;
+    }
+
+    @Override
+    public int getHeight() {
+        return BACKGROUND_HEIGHT;
+    }
+
+    @SuppressWarnings("unused")
     public IDrawable getBackground() {
         return this.background;
     }
@@ -65,7 +79,7 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
 
     protected void setRecipe(IRecipeLayoutBuilder builder, CentrifugeRecipe recipe, IFocusGroup focuses, boolean stripWax) {
         builder.addSlot(RecipeIngredientRole.INPUT, 5, 27)
-                .addItemStacks(Arrays.stream(recipe.ingredient.getItems()).toList())
+                .addItemStacks(stacksWithComponents(recipe.ingredient))
                 .setSlotName("ingredient");
 
         int startX = 68;
@@ -84,7 +98,7 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
 
                     builder.addSlot(RecipeIngredientRole.OUTPUT, startX + (i[0] * 18) + 1, startY + ((int) Math.floor(i[0] / 3.0F) * 18) + 1)
                             .addItemStacks(innerList)
-                            .addTooltipCallback((recipeSlotView, tooltip) -> {
+                            .addRichTooltipCallback((recipeSlotView, tooltip) -> {
                                 float chance = value.chance() * 100f;
                                 if (chance < 100) {
                                     tooltip.add(Component.translatable("productivebees.centrifuge.tooltip.chance", chance < 1 ? "<1%" : chance + "%"));
@@ -106,10 +120,27 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
         if (!fluid.isEmpty()) {
             builder.addSlot(RecipeIngredientRole.OUTPUT, startX + (i[0] * 18) + 1, startY + ((int) Math.floor(i[0] / 3.0F) * 18) + 1)
                     .addIngredient(NeoForgeTypes.FLUID_STACK, fluid)
-                    .addTooltipCallback((recipeSlotView, tooltip) -> {
+                    .addRichTooltipCallback((recipeSlotView, tooltip) -> {
                         tooltip.add(Component.translatable("productivebees.centrifuge.tooltip.amount", fluid.getAmount() + "mB"));
                     })
                     .setSlotName("output" + i[0]);
         }
+    }
+    @Override
+    public void draw(CentrifugeRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
+        this.background.draw(guiGraphics);
+    }
+
+    static List<ItemStack> stacksWithComponents(Ingredient ingredient) {
+        DataComponentIngredient componentBound = ingredient.getCustomIngredient() instanceof DataComponentIngredient dci ? dci : null;
+        List<ItemStack> stacks = new ArrayList<>();
+        ingredient.items().forEach(holder -> {
+            ItemStack stack = new ItemStack(holder);
+            if (componentBound != null) {
+                stack.applyComponents(componentBound.components());
+            }
+            stacks.add(stack);
+        });
+        return stacks;
     }
 }

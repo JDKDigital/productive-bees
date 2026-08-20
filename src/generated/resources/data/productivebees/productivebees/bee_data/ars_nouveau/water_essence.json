@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "ars_nouveau"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/water_essence/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerItem": "ars_nouveau:water_essence",
+  "particleType": "pop",
+  "primaryColor": "#2e35f0",
+  "renderer": "default_crystal",
+  "secondaryColor": "#60c7ed",
+  "selfbreed": false,
+  "size": 0.7,
+  "tertiaryColor": "#b5f2ff"
+}

@@ -35,7 +35,7 @@ public class BreedingChamber extends CapabilityContainerBlock
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.BREEDING_CHAMBER.get(), BreedingChamberBlockEntity::tick);
+        return level.isClientSide() ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.BREEDING_CHAMBER.get(), BreedingChamberBlockEntity::tick);
     }
 
     @SuppressWarnings("deprecation")
@@ -58,7 +58,7 @@ public class BreedingChamber extends CapabilityContainerBlock
                 pLevel.sendBlockUpdated(pPos, pState, pState, 3);
                 pPlayer.openMenu(breedingChamberBlockEntity, pPos);
             }
-            return InteractionResult.SUCCESS_NO_ITEM_USED;
+            return InteractionResult.SUCCESS;
         }
         return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);
     }

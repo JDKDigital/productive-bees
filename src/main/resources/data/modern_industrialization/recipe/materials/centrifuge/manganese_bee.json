@@ -4,36 +4,36 @@
   "duration": 1200,
   "item_inputs": {
     "items": "productivebees:spawn_egg_configurable_bee",
-    "type": "productivebees:component",
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:iron",
+        "type": "productivebees:raw_materials/iron",
         "id": "productivebees:configurable_bee"
       }
     },
-    "amount": 6
+    "amount": 6,
+    "neoforge:ingredient_type": "productivebees:component"
   },
   "item_outputs": [
     {
-      "type": "productivebees:component",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:manganese",
+          "type": "productivebees:modern_industrialization/manganese",
           "id": "productivebees:configurable_bee"
         }
       },
       "item": "productivebees:spawn_egg_configurable_bee",
-      "amount": 1
+      "amount": 1,
+      "neoforge:ingredient_type": "productivebees:component"
     }
   ],
   "neoforge:conditions": [
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:iron"
+      "bee": "productivebees:raw_materials/iron"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:manganese"
+      "bee": "productivebees:modern_industrialization/manganese"
     },
     {
       "type": "neoforge:mod_loaded",

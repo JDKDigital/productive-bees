@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "silentgear"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/crimson_iron/bee",
+  "flowerBlock": "silentgear:crimson_iron_block",
+  "particleColor": "#f3476f",
+  "primaryColor": "#7b144c",
+  "secondaryColor": "#de4476",
+  "size": 0.8,
+  "useGlowLayer": true
+}

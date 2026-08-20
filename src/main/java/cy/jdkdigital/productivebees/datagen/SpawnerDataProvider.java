@@ -9,14 +9,14 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.biome.BiomeData;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.random.Weighted;
+import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.common.world.BiomeModifiers;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
-
-import java.util.List;
 
 public class SpawnerDataProvider
 {
@@ -24,7 +24,7 @@ public class SpawnerDataProvider
 
     public static final ResourceKey<BiomeModifier> ADD_BEEBEE_SPAWNS = ResourceKey.create(
             NeoForgeRegistries.Keys.BIOME_MODIFIERS,
-            ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "add_beebee_spawns")
+            Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "add_beebee_spawns")
     );
 
     public static void bootstrap(BootstrapContext<BiomeModifier> context) {
@@ -33,9 +33,7 @@ public class SpawnerDataProvider
         context.register(ADD_BEEBEE_SPAWNS,
                 new BiomeModifiers.AddSpawnsBiomeModifier(
                         biomes.getOrThrow(ModTags.BEEBEE_SPAWN_BIOMES),
-                        List.of(
-                                new MobSpawnSettings.SpawnerData(ModEntities.CONFIGURABLE_BEE.get(), 10, 1, 1)
-                        )
+                        WeightedList.<MobSpawnSettings.SpawnerData>builder().add(new MobSpawnSettings.SpawnerData(ModEntities.CONFIGURABLE_BEE.get(), 1, 1), 10).build()
                 )
         );
     }

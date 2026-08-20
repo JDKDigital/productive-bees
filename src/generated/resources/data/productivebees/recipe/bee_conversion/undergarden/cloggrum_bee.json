@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:storage_blocks/cloggrum"
+      }
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/iron"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:undergarden/cloggrum"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "#c:storage_blocks/cloggrum",
+  "result": "productivebees:undergarden/cloggrum",
+  "source": "productivebees:raw_materials/iron"
+}

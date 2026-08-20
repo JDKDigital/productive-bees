@@ -1,0 +1,29 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "ae2"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:ae2/fluix"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "chance": 0.2,
+      "item": "ae2:fluix_crystal"
+    },
+    {
+      "chance": 0.05,
+      "item": "ae2:fluix_dust"
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

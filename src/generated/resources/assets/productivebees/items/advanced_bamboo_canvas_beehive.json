@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productivebees:item/advanced_bamboo_canvas_beehive",
+    "tints": [
+      {
+        "type": "minecraft:dye",
+        "default": -1
+      },
+      {
+        "type": "minecraft:constant",
+        "value": -1
+      }
+    ]
+  }
+}

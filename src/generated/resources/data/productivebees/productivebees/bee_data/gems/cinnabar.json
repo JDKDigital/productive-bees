@@ -1,0 +1,9 @@
+{
+  "attack": 1.0,
+  "flowerTag": "c:storage_blocks/cinnabar",
+  "particleColor": "#ff7883",
+  "primaryColor": "#d73e4a",
+  "secondaryColor": "#710626",
+  "size": 0.6,
+  "useGlowLayer": true
+}

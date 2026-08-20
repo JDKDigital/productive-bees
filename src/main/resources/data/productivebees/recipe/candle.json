@@ -6,12 +6,8 @@
     "W"
   ],
   "key": {
-    "S": {
-      "tag": "c:strings"
-    },
-    "W": {
-      "tag": "c:waxes"
-    }
+    "S": "#c:strings",
+    "W": "#c:waxes"
   },
   "result": {
     "id": "minecraft:candle"

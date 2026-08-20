@@ -1,0 +1,15 @@
+{
+  "additional_wants": {
+    "id": "productivebees:bee_cage"
+  },
+  "gives": {
+    "id": "productivebees:sturdy_bee_cage"
+  },
+  "max_uses": 12.0,
+  "reputation_discount": 0.2,
+  "wants": {
+    "count": 12.0,
+    "id": "minecraft:emerald"
+  },
+  "xp": 6.0
+}

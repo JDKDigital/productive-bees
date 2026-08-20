@@ -1,100 +1,81 @@
 package cy.jdkdigital.productivebees.datagen;
 
-import com.google.common.collect.Maps;
-import com.google.common.hash.Hashing;
-import com.google.common.hash.HashingOutputStream;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.stream.JsonWriter;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.setup.BeeReloadListener;
-import cy.jdkdigital.productivebees.util.BeeCreator;
+import cy.jdkdigital.productivebees.setup.BeeData;
+import cy.jdkdigital.productivebees.setup.BeeRegistries;
 import cy.jdkdigital.productivebees.util.GeneValue;
-import cy.jdkdigital.productivelib.crafting.condition.FluidTagEmptyCondition;
-import net.minecraft.Util;
-import net.minecraft.data.CachedOutput;
-import net.minecraft.data.DataProvider;
-import net.minecraft.data.PackOutput;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
+import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.ARGB;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.conditions.*;
-import org.jetbrains.annotations.NotNull;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.Supplier;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.function.BiConsumer;
 
-public class BeeProvider implements DataProvider
+public class BeeProvider
 {
-    private final PackOutput output;
-    public BeeProvider(PackOutput output) {
-        this.output = output;
+    private BeeProvider() {}
+
+    /** {@code DatapackBuiltinEntriesProvider} bootstrap — registers every {@link #getBeeConfigs()} entry. */
+    public static void bootstrap(BootstrapContext<BeeData> ctx) {
+        for (BeeConfig config : uniqueConfigs()) {
+            Identifier id = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, config.name);
+            ResourceKey<BeeData> key = ResourceKey.create(BeeRegistries.BEE_DATA, id);
+            ctx.register(key, config.toBeeData());
+        }
     }
 
-    @Override
-    public @NotNull CompletableFuture<?> run(@NotNull CachedOutput cachedOutput) {
-        PackOutput.PathProvider beePath = this.output.createPathProvider(PackOutput.Target.DATA_PACK, "productivebees");
-
-        List<CompletableFuture<?>> output = new ArrayList<>();
-
-        Map<ResourceLocation, Supplier<JsonElement>> bees = Maps.newHashMap();
-        // Iterate bees and create json files
-
-        Map<ResourceLocation, CompoundTag> BEE_DATA = new HashMap<>();
-        getBeeConfigs().forEach(beeConfig -> {
-            var id = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, beeConfig.name);
-            bees.put(id, getBee(beeConfig));
-            BEE_DATA.put(id, BeeCreator.create(id, bees.get(id).get().getAsJsonObject()));
-        });
-        // Make data available for later providers
-        BeeReloadListener.INSTANCE.setData(BEE_DATA);
-
-        bees.forEach((rLoc, supplier) -> {
-            output.add(saveStable(cachedOutput, supplier.get(), beePath.json(rLoc)));
-        });
-        return CompletableFuture.allOf(output.toArray(CompletableFuture[]::new));
+    /** Deduplicates {@link #getBeeConfigs()} by full path (a few entries are listed twice). */
+    public static List<BeeConfig> uniqueConfigs() {
+        LinkedHashMap<String, BeeConfig> byPath = new LinkedHashMap<>();
+        for (BeeConfig config : getBeeConfigs()) {
+            byPath.putIfAbsent(config.name, config);
+        }
+        return new ArrayList<>(byPath.values());
     }
 
-    static CompletableFuture<?> saveStable(CachedOutput output, JsonElement json, Path path) {
-        return CompletableFuture.runAsync(() -> {
-            try {
-                ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
-                HashingOutputStream hashingoutputstream = new HashingOutputStream(Hashing.sha1(), bytearrayoutputstream);
-
-                try (JsonWriter jsonwriter = new JsonWriter(new OutputStreamWriter(hashingoutputstream, StandardCharsets.UTF_8))) {
-                    jsonwriter.setSerializeNulls(false);
-                    jsonwriter.setIndent("  ");
-                    GsonHelper.writeValue(jsonwriter, json, null);
-                }
-
-                output.writeIfNeeded(path, bytearrayoutputstream.toByteArray(), hashingoutputstream.hash());
-            } catch (IOException ioexception) {
-                LOGGER.error("Failed to save file to {}", path, ioexception);
+    /** Emits each bee's mod-load conditions into the registry-builder's {@code neoforge:conditions} array. */
+    public static void appendConditions(BiConsumer<ResourceKey<?>, ICondition> consumer) {
+        for (BeeConfig config : uniqueConfigs()) {
+            if (config.conditions.isEmpty()) {
+                continue;
             }
-
-        }, Util.backgroundExecutor());
+            Identifier id = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, config.name);
+            ResourceKey<BeeData> key = ResourceKey.create(BeeRegistries.BEE_DATA, id);
+            for (ICondition condition : config.conditions) {
+                consumer.accept(key, condition);
+            }
+        }
     }
 
-    @Override
-    public @NotNull String getName() {
-        return "ProductiveBees bee data provider";
+    /** Populates the datagen fallback map. Must run before any provider that reads bee data. */
+    public static void populateDatagenBridge() {
+        Map<Identifier, BeeData> bridgeData = new HashMap<>();
+        for (BeeConfig config : uniqueConfigs()) {
+            Identifier id = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, config.name);
+            BeeData data = config.toBeeData();
+            bridgeData.put(id, data);
+            int slash = config.name.lastIndexOf('/');
+            if (slash >= 0) {
+                Identifier simpleId = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, config.name.substring(slash + 1));
+                bridgeData.put(simpleId, data);
+            }
+        }
+        BeeRegistries.setDatagenFallback(bridgeData);
     }
 
-    protected List<BeeConfig> getBeeConfigs() {
+    protected static List<BeeConfig> getBeeConfigs() {
         return new ArrayList<>() {{
             add(new BeeConfig("amber").primaryColor("#fa9310").secondaryColor("#064f2c").tertiaryColor("#d4700e").particleColor("#fa9310").renderer("default_crystal").flowerTag("!productivebees:bee_encase_blacklist").flowerType("entity_types").noComb().size(0.7).postPollination("amber_encase"));
+            add(new BeeConfig("burly").primaryColor("#b26411").secondaryColor("#eccb45").particleColor("#f6f892").beeTexture("burly").renderer("default_shell").size(0.8).pollinatedSize(1.0).noSelfBreed().noComb().flowerItem("minecraft:golden_dandelion"));
             add(new BeeConfig("coal").primaryColor("#222525").secondaryColor("#804f40").particleColor("#222525").flowerTag(Tags.Items.STORAGE_BLOCKS_COAL.location().toString()).size(0.5));
+            add(new BeeConfig("creaking").primaryColor("#545852").secondaryColor("#b3a3a3").particleColor("#b5580f").beeTexture("creaking").model("productivebees:entity/royal").size(0.8).pollinatedSize(1.0).noSelfBreed().flowerBlock("minecraft:resin_block"));
             add(new BeeConfig("draconic").primaryColor("#1c1c1c").secondaryColor("#5f2525").particleColor("#cc00fa").beeTexture("draconic").attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_STRONG.getSerializedName()); put("temper", GeneValue.TEMPER_AGGRESSIVE.getSerializedName()); }}).breedingItem("productivebees:draconic_dust").breedingItemCount(2).draconic().flowerTag("productivebees:flowers/draconic").nestingPreference("productivebees:nests/draconic_nests"));
             add(new BeeConfig("ender").primaryColor("#161616").secondaryColor("#623875").particleColor("#cc00fa").particleType("portal").size(0.8).beeTexture("ender").attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_NORMAL.getSerializedName()); }}).teleporting().flowerTag("productivebees:flowers/ender").nestingPreference("productivebees:nests/end_nests"));
             add(new BeeConfig("experience").primaryColor("#00fc1a").secondaryColor("#884739").particleColor("#00fc1a").flowerTag(Tags.Items.BOOKSHELVES.location().toString()));
@@ -119,35 +100,35 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("ribbeet").primaryColor("#3a5a19").secondaryColor("#73964b").particleColor("#f3f5ff").flowerTag("c:magma_cubes").beeTexture("ribbeet").flowerType("entity_types").renderer("thicc").size(0.5f).pollinatedSize(1.0f).noComb().noSelfBreed());
 
             add(new BeeConfig("lava").primaryColor("#d56c1a").secondaryColor("#000000").beeTexture("lava").flowerFluid("minecraft:lava").fireproof());
-            add(new BeeConfig("beebee").primaryColor("#141414").secondaryColor("#141414").particleColor("#141414").beeTexture("beebee").model("productivebees:geo/entity/beebee.geo.json").noSelfBreed().speed(5).attack(Integer.MAX_VALUE).noComb().flowerBlock("minecraft:air").attributes(new HashMap<>(){{ put("temper", GeneValue.TEMPER_AGGRESSIVE.getSerializedName()); put("behavior", GeneValue.BEHAVIOR_METATURNAL.getSerializedName()); put("productivity", GeneValue.PRODUCTIVITY_VERY_HIGH.getSerializedName()); put("endurance", GeneValue.ENDURANCE_STRONG.getSerializedName()); }}).passiveEffects(new ArrayList<>() {{ add(new PassiveEffect("minecraft:darkness", 60)); }}));
-            add(new BeeConfig("fbi").primaryColor("#edc343").secondaryColor("#1f0088").noSelfBreed().speed(5).beeTexture("fbi").noComb().flowerBlock("minecraft:air").model("productivebees:geo/entity/fbi.geo.json").attributes(new HashMap<>(){{ put("temper", GeneValue.TEMPER_AGGRESSIVE.getSerializedName()); put("endurance", GeneValue.ENDURANCE_STRONG.getSerializedName()); }}));
-            add(new BeeConfig("butcher").primaryColor("#852315").secondaryColor("#dd9283").particleColor("#630800").beeTexture("butcher").model("productivebees:geo/entity/butcher.geo.json").flowerType("entity_types").flowerTag("productivebees:animals").missingMod("productivemetalworks"));
+            add(new BeeConfig("beebee").primaryColor("#141414").secondaryColor("#141414").particleColor("#141414").beeTexture("beebee").model("productivebees:entity/beebee").noSelfBreed().speed(5).attack(Integer.MAX_VALUE).noComb().flowerBlock("minecraft:air").attributes(new HashMap<>(){{ put("temper", GeneValue.TEMPER_AGGRESSIVE.getSerializedName()); put("behavior", GeneValue.BEHAVIOR_METATURNAL.getSerializedName()); put("productivity", GeneValue.PRODUCTIVITY_VERY_HIGH.getSerializedName()); put("endurance", GeneValue.ENDURANCE_WEAK.getSerializedName()); }}).passiveEffects(new ArrayList<>() {{ add(new PassiveEffect("minecraft:darkness", 60)); }}));
+            add(new BeeConfig("fbi").primaryColor("#edc343").secondaryColor("#1f0088").noSelfBreed().speed(5).beeTexture("fbi").noComb().flowerBlock("minecraft:air").model("productivebees:entity/fbi").attributes(new HashMap<>(){{ put("temper", GeneValue.TEMPER_AGGRESSIVE.getSerializedName()); put("endurance", GeneValue.ENDURANCE_STRONG.getSerializedName()); }}));
+            add(new BeeConfig("butcher").primaryColor("#852315").secondaryColor("#dd9283").particleColor("#630800").beeTexture("butcher").model("productivebees:entity/butcher").flowerType("entity_types").flowerTag("productivebees:animals").missingMod("productivemetalworks"));
 
             add(new BeeConfig("actuallyadditions/black_quartz").primaryColor("#6d9195").secondaryColor("#415764").tertiaryColor("#1a1d27").particleColor("#101118").renderer("default_crystal").size(0.7).flowerBlock("actuallyadditions:black_quartz_block").requireMod("actuallyadditions"));
 
-            add(new BeeConfig("ad_astra/calorite").primaryColor("#c44249").secondaryColor("#470d2f").particleColor("#df6d5c").flowerTag("c:storage_blocks/calorite").requireTag("c:storage_blocks/calorite"));
+            add(new BeeConfig("ad_astra/calorite").primaryColor("#c44249").secondaryColor("#470d2f").particleColor("#df6d5c").flowerTag("c:storage_blocks/calorite"));
             add(new BeeConfig("ad_astra/cheese").primaryColor("#d99c0d").particleColor("#edc76d").beeTexture("cheese").onlySpawnegg().flowerBlock("ad_astra:cheese_block").size(0.8).requireMod("ad_astra"));
-            add(new BeeConfig("ad_astra/desh").primaryColor("#e9ba5d").secondaryColor("#9e4539").particleColor("#e9ba5d").flowerTag("c:storage_blocks/desh").requireTag("c:storage_blocks/desh"));
-            add(new BeeConfig("ad_astra/ostrum").primaryColor("#966062").secondaryColor("#2c1f2d").particleColor("#564151").flowerTag("c:storage_blocks/ostrum").requireTag("c:storage_blocks/ostrum"));
+            add(new BeeConfig("ad_astra/desh").primaryColor("#e9ba5d").secondaryColor("#9e4539").particleColor("#e9ba5d").flowerTag("c:storage_blocks/desh"));
+            add(new BeeConfig("ad_astra/ostrum").primaryColor("#966062").secondaryColor("#2c1f2d").particleColor("#564151").flowerTag("c:storage_blocks/ostrum"));
 
             add(new BeeConfig("ae2/fluix").primaryColor("#3d3270").secondaryColor("#2e0b17").tertiaryColor("#6d4fa8").particleColor("#6d4fa8").renderer("default_crystal").size(0.7).flowerBlock("ae2:fluix_block").requireMod("ae2"));
-            add(new BeeConfig("ae2/silicon").primaryColor("#918d96").secondaryColor("#6b5873").size(0.7).flowerTag("productivebees:flowers/crystalline").requireTag("c:silicon"));
+            add(new BeeConfig("ae2/silicon").primaryColor("#918d96").secondaryColor("#6b5873").size(0.7).flowerTag("productivebees:flowers/crystalline"));
             add(new BeeConfig("ae2/sky_steel").primaryColor("#424546").secondaryColor("#87dfff").tertiaryColor("#3b5146").particleColor("#99ffcd").beeTexture("sky_steel").size(0.5).flowerBlock("megacells:sky_steel_block").noSelfBreed().requireMod("megacells").onlySpawnegg());
-            add(new BeeConfig("ae2/spacial").primaryColor("#dfe5f6").secondaryColor("#93c7ff").tertiaryColor("#93c7ff").particleColor("#66aefc").renderer("default_crystal").size(0.7).flowerBlock("ae2:quartz_block").requireMod("ae2"));
+            add(new BeeConfig("ae2/spatial").primaryColor("#dfe5f6").secondaryColor("#93c7ff").tertiaryColor("#93c7ff").particleColor("#66aefc").renderer("default_crystal").size(0.7).flowerBlock("ae2:quartz_block").requireMod("ae2"));
             add(new BeeConfig("ae2/entro").primaryColor("#035256").secondaryColor("#03b99a").tertiaryColor("#65e883").particleColor("#f4ffb5").renderer("default_crystal").size(0.8).beeTexture("entro").flowerBlock("extendedae:entro_block").requireMod("extendedae").noSelfBreed().onlySpawnegg());
             add(new BeeConfig("ae2/redstone_crystal").primaryColor("#5c0404").secondaryColor("#b51d1d").tertiaryColor("#e34848").particleColor("#ffa58c").renderer("default_crystal").size(0.7).beeTexture("redstone_crystal").flowerBlock("appflux:charged_redstone_block").requireMod("appflux").noSelfBreed().onlySpawnegg());
             add(new BeeConfig("ae2/sky_bronze").primaryColor("#2e0b05").secondaryColor("#5c2513").tertiaryColor("#804a2b").particleColor("#bfb57c").renderer("default_crystal").size(0.8).beeTexture("sky_bronze").flowerBlock("megacells:sky_bronze_block").requireMod("megacells").noSelfBreed().onlySpawnegg());
             add(new BeeConfig("ae2/sky_osmium").primaryColor("#222030").secondaryColor("#353149").tertiaryColor("#635089").particleColor("#d4a3c0").size(0.6).beeTexture("sky_osmium").flowerBlock("megacells:sky_osmium_block").requireMod("megacells").noSelfBreed().onlySpawnegg());
 
-            add(new BeeConfig("alloys/brass").primaryColor("#DAAA4C").secondaryColor("#804f40").flowerTag("c:storage_blocks/brass").requireTag("c:storage_blocks/brass"));
-            add(new BeeConfig("alloys/bronze").primaryColor("#C98C52").secondaryColor("#804f40").flowerTag("c:storage_blocks/bronze").requireTag("c:storage_blocks/bronze"));
-            add(new BeeConfig("alloys/constantan").primaryColor("#fc8669").secondaryColor("#884739").flowerTag("c:storage_blocks/constantan").requireTag("c:storage_blocks/constantan"));
-            add(new BeeConfig("alloys/electrum").primaryColor("#D5BB4F").secondaryColor("#804f40").flowerTag("c:storage_blocks/electrum").requireTag("c:storage_blocks/electrum"));
-            add(new BeeConfig("alloys/enderium").primaryColor("#58a28b").secondaryColor("#804f40").particleColor("#437f6c").flowerTag("c:storage_blocks/enderium").requireTag("c:storage_blocks/enderium"));
-            add(new BeeConfig("alloys/invar").primaryColor("#ADB7B2").secondaryColor("#804f40").flowerTag("c:storage_blocks/invar").requireTag("c:storage_blocks/invar"));
-            add(new BeeConfig("alloys/lumium").primaryColor("#f4ffc3").secondaryColor("#804f40").particleColor("#dde8ae").blinding().flowerTag("c:storage_blocks/lumium").requireTag("c:storage_blocks/lumium"));
-            add(new BeeConfig("alloys/signalum").primaryColor("#e7917d").secondaryColor("#804f40").particleColor("#b56f60").flowerTag("c:storage_blocks/signalum").requireTag("c:storage_blocks/signalum"));
-            add(new BeeConfig("alloys/steel").primaryColor("#737373").secondaryColor("#804f40").flowerTag("c:storage_blocks/steel").requireTag("c:storage_blocks/steel"));
+            add(new BeeConfig("alloys/brass").primaryColor("#DAAA4C").secondaryColor("#804f40").flowerTag("c:storage_blocks/brass"));
+            add(new BeeConfig("alloys/bronze").primaryColor("#C98C52").secondaryColor("#804f40").flowerTag("c:storage_blocks/bronze"));
+            add(new BeeConfig("alloys/constantan").primaryColor("#fc8669").secondaryColor("#884739").flowerTag("c:storage_blocks/constantan"));
+            add(new BeeConfig("alloys/electrum").primaryColor("#D5BB4F").secondaryColor("#804f40").flowerTag("c:storage_blocks/electrum"));
+            add(new BeeConfig("alloys/enderium").primaryColor("#58a28b").secondaryColor("#804f40").particleColor("#437f6c").flowerTag("c:storage_blocks/enderium"));
+            add(new BeeConfig("alloys/invar").primaryColor("#ADB7B2").secondaryColor("#804f40").flowerTag("c:storage_blocks/invar"));
+            add(new BeeConfig("alloys/lumium").primaryColor("#f4ffc3").secondaryColor("#804f40").particleColor("#dde8ae").blinding().flowerTag("c:storage_blocks/lumium"));
+            add(new BeeConfig("alloys/signalum").primaryColor("#e7917d").secondaryColor("#804f40").particleColor("#b56f60").flowerTag("c:storage_blocks/signalum"));
+            add(new BeeConfig("alloys/steel").primaryColor("#737373").secondaryColor("#804f40").flowerTag("c:storage_blocks/steel"));
 
             add(new BeeConfig("ars_nouveau/arcane").primaryColor("#c203fc").secondaryColor("#6c2482").tertiaryColor("#c203fc").particleColor("#c203fc").onlySpawnegg().renderer("default_crystal").size(0.8).attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_MEDIUM.getSerializedName()); }}).flowerBlock("ars_nouveau:source_gem_block").requireMod("ars_nouveau"));
             add(new BeeConfig("ars_nouveau/air_essence").primaryColor("#f6f400").secondaryColor("#c4dc20").tertiaryColor("#989e09").onlySpawnegg().renderer("default_crystal").size(0.7).flowerItem("ars_nouveau:air_essence").beeTexture("air_essence").particleType("pop").noSelfBreed().requireMod("ars_nouveau"));
@@ -168,9 +149,9 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("atm/unobtainium").primaryColor("#bc2feb").secondaryColor("#2e237b").flowerTag("c:storage_blocks/unobtainium").attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_STRONG.getSerializedName()); }}).noSelfBreed().invulnerability(new ArrayList<>() {{ add("mekanism.radiation"); }}).requireMod("allthemodium"));
             add(new BeeConfig("atm/vibranium").primaryColor("#73ffb9").secondaryColor("#0f5c7a").flowerTag("c:storage_blocks/vibranium").breedingItem("allthemodium:unobtainium_ingot").breedingItemCount(4).noSelfBreed().invulnerability(new ArrayList<>() {{  add("mekanism.radiation"); }}).requireMod("allthemodium"));
 
-            add(new BeeConfig("bloodmagic/hellfire").primaryColor("#b9f3e9").secondaryColor("#386058").tertiaryColor("#5fa295").particleColor("#e1f9f9").beeTexture("hellfire").size(0.4).flowerBlock("bloodmagic:dungeon_metal").noSelfBreed().requireMod("bloodmagic"));
-            add(new BeeConfig("bloodmagic/hematophagous").primaryColor("#7a0300").secondaryColor("#0f0f66").particleColor("#7a0300").flowerTag("productivebees:animals").flowerType("entity_types").requireMod("bloodmagic"));
-            add(new BeeConfig("bloodmagic/regenerative").primaryColor("#940e00").secondaryColor("#0f0f66").particleColor("#940e00").onlySpawnegg().renderer("thicc").noSelfBreed().selfHeal().noComb().attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_STRONG.getSerializedName()); put("temper", GeneValue.TEMPER_AGGRESSIVE.getSerializedName()); put("behavior", GeneValue.BEHAVIOR_METATURNAL.getSerializedName()); }}).requireMod("bloodmagic"));
+            add(new BeeConfig("neovitae/hellfire").primaryColor("#b9f3e9").secondaryColor("#386058").tertiaryColor("#5fa295").particleColor("#e1f9f9").beeTexture("hellfire").size(0.4).flowerBlock("neovitae:dungeon_metal").noSelfBreed().requireMod("neovitae"));
+            add(new BeeConfig("neovitae/hematophagous").primaryColor("#7a0300").secondaryColor("#0f0f66").particleColor("#7a0300").flowerTag("productivebees:animals").flowerType("entity_types").requireMod("neovitae"));
+            add(new BeeConfig("neovitae/regenerative").primaryColor("#940e00").secondaryColor("#0f0f66").particleColor("#940e00").onlySpawnegg().renderer("thicc").noSelfBreed().selfHeal().noComb().attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_STRONG.getSerializedName()); put("temper", GeneValue.TEMPER_AGGRESSIVE.getSerializedName()); put("behavior", GeneValue.BEHAVIOR_METATURNAL.getSerializedName()); }}).requireMod("neovitae"));
 
             add(new BeeConfig("botania/elementium").primaryColor("#dc5af8").secondaryColor("#804f40").onlySpawnegg().flowerTag("c:storage_blocks/elementium").noSelfBreed().invulnerability(new ArrayList<>() {{  add("mekanism.radiation"); }}).requireMod("botania"));
             add(new BeeConfig("botania/mana").primaryColor("#316ff5").secondaryColor("#08080f").tertiaryColor("#400438").particleColor("#316ff5").onlySpawnegg().flowerBlock("botania:gaia_pylon").renderer("default_foliage").size(0.5).noComb().breedingItem("botania:blacker_lotus").requireMod("botania"));
@@ -232,9 +213,9 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("chemlib/meitnerium").primaryColor("#9c8984").particleColor("#b4a19d").onlySpawnegg().beeTexture("meitnerium").size(0.5).flowerItem("chemlib:meitnerium").noSelfBreed().requireMod("chemlib"));
             add(new BeeConfig("chemlib/mendelevium").primaryColor("#2b349d").particleColor("#4148a5").onlySpawnegg().beeTexture("mendelevium").size(0.5).flowerItem("chemlib:mendelevium").noSelfBreed().requireMod("chemlib"));
             add(new BeeConfig("chemlib/mercury").primaryColor("#a5a4aa").particleColor("#bfbec5").beeTexture("mercury").flowerFluid("chemlib:mercury_fluid").requireMod("chemlib"));
-            add(new BeeConfig("chemlib/molybdenum").primaryColor("#7e80a5").particleColor("#a7a8c3").beeTexture("molybdenum").flowerBlock("chemlib:molybdenum_metal_block").requireMod("chemlib").missingTag("c:raw_materials/molybdenum").missingMod("gtceu"));
+            add(new BeeConfig("chemlib/molybdenum").primaryColor("#7e80a5").particleColor("#a7a8c3").beeTexture("molybdenum").flowerBlock("chemlib:molybdenum_metal_block").requireMod("chemlib").missingMod("gtceu"));
             add(new BeeConfig("chemlib/moscovium").primaryColor("#e93f49").particleColor("#9f7a6b").onlySpawnegg().beeTexture("moscovium").size(0.5).flowerItem("chemlib:moscovium").noSelfBreed().requireMod("chemlib"));
-            add(new BeeConfig("chemlib/neodymium").primaryColor("#998784").particleColor("#ab9d9a").beeTexture("neodymium").onlySpawnegg().flowerBlock("chemlib:neodymium_metal_block").requireMod("chemlib").missingTag("c:raw_materials/neodymium").missingMod("gtceu"));
+            add(new BeeConfig("chemlib/neodymium").primaryColor("#998784").particleColor("#ab9d9a").beeTexture("neodymium").onlySpawnegg().flowerBlock("chemlib:neodymium_metal_block").requireMod("chemlib").missingMod("gtceu"));
             add(new BeeConfig("chemlib/neon").primaryColor("#e1a4aa").particleColor("#ebafa0").size(0.7).beeTexture("neon").onlySpawnegg().flowerFluid("chemlib:neon_fluid").translucent().requireMod("chemlib"));
             add(new BeeConfig("chemlib/neptunium").primaryColor("#cbcbd1").particleColor("#c0d1d3").onlySpawnegg().beeTexture("neptunium").size(0.6).flowerItem("chemlib:neptunium").noSelfBreed().requireMod("chemlib"));
             add(new BeeConfig("chemlib/nihonium").primaryColor("#f3f4f9").particleColor("#f3b9bf").onlySpawnegg().beeTexture("nihonium").size(0.5).flowerItem("chemlib:nihonium").noSelfBreed().requireMod("chemlib"));
@@ -243,7 +224,7 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("chemlib/nobelium").primaryColor("#9c32b4").particleColor("#ae36c8").onlySpawnegg().beeTexture("nobelium").size(0.5).flowerItem("chemlib:nobelium").noSelfBreed().requireMod("chemlib"));
             add(new BeeConfig("chemlib/oganesson").primaryColor("#7f3190").particleColor("#9636a1").onlySpawnegg().beeTexture("oganesson").size(0.2).flowerItem("chemlib:oganesson").noSelfBreed().requireMod("chemlib"));
             add(new BeeConfig("chemlib/oxygen").primaryColor("#edede1").particleColor("#f5f5ed").size(0.7).beeTexture("oxygen").onlySpawnegg().flowerFluid("chemlib:oxygen_fluid").translucent().requireMod("chemlib"));
-            add(new BeeConfig("chemlib/palladium").primaryColor("#b78187").particleColor("#c3989a").beeTexture("palladium").flowerBlock("chemlib:palladium_metal_block").requireMod("chemlib").missingTag("c:raw_materials/palladium").missingMod("gtceu"));
+            add(new BeeConfig("chemlib/palladium").primaryColor("#b78187").particleColor("#c3989a").beeTexture("palladium").flowerBlock("chemlib:palladium_metal_block").requireMod("chemlib").missingMod("gtceu"));
             add(new BeeConfig("chemlib/phosphorus").primaryColor("#904456").particleColor("#c595a2").beeTexture("phosphorus").onlySpawnegg().flowerItem("chemlib:phosphorus").requireMod("chemlib"));
             add(new BeeConfig("chemlib/plutonium").primaryColor("#cdccd1").particleColor("#c9c6a8").onlySpawnegg().beeTexture("plutonium").size(0.6).flowerItem("chemlib:plutonium").noSelfBreed().requireMod("chemlib"));
             add(new BeeConfig("chemlib/polonium").primaryColor("#b3c9c8").particleColor("#bccfcc").beeTexture("polonium").flowerBlock("chemlib:polonium_metal_block").requireMod("chemlib"));
@@ -288,10 +269,10 @@ public class BeeProvider implements DataProvider
 
             add(new BeeConfig("dusts/blazing").primaryColor("#fcd979").particleColor("#fcd979").beeTexture("blazing").flowerTag("productivebees:flowers/fiery").attackResponse("fire").particleType("lava").fireproof());
             add(new BeeConfig("dusts/glowing").primaryColor("#fad87d").secondaryColor("#5f2525").particleColor("#fad87d").size(0.9).beeTexture("glowing").blinding().flowerTag("productivebees:flowers/glowing").nestingPreference("productivebees:nests/glowstone_nests").passiveEffects(new ArrayList<>() {{ add(new PassiveEffect("minecraft:glowing", 400)); }}));
-            add(new BeeConfig("dusts/niter").primaryColor("#e9edf3").secondaryColor("#836e73").particleColor("#e9edf3").flowerTag("c:storage_blocks/niter").renderer("default_crystal").requireTag("c:storage_blocks/niter"));
+            add(new BeeConfig("dusts/niter").primaryColor("#e9edf3").secondaryColor("#836e73").particleColor("#e9edf3").flowerTag("c:storage_blocks/niter").renderer("default_crystal"));
             add(new BeeConfig("dusts/redstone").primaryColor("#d03621").secondaryColor("#804f40").tertiaryColor("#730c00").particleColor("#ff0000").particleType("lava").renderer("default_crystal").noGlow().redstoned().flowerTag("productivebees:flowers/redstone"));
-            add(new BeeConfig("dusts/salty").primaryColor("#fa9f98").secondaryColor("#8a8a8a").particleColor("#fa7d73").flowerFluid("minecraft:water").waterproof().requireTag("c:dusts/salt"));
-            add(new BeeConfig("dusts/sulfur").primaryColor("#e4ff95").secondaryColor("#c9ab4b").particleColor("#f1f372").flowerTag("productivebees:flowers/sulfur").renderer("default_crystal").requireTag("c:dusts/sulfur"));
+            add(new BeeConfig("dusts/salty").primaryColor("#fa9f98").secondaryColor("#8a8a8a").particleColor("#fa7d73").flowerFluid("minecraft:water").waterproof());
+            add(new BeeConfig("dusts/sulfur").primaryColor("#e4ff95").secondaryColor("#c9ab4b").particleColor("#f1f372").flowerTag("productivebees:flowers/sulfur").renderer("default_crystal"));
 
             add(new BeeConfig("eidolon/arcane_gold").primaryColor("#f2da7d").secondaryColor("#a14f38").tertiaryColor("#7a3030").particleColor("#f9e597").beeTexture("arcane_gold").size(0.8).flowerBlock("eidolon:arcane_gold_block").requireMod("eidolon"));
             add(new BeeConfig("eidolon/pewter").primaryColor("#63635a").secondaryColor("#a1a097").tertiaryColor("#b8b8b2").particleColor("#f0f0f0").size(0.9).flowerBlock("eidolon:pewter_block").requireMod("eidolon"));
@@ -318,16 +299,30 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("enderio/soularium").primaryColor("#5b4223").secondaryColor("#2a1d0a").particleColor("#5b4223").flowerBlock("enderio:soularium_block").onlySpawnegg().requireMod("enderio"));
             add(new BeeConfig("enderio/vibrant_alloy").primaryColor("#e8f178").secondaryColor("#d0da4b").particleColor("#f0fcb2").size(0.9).flowerBlock("enderio:vibrant_alloy_block").onlySpawnegg().requireMod("enderio"));
 
+            add(new BeeConfig("enderio_endergy/crude_steel").primaryColor("#807a76").secondaryColor("#bcb2ad").particleColor("#ddd1cb").beeTexture("crude_steel").size(0.7).flowerBlock("enderio_endergy:crude_steel_block").onlySpawnegg().requireMod("enderio_endergy"));
+            add(new BeeConfig("enderio_endergy/crystalline_alloy").primaryColor("#477f7f").secondaryColor("#98ebeb").particleColor("#d3f3f3").beeTexture("crystalline_alloy").renderer("default_crystal").size(0.7).noSelfBreed().flowerBlock("enderio_endergy:crystalline_alloy_block").onlySpawnegg().requireMod("enderio_endergy"));
+            add(new BeeConfig("enderio_endergy/melodic_alloy").primaryColor("#5d305d").secondaryColor("#b689b6").particleColor("#d490d4").beeTexture("melodic_alloy").size(0.8).noSelfBreed().flowerBlock("enderio_endergy:melodic_alloy_block").onlySpawnegg().requireMod("enderio_endergy"));
+            add(new BeeConfig("enderio_endergy/stellar_alloy").primaryColor("#829898").secondaryColor("#c1c1c1").particleColor("#e7ead9").beeTexture("stellar_alloy").renderer("default_crystal").size(0.4).noSelfBreed().flowerBlock("enderio_endergy:stellar_alloy_block").onlySpawnegg().requireMod("enderio_endergy"));
+            add(new BeeConfig("enderio_endergy/vivid_alloy").primaryColor("#1e6377").secondaryColor("#44b9d7").particleColor("#a1f3fc").beeTexture("vivid_alloy").size(0.6).noSelfBreed().flowerBlock("enderio_endergy:vivid_alloy_block").onlySpawnegg().requireMod("enderio_endergy"));
+
             add(new BeeConfig("enigmaticlegacyplus/astral").primaryColor("#4d88ed").secondaryColor("#d85cd8").tertiaryColor("#dc502d").particleColor("#fee645").beeTexture("astral").size(0.6).onlySpawnegg().flowerBlock("enigmaticlegacyplus:astral_block").noSelfBreed().requireMod("enigmaticlegacyplus"));
             add(new BeeConfig("enigmaticlegacyplus/etherium_ore").primaryColor("#9b9252").secondaryColor("#dae1a1").tertiaryColor("#25bfab").particleColor("#cfffff").beeTexture("etherium_ore").size(0.7).flowerBlock("enigmaticlegacyplus:etherium_block").noSelfBreed().requireMod("enigmaticlegacyplus"));
+
+            add(new BeeConfig("eternal_starlight/amaramber").primaryColor("#4f5781").secondaryColor("#503746").particleColor("#2a2637").beeTexture("amaramber").size(0.5f).flowerBlock("eternal_starlight:raw_amaramber_block").requireMod("eternal_starlight"));
+            add(new BeeConfig("eternal_starlight/deepsilver").primaryColor("#5c5e95").secondaryColor("#b6c9db").particleColor("#14164a").beeTexture("deepsilver").size(0.7f).flowerBlock("eternal_starlight:deepsilver_block").requireMod("eternal_starlight"));
+            add(new BeeConfig("eternal_starlight/glacite").primaryColor("#79b2d1").secondaryColor("#6081b0").particleColor("#4c5491").beeTexture("glacite").size(0.8f).renderer("default_crystal").flowerBlock("eternal_starlight:glacite_block").requireMod("eternal_starlight"));
+            add(new BeeConfig("eternal_starlight/malarite").primaryColor("#415548").secondaryColor("#aa519e").particleColor("#7a518a").beeTexture("malarite").size(0.4f).flowerBlock("eternal_starlight:malarite_block").requireMod("eternal_starlight"));
+            add(new BeeConfig("eternal_starlight/starcore").primaryColor("#9a5555").secondaryColor("#ed8c41").particleColor("#ffc94e").beeTexture("starcore").size(0.9f).renderer("default_crystal").flowerBlock("eternal_starlight:starcore_block").requireMod("eternal_starlight"));
+            add(new BeeConfig("eternal_starlight/starlit_diamond").primaryColor("#9584e4").secondaryColor("#ece3ff").particleColor("#5863be").beeTexture("starlit_diamond").size(0.6f).renderer("default_crystal").flowerBlock("eternal_starlight:starlit_diamond_block").requireMod("eternal_starlight"));
+            add(new BeeConfig("eternal_starlight/thermal").primaryColor("#d29552").secondaryColor("#ece3ff").particleColor("#b2202f").beeTexture("thermal").size(0.5f).renderer("default_shell").flowerBlock("eternal_starlight:thermal_springstone").requireMod("eternal_starlight"));
 
             add(new BeeConfig("evilcraft/bloody").primaryColor("#ba3d34").secondaryColor("#8a0303").particleColor("#ba3d34").onlySpawnegg().renderer("thicc").size(0.9).attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_STRONG.getSerializedName()); put("productivity", GeneValue.PRODUCTIVITY_MEDIUM.getSerializedName()); }}).flowerBlock("evilcraft:hardened_blood").requireMod("evilcraft"));
             add(new BeeConfig("evilcraft/dark_gem").primaryColor("#636363").secondaryColor("#2e0b17").tertiaryColor("#141414").particleColor("#636363").renderer("default_crystal").size(0.7).attributes(new HashMap<>(){{ put("temper", GeneValue.TEMPER_AGGRESSIVE.getSerializedName()); }}).flowerBlock("evilcraft:dark_block").requireMod("evilcraft"));
 
             add(new BeeConfig("feywild/fey").primaryColor("#66ccff").secondaryColor("#666699").particleColor("#18abf5").onlySpawnegg().beeTexture("fey").renderer("default_crystal").particleType("pop").size(0.6).flowerTag("c:ores/fey_gem").noSelfBreed().noComb().requireMod("feywild"));
 
-            add(new BeeConfig("fluids/chocolate").primaryColor("#914139").secondaryColor("#804f40").particleColor("#914139").flowerBlock("minecraft:cocoa").requireFluidTag("c", "chocolate"));
-            add(new BeeConfig("fluids/oily").primaryColor("#010000").secondaryColor("#804f40").particleColor("#3b2754").flowerFluid("#c:crude_oil").waterproof().renderer("thicc").requireFluidTag("c", "crude_oil"));
+            add(new BeeConfig("fluids/chocolate").primaryColor("#914139").secondaryColor("#804f40").particleColor("#914139").flowerBlock("minecraft:cocoa"));
+            add(new BeeConfig("fluids/oily").primaryColor("#010000").secondaryColor("#804f40").particleColor("#3b2754").flowerFluid("#c:crude_oil").waterproof().renderer("thicc"));
             add(new BeeConfig("fluids/tea").primaryColor("#ca7157").secondaryColor("#804f40").particleColor("#ca7157").flowerTag("minecraft:leaves").requireMod("create"));
             add(new BeeConfig("fluids/water").primaryColor("#4977f5").secondaryColor("#232b3d").tertiaryColor("#5e94e0").particleColor("#0b1e42").size(0.8).attributes(new HashMap<>(){{put("weather_tolerance", GeneValue.WEATHER_TOLERANCE_ANY.getSerializedName()); }}).waterproof().noComb().flowerFluid("minecraft:water"));
 
@@ -338,60 +333,60 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("forbidden_arcanus/rune").primaryColor("#620d5f").secondaryColor("#8d2171").tertiaryColor("#c12383").particleColor("#eebcbe").beeTexture("rune").renderer("default_crystal").size(0.7).flowerBlock("forbidden_arcanus:rune_block").requireMod("forbidden_arcanus"));
             add(new BeeConfig("forbidden_arcanus/stellarite").primaryColor("#58594d").secondaryColor("#7a7e6d").particleColor("#909885").onlySpawnegg().size(0.8).noSelfBreed().flowerBlock("forbidden_arcanus:stellarite_block").requireMod("forbidden_arcanus"));
 
-            add(new BeeConfig("gems/agate").primaryColor("#9f01b8").secondaryColor("#064f2c").tertiaryColor("#c0138a").particleColor("#9f01b8").renderer("default_crystal").flowerTag("productivebees:flowers/agate").size(0.6).requireTag("c:gems/agate").requireTag("productivebees:flowers/agate"));
-            add(new BeeConfig("gems/alexandrite").primaryColor("#8d009a").secondaryColor("#2e0b17").tertiaryColor("#250028").particleColor("#8d009a").renderer("default_crystal").flowerTag("productivebees:flowers/alexandrite").size(0.6).requireTag("c:gems/alexandrite").requireTag("productivebees:flowers/alexandrite"));
-            add(new BeeConfig("gems/amber_gem").primaryColor("#fa9310").secondaryColor("#064f2c").tertiaryColor("#d4700e").particleColor("#fa9310").renderer("default_crystal").flowerTag("productivebees:flowers/amber").size(0.7).requireTag("c:gems/amber").requireTag("productivebees:flowers/amber"));
+            add(new BeeConfig("gems/agate").primaryColor("#9f01b8").secondaryColor("#064f2c").tertiaryColor("#c0138a").particleColor("#9f01b8").renderer("default_crystal").flowerTag("productivebees:flowers/agate").size(0.6));
+            add(new BeeConfig("gems/alexandrite").primaryColor("#8d009a").secondaryColor("#2e0b17").tertiaryColor("#250028").particleColor("#8d009a").renderer("default_crystal").flowerTag("productivebees:flowers/alexandrite").size(0.6));
+            add(new BeeConfig("gems/amber_gem").primaryColor("#fa9310").secondaryColor("#064f2c").tertiaryColor("#d4700e").particleColor("#fa9310").renderer("default_crystal").flowerTag("productivebees:flowers/amber").size(0.7));
             add(new BeeConfig("gems/amethyst").primaryColor("#7217c4").secondaryColor("#064f2c").tertiaryColor("#32005c").particleColor("#7217c4").renderer("default_crystal").flowerTag("productivebees:flowers/amethyst").size(0.6));
-            add(new BeeConfig("gems/ametrine").primaryColor("#98004c").secondaryColor("#2e0b17").tertiaryColor("#3d001f").particleColor("#98004c").renderer("default_crystal").flowerTag("productivebees:flowers/ametrine").size(0.6).requireTag("c:gems/ametrine").requireTag("productivebees:flowers/ametrine"));
-            add(new BeeConfig("gems/ammolite").primaryColor("#e4481f").secondaryColor("#3e5b68").tertiaryColor("#0900c9").particleColor("#e4481f").renderer("default_crystal").flowerTag("productivebees:flowers/ammolite").size(0.6).requireTag("c:gems/ammolite").requireTag("productivebees:flowers/ammolite"));
-            add(new BeeConfig("gems/apatite").primaryColor("#69ffff").secondaryColor("#3e5b68").tertiaryColor("#20afce").particleColor("#69ffff").renderer("default_crystal").flowerTag("productivebees:flowers/apatite").size(0.6).requireTag("c:gems/apatite").requireTag("productivebees:flowers/apatite"));
-            add(new BeeConfig("gems/aquamarine").primaryColor("#17cadd").secondaryColor("#064f2c").tertiaryColor("#007b70").particleColor("#17cadd").renderer("default_crystal").flowerTag("productivebees:flowers/aquamarine").size(0.6).requireTag("c:gems/aquamarine").requireTag("productivebees:flowers/aquamarine"));
-            add(new BeeConfig("gems/benitoite").primaryColor("#001bb6").secondaryColor("#2e0b17").tertiaryColor("#000c46").particleColor("#001bb6").renderer("default_crystal").flowerTag("productivebees:flowers/benitoite").size(0.6).requireTag("c:gems/benitoite").requireTag("productivebees:flowers/benitoite"));
-            add(new BeeConfig("gems/black_diamond").primaryColor("#636363").secondaryColor("#2e0b17").tertiaryColor("#141414").particleColor("#636363").renderer("default_crystal").flowerTag("productivebees:flowers/black_diamond").size(0.6).requireTag("c:gems/black_diamond").requireTag("productivebees:flowers/black_diamond"));
-            add(new BeeConfig("gems/black_opal").primaryColor("#636363").secondaryColor("#064f2c").tertiaryColor("#141414").particleColor("#636363").renderer("default_crystal").flowerTag("productivebees:flowers/black_opal").size(0.6).requireTag("c:gems/black_opal").requireTag("productivebees:flowers/black_opal"));
-            add(new BeeConfig("gems/carnelian").primaryColor("#d84e02").secondaryColor("#2e0b17").tertiaryColor("#340400").particleColor("#d84e02").renderer("default_crystal").flowerTag("productivebees:flowers/carnelian").size(0.6).requireTag("c:gems/carnelian").requireTag("productivebees:flowers/carnelian"));
-            add(new BeeConfig("gems/cats_eye").primaryColor("#ffe59e").secondaryColor("#3e5b68").tertiaryColor("#d59042").particleColor("#ffe59e").renderer("default_crystal").flowerTag("productivebees:flowers/cats_eye").size(0.6).requireTag("c:gems/cats_eye").requireTag("productivebees:flowers/cats_eye"));
-            add(new BeeConfig("gems/chrysoprase").primaryColor("#6cf631").secondaryColor("#3e5b68").tertiaryColor("#54943a").particleColor("#6cf631").renderer("default_crystal").flowerTag("productivebees:flowers/chrysoprase").size(0.6).requireTag("c:gems/chrysoprase").requireTag("productivebees:flowers/chrysoprase"));add(new BeeConfig("gems/cinnabar").primaryColor("#d73e4a").secondaryColor("#710626").particleColor("#ff7883").flowerTag("c:storage_blocks/cinnabar").size(0.6).requireTag("c:gems/cinnabar").requireTag("c:storage_blocks/cinnabar"));
-            add(new BeeConfig("gems/citrine").primaryColor("#995500").secondaryColor("#2e0b17").tertiaryColor("#838f00").particleColor("#995500").renderer("default_crystal").flowerTag("productivebees:flowers/citrine").size(0.6).requireTag("c:gems/citrine").requireTag("productivebees:flowers/citrine"));
-            add(new BeeConfig("gems/coral").primaryColor("#ff732f").secondaryColor("#3e5b68").tertiaryColor("#dc1e4b").particleColor("#ff732f").renderer("default_crystal").flowerTag("productivebees:flowers/coral").size(0.6).requireTag("c:gems/coral").requireTag("productivebees:flowers/coral"));add(new BeeConfig("gems/crystalline").primaryColor("#ede5dd").secondaryColor("#804f40").particleColor("#ede5dd").size(0.9).beeTexture("quartz").attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_MEDIUM.getSerializedName()); }}).flowerTag("productivebees:flowers/crystalline").nestingPreference("productivebees:nests/nether_quartz_nests").passiveEffects(new ArrayList<>() {{ add(new PassiveEffect("minecraft:resistance", 600)); }}));
+            add(new BeeConfig("gems/ametrine").primaryColor("#98004c").secondaryColor("#2e0b17").tertiaryColor("#3d001f").particleColor("#98004c").renderer("default_crystal").flowerTag("productivebees:flowers/ametrine").size(0.6));
+            add(new BeeConfig("gems/ammolite").primaryColor("#e4481f").secondaryColor("#3e5b68").tertiaryColor("#0900c9").particleColor("#e4481f").renderer("default_crystal").flowerTag("productivebees:flowers/ammolite").size(0.6));
+            add(new BeeConfig("gems/apatite").primaryColor("#69ffff").secondaryColor("#3e5b68").tertiaryColor("#20afce").particleColor("#69ffff").renderer("default_crystal").flowerTag("productivebees:flowers/apatite").size(0.6));
+            add(new BeeConfig("gems/aquamarine").primaryColor("#17cadd").secondaryColor("#064f2c").tertiaryColor("#007b70").particleColor("#17cadd").renderer("default_crystal").flowerTag("productivebees:flowers/aquamarine").size(0.6));
+            add(new BeeConfig("gems/benitoite").primaryColor("#001bb6").secondaryColor("#2e0b17").tertiaryColor("#000c46").particleColor("#001bb6").renderer("default_crystal").flowerTag("productivebees:flowers/benitoite").size(0.6));
+            add(new BeeConfig("gems/black_diamond").primaryColor("#636363").secondaryColor("#2e0b17").tertiaryColor("#141414").particleColor("#636363").renderer("default_crystal").flowerTag("productivebees:flowers/black_diamond").size(0.6));
+            add(new BeeConfig("gems/black_opal").primaryColor("#636363").secondaryColor("#064f2c").tertiaryColor("#141414").particleColor("#636363").renderer("default_crystal").flowerTag("productivebees:flowers/black_opal").size(0.6));
+            add(new BeeConfig("gems/carnelian").primaryColor("#d84e02").secondaryColor("#2e0b17").tertiaryColor("#340400").particleColor("#d84e02").renderer("default_crystal").flowerTag("productivebees:flowers/carnelian").size(0.6));
+            add(new BeeConfig("gems/cats_eye").primaryColor("#ffe59e").secondaryColor("#3e5b68").tertiaryColor("#d59042").particleColor("#ffe59e").renderer("default_crystal").flowerTag("productivebees:flowers/cats_eye").size(0.6));
+            add(new BeeConfig("gems/chrysoprase").primaryColor("#6cf631").secondaryColor("#3e5b68").tertiaryColor("#54943a").particleColor("#6cf631").renderer("default_crystal").flowerTag("productivebees:flowers/chrysoprase").size(0.6));add(new BeeConfig("gems/cinnabar").primaryColor("#d73e4a").secondaryColor("#710626").particleColor("#ff7883").flowerTag("c:storage_blocks/cinnabar").size(0.6));
+            add(new BeeConfig("gems/citrine").primaryColor("#995500").secondaryColor("#2e0b17").tertiaryColor("#838f00").particleColor("#995500").renderer("default_crystal").flowerTag("productivebees:flowers/citrine").size(0.6));
+            add(new BeeConfig("gems/coral").primaryColor("#ff732f").secondaryColor("#3e5b68").tertiaryColor("#dc1e4b").particleColor("#ff732f").renderer("default_crystal").flowerTag("productivebees:flowers/coral").size(0.6));add(new BeeConfig("gems/crystalline").primaryColor("#ede5dd").secondaryColor("#804f40").particleColor("#ede5dd").size(0.9).beeTexture("quartz").attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_MEDIUM.getSerializedName()); }}).flowerTag("productivebees:flowers/crystalline").nestingPreference("productivebees:nests/nether_quartz_nests").passiveEffects(new ArrayList<>() {{ add(new PassiveEffect("minecraft:resistance", 600)); }}));
             add(new BeeConfig("gems/crystalline").primaryColor("#ede5dd").secondaryColor("#804f40").particleColor("#ede5dd").size(0.9).beeTexture("quartz").attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_MEDIUM.getSerializedName()); }}).flowerTag("productivebees:flowers/crystalline").nestingPreference("productivebees:nests/nether_quartz_nests").passiveEffects(new ArrayList<>() {{ add(new PassiveEffect("minecraft:resistance", 600)); }}));
             add(new BeeConfig("gems/diamond").primaryColor("#3ddfe1").secondaryColor("#804f40").tertiaryColor("#0ebabd").particleColor("#3ddfe1").renderer("default_crystal").size(0.6).attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_MEDIUM.getSerializedName()); }}).flowerTag("productivebees:flowers/diamond"));
             add(new BeeConfig("gems/emerald").primaryColor("#26ac43").secondaryColor("#804f40").tertiaryColor("#1b752f").particleColor("#26ac43").flowerTag("productivebees:flowers/emerald").renderer("default_crystal").size(0.6));
-            add(new BeeConfig("gems/euclase").primaryColor("#005782").secondaryColor("#2e0b17").tertiaryColor("#001b28").particleColor("#005782").renderer("default_crystal").flowerTag("productivebees:flowers/euclase").size(0.6).requireTag("c:gems/euclase").requireTag("productivebees:flowers/euclase"));
-            add(new BeeConfig("gems/fluorite").primaryColor("#b9f3fa").secondaryColor("#1b2c33").tertiaryColor("#28a0b1").particleColor("#32e1f6").renderer("default_crystal").flowerTag("productivebees:flowers/fluorite").size(0.6).requireTag("c:gems/fluorite").requireTag("productivebees:flowers/fluorite"));
-            add(new BeeConfig("gems/garnet").primaryColor("#cc3516").secondaryColor("#064f2c").tertiaryColor("#dd3b17").particleColor("#cc3516").renderer("default_crystal").flowerTag("productivebees:flowers/garnet").size(0.6).requireTag("c:gems/garnet").requireTag("productivebees:flowers/garnet"));
-            add(new BeeConfig("gems/green_sapphire").primaryColor("#8adb18").secondaryColor("#064f2c").tertiaryColor("#019500").particleColor("#8adb18").renderer("default_crystal").flowerTag("productivebees:flowers/green_sapphire").size(0.6).requireTag("c:gems/green_sapphire").requireTag("productivebees:flowers/green_sapphire"));
-            add(new BeeConfig("gems/heliodor").primaryColor("#ddcf17").secondaryColor("#064f2c").tertiaryColor("#957b00").particleColor("#ddcf17").renderer("default_crystal").flowerTag("productivebees:flowers/heliodor").size(0.6).requireTag("c:gems/heliodor").requireTag("productivebees:flowers/heliodor"));
-            add(new BeeConfig("gems/iolite").primaryColor("#270070").secondaryColor("#2e0b17").tertiaryColor("#7000bd").particleColor("#270070").renderer("default_crystal").flowerTag("productivebees:flowers/iolite").size(0.6).requireTag("c:gems/iolite").requireTag("productivebees:flowers/iolite"));
-            add(new BeeConfig("gems/jade").primaryColor("#d6ff75").secondaryColor("#3e5b68").tertiaryColor("#b2e25d").particleColor("#d6ff75").renderer("default_crystal").flowerTag("productivebees:flowers/jade").size(0.6).requireTag("c:gems/jade").requireTag("productivebees:flowers/jade"));
-            add(new BeeConfig("gems/jasper").primaryColor("#342b00").secondaryColor("#2e0b17").tertiaryColor("#85794c").particleColor("#342b00").renderer("default_crystal").flowerTag("productivebees:flowers/jasper").size(0.6).requireTag("c:gems/jasper").requireTag("productivebees:flowers/jasper"));
-            add(new BeeConfig("gems/kunzite").primaryColor("#fe48ef").secondaryColor("#3e5b68").tertiaryColor("#93239e").particleColor("#fe48ef").renderer("default_crystal").flowerTag("productivebees:flowers/kunzite").size(0.6).requireTag("c:gems/kunzite").requireTag("productivebees:flowers/kunzite"));
-            add(new BeeConfig("gems/kyanite").primaryColor("#3b67ec").secondaryColor("#3e5b68").tertiaryColor("#0f4362").particleColor("#3b67ec").renderer("default_crystal").flowerTag("productivebees:flowers/kyanite").size(0.6).requireTag("c:gems/kyanite").requireTag("productivebees:flowers/kyanite"));
+            add(new BeeConfig("gems/euclase").primaryColor("#005782").secondaryColor("#2e0b17").tertiaryColor("#001b28").particleColor("#005782").renderer("default_crystal").flowerTag("productivebees:flowers/euclase").size(0.6));
+            add(new BeeConfig("gems/fluorite").primaryColor("#b9f3fa").secondaryColor("#1b2c33").tertiaryColor("#28a0b1").particleColor("#32e1f6").renderer("default_crystal").flowerTag("productivebees:flowers/fluorite").size(0.6));
+            add(new BeeConfig("gems/garnet").primaryColor("#cc3516").secondaryColor("#064f2c").tertiaryColor("#dd3b17").particleColor("#cc3516").renderer("default_crystal").flowerTag("productivebees:flowers/garnet").size(0.6));
+            add(new BeeConfig("gems/green_sapphire").primaryColor("#8adb18").secondaryColor("#064f2c").tertiaryColor("#019500").particleColor("#8adb18").renderer("default_crystal").flowerTag("productivebees:flowers/green_sapphire").size(0.6));
+            add(new BeeConfig("gems/heliodor").primaryColor("#ddcf17").secondaryColor("#064f2c").tertiaryColor("#957b00").particleColor("#ddcf17").renderer("default_crystal").flowerTag("productivebees:flowers/heliodor").size(0.6));
+            add(new BeeConfig("gems/iolite").primaryColor("#270070").secondaryColor("#2e0b17").tertiaryColor("#7000bd").particleColor("#270070").renderer("default_crystal").flowerTag("productivebees:flowers/iolite").size(0.6));
+            add(new BeeConfig("gems/jade").primaryColor("#d6ff75").secondaryColor("#3e5b68").tertiaryColor("#b2e25d").particleColor("#d6ff75").renderer("default_crystal").flowerTag("productivebees:flowers/jade").size(0.6));
+            add(new BeeConfig("gems/jasper").primaryColor("#342b00").secondaryColor("#2e0b17").tertiaryColor("#85794c").particleColor("#342b00").renderer("default_crystal").flowerTag("productivebees:flowers/jasper").size(0.6));
+            add(new BeeConfig("gems/kunzite").primaryColor("#fe48ef").secondaryColor("#3e5b68").tertiaryColor("#93239e").particleColor("#fe48ef").renderer("default_crystal").flowerTag("productivebees:flowers/kunzite").size(0.6));
+            add(new BeeConfig("gems/kyanite").primaryColor("#3b67ec").secondaryColor("#3e5b68").tertiaryColor("#0f4362").particleColor("#3b67ec").renderer("default_crystal").flowerTag("productivebees:flowers/kyanite").size(0.6));
             add(new BeeConfig("gems/lapis").primaryColor("#2659ab").secondaryColor("#804f40").tertiaryColor("#1b3588").particleColor("#3537bc").particleType("pop").renderer("default_crystal").noGlow().flowerTag("c:storage_blocks/lapis").size(0.8));
-            add(new BeeConfig("gems/lepidolite").primaryColor("#510046").secondaryColor("#2e0b17").tertiaryColor("#c812aa").particleColor("#510046").renderer("default_crystal").flowerTag("productivebees:flowers/lepidolite").size(0.6).requireTag("c:gems/lepidolite").requireTag("productivebees:flowers/lepidolite"));
-            add(new BeeConfig("gems/malachite").primaryColor("#22d946").secondaryColor("#2e0b17").tertiaryColor("#127625").particleColor("#22d946").renderer("default_crystal").flowerTag("productivebees:flowers/malachite").size(0.6).requireTag("c:gems/malachite").requireTag("productivebees:flowers/malachite"));
-            add(new BeeConfig("gems/moldavite").primaryColor("#b5bb05").secondaryColor("#2e0b17").tertiaryColor("#636e00").particleColor("#b5bb05").renderer("default_crystal").flowerTag("productivebees:flowers/moldavite").size(0.6).requireTag("c:gems/moldavite").requireTag("productivebees:flowers/moldavite"));
-            add(new BeeConfig("gems/moonstone").primaryColor("#e4e4e4").secondaryColor("#2e0b17").tertiaryColor("#b6b6b6").particleColor("#e4e4e4").renderer("default_crystal").flowerTag("productivebees:flowers/moonstone").size(0.6).requireTag("c:gems/moonstone").requireTag("productivebees:flowers/moonstone"));
-            add(new BeeConfig("gems/morganite").primaryColor("#ffbfc4").secondaryColor("#064f2c").tertiaryColor("#d67a91").particleColor("#ffbfc4").renderer("default_crystal").flowerTag("productivebees:flowers/morganite").size(0.6).requireTag("c:gems/morganite").requireTag("productivebees:flowers/morganite"));
-            add(new BeeConfig("gems/onyx").primaryColor("#383838").secondaryColor("#064f2c").tertiaryColor("#1f1f1f").particleColor("#383838").renderer("default_crystal").flowerTag("productivebees:flowers/onyx").size(0.6).requireTag("c:gems/onyx").requireTag("productivebees:flowers/onyx"));
-            add(new BeeConfig("gems/opal").primaryColor("#dbdbdb").secondaryColor("#064f2c").tertiaryColor("#8c8c8c").particleColor("#dbdbdb").renderer("default_crystal").flowerTag("productivebees:flowers/opal").size(0.6).requireTag("c:gems/opal").requireTag("productivebees:flowers/opal"));
-            add(new BeeConfig("gems/pearl").primaryColor("#a4b6d2").secondaryColor("#3e5b68").tertiaryColor("#7c95be").particleColor("#a4b6d2").renderer("default_crystal").flowerTag("productivebees:flowers/pearl").size(0.6).requireTag("c:gems/pearl").requireTag("productivebees:flowers/pearl"));
-            add(new BeeConfig("gems/peridot").primaryColor("#8adb18").secondaryColor("#064f2c").tertiaryColor("#5d7b00").particleColor("#8adb18").renderer("default_crystal").flowerTag("productivebees:flowers/peridot").size(0.6).requireTag("c:gems/peridot").requireTag("productivebees:flowers/peridot"));
-            add(new BeeConfig("gems/phosphophyllite").primaryColor("#18db8a").secondaryColor("#064f2c").tertiaryColor("#007b33").particleColor("#18db8a").renderer("default_crystal").flowerTag("productivebees:flowers/phosphophyllite").size(0.6).requireTag("c:gems/phosphophyllite").requireTag("productivebees:flowers/phosphophyllite"));
-            add(new BeeConfig("gems/pyrope").primaryColor("#bc1100").secondaryColor("#3e5b68").tertiaryColor("#620000").particleColor("#bc1100").renderer("default_crystal").flowerTag("productivebees:flowers/pyrope").size(0.6).requireTag("c:gems/pyrope").requireTag("productivebees:flowers/pyrope"));
-            add(new BeeConfig("gems/rose_quartz").primaryColor("#ffbffb").secondaryColor("#3e5b68").tertiaryColor("#a63367").particleColor("#ffbffb").renderer("default_crystal").flowerTag("productivebees:flowers/rose_quartz").size(0.6).requireTag("productivebees:flowers/rose_quartz"));
-            add(new BeeConfig("gems/ruby").primaryColor("#c62415").secondaryColor("#064f2c").tertiaryColor("#7b000b").particleColor("#c62415").renderer("default_crystal").flowerTag("productivebees:flowers/ruby").size(0.6).requireTag("c:gems/ruby").requireTag("productivebees:flowers/ruby"));
-            add(new BeeConfig("gems/sapphire").primaryColor("#5241f3").secondaryColor("#064f2c").tertiaryColor("#000b7b").particleColor("#5241f3").renderer("default_crystal").flowerTag("productivebees:flowers/sapphire").size(0.6).requireTag("c:gems/sapphire").requireTag("productivebees:flowers/sapphire"));
-            add(new BeeConfig("gems/sodalite").primaryColor("#4c4bff").secondaryColor("#3e5b68").tertiaryColor("#23389e").particleColor("#4c4bff").renderer("default_crystal").flowerTag("productivebees:flowers/sodalite").size(0.6).requireTag("c:gems/sodalite"));
-            add(new BeeConfig("gems/spinel").primaryColor("#741200").secondaryColor("#2e0b17").tertiaryColor("#c25500").particleColor("#741200").renderer("default_crystal").flowerTag("productivebees:flowers/spinel").size(0.6).requireTag("c:gems/spinel").requireTag("productivebees:flowers/spinel"));
-            add(new BeeConfig("gems/sunstone").primaryColor("#ffcab0").secondaryColor("#3e5b68").tertiaryColor("#d45241").particleColor("#ffcab0").renderer("default_crystal").flowerTag("productivebees:flowers/sunstone").size(0.6).requireTag("c:gems/sunstone").requireTag("productivebees:flowers/sunstone"));
-            add(new BeeConfig("gems/tanzanite").primaryColor("#a66ef4").secondaryColor("#064f2c").tertiaryColor("#3500aa").particleColor("#a66ef4").renderer("default_crystal").flowerTag("productivebees:flowers/tanzanite").size(0.6).requireTag("c:gems/tanzanite").requireTag("productivebees:flowers/tanzanite"));
-            add(new BeeConfig("gems/tektite").primaryColor("#978574").secondaryColor("#3e5b68").tertiaryColor("#725e4c").particleColor("#978574").renderer("default_crystal").flowerTag("productivebees:flowers/tektite").size(0.6).requireTag("c:gems/tektite").requireTag("productivebees:flowers/tektite"));
-            add(new BeeConfig("gems/topaz").primaryColor("#dd7d17").secondaryColor("#064f2c").tertiaryColor("#dd7d17").particleColor("#dd7d17").renderer("default_crystal").flowerTag("productivebees:flowers/topaz").size(0.6).requireTag("c:gems/topaz").requireTag("productivebees:flowers/topaz"));
-            add(new BeeConfig("gems/turquoise").primaryColor("#24daac").secondaryColor("#2e0b17").tertiaryColor("#19ac80").particleColor("#24daac").renderer("default_crystal").flowerTag("productivebees:flowers/turquoise").size(0.6).requireTag("c:gems/turquoise").requireTag("productivebees:flowers/turquoise"));
-            add(new BeeConfig("gems/tourmaline").primaryColor("#ee2386").secondaryColor("#3e5b68").tertiaryColor("#8a2457").particleColor("#ee2386").renderer("default_crystal").flowerTag("productivebees:flowers/tourmaline").size(0.6).requireTag("c:gems/tourmaline").requireTag("productivebees:flowers/tourmaline"));add(new BeeConfig("gems/turquoise").primaryColor("#24daac").secondaryColor("#2e0b17").tertiaryColor("#19ac80").particleColor("#24daac").renderer("default_crystal").flowerTag("productivebees:flowers/turquoise").size(0.6).requireTag("c:gems/turquoise").requireTag("productivebees:flowers/turquoise"));
-            add(new BeeConfig("gems/white_diamond").primaryColor("#fff9e4").secondaryColor("#f7ed91").tertiaryColor("#c5b520").particleColor("#fff9e4").renderer("default_crystal").flowerTag("productivebees:flowers/white_diamond").size(0.6).requireTag("c:gems/white_diamond").requireTag("productivebees:flowers/white_diamond"));
-            add(new BeeConfig("gems/zircon").primaryColor("#787800").secondaryColor("#2e0b17").tertiaryColor("#b3b600").particleColor("#787800").renderer("default_crystal").flowerTag("productivebees:flowers/zircon").size(0.6).requireTag("c:gems/zircon").requireTag("productivebees:flowers/zircon"));
+            add(new BeeConfig("gems/lepidolite").primaryColor("#510046").secondaryColor("#2e0b17").tertiaryColor("#c812aa").particleColor("#510046").renderer("default_crystal").flowerTag("productivebees:flowers/lepidolite").size(0.6));
+            add(new BeeConfig("gems/malachite").primaryColor("#22d946").secondaryColor("#2e0b17").tertiaryColor("#127625").particleColor("#22d946").renderer("default_crystal").flowerTag("productivebees:flowers/malachite").size(0.6));
+            add(new BeeConfig("gems/moldavite").primaryColor("#b5bb05").secondaryColor("#2e0b17").tertiaryColor("#636e00").particleColor("#b5bb05").renderer("default_crystal").flowerTag("productivebees:flowers/moldavite").size(0.6));
+            add(new BeeConfig("gems/moonstone").primaryColor("#e4e4e4").secondaryColor("#2e0b17").tertiaryColor("#b6b6b6").particleColor("#e4e4e4").renderer("default_crystal").flowerTag("productivebees:flowers/moonstone").size(0.6));
+            add(new BeeConfig("gems/morganite").primaryColor("#ffbfc4").secondaryColor("#064f2c").tertiaryColor("#d67a91").particleColor("#ffbfc4").renderer("default_crystal").flowerTag("productivebees:flowers/morganite").size(0.6));
+            add(new BeeConfig("gems/onyx").primaryColor("#383838").secondaryColor("#064f2c").tertiaryColor("#1f1f1f").particleColor("#383838").renderer("default_crystal").flowerTag("productivebees:flowers/onyx").size(0.6));
+            add(new BeeConfig("gems/opal").primaryColor("#dbdbdb").secondaryColor("#064f2c").tertiaryColor("#8c8c8c").particleColor("#dbdbdb").renderer("default_crystal").flowerTag("productivebees:flowers/opal").size(0.6));
+            add(new BeeConfig("gems/pearl").primaryColor("#a4b6d2").secondaryColor("#3e5b68").tertiaryColor("#7c95be").particleColor("#a4b6d2").renderer("default_crystal").flowerTag("productivebees:flowers/pearl").size(0.6));
+            add(new BeeConfig("gems/peridot").primaryColor("#8adb18").secondaryColor("#064f2c").tertiaryColor("#5d7b00").particleColor("#8adb18").renderer("default_crystal").flowerTag("productivebees:flowers/peridot").size(0.6));
+            add(new BeeConfig("gems/phosphophyllite").primaryColor("#18db8a").secondaryColor("#064f2c").tertiaryColor("#007b33").particleColor("#18db8a").renderer("default_crystal").flowerTag("productivebees:flowers/phosphophyllite").size(0.6));
+            add(new BeeConfig("gems/pyrope").primaryColor("#bc1100").secondaryColor("#3e5b68").tertiaryColor("#620000").particleColor("#bc1100").renderer("default_crystal").flowerTag("productivebees:flowers/pyrope").size(0.6));
+            add(new BeeConfig("gems/rose_quartz").primaryColor("#ffbffb").secondaryColor("#3e5b68").tertiaryColor("#a63367").particleColor("#ffbffb").renderer("default_crystal").flowerTag("productivebees:flowers/rose_quartz").size(0.6));
+            add(new BeeConfig("gems/ruby").primaryColor("#c62415").secondaryColor("#064f2c").tertiaryColor("#7b000b").particleColor("#c62415").renderer("default_crystal").flowerTag("productivebees:flowers/ruby").size(0.6));
+            add(new BeeConfig("gems/sapphire").primaryColor("#5241f3").secondaryColor("#064f2c").tertiaryColor("#000b7b").particleColor("#5241f3").renderer("default_crystal").flowerTag("productivebees:flowers/sapphire").size(0.6));
+            add(new BeeConfig("gems/sodalite").primaryColor("#4c4bff").secondaryColor("#3e5b68").tertiaryColor("#23389e").particleColor("#4c4bff").renderer("default_crystal").flowerTag("productivebees:flowers/sodalite").size(0.6));
+            add(new BeeConfig("gems/spinel").primaryColor("#741200").secondaryColor("#2e0b17").tertiaryColor("#c25500").particleColor("#741200").renderer("default_crystal").flowerTag("productivebees:flowers/spinel").size(0.6));
+            add(new BeeConfig("gems/sunstone").primaryColor("#ffcab0").secondaryColor("#3e5b68").tertiaryColor("#d45241").particleColor("#ffcab0").renderer("default_crystal").flowerTag("productivebees:flowers/sunstone").size(0.6));
+            add(new BeeConfig("gems/tanzanite").primaryColor("#a66ef4").secondaryColor("#064f2c").tertiaryColor("#3500aa").particleColor("#a66ef4").renderer("default_crystal").flowerTag("productivebees:flowers/tanzanite").size(0.6));
+            add(new BeeConfig("gems/tektite").primaryColor("#978574").secondaryColor("#3e5b68").tertiaryColor("#725e4c").particleColor("#978574").renderer("default_crystal").flowerTag("productivebees:flowers/tektite").size(0.6));
+            add(new BeeConfig("gems/topaz").primaryColor("#dd7d17").secondaryColor("#064f2c").tertiaryColor("#dd7d17").particleColor("#dd7d17").renderer("default_crystal").flowerTag("productivebees:flowers/topaz").size(0.6));
+            add(new BeeConfig("gems/turquoise").primaryColor("#24daac").secondaryColor("#2e0b17").tertiaryColor("#19ac80").particleColor("#24daac").renderer("default_crystal").flowerTag("productivebees:flowers/turquoise").size(0.6));
+            add(new BeeConfig("gems/tourmaline").primaryColor("#ee2386").secondaryColor("#3e5b68").tertiaryColor("#8a2457").particleColor("#ee2386").renderer("default_crystal").flowerTag("productivebees:flowers/tourmaline").size(0.6));add(new BeeConfig("gems/turquoise").primaryColor("#24daac").secondaryColor("#2e0b17").tertiaryColor("#19ac80").particleColor("#24daac").renderer("default_crystal").flowerTag("productivebees:flowers/turquoise").size(0.6));
+            add(new BeeConfig("gems/white_diamond").primaryColor("#fff9e4").secondaryColor("#f7ed91").tertiaryColor("#c5b520").particleColor("#fff9e4").renderer("default_crystal").flowerTag("productivebees:flowers/white_diamond").size(0.6));
+            add(new BeeConfig("gems/zircon").primaryColor("#787800").secondaryColor("#2e0b17").tertiaryColor("#b3b600").particleColor("#787800").renderer("default_crystal").flowerTag("productivebees:flowers/zircon").size(0.6));
 
             add(new BeeConfig("gobber/end_gobber").primaryColor("#30cc9a").secondaryColor("#a1f6b9").flowerBlock("gobber2:gobber2_block_end").breedingItem("gobber2:gobber2_glob_end").noSelfBreed().size(0.5).requireMod("gobber2"));
             add(new BeeConfig("gobber/gobber").primaryColor("#528dc6").secondaryColor("#66b1e4").flowerBlock("gobber2:gobber2_block").breedingItem("gobber2:gobber2_glob").noSelfBreed().size(0.5).requireMod("gobber2"));
@@ -407,12 +402,12 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("gtceu/graphite").primaryColor("#1b2012").secondaryColor("#77796d").tertiaryColor("#4a4e40").particleColor("#a6a69c").beeTexture("graphite").size(0.8).onlySpawnegg().flowerTag("c:storage_blocks/raw_graphite").noSelfBreed().requireMod("gtceu"));
             add(new BeeConfig("gtceu/ilmenite").primaryColor("#171006").secondaryColor("#2a2924").tertiaryColor("#251a0d").particleColor("#28251e").beeTexture("ilmenite").size(0.8).onlySpawnegg().flowerTag("c:storage_blocks/raw_ilmenite").noSelfBreed().requireMod("gtceu"));
             add(new BeeConfig("gtceu/lepidolite").primaryColor("#573750").secondaryColor("#e1c6d2").tertiaryColor("#774d67").particleColor("#fbd7e0").beeTexture("lepidolite").size(0.8).onlySpawnegg().flowerTag("c:storage_blocks/raw_lepidolite").noSelfBreed().requireMod("gtceu"));
-            add(new BeeConfig("gtceu/molybdenum").primaryColor("#7e80a5").particleColor("#a7a8c3").beeTexture("molybdenum").size(0.8).onlySpawnegg().flowerTag("c:storage_blocks/molybdenum").noSelfBreed().requireMod("gtceu").requireTag("c:raw_materials/molybdenum"));
+            add(new BeeConfig("gtceu/molybdenum").primaryColor("#7e80a5").particleColor("#a7a8c3").beeTexture("molybdenum").size(0.8).onlySpawnegg().flowerTag("c:storage_blocks/molybdenum").noSelfBreed().requireMod("gtceu"));
             add(new BeeConfig("gtceu/naquadah").primaryColor("#522629").secondaryColor("#211722").tertiaryColor("#cc9c59").particleColor("#fcefbd").beeTexture("naquadah").size(0.6).onlySpawnegg().flowerBlock("gtceu:naquadah_block").noSelfBreed().requireMod("gtceu"));
-            add(new BeeConfig("gtceu/neodymium").primaryColor("#998784").particleColor("#ab9d9a").beeTexture("neodymium").size(0.8).onlySpawnegg().flowerTag("c:storage_blocks/neodymium").noSelfBreed().requireMod("gtceu").requireTag("c:raw_materials/neodymium"));
+            add(new BeeConfig("gtceu/neodymium").primaryColor("#998784").particleColor("#ab9d9a").beeTexture("neodymium").size(0.8).onlySpawnegg().flowerTag("c:storage_blocks/neodymium").noSelfBreed().requireMod("gtceu"));
             add(new BeeConfig("gtceu/neutronium").primaryColor("#272727").secondaryColor("#383838").tertiaryColor("#b3b3b3").particleColor("#dcdcdc").beeTexture("neutronium").size(1).flowerTag("c:storage_blocks/neutronium").noSelfBreed().requireMod("gtceu"));
             add(new BeeConfig("gtceu/oilsands").primaryColor("#292822").secondaryColor("#a18f66").tertiaryColor("#665d45").particleColor("#e0c588").beeTexture("oilsands").size(0.8).onlySpawnegg().flowerBlock("gtceu:raw_oilsands_block").noSelfBreed().requireMod("gtceu"));
-            add(new BeeConfig("gtceu/palladium").primaryColor("#b78187").particleColor("#c3989a").beeTexture("palladium").size(0.8).onlySpawnegg().flowerTag("c:storage_blocks/palladium").noSelfBreed().requireMod("gtceu").requireTag("c:raw_materials/palladium"));
+            add(new BeeConfig("gtceu/palladium").primaryColor("#b78187").particleColor("#c3989a").beeTexture("palladium").size(0.8).onlySpawnegg().flowerTag("c:storage_blocks/palladium").noSelfBreed().requireMod("gtceu"));
             add(new BeeConfig("gtceu/pyrochlore").primaryColor("#2b1a0d").secondaryColor("#4a3929").tertiaryColor("#2c1c10").particleColor("#5a4737").beeTexture("pyrochlore").size(0.8).onlySpawnegg().flowerTag("c:storage_blocks/raw_pyrochlore").noSelfBreed().requireMod("gtceu"));
             add(new BeeConfig("gtceu/pyrolusite").primaryColor("#5b5551").secondaryColor("#b9a89f").tertiaryColor("#353231").particleColor("#c5b3a9").beeTexture("pyrolusite").size(0.8).flowerTag("c:storage_blocks/raw_pyrolusite").onlySpawnegg().noSelfBreed().requireMod("gtceu"));
             add(new BeeConfig("gtceu/realgar").primaryColor("#35080b").secondaryColor("#d5312b").tertiaryColor("#470d0f").particleColor("#fc3c32").beeTexture("realgar").size(0.8).flowerTag("c:storage_blocks/realgar").noSelfBreed().requireMod("gtceu"));
@@ -448,7 +443,7 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("l2hostility/chaotic").primaryColor("#6400ab").secondaryColor("#f627f3").particleColor("#ffa268").beeTexture("chaotic").size(0.8).noSelfBreed().flowerBlock("l2hostility:chaos_block").requireMod("l2hostility"));
             add(new BeeConfig("l2hostility/miracle").primaryColor("#412fbf").secondaryColor("#56c693").particleColor("#ffffe0").beeTexture("miracle").size(0.6).noSelfBreed().flowerBlock("l2hostility:miracle_block").requireMod("l2hostility"));
 
-            add(new BeeConfig("materials/plastic").primaryColor("#d3d3d3").secondaryColor("#535353").size(0.7).flowerTag("c:plastics").attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_WEAK.getSerializedName()); }}).requireTag("c:plastics"));
+            add(new BeeConfig("materials/plastic").primaryColor("#d3d3d3").secondaryColor("#535353").size(0.7).flowerTag("c:plastics").attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_WEAK.getSerializedName()); }}));
             add(new BeeConfig("materials/sticky_resin").primaryColor("#000001").secondaryColor("#d98b24").size(0.7).attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_WEAK.getSerializedName()); }}).requireEitherMod("gtceu", "ic2"));
 
             add(new BeeConfig("mekanism/refined_glowstone").primaryColor("#feee7c").secondaryColor("#bb8d23").flowerTag("c:storage_blocks/refined_glowstone").requireMod("mekanism"));
@@ -456,13 +451,13 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("mekanism/wasted_radioactive").primaryColor("#80B425").secondaryColor("#bb8d23").particleColor("#80B425").flowerItem("mekanism:pellet_antimatter").irradiated().particleType("pop").noSelfBreed().requireMod("mekanism"));
             add(new BeeConfig("mekanism/lithium").primaryColor("#694d0c").secondaryColor("#b6830c").tertiaryColor("#dd9f11").particleColor("#e2af3a").beeTexture("lithium").flowerFluid("mekanism:lithium").noSelfBreed().requireMod("mekanism"));
 
-            add(new BeeConfig("modern_industrialization/antimony").primaryColor("#83838f").secondaryColor("#9696a3").tertiaryColor("#b7b7cb").particleColor("#c5c5d7").beeTexture("antimony").flowerTag("c:storage_blocks/antimony").requireTag("c:storage_blocks/antimony"));
-            add(new BeeConfig("modern_industrialization/beryllium").primaryColor("#a7dbb4").particleColor("#b1e6be").beeTexture("beryllium").flowerTag("c:storage_blocks/beryllium").requireTag("c:storage_blocks/beryllium").onlySpawnegg());
-            add(new BeeConfig("modern_industrialization/chromium").primaryColor("#d1d1d3").particleColor("#e9e9e9").beeTexture("chromium").flowerTag("c:storage_blocks/chromium").requireTag("c:storage_blocks/chromium").onlySpawnegg());
+            add(new BeeConfig("modern_industrialization/antimony").primaryColor("#83838f").secondaryColor("#9696a3").tertiaryColor("#b7b7cb").particleColor("#c5c5d7").beeTexture("antimony").flowerTag("c:storage_blocks/antimony"));
+            add(new BeeConfig("modern_industrialization/beryllium").primaryColor("#a7dbb4").particleColor("#b1e6be").beeTexture("beryllium").flowerTag("c:storage_blocks/beryllium").onlySpawnegg());
+            add(new BeeConfig("modern_industrialization/chromium").primaryColor("#d1d1d3").particleColor("#e9e9e9").beeTexture("chromium").flowerTag("c:storage_blocks/chromium").onlySpawnegg());
             add(new BeeConfig("modern_industrialization/manganese").primaryColor("#bccddb").particleColor("#c6dadf").beeTexture("manganese").flowerItem("modern_industrialization:manganese_dust").requireMod("modern_industrialization").onlySpawnegg());
-            add(new BeeConfig("modern_industrialization/monazite").primaryColor("#471143").secondaryColor("#9f3197").tertiaryColor("#d66dce").particleColor("#f17ce7").beeTexture("monazite").flowerTag("c:storage_blocks/monazite").requireTag("c:storage_blocks/monazite"));
+            add(new BeeConfig("modern_industrialization/monazite").primaryColor("#471143").secondaryColor("#9f3197").tertiaryColor("#d66dce").particleColor("#f17ce7").beeTexture("monazite").flowerTag("c:storage_blocks/monazite"));
 
-            add(new BeeConfig("modularbees/imperial").primaryColor("#eccb14").secondaryColor("#a2df2f").particleColor("#dfc013").beeTexture("imperial").model("productivebees:geo/entity/royal.geo.json").noSelfBreed().onlySpawnegg().flowerBlock("minecraft:honey_block").requireMod("modularbees"));
+            add(new BeeConfig("modularbees/imperial").primaryColor("#eccb14").secondaryColor("#a2df2f").particleColor("#dfc013").beeTexture("imperial").model("productivebees:entity/royal").noSelfBreed().onlySpawnegg().flowerBlock("minecraft:honey_block").requireMod("modularbees"));
 
             add(new BeeConfig("mysticalagriculture/awakened_supremium").primaryColor("#d08412").secondaryColor("#a60b0a").particleColor("#c86911").size(0.8).onlySpawnegg().flowerBlock("mysticalagriculture:awakened_supremium_block").noSelfBreed().invulnerability(new ArrayList<>() {{  add("mekanism.radiation"); }}).requireMod("mysticalagriculture"));
             add(new BeeConfig("mysticalagriculture/imperium").primaryColor("#007FDB").secondaryColor("#804f40").particleColor("#007FDB").size(0.8).onlySpawnegg().flowerBlock("mysticalagriculture:imperium_block").noSelfBreed().requireMod("mysticalagriculture"));
@@ -481,60 +476,60 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("naturesaura/tainted_gold").primaryColor("#ca7328").secondaryColor("#a05a1e").tertiaryColor("#734721").particleColor("#cb7225").beeTexture("tainted_gold").size(0.8).flowerBlock("naturesaura:tainted_gold_block").noSelfBreed().requireMod("naturesaura"));
             add(new BeeConfig("naturesaura/depth_ingot").primaryColor("#715b7d").secondaryColor("#543f5e").tertiaryColor("#201824").particleColor("#c9b3d5").beeTexture("depth_ingot").size(0.6).flowerBlock("naturesaura:depth_ingot_block").noSelfBreed().requireMod("naturesaura"));
 
-            add(new BeeConfig("occultism/iesnium").primaryColor("#52a0ae").secondaryColor("#8ecbce").particleColor("#3c8794").flowerTag("c:storage_blocks/iesnium").onlySpawnegg().requireTag("c:storage_blocks/iesnium"));
+            add(new BeeConfig("occultism/iesnium").primaryColor("#52a0ae").secondaryColor("#8ecbce").particleColor("#3c8794").flowerTag("c:storage_blocks/iesnium").onlySpawnegg());
 
-            add(new BeeConfig("oritech/adamant").primaryColor("#7bebfe").secondaryColor("#4ebbfd").tertiaryColor("#4ea3cb").particleColor("#affdfe").flowerBlock("oritech:adamant_block").beeTexture("adamant").onlySpawnegg().requireMod("oritech"));
-            add(new BeeConfig("oritech/biosteel").primaryColor("#225d22").secondaryColor("#a4a7a4").tertiaryColor("#152014").particleColor("#a0b49f").flowerBlock("oritech:biosteel_block").beeTexture("biosteel").onlySpawnegg().requireMod("oritech"));
-            add(new BeeConfig("oritech/duratium").primaryColor("#d8bbe9").secondaryColor("#452c5f").tertiaryColor("#64677f").particleColor("#ffffff").flowerBlock("oritech:duratium_block").beeTexture("duratium").noSelfBreed().size(0.8).onlySpawnegg().requireMod("oritech"));
-            add(new BeeConfig("oritech/energite").primaryColor("#f43cff").secondaryColor("#2f006a").tertiaryColor("#ae3bde").particleColor("#ffc8ff").flowerBlock("oritech:energite_block").beeTexture("energite").noSelfBreed().size(0.6).onlySpawnegg().requireMod("oritech"));
+            add(new BeeConfig("oritech/adamant").primaryColor("#7bebfe").secondaryColor("#4ebbfd").tertiaryColor("#4ea3cb").particleColor("#affdfe").flowerBlock("oritech:adamant").beeTexture("adamant").onlySpawnegg().requireMod("oritech"));
+            add(new BeeConfig("oritech/biosteel").primaryColor("#225d22").secondaryColor("#a4a7a4").tertiaryColor("#152014").particleColor("#a0b49f").flowerBlock("oritech:biosteel").beeTexture("biosteel").onlySpawnegg().requireMod("oritech"));
+            add(new BeeConfig("oritech/duratium").primaryColor("#d8bbe9").secondaryColor("#452c5f").tertiaryColor("#64677f").particleColor("#ffffff").flowerBlock("oritech:duratium").beeTexture("duratium").noSelfBreed().size(0.8).onlySpawnegg().requireMod("oritech"));
+            add(new BeeConfig("oritech/energite").primaryColor("#f43cff").secondaryColor("#2f006a").tertiaryColor("#ae3bde").particleColor("#ffc8ff").flowerBlock("oritech:energite").beeTexture("energite").noSelfBreed().size(0.6).onlySpawnegg().requireMod("oritech"));
             add(new BeeConfig("oritech/fluxite").primaryColor("#bb9ce8").secondaryColor("#6112b2").tertiaryColor("#4a0d89").particleColor("#cfa8f7").flowerBlock("oritech:fluxite_block").beeTexture("fluxite").size(0.7).onlySpawnegg().requireMod("oritech"));
             add(new BeeConfig("oritech/prometheum").primaryColor("#414758").secondaryColor("#f7bc42").tertiaryColor("#3dffb1").particleColor("#2486f8").flowerBlock("oritech:machine_core_7").beeTexture("prometheum").size(0.4).noSelfBreed().onlySpawnegg().requireMod("oritech"));
             add(new BeeConfig("oritech/sheol_fire").primaryColor("#de6417").secondaryColor("#4e0017").tertiaryColor("#64080f").particleColor("#f48a47").flowerFluid("oritech:still_sheol_fire").beeTexture("sheol_fire").size(0.7).noSelfBreed().fireproof().renderer("default_shell").requireMod("oritech"));
             add(new BeeConfig("oritech/strange_matter").primaryColor("#770029").secondaryColor("#3c003b").tertiaryColor("#5d0130").particleColor("#8c002e").flowerFluid("oritech:still_strange_matter").beeTexture("strange_matter").size(0.4).noSelfBreed().renderer("default_shell").requireMod("oritech"));
             add(new BeeConfig("oritech/sulfuric_acid").primaryColor("#5eee47").secondaryColor("#36aa38").tertiaryColor("#43bb43").particleColor("#91f38f").flowerFluid("oritech:still_sulfuric_acid").beeTexture("sulfuric_acid").size(0.6).noSelfBreed().renderer("default_shell").requireMod("oritech"));
-            add(new BeeConfig("oritech/uranite_crystal").primaryColor("#00b730").secondaryColor("#00bfbb").tertiaryColor("#006b00").particleColor("#99bfa2").flowerItem("oritech:uranium_crystal").beeTexture("uranite_crystal").size(0.8).renderer("default_crystal").requireMod("oritech"));
+            add(new BeeConfig("oritech/uranite_crystal").primaryColor("#00b730").secondaryColor("#00bfbb").tertiaryColor("#006b00").particleColor("#99bfa2").flowerItem("oritech:uranite_crystal").beeTexture("uranite_crystal").size(0.8).renderer("default_crystal").requireMod("oritech"));
 
             add(new BeeConfig("pneumaticcraft/compressed_iron").primaryColor("#737373").secondaryColor("#804f40").particleColor("#b6b6b6").size(0.5).onlySpawnegg().flowerBlock("pneumaticcraft:compressed_iron_block").requireMod("pneumaticcraft"));
 
-            add(new BeeConfig("pokecube/cosmic_dust").primaryColor("#2394cc").secondaryColor("#0f0f66").particleColor("#2394cc").flowerTag("c:ores/cosmic").requireTag("c:gems/cosmicdust").requireTag("c:ores/cosmic"));
-            add(new BeeConfig("pokecube/spectrum").primaryColor("#ffc9a7").secondaryColor("#ff762c").particleColor("#ffc9a7").flowerTag("c:storage_blocks/spectrum").requireTag("c:gems/spectrum").requireTag("c:storage_blocks/spectrum"));
+            add(new BeeConfig("pokecube/cosmic_dust").primaryColor("#2394cc").secondaryColor("#0f0f66").particleColor("#2394cc").requireMod("pokecube").flowerTag("c:ores/cosmic"));
+            add(new BeeConfig("pokecube/spectrum").primaryColor("#ffc9a7").secondaryColor("#ff762c").particleColor("#ffc9a7").requireMod("pokecube").flowerTag("c:storage_blocks/spectrum"));
 
             add(new BeeConfig("powah/blazing_crystal").primaryColor("#f2c735").secondaryColor("#c9a324").flowerBlock("powah:blazing_crystal_block").onlySpawnegg().requireMod("powah"));
             add(new BeeConfig("powah/energized_steel").primaryColor("#bfb49d").secondaryColor("#7d7565").flowerBlock("powah:energized_steel_block").requireMod("powah").onlySpawnegg());
             add(new BeeConfig("powah/niotic_crystal").primaryColor("#1dc1f2").secondaryColor("#1b86a6").flowerBlock("powah:niotic_crystal_block").requireMod("powah").onlySpawnegg());
             add(new BeeConfig("powah/nitro_crystal").primaryColor("#e33917").secondaryColor("#b3280c").flowerBlock("powah:nitro_crystal_block").noSelfBreed().requireMod("powah").onlySpawnegg());
             add(new BeeConfig("powah/spirited_crystal").primaryColor("#7cff1f").secondaryColor("#61bf1f").flowerBlock("powah:spirited_crystal_block").noSelfBreed().requireMod("powah").onlySpawnegg());
-            add(new BeeConfig("powah/uraninite").primaryColor("#00FF00").secondaryColor("#008000").particleColor("#7CFC00").size(0.8).flowerTag("c:storage_blocks/uraninite").requireMod("powah").requireTag("c:storage_blocks/uraninite"));
+            add(new BeeConfig("powah/uraninite").primaryColor("#00FF00").secondaryColor("#008000").particleColor("#7CFC00").size(0.8).flowerTag("c:storage_blocks/uraninite").requireMod("powah"));
 
-            add(new BeeConfig("productivemetalworks/butcher").primaryColor("#852315").secondaryColor("#dd9283").particleColor("#630800").beeTexture("butcher").model("productivebees:geo/entity/butcher.geo.json").flowerBlock("productivemetalworks:meat_block").onlySpawnegg().requireMod("productivemetalworks"));
+            add(new BeeConfig("productivemetalworks/butcher").primaryColor("#852315").secondaryColor("#dd9283").particleColor("#630800").beeTexture("butcher").model("productivebees:entity/butcher").flowerBlock("productivemetalworks:meat_block").onlySpawnegg().requireMod("productivemetalworks"));
 
-            add(new BeeConfig("raw_materials/aluminum").primaryColor("#A4A6B1").secondaryColor("#804f40").flowerTag("c:storage_blocks/aluminum").requireTag("c:storage_blocks/aluminum"));
-            add(new BeeConfig("raw_materials/bismuth").primaryColor("#ece386").secondaryColor("#586bb7").particleColor("#b598db").flowerTag("c:storage_blocks/bismuth").requireTag("c:storage_blocks/bismuth"));
+            add(new BeeConfig("raw_materials/aluminum").primaryColor("#A4A6B1").secondaryColor("#804f40").flowerTag("c:storage_blocks/aluminum"));
+            add(new BeeConfig("raw_materials/bismuth").primaryColor("#ece386").secondaryColor("#586bb7").particleColor("#b598db").flowerTag("c:storage_blocks/bismuth"));
             add(new BeeConfig("raw_materials/copper").primaryColor("#F48702").secondaryColor("#804f40").flowerTag("productivebees:flowers/cupric"));
             add(new BeeConfig("raw_materials/gold").primaryColor("#FCD979").secondaryColor("#804f40").particleColor("#fffd6e").flowerTag("productivebees:flowers/gilded").attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_WEAK.getSerializedName()); }}));
-            add(new BeeConfig("raw_materials/iridium").primaryColor("#ffccff").secondaryColor("#d4e4fc").particleColor("#8c9fac").flowerTag("c:storage_blocks/iridium").size(0.8).requireTag("c:storage_blocks/iridium"));
+            add(new BeeConfig("raw_materials/iridium").primaryColor("#ffccff").secondaryColor("#d4e4fc").particleColor("#8c9fac").flowerTag("c:storage_blocks/iridium").size(0.8));
             add(new BeeConfig("raw_materials/iron").primaryColor("#cdcdcd").secondaryColor("#804f40").particleColor("#b6b6b6").flowerTag("productivebees:flowers/ferric"));
-            add(new BeeConfig("raw_materials/lead").primaryColor("#677193").secondaryColor("#804f40").flowerTag("c:storage_blocks/lead").requireTag("c:storage_blocks/lead"));
+            add(new BeeConfig("raw_materials/lead").primaryColor("#677193").secondaryColor("#804f40").flowerTag("c:storage_blocks/lead"));
             add(new BeeConfig("raw_materials/netherite").primaryColor("#4d494d").secondaryColor("#804f40").particleColor("#4d494d").flowerTag("c:storage_blocks/netherite").size(0.7).attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_MEDIUM.getSerializedName()); }}).attackResponse("fire").fireproof().withered());
-            add(new BeeConfig("raw_materials/nickel").primaryColor("#D8CC93").secondaryColor("#804f40").flowerTag("c:storage_blocks/nickel").requireTag("c:storage_blocks/nickel"));
-            add(new BeeConfig("raw_materials/osmium").primaryColor("#4c9db6").secondaryColor("#804f40").flowerTag("c:storage_blocks/osmium").requireTag("c:storage_blocks/osmium"));
-            add(new BeeConfig("raw_materials/platinum").primaryColor("#6FEAEF").secondaryColor("#804f40").attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_MEDIUM.getSerializedName()); }}).flowerTag("c:storage_blocks/platinum").requireTag("c:storage_blocks/platinum"));
-            add(new BeeConfig("raw_materials/radioactive").primaryColor("#60AE11").secondaryColor("#804f40").flowerTag("productivebees:flowers/radioactive").passiveEffects(new ArrayList<>() {{  add(new PassiveEffect("minecraft:nausea", 150));  add(new PassiveEffect("minecraft:weakness", 150)); }}).requireTag("productivebees:flowers/radioactive"));
-            add(new BeeConfig("raw_materials/silver").primaryColor("#A9DBE5").secondaryColor("#804f40").flowerTag("c:storage_blocks/silver").requireTag("c:storage_blocks/silver"));
-            add(new BeeConfig("raw_materials/tin").primaryColor("#9ABDD6").secondaryColor("#804f40").flowerTag("c:storage_blocks/tin").requireTag("c:storage_blocks/tin"));
-            add(new BeeConfig("raw_materials/titanium").primaryColor("#D0D1DA").secondaryColor("#804f40").flowerTag("c:storage_blocks/titanium").requireTag("c:storage_blocks/titanium"));
-            add(new BeeConfig("raw_materials/tungsten").primaryColor("#616669").secondaryColor("#804f40").flowerTag("c:storage_blocks/tungsten").requireTag("c:storage_blocks/tungsten"));
-            add(new BeeConfig("raw_materials/zinc").primaryColor("#E9EBE7").secondaryColor("#804f40").flowerTag("c:storage_blocks/zinc").requireTag("c:storage_blocks/zinc"));
-            add(new BeeConfig("raw_materials/mithril").primaryColor("#0b2638").secondaryColor("#0e6a61").particleColor("#92e7ae").flowerTag("productivebees:flowers/mithril").beeTexture("mithril").requireTag("productivebees:flowers/mithril"));
+            add(new BeeConfig("raw_materials/nickel").primaryColor("#D8CC93").secondaryColor("#804f40").flowerTag("c:storage_blocks/nickel"));
+            add(new BeeConfig("raw_materials/osmium").primaryColor("#4c9db6").secondaryColor("#804f40").flowerTag("c:storage_blocks/osmium"));
+            add(new BeeConfig("raw_materials/platinum").primaryColor("#6FEAEF").secondaryColor("#804f40").attributes(new HashMap<>(){{ put("endurance", GeneValue.ENDURANCE_MEDIUM.getSerializedName()); }}).flowerTag("c:storage_blocks/platinum"));
+            add(new BeeConfig("raw_materials/radioactive").primaryColor("#60AE11").secondaryColor("#804f40").flowerTag("productivebees:flowers/radioactive").passiveEffects(new ArrayList<>() {{  add(new PassiveEffect("minecraft:nausea", 150));  add(new PassiveEffect("minecraft:weakness", 150)); }}));
+            add(new BeeConfig("raw_materials/silver").primaryColor("#A9DBE5").secondaryColor("#804f40").flowerTag("c:storage_blocks/silver"));
+            add(new BeeConfig("raw_materials/tin").primaryColor("#9ABDD6").secondaryColor("#804f40").flowerTag("c:storage_blocks/tin"));
+            add(new BeeConfig("raw_materials/titanium").primaryColor("#D0D1DA").secondaryColor("#804f40").flowerTag("c:storage_blocks/titanium"));
+            add(new BeeConfig("raw_materials/tungsten").primaryColor("#616669").secondaryColor("#804f40").flowerTag("c:storage_blocks/tungsten"));
+            add(new BeeConfig("raw_materials/zinc").primaryColor("#E9EBE7").secondaryColor("#804f40").flowerTag("c:storage_blocks/zinc"));
+            add(new BeeConfig("raw_materials/mithril").primaryColor("#0b2638").secondaryColor("#0e6a61").particleColor("#92e7ae").flowerTag("productivebees:flowers/mithril").beeTexture("mithril"));
 
-            add(new BeeConfig("reactors/blutonium").primaryColor("#1929d4").secondaryColor("#0c1899").particleColor("#2b38bd").size(0.8).flowerTag("c:storage_blocks/blutonium").onlySpawnegg().requireTag("c:storage_blocks/blutonium"));
-            add(new BeeConfig("reactors/cyanite").primaryColor("#72c2d4").secondaryColor("#60b2c4").particleColor("#92c6d1").size(0.8).flowerTag("c:storage_blocks/cyanite").requireTag("c:storage_blocks/cyanite"));
-            add(new BeeConfig("reactors/graphite").primaryColor("#1b2012").secondaryColor("#77796d").tertiaryColor("#4a4e40").particleColor("#a6a69c").beeTexture("graphite").size(0.8).flowerTag("c:storage_blocks/graphite").noSelfBreed().missingMod("gtceu").requireTag("c:storage_blocks/graphite"));
-            add(new BeeConfig("reactors/inanite").primaryColor("#bd0d62").secondaryColor("#db046c").particleColor("#ed2b89").size(0.8).flowerTag("c:storage_blocks/inanite").noSelfBreed().onlySpawnegg().requireTag("c:storage_blocks/inanite"));
-            add(new BeeConfig("reactors/insanite").primaryColor("#1eeb96").secondaryColor("#16c97f").particleColor("#37de99").size(0.8).flowerTag("c:storage_blocks/insanite").noSelfBreed().onlySpawnegg().requireTag("c:storage_blocks/insanite"));
-            add(new BeeConfig("reactors/ludicrite").primaryColor("#7d10b0").secondaryColor("#8f21c2").particleColor("#ad5bd4").size(0.8).flowerTag("c:storage_blocks/ludicrite").noSelfBreed().onlySpawnegg().requireTag("c:storage_blocks/ludicrite"));
-            add(new BeeConfig("reactors/magentite").primaryColor("#c418c9").secondaryColor("#970c9c").particleColor("#da6fde").size(0.8).flowerTag("c:storage_blocks/magentite").requireTag("c:storage_blocks/magentite"));
-            add(new BeeConfig("reactors/ridiculite").primaryColor("#e2ace8").secondaryColor("#ba8abf").particleColor("#dcb4e0").size(0.8).flowerTag("c:storage_blocks/ridiculite").noSelfBreed().onlySpawnegg().requireTag("c:storage_blocks/ridiculite"));
+            add(new BeeConfig("reactors/blutonium").primaryColor("#1929d4").secondaryColor("#0c1899").particleColor("#2b38bd").size(0.8).flowerTag("c:storage_blocks/blutonium").onlySpawnegg());
+            add(new BeeConfig("reactors/cyanite").primaryColor("#72c2d4").secondaryColor("#60b2c4").particleColor("#92c6d1").size(0.8).flowerTag("c:storage_blocks/cyanite"));
+            add(new BeeConfig("reactors/graphite").primaryColor("#1b2012").secondaryColor("#77796d").tertiaryColor("#4a4e40").particleColor("#a6a69c").beeTexture("graphite").size(0.8).flowerTag("c:storage_blocks/graphite").noSelfBreed().missingMod("gtceu"));
+            add(new BeeConfig("reactors/inanite").primaryColor("#bd0d62").secondaryColor("#db046c").particleColor("#ed2b89").size(0.8).flowerTag("c:storage_blocks/inanite").noSelfBreed().onlySpawnegg());
+            add(new BeeConfig("reactors/insanite").primaryColor("#1eeb96").secondaryColor("#16c97f").particleColor("#37de99").size(0.8).flowerTag("c:storage_blocks/insanite").noSelfBreed().onlySpawnegg());
+            add(new BeeConfig("reactors/ludicrite").primaryColor("#7d10b0").secondaryColor("#8f21c2").particleColor("#ad5bd4").size(0.8).flowerTag("c:storage_blocks/ludicrite").noSelfBreed().onlySpawnegg());
+            add(new BeeConfig("reactors/magentite").primaryColor("#c418c9").secondaryColor("#970c9c").particleColor("#da6fde").size(0.8).flowerTag("c:storage_blocks/magentite"));
+            add(new BeeConfig("reactors/ridiculite").primaryColor("#e2ace8").secondaryColor("#ba8abf").particleColor("#dcb4e0").size(0.8).flowerTag("c:storage_blocks/ridiculite").noSelfBreed().onlySpawnegg());
             add(new BeeConfig("reactors/anglesite_crystal").primaryColor("#f2b60c").secondaryColor("#e1a600").particleColor("#f6cf60").tertiaryColor("#f5c746").size(0.6).flowerBlock("bigreactors:anglesite_ore").renderer("default_crystal").requireMod("bigreactors"));
             add(new BeeConfig("reactors/benitoite_crystal").primaryColor("#5ed1f7").secondaryColor("#47aacb").particleColor("#84dcf9").tertiaryColor("#96e1fa").size(0.6).flowerBlock("bigreactors:benitoite_ore").renderer("default_crystal").requireMod("bigreactors"));
 
@@ -552,24 +547,24 @@ public class BeeProvider implements DataProvider
 
             add(new BeeConfig("spirit/spirit").primaryColor("#839cb8").secondaryColor("#0d1119").particleColor("#5c687d").flowerBlock("spirit:soul_steel_block").requireMod("spirit"));
 
-            add(new BeeConfig("tconstruct/amethyst_bronze").primaryColor("#C687BD").secondaryColor("#7a5800").particleColor("#C687BD").onlySpawnegg().flowerTag("c:storage_blocks/amethyst_bronze").requireTag("c:storage_blocks/amethyst_bronze"));
-            add(new BeeConfig("tconstruct/cobalt").primaryColor("#1d77eb").secondaryColor("#0c5abe").particleColor("#1d77eb").onlySpawnegg().flowerTag("c:storage_blocks/cobalt").requireTag("c:storage_blocks/cobalt"));
-            add(new BeeConfig("tconstruct/ender_slimy").primaryColor("#d17bfc").secondaryColor("#6200ae").particleColor("#d17bfc").beeTexture("ender_slimy").onlySpawnegg().renderer("translucent_with_center").requireTag("c:slimeball/ender"));
-            add(new BeeConfig("tconstruct/hepatizon").primaryColor("#675072").secondaryColor("#1b0426").particleColor("#675072").onlySpawnegg().flowerTag("c:storage_blocks/hepatizon").requireTag("c:storage_blocks/hepatizon"));
-            add(new BeeConfig("tconstruct/ichor_slimy").primaryColor("#fcb77b").secondaryColor("#ae3f00").particleColor("#fcb77b").beeTexture("ichor_slimy").onlySpawnegg().renderer("translucent_with_center").requireTag("c:slimeball/ichor"));
-            add(new BeeConfig("tconstruct/knightslime").primaryColor("#c882f5").secondaryColor("#804f40").particleColor("#c882f5").onlySpawnegg().flowerTag("c:storage_blocks/knightslime").requireTag("c:storage_blocks/knightslime"));
-            add(new BeeConfig("tconstruct/manyullyn").primaryColor("#ab6cd7").secondaryColor("#652e87").particleColor("#ab6cd7").onlySpawnegg().flowerTag("c:storage_blocks/manyullyn").requireTag("c:storage_blocks/manyullyn"));
-            add(new BeeConfig("tconstruct/pig_iron").primaryColor("#dbaaa9").secondaryColor("#804f40").particleColor("#dbaaa9").onlySpawnegg().flowerTag("c:storage_blocks/pig_iron").requireTag("c:storage_blocks/pig_iron"));
-            add(new BeeConfig("tconstruct/queens_slime").primaryColor("#267049").secondaryColor("#204c49").particleColor("#267049").onlySpawnegg().flowerTag("c:storage_blocks/queens_slime").requireTag("c:storage_blocks/queens_slime"));
-            add(new BeeConfig("tconstruct/rose_gold").primaryColor("#eeb9a0").secondaryColor("#804f40").particleColor("#eeb9a0").onlySpawnegg().flowerTag("c:storage_blocks/rose_gold").requireTag("c:storage_blocks/rose_gold"));
-            add(new BeeConfig("tconstruct/sky_slime").primaryColor("#80d4d2").secondaryColor("#2e5250").particleColor("#80d4d2").beeTexture("sky_slimy").onlySpawnegg().renderer("translucent_with_center").requireTag("c:slimeball/sky"));
-            add(new BeeConfig("tconstruct/slimesteel").primaryColor("#7ae7e0").secondaryColor("#73d2dc").particleColor("#7ae7e0").onlySpawnegg().flowerTag("c:storage_blocks/slimesteel").requireTag("c:storage_blocks/slimesteel"));
-            add(new BeeConfig("tconstruct/soulsteel").primaryColor("#5c4436").secondaryColor("#1f0700").particleColor("#5c4436").onlySpawnegg().flowerTag("c:storage_blocks/soulsteel").requireTag("c:storage_blocks/soulsteel"));
+            add(new BeeConfig("tconstruct/amethyst_bronze").primaryColor("#C687BD").secondaryColor("#7a5800").particleColor("#C687BD").onlySpawnegg().flowerTag("c:storage_blocks/amethyst_bronze"));
+            add(new BeeConfig("tconstruct/cobalt").primaryColor("#1d77eb").secondaryColor("#0c5abe").particleColor("#1d77eb").onlySpawnegg().flowerTag("c:storage_blocks/cobalt"));
+            add(new BeeConfig("tconstruct/ender_slimy").primaryColor("#d17bfc").secondaryColor("#6200ae").particleColor("#d17bfc").beeTexture("ender_slimy").onlySpawnegg().renderer("translucent_with_center"));
+            add(new BeeConfig("tconstruct/hepatizon").primaryColor("#675072").secondaryColor("#1b0426").particleColor("#675072").onlySpawnegg().flowerTag("c:storage_blocks/hepatizon"));
+            add(new BeeConfig("tconstruct/ichor_slimy").primaryColor("#fcb77b").secondaryColor("#ae3f00").particleColor("#fcb77b").beeTexture("ichor_slimy").onlySpawnegg().renderer("translucent_with_center"));
+            add(new BeeConfig("tconstruct/knightslime").primaryColor("#c882f5").secondaryColor("#804f40").particleColor("#c882f5").onlySpawnegg().flowerTag("c:storage_blocks/knightslime"));
+            add(new BeeConfig("tconstruct/manyullyn").primaryColor("#ab6cd7").secondaryColor("#652e87").particleColor("#ab6cd7").onlySpawnegg().flowerTag("c:storage_blocks/manyullyn"));
+            add(new BeeConfig("tconstruct/pig_iron").primaryColor("#dbaaa9").secondaryColor("#804f40").particleColor("#dbaaa9").onlySpawnegg().flowerTag("c:storage_blocks/pig_iron"));
+            add(new BeeConfig("tconstruct/queens_slime").primaryColor("#267049").secondaryColor("#204c49").particleColor("#267049").onlySpawnegg().flowerTag("c:storage_blocks/queens_slime"));
+            add(new BeeConfig("tconstruct/rose_gold").primaryColor("#eeb9a0").secondaryColor("#804f40").particleColor("#eeb9a0").onlySpawnegg().flowerTag("c:storage_blocks/rose_gold"));
+            add(new BeeConfig("tconstruct/sky_slime").primaryColor("#80d4d2").secondaryColor("#2e5250").particleColor("#80d4d2").beeTexture("sky_slimy").onlySpawnegg().renderer("translucent_with_center"));
+            add(new BeeConfig("tconstruct/slimesteel").primaryColor("#7ae7e0").secondaryColor("#73d2dc").particleColor("#7ae7e0").onlySpawnegg().flowerTag("c:storage_blocks/slimesteel"));
+            add(new BeeConfig("tconstruct/soulsteel").primaryColor("#5c4436").secondaryColor("#1f0700").particleColor("#5c4436").onlySpawnegg().flowerTag("c:storage_blocks/soulsteel"));
 
             add(new BeeConfig("tetra/geode").primaryColor("#747474").secondaryColor("#804f40").particleColor("#747474").renderer("thicc").noComb().flowerBlock("minecraft:deepslate").requireMod("tetra"));
             add(new BeeConfig("tetra/scrapped").primaryColor("#747474").secondaryColor("#804f40").particleColor("#747474").size(1.2).flowerBlock("tetra:forged_workbench").requireMod("tetra"));
 
-            add(new BeeConfig("the_bumblezone/royal").primaryColor("#472182").secondaryColor("#da6ad9").model("productivebees:geo/entity/royal.geo.json").beeTexture("royal").noSelfBreed().breedingItem("the_bumblezone:royal_jelly_bottle").flowerBlock("the_bumblezone:royal_jelly_block").requireMod("the_bumblezone"));
+            add(new BeeConfig("the_bumblezone/royal").primaryColor("#472182").secondaryColor("#da6ad9").model("productivebees:entity/royal").beeTexture("royal").noSelfBreed().breedingItem("the_bumblezone:royal_jelly_bottle").flowerBlock("the_bumblezone:royal_jelly_block").requireMod("the_bumblezone"));
 
             add(new BeeConfig("thermal/basalz").primaryColor("#2b2b2f").secondaryColor("#ff8219").particleColor("#0e080a").onlySpawnegg().flowerTag("productivebees:flowers/burning").beeTexture("basalz").fireproof().requireMod("thermal"));
             add(new BeeConfig("thermal/blitz").primaryColor("#e9edf3").secondaryColor("#bdccd9").particleColor("#ffd86f").onlySpawnegg().beeTexture("blitz").flowerBlock("thermal:niter_block").attributes(new HashMap<>(){{ put("weather_tolerance", GeneValue.WEATHER_TOLERANCE_ANY.getSerializedName()); }}).requireMod("thermal"));
@@ -578,9 +573,9 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("thermal/energized_glowstone").primaryColor("#fad87d").secondaryColor("#5f2525").particleColor("#fad87d").onlySpawnegg().size(0.8).particleType("rising").flipped().blinding().requireMod("thermal"));
             add(new BeeConfig("thermal/resonant_ender").primaryColor("#161616").secondaryColor("#623875").particleColor("#cc00fa").particleType("portal").size(0.8).onlySpawnegg().flowerTag("productivebees:flowers/ender").teleporting().requireMod("thermal"));
 
-            add(new BeeConfig("thermalendergy/melodium").primaryColor("#523a8b").secondaryColor("#b390f4").particleColor("#fcd9ea").size(0.5).beeTexture("melodium").onlySpawnegg().noSelfBreed().flowerTag("c:storage_blocks/melodium").requireTag("c:storage_blocks/melodium"));
-            add(new BeeConfig("thermalendergy/stellarium").primaryColor("#1e2626").secondaryColor("#728e8e").particleColor("#deeaea").size(0.3).beeTexture("stellarium").onlySpawnegg().noSelfBreed().flowerTag("c:storage_blocks/stellarium").requireTag("c:storage_blocks/stellarium"));
-            add(new BeeConfig("thermalendergy/prismalium").primaryColor("#43806e").secondaryColor("#9fe1cb").particleColor("#f7fdfd").size(0.7).beeTexture("prismalium").flowerTag("c:storage_blocks/prismalium").requireTag("c:storage_blocks/prismalium"));
+            add(new BeeConfig("thermalendergy/melodium").primaryColor("#523a8b").secondaryColor("#b390f4").particleColor("#fcd9ea").size(0.5).beeTexture("melodium").onlySpawnegg().noSelfBreed().flowerTag("c:storage_blocks/melodium"));
+            add(new BeeConfig("thermalendergy/stellarium").primaryColor("#1e2626").secondaryColor("#728e8e").particleColor("#deeaea").size(0.3).beeTexture("stellarium").onlySpawnegg().noSelfBreed().flowerTag("c:storage_blocks/stellarium"));
+            add(new BeeConfig("thermalendergy/prismalium").primaryColor("#43806e").secondaryColor("#9fe1cb").particleColor("#f7fdfd").size(0.7).beeTexture("prismalium").flowerTag("c:storage_blocks/prismalium"));
 
             add(new BeeConfig("thermal_extra/dragonsteel").primaryColor("#15174c").secondaryColor("#2b377f").tertiaryColor("#5f7ecc").particleColor("#79a3ea").onlySpawnegg().size(0.7).flowerBlock("thermal_extra:dragonsteel_block").noSelfBreed().requireMod("thermal_extra"));
             add(new BeeConfig("thermal_extra/shellite").primaryColor("#6d2b7f").secondaryColor("#924ab2").tertiaryColor("#a65fcc").particleColor("#c294e8").onlySpawnegg().size(0.7).flowerBlock("thermal_extra:shellite_block").noSelfBreed().requireMod("thermal_extra"));
@@ -596,181 +591,10 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("undergarden/utheric").primaryColor("#675d42").secondaryColor("#c3434c").particleColor("#ff8d80").size(0.4).flowerBlock("undergarden:utherium_block").beeTexture("utheric").renderer("default_crystal").requireMod("undergarden"));
 
             // Special bees
-            add(new BeeConfig("special/villager").primaryColor("#3a5a19").secondaryColor("#73964b").particleColor("#ff0000").flowerBlock("minecraft:air").beeTexture("villager").model("productivebees:geo/entity/villager.geo.json").noComb().noSelfBreed());
+            add(new BeeConfig("special/villager").primaryColor("#3a5a19").secondaryColor("#73964b").particleColor("#ff0000").flowerBlock("minecraft:air").beeTexture("villager").model("productivebees:entity/villager").noComb().noSelfBreed());
             add(new BeeConfig("special/phil").primaryColor("#ffefff").secondaryColor("#c3434c").particleColor("#ff8d80").size(0.4).flowerBlock("minecraft:air").beeTexture("phil").noComb().renderer("elvis"));
         }};
     }
-
-    public Supplier<JsonElement> getBee(BeeConfig bee) {
-        return () -> {
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("primaryColor", bee.primaryColor);
-            if (bee.secondaryColor != null) {
-                jsonObject.addProperty("secondaryColor", bee.secondaryColor);
-            }
-            if (bee.tertiaryColor != null) {
-                jsonObject.addProperty("tertiaryColor", bee.tertiaryColor);
-            }
-            if (bee.particleColor != null) {
-                jsonObject.addProperty("particleColor", bee.particleColor);
-            }
-            if (bee.particleType != null) {
-                jsonObject.addProperty("particleType", bee.particleType);
-            }
-            if (bee.flowerType != null) {
-                jsonObject.addProperty("flowerType", bee.flowerType);
-            }
-            if (bee.flowerTag != null) {
-                jsonObject.addProperty("flowerTag", bee.flowerTag);
-            }
-            if (bee.flowerBlock != null) {
-                jsonObject.addProperty("flowerBlock", bee.flowerBlock);
-            }
-            if (bee.flowerItem != null) {
-                jsonObject.addProperty("flowerItem", bee.flowerItem);
-            }
-            if (bee.flowerFluid != null) {
-                jsonObject.addProperty("flowerFluid", bee.flowerFluid);
-            }
-            if (bee.flowerTag == null && bee.flowerBlock == null && bee.flowerItem == null && bee.flowerFluid == null) {
-                jsonObject.addProperty("flowerTag", "minecraft:flowers");
-            }
-            if (bee.nestingPreference != null) {
-                jsonObject.addProperty("nestingPreference", bee.nestingPreference);
-            }
-            if (bee.postPollination != null) {
-                jsonObject.addProperty("postPollination", bee.postPollination);
-            }
-            if (bee.description != null) {
-                jsonObject.addProperty("description", bee.description);
-            }
-            if (bee.beeTexture != null) {
-                jsonObject.addProperty("beeTexture", bee.beeTexture);
-            }
-            if (bee.attackResponse != null) {
-                jsonObject.addProperty("attackResponse", bee.attackResponse);
-            }
-            if (!bee.createComb) {
-                jsonObject.addProperty("createComb", false);
-            }
-            if (bee.size != 1.0f) {
-                jsonObject.addProperty("size", bee.size);
-            }
-            if (bee.pollinatedSize != 0 && bee.pollinatedSize != bee.size) {
-                jsonObject.addProperty("pollinatedSize", bee.pollinatedSize);
-            }
-            if (bee.speed != 1.0f) {
-                jsonObject.addProperty("speed", bee.speed);
-            }
-            if (bee.attack != 1.0f) {
-                jsonObject.addProperty("attack", bee.attack);
-            }
-            if (!bee.selfBreed) {
-                jsonObject.addProperty("selfbreed", false);
-            }
-            if (bee.selfHeal) {
-                jsonObject.addProperty("selfheal", true);
-            }
-            if (bee.inverseFlower) {
-                jsonObject.addProperty("inverseFlower", true);
-            }
-            if (bee.teleporting) {
-                jsonObject.addProperty("teleporting", true);
-            }
-            if (bee.translucent) {
-                jsonObject.addProperty("translucent", true);
-            }
-            if (!bee.useGlowLayer) {
-                jsonObject.addProperty("useGlowLayer", false);
-            }
-            if (bee.redstoned) {
-                jsonObject.addProperty("redstoned", true);
-            }
-            if (bee.irradiated) {
-                jsonObject.addProperty("irradiated", true);
-            }
-            if (bee.slimy) {
-                jsonObject.addProperty("slimy", true);
-            }
-            if (bee.fireproof) {
-                jsonObject.addProperty("fireproof", true);
-            }
-            if (bee.draconic) {
-                jsonObject.addProperty("draconic", true);
-            }
-            if (bee.withered) {
-                jsonObject.addProperty("withered", true);
-            }
-            if (bee.blinding) {
-                jsonObject.addProperty("blinding", true);
-            }
-            if (bee.stringy) {
-                jsonObject.addProperty("stringy", true);
-            }
-            if (bee.waterproof) {
-                jsonObject.addProperty("waterproof", true);
-            }
-            if (bee.coldResistant) {
-                jsonObject.addProperty("coldResistant", true);
-            }
-            if (bee.munchies) {
-                jsonObject.addProperty("munchies", true);
-            }
-            if (bee.stingless) {
-                jsonObject.addProperty("stingless", true);
-            }
-            if (bee.renderer != null) {
-                jsonObject.addProperty("renderer", bee.renderer);
-            }
-            if (bee.model != null) {
-                jsonObject.addProperty("model", bee.model);
-            }
-            if (bee.animation != null) {
-                jsonObject.addProperty("animation", bee.animation);
-            }
-            if (bee.renderTransform != null) {
-                jsonObject.addProperty("renderTransform", bee.renderTransform);
-            }
-            if (bee.breedingItem != null) {
-                jsonObject.addProperty("breedingItem", bee.breedingItem);
-            }
-            if (bee.breedingItemCount != null) {
-                jsonObject.addProperty("breedingItemCount", bee.breedingItemCount);
-            }
-            if (!bee.invulnerability.isEmpty()) {
-                JsonArray invul = new JsonArray();
-                bee.invulnerability.forEach(invul::add);
-                jsonObject.add("invulnerability", invul);
-            }
-            if (!bee.attributes.isEmpty()) {
-                JsonObject attributes = new JsonObject();
-                bee.attributes.entrySet().forEach(attribute -> {
-                    attributes.addProperty(attribute.getKey(), attribute.getValue());
-                });
-                jsonObject.add("attributes", attributes);
-            }
-            if (!bee.passiveEffects.isEmpty()) {
-                JsonArray effects = new JsonArray();
-                bee.passiveEffects.forEach(passiveEffect -> {
-                    JsonObject o = new JsonObject();
-                    o.addProperty("effect", passiveEffect.name);
-                    o.addProperty("duration", passiveEffect.duration);
-                    effects.add(o);
-                });
-                jsonObject.add("passiveEffects", effects);
-            }
-            if (!bee.conditions.isEmpty()) {
-                JsonArray conditions = new JsonArray();
-                bee.conditions.forEach(condition -> {
-                    conditions.add(ICondition.CODEC.encode(condition, JsonOps.INSTANCE, new JsonObject()).getOrThrow());
-                });
-                jsonObject.add("conditions", conditions);
-            }
-            return jsonObject;
-        };
-    }
-
-
 
     public static class BeeConfig {
         public static Codec<BeeConfig> CODEC = RecordCodecBuilder.create(
@@ -832,6 +656,10 @@ public class BeeProvider implements DataProvider
         public BeeConfig(String name) {
             this.name = name;
         }
+
+        public String name() { return name; }
+        public boolean createComb() { return createComb; }
+        public List<ICondition> conditions() { return conditions; }
 
         public BeeConfig primaryColor(String primaryColor) {
             this.primaryColor = primaryColor;
@@ -1037,17 +865,72 @@ public class BeeProvider implements DataProvider
             this.conditions.add(new NotCondition(new ModLoadedCondition(modId)));
             return this;
         }
-        public BeeConfig requireTag(String tag) {
-            this.conditions.add(new NotCondition(new TagEmptyCondition(tag)));
-            return this;
+
+        /**
+         * Convert this fluent-builder config into a {@link BeeData}
+         * record. Hex color strings are parsed to ARGB ints, the {@code "!"}-prefixed flowerTag
+         * legacy syntax becomes the explicit {@code inverseFlower} field on the record, and all
+         * other defaults match what {@code BeeCreator.create()} produced.
+         */
+        public BeeData toBeeData() {
+            int primary = parseHex(primaryColor);
+            int secondary = secondaryColor != null ? parseHex(secondaryColor) : primary;
+            int tertiary = tertiaryColor != null ? parseHex(tertiaryColor) : primary;
+            Optional<Integer> particle = particleColor != null ? Optional.of(parseHex(particleColor)) : Optional.empty();
+
+            String rawFlowerTag = flowerTag;
+            boolean invFlower = inverseFlower;
+            if (rawFlowerTag != null && rawFlowerTag.startsWith("!")) {
+                rawFlowerTag = rawFlowerTag.substring(1);
+                invFlower = true;
+            }
+            Optional<String> ftag = Optional.ofNullable(rawFlowerTag);
+            Optional<String> fblock = Optional.ofNullable(flowerBlock);
+            Optional<String> ffluid = Optional.ofNullable(flowerFluid);
+            Optional<String> fitem = Optional.ofNullable(flowerItem);
+            if (ftag.isEmpty() && fblock.isEmpty() && ffluid.isEmpty() && fitem.isEmpty()) {
+                ftag = Optional.of("minecraft:flowers");
+            }
+
+            String rendererStr = renderer != null ? renderer : "default";
+            boolean derivedTranslucent = translucent || rendererStr.equals("translucent_with_center");
+            boolean derivedUseGlow = useGlowLayer && (rendererStr.equals("default_crystal") || useGlowLayer);
+
+            return new BeeData(
+                    primary, secondary, tertiary, particle, false /* colorCycle not tracked in BeeConfig */,
+                    Optional.ofNullable(description),
+                    ftag, fblock, ffluid, fitem, invFlower, flowerType != null ? flowerType : "blocks",
+                    Optional.ofNullable(nestingPreference), Optional.ofNullable(beeTexture),
+                    Optional.ofNullable(model), Optional.ofNullable(animation),
+                    rendererStr, renderTransform != null ? renderTransform : "none",
+                    particleType != null ? particleType : "drip",
+                    derivedTranslucent, derivedUseGlow,
+                    breedingItem != null ? breedingItem : "",
+                    breedingItemCount != null ? breedingItemCount : 1,
+                    selfBreed, selfHeal,
+                    size, pollinatedSize != 0 ? pollinatedSize : size, speed, attack,
+                    Optional.ofNullable(attackResponse),
+                    new ArrayList<>(invulnerability),
+                    Optional.ofNullable(postPollination),
+                    fireproof, withered, blinding, draconic, slimy, teleporting,
+                    munchies, redstoned, stringy, stingless, waterproof, coldResistant, irradiated,
+                    new BeeData.BeeAttributes(
+                            Optional.ofNullable(attributes.get("productivity")),
+                            Optional.ofNullable(attributes.get("endurance")),
+                            Optional.ofNullable(attributes.get("temper")),
+                            Optional.ofNullable(attributes.get("behavior")),
+                            Optional.ofNullable(attributes.get("weather_tolerance"))
+                    ),
+                    createComb
+            );
         }
-        public BeeConfig missingTag(String tag) {
-            this.conditions.add(new TagEmptyCondition(tag));
-            return this;
-        }
-        public BeeConfig requireFluidTag(String nameSpace, String tag) {
-            this.conditions.add(new NotCondition(new FluidTagEmptyCondition(nameSpace, tag)));
-            return this;
+
+        private static int parseHex(String hex) {
+            String h = hex.startsWith("#") ? hex.substring(1) : hex;
+            int r = Integer.parseInt(h.substring(0, 2), 16);
+            int g = Integer.parseInt(h.substring(2, 4), 16);
+            int b = Integer.parseInt(h.substring(4, 6), 16);
+            return ARGB.color(r, g, b);
         }
     }
 

@@ -1,5 +1,5 @@
 {
-  "type": "productivebees:slimy_nest",
+  "type": "productivebees:nest",
   "config": {
     "targets": [
       {
@@ -11,6 +11,11 @@
           "Name": "productivebees:slimy_nest"
         }
       }
-    ]
+    ],
+    "search": {
+      "type": "surface",
+      "place_ontop": true
+    },
+    "config_key": "slimy_nest"
   }
 }

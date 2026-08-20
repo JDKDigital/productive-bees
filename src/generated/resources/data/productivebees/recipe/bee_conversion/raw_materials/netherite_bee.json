@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gems/diamond"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/netherite"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "minecraft:netherite_block",
+  "result": "productivebees:raw_materials/netherite",
+  "source": "productivebees:gems/diamond"
+}

@@ -1,34 +1,16 @@
 {
   "type": "productivebees:bee_nbt_changer",
-  "bee": "productivebees:gold",
+  "bee": "productivebees:raw_materials/gold",
   "item": [
-    {
-      "item": "minecraft:golden_sword"
-    },
-    {
-      "item": "minecraft:golden_axe"
-    },
-    {
-      "item": "minecraft:golden_hoe"
-    },
-    {
-      "item": "minecraft:golden_pickaxe"
-    },
-    {
-      "item": "minecraft:golden_sword"
-    },
-    {
-      "item": "minecraft:golden_helmet"
-    },
-    {
-      "item": "minecraft:golden_chestplate"
-    },
-    {
-      "item": "minecraft:golden_leggings"
-    },
-    {
-      "item": "minecraft:golden_boots"
-    }
+    "minecraft:golden_sword",
+    "minecraft:golden_axe",
+    "minecraft:golden_hoe",
+    "minecraft:golden_pickaxe",
+    "minecraft:golden_sword",
+    "minecraft:golden_helmet",
+    "minecraft:golden_chestplate",
+    "minecraft:golden_leggings",
+    "minecraft:golden_boots"
   ],
   "attribute": "Damage",
   "method": "decrement",
@@ -37,7 +19,7 @@
   "neoforge:conditions": [
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:gold"
+      "bee": "productivebees:raw_materials/gold"
     }
   ]
 }

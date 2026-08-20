@@ -8,8 +8,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.component.TypedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -51,7 +54,7 @@ public class Amber extends BaseEntityBlock
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.AMBER.get(), AmberBlockEntity::serverTick);
+        return level.isClientSide() ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.AMBER.get(), AmberBlockEntity::serverTick);
     }
 
     @Override
@@ -77,24 +80,19 @@ public class Amber extends BaseEntityBlock
 
     @Override
     public void setPlacedBy(Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nullable LivingEntity player, @Nonnull ItemStack stack) {
-        // Read data from stack
-        BlockEntity tileEntity = level.getBlockEntity(pos);
-        if (!level.isClientSide() && tileEntity instanceof AmberBlockEntity amberBlockEntity && stack.has(DataComponents.ENTITY_DATA)) {
-            CompoundTag tag = stack.get(DataComponents.ENTITY_DATA).copyTag();
-            amberBlockEntity.loadPacketNBT(tag, level.registryAccess());
+        if (stack.has(DataComponents.ENTITY_DATA) && level.getBlockEntity(pos) instanceof AmberBlockEntity amberBE) {
+            TypedEntityData<EntityType<?>> entityData = stack.get(DataComponents.ENTITY_DATA);
+            CompoundTag tag = entityData.copyTagWithoutId();
+            tag.putString("id", BuiltInRegistries.ENTITY_TYPE.getKey(entityData.type()).toString());
+            amberBE.entityTag = tag;
         }
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player) {
         ItemStack stack = new ItemStack(ModBlocks.AMBER.get());
-        BlockEntity blockEntity = level.getBlockEntity(pos);
-        if (blockEntity instanceof AmberBlockEntity) {
-            try {
-                blockEntity.saveToItem(stack, level.registryAccess());
-            } catch (Exception e) {
-                // Crash can happen here if the server is shutting down as the client (WAILA) is trying to read the data
-            }
+        if (includeData && level.getBlockEntity(pos) instanceof BlockEntity be) {
+            stack.applyComponents(be.collectComponents());
         }
         return stack;
     }
@@ -109,7 +107,7 @@ public class Amber extends BaseEntityBlock
     }
 
     private void trySpawnDripParticles(Level level, BlockPos pos, BlockState state) {
-        if (state.getFluidState().isEmpty() && !(level.random.nextFloat() < 0.3F)) {
+        if (state.getFluidState().isEmpty() && !(level.getRandom().nextFloat() < 0.3F)) {
             VoxelShape voxelshape = state.getCollisionShape(level, pos);
             double d0 = voxelshape.max(Direction.Axis.Y);
             if (d0 >= 1.0D && !state.is(BlockTags.IMPERMEABLE)) {
@@ -133,6 +131,6 @@ public class Amber extends BaseEntityBlock
     }
 
     private void spawnFluidParticle(Level level, double xMin, double xMax, double zMin, double zMax, double y) {
-        level.addParticle(ParticleTypes.DRIPPING_HONEY, Mth.lerp(level.random.nextDouble(), xMin, xMax), y, Mth.lerp(level.random.nextDouble(), zMin, zMax), 0.0D, 0.0D, 0.0D);
+        level.addParticle(ParticleTypes.DRIPPING_HONEY, Mth.lerp(level.getRandom().nextDouble(), xMin, xMax), y, Mth.lerp(level.getRandom().nextDouble(), zMin, zMax), 0.0D, 0.0D, 0.0D);
     }
 }

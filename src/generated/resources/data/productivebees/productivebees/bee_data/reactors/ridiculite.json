@@ -1,0 +1,11 @@
+{
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/ridiculite",
+  "particleColor": "#dcb4e0",
+  "primaryColor": "#e2ace8",
+  "secondaryColor": "#ba8abf",
+  "selfbreed": false,
+  "size": 0.8,
+  "useGlowLayer": true
+}

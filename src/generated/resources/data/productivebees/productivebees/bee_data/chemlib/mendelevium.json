@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/mendelevium/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerItem": "chemlib:mendelevium",
+  "particleColor": "#4148a5",
+  "primaryColor": "#2b349d",
+  "selfbreed": false,
+  "size": 0.5,
+  "useGlowLayer": true
+}

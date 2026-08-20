@@ -18,7 +18,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.TemptGoal;
-import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -31,11 +31,10 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class BumbleBee extends SolitaryBee implements ItemSteerable, Saddleable
+public class BumbleBee extends SolitaryBee implements ItemSteerable
 {
-    private static final EntityDataAccessor<Boolean> SADDLED = SynchedEntityData.defineId(BumbleBee.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> BOOST_TIME = SynchedEntityData.defineId(BumbleBee.class, EntityDataSerializers.INT);
-    private final ItemBasedSteering steering = new ItemBasedSteering(this.entityData, BOOST_TIME, SADDLED);
+    private final ItemBasedSteering steering = new ItemBasedSteering(this.entityData, BOOST_TIME);
 
     public BumbleBee(EntityType<? extends Bee> entityType, Level world) {
         super(entityType, world);
@@ -75,7 +74,7 @@ public class BumbleBee extends SolitaryBee implements ItemSteerable, Saddleable
 
     @Override
     public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
-        if (BOOST_TIME.equals(key) && this.level().isClientSide) {
+        if (BOOST_TIME.equals(key) && this.level().isClientSide()) {
             this.steering.onSynced();
         }
         super.onSyncedDataUpdated(key);
@@ -84,46 +83,17 @@ public class BumbleBee extends SolitaryBee implements ItemSteerable, Saddleable
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
         super.defineSynchedData(pBuilder);
-        pBuilder.define(SADDLED, false);
         pBuilder.define(BOOST_TIME, 0);
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag compound) {
-        super.addAdditionalSaveData(compound);
-        this.steering.addAdditionalSaveData(compound);
+    public boolean canUseSlot(EquipmentSlot slot) {
+        return slot == EquipmentSlot.SADDLE ? this.isAlive() && !this.isBaby() : super.canUseSlot(slot);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag compound) {
-        super.readAdditionalSaveData(compound);
-        this.steering.readAdditionalSaveData(compound);
-    }
-
-    @Override
-    public boolean isSaddled() {
-        return this.steering.hasSaddle();
-    }
-
-    @Override
-    public boolean isSaddleable() {
-        return this.isAlive() && !this.isBaby();
-    }
-
-    @Override
-    protected void dropEquipment() {
-        super.dropEquipment();
-        if (this.isSaddled()) {
-            this.spawnAtLocation(Items.SADDLE);
-        }
-    }
-
-    @Override
-    public void equipSaddle(ItemStack stack, @Nullable SoundSource soundSource) {
-        this.steering.setSaddle(true);
-        if (soundSource != null) {
-            level().playSound(null, this, SoundEvents.PIG_SADDLE, soundSource, 0.5F, 1.0F);
-        }
+    protected boolean canDispenserEquipIntoSlot(EquipmentSlot slot) {
+        return slot == EquipmentSlot.SADDLE || super.canDispenserEquipIntoSlot(slot);
     }
 
     @Override
@@ -159,17 +129,24 @@ public class BumbleBee extends SolitaryBee implements ItemSteerable, Saddleable
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         boolean flag = this.isFood(player.getItemInHand(hand));
         if (!flag && this.isSaddled() && !this.isVehicle() && !player.isSecondaryUseActive()) {
-            if (!this.level().isClientSide) {
-                if (player instanceof ServerPlayer) {
-                    ModAdvancements.SADDLE_BEE.get().trigger((ServerPlayer) player, this);
+            if (!this.level().isClientSide()) {
+                if (player instanceof ServerPlayer sp) {
+                    ModAdvancements.SADDLE_BEE.get().trigger(sp, this);
                 }
 
                 player.startRiding(this);
             }
 
-            return InteractionResult.sidedSuccess(this.level().isClientSide);
+            return InteractionResult.SUCCESS;
         }
-        return super.mobInteract(player, hand);
+        InteractionResult result = super.mobInteract(player, hand);
+        if (!result.consumesAction()) {
+            ItemStack stack = player.getItemInHand(hand);
+            return this.isEquippableInSlot(stack, EquipmentSlot.SADDLE)
+                    ? stack.interactLivingEntity(player, this, hand)
+                    : InteractionResult.PASS;
+        }
+        return result;
     }
 
     @Override

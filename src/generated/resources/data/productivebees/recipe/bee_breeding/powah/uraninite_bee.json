@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/iron"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:powah/uraninite"
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:powah/uraninite",
+  "parent1": "productivebees:creeper_bee",
+  "parent2": "productivebees:raw_materials/iron"
+}

@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productivebees:item/expansion_box_biomesoplenty_umbran",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -8557937
+      },
+      {
+        "type": "minecraft:constant",
+        "value": -1
+      }
+    ]
+  }
+}

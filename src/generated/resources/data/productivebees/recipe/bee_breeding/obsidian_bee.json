@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:lava"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:fluids/water"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:obsidian"
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:obsidian",
+  "parent1": "productivebees:lava",
+  "parent2": "productivebees:fluids/water"
+}

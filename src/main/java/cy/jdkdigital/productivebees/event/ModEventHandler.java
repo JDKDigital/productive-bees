@@ -9,8 +9,8 @@ import cy.jdkdigital.productivebees.dispenser.ShearsDispenseItemBehavior;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModItems;
-import cy.jdkdigital.productivebees.network.packets.BeeDataMessage;
-import cy.jdkdigital.productivebees.setup.BeeReloadListener;
+import cy.jdkdigital.productivebees.setup.BeeData;
+import cy.jdkdigital.productivebees.setup.BeeRegistries;
 import cy.jdkdigital.productivebees.util.BeeCreator;
 import cy.jdkdigital.productivebees.util.GeneAttribute;
 import cy.jdkdigital.productivebees.util.GeneValue;
@@ -19,12 +19,11 @@ import cy.jdkdigital.productivelib.common.item.AbstractUpgradeItem;
 import cy.jdkdigital.productivelib.registry.LibItems;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.SpawnPlacementTypes;
-import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -38,11 +37,8 @@ import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
-import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
-import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
-
-import java.util.Map;
 
 @EventBusSubscriber(modid = ProductiveBees.MODID)
 public class ModEventHandler
@@ -72,23 +68,20 @@ public class ModEventHandler
                 }
             }
 
-            for (Map.Entry<ResourceLocation, CompoundTag> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
-                ResourceLocation beeType = entry.getKey();
-
+            BeeRegistries.all().forEach(holder -> {
+                Identifier beeType = holder.unwrapKey().orElseThrow().identifier();
                 // Add comb item
-                if (entry.getValue().getBoolean("createComb")) {
+                if (holder.value().createComb()) {
                     ItemStack comb = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
                     BeeCreator.setType(beeType, comb);
-
                     event.accept(comb);
 
                     // Add comb block
                     ItemStack combBlock = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
                     BeeCreator.setType(beeType, combBlock);
-
                     event.accept(combBlock);
                 }
-            }
+            });
 
             event.accept(Gene.getStack(GeneAttribute.PRODUCTIVITY, GeneValue.PRODUCTIVITY_NORMAL, 1, 100));
             event.accept(Gene.getStack(GeneAttribute.PRODUCTIVITY, GeneValue.PRODUCTIVITY_MEDIUM, 1, 100));
@@ -109,10 +102,11 @@ public class ModEventHandler
             event.accept(Gene.getStack(GeneAttribute.ENDURANCE, GeneValue.ENDURANCE_MEDIUM, 1, 100));
             event.accept(Gene.getStack(GeneAttribute.ENDURANCE, GeneValue.ENDURANCE_STRONG, 1, 100));
 
-            BeeReloadListener.INSTANCE.getData().forEach((location, compoundTag) -> {
+            BeeRegistries.all().forEach(holder -> {
+                Identifier location = holder.unwrapKey().orElseThrow().identifier();
                 event.accept(Gene.getStack(GeneAttribute.TYPE, location.toString(), 1, 100));
             });
-            for (ResourceLocation entityType : BuiltInRegistries.ENTITY_TYPE.keySet()) {
+            for (Identifier entityType : BuiltInRegistries.ENTITY_TYPE.keySet()) {
                 if (entityType.getNamespace().equals(ProductiveBees.MODID) && entityType.getPath().contains("bee")) {
                     if (entityType.toString().equals("productivebees:configurable_bee")) {
                         continue;
@@ -128,11 +122,11 @@ public class ModEventHandler
                     event.accept(new ItemStack(spawnEgg));
                 }
             }
-            for (Map.Entry<ResourceLocation, CompoundTag> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
-                ResourceLocation beeType = entry.getKey();
+            BeeRegistries.all().forEach(holder -> {
+                Identifier beeType = holder.unwrapKey().orElseThrow().identifier();
                 // Add spawn egg item
                 event.accept(BeeCreator.getSpawnEgg(beeType));
-            }
+            });
         }
     }
 
@@ -148,7 +142,7 @@ public class ModEventHandler
     @SubscribeEvent
     public static void registerSpawnPlacements(RegisterSpawnPlacementsEvent event) {
         event.register(ModEntities.CONFIGURABLE_BEE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, (entityType, serverLevel, spawnType, pos, random) -> {
-            return random.nextBoolean() && spawnType.equals(MobSpawnType.NATURAL) && serverLevel.getBlockState(pos).canBeReplaced();
+            return random.nextBoolean() && spawnType.equals(EntitySpawnReason.NATURAL) && serverLevel.getBlockState(pos).canBeReplaced();
         }, RegisterSpawnPlacementsEvent.Operation.OR);
     }
 
@@ -170,15 +164,12 @@ public class ModEventHandler
 
     @SubscribeEvent
     public static void payloadHandler(RegisterPayloadHandlersEvent event) {
-        final PayloadRegistrar registrar = event.registrar(ProductiveBees.MODID).versioned("1").optional();
-        registrar.playToClient(
-                BeeDataMessage.TYPE,
-                BeeDataMessage.STREAM_CODEC,
-                new DirectionalPayloadHandler<>(
-                        BeeDataMessage::clientHandle,
-                        BeeDataMessage::serverHandle
-                )
-        );
+        event.registrar(ProductiveBees.MODID).versioned("1").optional();
+    }
+
+    @SubscribeEvent
+    public static void registerDataPackRegistries(DataPackRegistryEvent.NewRegistry event) {
+        event.dataPackRegistry(BeeRegistries.BEE_DATA, BeeData.CODEC, BeeData.CODEC);
     }
 
     @SubscribeEvent
@@ -190,17 +181,17 @@ public class ModEventHandler
     public static void registerBlockEntityCapabilities(RegisterCapabilitiesEvent event) {
         // Hives
         event.registerBlockEntity(
-                Capabilities.ItemHandler.BLOCK,
+                Capabilities.Item.BLOCK,
                 ModBlockEntityTypes.ADVANCED_HIVE.get(),
                 (myBlockEntity, side) -> myBlockEntity.inventoryHandler
         );
         event.registerBlockEntity(
-                Capabilities.ItemHandler.BLOCK,
+                Capabilities.Item.BLOCK,
                 ModBlockEntityTypes.CANVAS_ADVANCED_HIVE.get(),
                 (myBlockEntity, side) -> myBlockEntity.inventoryHandler
         );
         event.registerBlockEntity(
-                Capabilities.ItemHandler.BLOCK,
+                Capabilities.Item.BLOCK,
                 ModBlockEntityTypes.EXPANSION_BOX.get(),
                 (myBlockEntity, side) -> {
                     if (side != null && (side.equals(Direction.DOWN) || side.equals(Direction.UP))) {
@@ -210,7 +201,7 @@ public class ModEventHandler
                 }
         );
         event.registerBlockEntity(
-                Capabilities.ItemHandler.BLOCK,
+                Capabilities.Item.BLOCK,
                 ModBlockEntityTypes.CANVAS_EXPANSION_BOX.get(),
                 (myBlockEntity, side) -> {
                     if (side != null && (side.equals(Direction.DOWN) || side.equals(Direction.UP))) {
@@ -220,123 +211,123 @@ public class ModEventHandler
                 }
         );
         event.registerBlockEntity(
-                Capabilities.ItemHandler.BLOCK,
+                Capabilities.Item.BLOCK,
                 ModBlockEntityTypes.DRACONIC_BEEHIVE.get(),
                 (myBlockEntity, side) -> myBlockEntity.inventoryHandler
         );
         // Centrifuge
         event.registerBlockEntity(
-                Capabilities.ItemHandler.BLOCK,
+                Capabilities.Item.BLOCK,
                 ModBlockEntityTypes.CENTRIFUGE.get(),
                 (myBlockEntity, side) -> myBlockEntity.getItemHandler()
         );
         event.registerBlockEntity(
-                Capabilities.FluidHandler.BLOCK,
+                Capabilities.Fluid.BLOCK,
                 ModBlockEntityTypes.CENTRIFUGE.get(),
                 (myBlockEntity, side) -> myBlockEntity.getFluidHandler()
         );
         // Powered centrifuge
         event.registerBlockEntity(
-                Capabilities.ItemHandler.BLOCK,
+                Capabilities.Item.BLOCK,
                 ModBlockEntityTypes.POWERED_CENTRIFUGE.get(),
                 (myBlockEntity, side) -> myBlockEntity.getItemHandler()
         );
         event.registerBlockEntity(
-                Capabilities.FluidHandler.BLOCK,
+                Capabilities.Fluid.BLOCK,
                 ModBlockEntityTypes.POWERED_CENTRIFUGE.get(),
                 (myBlockEntity, side) -> myBlockEntity.getFluidHandler()
         );
         event.registerBlockEntity(
-                Capabilities.EnergyStorage.BLOCK,
+                Capabilities.Energy.BLOCK,
                 ModBlockEntityTypes.POWERED_CENTRIFUGE.get(),
                 (myBlockEntity, side) -> myBlockEntity.getEnergyHandler()
         );
         // Heated centrifuge
         event.registerBlockEntity(
-                Capabilities.ItemHandler.BLOCK,
+                Capabilities.Item.BLOCK,
                 ModBlockEntityTypes.HEATED_CENTRIFUGE.get(),
                 (myBlockEntity, side) -> myBlockEntity.getItemHandler()
         );
         event.registerBlockEntity(
-                Capabilities.FluidHandler.BLOCK,
+                Capabilities.Fluid.BLOCK,
                 ModBlockEntityTypes.HEATED_CENTRIFUGE.get(),
                 (myBlockEntity, side) -> myBlockEntity.getFluidHandler()
         );
         event.registerBlockEntity(
-                Capabilities.EnergyStorage.BLOCK,
+                Capabilities.Energy.BLOCK,
                 ModBlockEntityTypes.HEATED_CENTRIFUGE.get(),
                 (myBlockEntity, side) -> myBlockEntity.getEnergyHandler()
         );
         // Bottler
         event.registerBlockEntity(
-                Capabilities.ItemHandler.BLOCK,
+                Capabilities.Item.BLOCK,
                 ModBlockEntityTypes.BOTTLER.get(),
                 (myBlockEntity, side) -> myBlockEntity.getItemHandler()
         );
         event.registerBlockEntity(
-                Capabilities.FluidHandler.BLOCK,
+                Capabilities.Fluid.BLOCK,
                 ModBlockEntityTypes.BOTTLER.get(),
                 (myBlockEntity, side) -> myBlockEntity.getFluidHandler()
         );
         // Feeding slab
         event.registerBlockEntity(
-                Capabilities.ItemHandler.BLOCK,
+                Capabilities.Item.BLOCK,
                 ModBlockEntityTypes.FEEDER.get(),
                 (myBlockEntity, side) -> myBlockEntity.getItemHandler()
         );
         // Jar
         event.registerBlockEntity(
-                Capabilities.ItemHandler.BLOCK,
+                Capabilities.Item.BLOCK,
                 ModBlockEntityTypes.JAR.get(),
                 (myBlockEntity, side) -> myBlockEntity.getItemHandler()
         );
         // Honey generator
         event.registerBlockEntity(
-                Capabilities.ItemHandler.BLOCK,
+                Capabilities.Item.BLOCK,
                 ModBlockEntityTypes.HONEY_GENERATOR.get(),
                 (myBlockEntity, side) -> myBlockEntity.getItemHandler()
         );
         event.registerBlockEntity(
-                Capabilities.FluidHandler.BLOCK,
+                Capabilities.Fluid.BLOCK,
                 ModBlockEntityTypes.HONEY_GENERATOR.get(),
                 (myBlockEntity, side) -> myBlockEntity.getFluidHandler()
         );
         event.registerBlockEntity(
-                Capabilities.EnergyStorage.BLOCK,
+                Capabilities.Energy.BLOCK,
                 ModBlockEntityTypes.HONEY_GENERATOR.get(),
                 (myBlockEntity, side) -> myBlockEntity.getEnergyHandler()
         );
         // Catcher
         event.registerBlockEntity(
-                Capabilities.ItemHandler.BLOCK,
+                Capabilities.Item.BLOCK,
                 ModBlockEntityTypes.CATCHER.get(),
                 (myBlockEntity, side) -> myBlockEntity.getItemHandler()
         );
         // Incubator
         event.registerBlockEntity(
-                Capabilities.ItemHandler.BLOCK,
+                Capabilities.Item.BLOCK,
                 ModBlockEntityTypes.INCUBATOR.get(),
                 (myBlockEntity, side) -> myBlockEntity.getItemHandler()
         );
         event.registerBlockEntity(
-                Capabilities.EnergyStorage.BLOCK,
+                Capabilities.Energy.BLOCK,
                 ModBlockEntityTypes.INCUBATOR.get(),
                 (myBlockEntity, side) -> myBlockEntity.getEnergyHandler()
         );
         // Gene indexer
         event.registerBlockEntity(
-                Capabilities.ItemHandler.BLOCK,
+                Capabilities.Item.BLOCK,
                 ModBlockEntityTypes.GENE_INDEXER.get(),
                 (myBlockEntity, side) -> myBlockEntity.getItemHandler()
         );
         // Breeding chamber
         event.registerBlockEntity(
-                Capabilities.ItemHandler.BLOCK,
+                Capabilities.Item.BLOCK,
                 ModBlockEntityTypes.BREEDING_CHAMBER.get(),
                 (myBlockEntity, side) -> myBlockEntity.getItemHandler()
         );
         event.registerBlockEntity(
-                Capabilities.EnergyStorage.BLOCK,
+                Capabilities.Energy.BLOCK,
                 ModBlockEntityTypes.BREEDING_CHAMBER.get(),
                 (myBlockEntity, side) -> myBlockEntity.getEnergyHandler()
         );

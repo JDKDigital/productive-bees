@@ -19,8 +19,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -37,7 +37,7 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity implements Men
     private record SlotEntry(int slot, int purity) { }
     private record InsertionAction(String key, SlotEntry entry, ItemStack stack, int slot) { }
     
-    public final IItemHandlerModifiable inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(104, this)
+    public final InventoryHandlerHelper.BlockEntityItemStackHandler inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(104, this)
     {
         @Override
         public boolean isItemValid(int slot, @Nonnull ItemStack stack, boolean fromAutomation) {
@@ -45,8 +45,8 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity implements Men
         }
 
         @Override
-        protected void onContentsChanged(int slot) {
-            super.onContentsChanged(slot);
+        protected void onContentsChanged(int slot, ItemStack previousContents) {
+            super.onContentsChanged(slot, previousContents);
             if (!(blockEntity instanceof GeneIndexerBlockEntity indexer)) return;
             
             ItemStack stack = indexer.inventoryHandler.getStackInSlot(slot);
@@ -95,7 +95,7 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity implements Men
 
         @Override
         public int[] getOutputSlots() {
-            return IntStream.range(0, getSlots()).toArray();
+            return IntStream.range(0, size()).toArray();
         }
 
         @Override
@@ -110,7 +110,7 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity implements Men
 
         @Override
         public boolean isInputSlotItem(int slot, ItemStack item) {
-            return this.isItemValid(slot, item);
+            return this.isItemValid(slot, item, true);
         }
     };
 
@@ -128,7 +128,7 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity implements Men
 
     @Override
     public void onLoad() {
-        if (level != null && !level.isClientSide) buildIndex(this);
+        if (level != null && !level.isClientSide()) buildIndex(this);
         super.onLoad();
     }
     
@@ -160,6 +160,8 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity implements Men
 
             stack.shrink(stackCount);
             entryStack.shrink(entryCount);
+            handler.setStackInSlot(slot, stack);
+            handler.setStackInSlot(entry.slot(), entryStack);
             updateSlot(indexer, stack, slot);
             updateSlot(indexer, entryStack, entry.slot());
 
@@ -192,7 +194,7 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity implements Men
     private static void buildIndex(GeneIndexerBlockEntity blockEntity) {
         blockEntity.index.clear();
 
-        for (int slot = 0; slot < blockEntity.inventoryHandler.getSlots(); ++slot) {
+        for (int slot = 0; slot < blockEntity.inventoryHandler.size(); ++slot) {
             ItemStack stack = blockEntity.inventoryHandler.getStackInSlot(slot);
             if (stack.isEmpty() || !(stack.getItem() instanceof Gene)) continue;
 
@@ -238,7 +240,7 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity implements Men
     }
 
     @Override
-    public IItemHandler getItemHandler() {
+    public ResourceHandler<ItemResource> getItemHandler() {
         return inventoryHandler;
     }
 }

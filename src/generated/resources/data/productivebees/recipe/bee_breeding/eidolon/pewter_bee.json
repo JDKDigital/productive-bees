@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/lead"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/iron"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:eidolon/pewter"
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:eidolon/pewter",
+  "parent1": "productivebees:raw_materials/lead",
+  "parent2": "productivebees:raw_materials/iron"
+}

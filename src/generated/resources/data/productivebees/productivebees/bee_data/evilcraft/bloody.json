@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "evilcraft"
+    }
+  ],
+  "attack": 1.0,
+  "attributes": {
+    "endurance": "endurance.strong",
+    "productivity": "productivity.medium"
+  },
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "evilcraft:hardened_blood",
+  "particleColor": "#ba3d34",
+  "primaryColor": "#ba3d34",
+  "renderer": "thicc",
+  "secondaryColor": "#8a0303",
+  "size": 0.9,
+  "useGlowLayer": true
+}

@@ -1,176 +1,161 @@
 package cy.jdkdigital.productivebees.client.render.entity.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.entity.ProductiveBeeRenderer;
 import cy.jdkdigital.productivebees.client.render.entity.model.ProductiveBeeModel;
-import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
-import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
-import cy.jdkdigital.productivebees.common.entity.bee.solitary.BumbleBee;
-import net.minecraft.client.model.EntityModel;
+import cy.jdkdigital.productivebees.client.render.entity.state.ProductiveBeeRenderState;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<ProductiveBee>>
+public class BeeBodyLayer extends RenderLayer<ProductiveBeeRenderState, ProductiveBeeModel<ProductiveBeeRenderState>>
 {
     private final String modelType;
-    private final EntityModel<ProductiveBee> model;
+    private final ProductiveBeeModel<ProductiveBeeRenderState> model;
     private final boolean isChristmas;
+    private final ProductiveBeeRenderer parent;
 
-    public static Map<String, Map<String, ResourceLocation>> baseTextures = new HashMap<>() {{
+    public static Map<String, Map<String, Identifier>> baseTextures = new HashMap<>() {{
         put("default", new HashMap<>() {{
-            put("primary", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default/primary.png"));
-            put("abdomen", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default/abdomen.png"));
-            put("glowlayer", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default/primary.png"));
-            put("santahat", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default/santa_hat.png"));
+            put("primary", Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default/primary.png"));
+            put("abdomen", Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default/abdomen.png"));
+            put("glowlayer", Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default/primary.png"));
+            put("santahat", Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default/santa_hat.png"));
         }});
         put("default_crystal", new HashMap<>() {{
-            put("primary", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_crystal/primary.png"));
-            put("abdomen", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_crystal/abdomen.png"));
-            put("glowlayer", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_crystal/crystals.png"));
-            put("crystals", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_crystal/crystals.png"));
-            put("crystals_clear", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_crystal/crystals_clear.png"));
-            put("santahat", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_crystal/santa_hat.png"));
+            put("primary", Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_crystal/primary.png"));
+            put("abdomen", Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_crystal/abdomen.png"));
+            put("glowlayer", Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_crystal/crystals.png"));
+            put("crystals", Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_crystal/crystals.png"));
+            put("crystals_clear", Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_crystal/crystals_clear.png"));
+            put("santahat", Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_crystal/santa_hat.png"));
         }});
         put("default_foliage", new HashMap<>() {{
-            put("primary", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_foliage/primary.png"));
-            put("abdomen", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_foliage/abdomen.png"));
-            put("glowlayer", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_foliage/crystals.png"));
-            put("crystals", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_foliage/crystals.png"));
-            put("santahat", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_foliage/santa_hat.png"));
+            put("primary", Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_foliage/primary.png"));
+            put("abdomen", Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_foliage/abdomen.png"));
+            put("glowlayer", Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_foliage/crystals.png"));
+            put("crystals", Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_foliage/crystals.png"));
+            put("santahat", Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_foliage/santa_hat.png"));
         }});
         put("default_shell", new HashMap<>() {{
-            put("primary", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_shell/primary.png"));
-            put("abdomen", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_shell/abdomen.png"));
-            put("glowlayer", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_shell/crystals.png"));
-            put("crystals", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_shell/crystals.png"));
-            put("santahat", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_shell/santa_hat.png"));
+            put("primary", Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_shell/primary.png"));
+            put("abdomen", Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_shell/abdomen.png"));
+            put("glowlayer", Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_shell/crystals.png"));
+            put("crystals", Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_shell/crystals.png"));
+            put("santahat", Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/default_shell/santa_hat.png"));
         }});
         put("thicc", new HashMap<>() {{
-            put("primary", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/thicc/primary.png"));
-            put("abdomen", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/thicc/abdomen.png"));
-            put("santahat", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/thicc/santa_hat.png"));
+            put("primary", Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/thicc/primary.png"));
+            put("abdomen", Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/thicc/abdomen.png"));
+            put("santahat", Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/thicc/santa_hat.png"));
         }});
         put("translucent_with_center", new HashMap<>() {{
-            put("santahat", ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/translucent_with_center/santa_hat.png"));
+            put("santahat", Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/entity/bee/base/translucent_with_center/santa_hat.png"));
         }});
     }};
 
-    public BeeBodyLayer(RenderLayerParent<ProductiveBee, ProductiveBeeModel<ProductiveBee>> rendererIn, ModelPart layer, String modelType, boolean isChristmas) {
+    public BeeBodyLayer(ProductiveBeeRenderer rendererIn, ModelPart layer, String modelType, boolean isChristmas) {
         super(rendererIn);
 
         this.modelType = modelType;
-        model = new ProductiveBeeModel<>(layer, modelType);
+        this.model = new ProductiveBeeModel<>(layer, modelType);
         this.isChristmas = isChristmas;
+        this.parent = rendererIn;
     }
 
-    public void render(@Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn, @Nonnull ProductiveBee entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        if (entity.getRenderer().equals(this.modelType) && !entity.isInvisible()) {
-            this.getParentModel().copyPropertiesTo(this.model);
-            this.model.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTicks);
-            this.model.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+    @Override
+    public void submit(@Nonnull PoseStack poseStack, @Nonnull SubmitNodeCollector collector, int packedLight, @Nonnull ProductiveBeeRenderState state, float yRot, float xRot) {
+        if (state.renderType.equals(this.modelType) && !state.isInvisible) {
+            this.model.setupAnim(state);
+            this.model.hideSantaHat(!isChristmas || state.renderStatic);
 
-            if (entity instanceof ConfigurableBee && ((ConfigurableBee) entity).isTranslucent()) {
-                VertexConsumer vertexBuilder = bufferIn.getBuffer(RenderType.entityTranslucent(this.getTextureLocation(entity)));
-                this.model.renderToBuffer(matrixStackIn, vertexBuilder, packedLightIn, LivingEntityRenderer.getOverlayCoords(entity, 0.0F), -1);
+            int order = 0;
+            Identifier baseTexture = this.parent.getTextureLocation(state);
+            if (state.isTranslucent) {
+                collector.order(order++).submitModel(this.model, state, poseStack, RenderTypes.entityTranslucent(baseTexture), packedLight, OverlayTexture.NO_OVERLAY, -1, null, state.outlineColor, null);
             } else {
-                renderColoredCutoutModel(this.model, this.getTextureLocation(entity), matrixStackIn, bufferIn, packedLightIn, entity, -1);
+                renderColoredCutoutModel(this.model, baseTexture, poseStack, collector, packedLight, state, -1, order++);
             }
 
-            if (entity.isColored()) {
-                renderColoredLayers(matrixStackIn, bufferIn, packedLightIn, entity, partialTicks);
-            } else if (entity instanceof ConfigurableBee cBee && this.modelType.equals("default_crystal") && cBee.useGlowLayer()) {
-                renderCrystalLayer(matrixStackIn, bufferIn, packedLightIn, entity, partialTicks);
+            if (state.isColored) {
+                order = renderColoredLayers(poseStack, collector, packedLight, state, order);
+            } else if (state.isConfigurable && this.modelType.equals("default_crystal") && state.useGlowLayer) {
+                order = renderCrystalLayer(poseStack, collector, packedLight, state, order);
             }
 
-            if (entity.hasNectar() && !entity.hasConverted()) {
-                renderNectarLayer(matrixStackIn, bufferIn, packedLightIn, entity);
+            if (state.hasNectar && !state.hasConverted) {
+                order = renderNectarLayer(poseStack, collector, packedLight, state, order);
             }
 
-            renderChristmasHat(matrixStackIn, bufferIn, packedLightIn, entity);
+            order = renderChristmasHat(poseStack, collector, packedLight, state, order);
 
-            renderSaddle(matrixStackIn, bufferIn, packedLightIn, entity);
+            renderSaddle(poseStack, collector, packedLight, state, order);
         }
     }
 
-    private void renderColoredLayers(@Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn, @Nonnull ProductiveBee entity, float partialTicks) {
-        int primaryColor = entity.getColor(0, partialTicks);
-        ResourceLocation location = baseTextures.get(this.modelType).get("primary");
-        renderColoredCutoutModel(this.model, location, matrixStackIn, bufferIn, packedLightIn, entity, primaryColor);
+    private int renderColoredLayers(PoseStack poseStack, SubmitNodeCollector collector, int packedLight, ProductiveBeeRenderState state, int order) {
+        Identifier location = baseTextures.get(this.modelType).get("primary");
+        renderColoredCutoutModel(this.model, location, poseStack, collector, packedLight, state, state.primaryColor, order++);
 
-        int secondaryColor = entity.getColor(1, partialTicks);
-        ResourceLocation abdomenLocation = baseTextures.get(this.modelType).get("abdomen");
-        renderColoredCutoutModel(this.model, abdomenLocation, matrixStackIn, bufferIn, packedLightIn, entity, secondaryColor);
+        Identifier abdomenLocation = baseTextures.get(this.modelType).get("abdomen");
+        renderColoredCutoutModel(this.model, abdomenLocation, poseStack, collector, packedLight, state, state.secondaryColor, order++);
 
         if (this.modelType.equals("default_crystal")) {
-            renderCrystalLayer(matrixStackIn, bufferIn, packedLightIn, entity, partialTicks);
+            return renderCrystalLayer(poseStack, collector, packedLight, state, order);
         } else if (this.modelType.equals("default_foliage") || this.modelType.equals("default_shell")) {
-            int color = primaryColor;
-            if (entity instanceof ConfigurableBee) {
-                color = ((ConfigurableBee) entity).getTertiaryColor(partialTicks);
-            }
-            ResourceLocation foliageLocation = baseTextures.get(this.modelType).get("crystals");
-            renderColoredCutoutModel(this.model, foliageLocation, matrixStackIn, bufferIn, packedLightIn, entity, color);
+            int color = state.isConfigurable ? state.tertiaryColor : state.primaryColor;
+            Identifier foliageLocation = baseTextures.get(this.modelType).get("crystals");
+            renderColoredCutoutModel(this.model, foliageLocation, poseStack, collector, packedLight, state, color, order++);
         }
+        return order;
     }
 
-    private void renderCrystalLayer(@Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn, ProductiveBee entity, float partialTicks) {
-        int color = entity.getColor(0, partialTicks);
-        boolean useGlowLayer = !entity.getRenderStatic();
-        if (entity instanceof ConfigurableBee) {
-            color = ((ConfigurableBee) entity).getTertiaryColor(partialTicks);
-            useGlowLayer = useGlowLayer && ((ConfigurableBee) entity).useGlowLayer();
-        }
-        // render a color version of the crystal layer
-        ResourceLocation crystalsLocation = baseTextures.get(this.modelType).get("crystals_clear");
-        renderColoredCutoutModel(this.model, crystalsLocation, matrixStackIn, bufferIn, packedLightIn, entity, color);
+    private int renderCrystalLayer(PoseStack poseStack, SubmitNodeCollector collector, int packedLight, ProductiveBeeRenderState state, int order) {
+        int color = state.isConfigurable ? state.tertiaryColor : state.primaryColor;
+        boolean useGlowLayer = !state.renderStatic && (!state.isConfigurable || state.useGlowLayer);
+        Identifier crystalsLocation = baseTextures.get(this.modelType).get("crystals_clear");
+        renderColoredCutoutModel(this.model, crystalsLocation, poseStack, collector, packedLight, state, color, order++);
         if (useGlowLayer) {
-            // render glowing layer on top
-            ResourceLocation crystalsOverlayLocation = baseTextures.get(this.modelType).get("crystals");
-            VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderType.eyes(crystalsOverlayLocation));
-            this.model.renderToBuffer(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, color);
+            Identifier crystalsOverlayLocation = baseTextures.get(this.modelType).get("crystals");
+            collector.order(order++).submitModel(this.model, state, poseStack, RenderTypes.eyes(crystalsOverlayLocation), packedLight, OverlayTexture.NO_OVERLAY, color, null, state.outlineColor, null);
         }
+        return order;
     }
 
-    private void renderNectarLayer(@Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn, @Nonnull ProductiveBee entity) {
-        if (entity.isColored()) {
-            int colors = -1;
-            if (entity instanceof ConfigurableBee) {
-                if (((ConfigurableBee) entity).hasBeeTexture()) {
-                    return;
-                }
-                if (((ConfigurableBee) entity).hasParticleColor()) {
-                    colors = ((ConfigurableBee) entity).getParticleColor();
-                }
+    private int renderNectarLayer(PoseStack poseStack, SubmitNodeCollector collector, int packedLight, ProductiveBeeRenderState state, int order) {
+        if (state.isColored) {
+            if (state.hasBeeTexture) {
+                return order;
             }
+            int colors = state.hasParticleColor ? state.particleColor : -1;
 
-            ResourceLocation location = ProductiveBeeRenderer.resLoc(ProductiveBees.MODID + ":textures/entity/bee/base/" + this.modelType + "/pollen.png");
-            renderColoredCutoutModel(this.model, location, matrixStackIn, bufferIn, packedLightIn, entity, colors);
+            Identifier location = ProductiveBeeRenderer.resLoc(ProductiveBees.MODID + ":textures/entity/bee/base/" + this.modelType + "/pollen.png");
+            renderColoredCutoutModel(this.model, location, poseStack, collector, packedLight, state, colors, order++);
         }
+        return order;
     }
 
-    private void renderChristmasHat(@Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn, @Nonnull ProductiveBee entity) {
-        if (isChristmas && !entity.getRenderStatic() && this.modelType.contains("default")) {
-            ResourceLocation location = ProductiveBeeRenderer.resLoc(ProductiveBees.MODID + ":textures/entity/bee/base/" + this.modelType + "/santa_hat.png");
-            renderColoredCutoutModel(this.model, location, matrixStackIn, bufferIn, packedLightIn, entity, -1);
+    private int renderChristmasHat(PoseStack poseStack, SubmitNodeCollector collector, int packedLight, ProductiveBeeRenderState state, int order) {
+        if (isChristmas && !state.renderStatic && this.modelType.contains("default")) {
+            Identifier location = ProductiveBeeRenderer.resLoc(ProductiveBees.MODID + ":textures/entity/bee/base/" + this.modelType + "/santa_hat.png");
+            renderColoredCutoutModel(this.model, location, poseStack, collector, packedLight, state, -1, order++);
         }
+        return order;
     }
 
-    private void renderSaddle(@Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn, @Nonnull ProductiveBee entity) {
-        if (entity instanceof BumbleBee bumbleBee && bumbleBee.isSaddled()) {
-            ResourceLocation location = ProductiveBeeRenderer.resLoc(ProductiveBees.MODID + ":textures/entity/bee/bumble" + (bumbleBee.hasCustomName() && bumbleBee.getCustomName().getString().equals("Bleh") ? "_bleh" : "") + "/saddle.png");
-            renderColoredCutoutModel(this.model, location, matrixStackIn, bufferIn, packedLightIn, entity, -1);
+    private int renderSaddle(PoseStack poseStack, SubmitNodeCollector collector, int packedLight, ProductiveBeeRenderState state, int order) {
+        if (state.isBumbleBee && state.isSaddled) {
+            Identifier location = ProductiveBeeRenderer.resLoc(ProductiveBees.MODID + ":textures/entity/bee/bumble" + (state.isBlehBumbleBee ? "_bleh" : "") + "/saddle.png");
+            renderColoredCutoutModel(this.model, location, poseStack, collector, packedLight, state, -1, order++);
         }
+        return order;
     }
 }

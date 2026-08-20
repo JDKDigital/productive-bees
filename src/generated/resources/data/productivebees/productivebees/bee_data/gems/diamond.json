@@ -1,0 +1,13 @@
+{
+  "attack": 1.0,
+  "attributes": {
+    "endurance": "endurance.medium"
+  },
+  "flowerTag": "productivebees:flowers/diamond",
+  "particleColor": "#3ddfe1",
+  "primaryColor": "#3ddfe1",
+  "renderer": "default_crystal",
+  "secondaryColor": "#804f40",
+  "size": 0.6,
+  "tertiaryColor": "#0ebabd"
+}

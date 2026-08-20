@@ -33,17 +33,12 @@ public class BreedingChamberContainer extends AbstractContainer<BreedingChamberB
         {
             @Override
             public int get() {
-                return blockEntity.energyHandler.getEnergyStored();
+                return blockEntity.energyHandler.getAmountAsInt();
             }
 
             @Override
             public void set(int value) {
-                if (blockEntity.energyHandler.getEnergyStored() > 0) {
-                    blockEntity.energyHandler.extractEnergy(blockEntity.energyHandler.getEnergyStored(), false);
-                }
-                if (value > 0) {
-                    blockEntity.energyHandler.receiveEnergy(value, false);
-                }
+                blockEntity.energyHandler.set(value);
             }
         });
 

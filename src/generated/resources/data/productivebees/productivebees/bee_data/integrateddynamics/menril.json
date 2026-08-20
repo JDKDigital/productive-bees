@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "integrateddynamics"
+    }
+  ],
+  "attack": 1.0,
+  "flowerBlock": "integrateddynamics:crystalized_menril_block",
+  "particleColor": "#5a7088",
+  "primaryColor": "#5a7088",
+  "secondaryColor": "#804f40",
+  "useGlowLayer": true
+}

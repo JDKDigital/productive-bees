@@ -1,0 +1,11 @@
+{
+  "amount": 2.0,
+  "trades": [
+    "productivebees:beekeeper/level_2/honey_bottle_emerald",
+    "productivebees:beekeeper/level_2/emerald_bee_cage",
+    "productivebees:beekeeper/level_2/emerald_sugarbag_honeycomb",
+    "productivebees:beekeeper/level_2/emerald_treat_on_a_stick",
+    "productivebees:beekeeper/level_2/honey_treat_emerald",
+    "productivebees:beekeeper/level_2/emerald_honey_treat"
+  ]
+}

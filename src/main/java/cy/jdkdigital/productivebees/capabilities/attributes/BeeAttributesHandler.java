@@ -1,18 +1,24 @@
 package cy.jdkdigital.productivebees.capabilities.attributes;
 
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.util.GeneAttribute;
 import cy.jdkdigital.productivebees.util.GeneValue;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
-import net.neoforged.neoforge.common.util.INBTSerializable;
-import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class BeeAttributesHandler implements IBeeAttributes, INBTSerializable<CompoundTag>
+public class BeeAttributesHandler implements IBeeAttributes
 {
+    public static final MapCodec<BeeAttributesHandler> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            GeneValue.CODEC.fieldOf("bee_productivity").forGetter(h -> h.getAttributeValue(GeneAttribute.PRODUCTIVITY)),
+            GeneValue.CODEC.fieldOf("bee_endurance").forGetter(h -> h.getAttributeValue(GeneAttribute.ENDURANCE)),
+            GeneValue.CODEC.fieldOf("bee_temper").forGetter(h -> h.getAttributeValue(GeneAttribute.TEMPER)),
+            GeneValue.CODEC.fieldOf("bee_behavior").forGetter(h -> h.getAttributeValue(GeneAttribute.BEHAVIOR)),
+            GeneValue.CODEC.fieldOf("bee_weather_tolerance").forGetter(h -> h.getAttributeValue(GeneAttribute.WEATHER_TOLERANCE))
+    ).apply(instance, BeeAttributesHandler::of));
+
     protected Map<GeneAttribute, GeneValue> beeAttributes = new HashMap<>();
 
     public BeeAttributesHandler() {
@@ -22,6 +28,16 @@ public class BeeAttributesHandler implements IBeeAttributes, INBTSerializable<Co
         setAttributeValue(GeneAttribute.ENDURANCE, GeneValue.getRandomEndurance(rand));
         setAttributeValue(GeneAttribute.BEHAVIOR, GeneValue.BEHAVIOR_DIURNAL);
         setAttributeValue(GeneAttribute.WEATHER_TOLERANCE, GeneValue.WEATHER_TOLERANCE_NONE);
+    }
+
+    public static BeeAttributesHandler of(GeneValue productivity, GeneValue endurance, GeneValue temper, GeneValue behavior, GeneValue weatherTolerance) {
+        BeeAttributesHandler h = new BeeAttributesHandler();
+        h.setAttributeValue(GeneAttribute.PRODUCTIVITY, productivity);
+        h.setAttributeValue(GeneAttribute.ENDURANCE, endurance);
+        h.setAttributeValue(GeneAttribute.TEMPER, temper);
+        h.setAttributeValue(GeneAttribute.BEHAVIOR, behavior);
+        h.setAttributeValue(GeneAttribute.WEATHER_TOLERANCE, weatherTolerance);
+        return h;
     }
 
     @Override
@@ -37,25 +53,5 @@ public class BeeAttributesHandler implements IBeeAttributes, INBTSerializable<Co
     @Override
     public Map<GeneAttribute, GeneValue> getAttributes() {
         return beeAttributes;
-    }
-
-    @Override
-    public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider) {
-        var tag = new CompoundTag();
-        tag.putString("bee_productivity", this.getAttributeValue(GeneAttribute.PRODUCTIVITY).getSerializedName());
-        tag.putString("bee_endurance", this.getAttributeValue(GeneAttribute.ENDURANCE).getSerializedName());
-        tag.putString("bee_temper", this.getAttributeValue(GeneAttribute.TEMPER).getSerializedName());
-        tag.putString("bee_behavior", this.getAttributeValue(GeneAttribute.BEHAVIOR).getSerializedName());
-        tag.putString("bee_weather_tolerance", this.getAttributeValue(GeneAttribute.WEATHER_TOLERANCE).getSerializedName());
-        return tag;
-    }
-
-    @Override
-    public void deserializeNBT(HolderLookup.Provider provider, CompoundTag tag) {
-        setAttributeValue(GeneAttribute.PRODUCTIVITY, GeneValue.byName(tag.getString("bee_productivity")));
-        setAttributeValue(GeneAttribute.ENDURANCE, GeneValue.byName(tag.getString("bee_endurance")));
-        setAttributeValue(GeneAttribute.TEMPER, GeneValue.byName(tag.getString("bee_temper")));
-        setAttributeValue(GeneAttribute.BEHAVIOR, GeneValue.byName(tag.getString("bee_behavior")));
-        setAttributeValue(GeneAttribute.WEATHER_TOLERANCE, GeneValue.byName(tag.getString("bee_weather_tolerance")));
     }
 }

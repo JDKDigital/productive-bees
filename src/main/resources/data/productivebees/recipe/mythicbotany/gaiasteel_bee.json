@@ -2,34 +2,29 @@
   "type": "mythicbotany:infuser",
   "group": "infuser",
   "output": {
-    "item": "productivebees:spawn_egg_configurable_bee",
-    "nbt": {
-      "EntityTag": {
-        "type": "productivebees:gaiasteel"
+    "id": "productivebees:spawn_egg_configurable_bee",
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:botanicadds/gaiasteel",
+        "id": "productivebees:configurable_bee"
       }
     }
   },
   "mana": 2000000,
   "ingredients": [
     {
+      "neoforge:ingredient_type": "productivebees:component",
+      "items": "productivebees:spawn_egg_configurable_bee",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:elementium",
+          "type": "productivebees:botania/elementium",
           "id": "productivebees:configurable_bee"
         }
-      },
-      "count": 1,
-      "id": "productivebees:spawn_egg_configurable_bee"
+      }
     },
-    {
-      "tag": "botania:dragonstone_gems"
-    },
-    {
-      "item": "botania:gaia_ingot"
-    },
-    {
-      "item": "botanicadds:gaiasteel_ingot"
-    }
+    "#botania:dragonstone_gems",
+    "botania:gaia_ingot",
+    "botanicadds:gaiasteel_ingot"
   ],
   "fromColor": 14441208,
   "toColor": 8790053,
@@ -48,11 +43,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:gaiasteel"
+      "bee": "productivebees:botanicadds/gaiasteel"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:elementium"
+      "bee": "productivebees:botania/elementium"
     }
   ]
 }

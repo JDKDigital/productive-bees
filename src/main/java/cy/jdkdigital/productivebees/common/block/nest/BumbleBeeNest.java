@@ -31,7 +31,7 @@ public class BumbleBeeNest extends SolitaryNest
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.BUMBLE_BEE_NEST.get(), BumbleBeeNestBlockEntity::tick);
+        return level.isClientSide() ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.BUMBLE_BEE_NEST.get(), BumbleBeeNestBlockEntity::tick);
     }
 
     @Override

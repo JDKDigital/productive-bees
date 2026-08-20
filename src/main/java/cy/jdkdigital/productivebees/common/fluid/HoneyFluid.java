@@ -8,10 +8,11 @@ import cy.jdkdigital.productivebees.init.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -23,9 +24,9 @@ import javax.annotation.Nullable;
 
 public abstract class HoneyFluid extends BaseFlowingFluid
 {
-    public static final ResourceLocation STILL = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "block/honey/still");
-    public static final ResourceLocation FLOWING = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "block/honey/flow");
-    public static final ResourceLocation OVERLAY = ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "block/honey/overlay");
+    public static final Identifier STILL = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "block/honey/still");
+    public static final Identifier FLOWING = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "block/honey/flow");
+    public static final Identifier OVERLAY = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "block/honey/overlay");
 
     protected HoneyFluid() {
         super(new BaseFlowingFluid.Properties(
@@ -61,7 +62,7 @@ public abstract class HoneyFluid extends BaseFlowingFluid
 
     @Override
     public int getSlopeFindDistance(LevelReader worldIn) {
-        return worldIn.dimensionType().ultraWarm() ? 6 : 3;
+        return worldIn.environmentAttributes().getDimensionValue(EnvironmentAttributes.FAST_LAVA) ? 6 : 3;
     }
 
     @Override
@@ -71,12 +72,12 @@ public abstract class HoneyFluid extends BaseFlowingFluid
 
     @Override
     public int getDropOff(LevelReader worldIn) {
-        return worldIn.dimensionType().ultraWarm() ? 1 : 2;
+        return worldIn.environmentAttributes().getDimensionValue(EnvironmentAttributes.FAST_LAVA) ? 1 : 2;
     }
 
     @Override
     public int getTickDelay(LevelReader worldIn) {
-        return worldIn.dimensionType().ultraWarm() ? 10 : 30;
+        return worldIn.environmentAttributes().getDimensionValue(EnvironmentAttributes.FAST_LAVA) ? 10 : 30;
     }
 
     @Override

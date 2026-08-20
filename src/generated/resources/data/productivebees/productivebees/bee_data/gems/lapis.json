@@ -1,0 +1,12 @@
+{
+  "attack": 1.0,
+  "flowerTag": "c:storage_blocks/lapis",
+  "particleColor": "#3537bc",
+  "particleType": "pop",
+  "primaryColor": "#2659ab",
+  "renderer": "default_crystal",
+  "secondaryColor": "#804f40",
+  "size": 0.8,
+  "tertiaryColor": "#1b3588",
+  "useGlowLayer": false
+}

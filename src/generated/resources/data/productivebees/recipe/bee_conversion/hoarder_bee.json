@@ -1,0 +1,6 @@
+{
+  "type": "productivebees:bee_conversion",
+  "item": "minecraft:shulker_shell",
+  "result": "productivebees:hoarder_bee",
+  "source": "productivebees:collector_bee"
+}

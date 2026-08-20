@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "oritech"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:lava"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:oritech/strange_matter"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "chance": 0.2,
+  "item": "oritech:still_strange_matter_bucket",
+  "result": "productivebees:oritech/strange_matter",
+  "source": "productivebees:lava"
+}

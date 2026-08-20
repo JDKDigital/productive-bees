@@ -1,0 +1,15 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "mysticalagriculture"
+    }
+  ],
+  "attack": 1.0,
+  "flowerBlock": "mysticalagriculture:soulium_block",
+  "particleColor": "#301b10",
+  "primaryColor": "#301b10",
+  "secondaryColor": "#804f40",
+  "size": 0.8,
+  "useGlowLayer": true
+}

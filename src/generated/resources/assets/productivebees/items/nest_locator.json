@@ -1,0 +1,237 @@
+{
+  "model": {
+    "type": "minecraft:range_dispatch",
+    "entries": [
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/17"
+        },
+        "threshold": 0.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/18"
+        },
+        "threshold": 1.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/19"
+        },
+        "threshold": 2.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/20"
+        },
+        "threshold": 3.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/21"
+        },
+        "threshold": 4.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/22"
+        },
+        "threshold": 5.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/23"
+        },
+        "threshold": 6.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/24"
+        },
+        "threshold": 7.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/25"
+        },
+        "threshold": 8.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/26"
+        },
+        "threshold": 9.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/27"
+        },
+        "threshold": 10.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/28"
+        },
+        "threshold": 11.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/29"
+        },
+        "threshold": 12.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/30"
+        },
+        "threshold": 13.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/31"
+        },
+        "threshold": 14.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/00"
+        },
+        "threshold": 15.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/01"
+        },
+        "threshold": 16.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/02"
+        },
+        "threshold": 17.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/03"
+        },
+        "threshold": 18.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/04"
+        },
+        "threshold": 19.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/05"
+        },
+        "threshold": 20.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/06"
+        },
+        "threshold": 21.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/07"
+        },
+        "threshold": 22.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/08"
+        },
+        "threshold": 23.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/09"
+        },
+        "threshold": 24.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/10"
+        },
+        "threshold": 25.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/11"
+        },
+        "threshold": 26.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/12"
+        },
+        "threshold": 27.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/13"
+        },
+        "threshold": 28.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/14"
+        },
+        "threshold": 29.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/15"
+        },
+        "threshold": 30.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "productivebees:item/nest_locator/16"
+        },
+        "threshold": 31.5
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "productivebees:item/nest_locator/16"
+    },
+    "property": "productivebees:nest_angle",
+    "scale": 32.0
+  }
+}

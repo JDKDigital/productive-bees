@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/iron"
+    }
+  ],
+  "type": "productivebees:block_conversion",
+  "bees": [
+    "productivebees:raw_materials/iron"
+  ],
+  "chance": 0.7,
+  "from": {
+    "Name": "minecraft:damaged_anvil"
+  },
+  "to": {
+    "Name": "minecraft:chipped_anvil"
+  }
+}

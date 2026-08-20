@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:function",
+  "environment": "productivebees:amber_melts_over_campfire_env",
+  "function": "productivebees:amber_melts_over_campfire",
+  "structure": "productivebees:empty_7x7",
+  "max_ticks": 1200,
+  "required": true,
+  "setup_ticks": 0
+}

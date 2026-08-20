@@ -1,5 +1,5 @@
 {
-  "type": "productivebees:sugar_cane_nest",
+  "type": "productivebees:nest",
   "config": {
     "targets": [
       {
@@ -11,6 +11,10 @@
           "Name": "productivebees:sugar_cane_nest"
         }
       }
-    ]
+    ],
+    "search": {
+      "type": "reed"
+    },
+    "config_key": "sugar_cane_nest"
   }
 }

@@ -7,7 +7,7 @@
   ],
   "type": "productivelib:container_contents_modifier",
   "addition": {
-    "type": "productivebees:component",
+    "neoforge:ingredient_type": "productivebees:component",
     "components": {
       "minecraft:entity_data": {
         "type": "productivebees:neptunium",
@@ -23,9 +23,9 @@
       "loot_table_id": "minecraft:gameplay/fishing"
     }
   ],
+  "priority": 0,
   "replace": false,
   "target": {
-    "count": 1,
     "id": "aquaculture:neptunes_bounty"
   }
 }

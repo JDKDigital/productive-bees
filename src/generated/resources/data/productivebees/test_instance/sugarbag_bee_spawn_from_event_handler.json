@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:function",
+  "environment": "productivebees:sugarbag_bee_spawn_from_event_handler_env",
+  "function": "productivebees:sugarbag_bee_spawn_from_event_handler",
+  "structure": "productivebees:empty_7x7",
+  "max_ticks": 100,
+  "required": true,
+  "setup_ticks": 0
+}

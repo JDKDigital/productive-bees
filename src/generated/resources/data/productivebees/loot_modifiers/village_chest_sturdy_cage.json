@@ -1,7 +1,6 @@
 {
   "type": "productivelib:item_modifier",
   "addition": {
-    "count": 1,
     "id": "productivebees:sturdy_bee_cage"
   },
   "chance": 0.2,
@@ -63,5 +62,6 @@
         }
       ]
     }
-  ]
+  ],
+  "priority": 0
 }

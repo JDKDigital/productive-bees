@@ -1,0 +1,303 @@
+{
+  "parent": "productivebees:husbandry/bee_cage/quartz_nest/catch_crystalline_bee/breed_iron_bee",
+  "criteria": {
+    "blazing_bee": {
+      "conditions": {
+        "child": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "productivebees:configurable_bee",
+              "nbt": "{type:\"productivebees:dusts/blazing\"}"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:bred_animals"
+    },
+    "coal_bee": {
+      "conditions": {
+        "child": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "productivebees:configurable_bee",
+              "nbt": "{type:\"productivebees:coal\"}"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:bred_animals"
+    },
+    "diamond_bee": {
+      "conditions": {
+        "child": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "productivebees:configurable_bee",
+              "nbt": "{type:\"productivebees:gems/diamond\"}"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:bred_animals"
+    },
+    "dye_bee": {
+      "conditions": {
+        "child": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "productivebees:dye_bee"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:bred_animals"
+    },
+    "emerald_bee": {
+      "conditions": {
+        "child": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "productivebees:configurable_bee",
+              "nbt": "{type:\"productivebees:gems/emerald\"}"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:bred_animals"
+    },
+    "experience_bee": {
+      "conditions": {
+        "child": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "productivebees:configurable_bee",
+              "nbt": "{type:\"productivebees:experience\"}"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:bred_animals"
+    },
+    "farmer_bee": {
+      "conditions": {
+        "child": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "productivebees:farmer_bee"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:bred_animals"
+    },
+    "frosty_bee": {
+      "conditions": {
+        "child": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "productivebees:configurable_bee",
+              "nbt": "{type:\"productivebees:frosty\"}"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:bred_animals"
+    },
+    "gold_bee": {
+      "conditions": {
+        "child": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "productivebees:configurable_bee",
+              "nbt": "{type:\"productivebees:raw_materials/gold\"}"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:bred_animals"
+    },
+    "iron_bee": {
+      "conditions": {
+        "child": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "productivebees:configurable_bee",
+              "nbt": "{type:\"productivebees:raw_materials/iron\"}"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:bred_animals"
+    },
+    "lapis_bee": {
+      "conditions": {
+        "child": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "productivebees:configurable_bee",
+              "nbt": "{type:\"productivebees:gems/lapis\"}"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:bred_animals"
+    },
+    "lumber_bee": {
+      "conditions": {
+        "child": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "productivebees:lumber_bee"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:bred_animals"
+    },
+    "obsidian_bee": {
+      "conditions": {
+        "child": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "productivebees:configurable_bee",
+              "nbt": "{type:\"productivebees:obsidian\"}"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:bred_animals"
+    },
+    "quarry_bee": {
+      "conditions": {
+        "child": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "productivebees:quarry_bee"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:bred_animals"
+    },
+    "rancher_bee": {
+      "conditions": {
+        "child": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "productivebees:rancher_bee"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:bred_animals"
+    },
+    "redstone_bee": {
+      "conditions": {
+        "child": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "productivebees:configurable_bee",
+              "nbt": "{type:\"productivebees:dusts/redstone\"}"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:bred_animals"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.husbandry.breed_all_productive_bees.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "id": "productivebees:adv_breed_all_bees"
+    },
+    "title": {
+      "translate": "advancements.husbandry.breed_all_productive_bees.title"
+    }
+  },
+  "requirements": [
+    [
+      "iron_bee"
+    ],
+    [
+      "gold_bee"
+    ],
+    [
+      "coal_bee"
+    ],
+    [
+      "redstone_bee"
+    ],
+    [
+      "lapis_bee"
+    ],
+    [
+      "diamond_bee"
+    ],
+    [
+      "emerald_bee"
+    ],
+    [
+      "blazing_bee"
+    ],
+    [
+      "obsidian_bee"
+    ],
+    [
+      "frosty_bee"
+    ],
+    [
+      "experience_bee"
+    ],
+    [
+      "dye_bee"
+    ],
+    [
+      "lumber_bee"
+    ],
+    [
+      "rancher_bee"
+    ],
+    [
+      "quarry_bee"
+    ],
+    [
+      "farmer_bee"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

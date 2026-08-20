@@ -1,5 +1,6 @@
 {
-    "parent": "neoforge:item/bucket_drip",
-    "loader": "neoforge:fluid_container",
-    "fluid": "productivebees:honey"
+    "parent": "minecraft:item/generated",
+    "textures": {
+        "layer0": "productivebees:item/honey_bucket"
+    }
 }

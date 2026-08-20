@@ -7,7 +7,7 @@
   "result": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:insanite",
+        "type": "productivebees:reactors/insanite",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -17,10 +17,10 @@
   "waste": {
     "count": 2,
     "ingredient": {
-      "type": "productivebees:component",
+      "neoforge:ingredient_type": "productivebees:component",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:benitoite_crystal",
+          "type": "productivebees:reactors/benitoite_crystal",
           "id": "productivebees:configurable_bee"
         }
       },
@@ -34,11 +34,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:insanite"
+      "bee": "productivebees:reactors/insanite"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:ridiculite"
+      "bee": "productivebees:reactors/ridiculite"
     }
   ]
 }

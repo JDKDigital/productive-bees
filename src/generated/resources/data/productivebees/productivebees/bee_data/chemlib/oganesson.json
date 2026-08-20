@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/oganesson/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerItem": "chemlib:oganesson",
+  "particleColor": "#9636a1",
+  "primaryColor": "#7f3190",
+  "selfbreed": false,
+  "size": 0.2,
+  "useGlowLayer": true
+}

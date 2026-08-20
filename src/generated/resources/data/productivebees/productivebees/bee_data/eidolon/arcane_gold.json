@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "eidolon"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/arcane_gold/bee",
+  "flowerBlock": "eidolon:arcane_gold_block",
+  "particleColor": "#f9e597",
+  "primaryColor": "#f2da7d",
+  "secondaryColor": "#a14f38",
+  "size": 0.8,
+  "tertiaryColor": "#7a3030",
+  "useGlowLayer": true
+}

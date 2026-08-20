@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "#c:storage_blocks/spinel",
+      "required": false
+    },
+    {
+      "id": "gemsnjewels:spinel_block",
+      "required": false
+    }
+  ]
+}

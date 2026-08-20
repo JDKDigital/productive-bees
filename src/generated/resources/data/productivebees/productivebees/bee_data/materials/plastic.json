@@ -1,0 +1,11 @@
+{
+  "attack": 1.0,
+  "attributes": {
+    "endurance": "endurance.weak"
+  },
+  "flowerTag": "c:plastics",
+  "primaryColor": "#d3d3d3",
+  "secondaryColor": "#535353",
+  "size": 0.7,
+  "useGlowLayer": true
+}

@@ -5,13 +5,14 @@ import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBee;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -24,7 +25,7 @@ public class ResinBee extends SolitaryBee
 {
     public PathfinderMob target = null;
 
-    public static Predicate<Entity> predicate = (entity -> entity instanceof PathfinderMob && !entity.getType().is(ModTags.BEE_ENCASE_BLACKLIST));
+    public static Predicate<Entity> predicate = (entity -> entity instanceof PathfinderMob && !BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(entity.getType()).is(ModTags.BEE_ENCASE_BLACKLIST));
 
     public ResinBee(EntityType<? extends Bee> entityType, Level world) {
         super(entityType, world);

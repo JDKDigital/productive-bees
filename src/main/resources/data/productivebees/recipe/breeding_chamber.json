@@ -6,15 +6,9 @@
     "III"
   ],
   "key": {
-    "H": {
-      "item": "productivelib:upgrade_child"
-    },
-    "I": {
-      "tag": "c:ingots/iron"
-    },
-    "D": {
-      "item": "minecraft:rose_bush"
-    }
+    "H": "productivelib:upgrade_child",
+    "I": "#c:ingots/iron",
+    "D": "minecraft:rose_bush"
   },
   "result": {
     "id": "productivebees:breeding_chamber"

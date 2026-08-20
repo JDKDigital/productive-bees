@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "eidolon"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/soul_shard/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "eidolon:shadow_gem_block",
+  "particleColor": "#ffbaba",
+  "primaryColor": "#6650b5",
+  "secondaryColor": "#e388dd",
+  "selfbreed": false,
+  "size": 0.5,
+  "tertiaryColor": "#57368f",
+  "useGlowLayer": true
+}

@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/berkelium/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerItem": "chemlib:berkelium",
+  "particleColor": "#d9d4d9",
+  "primaryColor": "#c4bec4",
+  "selfbreed": false,
+  "size": 0.5,
+  "useGlowLayer": true
+}

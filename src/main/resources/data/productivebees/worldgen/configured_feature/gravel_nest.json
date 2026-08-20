@@ -1,5 +1,5 @@
 {
-  "type": "productivebees:gravel_nest",
+  "type": "productivebees:nest",
   "config": {
     "targets": [
       {
@@ -11,6 +11,10 @@
           "Name": "productivebees:gravel_nest"
         }
       }
-    ]
+    ],
+    "search": {
+      "type": "surface"
+    },
+    "config_key": "gravel_nest"
   }
 }

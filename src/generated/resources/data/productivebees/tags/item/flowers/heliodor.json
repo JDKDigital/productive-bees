@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "#c:storage_blocks/heliodor",
+      "required": false
+    },
+    {
+      "id": "silentgems:heliodor_glowrose",
+      "required": false
+    }
+  ]
+}

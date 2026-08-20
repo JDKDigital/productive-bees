@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/dysprosium/bee",
+  "flowerBlock": "chemlib:dysprosium_metal_block",
+  "particleColor": "#9fcba4",
+  "primaryColor": "#8eb997",
+  "useGlowLayer": true
+}

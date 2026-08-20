@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "gobber2"
+    }
+  ],
+  "attack": 1.0,
+  "breedingItem": "gobber2:gobber2_glob_nether",
+  "flowerBlock": "gobber2:gobber2_block_nether",
+  "primaryColor": "#8f2c55",
+  "secondaryColor": "#fda155",
+  "selfbreed": false,
+  "size": 0.5,
+  "useGlowLayer": true
+}

@@ -1,24 +1,19 @@
 package cy.jdkdigital.productivebees.client.particle;
 
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.DripParticle;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
+import net.minecraft.util.RandomSource;
 
 import javax.annotation.Nonnull;
 
 public class RisingNectarParticle extends FallingNectarParticle
 {
-    private final Fluid type;
-
-    public RisingNectarParticle(ClientLevel world, double x, double y, double z, Fluid fluid) {
-        super(world, x, y, z, fluid);
-        this.lifetime = (int) (16.0D / (world.random.nextDouble() * 0.8D + 0.2D));
+    public RisingNectarParticle(ClientLevel level, double x, double y, double z, SpriteSet sprites) {
+        super(level, x, y, z, sprites);
+        this.lifetime = (int) (16.0D / (level.getRandom().nextDouble() * 0.8D + 0.2D));
         this.gravity = -0.007F;
-        this.type = fluid;
     }
 
     public static class RisingNectarFactory implements ParticleProvider<NectarParticleType>
@@ -30,19 +25,17 @@ public class RisingNectarParticle extends FallingNectarParticle
         }
 
         @Override
-        public Particle createParticle(@Nonnull NectarParticleType typeIn, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            DripParticle dripparticle = new RisingNectarParticle(world, x, y, z, Fluids.EMPTY);
+        public Particle createParticle(@Nonnull NectarParticleType typeIn, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, @Nonnull RandomSource random) {
+            RisingNectarParticle particle = new RisingNectarParticle(world, x, y, z, this.sprite);
 
             float[] colors = typeIn.getColor();
             if (colors != null) {
-                dripparticle.setColor(colors[0], colors[1], colors[2]);
+                particle.setColor(colors[0], colors[1], colors[2]);
             } else {
-                dripparticle.setColor(0.92F, 0.782F, 0.72F);
+                particle.setColor(0.92F, 0.782F, 0.72F);
             }
 
-            dripparticle.pickSprite(this.sprite);
-
-            return dripparticle;
+            return particle;
         }
     }
 }

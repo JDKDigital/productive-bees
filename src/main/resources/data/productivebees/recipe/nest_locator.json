@@ -6,15 +6,9 @@
     "GGG"
   ],
   "key": {
-    "I": {
-      "item": "minecraft:iron_bars"
-    },
-    "N": {
-      "item": "minecraft:note_block"
-    },
-    "G": {
-      "item": "minecraft:gold_nugget"
-    }
+    "I": "minecraft:iron_bars",
+    "N": "minecraft:note_block",
+    "G": "minecraft:gold_nugget"
   },
   "result": {
     "id": "productivebees:nest_locator"

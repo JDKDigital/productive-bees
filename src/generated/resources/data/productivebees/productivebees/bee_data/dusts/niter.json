@@ -1,0 +1,8 @@
+{
+  "attack": 1.0,
+  "flowerTag": "c:storage_blocks/niter",
+  "particleColor": "#e9edf3",
+  "primaryColor": "#e9edf3",
+  "renderer": "default_crystal",
+  "secondaryColor": "#836e73"
+}

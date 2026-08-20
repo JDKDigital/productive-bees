@@ -1,12 +1,10 @@
 {
   "type": "forbidden_arcanus:clibano_combustion",
+  "category": "misc",
   "cooking_time": 150,
   "experience": 1,
   "fire_type": "soul_fire",
-  "enhancer": "forbidden_arcanus:elementarium",
-  "ingredients": {
-    "item": "minecraft:bee_spawn_egg"
-  },
+  "ingredient": "minecraft:bee_spawn_egg",
   "residue": {
     "chance": 0.65,
     "type": "forbidden_arcanus:gold"
@@ -14,7 +12,7 @@
   "result": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:deorum",
+        "type": "productivebees:forbidden_arcanus/deorum",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -24,11 +22,11 @@
   "neoforge:conditions": [
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:gold"
+      "bee": "productivebees:raw_materials/gold"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:deorum"
+      "bee": "productivebees:forbidden_arcanus/deorum"
     },
     {
       "type": "neoforge:mod_loaded",

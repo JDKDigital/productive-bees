@@ -28,7 +28,7 @@ public final class ModPointOfInterestTypes
         return blocks;
     }, 1);
     
-    public static final DeferredHolder<PoiType, PoiType> SOLITARY_HIVE = register("solitary_hive", ModBlocks.BAMBOO_HIVE, 1);
+    public static final DeferredHolder<PoiType, PoiType> SOLITARY_HIVE = register("solitary_hive", ModBlocks.BAMBOO_NEST, 1);
     public static final DeferredHolder<PoiType, PoiType> SOLITARY_NEST = register("solitary_nest", () -> {
         List<DeferredHolder<Block, ? extends Block>> blocks = new ArrayList<>();
         blocks.add(ModBlocks.STONE_NEST);

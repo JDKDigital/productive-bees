@@ -1,0 +1,29 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "eternal_starlight"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:eternal_starlight/thermal"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:eternal_starlight/thermal"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "chance": 0.8,
+      "item": "eternal_starlight:thermal_springstone_ingot"
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

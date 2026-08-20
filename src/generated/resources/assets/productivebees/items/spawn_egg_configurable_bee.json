@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productivebees:item/template_spawn_egg",
+    "tints": [
+      {
+        "type": "productivebees:bee",
+        "colorKey": "primaryColor"
+      },
+      {
+        "type": "productivebees:bee",
+        "colorKey": "secondaryColor"
+      }
+    ]
+  }
+}

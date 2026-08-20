@@ -1,0 +1,15 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "powah"
+    }
+  ],
+  "attack": 1.0,
+  "flowerTag": "c:storage_blocks/uraninite",
+  "particleColor": "#7cfc00",
+  "primaryColor": "#00ff00",
+  "secondaryColor": "#008000",
+  "size": 0.8,
+  "useGlowLayer": true
+}

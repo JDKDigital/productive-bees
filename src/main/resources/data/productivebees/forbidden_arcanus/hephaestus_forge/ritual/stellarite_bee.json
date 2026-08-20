@@ -1,31 +1,26 @@
 {
-  "forge_tier": 3,
   "essences": {
     "aureal": 82,
     "blood": 1000,
-    "experience": 0,
-    "souls": 1
+    "ectoplasm": 1
   },
+  "forge_tier": 3,
   "inputs": [
     {
       "amount": 4,
-      "ingredient": {
-        "item": "forbidden_arcanus:xpetrified_orb"
-      }
+      "ingredient": "forbidden_arcanus:condensed_experience"
     },
     {
       "amount": 2,
-      "ingredient": {
-        "item": "forbidden_arcanus:eternal_stella"
-      }
+      "ingredient": "forbidden_arcanus:eternal_stella"
     }
   ],
   "magic_circle": "forbidden_arcanus:create_item",
   "main_ingredient": {
-    "type": "productivebees:component",
+    "neoforge:ingredient_type": "productivebees:component",
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:diamond",
+        "type": "productivebees:gems/diamond",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -36,7 +31,7 @@
     "result_item": {
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:stellarite",
+          "type": "productivebees:forbidden_arcanus/stellarite",
           "id": "productivebees:configurable_bee"
         }
       },

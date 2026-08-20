@@ -14,10 +14,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class GeneBottle extends Item
 {
@@ -51,12 +53,12 @@ public class GeneBottle extends Item
         var data = target.getData(ProductiveBees.ATTRIBUTE_HANDLER);
         for (GeneAttribute attribute: GeneAttribute.values()) {
             if (!attribute.equals(GeneAttribute.TYPE)) {
-                geneList.add(new GeneGroup(attribute, data.getAttributeValue(attribute).getSerializedName(), target.level().random.nextInt(40) + 15));
+                geneList.add(new GeneGroup(attribute, data.getAttributeValue(attribute).getSerializedName(), target.level().getRandom().nextInt(40) + 15));
             }
         }
 
         int typePurity = ProductiveBeesConfig.BEE_ATTRIBUTES.typeGenePurity.get();
-        geneList.add(new GeneGroup(GeneAttribute.TYPE, type, target.level().random.nextInt(Math.max(0, typePurity - 5)) + 10));
+        geneList.add(new GeneGroup(GeneAttribute.TYPE, type, target.level().getRandom().nextInt(Math.max(0, typePurity - 5)) + 10));
         stack.set(ModDataComponents.GENE_GROUP_LIST, geneList);
         stack.set(ModDataComponents.BEE_NAME, name);
     }
@@ -70,11 +72,11 @@ public class GeneBottle extends Item
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+        super.appendHoverText(stack, context, tooltipDisplay, tooltipComponents, tooltipFlag);
         if (stack.get(ModDataComponents.BEE_NAME) != null) {
-            tooltipComponents.add(Component.translatable("productivebees.gene_bottle.tooltip.bee", Component.literal(stack.get(ModDataComponents.BEE_NAME)).withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.DARK_GREEN));
-            tooltipComponents.add(Component.translatable("productivebees.gene_bottle.tooltip.use").withStyle(ChatFormatting.DARK_GREEN));
+            tooltipComponents.accept(Component.translatable("productivebees.gene_bottle.tooltip.bee", Component.literal(stack.get(ModDataComponents.BEE_NAME)).withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.DARK_GREEN));
+            tooltipComponents.accept(Component.translatable("productivebees.gene_bottle.tooltip.use").withStyle(ChatFormatting.DARK_GREEN));
         }
     }
 }

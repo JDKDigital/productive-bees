@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "gtceu"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/sheldonite/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/raw_cooperite",
+  "particleColor": "#e6fca5",
+  "primaryColor": "#4d4f2e",
+  "secondaryColor": "#d5e999",
+  "selfbreed": false,
+  "size": 0.8,
+  "tertiaryColor": "#8f9961",
+  "useGlowLayer": true
+}

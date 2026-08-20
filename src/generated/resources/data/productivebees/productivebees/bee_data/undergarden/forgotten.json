@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "undergarden"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/forgotten/bee",
+  "flowerBlock": "undergarden:forgotten_block",
+  "particleColor": "#7bffbd",
+  "primaryColor": "#2a695f",
+  "renderer": "default_shell",
+  "secondaryColor": "#57e3b3",
+  "size": 0.3,
+  "useGlowLayer": true
+}

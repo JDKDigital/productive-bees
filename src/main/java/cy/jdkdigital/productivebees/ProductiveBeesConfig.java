@@ -32,6 +32,7 @@ public class ProductiveBeesConfig
         public final ModConfigSpec.BooleanValue neverChristmas;
         public final ModConfigSpec.BooleanValue enableJokes;
         public final ModConfigSpec.BooleanValue renderEntitiesInAmber;
+        public final ModConfigSpec.BooleanValue simpleBeeIngredientRender;
 
         public Client(ModConfigSpec.Builder builder) {
             builder.push("Client");
@@ -63,6 +64,10 @@ public class ProductiveBeesConfig
             renderEntitiesInAmber = builder
                     .comment("Render entities inside amber blocks.")
                     .define("renderEntitiesInAmber", true);
+
+            simpleBeeIngredientRender = builder
+                    .comment("Render bees in JEI as filled bee cages instead of animated entities. Much cheaper for the FPS.")
+                    .define("simpleBeeIngredientRender", false);
 
             builder.pop();
         }
@@ -341,6 +346,7 @@ public class ProductiveBeesConfig
         public final ModConfigSpec.DoubleValue breedingChance;
         public final ModConfigSpec.IntValue breedingMaxNearbyEntities;
         public final ModConfigSpec.DoubleValue samplerChance;
+        public final ModConfigSpec.IntValue samplerPurity;
         public final ModConfigSpec.DoubleValue stabilityChanceIncrease;
 
         public Upgrades(ModConfigSpec.Builder builder) {
@@ -370,6 +376,9 @@ public class ProductiveBeesConfig
             samplerChance = builder
                     .comment("Chance for a gene sample to be taken from a bee after a hive visit.")
                     .defineInRange("samplerChance", 0.05, 0, 1);
+            samplerPurity = builder
+                    .comment("Maximum purity of a gene sample taken by a gene sampler upgrade. Resulting purity is between 1 and max inclusive.")
+                    .defineInRange("samplerPurity", 4, 1, 100);
             stabilityChanceIncrease = builder
                     .comment("Chance increase for centrifuge output that is not guaranteed.")
                     .defineInRange("stabilityChanceIncrease", 0.15, 0, 1);

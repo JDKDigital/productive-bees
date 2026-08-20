@@ -21,7 +21,7 @@ public class SugarbagNest extends BeehiveBlock
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.SUGARBAG_NEST.get(), SugarbagNestBlockEntity::tick);
+        return level.isClientSide() ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.SUGARBAG_NEST.get(), SugarbagNestBlockEntity::tick);
     }
 
     @Nullable

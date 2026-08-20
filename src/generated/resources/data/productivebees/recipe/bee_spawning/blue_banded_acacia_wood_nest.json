@@ -1,0 +1,8 @@
+{
+  "type": "productivebees:bee_spawning",
+  "biomes": "#c:is_overworld",
+  "ingredient": "productivebees:acacia_wood_nest",
+  "results": [
+    "productivebees:blue_banded_bee"
+  ]
+}

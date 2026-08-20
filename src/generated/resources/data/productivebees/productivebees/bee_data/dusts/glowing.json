@@ -1,0 +1,12 @@
+{
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/glowing/bee",
+  "blinding": true,
+  "flowerTag": "productivebees:flowers/glowing",
+  "nestingPreference": "productivebees:nests/glowstone_nests",
+  "particleColor": "#fad87d",
+  "primaryColor": "#fad87d",
+  "secondaryColor": "#5f2525",
+  "size": 0.9,
+  "useGlowLayer": true
+}

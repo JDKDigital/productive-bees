@@ -1,12 +1,7 @@
 package cy.jdkdigital.productivebees.client.render.entity.model;
 
-import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
-import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
-import net.minecraft.client.model.AgeableListModel;
-import net.minecraft.client.model.ModelUtils;
+import cy.jdkdigital.productivebees.client.render.entity.state.ProductiveBeeRenderState;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -15,7 +10,7 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 
-public class ProductiveBeeModel<T extends ProductiveBee> extends AgeableListModel<T>
+public class ProductiveBeeModel<S extends ProductiveBeeRenderState> extends EntityModel<S>
 {
     protected float FAKE_PI = 3.1415927F;
     public static final String BONE = "bone";
@@ -45,16 +40,10 @@ public class ProductiveBeeModel<T extends ProductiveBee> extends AgeableListMode
     protected ModelPart innards;
     protected ModelPart santaHat;
     protected PartialBeeModel partialModel;
-    protected float rollAmount;
-
-    public float beeSize = 1.0f;
+    protected float beeSize = 1.0f;
 
     public ProductiveBeeModel(ModelPart modelPart) {
-        this(modelPart, false, 24.0F, 0.0F);
-    }
-
-    public ProductiveBeeModel(ModelPart modelPart, boolean isChildHeadScaled, float childHeadOffsetY, float childHeadOffsetZ) {
-        super(isChildHeadScaled, childHeadOffsetY, childHeadOffsetZ);
+        super(modelPart);
 
         bone = modelPart.getChild(BONE);
         body = bone.getChild(BODY);
@@ -70,8 +59,15 @@ public class ProductiveBeeModel<T extends ProductiveBee> extends AgeableListMode
         innards = body.getChild(INNARDS);
         santaHat = body.getChild(SANTA_HAT);
     }
+
     public static LayerDefinition createBodyLayer() {
         return LayerDefinition.create(createMeshDefinition(), 64, 64);
+    }
+
+    public void hideSantaHat(boolean hide) {
+        if (santaHat != null) {
+            santaHat.visible = !hide;
+        }
     }
 
     protected static MeshDefinition createMeshDefinition() {
@@ -96,7 +92,7 @@ public class ProductiveBeeModel<T extends ProductiveBee> extends AgeableListMode
     }
 
     public ProductiveBeeModel(ModelPart modelPart, String modelType) {
-        this(modelPart, false, 24.0F, 0.0F);
+        this(modelPart);
 
         partialModel = switch (modelType) {
             case "thicc" -> new ThiccBeeModel(modelPart);
@@ -113,22 +109,16 @@ public class ProductiveBeeModel<T extends ProductiveBee> extends AgeableListMode
     }
 
     @Override
-    public void prepareMobModel(T entity, float limbSwing, float limbSwingAmount, float partialTicks) {
-        super.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTicks);
-        rollAmount = entity.getRollAmount(partialTicks);
-        stinger.visible = !entity.hasStung();
-        if (stinger.visible && entity instanceof ConfigurableBee && ((ConfigurableBee) entity).isStingless()) {
-            stinger.visible = false;
-        }
-    }
+    public void setupAnim(S state) {
+        super.setupAnim(state);
 
-    @Override
-    public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        stinger.visible = state.hasStinger && !state.isStingless;
+
         leftAntenna.xRot = 0.0F;
         rightAntenna.xRot = 0.0F;
         bone.xRot = 0.0F;
         bone.y = 19.0F;
-        boolean grounded = entity.onGround() && entity.getDeltaMovement().lengthSqr() < 1.0E-7D;
+        boolean grounded = state.isOnGround && state.deltaMovementSqr < 1.0E-7D;
         if (grounded) {
             setRotationAngle(rightWing, 0, -0.2618F, 0);
             setRotationAngle(leftWing, 0, 0.2618F, 0);
@@ -136,8 +126,7 @@ public class ProductiveBeeModel<T extends ProductiveBee> extends AgeableListMode
             middleLegs.xRot = 0.0F;
             backLegs.xRot = 0.0F;
         } else {
-            // maxSpeed - (sizeMod - minSize)/(magetXSize() - minSize) * (maxSpeed - minSpeed)
-            setRotationAngle(rightWing, 0, 0, Mth.cos(ageInTicks % 98000 * 2.1F) * FAKE_PI * 0.15F);
+            setRotationAngle(rightWing, 0, 0, Mth.cos(state.ageInTicks % 98000 * 2.1F) * FAKE_PI * 0.15F);
             setRotationAngle(leftWing, rightWing.xRot, rightWing.yRot, -rightWing.zRot);
             frontLegs.xRot = 0.7853982F;
             middleLegs.xRot = 0.7853982F;
@@ -145,56 +134,47 @@ public class ProductiveBeeModel<T extends ProductiveBee> extends AgeableListMode
             setRotationAngle(bone, 0, 0, 0);
         }
 
-        if (!entity.isAngry()) {
+        if (!state.isAngry) {
             bone.xRot = 0.0F;
             bone.yRot = 0.0F;
             bone.zRot = 0.0F;
             if (!grounded) {
-                float angle = Mth.cos(ageInTicks * 0.18F);
+                float angle = Mth.cos(state.ageInTicks * 0.18F);
                 bone.xRot = 0.1F + angle * FAKE_PI * 0.025F;
                 leftAntenna.xRot = angle * FAKE_PI * 0.03F;
                 rightAntenna.xRot = angle * FAKE_PI * 0.03F;
                 frontLegs.xRot = -angle * FAKE_PI * 0.1F + 0.3926991F;
-                if (!entity.getRenderer().equals("thicc")) {
+                if (!state.renderType.equals("thicc")) {
                     backLegs.xRot = -angle * FAKE_PI * 0.05F + 0.7853982F;
                 }
                 bone.y = 19.0F - angle * 0.9F;
             }
         }
 
-        if (rollAmount > 0.0F) {
-            bone.xRot = ModelUtils.rotlerpRad(bone.xRot, 3.0915928F, rollAmount);
+        if (state.rollAmount > 0.0F) {
+            bone.xRot = rotlerpRad(bone.xRot, 3.0915928F, state.rollAmount);
         }
 
-        beeSize = entity.getSizeModifier();
+        beeSize = state.sizeModifier;
 
-        if (young) {
+        if (state.isBaby) {
             beeSize /= 2;
         }
-    }
-
-    @Override
-    protected Iterable<ModelPart> headParts() {
-        return ImmutableList.of();
-    }
-
-    @Override
-    protected Iterable<ModelPart> bodyParts() {
-        return ImmutableList.of(bone);
-    }
-
-    @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer renderBuffer, int packedLightIn, int packedOverlayIn, int color) {
-        poseStack.pushPose();
-        poseStack.translate(0, 1.5 - beeSize * 1.5, 0);
-        poseStack.scale(beeSize, beeSize, beeSize);
-        super.renderToBuffer(poseStack, renderBuffer, packedLightIn, packedOverlayIn, color);
-        poseStack.popPose();
     }
 
     public void setRotationAngle(ModelPart modelRenderer, float x, float y, float z) {
         modelRenderer.xRot = x;
         modelRenderer.yRot = y;
         modelRenderer.zRot = z;
+    }
+
+    protected static float rotlerpRad(float current, float target, float amount) {
+        float delta = (target - current) % (Mth.PI * 2F);
+        if (delta < -Mth.PI) {
+            delta += Mth.PI * 2F;
+        } else if (delta >= Mth.PI) {
+            delta -= Mth.PI * 2F;
+        }
+        return current + amount * delta;
     }
 }

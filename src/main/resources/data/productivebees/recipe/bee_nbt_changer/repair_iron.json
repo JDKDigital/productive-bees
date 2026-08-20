@@ -1,34 +1,16 @@
 {
   "type": "productivebees:bee_nbt_changer",
-  "bee": "productivebees:iron",
+  "bee": "productivebees:raw_materials/iron",
   "item": [
-    {
-      "item": "minecraft:iron_sword"
-    },
-    {
-      "item": "minecraft:iron_axe"
-    },
-    {
-      "item": "minecraft:iron_hoe"
-    },
-    {
-      "item": "minecraft:iron_pickaxe"
-    },
-    {
-      "item": "minecraft:iron_sword"
-    },
-    {
-      "item": "minecraft:iron_helmet"
-    },
-    {
-      "item": "minecraft:iron_chestplate"
-    },
-    {
-      "item": "minecraft:iron_leggings"
-    },
-    {
-      "item": "minecraft:iron_boots"
-    }
+    "minecraft:iron_sword",
+    "minecraft:iron_axe",
+    "minecraft:iron_hoe",
+    "minecraft:iron_pickaxe",
+    "minecraft:iron_sword",
+    "minecraft:iron_helmet",
+    "minecraft:iron_chestplate",
+    "minecraft:iron_leggings",
+    "minecraft:iron_boots"
   ],
   "attribute": "Damage",
   "method": "decrement",
@@ -37,7 +19,7 @@
   "neoforge:conditions": [
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:iron"
+      "bee": "productivebees:raw_materials/iron"
     }
   ]
 }

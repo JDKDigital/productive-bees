@@ -5,11 +5,12 @@ import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.compat.harvest.HarvestCompatHandler;
 import cy.jdkdigital.productivelib.registry.LibItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
@@ -47,8 +48,8 @@ public class FarmerBee extends ProductiveBee
     }
 
     @Override
-    public boolean isInvulnerableTo(DamageSource source) {
-        return source.equals(this.level().damageSources().cactus()) || super.isInvulnerableTo(source);
+    public boolean isInvulnerableTo(ServerLevel serverLevel, DamageSource source) {
+        return source.equals(this.level().damageSources().cactus()) || super.isInvulnerableTo(serverLevel, source);
     }
 
     public List<BlockPos> findHarvestablesNearby(BlockPos pos, int distance) {
@@ -63,7 +64,7 @@ public class FarmerBee extends ProductiveBee
     }
 
     public static boolean isCropValid(Level level, BlockPos blockPos) {
-        return blockPos != null && HarvestCompatHandler.isCropValid(level, blockPos);
+        return HarvestCompatHandler.isCropValid(level, blockPos);
     }
 
     public class HarvestCropGoal extends Goal
@@ -194,8 +195,6 @@ public class FarmerBee extends ProductiveBee
     }
 
     public void harvestBlock(BlockPos pos) {
-        if (pos != null) {
-            HarvestCompatHandler.harvestBlock(this.level(), pos);
-        }
+        HarvestCompatHandler.harvestBlock(level(), pos);
     }
 }

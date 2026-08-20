@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "neovitae"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:neovitae/hematophagous"
+    }
+  ],
+  "type": "neovitae:ara_vitae_recipe",
+  "bloodNeeded": 5000,
+  "craftSpeed": 30,
+  "drainSpeed": 50,
+  "input": "productivebees:spawn_egg_nomad_bee",
+  "minTier": 1,
+  "output": {
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:neovitae/hematophagous",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "id": "productivebees:spawn_egg_configurable_bee"
+  }
+}

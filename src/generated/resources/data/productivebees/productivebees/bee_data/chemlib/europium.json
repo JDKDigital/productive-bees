@@ -1,0 +1,15 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/europium/bee",
+  "flowerBlock": "chemlib:europium_metal_block",
+  "particleColor": "#e2d91e",
+  "primaryColor": "#6067d3",
+  "size": 0.8,
+  "useGlowLayer": true
+}

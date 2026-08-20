@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "oritech"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/adamant/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "oritech:adamant",
+  "particleColor": "#affdfe",
+  "primaryColor": "#7bebfe",
+  "secondaryColor": "#4ebbfd",
+  "tertiaryColor": "#4ea3cb",
+  "useGlowLayer": true
+}

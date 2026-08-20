@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "l2hostility"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/miracle/bee",
+  "flowerBlock": "l2hostility:miracle_block",
+  "particleColor": "#ffffe0",
+  "primaryColor": "#412fbf",
+  "secondaryColor": "#56c693",
+  "selfbreed": false,
+  "size": 0.6,
+  "useGlowLayer": true
+}

@@ -1,12 +1,8 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "minecraft:honey_block"
-    },
-    {
-      "item": "minecraft:bucket"
-    }
+    "minecraft:honey_block",
+    "minecraft:bucket"
   ],
   "result": {
     "id": "productivebees:honey_bucket"

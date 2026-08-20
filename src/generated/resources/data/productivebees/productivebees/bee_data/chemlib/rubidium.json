@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/rubidium/bee",
+  "flowerBlock": "chemlib:rubidium_metal_block",
+  "particleColor": "#e2afcb",
+  "primaryColor": "#d89abe",
+  "useGlowLayer": true
+}

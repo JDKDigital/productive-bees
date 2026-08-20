@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "gtceu"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/neodymium/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/neodymium",
+  "particleColor": "#ab9d9a",
+  "primaryColor": "#998784",
+  "selfbreed": false,
+  "size": 0.8,
+  "useGlowLayer": true
+}

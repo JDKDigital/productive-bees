@@ -1,5 +1,5 @@
 {
-  "type": "productivebees:nether_fortress_nest",
+  "type": "productivebees:nest",
   "config": {
     "targets": [
       {
@@ -11,6 +11,11 @@
           "Name": "productivebees:nether_brick_nest"
         }
       }
-    ]
+    ],
+    "search": {
+      "type": "structure",
+      "offset_span": 35
+    },
+    "config_key": "nether_brick_nest"
   }
 }

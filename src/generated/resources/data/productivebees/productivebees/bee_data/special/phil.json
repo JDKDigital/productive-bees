@@ -1,0 +1,12 @@
+{
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/phil/bee",
+  "createComb": false,
+  "flowerBlock": "minecraft:air",
+  "particleColor": "#ff8d80",
+  "primaryColor": "#ffefff",
+  "renderer": "elvis",
+  "secondaryColor": "#c3434c",
+  "size": 0.4,
+  "useGlowLayer": true
+}

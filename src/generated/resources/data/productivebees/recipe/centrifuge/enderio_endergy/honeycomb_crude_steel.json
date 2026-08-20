@@ -1,0 +1,30 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "enderio_endergy"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:enderio_endergy/crude_steel"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:enderio_endergy/crude_steel"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": "enderio_endergy:crude_steel_nugget",
+      "max": 8,
+      "min": 6
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

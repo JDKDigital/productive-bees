@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productivebees:item/expansion_box_biomesoplenty_fir",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -5003380
+      },
+      {
+        "type": "minecraft:constant",
+        "value": -1
+      }
+    ]
+  }
+}

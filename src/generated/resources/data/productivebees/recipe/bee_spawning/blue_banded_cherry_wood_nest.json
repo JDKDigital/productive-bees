@@ -1,0 +1,8 @@
+{
+  "type": "productivebees:bee_spawning",
+  "biomes": "#c:is_overworld",
+  "ingredient": "productivebees:cherry_wood_nest",
+  "results": [
+    "productivebees:blue_banded_bee"
+  ]
+}

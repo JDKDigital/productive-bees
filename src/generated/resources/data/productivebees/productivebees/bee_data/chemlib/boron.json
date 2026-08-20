@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/boron/bee",
+  "flowerItem": "chemlib:boron",
+  "particleColor": "#f2f24f",
+  "primaryColor": "#4a4340",
+  "useGlowLayer": true
+}

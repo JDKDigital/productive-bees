@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/silicium/bee",
+  "flowerItem": "chemlib:silicon",
+  "particleColor": "#d6d5dc",
+  "primaryColor": "#9a9aa2",
+  "useGlowLayer": true
+}

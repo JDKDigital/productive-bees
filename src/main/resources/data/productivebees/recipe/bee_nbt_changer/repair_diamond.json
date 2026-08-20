@@ -1,34 +1,16 @@
 {
   "type": "productivebees:bee_nbt_changer",
-  "bee": "productivebees:diamond",
+  "bee": "productivebees:gems/diamond",
   "item": [
-    {
-      "item": "minecraft:diamond_sword"
-    },
-    {
-      "item": "minecraft:diamond_axe"
-    },
-    {
-      "item": "minecraft:diamond_hoe"
-    },
-    {
-      "item": "minecraft:diamond_pickaxe"
-    },
-    {
-      "item": "minecraft:diamond_sword"
-    },
-    {
-      "item": "minecraft:diamond_helmet"
-    },
-    {
-      "item": "minecraft:diamond_chestplate"
-    },
-    {
-      "item": "minecraft:diamond_leggings"
-    },
-    {
-      "item": "minecraft:diamond_boots"
-    }
+    "minecraft:diamond_sword",
+    "minecraft:diamond_axe",
+    "minecraft:diamond_hoe",
+    "minecraft:diamond_pickaxe",
+    "minecraft:diamond_sword",
+    "minecraft:diamond_helmet",
+    "minecraft:diamond_chestplate",
+    "minecraft:diamond_leggings",
+    "minecraft:diamond_boots"
   ],
   "attribute": "Damage",
   "method": "decrement",
@@ -37,7 +19,7 @@
   "neoforge:conditions": [
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:diamond"
+      "bee": "productivebees:gems/diamond"
     }
   ]
 }

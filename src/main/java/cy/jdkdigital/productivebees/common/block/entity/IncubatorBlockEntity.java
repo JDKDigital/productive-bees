@@ -18,15 +18,14 @@ import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.common.block.entity.IUpgradeableBlockEntity;
 import cy.jdkdigital.productivelib.registry.LibItems;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -36,10 +35,14 @@ import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.energy.EnergyStorage;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -50,7 +53,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
     public int recipeProgress = 0;
     public boolean isRunning = false;
 
-    public IItemHandlerModifiable inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(3, this)
+    public InventoryHandlerHelper.BlockEntityItemStackHandler inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(3, this)
     {
         @Override
         public boolean isInputSlotItem(int slot, ItemStack item) {
@@ -65,12 +68,12 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
         isRunning = running;
     }
 
-    protected IItemHandlerModifiable upgradeHandler = new InventoryHandlerHelper.UpgradeHandler(4, this, List.of(
+    protected InventoryHandlerHelper.UpgradeHandler upgradeHandler = new InventoryHandlerHelper.UpgradeHandler(4, this, List.of(
             LibItems.UPGRADE_TIME.get(),
             LibItems.UPGRADE_TIME_2.get()
     ));
 
-    public EnergyStorage energyHandler = new EnergyStorage(10000);
+    public SimpleEnergyHandler energyHandler = new SimpleEnergyHandler(10000);
 
     public IncubatorBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.INCUBATOR.get(), pos, state);
@@ -101,7 +104,10 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
 
     public static void tick(Level level, BlockPos pos, BlockState state, IncubatorBlockEntity blockEntity) {
         if (blockEntity.isRunning && level instanceof ServerLevel) {
-            blockEntity.energyHandler.extractEnergy((int) (ProductiveBeesConfig.GENERAL.incubatorPowerUse.get() * blockEntity.getEnergyConsumptionModifier()), false);
+            try (Transaction tx = Transaction.openRoot()) {
+                blockEntity.energyHandler.extract((int) (ProductiveBeesConfig.GENERAL.incubatorPowerUse.get() * blockEntity.getEnergyConsumptionModifier()), tx);
+                tx.commit();
+            }
         }
         if (!blockEntity.inventoryHandler.getStackInSlot(0).isEmpty()) {
             // Process incubation
@@ -109,7 +115,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
                 blockEntity.setRunning(true);
                 int totalTime = blockEntity.getProcessingTime(null);
 
-                if (blockEntity.recipeProgress >= totalTime && blockEntity.completeIncubation(blockEntity.inventoryHandler, level.random)) {
+                if (blockEntity.recipeProgress >= totalTime && blockEntity.completeIncubation(blockEntity.inventoryHandler, level.getRandom())) {
                     blockEntity.recipeProgress = 0;
                     blockEntity.setChanged();
                 } else {
@@ -131,8 +137,8 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
     /**
      * Three things can be processed here, babees to adults, eggs to spawn eggs and applying genes
      */
-    private boolean canProcessInput(IItemHandlerModifiable invHandler) {
-        int energy = energyHandler.getEnergyStored();
+    private boolean canProcessInput(InventoryHandlerHelper.BlockEntityItemStackHandler invHandler) {
+        int energy = energyHandler.getAmountAsInt();
         ItemStack inItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_INPUT);
         ItemStack treatItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_CATALYST);
 
@@ -148,7 +154,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
                 );
     }
 
-    private boolean completeIncubation(IItemHandlerModifiable invHandler, RandomSource random) {
+    private boolean completeIncubation(InventoryHandlerHelper.BlockEntityItemStackHandler invHandler, RandomSource random) {
         if (canProcessInput(invHandler)) {
             ItemStack inItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_INPUT);
             ItemStack catalystItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_CATALYST);
@@ -176,7 +182,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
                     resultItem = inItem.copy();
                     resultItem.setCount(1);
                     resultItem.set(DataComponents.CUSTOM_DATA, CustomData.of(nbt));
-                    shrinkCatalyst = ProductiveBeesConfig.GENERAL.incubatorTreatUse.get();
+                    shrinkCatalyst = ProductiveBeesConfig.GENERAL.incubatorTreatUse.get().intValue();
                 }
             } else if (eggProcessing) {
                 try {
@@ -185,13 +191,13 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
                         GeneAttribute geneAttribute = geneGroup.attribute();
                         if (geneAttribute.equals(GeneAttribute.TYPE)) {
                             if (random.nextInt(100) <= geneGroup.purity()) {
-                                ItemStack egg = BeeCreator.getSpawnEgg(ResourceLocation.parse(geneGroup.value()));
+                                ItemStack egg = BeeCreator.getSpawnEgg(Identifier.parse(geneGroup.value()));
                                 if (egg.getItem() instanceof SpawnEggItem) {
                                     resultItem = egg;
                                 }
                             } else {
-                                inItem.shrink(shrinkInput);
-                                catalystItem.shrink(1);
+                                invHandler.extractItem(IncubatorContainer.SLOT_INPUT, shrinkInput, false, false);
+                                invHandler.extractItem(IncubatorContainer.SLOT_CATALYST, 1, false, false);
                             }
                         }
                     }
@@ -204,10 +210,12 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
                 if (outItem.isEmpty()) {
                     invHandler.setStackInSlot(IncubatorContainer.SLOT_OUTPUT, resultItem);
                 } else {
-                    outItem.grow(resultItem.getCount());
+                    ItemStack combined = outItem.copy();
+                    combined.grow(resultItem.getCount());
+                    invHandler.setStackInSlot(IncubatorContainer.SLOT_OUTPUT, combined);
                 }
-                inItem.shrink(shrinkInput);
-                catalystItem.shrink(shrinkCatalyst);
+                invHandler.extractItem(IncubatorContainer.SLOT_INPUT, shrinkInput, false, false);
+                invHandler.extractItem(IncubatorContainer.SLOT_CATALYST, shrinkCatalyst, false, false);
             }
             return true;
         }
@@ -215,7 +223,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
     }
 
     @Override
-    public IItemHandlerModifiable getUpgradeHandler() {
+    public ResourceHandler<ItemResource> getUpgradeHandler() {
         return upgradeHandler;
     }
 
@@ -226,17 +234,17 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
     }
 
     @Override
-    public void loadPacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
-        super.loadPacketNBT(tag, provider);
+    public void loadPacketNBT(ValueInput input) {
+        super.loadPacketNBT(input);
 
-        recipeProgress = tag.getInt("RecipeProgress");
+        recipeProgress = input.getIntOr("RecipeProgress", 0);
     }
 
     @Override
-    public void savePacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
-        super.savePacketNBT(tag, provider);
+    public void savePacketNBT(ValueOutput output) {
+        super.savePacketNBT(output);
 
-        tag.putInt("RecipeProgress", recipeProgress);
+        output.putInt("RecipeProgress", recipeProgress);
     }
 
     @Nonnull
@@ -257,12 +265,12 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
     }
 
     @Override
-    public IItemHandler getItemHandler() {
+    public ResourceHandler<ItemResource> getItemHandler() {
         return inventoryHandler;
     }
 
     @Override
-    public EnergyStorage getEnergyHandler() {
+    public EnergyHandler getEnergyHandler() {
         return energyHandler;
     }
 }

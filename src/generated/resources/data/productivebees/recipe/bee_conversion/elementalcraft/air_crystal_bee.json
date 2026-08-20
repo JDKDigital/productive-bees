@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "elementalcraft"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:elementalcraft/inert_crystal"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:elementalcraft/air_crystal"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "elementalcraft:aircrystal_block",
+  "result": "productivebees:elementalcraft/air_crystal",
+  "source": "productivebees:elementalcraft/inert_crystal"
+}

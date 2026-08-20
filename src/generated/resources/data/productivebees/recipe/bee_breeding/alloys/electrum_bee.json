@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/gold"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/silver"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:alloys/electrum"
+    },
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "productivemetalworks"
+      }
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:alloys/electrum",
+  "parent1": "productivebees:raw_materials/gold",
+  "parent2": "productivebees:raw_materials/silver"
+}

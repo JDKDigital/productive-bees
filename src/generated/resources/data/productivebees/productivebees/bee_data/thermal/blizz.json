@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/blizz/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "productivebees:flowers/frozen",
+  "particleColor": "#8cdeff",
+  "primaryColor": "#1d7cf1",
+  "renderer": "elvis",
+  "secondaryColor": "#ffffff",
+  "useGlowLayer": true
+}

@@ -1,0 +1,13 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": "productivebees:honeycomb_ghostly",
+  "outputs": [
+    {
+      "chance": 0.05,
+      "item": "minecraft:ghast_tear"
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

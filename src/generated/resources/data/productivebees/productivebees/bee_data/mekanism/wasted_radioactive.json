@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "mekanism"
+    }
+  ],
+  "attack": 1.0,
+  "flowerItem": "mekanism:pellet_antimatter",
+  "irradiated": true,
+  "particleColor": "#80b425",
+  "particleType": "pop",
+  "primaryColor": "#80b425",
+  "secondaryColor": "#bb8d23",
+  "selfbreed": false,
+  "useGlowLayer": true
+}

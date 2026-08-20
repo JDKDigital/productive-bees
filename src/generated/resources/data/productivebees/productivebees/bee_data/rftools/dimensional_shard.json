@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "rftoolsbase"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/dimensional_shard/bee",
+  "flowerBlock": "rftoolsbase:dimensionalshard_overworld",
+  "particleColor": "#ebfcfa",
+  "primaryColor": "#c1fcfa",
+  "renderer": "default_crystal",
+  "secondaryColor": "#5ea8a6",
+  "size": 0.7,
+  "tertiaryColor": "#218887"
+}

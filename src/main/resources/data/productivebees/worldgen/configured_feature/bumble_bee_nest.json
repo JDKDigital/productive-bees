@@ -1,5 +1,5 @@
 {
-  "type": "productivebees:bumble_bee_nest",
+  "type": "productivebees:nest",
   "config": {
     "targets": [
       {
@@ -11,6 +11,10 @@
           "Name": "productivebees:bumble_bee_nest"
         }
       }
-    ]
+    ],
+    "search": {
+      "type": "surface"
+    },
+    "config_key": "bumble_bee_nest"
   }
 }

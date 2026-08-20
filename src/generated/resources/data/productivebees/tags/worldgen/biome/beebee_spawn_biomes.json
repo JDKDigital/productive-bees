@@ -1,0 +1,20 @@
+{
+  "values": [
+    {
+      "id": "allthemodium:soul_sand_valley",
+      "required": false
+    },
+    {
+      "id": "allthemodium:desert_hills",
+      "required": false
+    },
+    {
+      "id": "allthemodium:desert",
+      "required": false
+    },
+    {
+      "id": "allthemodium:the_other",
+      "required": false
+    }
+  ]
+}

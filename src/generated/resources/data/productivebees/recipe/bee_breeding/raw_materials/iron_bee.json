@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gems/crystalline"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/iron"
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:raw_materials/iron",
+  "parent1": "productivebees:gems/crystalline",
+  "parent2": "productivebees:ashy_mining_bee"
+}

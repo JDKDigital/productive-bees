@@ -3,11 +3,18 @@ package cy.jdkdigital.productivebees.client.render.block;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.math.Axis;
+import cy.jdkdigital.productivebees.client.render.block.state.FeederRenderState;
 import cy.jdkdigital.productivebees.common.block.entity.FeederBlockEntity;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.BlockModelResolver;
+import net.minecraft.client.renderer.block.model.BlockDisplayContext;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.item.ItemModelResolver;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -16,18 +23,17 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.SlabType;
+import net.minecraft.world.phys.Vec3;
+import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper.BlockEntityItemStackHandler;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class FeederBlockEntityRenderer implements BlockEntityRenderer<FeederBlockEntity>
+public class FeederBlockEntityRenderer implements BlockEntityRenderer<FeederBlockEntity, FeederRenderState>
 {
     public static final HashMap<Integer, List<Pair<Float, Float>>> POSITIONS = new HashMap<>()
     {{
@@ -51,69 +57,90 @@ public class FeederBlockEntityRenderer implements BlockEntityRenderer<FeederBloc
         }});
     }};
 
+    private static final BlockDisplayContext SLAB_DISPLAY_CONTEXT = BlockDisplayContext.create();
+
+    private final ItemModelResolver itemModelResolver;
+    private final BlockModelResolver blockModelResolver;
+
     public FeederBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
+        this.itemModelResolver = context.itemModelResolver();
+        this.blockModelResolver = context.blockModelResolver();
     }
 
-    public void render(FeederBlockEntity blockEntity, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
-        SlabType slabType = blockEntity.getBlockState().getValue(SlabBlock.TYPE);
+    @Override
+    public FeederRenderState createRenderState() {
+        return new FeederRenderState();
+    }
 
-        if (blockEntity.getLevel() != null) {
-            IItemHandler invHandler = blockEntity.getLevel().getCapability(Capabilities.ItemHandler.BLOCK, blockEntity.getBlockPos(), null);
-            if (invHandler instanceof ItemStackHandler) {
+    @Override
+    public void extractRenderState(FeederBlockEntity be, FeederRenderState state, float partialTick, @Nonnull Vec3 cameraPos, ModelFeatureRenderer.CrumblingOverlay crumbling) {
+        BlockEntityRenderState.extractBase(be, state, crumbling);
+
+        state.slabType = be.getBlockState().getValue(SlabBlock.TYPE);
+        Direction facing = be.getBlockState().getValue(HorizontalDirectionalBlock.FACING);
+        state.facingAngle = switch (facing) {
+            case NORTH -> 180f;
+            case EAST -> 90f;
+            case WEST -> 270f;
+            default -> 0f;
+        };
+
+        state.slots.clear();
+        if (be.getLevel() != null) {
+            var invHandler = be.getLevel().getCapability(Capabilities.Item.BLOCK, be.getBlockPos(), null);
+            if (invHandler instanceof BlockEntityItemStackHandler stackHandler) {
                 List<ItemStack> filledSlots = new ArrayList<>();
-                for (int slot = 0; slot < invHandler.getSlots(); ++slot) {
-                    var stack = invHandler.getStackInSlot(slot);
+                for (int slot = 0; slot < stackHandler.size(); ++slot) {
+                    var stack = stackHandler.getStackInSlot(slot);
                     if (!stack.isEmpty()) {
                         filledSlots.add(stack);
                     }
                 }
 
                 if (!filledSlots.isEmpty()) {
-                    for (int slot = 0; slot < Math.min(3, invHandler.getSlots()); ++slot) {
-                        ItemStack slotStack = invHandler.getStackInSlot(slot);
+                    for (int slot = 0; slot < Math.min(3, stackHandler.size()); ++slot) {
+                        ItemStack slotStack = stackHandler.getStackInSlot(slot);
+                        if (slotStack.isEmpty()) continue;
 
-                        if (slotStack.isEmpty()) {
-                            continue;
-                        }
-
-                        boolean isFlower = slotStack.is(ItemTags.FLOWERS);
-                        Pair<Float, Float> pos = POSITIONS.get(Math.min(3, filledSlots.size())).get(slot);
-                        float rotation = isFlower ? 90F : 35.0F * slot;
-                        float scale = isFlower ? 0.775F : 0.575F;
-
-                        Direction facing = blockEntity.getBlockState().getValue(HorizontalDirectionalBlock.FACING);
-                        var angle = 0f;
-                        if (facing == Direction.NORTH) {
-                            angle = 180f;
-                        } else if (facing == Direction.EAST) {
-                            angle = 90f;
-                        } else if (facing == Direction.WEST) {
-                            angle = 270f;
-                        }
-
-                        poseStack.pushPose();
-                        poseStack.translate(pos.getFirst(), 0.52D + (slabType.equals(SlabType.TOP) || slabType.equals(SlabType.DOUBLE) ? 0.5d : 0) + (slot * 0.01f), pos.getSecond());
-                        poseStack.mulPose(Axis.YP.rotationDegrees(angle));
-                        poseStack.mulPose(Axis.XP.rotationDegrees(rotation));
-                        poseStack.scale(scale, scale, scale);
-                        Minecraft.getInstance().getItemRenderer().renderStatic(slotStack, ItemDisplayContext.FIXED, combinedLightIn, combinedOverlayIn, poseStack, bufferIn, blockEntity.getLevel(), 0);
-                        poseStack.popPose();
+                        FeederRenderState.Slot slotState = new FeederRenderState.Slot();
+                        slotState.isFlower = slotStack.is(ItemTags.FLOWERS);
+                        slotState.position = POSITIONS.get(Math.min(3, filledSlots.size())).get(slot);
+                        slotState.slotIndex = slot;
+                        this.itemModelResolver.updateForTopItem(slotState.stackState, slotStack, ItemDisplayContext.FIXED, be.getLevel(), null, 0);
+                        state.slots.add(slotState);
                     }
                 }
             }
         }
 
         BlockState slabState;
-        if (blockEntity.baseBlock != null) {
-            slabState = blockEntity.baseBlock.defaultBlockState();
+        if (be.baseBlock != null) {
+            slabState = be.baseBlock.defaultBlockState();
         } else {
             slabState = Blocks.SMOOTH_STONE_SLAB.defaultBlockState();
         }
-
         if (slabState.getBlock() instanceof SlabBlock) {
-            slabState = slabState.setValue(SlabBlock.TYPE, blockEntity.getBlockState().getValue(SlabBlock.TYPE)).setValue(SlabBlock.TYPE, slabType);
+            slabState = slabState.setValue(SlabBlock.TYPE, state.slabType);
         }
+        state.slabState = slabState;
+        this.blockModelResolver.update(state.slabModelState, slabState, SLAB_DISPLAY_CONTEXT);
+    }
 
-        Minecraft.getInstance().getBlockRenderer().renderSingleBlock(slabState, poseStack, bufferIn, combinedLightIn, combinedOverlayIn);
+    @Override
+    public void submit(FeederRenderState state, @Nonnull PoseStack poseStack, @Nonnull SubmitNodeCollector collector, @Nonnull CameraRenderState cameraState) {
+        state.slabModelState.submit(poseStack, collector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+
+        for (FeederRenderState.Slot slot : state.slots) {
+            float rotation = slot.isFlower ? 90F : 35.0F * slot.slotIndex;
+            float scale = slot.isFlower ? 0.775F : 0.575F;
+
+            poseStack.pushPose();
+            poseStack.translate(slot.position.getFirst(), 0.52D + (state.slabType.equals(SlabType.TOP) || state.slabType.equals(SlabType.DOUBLE) ? 0.5d : 0) + (slot.slotIndex * 0.01f), slot.position.getSecond());
+            poseStack.mulPose(Axis.YP.rotationDegrees(state.facingAngle));
+            poseStack.mulPose(Axis.XP.rotationDegrees(rotation));
+            poseStack.scale(scale, scale, scale);
+            slot.stackState.submit(poseStack, collector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+            poseStack.popPose();
+        }
     }
 }

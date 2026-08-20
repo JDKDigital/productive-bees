@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModAdvancements;
 import cy.jdkdigital.productivebees.init.ModDataComponents;
 import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.util.BeeHelper;
 import cy.jdkdigital.productivebees.util.ColorUtil;
 import cy.jdkdigital.productivebees.util.GeneAttribute;
 import cy.jdkdigital.productivebees.util.GeneGroup;
@@ -13,20 +14,22 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class HoneyTreat extends Item
 {
@@ -91,7 +94,7 @@ public class HoneyTreat extends Item
         for (GeneGroup geneGroup : geneGroups) {
             int purity = geneGroup.purity();
 
-            if (level.random.nextInt(100) <= purity) {
+            if (level.getRandom().nextInt(100) <= purity) {
                 data.setAttributeValue(geneGroup.attribute(), GeneValue.byName(geneGroup.value()));
                 level.levelEvent(2005, bee.blockPosition(), 0);
             }
@@ -101,7 +104,7 @@ public class HoneyTreat extends Item
 
     @Override
     public InteractionResult interactLivingEntity(ItemStack itemStack, Player player, LivingEntity target, InteractionHand hand) {
-        Level level = target.getCommandSenderWorld();
+        Level level = target.level();
         if (level.isClientSide() || !(target instanceof Bee bee) || !target.isAlive()) {
             return InteractionResult.PASS;
         }
@@ -111,7 +114,7 @@ public class HoneyTreat extends Item
         }
 
         // Stop agro
-        bee.setRemainingPersistentAngerTime(0);
+        bee.setPersistentAngerEndTime(0);
         // Allow entering hive
         bee.setStayOutOfHiveCountdown(0);
         // Heal
@@ -133,7 +136,7 @@ public class HoneyTreat extends Item
                 var data = bee.getData(ProductiveBees.ATTRIBUTE_HANDLER);
                 var temper = data.getAttributeValue(GeneAttribute.TEMPER);
                 if (temper.getValue() > 0) {
-                    if (player.level().random.nextFloat() < 0.05F) {
+                    if (player.level().getRandom().nextFloat() < 0.05F) {
                         data.setAttributeValue(GeneAttribute.TEMPER, GeneValue.nextTemper(temper));
                         bee.setData(ProductiveBees.ATTRIBUTE_HANDLER, data);
                     }
@@ -150,17 +153,17 @@ public class HoneyTreat extends Item
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
-        super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
+    public void appendHoverText(ItemStack pStack, TooltipContext pContext, TooltipDisplay tooltipDisplay, Consumer<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
+        super.appendHoverText(pStack, pContext, tooltipDisplay, pTooltipComponents, pTooltipFlag);
 
         var geneGroups = pStack.get(ModDataComponents.GENE_GROUP_LIST);
         if (geneGroups != null) {
             geneGroups.forEach(geneGroup -> {
                 if (!geneGroup.attribute().equals(GeneAttribute.TYPE)) {
                     Component translatedValue = Component.translatable("productivebees.information.attribute." + geneGroup.value()).withStyle(ColorUtil.getAttributeColor(GeneValue.byName(geneGroup.value())));
-                    pTooltipComponents.add((Component.translatable("productivebees.information.attribute." + geneGroup.attribute().getSerializedName(), translatedValue)).withStyle(ChatFormatting.DARK_GRAY).append(" (" + geneGroup.purity() + "%)"));
+                    pTooltipComponents.accept((Component.translatable("productivebees.information.attribute." + geneGroup.attribute().getSerializedName(), translatedValue)).withStyle(ChatFormatting.DARK_GRAY).append(" (" + geneGroup.purity() + "%)"));
                 } else {
-                    pTooltipComponents.add((Component.translatable("productivebees.information.attribute.type", LangUtil.capName(ResourceLocation.parse(geneGroup.value()).getPath()))).withStyle(ChatFormatting.GOLD).append(" (" + geneGroup.purity() + "%)"));
+                    pTooltipComponents.accept((Component.translatable("productivebees.information.attribute.type", BeeHelper.beeName(Identifier.parse(geneGroup.value())))).withStyle(ChatFormatting.GOLD).append(" (" + geneGroup.purity() + "%)"));
                 }
             });
         }

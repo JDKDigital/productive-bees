@@ -1,0 +1,11 @@
+{
+  "attack": 1.0,
+  "breedingItem": "minecraft:brown_mushroom",
+  "flowerBlock": "minecraft:brown_mushroom",
+  "particleColor": "#724a2f",
+  "primaryColor": "#724a2f",
+  "renderer": "default_foliage",
+  "secondaryColor": "#3c2617",
+  "size": 0.5,
+  "useGlowLayer": true
+}

@@ -9,7 +9,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -28,7 +28,7 @@ public class BeeBombEntity extends ThrowableItemProjectile
     }
 
     public BeeBombEntity(Level world, LivingEntity entity) {
-        super(ModEntities.BEE_BOMB.get(), entity, world);
+        super(ModEntities.BEE_BOMB.get(), entity, world, new ItemStack(ModItems.BEE_BOMB.get()));
     }
 
     @Nonnull
@@ -40,7 +40,7 @@ public class BeeBombEntity extends ThrowableItemProjectile
     @Override
     protected void onHit(@Nonnull HitResult result) {
         super.onHit(result);
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             BlockPos blockPos = null;
             Entity entity = null;
             if (result.getType() == HitResult.Type.BLOCK) {

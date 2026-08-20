@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/sodium/bee",
+  "flowerBlock": "chemlib:sodium_metal_block",
+  "particleColor": "#f6e5b2",
+  "primaryColor": "#e8d7a6",
+  "useGlowLayer": true
+}

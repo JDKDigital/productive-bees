@@ -6,9 +6,10 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
+import cy.jdkdigital.productivebees.setup.BeeRegistries;
 import cy.jdkdigital.productivebees.util.BeeHelper;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
@@ -21,6 +22,22 @@ import java.util.function.Supplier;
 
 public class BeeConversionRecipe implements Recipe<RecipeInput>
 {
+    public static final MapCodec<BeeConversionRecipe> MAP_CODEC = RecordCodecBuilder.mapCodec(
+            builder -> builder.group(
+                            BeeIngredient.CODEC.fieldOf("source").forGetter(recipe -> recipe.source),
+                            BeeIngredient.CODEC.fieldOf("result").forGetter(recipe -> recipe.result),
+                            Ingredient.CODEC.fieldOf("item").forGetter(recipe -> recipe.item),
+                            Codec.FLOAT.fieldOf("chance").orElse(1f).forGetter(recipe -> recipe.chance)
+                    )
+                    .apply(builder, BeeConversionRecipe::new)
+    );
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, BeeConversionRecipe> STREAM_CODEC = StreamCodec.of(
+            BeeConversionRecipe::toNetwork, BeeConversionRecipe::fromNetwork
+    );
+
+    public static final RecipeSerializer<BeeConversionRecipe> SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
+
     public final Supplier<BeeIngredient> source;
     public final Supplier<BeeIngredient> result;
     public final Ingredient item;
@@ -36,19 +53,19 @@ public class BeeConversionRecipe implements Recipe<RecipeInput>
     @Override
     public boolean matches(RecipeInput inv, Level worldIn) {
         if (inv instanceof BeeHelper.IdentifierInventory && source.get() != null) {
-            String beeName = ((BeeHelper.IdentifierInventory) inv).getIdentifier(0);
+            Identifier beeId = BeeRegistries.resolveId(Identifier.parse(((BeeHelper.IdentifierInventory) inv).getIdentifier(0)));
             String itemName = ((BeeHelper.IdentifierInventory) inv).getIdentifier(1);
 
-            String parentName = source.get().getBeeType().toString();
+            Identifier parentId = BeeRegistries.resolveId(source.get().getBeeType());
 
             boolean matchesItem = false;
-            for (ItemStack stack : this.item.getItems()) {
-                if (BuiltInRegistries.ITEM.getKey(stack.getItem()).toString().equals(itemName)) {
+            for (var holder : this.item.items().toList()) {
+                if (BuiltInRegistries.ITEM.getKey(holder.value()).toString().equals(itemName)) {
                     matchesItem = true;
                 }
             }
 
-            return parentName.equals(beeName) && matchesItem;
+            return parentId.equals(beeId) && matchesItem;
         }
         return false;
     }
@@ -60,80 +77,60 @@ public class BeeConversionRecipe implements Recipe<RecipeInput>
 
     @Nonnull
     @Override
-    public ItemStack assemble(RecipeInput inv, HolderLookup.Provider pRegistries) {
+    public ItemStack assemble(RecipeInput inv) {
         return ItemStack.EMPTY;
     }
 
     @Override
-    public boolean canCraftInDimensions(int width, int height) {
-        return false;
+    public RecipeSerializer<BeeConversionRecipe> getSerializer() {
+        return SERIALIZER;
     }
 
-    @Nonnull
     @Override
-    public ItemStack getResultItem(HolderLookup.Provider pRegistries) {
-        return ItemStack.EMPTY;
-    }
-
-    @Nonnull
-    @Override
-    public RecipeSerializer<?> getSerializer() {
-        return ModRecipeTypes.BEE_CONVERSION.get();
-    }
-
-    @Nonnull
-    @Override
-    public RecipeType<?> getType() {
+    public RecipeType<BeeConversionRecipe> getType() {
         return ModRecipeTypes.BEE_CONVERSION_TYPE.get();
     }
 
-    public static class Serializer implements RecipeSerializer<BeeConversionRecipe>
-    {
-        private static final MapCodec<BeeConversionRecipe> CODEC = RecordCodecBuilder.mapCodec(
-                builder -> builder.group(
-                                BeeIngredient.CODEC.fieldOf("source").forGetter(recipe -> recipe.source),
-                                BeeIngredient.CODEC.fieldOf("result").forGetter(recipe -> recipe.result),
-                                Ingredient.CODEC.fieldOf("item").forGetter(recipe -> recipe.item),
-                                Codec.FLOAT.fieldOf("chance").orElse(1f).forGetter(recipe -> recipe.chance)
-                        )
-                        .apply(builder, BeeConversionRecipe::new)
-        );
+    @Override
+    public String group() {
+        return "";
+    }
 
-        public static final StreamCodec<RegistryFriendlyByteBuf, BeeConversionRecipe> STREAM_CODEC = StreamCodec.of(
-                BeeConversionRecipe.Serializer::toNetwork, BeeConversionRecipe.Serializer::fromNetwork
-        );
+    @Override
+    public boolean showNotification() {
+        return true;
+    }
 
-        @Override
-        public MapCodec<BeeConversionRecipe> codec() {
-            return CODEC;
+    @Override
+    public PlacementInfo placementInfo() {
+        return PlacementInfo.NOT_PLACEABLE;
+    }
+
+    @Override
+    public RecipeBookCategory recipeBookCategory() {
+        return RecipeBookCategories.CRAFTING_MISC;
+    }
+
+    public static BeeConversionRecipe fromNetwork(@Nonnull RegistryFriendlyByteBuf buffer) {
+        try {
+            BeeIngredient source = BeeIngredient.fromNetwork(buffer);
+            BeeIngredient result = BeeIngredient.fromNetwork(buffer);
+            return new BeeConversionRecipe(Lazy.of(() -> source), Lazy.of(() -> result), Ingredient.CONTENTS_STREAM_CODEC.decode(buffer), buffer.readFloat());
+        } catch (Exception e) {
+            ProductiveBees.LOGGER.error("Error reading bee conversion recipe from packet.", e);
+            throw e;
         }
+    }
 
-        @Override
-        public StreamCodec<RegistryFriendlyByteBuf, BeeConversionRecipe> streamCodec() {
-            return STREAM_CODEC;
-        }
-
-        public static BeeConversionRecipe fromNetwork(@Nonnull RegistryFriendlyByteBuf buffer) {
-            try {
-                BeeIngredient source = BeeIngredient.fromNetwork(buffer);
-                BeeIngredient result = BeeIngredient.fromNetwork(buffer);
-                return new BeeConversionRecipe(Lazy.of(() -> source), Lazy.of(() -> result), Ingredient.CONTENTS_STREAM_CODEC.decode(buffer), buffer.readFloat());
-            } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error reading bee conversion recipe from packet.", e);
-                throw e;
-            }
-        }
-
-        public static void toNetwork(@Nonnull RegistryFriendlyByteBuf buffer, BeeConversionRecipe recipe) {
-            try {
-                recipe.source.get().toNetwork(buffer);
-                recipe.result.get().toNetwork(buffer);
-                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.item);
-                buffer.writeFloat(recipe.chance);
-            } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error writing bee conversion recipe to packet.", e);
-                throw e;
-            }
+    public static void toNetwork(@Nonnull RegistryFriendlyByteBuf buffer, BeeConversionRecipe recipe) {
+        try {
+            recipe.source.get().toNetwork(buffer);
+            recipe.result.get().toNetwork(buffer);
+            Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.item);
+            buffer.writeFloat(recipe.chance);
+        } catch (Exception e) {
+            ProductiveBees.LOGGER.error("Error writing bee conversion recipe to packet.", e);
+            throw e;
         }
     }
 }

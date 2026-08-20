@@ -1,0 +1,10 @@
+{
+  "attack": 1.0,
+  "flowerTag": "productivebees:flowers/emerald",
+  "particleColor": "#26ac43",
+  "primaryColor": "#26ac43",
+  "renderer": "default_crystal",
+  "secondaryColor": "#804f40",
+  "size": 0.6,
+  "tertiaryColor": "#1b752f"
+}

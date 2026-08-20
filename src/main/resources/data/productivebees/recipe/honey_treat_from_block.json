@@ -1,21 +1,11 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "minecraft:honey_block"
-    },
-    {
-      "item": "minecraft:honeycomb"
-    },
-    {
-      "item": "minecraft:honeycomb"
-    },
-    {
-      "item": "minecraft:honeycomb"
-    },
-    {
-      "item": "minecraft:honeycomb"
-    }
+    "minecraft:honey_block",
+    "minecraft:honeycomb",
+    "minecraft:honeycomb",
+    "minecraft:honeycomb",
+    "minecraft:honeycomb"
   ],
   "result": {
     "id": "productivebees:honey_treat",

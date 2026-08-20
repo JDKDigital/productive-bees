@@ -2,10 +2,10 @@
   "type": "thermal:smelter",
   "ingredients": [
     {
-      "type": "productivebees:component",
+      "neoforge:ingredient_type": "productivebees:component",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:gold",
+          "type": "productivebees:raw_materials/gold",
           "id": "productivebees:configurable_bee"
         }
       },
@@ -13,12 +13,8 @@
     },
     {
       "value": [
-        {
-          "tag": "c:ingots/copper"
-        },
-        {
-          "tag": "c:dusts/copper"
-        }
+        "#c:ingots/copper",
+        "#c:dusts/copper"
       ],
       "count": 8
     }
@@ -26,7 +22,7 @@
   "result": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:rose_gold",
+        "type": "productivebees:tconstruct/rose_gold",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -41,11 +37,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:gold"
+      "bee": "productivebees:raw_materials/gold"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:rose_gold"
+      "bee": "productivebees:tconstruct/rose_gold"
     }
   ]
 }

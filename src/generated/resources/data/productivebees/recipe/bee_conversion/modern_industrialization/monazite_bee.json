@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "modern_industrialization"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:dusts/sulfur"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:modern_industrialization/monazite"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "item": "modern_industrialization:monazite_block",
+  "result": "productivebees:modern_industrialization/monazite",
+  "source": "productivebees:dusts/sulfur"
+}

@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/scandium/bee",
+  "flowerBlock": "chemlib:scandium_metal_block",
+  "particleColor": "#dedbd0",
+  "primaryColor": "#d5d3ca",
+  "useGlowLayer": true
+}

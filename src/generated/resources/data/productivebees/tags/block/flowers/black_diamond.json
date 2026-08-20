@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "#c:storage_blocks/black_diamond",
+      "required": false
+    },
+    {
+      "id": "silentgems:black_diamond_glowrose",
+      "required": false
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ender"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:coal"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/tungsten"
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:raw_materials/tungsten",
+  "parent1": "productivebees:ender",
+  "parent2": "productivebees:coal"
+}

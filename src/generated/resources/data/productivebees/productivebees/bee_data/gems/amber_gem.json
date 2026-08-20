@@ -1,0 +1,10 @@
+{
+  "attack": 1.0,
+  "flowerTag": "productivebees:flowers/amber",
+  "particleColor": "#fa9310",
+  "primaryColor": "#fa9310",
+  "renderer": "default_crystal",
+  "secondaryColor": "#064f2c",
+  "size": 0.7,
+  "tertiaryColor": "#d4700e"
+}

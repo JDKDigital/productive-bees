@@ -5,27 +5,25 @@
     {
       "count": 1,
       "ingredient": {
+        "neoforge:ingredient_type": "productivebees:component",
+        "items": "productivebees:spawn_egg_configurable_bee",
         "components": {
           "minecraft:entity_data": {
-            "type": "productivebees:oxygen",
+            "type": "productivebees:chemlib/oxygen",
             "id": "productivebees:configurable_bee"
           }
-        },
-        "count": 1,
-        "id": "productivebees:spawn_egg_configurable_bee"
+        }
       }
     },
     {
       "count": 16,
-      "ingredient": {
-        "item": "chemlib:helium"
-      }
+      "ingredient": "chemlib:helium"
     }
   ],
   "result": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:helium",
+        "type": "productivebees:chemlib/helium",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -39,11 +37,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:oxygen"
+      "bee": "productivebees:chemlib/oxygen"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:helium"
+      "bee": "productivebees:chemlib/helium"
     }
   ]
 }

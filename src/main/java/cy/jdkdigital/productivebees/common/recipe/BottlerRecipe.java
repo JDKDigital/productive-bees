@@ -4,10 +4,10 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -17,14 +17,38 @@ import javax.annotation.Nonnull;
 
 public class BottlerRecipe implements Recipe<RecipeInput>
 {
+    public static final MapCodec<BottlerRecipe> MAP_CODEC = RecordCodecBuilder.mapCodec(
+        builder -> builder.group(
+            SizedFluidIngredient.CODEC.fieldOf("fluid").forGetter(recipe -> recipe.fluidInput),
+            Ingredient.CODEC.fieldOf("ingredient").forGetter(recipe -> recipe.itemInput),
+            ItemStackTemplate.CODEC.fieldOf("result").forGetter(recipe -> recipe.resultTemplate)
+        )
+        .apply(builder, BottlerRecipe::new)
+    );
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, BottlerRecipe> STREAM_CODEC = StreamCodec.of(
+            BottlerRecipe::toNetwork, BottlerRecipe::fromNetwork
+    );
+
+    public static final RecipeSerializer<BottlerRecipe> SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
+
     public final SizedFluidIngredient fluidInput;
     public final Ingredient itemInput;
-    public final ItemStack result;
+    public final ItemStackTemplate resultTemplate;
 
-    public BottlerRecipe(SizedFluidIngredient fluidInput, Ingredient itemInput, ItemStack result) {
+    private ItemStack resultCache;
+
+    public BottlerRecipe(SizedFluidIngredient fluidInput, Ingredient itemInput, ItemStackTemplate resultTemplate) {
         this.fluidInput = fluidInput;
         this.itemInput = itemInput;
-        this.result = result;
+        this.resultTemplate = resultTemplate;
+    }
+
+    public ItemStack getResult() {
+        if (resultCache == null) {
+            resultCache = resultTemplate.create();
+        }
+        return resultCache;
     }
 
     public boolean matches(FluidStack fluid, ItemStack inputStack) {
@@ -51,76 +75,57 @@ public class BottlerRecipe implements Recipe<RecipeInput>
 
     @Nonnull
     @Override
-    public ItemStack assemble(RecipeInput inv, HolderLookup.Provider pRegistries) {
+    public ItemStack assemble(RecipeInput inv) {
         return ItemStack.EMPTY;
     }
 
     @Override
-    public boolean canCraftInDimensions(int width, int height) {
-        return false;
+    public RecipeSerializer<BottlerRecipe> getSerializer() {
+        return SERIALIZER;
     }
 
-    @Nonnull
     @Override
-    public ItemStack getResultItem(HolderLookup.Provider pRegistries) {
-        return this.result;
-    }
-
-    @Nonnull
-    @Override
-    public RecipeSerializer<?> getSerializer() {
-        return ModRecipeTypes.BOTTLER.get();
-    }
-
-    @Nonnull
-    @Override
-    public RecipeType<?> getType() {
+    public RecipeType<BottlerRecipe> getType() {
         return ModRecipeTypes.BOTTLER_TYPE.get();
     }
 
-    public static class Serializer implements RecipeSerializer<BottlerRecipe>
-    {
-        private static final MapCodec<BottlerRecipe> CODEC = RecordCodecBuilder.mapCodec(
-            builder -> builder.group(
-                SizedFluidIngredient.FLAT_CODEC.fieldOf("fluid").forGetter(recipe -> recipe.fluidInput),
-                Ingredient.CODEC.fieldOf("ingredient").forGetter(recipe -> recipe.itemInput),
-                ItemStack.CODEC.fieldOf("result").forGetter(recipe -> recipe.result)
-            )
-            .apply(builder, BottlerRecipe::new)
-        );
+    @Override
+    public String group() {
+        return "";
+    }
 
-        public static final StreamCodec<RegistryFriendlyByteBuf, BottlerRecipe> STREAM_CODEC = StreamCodec.of(
-                BottlerRecipe.Serializer::toNetwork, BottlerRecipe.Serializer::fromNetwork
-        );
+    @Override
+    public boolean showNotification() {
+        return true;
+    }
 
-        @Override
-        public MapCodec<BottlerRecipe> codec() {
-            return CODEC;
+    @Override
+    public PlacementInfo placementInfo() {
+        return PlacementInfo.NOT_PLACEABLE;
+    }
+
+    @Override
+    public RecipeBookCategory recipeBookCategory() {
+        return RecipeBookCategories.CRAFTING_MISC;
+    }
+
+    public static BottlerRecipe fromNetwork(@Nonnull RegistryFriendlyByteBuf buffer) {
+        try {
+            return new BottlerRecipe(SizedFluidIngredient.STREAM_CODEC.decode(buffer), Ingredient.CONTENTS_STREAM_CODEC.decode(buffer), ItemStackTemplate.STREAM_CODEC.decode(buffer));
+        } catch (Exception e) {
+            ProductiveBees.LOGGER.error("Error reading bottler recipe from packet.", e);
+            throw e;
         }
+    }
 
-        @Override
-        public StreamCodec<RegistryFriendlyByteBuf, BottlerRecipe> streamCodec() {
-            return STREAM_CODEC;
-        }
-
-        public static BottlerRecipe fromNetwork(@Nonnull RegistryFriendlyByteBuf buffer) {
-            try {
-                return new BottlerRecipe(SizedFluidIngredient.STREAM_CODEC.decode(buffer), Ingredient.CONTENTS_STREAM_CODEC.decode(buffer), ItemStack.STREAM_CODEC.decode(buffer));
-            } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error reading bottler recipe from packet.", e);
-                throw e;
-            }
-        }
-
-        public static void toNetwork(@Nonnull RegistryFriendlyByteBuf buffer, BottlerRecipe recipe) {
-            try {
-                SizedFluidIngredient.STREAM_CODEC.encode(buffer, recipe.fluidInput);
-                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.itemInput);
-                ItemStack.STREAM_CODEC.encode(buffer, recipe.result);
-            } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error writing bottler recipe to packet.", e);
-                throw e;
-            }
+    public static void toNetwork(@Nonnull RegistryFriendlyByteBuf buffer, BottlerRecipe recipe) {
+        try {
+            SizedFluidIngredient.STREAM_CODEC.encode(buffer, recipe.fluidInput);
+            Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.itemInput);
+            ItemStackTemplate.STREAM_CODEC.encode(buffer, recipe.resultTemplate);
+        } catch (Exception e) {
+            ProductiveBees.LOGGER.error("Error writing bottler recipe to packet.", e);
+            throw e;
         }
     }
 }

@@ -6,18 +6,10 @@
     "RBR"
   ],
   "key": {
-    "R": {
-      "tag": "c:dusts/redstone"
-    },
-    "I": {
-      "tag": "c:ingots/iron"
-    },
-    "B": {
-      "item": "mekanism:basic_control_circuit"
-    },
-    "C": {
-      "item": "productivebees:centrifuge"
-    }
+    "R": "#c:dusts/redstone",
+    "I": "#c:ingots/iron",
+    "B": "mekanism:basic_control_circuit",
+    "C": "productivebees:centrifuge"
   },
   "result": {
     "id": "productivebees:powered_centrifuge"

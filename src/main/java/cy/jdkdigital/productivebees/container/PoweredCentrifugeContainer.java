@@ -7,6 +7,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
 
 import java.util.Objects;
 
@@ -24,16 +25,13 @@ public class PoweredCentrifugeContainer<T extends CentrifugeBlockEntity> extends
         {
             @Override
             public int get() {
-                return blockEntity.getEnergyHandler().getEnergyStored();
+                return blockEntity.getEnergyHandler().getAmountAsInt();
             }
 
             @Override
             public void set(int value) {
-                if (blockEntity.getEnergyHandler().getEnergyStored() > 0) {
-                    blockEntity.getEnergyHandler().extractEnergy(blockEntity.getEnergyHandler().getEnergyStored(), false);
-                }
-                if (value > 0) {
-                    blockEntity.getEnergyHandler().receiveEnergy(value, false);
+                if (blockEntity.getEnergyHandler() instanceof SimpleEnergyHandler seh) {
+                    seh.set(Math.max(0, value));
                 }
             }
         });

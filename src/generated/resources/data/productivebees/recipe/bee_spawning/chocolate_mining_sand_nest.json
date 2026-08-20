@@ -1,0 +1,8 @@
+{
+  "type": "productivebees:bee_spawning",
+  "biomes": "#c:is_sandy",
+  "ingredient": "productivebees:sand_nest",
+  "results": [
+    "productivebees:chocolate_mining_bee"
+  ]
+}

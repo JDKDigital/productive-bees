@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "byg"
+    }
+  ],
+  "attack": 1.0,
+  "flowerBlock": "byg:emeraldite_ore",
+  "particleColor": "#26ac43",
+  "primaryColor": "#26ac43",
+  "renderer": "default_crystal",
+  "secondaryColor": "#804f40",
+  "size": 0.8,
+  "tertiaryColor": "#1b752f"
+}

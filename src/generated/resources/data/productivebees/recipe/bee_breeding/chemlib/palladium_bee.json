@@ -1,0 +1,24 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/copper"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/nickel"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:chemlib/palladium"
+    },
+    {
+      "type": "neoforge:tag_empty",
+      "tag": "c:raw_materials/palladium"
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:chemlib/palladium",
+  "parent1": "productivebees:raw_materials/copper",
+  "parent2": "productivebees:raw_materials/nickel"
+}

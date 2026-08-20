@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:alloys/steel"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:alloys/bronze"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/mithril"
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:raw_materials/mithril",
+  "parent1": "productivebees:alloys/steel",
+  "parent2": "productivebees:alloys/bronze"
+}

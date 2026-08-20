@@ -3,7 +3,7 @@
   "cast": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:gold",
+        "type": "productivebees:raw_materials/gold",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -17,9 +17,10 @@
   },
   "result": {
     "id": "productivebees:spawn_egg_configurable_bee",
-    "nbt": {
-      "EntityTag": {
-        "type": "productivebees:queens_slime"
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:tconstruct/queens_slime",
+        "id": "productivebees:configurable_bee"
       }
     }
   },
@@ -31,11 +32,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:gold"
+      "bee": "productivebees:raw_materials/gold"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:queens_slime"
+      "bee": "productivebees:tconstruct/queens_slime"
     }
   ]
 }

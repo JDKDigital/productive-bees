@@ -1,5 +1,5 @@
 {
-  "type": "productivebees:sand_nest",
+  "type": "productivebees:nest",
   "config": {
     "targets": [
       {
@@ -11,6 +11,10 @@
           "Name": "productivebees:sand_nest"
         }
       }
-    ]
+    ],
+    "search": {
+      "type": "surface"
+    },
+    "config_key": "sand_nest"
   }
 }

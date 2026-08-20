@@ -6,9 +6,7 @@
     "DDD"
   ],
   "key": {
-    "D": {
-      "item": "productivebees:obsidian_shard"
-    }
+    "D": "productivebees:obsidian_shard"
   },
   "result": {
     "id": "minecraft:obsidian"

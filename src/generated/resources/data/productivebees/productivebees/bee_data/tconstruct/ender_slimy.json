@@ -1,0 +1,11 @@
+{
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/ender_slimy/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "minecraft:flowers",
+  "particleColor": "#d17bfc",
+  "primaryColor": "#d17bfc",
+  "renderer": "translucent_with_center",
+  "secondaryColor": "#6200ae",
+  "useGlowLayer": true
+}

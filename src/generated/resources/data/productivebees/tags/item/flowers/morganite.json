@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "#c:storage_blocks/morganite",
+      "required": false
+    },
+    {
+      "id": "gemsnjewels:morganite_block",
+      "required": false
+    }
+  ]
+}

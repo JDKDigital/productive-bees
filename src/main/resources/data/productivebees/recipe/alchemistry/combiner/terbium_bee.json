@@ -5,27 +5,25 @@
     {
       "count": 1,
       "ingredient": {
+        "neoforge:ingredient_type": "productivebees:component",
+        "items": "productivebees:spawn_egg_configurable_bee",
         "components": {
           "minecraft:entity_data": {
-            "type": "productivebees:yttrium",
+            "type": "productivebees:chemlib/yttrium",
             "id": "productivebees:configurable_bee"
           }
-        },
-        "count": 1,
-        "id": "productivebees:spawn_egg_configurable_bee"
+        }
       }
     },
     {
       "count": 8,
-      "ingredient": {
-        "item": "chemlib:uranium"
-      }
+      "ingredient": "chemlib:uranium"
     }
   ],
   "result": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:terbium",
+        "type": "productivebees:chemlib/terbium",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -39,11 +37,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:yttrium"
+      "bee": "productivebees:chemlib/yttrium"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:terbium"
+      "bee": "productivebees:chemlib/terbium"
     }
   ]
 }

@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "elementalcraft"
+    }
+  ],
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/swift_alloy",
+  "particleColor": "#ebb760",
+  "primaryColor": "#ebb760",
+  "secondaryColor": "#c58114",
+  "selfbreed": false,
+  "size": 0.6,
+  "useGlowLayer": true
+}

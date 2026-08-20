@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/ytterbium/bee",
+  "flowerBlock": "chemlib:ytterbium_metal_block",
+  "particleColor": "#dfd9c5",
+  "primaryColor": "#d6d3c9",
+  "useGlowLayer": true
+}

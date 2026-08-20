@@ -1,0 +1,11 @@
+{
+  "attack": 1.0,
+  "attackResponse": "fire",
+  "beeTexture": "productivebees:textures/entity/bee/blazing/bee",
+  "fireproof": true,
+  "flowerTag": "productivebees:flowers/fiery",
+  "particleColor": "#fcd979",
+  "particleType": "lava",
+  "primaryColor": "#fcd979",
+  "useGlowLayer": true
+}

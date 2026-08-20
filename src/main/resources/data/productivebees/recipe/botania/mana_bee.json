@@ -2,36 +2,26 @@
   "type": "botania:runic_altar",
   "ingredients": [
     {
-      "type": "productivebees:component",
+      "neoforge:ingredient_type": "productivebees:component",
       "components": {
         "minecraft:entity_data": {
-          "type": "productivebees:pure",
+          "type": "productivebees:botania/pure",
           "id": "productivebees:configurable_bee"
         }
       },
       "items": "productivebees:spawn_egg_configurable_bee"
     },
-    {
-      "item": "botania:rune_mana"
-    },
-    {
-      "item": "botania:rune_mana"
-    },
-    {
-      "item": "botania:rune_mana"
-    },
-    {
-      "item": "botania:rune_mana"
-    },
-    {
-      "item": "botania:rune_greed"
-    }
+    "botania:rune_mana",
+    "botania:rune_mana",
+    "botania:rune_mana",
+    "botania:rune_mana",
+    "botania:rune_greed"
   ],
   "mana": 100000,
   "output": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:mana",
+        "type": "productivebees:botania/mana",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -45,11 +35,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:pure"
+      "bee": "productivebees:botania/pure"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:mana"
+      "bee": "productivebees:botania/mana"
     }
   ]
 }

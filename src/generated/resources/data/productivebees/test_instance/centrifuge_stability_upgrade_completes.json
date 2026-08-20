@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:function",
+  "environment": "productivebees:centrifuge_stability_upgrade_completes_env",
+  "function": "productivebees:centrifuge_stability_upgrade_completes",
+  "structure": "productivebees:empty_7x7",
+  "max_ticks": 600,
+  "required": true,
+  "setup_ticks": 0
+}

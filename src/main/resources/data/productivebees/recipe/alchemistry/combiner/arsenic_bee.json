@@ -5,27 +5,25 @@
     {
       "count": 1,
       "ingredient": {
+        "neoforge:ingredient_type": "productivebees:component",
+        "items": "productivebees:spawn_egg_configurable_bee",
         "components": {
           "minecraft:entity_data": {
-            "type": "productivebees:iron",
+            "type": "productivebees:raw_materials/iron",
             "id": "productivebees:configurable_bee"
           }
-        },
-        "count": 1,
-        "id": "productivebees:spawn_egg_configurable_bee"
+        }
       }
     },
     {
       "count": 16,
-      "ingredient": {
-        "item": "minecraft:stone"
-      }
+      "ingredient": "minecraft:stone"
     }
   ],
   "result": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:arsenic",
+        "type": "productivebees:chemlib/arsenic",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -39,11 +37,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:iron"
+      "bee": "productivebees:raw_materials/iron"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:arsenic"
+      "bee": "productivebees:chemlib/arsenic"
     }
   ]
 }

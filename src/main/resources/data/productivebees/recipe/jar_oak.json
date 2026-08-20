@@ -6,12 +6,8 @@
     "GGG"
   ],
   "key": {
-    "G": {
-      "tag": "c:glass_panes"
-    },
-    "P": {
-      "item": "minecraft:oak_button"
-    }
+    "G": "#c:glass_panes",
+    "P": "minecraft:oak_button"
   },
   "result": {
     "id": "productivebees:jar_oak"

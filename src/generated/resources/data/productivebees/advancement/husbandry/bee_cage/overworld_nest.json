@@ -1,0 +1,32 @@
+{
+  "parent": "productivebees:husbandry/bee_cage",
+  "criteria": {
+    "get_item": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#productivebees:solitary_overworld_nests"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.husbandry.overworld_nest.description"
+    },
+    "icon": {
+      "id": "productivebees:oak_wood_nest"
+    },
+    "title": {
+      "translate": "advancements.husbandry.overworld_nest.title"
+    }
+  },
+  "requirements": [
+    [
+      "get_item"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

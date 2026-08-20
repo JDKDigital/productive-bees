@@ -1,0 +1,15 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "modern_industrialization"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/manganese/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerItem": "modern_industrialization:manganese_dust",
+  "particleColor": "#c6dadf",
+  "primaryColor": "#bccddb",
+  "useGlowLayer": true
+}

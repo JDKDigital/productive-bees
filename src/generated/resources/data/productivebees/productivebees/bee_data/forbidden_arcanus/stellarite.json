@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "forbidden_arcanus"
+    }
+  ],
+  "attack": 1.0,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "forbidden_arcanus:stellarite_block",
+  "particleColor": "#909885",
+  "primaryColor": "#58594d",
+  "secondaryColor": "#7a7e6d",
+  "selfbreed": false,
+  "size": 0.8,
+  "useGlowLayer": true
+}

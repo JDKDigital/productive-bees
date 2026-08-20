@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:magmatic"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:dusts/blazing"
+    }
+  ],
+  "type": "productivebees:bee_breeding",
+  "offspring": "productivebees:dusts/blazing",
+  "parent1": "productivebees:magmatic",
+  "parent2": "productivebees:nomad_bee"
+}

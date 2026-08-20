@@ -4,9 +4,10 @@ import com.google.common.collect.ImmutableSet;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
-import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.entity.npc.villager.VillagerProfession;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -24,7 +25,7 @@ public class ModProfessions
 
     public static final DeferredRegister<VillagerProfession> PROFESSIONS = DeferredRegister.create(Registries.VILLAGER_PROFESSION, ProductiveBees.MODID);
 
-    public static final DeferredHolder<VillagerProfession, VillagerProfession> BEEKEEPER = PROFESSIONS.register("beekeeper", () -> new VillagerProfession("beekeeper", beeKeeperPoi, beeKeeperPoi, ImmutableSet.of(), ImmutableSet.of(), SoundEvents.VILLAGER_WORK_LEATHERWORKER));
+    public static final DeferredHolder<VillagerProfession, VillagerProfession> BEEKEEPER = PROFESSIONS.register("beekeeper", () -> new VillagerProfession(Component.translatable("entity.minecraft.villager.beekeeper"), beeKeeperPoi, beeKeeperPoi, ImmutableSet.of(), ImmutableSet.of(), SoundEvents.VILLAGER_WORK_LEATHERWORKER, ModTrades.beekeeperTradeSetsByLevel()));
 
     public static void register() {
     }

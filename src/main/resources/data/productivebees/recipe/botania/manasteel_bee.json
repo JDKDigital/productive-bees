@@ -1,10 +1,10 @@
 {
   "type": "botania:mana_infusion",
   "input": {
-    "type": "productivebees:component",
+    "neoforge:ingredient_type": "productivebees:component",
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:iron",
+        "type": "productivebees:raw_materials/iron",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -13,7 +13,7 @@
   "output": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:manasteel",
+        "type": "productivebees:botania/manasteel",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -28,11 +28,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:iron"
+      "bee": "productivebees:raw_materials/iron"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:manasteel"
+      "bee": "productivebees:botania/manasteel"
     }
   ]
 }

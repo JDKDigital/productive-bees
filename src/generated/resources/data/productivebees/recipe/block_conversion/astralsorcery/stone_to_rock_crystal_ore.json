@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:astralsorcery/rock_crystal"
+    }
+  ],
+  "type": "productivebees:block_conversion",
+  "bees": [
+    "productivebees:astralsorcery/rock_crystal"
+  ],
+  "chance": 0.15,
+  "from": {
+    "Name": "minecraft:stone"
+  },
+  "to": {
+    "Name": "astralsorcery:rock_crystal_ore"
+  }
+}

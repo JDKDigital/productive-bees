@@ -1,0 +1,28 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:eidolon/pewter"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "eidolon"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:eidolon/pewter"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": "eidolon:pewter_blend"
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

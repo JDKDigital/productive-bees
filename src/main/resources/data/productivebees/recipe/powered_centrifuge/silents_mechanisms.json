@@ -5,18 +5,10 @@
     "RBR"
   ],
   "key": {
-    "R": {
-      "tag": "c:ingots/redstone_alloy"
-    },
-    "I": {
-      "tag": "c:ingots/bismuth_brass"
-    },
-    "B": {
-      "item": "silents_mechanisms:alloy_machine_frame"
-    },
-    "C": {
-      "item": "productivebees:centrifuge"
-    }
+    "R": "#c:ingots/redstone_alloy",
+    "I": "#c:ingots/bismuth_brass",
+    "B": "silents_mechanisms:alloy_machine_frame",
+    "C": "productivebees:centrifuge"
   },
   "result": {
     "id": "productivebees:powered_centrifuge"

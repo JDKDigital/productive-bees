@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "gtceu"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/vanadium_magnetite/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/raw_vanadium_magnetite",
+  "particleColor": "#8892a0",
+  "primaryColor": "#201a27",
+  "secondaryColor": "#7e8794",
+  "selfbreed": false,
+  "size": 0.8,
+  "tertiaryColor": "#5c5d6d",
+  "useGlowLayer": true
+}

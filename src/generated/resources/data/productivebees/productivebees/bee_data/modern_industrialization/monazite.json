@@ -1,0 +1,10 @@
+{
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/monazite/bee",
+  "flowerTag": "c:storage_blocks/monazite",
+  "particleColor": "#f17ce7",
+  "primaryColor": "#471143",
+  "secondaryColor": "#9f3197",
+  "tertiaryColor": "#d66dce",
+  "useGlowLayer": true
+}

@@ -1,10 +1,10 @@
 {
   "type": "naturesaura:altar",
   "input": {
-    "type": "productivebees:component",
+    "neoforge:ingredient_type": "productivebees:component",
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:gold",
+        "type": "productivebees:raw_materials/gold",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -13,7 +13,7 @@
   "output": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:tainted_gold",
+        "type": "productivebees:naturesaura/tainted_gold",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -25,11 +25,11 @@
   "neoforge:conditions": [
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:gold"
+      "bee": "productivebees:raw_materials/gold"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:tainted_gold"
+      "bee": "productivebees:naturesaura/tainted_gold"
     },
     {
       "type": "neoforge:mod_loaded",

@@ -1,0 +1,36 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:forbidden_arcanus/stellarite"
+    }
+  ],
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:forbidden_arcanus/stellarite",
+  "results": [
+    {
+      "chance": 1.0,
+      "item": {
+        "neoforge:ingredient_type": "productivebees:component",
+        "components": {
+          "productivebees:bee_type": "productivebees:forbidden_arcanus/stellarite"
+        },
+        "items": "productivebees:configurable_honeycomb"
+      },
+      "max": 1,
+      "min": 1
+    },
+    {
+      "chance": 0.01,
+      "item": "forbidden_arcanus:eternal_stella",
+      "max": 1,
+      "min": 1
+    },
+    {
+      "chance": 0.05,
+      "item": "#c:pollens",
+      "max": 1,
+      "min": 1
+    }
+  ]
+}

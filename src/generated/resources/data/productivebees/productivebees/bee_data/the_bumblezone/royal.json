@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "the_bumblezone"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/royal/bee",
+  "breedingItem": "the_bumblezone:royal_jelly_bottle",
+  "flowerBlock": "the_bumblezone:royal_jelly_block",
+  "model": "productivebees:entity/royal",
+  "primaryColor": "#472182",
+  "secondaryColor": "#da6ad9",
+  "selfbreed": false,
+  "useGlowLayer": true
+}

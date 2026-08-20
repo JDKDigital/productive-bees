@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "attack": 1.0,
+  "blinding": true,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "minecraft:flowers",
+  "particleColor": "#fad87d",
+  "particleType": "rising",
+  "primaryColor": "#fad87d",
+  "renderTransform": "flipped",
+  "secondaryColor": "#5f2525",
+  "size": 0.8,
+  "useGlowLayer": true
+}

@@ -4,15 +4,9 @@
     "GCP"
   ],
   "key": {
-    "G": {
-      "item": "minecraft:glass_bottle"
-    },
-    "C": {
-      "item": "productivebees:bee_cage"
-    },
-    "P": {
-      "item": "minecraft:gunpowder"
-    }
+    "G": "minecraft:glass_bottle",
+    "C": "productivebees:bee_cage",
+    "P": "minecraft:gunpowder"
   },
   "result": {
     "id": "productivebees:bee_bomb"

@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "gtceu"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/molybdenum/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "c:storage_blocks/molybdenum",
+  "particleColor": "#a7a8c3",
+  "primaryColor": "#7e80a5",
+  "selfbreed": false,
+  "size": 0.8,
+  "useGlowLayer": true
+}

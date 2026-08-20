@@ -3,17 +3,21 @@ package cy.jdkdigital.productivebees.common.item;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModDataComponents;
 import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.util.BeeHelper;
 import cy.jdkdigital.productivebees.util.ColorUtil;
 import cy.jdkdigital.productivebees.util.GeneAttribute;
 import cy.jdkdigital.productivebees.util.GeneGroup;
 import cy.jdkdigital.productivebees.util.GeneValue;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class Gene extends Item
 {
@@ -93,17 +97,17 @@ public class Gene extends Item
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
-        super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
+    public void appendHoverText(ItemStack pStack, TooltipContext pContext, TooltipDisplay tooltipDisplay, Consumer<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
+        super.appendHoverText(pStack, pContext, tooltipDisplay, pTooltipComponents, pTooltipFlag);
 
         GeneAttribute attribute = getAttribute(pStack);
         String value = getValue(pStack);
 
         if (attribute != null && GeneValue.byName(value) != null) {
             Component translatedValue = Component.translatable("productivebees.information.attribute." + value).withStyle(ColorUtil.getAttributeColor(GeneValue.byName(value)));
-            pTooltipComponents.add((Component.translatable("productivebees.information.attribute." + attribute.getSerializedName(), translatedValue)).withStyle(ChatFormatting.DARK_GRAY).append(Component.literal(" (" + getPurity(pStack) + "%)")));
+            pTooltipComponents.accept((Component.translatable("productivebees.information.attribute." + attribute.getSerializedName(), translatedValue)).withStyle(ChatFormatting.DARK_GRAY).append(Component.literal(" (" + getPurity(pStack) + "%)")));
         } else {
-            pTooltipComponents.add(Component.translatable("productivebees.information.attribute.type", value).withStyle(ChatFormatting.GOLD).append(Component.literal(" (" + getPurity(pStack) + "%)")));
+            pTooltipComponents.accept(Component.translatable("productivebees.information.attribute.type", BeeHelper.beeName(Identifier.parse(value))).withStyle(ChatFormatting.GOLD).append(Component.literal(" (" + getPurity(pStack) + "%)")));
         }
     }
 }

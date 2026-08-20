@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ],
+  "attack": 1.0,
+  "beeTexture": "productivebees:textures/entity/bee/radon/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerFluid": "chemlib:radon_fluid",
+  "particleColor": "#ea613d",
+  "primaryColor": "#df494b",
+  "size": 0.7,
+  "translucent": true,
+  "useGlowLayer": true
+}

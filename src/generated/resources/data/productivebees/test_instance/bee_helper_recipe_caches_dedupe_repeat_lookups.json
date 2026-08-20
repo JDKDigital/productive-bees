@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:function",
+  "environment": "productivebees:bee_helper_recipe_caches_dedupe_repeat_lookups_env",
+  "function": "productivebees:bee_helper_recipe_caches_dedupe_repeat_lookups",
+  "structure": "productivebees:empty_7x7",
+  "max_ticks": 100,
+  "required": true,
+  "setup_ticks": 0
+}

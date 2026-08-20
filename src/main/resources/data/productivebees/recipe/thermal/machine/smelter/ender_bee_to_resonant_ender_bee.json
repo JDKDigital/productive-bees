@@ -2,7 +2,7 @@
   "type": "thermal:smelter",
   "input": [
     {
-      "type": "productivebees:component",
+      "neoforge:ingredient_type": "productivebees:component",
       "components": {
         "minecraft:entity_data": {
           "type": "productivebees:ender",
@@ -15,7 +15,7 @@
   "result": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:resonant_ender",
+        "type": "productivebees:thermal/resonant_ender",
         "id": "productivebees:configurable_bee"
       }
     },
@@ -34,7 +34,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:resonant_ender"
+      "bee": "productivebees:thermal/resonant_ender"
     }
   ]
 }

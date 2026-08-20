@@ -1,0 +1,36 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:gems/cinnabar"
+      }
+    },
+    {
+      "type": "neoforge:tag_empty",
+      "tag": "c:dusts/cinnabar"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gems/cinnabar"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:gems/cinnabar"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "chance": 0.5,
+      "item": "#c:gems/cinnabar"
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

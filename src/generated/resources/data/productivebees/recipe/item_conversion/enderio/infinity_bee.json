@@ -1,0 +1,40 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:enderio/infinity"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:dusts/blazing"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:obsidian"
+    }
+  ],
+  "type": "productivebees:item_conversion",
+  "bees": [
+    "productivebees:dusts/blazing"
+  ],
+  "ingredients": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:obsidian",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "items": "productivebees:spawn_egg_configurable_bee"
+  },
+  "result": {
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:enderio/infinity",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "count": 1,
+    "id": "productivebees:spawn_egg_configurable_bee"
+  }
+}

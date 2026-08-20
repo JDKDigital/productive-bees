@@ -1,0 +1,31 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "allthemodium"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "allthetweaks"
+    }
+  ],
+  "attack": 1.0,
+  "attributes": {
+    "endurance": "endurance.strong"
+  },
+  "beeTexture": "productivebees:textures/entity/bee/starry/bee",
+  "fireproof": true,
+  "flowerBlock": "allthetweaks:atm_star_block",
+  "invulnerability": [
+    "mekanism.radiation"
+  ],
+  "particleType": "pop",
+  "primaryColor": "#d0581f",
+  "renderer": "default_shell",
+  "secondaryColor": "#f2c01a",
+  "selfbreed": false,
+  "selfheal": true,
+  "size": 1.5,
+  "tertiaryColor": "#fbfb5d",
+  "useGlowLayer": true
+}

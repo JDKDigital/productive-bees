@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.datagen;
 import com.google.common.collect.Maps;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModBlocks;
+import cy.jdkdigital.productivebees.init.ModDataComponents;
 import cy.jdkdigital.productivelib.loot.OptionalLootItem;
 import cy.jdkdigital.productivelib.loot.condition.OptionalCopyBlockState;
 import net.minecraft.core.HolderLookup;
@@ -12,7 +13,7 @@ import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.Block;
@@ -21,6 +22,7 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.functions.CopyComponentsFunction;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
@@ -52,12 +54,12 @@ public class BlockLootProvider implements DataProvider
     }
 
     private CompletableFuture<?> run(CachedOutput pOutput, HolderLookup.Provider pProvider) {
-        final Map<ResourceLocation, LootTable> map = Maps.newHashMap();
+        final Map<Identifier, LootTable> map = Maps.newHashMap();
         this.subProviders.forEach((providerEntry) -> {
             providerEntry.provider().apply(pProvider).generate((resourceKey, builder) -> {
-                builder.setRandomSequence(resourceKey.location());
-                if (map.put(resourceKey.location(), builder.setParamSet(providerEntry.paramSet()).build()) != null) {
-                    throw new IllegalStateException("Duplicate loot table " + resourceKey.location());
+                builder.setRandomSequence(resourceKey.identifier());
+                if (map.put(resourceKey.identifier(), builder.setParamSet(providerEntry.paramSet()).build()) != null) {
+                    throw new IllegalStateException("Duplicate loot table " + resourceKey.identifier());
                 }
             });
         });
@@ -80,7 +82,7 @@ public class BlockLootProvider implements DataProvider
 
         @Override
         protected void generate() {
-            Map<ResourceLocation, LootTable.Builder> tables = new HashMap<>();
+            Map<Identifier, LootTable.Builder> tables = new HashMap<>();
 
             HAS_SILK = this.hasSilkTouch();
 
@@ -116,7 +118,7 @@ public class BlockLootProvider implements DataProvider
             this.add(ModBlocks.ACACIA_WOOD_NEST.get(), functionTable.getOrDefault(ModBlocks.ACACIA_WOOD_NEST.get(), LootProvider::genHiveDrop).apply(ModBlocks.ACACIA_WOOD_NEST.get()));
             this.add(ModBlocks.CHERRY_WOOD_NEST.get(), functionTable.getOrDefault(ModBlocks.CHERRY_WOOD_NEST.get(), LootProvider::genHiveDrop).apply(ModBlocks.CHERRY_WOOD_NEST.get()));
             this.add(ModBlocks.MANGROVE_WOOD_NEST.get(), functionTable.getOrDefault(ModBlocks.MANGROVE_WOOD_NEST.get(), LootProvider::genHiveDrop).apply(ModBlocks.MANGROVE_WOOD_NEST.get()));
-            this.add(ModBlocks.BAMBOO_HIVE.get(), functionTable.getOrDefault(ModBlocks.BAMBOO_HIVE.get(), LootProvider::genHiveDrop).apply(ModBlocks.BAMBOO_HIVE.get()));
+            this.add(ModBlocks.BAMBOO_NEST.get(), functionTable.getOrDefault(ModBlocks.BAMBOO_NEST.get(), LootProvider::genHiveDrop).apply(ModBlocks.BAMBOO_NEST.get()));
             this.add(ModBlocks.DRAGON_EGG_HIVE.get(), functionTable.getOrDefault(ModBlocks.DRAGON_EGG_HIVE.get(), LootProvider::genHiveDrop).apply(ModBlocks.DRAGON_EGG_HIVE.get()));
             this.add(ModBlocks.STONE_NEST.get(), functionTable.getOrDefault(ModBlocks.STONE_NEST.get(), LootProvider::genHiveDrop).apply(ModBlocks.STONE_NEST.get()));
             this.add(ModBlocks.COARSE_DIRT_NEST.get(), functionTable.getOrDefault(ModBlocks.COARSE_DIRT_NEST.get(), LootProvider::genHiveDrop).apply(ModBlocks.COARSE_DIRT_NEST.get()));
@@ -142,6 +144,25 @@ public class BlockLootProvider implements DataProvider
                 Function<Block, LootTable.Builder> petrifiedFunc = functionTable.getOrDefault(registryObject.get(), this::genBlockDrop);
                 this.add(registryObject.get(), petrifiedFunc.apply(registryObject.get()));
             });
+
+            // Plain drop_self for device blocks + simple blocks.
+            for (Block block : List.of(
+                    ModBlocks.BOTTLER.get(), ModBlocks.BREEDING_CHAMBER.get(), ModBlocks.CATCHER.get(),
+                    ModBlocks.CENTRIFUGE.get(), ModBlocks.HEATED_CENTRIFUGE.get(), ModBlocks.POWERED_CENTRIFUGE.get(),
+                    ModBlocks.GENE_INDEXER.get(), ModBlocks.HONEY_GENERATOR.get(),
+                    ModBlocks.INACTIVE_DRAGON_EGG.get(), ModBlocks.INCUBATOR.get(),
+                    ModBlocks.COMB_GHOSTLY.get(), ModBlocks.COMB_MILKY.get(), ModBlocks.COMB_POWDERY.get(),
+                    ModBlocks.QUARTZ_NETHERRACK.get(), ModBlocks.WAX_BLOCK.get())) {
+                this.add(block, this.genBlockDrop(block));
+            }
+
+            this.add(ModBlocks.CONFIGURABLE_COMB.get(), genCombDrop(ModBlocks.CONFIGURABLE_COMB.get()));
+
+            // Feeder is a slab: drops two when DOUBLE.
+            this.add(ModBlocks.FEEDER.get(), this.createSlabItemTable(ModBlocks.FEEDER.get()));
+
+            // Jar drops itself and copies the {@code minecraft:container} component from the block entity.
+            this.add(ModBlocks.JAR.get(), genJarDrop(ModBlocks.JAR.get()));
         }
 
         @Override
@@ -157,16 +178,16 @@ public class BlockLootProvider implements DataProvider
 
         public static LootTable.Builder genHiveDrop(Block hive) {
             LootPoolEntryContainer.Builder<?> hiveNoHoney = OptionalLootItem.lootTableItem(hive).when(ExplosionCondition.survivesExplosion())
-                    .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY).include(DataComponents.BEES));
+                    .apply(CopyComponentsFunction.copyComponentsFromBlockEntity(LootContextParams.BLOCK_ENTITY).include(DataComponents.BEES));
 
             LootPoolEntryContainer.Builder<?> hiveHoney;
             if (hive.defaultBlockState().hasProperty(BeehiveBlock.HONEY_LEVEL)) {
                 hiveHoney = OptionalLootItem.lootTableItem(hive).when(HAS_SILK)
-                        .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY).include(DataComponents.BEES))
+                        .apply(CopyComponentsFunction.copyComponentsFromBlockEntity(LootContextParams.BLOCK_ENTITY).include(DataComponents.BEES))
                         .apply(OptionalCopyBlockState.copyState(hive).copy(BeehiveBlock.HONEY_LEVEL));
             } else {
                 hiveHoney = OptionalLootItem.lootTableItem(hive).when(HAS_SILK)
-                        .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY).include(DataComponents.BEES));
+                        .apply(CopyComponentsFunction.copyComponentsFromBlockEntity(LootContextParams.BLOCK_ENTITY).include(DataComponents.BEES));
             }
 
             return LootTable.lootTable().withPool(
@@ -176,7 +197,7 @@ public class BlockLootProvider implements DataProvider
 
         public static LootTable.Builder amberDrop(Block hive) {
             LootPoolEntryContainer.Builder<?> hiveNoHoney = LootItem.lootTableItem(hive).when(ExplosionCondition.survivesExplosion())
-                    .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY).include(DataComponents.ENTITY_DATA));
+                    .apply(CopyComponentsFunction.copyComponentsFromBlockEntity(LootContextParams.BLOCK_ENTITY).include(DataComponents.ENTITY_DATA));
 
             return LootTable.lootTable().withPool(
                     LootPool.lootPool().setRolls(ConstantValue.exactly(1))
@@ -197,6 +218,18 @@ public class BlockLootProvider implements DataProvider
             return LootTable.lootTable().withPool(
                     LootPool.lootPool().setRolls(ConstantValue.exactly(1))
                             .add(builder));
+        }
+
+        public static LootTable.Builder genJarDrop(Block jar) {
+            LootPoolEntryContainer.Builder<?> entry = LootItem.lootTableItem(jar)
+                    .apply(CopyComponentsFunction.copyComponentsFromBlockEntity(LootContextParams.BLOCK_ENTITY).include(DataComponents.CONTAINER));
+            return LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1)).add(entry));
+        }
+
+        public static LootTable.Builder genCombDrop(Block comb) {
+            LootPoolEntryContainer.Builder<?> entry = LootItem.lootTableItem(comb).when(ExplosionCondition.survivesExplosion())
+                    .apply(CopyComponentsFunction.copyComponentsFromBlockEntity(LootContextParams.BLOCK_ENTITY).include(ModDataComponents.BEE_TYPE.get()));
+            return LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1)).add(entry));
         }
     }
 }

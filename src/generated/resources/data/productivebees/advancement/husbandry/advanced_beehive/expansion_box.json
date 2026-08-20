@@ -1,0 +1,32 @@
+{
+  "parent": "productivebees:husbandry/advanced_beehive",
+  "criteria": {
+    "get_box": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#productivebees:expansion_boxes"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.husbandry.expansion_box.description"
+    },
+    "icon": {
+      "id": "productivebees:expansion_box_oak"
+    },
+    "title": {
+      "translate": "advancements.husbandry.expansion_box.title"
+    }
+  },
+  "requirements": [
+    [
+      "get_box"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

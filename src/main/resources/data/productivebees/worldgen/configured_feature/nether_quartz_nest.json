@@ -1,5 +1,5 @@
 {
-  "type": "productivebees:nether_quartz_nest",
+  "type": "productivebees:nest",
   "config": {
     "targets": [
       {
@@ -11,6 +11,12 @@
           "Name": "productivebees:nether_quartz_nest"
         }
       }
-    ]
+    ],
+    "search": {
+      "type": "ore_range",
+      "y_min": 10,
+      "y_max": 70
+    },
+    "config_key": "nether_quartz_nest"
   }
 }

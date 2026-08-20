@@ -1,0 +1,8 @@
+{
+  "type": "productivebees:bee_spawning",
+  "biomes": "#c:is_overworld",
+  "ingredient": "productivebees:sugar_cane_nest",
+  "results": [
+    "productivebees:reed_bee"
+  ]
+}

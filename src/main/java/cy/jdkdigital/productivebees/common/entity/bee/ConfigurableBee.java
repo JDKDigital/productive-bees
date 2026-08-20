@@ -10,7 +10,8 @@ import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModParticles;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.init.ModTags;
-import cy.jdkdigital.productivebees.setup.BeeReloadListener;
+import cy.jdkdigital.productivebees.setup.BeeData;
+import cy.jdkdigital.productivebees.setup.BeeRegistries;
 import cy.jdkdigital.productivebees.util.*;
 import cy.jdkdigital.productivelib.registry.LibItems;
 import net.minecraft.core.BlockPos;
@@ -26,7 +27,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
@@ -45,7 +46,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
@@ -60,8 +61,11 @@ import net.minecraft.world.level.block.entity.BrushableBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
@@ -90,14 +94,14 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                     (poi.value() == ModPointOfInterestTypes.SOLITARY_HIVE.get() && isWild()) ||
                     (poi.value() == ModPointOfInterestTypes.SOLITARY_NEST.get() && isWild()) ||
                     (poi.value() == ModPointOfInterestTypes.DRACONIC_NEST.get() && isDraconic()) ||
-                    (poi.value() == ModPointOfInterestTypes.SUGARBAG_NEST.get() && getBeeType().equals(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "sugarbag")));
+                    (poi.value() == ModPointOfInterestTypes.SUGARBAG_NEST.get() && getBeeType().equals(Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "sugarbag")));
     }
 
     @Override
     public void tick() {
         super.tick();
 
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             --teleportCooldown;
             if (--attackCooldown < 0) {
                 attackCooldown = 0;
@@ -137,7 +141,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
 
             // Kill unconfigured bees
             if (tickCount > 5 && this.entityData.get(TYPE).isEmpty() && isAlive()) {
-                this.kill();
+                this.kill((ServerLevel) this.level());
             }
         }
     }
@@ -146,26 +150,26 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     public void aiStep() {
         super.aiStep();
         // self healing bees
-        if (!this.level().isClientSide && this.isAlive()) {
+        if (!this.level().isClientSide() && this.isAlive()) {
             if (tickCount % 120 == 0 && this.canSelfHeal() && this.getHealth() < this.getMaxHealth()) {
-                this.addEffect(new MobEffectInstance(MobEffects.HEAL, 1));
+                this.addEffect(new MobEffectInstance(MobEffects.INSTANT_HEALTH, 1));
             }
         }
     }
 
     @Override
-    public boolean doHurtTarget(Entity entity) {
+    public boolean doHurtTarget(ServerLevel level, Entity entity) {
         AttributeInstance attackDamage = this.getAttribute(Attributes.ATTACK_DAMAGE);
 
-        if (attackDamage != null && getDamage() > 2.0 && !attackDamage.hasModifier(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "extra_damage"))) {
+        if (attackDamage != null && getDamage() > 2.0 && !attackDamage.hasModifier(Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "extra_damage"))) {
             double damageModifier = getDamage();
             // For hardcode worlds, clamp the damage to something reasonable
             if (entity.level().getLevelData().isHardcore()) {
                 damageModifier = Math.min(damageModifier, 1000d);
             }
-            attackDamage.addTransientModifier(new AttributeModifier(ResourceLocation.fromNamespaceAndPath(ProductiveBees.MODID, "extra_damage"), damageModifier, AttributeModifier.Operation.ADD_VALUE));
+            attackDamage.addTransientModifier(new AttributeModifier(Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "extra_damage"), damageModifier, AttributeModifier.Operation.ADD_VALUE));
         }
-        return super.doHurtTarget(entity);
+        return super.doHurtTarget(level, entity);
     }
 
     @Override
@@ -184,32 +188,21 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             particle.setColor(new float[]{0.92F, 0.782F, 0.72F});
         }
 
-        pLevel.addParticle(particle, Mth.lerp(pLevel.random.nextDouble(), pStartX, pEndX), pPosY, Mth.lerp(pLevel.random.nextDouble(), pStartZ, pEndZ), 0.0D, 0.0D, 0.0D);
+        pLevel.addParticle(particle, Mth.lerp(pLevel.getRandom().nextDouble(), pStartX, pEndX), pPosY, Mth.lerp(pLevel.getRandom().nextDouble(), pStartZ, pEndZ), 0.0D, 0.0D, 0.0D);
     }
 
     @Override
-    protected void customServerAiStep() {
+    protected void customServerAiStep(ServerLevel serverLevel) {
         // Teleport to active path
         if (this.teleportCooldown <= 0) {
             if (null != this.navigation.getPath() && isTeleporting()) {
-                if (this.hasHive()) {
-                    BlockEntity te = level().getBlockEntity(this.getHivePos());
-                    if (te instanceof AdvancedBeehiveBlockEntity advancedBeehiveBlockEntity) {
-                        int antiTeleportUpgrades = advancedBeehiveBlockEntity.getUpgradeCount(LibItems.UPGRADE_ANTI_TELEPORT.get());
-                        if (antiTeleportUpgrades > 0) {
-                            this.teleportCooldown = 10000;
-                            super.customServerAiStep();
-                            return;
-                        }
-                    }
-                }
                 BlockPos pos = this.navigation.getPath().getTarget();
                 teleport(pos.getX(), pos.getY(), pos.getZ());
             }
             this.teleportCooldown = 250;
         }
 
-        super.customServerAiStep();
+        super.customServerAiStep(serverLevel);
     }
 
     @Override
@@ -226,9 +219,9 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
 
     @Override
     public void attackTarget(LivingEntity target) {
-        if (this.isAlive() && getNBTData().contains("attackResponse")) {
-            String attackResponse = getNBTData().getString("attackResponse");
-            switch (attackResponse) {
+        BeeData data = getBeeData();
+        if (this.isAlive() && data != null && data.attackResponse().isPresent()) {
+            switch (data.attackResponse().get()) {
                 case "fire":
                     target.setRemainingFireTicks(200);
                 case "lava":
@@ -243,8 +236,8 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     }
 
     @Nullable
-    public ResourceLocation getBeeType() {
-        return ResourceLocation.tryParse(this.entityData.get(TYPE));
+    public Identifier getBeeType() {
+        return Identifier.tryParse(this.entityData.get(TYPE));
     }
 
     @Override
@@ -273,21 +266,14 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     public void setDefaultAttributes() {
         if (!hasBeeAttributes()) {
             var attributes = this.getData(ProductiveBees.ATTRIBUTE_HANDLER);
-            CompoundTag nbt = getNBTData();
-            if (nbt.contains(("productivity"))) {
-                attributes.setAttributeValue(GeneAttribute.PRODUCTIVITY, GeneValue.byName(nbt.getString("productivity")));
-            }
-            if (nbt.contains(("temper"))) {
-                attributes.setAttributeValue(GeneAttribute.TEMPER, GeneValue.byName(nbt.getString("temper")));
-            }
-            if (nbt.contains(("endurance"))) {
-                attributes.setAttributeValue(GeneAttribute.ENDURANCE, GeneValue.byName(nbt.getString("endurance")));
-            }
-            if (nbt.contains(("behavior"))) {
-                attributes.setAttributeValue(GeneAttribute.BEHAVIOR, GeneValue.byName(nbt.getString("behavior")));
-            }
-            if (nbt.contains(("weather_tolerance"))) {
-                attributes.setAttributeValue(GeneAttribute.WEATHER_TOLERANCE, GeneValue.byName(nbt.getString("weather_tolerance")));
+            BeeData data = getBeeData();
+            if (data != null) {
+                BeeData.BeeAttributes attr = data.attributes();
+                attr.productivity().ifPresent(s -> attributes.setAttributeValue(GeneAttribute.PRODUCTIVITY, GeneValue.byName(s)));
+                attr.temper().ifPresent(s -> attributes.setAttributeValue(GeneAttribute.TEMPER, GeneValue.byName(s)));
+                attr.endurance().ifPresent(s -> attributes.setAttributeValue(GeneAttribute.ENDURANCE, GeneValue.byName(s)));
+                attr.behavior().ifPresent(s -> attributes.setAttributeValue(GeneAttribute.BEHAVIOR, GeneValue.byName(s)));
+                attr.weatherTolerance().ifPresent(s -> attributes.setAttributeValue(GeneAttribute.WEATHER_TOLERANCE, GeneValue.byName(s)));
             }
             this.setData(ProductiveBees.ATTRIBUTE_HANDLER, attributes);
 
@@ -339,7 +325,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                         "Natalie", "Fiona", "Ysabelle", "Ada", "Alexandra", "Bianca", "Cherry", "Elizabeth", "Jasmine",
                         "Coral", "Candy", "Ariel", "Dawn", "Faye", "Diana", "Hope", "Genevieve", "Grace", "Eleanor",
                         "Helena", "Eve", "Joy", "Lydia", "Marigold", "Karen", "Marilyn", "Rosalyn", "Nadia", "Patty",
-                        "Peach", "Stephanie", "Sophia", "Violette", "Willow", "Zoe", "Merida", "Belle"
+                        "Peach", "Stephanie", "Sophia", "Violette", "Willow", "Zoe", "Merida", "Belle", "Stellar"
                 };
                 this.setCustomName(Component.literal("Princess " + names[random.nextInt(names.length)]));
             }
@@ -348,26 +334,28 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
 
     @Override
     public int getColor(int tintIndex, float partialTicks) {
-        CompoundTag nbt = getNBTData();
-        if (nbt.contains("primaryColor")) {
-            if (nbt.getBoolean("colorCycle") && !nbt.getString("renderer").contains("crystal")) {
-                return ColorUtil.getCycleColor(nbt.getInt("primaryColor"),nbt.getInt("tertiaryColor"), tickCount, partialTicks);
+        BeeData data = getBeeData();
+        if (data != null) {
+            if (data.colorCycle() && !data.renderer().contains("crystal")) {
+                return ColorUtil.getCycleColor(data.primaryColor(), data.tertiaryColor(), tickCount, partialTicks);
             }
-            return tintIndex == 0 ? nbt.getInt("primaryColor") : nbt.getInt("secondaryColor");
+            return tintIndex == 0 ? data.primaryColor() : data.secondaryColor();
         }
         return super.getColor(tintIndex, partialTicks);
     }
 
     public int getParticleColor() {
-        return getNBTData().getInt("particleColor");
+        BeeData data = getBeeData();
+        return data != null ? data.particleColor().orElse(0) : 0;
     }
 
     public int getTertiaryColor(float partialTicks) {
-        CompoundTag nbt = getNBTData();
-        if (nbt.getBoolean("colorCycle") && nbt.getString("renderer").contains("crystal")) {
-            return ColorUtil.getCycleColor(nbt.getInt("primaryColor"), nbt.getInt("tertiaryColor"), tickCount, partialTicks);
+        BeeData data = getBeeData();
+        if (data == null) return 0;
+        if (data.colorCycle() && data.renderer().contains("crystal")) {
+            return ColorUtil.getCycleColor(data.primaryColor(), data.tertiaryColor(), tickCount, partialTicks);
         }
-        return nbt.getInt("tertiaryColor");
+        return data.tertiaryColor();
     }
 
     public boolean isColored() {
@@ -377,8 +365,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     @Nonnull
     @Override
     protected Component getTypeName() {
-        CompoundTag nbt = getNBTData();
-        if (nbt != null) {
+        if (getBeeData() != null) {
             return Component.translatable("entity.productivebees." + getBeeName() + "_bee");
         }
         return super.getTypeName();
@@ -386,24 +373,24 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
 
     @Override
     public float getSizeModifier() {
-        CompoundTag nbt = getNBTData();
-        return nbt != null ? hasNectar() ? nbt.getFloat("pollinatedSize") : nbt.getFloat("size") : super.getSizeModifier();
+        BeeData data = getBeeData();
+        return data != null ? (hasNectar() ? data.pollinatedSize() : data.size()) : super.getSizeModifier();
     }
 
     public float getSpeedModifier() {
-        CompoundTag nbt = getNBTData();
-        return nbt != null ? nbt.getFloat("speed") : 1.0F;
+        BeeData data = getBeeData();
+        return data != null ? data.speed() : 1.0F;
     }
 
     public double getDamage() {
-        CompoundTag nbt = getNBTData();
-        return nbt != null ? nbt.getDouble("attack") : 2.0D;
+        BeeData data = getBeeData();
+        return data != null ? data.attack() : 2.0D;
     }
 
     @Override
     public boolean canSelfBreed() {
-        CompoundTag nbt = getNBTData();
-        return nbt.getBoolean("selfbreed");
+        BeeData data = getBeeData();
+        return data != null && data.selfbreed();
     }
 
     @Override
@@ -413,15 +400,16 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         }
 
         if (this.getFlowerType().equals("entity_types")) {
-            CompoundTag nbt = this.getNBTData();
-            if (nbt != null && nbt.contains("flowerTag")) {
-                TagKey<EntityType<?>> entityTag = ModTags.getEntityTag(ResourceLocation.parse(nbt.getString("flowerTag")));
+            BeeData data = this.getBeeData();
+            if (data != null && data.flowerTag().isPresent()) {
+                TagKey<EntityType<?>> entityTag = ModTags.getEntityTag(Identifier.parse(data.flowerTag().get()));
 
                 if (level().getBlockEntity(pos) instanceof AmberBlockEntity amberBlockEntity) {
                     var entity = amberBlockEntity.getCachedEntity();
-                    return entity != null && entity.getType().is(entityTag);
+                    return entity != null && BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(entity.getType()).is(entityTag);
                 } else {
-                    List<Entity> entities = level().getEntities(this, (new AABB(pos).inflate(1.0D, 1.0D, 1.0D)), (entity -> nbt.getBoolean("inverseFlower") != entity.getType().is(entityTag)));
+                    boolean inverse = data.inverseFlower();
+                    List<Entity> entities = level().getEntities(this, (new AABB(pos).inflate(1.0D, 1.0D, 1.0D)), (entity -> inverse != BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(entity.getType()).is(entityTag)));
                     if (!entities.isEmpty() && entities.getFirst() instanceof Mob mob) {
                         target = mob;
 
@@ -446,19 +434,20 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         if (canConvertBlock) {
             return true;
         }
-        CompoundTag nbt = getNBTData();
-        if (nbt != null && this.getFlowerType().equals("blocks")) {
-            if (nbt.contains("flowerTag")) {
-                TagKey<Block> flowerTag = ModTags.getBlockTag(ResourceLocation.parse(nbt.getString("flowerTag")));
+        BeeData data = getBeeData();
+        if (data != null && this.getFlowerType().equals("blocks")) {
+            if (data.flowerTag().isPresent()) {
+                TagKey<Block> flowerTag = ModTags.getBlockTag(Identifier.parse(data.flowerTag().get()));
                 return flowerBlock.is(flowerTag);
-            } else if (nbt.contains("flowerBlock")) {
-                return BuiltInRegistries.BLOCK.getKey(flowerBlock.getBlock()).toString().equals(nbt.getString("flowerBlock"));
-            } else if (nbt.contains("flowerFluid") && !flowerBlock.getFluidState().isEmpty()) {
-                if (nbt.getString("flowerFluid").contains("#")) {
-                    TagKey<Fluid> flowerFluid = ModTags.getFluidTag(ResourceLocation.parse(nbt.getString("flowerFluid").replace("#", "")));
+            } else if (data.flowerBlock().isPresent()) {
+                return BuiltInRegistries.BLOCK.getKey(flowerBlock.getBlock()).toString().equals(data.flowerBlock().get());
+            } else if (data.flowerFluid().isPresent() && !flowerBlock.getFluidState().isEmpty()) {
+                String flowerFluidStr = data.flowerFluid().get();
+                if (flowerFluidStr.contains("#")) {
+                    TagKey<Fluid> flowerFluid = ModTags.getFluidTag(Identifier.parse(flowerFluidStr.replace("#", "")));
                     return flowerBlock.getFluidState().is(flowerFluid);
                 } else {
-                    return BuiltInRegistries.FLUID.getKey(flowerBlock.getFluidState().getType()).toString().equals(nbt.getString("flowerFluid"));
+                    return BuiltInRegistries.FLUID.getKey(flowerBlock.getFluidState().getType()).toString().equals(flowerFluidStr);
                 }
             }
         }
@@ -470,22 +459,24 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             return false;
         }
 
-        CompoundTag nbt = getNBTData();
-        if (nbt != null && this.getFlowerType().equals("blocks")) {
-            if (nbt.contains("flowerTag")) {
-                TagKey<Item> flowerTag = ModTags.getItemTag(ResourceLocation.parse(nbt.getString("flowerTag")));
+        BeeData data = getBeeData();
+        if (data != null && this.getFlowerType().equals("blocks")) {
+            if (data.flowerTag().isPresent()) {
+                TagKey<Item> flowerTag = ModTags.getItemTag(Identifier.parse(data.flowerTag().get()));
                 return flowerItem.is(flowerTag);
             }
-            if (nbt.contains("flowerItem")) {
-                return flowerItem.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse(nbt.getString("flowerItem"))));
+            if (data.flowerItem().isPresent()) {
+                var itemHolder = BuiltInRegistries.ITEM.get(Identifier.parse(data.flowerItem().get()));
+                return itemHolder.isPresent() && flowerItem.is(itemHolder.get());
             }
-            if (nbt.contains("flowerFluid") && flowerItem.getItem() instanceof BucketItem bucketItem) {
-                if (nbt.getString("flowerFluid").contains("#")) {
-                    TagKey<Fluid> flowerFluid = ModTags.getFluidTag(ResourceLocation.parse(nbt.getString("flowerFluid").replace("#", "")));
+            if (data.flowerFluid().isPresent() && flowerItem.getItem() instanceof BucketItem bucketItem) {
+                String flowerFluidStr = data.flowerFluid().get();
+                if (flowerFluidStr.contains("#")) {
+                    TagKey<Fluid> flowerFluid = ModTags.getFluidTag(Identifier.parse(flowerFluidStr.replace("#", "")));
                     return bucketItem.content.is(flowerFluid);
                 } else {
-                    Fluid flowerFluid = BuiltInRegistries.FLUID.get(ResourceLocation.parse(nbt.getString("flowerFluid")));
-                    return bucketItem.content.isSame(flowerFluid);
+                    var fluidHolder = BuiltInRegistries.FLUID.get(Identifier.parse(flowerFluidStr));
+                    return fluidHolder.isPresent() && bucketItem.content.isSame(fluidHolder.get().value());
                 }
             }
         }
@@ -498,30 +489,32 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
 
     @Override
     public Ingredient getBreedingIngredient() {
-        return getBreedingIngredientFromString(getNBTData().getString("breedingItem"));
+        BeeData data = getBeeData();
+        return getBreedingIngredientFromString(data != null ? data.breedingItem() : "");
     }
 
     public static Ingredient getBreedingIngredientFromString(String id) {
         if (id.isEmpty()) {
-            return Ingredient.of(ModTags.DEFAULT_BREEDING);
+            return Ingredient.of(BuiltInRegistries.ITEM.get(ModTags.DEFAULT_BREEDING).orElseThrow());
         }
 
         if (id.startsWith("#")) {
-            return Ingredient.of(ModTags.getItemTag(ResourceLocation.parse(id.substring(1))));
+            return Ingredient.of(BuiltInRegistries.ITEM.get(ModTags.getItemTag(Identifier.parse(id.substring(1)))).orElseThrow());
         }
-        return Ingredient.of(BuiltInRegistries.ITEM.get(ResourceLocation.parse(id)));
+        return Ingredient.of(BuiltInRegistries.ITEM.get(Identifier.parse(id)).orElseThrow().value());
     }
 
     @Override
     public Integer getBreedingItemCount() {
-        return getNBTData().getInt("breedingItemCount");
+        BeeData data = getBeeData();
+        return data != null ? data.breedingItemCount() : 0;
     }
 
     @Override
     public TagKey<Block> getNestingTag() {
-        CompoundTag nbt = getNBTData();
-        if (nbt != null && nbt.contains("nestingPreference")) {
-            return ModTags.getBlockTag(ResourceLocation.parse(nbt.getString("nestingPreference")));
+        BeeData data = getBeeData();
+        if (data != null && data.nestingPreference().isPresent()) {
+            return ModTags.getBlockTag(Identifier.parse(data.nestingPreference().get()));
         }
         return super.getNestingTag();
     }
@@ -529,10 +522,6 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
 
     @Override
     public BeeEffect getBeeEffect() {
-        CompoundTag nbt = getNBTData();
-        if (nbt.contains(("effect"))) {
-            return new BeeEffect(level().registryAccess(), nbt.getCompound("effect"));
-        }
         return super.getBeeEffect();
     }
 
@@ -543,121 +532,148 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     }
 
     @Override
-    public void readAdditionalSaveData(@Nonnull CompoundTag compound) {
-        super.readAdditionalSaveData(compound);
-        setBeeType(compound.getString("type"));
-        breathCollectionCooldown = compound.getInt("breathCollectionCooldown");
+    public void readAdditionalSaveData(@Nonnull ValueInput input) {
+        super.readAdditionalSaveData(input);
+        setBeeType(input.getStringOr("type", ""));
+        breathCollectionCooldown = input.getIntOr("breathCollectionCooldown", 0);
     }
 
     @Override
-    public void addAdditionalSaveData(@Nonnull CompoundTag compound) {
-        super.addAdditionalSaveData(compound);
-        compound.putString("type", getBeeType().toString());
-        compound.putInt("breathCollectionCooldown", breathCollectionCooldown);
+    public void addAdditionalSaveData(@Nonnull ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putString("type", getBeeType().toString());
+        output.putInt("breathCollectionCooldown", breathCollectionCooldown);
     }
 
-    public CompoundTag getNBTData() {
-        CompoundTag nbt = BeeReloadListener.INSTANCE.getData(getBeeType());
-
-        return nbt != null ? nbt : new CompoundTag();
+    /**
+     * @return the typed bee data record from the {@link BeeRegistries#BEE_DATA} registry, or
+     * {@code null} if the bee's type isn't loaded.
+     */
+    @Nullable
+    public BeeData getBeeData() {
+        return BeeRegistries.lookup(getBeeType());
     }
 
     public boolean hasBeeTexture() {
-        return getNBTData().contains("beeTexture");
+        BeeData data = getBeeData();
+        return data != null && data.beeTexture().isPresent();
     }
 
     public String getBeeTexture() {
-        return getNBTData().getString("beeTexture");
+        BeeData data = getBeeData();
+        return data != null ? data.beeTexture().orElse("") : "";
     }
 
     public String getRenderer() {
-        return getNBTData().getString("renderer");
+        BeeData data = getBeeData();
+        return data != null ? data.renderer() : "";
     }
 
     public String getRenderTransform() {
-        return getNBTData().getString("renderTransform");
+        BeeData data = getBeeData();
+        return data != null ? data.renderTransform() : "";
     }
 
     public boolean useGlowLayer() {
-        return getNBTData().getBoolean("useGlowLayer") || (isRedstoned() && hasNectar());
+        BeeData data = getBeeData();
+        return (data != null && data.useGlowLayer()) || (isRedstoned() && hasNectar());
     }
 
     private boolean isWild() {
-        return getNBTData().contains("nestingPreference");
+        BeeData data = getBeeData();
+        return data != null && data.nestingPreference().isPresent();
     }
 
     // Traits
     public boolean isFireproof() {
-        return getNBTData().getBoolean("fireproof");
+        BeeData data = getBeeData();
+        return data != null && data.fireproof();
     }
 
     public boolean isWithered() {
-        return getNBTData().getBoolean("withered");
+        BeeData data = getBeeData();
+        return data != null && data.withered();
     }
 
     public boolean isTranslucent() {
-        return getNBTData().getBoolean("translucent");
+        BeeData data = getBeeData();
+        return data != null && data.translucent();
     }
 
     public boolean isBlinding() {
-        return getNBTData().getBoolean("blinding");
+        BeeData data = getBeeData();
+        return data != null && data.blinding();
     }
 
     public boolean isDraconic() {
-        return getNBTData().getBoolean("draconic");
+        BeeData data = getBeeData();
+        return data != null && data.draconic();
     }
 
     public boolean isRedstoned() {
-        return getNBTData().getBoolean("redstoned");
+        BeeData data = getBeeData();
+        return data != null && data.redstoned();
     }
 
     public boolean isSlimy() {
-        return getNBTData().getBoolean("slimy");
+        BeeData data = getBeeData();
+        return data != null && data.slimy();
     }
 
     public boolean isTeleporting() {
-        return getNBTData().getBoolean("teleporting");
+        BeeData data = getBeeData();
+        return data != null && data.teleporting();
     }
 
     public boolean isStringy() {
-        return getNBTData().getBoolean("stringy");
+        BeeData data = getBeeData();
+        return data != null && data.stringy();
     }
 
     public boolean isStingless() {
-        return getNBTData().getBoolean("stingless");
+        BeeData data = getBeeData();
+        return data != null && data.stingless();
     }
 
     public boolean hasMunchies() {
-        return getNBTData().getBoolean("munchies");
+        BeeData data = getBeeData();
+        return data != null && data.munchies();
     }
 
     public boolean isWaterproof() {
-        return getNBTData().getBoolean("waterproof");
+        BeeData data = getBeeData();
+        return data != null && data.waterproof();
     }
 
     public boolean isColdResistant() {
-        return getNBTData().getBoolean("coldResistant");
+        BeeData data = getBeeData();
+        return data != null && data.coldResistant();
     }
 
     public boolean isIrradiated() {
-        return getNBTData().getBoolean("irradiated");
+        BeeData data = getBeeData();
+        return data != null && data.irradiated();
     }
 
     public String getParticleType() {
-        return getNBTData().getString("particleType");
+        BeeData data = getBeeData();
+        return data != null ? data.particleType() : "";
     }
 
     public boolean hasParticleColor() {
-        return getNBTData().contains("particleColor");
+        BeeData data = getBeeData();
+        return data != null && data.particleColor().isPresent();
     }
 
     public boolean canSelfHeal() {
-        return getNBTData().getBoolean("selfheal");
+        BeeData data = getBeeData();
+        return data != null && data.selfheal();
     }
 
     @Override
     public String getFlowerType() {
-        return getNBTData().getString("flowerType");
+        BeeData data = getBeeData();
+        return data != null ? data.flowerType() : "";
     }
 
     @Override
@@ -685,20 +701,12 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     }
 
     public List<String> getInvulnerabilities() {
-        Tag inv = getNBTData().get("invulnerability");
-
-        List<String> list = new ArrayList<>();
-        if (inv instanceof ListTag listInv) {
-            listInv.forEach(tag -> {
-                list.add(tag.getAsString());
-            });
-        }
-
-        return list;
+        BeeData data = getBeeData();
+        return data != null ? data.invulnerability() : List.of();
     }
 
     @Override
-    public boolean isInvulnerableTo(@Nonnull DamageSource source) {
+    public boolean isInvulnerableTo(@Nonnull ServerLevel level, @Nonnull DamageSource source) {
         if (isWithered() && source.equals(this.level().damageSources().wither())) {
             return true;
         }
@@ -717,7 +725,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         if (isFireproof() && (source.equals(this.level().damageSources().hotFloor()) || source.equals(this.level().damageSources().inFire()) || source.equals(this.level().damageSources().onFire()) || source.equals(this.level().damageSources().lava()))) {
             return true;
         }
-        return super.isInvulnerableTo(source) || getInvulnerabilities().contains(source.getMsgId());
+        return super.isInvulnerableTo(level, source) || getInvulnerabilities().contains(source.getMsgId());
     }
 
     @Override
@@ -731,7 +739,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     private void teleport(double x, double y, double z) {
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(x, y, z);
 
-        while(pos.getY() > this.level().getMinBuildHeight() && !this.level().getBlockState(pos).blocksMotion()) {
+        while(pos.getY() > this.level().getMinY() && !this.level().getBlockState(pos).blocksMotion()) {
             pos.move(Direction.DOWN);
         }
 
@@ -758,8 +766,9 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     public void postPollinate() {
         super.postPollinate();
 
-        if (getNBTData().contains("postPollination")) {
-            switch (getNBTData().getString("postPollination")) {
+        BeeData data = getBeeData();
+        if (data != null && data.postPollination().isPresent()) {
+            switch (data.postPollination().get()) {
                 case "amber_encase":
                     BeeHelper.encaseMob(target, level(), this.getDirection());
                     target = null;
@@ -768,7 +777,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                     if (level() instanceof ServerLevel serverLevel && this.hasSavedFlowerPos()) {
                         BlockState flower = level().getBlockState(this.getSavedFlowerPos());
                         if (flower.getBlock() instanceof CropBlock cropBlock && cropBlock.isValidBonemealTarget(level(), this.getSavedFlowerPos(), flower)) {
-                            cropBlock.performBonemeal(serverLevel, level().random, this.getSavedFlowerPos(), flower);
+                            cropBlock.performBonemeal(serverLevel, level().getRandom(), this.getSavedFlowerPos(), flower);
                         }
                     }
                     break;
@@ -777,19 +786,18 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                         var pos = this.getSavedFlowerPos();
                         BlockState flower = level().getBlockState(pos);
                         if (flower.getBlock() instanceof CropBlock cropBlock && !cropBlock.isMaxAge(flower)) {
-                            if (net.neoforged.neoforge.common.CommonHooks.canCropGrow(serverLevel, pos, flower, true)) {
+                            if (CommonHooks.canCropGrow(serverLevel, pos, flower, true)) {
                                 serverLevel.setBlock(pos, cropBlock.getStateForAge(cropBlock.getAge(flower) + 1), 2);
-                                net.neoforged.neoforge.common.CommonHooks.fireCropGrowPost(serverLevel, pos, flower);
+                                CommonHooks.fireCropGrowPost(serverLevel, pos, flower);
                             }
                         }
                     }
                     break;
                 case "sus":
-                    if (savedFlowerPos != null && level() instanceof ServerLevel level && level.getBlockEntity(savedFlowerPos) instanceof BrushableBlockEntity brushableBlockEntity) {
-                        var possibleTables = SussyCompatHandler.getLootTables(level, savedFlowerPos);
-                        if (!possibleTables.isEmpty()) {
-                            brushableBlockEntity.setLootTable(possibleTables.get(level.getRandom().nextInt(possibleTables.size())), level.getRandom().nextLong());
-                            savedFlowerPos = null;
+                    if (level() instanceof ServerLevel sl && this.hasSavedFlowerPos()) {
+                        var lootTables = SussyCompatHandler.getLootTables(sl, this.getSavedFlowerPos());
+                        if (!lootTables.isEmpty()) {
+                            ProductiveBees.LOGGER.debug("Sussy bee found {} loot tables at {}", lootTables.size(), this.getSavedFlowerPos());
                         }
                     }
                     break;

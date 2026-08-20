@@ -1,0 +1,11 @@
+{
+  "gives": {
+    "id": "productivebees:treat_on_a_stick"
+  },
+  "max_uses": 8.0,
+  "reputation_discount": 0.2,
+  "wants": {
+    "id": "minecraft:emerald"
+  },
+  "xp": 3.0
+}

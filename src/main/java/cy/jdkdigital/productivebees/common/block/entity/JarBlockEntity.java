@@ -6,21 +6,19 @@ import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivelib.common.block.entity.CapabilityBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -33,10 +31,10 @@ public class JarBlockEntity extends CapabilityBlockEntity
 
     public int tickCount = 0;
 
-    public final IItemHandlerModifiable inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(1, this)
+    public final InventoryHandlerHelper.BlockEntityItemStackHandler inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(1, this)
     {
         @Override
-        public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+        public boolean isItemValid(int slot, @Nonnull ItemStack stack, boolean fromAutomation) {
             return stack.getItem().asItem() instanceof BeeCage && BeeCage.isFilled(stack);
         }
 
@@ -51,8 +49,11 @@ public class JarBlockEntity extends CapabilityBlockEntity
         }
 
         @Override
-        protected void onContentsChanged(int slot) {
-            super.onContentsChanged(slot);
+        protected void onContentsChanged(int slot, ItemStack previousContents) {
+            super.onContentsChanged(slot, previousContents);
+            if (blockEntity instanceof JarBlockEntity jar) {
+                jar.cachedEntity = null;
+            }
             if (blockEntity.getLevel() instanceof ServerLevel serverLevel) {
                 serverLevel.sendBlockUpdated(blockEntity.getBlockPos(), blockEntity.getBlockState(), blockEntity.getBlockState(), 3);
             }
@@ -61,6 +62,12 @@ public class JarBlockEntity extends CapabilityBlockEntity
 
     public JarBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.JAR.get(), pos, state);
+    }
+
+    @Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        // Cage is preserved on the dropped jar item via DataComponents.CONTAINER (loot table).
+        // Skip the default inventory drop so the cage doesn't get dropped twice.
     }
 
     @Nullable
@@ -72,32 +79,37 @@ public class JarBlockEntity extends CapabilityBlockEntity
         return this.cachedEntity;
     }
 
+    @Nullable
+    public Entity getCachedEntity() {
+        return this.cachedEntity;
+    }
+
     @Override
-    public IItemHandler getItemHandler() {
+    public ResourceHandler<ItemResource> getItemHandler() {
         return inventoryHandler;
     }
 
     @Override
-    public void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
-        super.loadAdditional(tag, provider);
+    public void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
         tickCount = ProductiveBees.random.nextInt(360);
     }
 
     @Override
-    protected void applyImplicitComponents(BlockEntity.DataComponentInput componentInput) {
-        super.applyImplicitComponents(componentInput);
+    protected void applyImplicitComponents(DataComponentGetter components) {
+        super.applyImplicitComponents(components);
         NonNullList<ItemStack> items = NonNullList.withSize(1, ItemStack.EMPTY);
-        componentInput.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyInto(items);
+        components.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyInto(items);
         if (!items.isEmpty() && !items.getFirst().isEmpty()) {
-            this.getItemHandler().insertItem(0, items.getFirst(), false);
+            this.inventoryHandler.insertItem(0, items.getFirst(), false);
         }
     }
 
     @Override
     protected void collectImplicitComponents(DataComponentMap.Builder components) {
         super.collectImplicitComponents(components);
-        if (inventoryHandler instanceof ItemStackHandler serializable && level != null) {
-            components.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(List.of(this.getItemHandler().getStackInSlot(0))));
-        };
+        if (level != null) {
+            components.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(List.of(this.inventoryHandler.getStackInSlot(0))));
+        }
     }
 }

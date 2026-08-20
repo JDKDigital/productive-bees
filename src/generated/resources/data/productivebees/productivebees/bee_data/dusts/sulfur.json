@@ -1,0 +1,8 @@
+{
+  "attack": 1.0,
+  "flowerTag": "productivebees:flowers/sulfur",
+  "particleColor": "#f1f372",
+  "primaryColor": "#e4ff95",
+  "renderer": "default_crystal",
+  "secondaryColor": "#c9ab4b"
+}
