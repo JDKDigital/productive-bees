@@ -9,6 +9,10 @@
   },
   "result": {
     "id": "minecraft:potion",
-    "nbt": "{\"Potion\": \"minecraft:water\"}"
+    "components": {
+      "minecraft:potion_contents": {
+        "potion": "minecraft:water"
+      }
+    }
   }
 }
