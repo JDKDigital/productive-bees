@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import static cy.jdkdigital.productivelib.datagen.recipe.ConditionsHelper.modLoaded;
 import static cy.jdkdigital.productivelib.datagen.recipe.ConditionsHelper.not;
-import static cy.jdkdigital.productivelib.datagen.recipe.ConditionsHelper.tagEmpty;
 
 /** Emits {@code productivebees:block_conversion} and {@code productivebees:item_conversion} JSON recipes directly. */
 public class ConversionRecipeProvider implements DataProvider

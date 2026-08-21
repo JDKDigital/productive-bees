@@ -478,6 +478,7 @@ public class EnglishLangProvider extends LanguageProvider
         add("productivebees.top.solitary.egg_count", "Eggs: %s");
         add("productivebees.top.solitary.repopulation_countdown", "Repopulation cooldown %s. Use additional items to speed up");
         add("productivebees.top.solitary.repopulation_countdown_inactive", "Nest is empty. Use a spawn item on it to attract a bee.");
+        add("config.jade.plugin_productivebees.advanced_beehive", "Advanced Beehive");
         add("config.jade.plugin_productivebees.bee", "Productive Bees");
         add("config.jade.plugin_productivebees.solitary_nest", "Solitary Nest");
         add("config.jade.plugin_productivebees.jar", "Bee Jar");

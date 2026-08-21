@@ -17,7 +17,6 @@ import cy.jdkdigital.productivebees.container.gui.IncubatorScreen;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.setup.BeeData;
 import cy.jdkdigital.productivebees.setup.BeeRegistries;
-import cy.jdkdigital.productivebees.util.BeeCreator;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import cy.jdkdigital.productivelib.common.recipe.TagOutputRecipe;
 import cy.jdkdigital.productivelib.compat.jei.RecipeMapCache;
@@ -27,7 +26,6 @@ import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
 import mezz.jei.api.ingredients.IIngredientType;
-import mezz.jei.api.ingredients.subtypes.ISubtypeInterpreter;
 import mezz.jei.api.ingredients.subtypes.UidContext;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.*;
@@ -41,7 +39,6 @@ import net.minecraft.world.item.crafting.ShapelessRecipe;
 import cy.jdkdigital.productivebees.init.ModDataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -53,7 +50,6 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.util.Lazy;
 import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
-import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -139,7 +135,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        // 26.1: client only sees recipes opted in via OnDatapackSyncEvent.sendRecipes (see EventHandler#onDataSync).
+        // The client only sees recipes opted in via OnDatapackSyncEvent.sendRecipes (see EventHandler#onDataSync).
         // The lib-side RecipeMapCache subscribes to RecipesReceivedEvent and caches the synced map.
         var recipeMap = RecipeMapCache.getRecipeMap();
 

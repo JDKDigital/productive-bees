@@ -16,7 +16,6 @@ import java.util.concurrent.CompletableFuture;
 import static cy.jdkdigital.productivelib.datagen.recipe.ConditionsHelper.modLoaded;
 import static cy.jdkdigital.productivelib.datagen.recipe.ConditionsHelper.not;
 import static cy.jdkdigital.productivelib.datagen.recipe.ConditionsHelper.tagEmpty;
-import static cy.jdkdigital.productivelib.datagen.recipe.ConditionsHelper.or;
 
 /** Emits {@code productivebees:centrifuge} JSON recipes directly, bypassing Ingredient codec restrictions on unloaded cross-mod items. */
 public class CentrifugeRecipeProvider implements DataProvider

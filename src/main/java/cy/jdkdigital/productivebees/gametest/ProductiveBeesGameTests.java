@@ -445,10 +445,9 @@ public final class ProductiveBeesGameTests
     }
 
     // ── Amber entity round-trip ──────────────────────────────────────────────────
-    // Exercises AmberBlockEntity.setEntity → save/load → createEntity. The 26.1 port
-    // rewrote NBT capture to use ProblemReporter.ScopedCollector + TagValueOutput
-    // (replacing the deprecated saveWithoutId(CompoundTag) shape), so this verifies the
-    // captured entity tag survives a BE round-trip and can rebuild the original mob type.
+    // Exercises AmberBlockEntity.setEntity → save/load → createEntity. NBT capture runs
+    // through ProblemReporter.ScopedCollector + TagValueOutput, so this verifies the captured
+    // entity tag survives a BE round-trip and can rebuild the original mob type.
     private static void testAmberEntityRoundtrip(GameTestHelper helper) {
         BlockPos amberPos = new BlockPos(2, 2, 2);
         helper.setBlock(amberPos, ModBlocks.AMBER.get().defaultBlockState());
@@ -534,7 +533,7 @@ public final class ProductiveBeesGameTests
     // BeeHelper.getBeeProduce — which is the same call path the centrifuge / hive
     // simulation hits. Confirms FakePlayerFactory, LootContextParams.{LAST_DAMAGE_PLAYER,
     // DAMAGE_SOURCE, TOOL, DIRECT_ATTACKING_ENTITY, ATTACKING_ENTITY, THIS_ENTITY, ORIGIN}
-    // still resolve in 26.1, and that reloadableRegistries().getLootTable() works.
+    // all resolve, and that reloadableRegistries().getLootTable() works.
     private static void testWannabeeDragonBreath(GameTestHelper helper) {
         BlockPos amberPos = new BlockPos(2, 2, 2);
         helper.setBlock(amberPos, ModBlocks.AMBER.get().defaultBlockState());
@@ -729,9 +728,9 @@ public final class ProductiveBeesGameTests
     }
 
     // ── BeeCage capture/release round-trip ───────────────────────────────────────
-    // Captures a bee into a cage item via BeeCage.captureEntity (the new 26.1
-    // ProblemReporter + TagValueOutput path), then rehydrates it. Asserts the ENTITY_DATA-
-    // backed component round-trip survives.
+    // Captures a bee into a cage item via BeeCage.captureEntity (the ProblemReporter +
+    // TagValueOutput path), then rehydrates it. Asserts the ENTITY_DATA-backed component
+    // round-trip survives.
     private static void testBeeCageRoundtrip(GameTestHelper helper) {
         BlockPos beePos = new BlockPos(3, 2, 3);
         Bee bee = EntityType.BEE.create(helper.getLevel(), EntitySpawnReason.COMMAND);
@@ -1000,7 +999,7 @@ public final class ProductiveBeesGameTests
     // the tank contents into them. Place two centrifuges side by side, fill A's tank, tick a
     // couple of times, expect B's tank to have received fluid.
     //
-    // Note: in 26.1 the auto-tick path inside FluidTankBlockEntity.tick is gated on tankTick
+    // Note: the auto-tick path inside FluidTankBlockEntity.tick is gated on tankTick
     // reaching tankTickRate (21), but in a gametest the BE may be replaced/reset between tick
     // edges. Force a tick by calling tickFluidTank directly to make the assertion deterministic
     // regardless of tankTick alignment with test ticks.
@@ -1139,7 +1138,7 @@ public final class ProductiveBeesGameTests
 
     // ── Honey generator: fills tank from honey bottles ──────────────────────────
     // 4 honey bottles × 250 mB each = 1000 mB once consumed. Each tick, tickFluidTank converts
-    // one input item if there's space (and FluidTankBlockEntity.tick calls it every tick). After
+    // one input item if there's space (FluidTankBlockEntity.tick calls it every 21 ticks). After
     // ≥ 10 ticks the inner generator tick (tickCounter % 10 == 0) drains some fluid and inserts
     // FE into the energy handler — that's the signal that power generation actually started.
     // Glass bottles end up in the byproduct slot.

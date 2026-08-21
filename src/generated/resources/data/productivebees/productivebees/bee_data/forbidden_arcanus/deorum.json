@@ -6,7 +6,6 @@
     }
   ],
   "attack": 1.0,
-  "description": "productivebees.ingredient.description.only_spawnegg",
   "flowerBlock": "forbidden_arcanus:deorum_block",
   "particleColor": "#f4d167",
   "primaryColor": "#ca831a",

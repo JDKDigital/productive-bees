@@ -2,13 +2,8 @@ package cy.jdkdigital.productivebees.mixin;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ai.BeeAggressiveGoal;
-import cy.jdkdigital.productivebees.common.block.entity.FeederBlockEntity;
-import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.util.GeneAttribute;
 import cy.jdkdigital.productivebees.util.GeneValue;
-import net.minecraft.core.BlockPos;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.bee.Bee;
@@ -26,7 +21,7 @@ public abstract class BeeMixin extends Animal
         super(entityType, level);
     }
 
-    // 26.1 removed Bee.isFlowerValid; the Feeder-as-flower path now lives in BeePollinateGoalMixin#findNearbyFlower.
+    // The Feeder-as-flower path lives in BeePollinateGoalMixin#findNearbyFlower.
 
     @Inject(at = {@At(value = "RETURN")}, method = {"registerGoals"})
     protected void registerGoals(CallbackInfo ci) {

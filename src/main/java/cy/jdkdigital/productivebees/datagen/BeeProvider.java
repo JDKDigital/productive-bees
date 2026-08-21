@@ -329,7 +329,7 @@ public class BeeProvider
             add(new BeeConfig("fluxnetworks/flux").primaryColor("#141715").particleColor("#222924").beeTexture("flux").onlySpawnegg().flowerBlock("fluxnetworks:flux_block").size(0.5).requireMod("fluxnetworks"));
 
             add(new BeeConfig("forbidden_arcanus/arcane_crystal").primaryColor("#4550e7").secondaryColor("#a7bbfa").tertiaryColor("#c1ecfd").particleColor("#c4dee8").beeTexture("arcane_crystal").renderer("default_crystal").size(0.7).flowerBlock("forbidden_arcanus:arcane_crystal_block").requireMod("forbidden_arcanus"));
-            add(new BeeConfig("forbidden_arcanus/deorum").primaryColor("#ca831a").secondaryColor("#ebb02f").particleColor("#f4d167").onlySpawnegg().size(0.8).flowerBlock("forbidden_arcanus:deorum_block").requireMod("forbidden_arcanus"));
+            add(new BeeConfig("forbidden_arcanus/deorum").primaryColor("#ca831a").secondaryColor("#ebb02f").particleColor("#f4d167").size(0.8).flowerBlock("forbidden_arcanus:deorum_block").requireMod("forbidden_arcanus"));
             add(new BeeConfig("forbidden_arcanus/rune").primaryColor("#620d5f").secondaryColor("#8d2171").tertiaryColor("#c12383").particleColor("#eebcbe").beeTexture("rune").renderer("default_crystal").size(0.7).flowerBlock("forbidden_arcanus:rune_block").requireMod("forbidden_arcanus"));
             add(new BeeConfig("forbidden_arcanus/stellarite").primaryColor("#58594d").secondaryColor("#7a7e6d").particleColor("#909885").onlySpawnegg().size(0.8).noSelfBreed().flowerBlock("forbidden_arcanus:stellarite_block").requireMod("forbidden_arcanus"));
 

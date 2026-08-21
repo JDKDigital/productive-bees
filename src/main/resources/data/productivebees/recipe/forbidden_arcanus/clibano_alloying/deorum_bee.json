@@ -1,0 +1,38 @@
+{
+  "type": "forbidden_arcanus:clibano_alloying",
+  "duration": 150,
+  "required_materials": [
+    {
+      "type": "productivebees:molten_bee",
+      "amount": 9
+    },
+    {
+      "type": "forbidden_arcanus:gold",
+      "amount": 18
+    },
+    {
+      "type": "forbidden_arcanus:arcane_crystal",
+      "amount": 36
+    }
+  ],
+  "result": {
+    "components": {
+      "minecraft:entity_data": {
+        "id": "productivebees:configurable_bee",
+        "type": "productivebees:forbidden_arcanus/deorum"
+      }
+    },
+    "count": 1,
+    "id": "productivebees:spawn_egg_configurable_bee"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:forbidden_arcanus/deorum"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "forbidden_arcanus"
+    }
+  ]
+}

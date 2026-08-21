@@ -13,15 +13,11 @@ import cy.jdkdigital.productivebees.common.recipe.BeeSpawningRecipe;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
-import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
@@ -30,9 +26,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
@@ -213,14 +207,4 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
         return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
     }
 
-    // Tooltip logic lives in SolitaryNestBlockItem (26.1 removed Block.appendHoverText).
-    /*
-    @Override
-    public void appendHoverText(ItemStack pStack, Item.TooltipContext pContext, List<Component> pTootipComponents, TooltipFlag pTooltipFlag) {
-        super.appendHoverText(pStack, pContext, pTootipComponents, pTooltipFlag);
-        if (pStack.has(DataComponents.BLOCK_ENTITY_DATA) && pStack.get(DataComponents.BLOCK_ENTITY_DATA).getUnsafe().getInt("spawnCount") >= ProductiveBeesConfig.BEES.cuckooSpawnCount.get()) {
-            pTootipComponents.add(Component.translatable("productivebees.hive.tooltip.nest_inactive").withStyle(ChatFormatting.BOLD));
-        }
-    }
-    */
 }

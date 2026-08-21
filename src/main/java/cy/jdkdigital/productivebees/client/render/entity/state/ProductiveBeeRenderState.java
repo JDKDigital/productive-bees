@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.client.render.entity.state;
 
 import net.minecraft.client.renderer.entity.state.BeeRenderState;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.DyeColor;
 
 public class ProductiveBeeRenderState extends BeeRenderState
@@ -35,4 +36,6 @@ public class ProductiveBeeRenderState extends BeeRenderState
     public boolean isInvisible;
     public boolean isConfigurable;
     public int entityId;
+    /** Resolved once per frame by the renderer; the path depends on anger and nectar state. */
+    public Identifier textureLocation;
 }

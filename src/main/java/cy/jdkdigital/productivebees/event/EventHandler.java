@@ -12,17 +12,16 @@ import cy.jdkdigital.productivebees.common.recipe.BeeFishingRecipe;
 import cy.jdkdigital.productivebees.gen.feature.WoodNestDecorator;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.setup.BeeRegistries;
+import cy.jdkdigital.productivebees.common.block.entity.CentrifugeBlockEntity;
+import cy.jdkdigital.productivebees.common.block.entity.HeatedCentrifugeBlockEntity;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import cy.jdkdigital.productivebees.util.GeneAttribute;
 import cy.jdkdigital.productivebees.util.GeneValue;
-import cy.jdkdigital.productivelib.ProductiveLib;
 import cy.jdkdigital.productivelib.event.AddEntityToFilterEvent;
 import cy.jdkdigital.productivelib.event.UpgradeTooltipEvent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -42,27 +41,22 @@ import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.trading.ItemCost;
-import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CocoaBlock;
-import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.server.ServerStoppedEvent;
+import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.*;
@@ -72,7 +66,6 @@ import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.neoforged.neoforge.event.level.block.BreakBlockEvent;
 import net.neoforged.neoforge.event.level.BlockGrowFeatureEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.*;
 
@@ -174,6 +167,17 @@ public class EventHandler
                 }
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void onAddReloadListeners(AddServerReloadListenersEvent event) {
+        // Recipe lookups are cached by bee/item id, so drop them whenever the datapacks reload.
+        event.addListener(Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "recipe_caches"),
+                (sharedState, taskExecutor, barrier, reloadExecutor) -> barrier.<Void>wait(null).thenRun(() -> {
+                    BeeHelper.clearRecipeCaches();
+                    CentrifugeBlockEntity.clearRecipeCache();
+                    HeatedCentrifugeBlockEntity.clearBlockRecipeCache();
+                }));
     }
 
     @SubscribeEvent

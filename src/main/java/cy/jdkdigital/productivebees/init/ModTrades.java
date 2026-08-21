@@ -113,8 +113,8 @@ public final class ModTrades
                 new TradeCost(Items.EMERALD, 2), template(ModItems.SUGARBAG_HONEYCOMB.get(), 1), 32, 3, 0.2F, Optional.empty(), List.of()));
         context.register(tier2Keys.get(3), new VillagerTrade(
                 new TradeCost(Items.EMERALD, 1), template(ModItems.TREAT_ON_A_STICK.get(), 1), 8, 3, 0.2F, Optional.empty(), List.of()));
-        // The pre-26.1 implementation flipped a coin between selling and buying honey treats; both
-        // entries are pooled here so the trade-set lottery preserves the feel.
+        // Honey treats are both sold and bought; pooling both entries lets the trade-set
+        // lottery pick either direction.
         context.register(tier2Keys.get(4), new VillagerTrade(
                 new TradeCost(ModItems.HONEY_TREAT.get(), 4), template(Items.EMERALD, 1), 50, 3, 0.2F, Optional.empty(), List.of()));
         context.register(tier2Keys.get(5), new VillagerTrade(

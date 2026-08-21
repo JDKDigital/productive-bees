@@ -59,7 +59,6 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstract implements MenuProvider, ICapabilityBlockEntity, IUpgradeableBlockEntity, Container
@@ -235,7 +234,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                                             ItemStack filledCage = new ItemStack(cageStack.getItem());
                                             BeeCage.captureEntity(beeEntity, filledCage);
                                             if (itemStackHandler.canFitStacks(List.of(new ItemStack(cageStack.getItem())))) {
-                                                // Same 26.1 copy-semantics caveat: persist the shrink via setStackInSlot.
+                                                // getStackInSlot hands out a copy, so persist the shrink via setStackInSlot.
                                                 ItemStack shrunkCage = cageStack.copy();
                                                 shrunkCage.shrink(1);
                                                 itemStackHandler.setStackInSlot(AdvancedBeehiveContainer.SLOT_CAGE, shrunkCage);

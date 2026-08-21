@@ -57,7 +57,7 @@ public class BeeNBTChangerRecipe implements Recipe<RecipeInput>
 
     @Override
     public boolean matches(RecipeInput inv, Level worldIn) {
-        // TODO 1.21 reimplement with components somehow
+        // TODO: match on data components instead of NBT
 //        if (inv instanceof BeeHelper.ItemInventory && bee.get() != null) {
 //            String beeName = ((BeeHelper.ItemInventory) inv).getIdentifier(0);
 //            ItemStack item = ((BeeHelper.ItemInventory) inv).getInput();

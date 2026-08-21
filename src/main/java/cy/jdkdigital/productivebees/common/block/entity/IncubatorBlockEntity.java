@@ -13,7 +13,6 @@ import cy.jdkdigital.productivebees.util.BeeCreator;
 import cy.jdkdigital.productivebees.util.GeneAttribute;
 import cy.jdkdigital.productivebees.util.GeneGroup;
 import cy.jdkdigital.productivelib.common.block.entity.CapabilityBlockEntity;
-import cy.jdkdigital.productivelib.common.block.entity.ICapabilityBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.common.block.entity.IUpgradeableBlockEntity;
 import cy.jdkdigital.productivelib.registry.LibItems;

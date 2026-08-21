@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.container;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.entity.FeederBlockEntity;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
 import cy.jdkdigital.productivelib.container.AbstractContainer;

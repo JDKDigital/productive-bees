@@ -60,7 +60,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuProvider, IUpgradeableBlockEntity, IRecipeProcessingBlockEntity
 {
@@ -243,12 +242,10 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
             try (Transaction tx = Transaction.openRoot()) {
                 int sendable = (int) Math.min(available, Integer.MAX_VALUE);
                 int inserted = neighbour.insert(resource, sendable, tx);
-                if (inserted > 0) {
-                    int extracted = fluidHandler.extract(0, resource, inserted, tx);
-                    if (extracted > 0) {
-                        tx.commit();
-                        available -= extracted;
-                    }
+                // Commit only a balanced move; a short extract would mint the difference.
+                if (inserted > 0 && fluidHandler.extract(0, resource, inserted, tx) == inserted) {
+                    tx.commit();
+                    available -= inserted;
                 }
             }
         }
@@ -271,9 +268,8 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
 
     private List<ItemEntity> getCaptureItems() {
         assert level != null;
-        List<AABB> boxes = Centrifuge.COLLECTION_AREA_SHAPE.toAabbs();
         List<ItemEntity> result = new ArrayList<>();
-        for (AABB box : boxes) {
+        for (AABB box : COLLECTION_BOXES) {
             result.addAll(level.getEntitiesOfClass(ItemEntity.class, box.move(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ()), EntitySelector.ENTITY_STILL_ALIVE));
         }
         return result;
@@ -327,7 +323,16 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
         return isAllowedByFilter && recipe != null;
     }
 
+    // The collection area is a fixed shape, so decompose it once rather than per capture pass.
+    private static final List<AABB> COLLECTION_BOXES = Centrifuge.COLLECTION_AREA_SHAPE.toAabbs();
+
     static Map<String, RecipeHolder<CentrifugeRecipe>> recipeMap = new HashMap<>();
+
+    /** Drops cached recipe lookups so a datapack reload can't serve stale holders. */
+    public static void clearRecipeCache() {
+        recipeMap.clear();
+    }
+
     protected RecipeHolder<CentrifugeRecipe> getRecipe(InventoryHandlerHelper.BlockEntityItemStackHandler inputHandler) {
         if (recipeMap.size() > 5000) {
             recipeMap.clear();

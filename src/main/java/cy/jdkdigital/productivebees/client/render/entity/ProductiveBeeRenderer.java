@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class ProductiveBeeRenderer extends MobRenderer<ProductiveBee, ProductiveBeeRenderState, ProductiveBeeModel<ProductiveBeeRenderState>>
 {
-    private static Map<String, Identifier> resLocCache = new HashMap<>();
+    private static final Map<String, Identifier> resLocCache = new HashMap<>();
 
     public static final ModelLayerLocation PB_MAIN_LAYER = new ModelLayerLocation(Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "main"), "main");
     public static final ModelLayerLocation PB_HOARDER_LAYER = new ModelLayerLocation(Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "hoarder"), "main");
@@ -79,6 +79,8 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBee, Productive
     @Override
     public void extractRenderState(ProductiveBee bee, ProductiveBeeRenderState state, float partialTick) {
         super.extractRenderState(bee, state, partialTick);
+        // Cleared here so getTextureLocation rebuilds it at most once per frame.
+        state.textureLocation = null;
         state.rollAmount = bee.getRollAmount(partialTick);
         state.hasStinger = !bee.hasStung();
         state.isOnGround = bee.onGround();
@@ -141,6 +143,13 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBee, Productive
     @Nonnull
     @Override
     public Identifier getTextureLocation(ProductiveBeeRenderState state) {
+        if (state.textureLocation == null) {
+            state.textureLocation = buildTextureLocation(state);
+        }
+        return state.textureLocation;
+    }
+
+    protected Identifier buildTextureLocation(ProductiveBeeRenderState state) {
         String textureLocation = ProductiveBees.MODID + ":textures/entity/bee/" + state.beeName + "/bee";
 
         if (state.isBlehBumbleBee) {
@@ -168,9 +177,6 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBee, Productive
     }
 
     public static Identifier resLoc(String key) {
-        if (!resLocCache.containsKey(key)) {
-            resLocCache.put(key, Identifier.parse(key));
-        }
-        return resLocCache.get(key);
+        return resLocCache.computeIfAbsent(key, Identifier::parse);
     }
 }

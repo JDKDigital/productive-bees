@@ -8,7 +8,6 @@ import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModFluids;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivelib.common.block.entity.FluidTankBlockEntity;
-import cy.jdkdigital.productivelib.common.block.entity.ICapabilityBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.common.block.entity.IUpgradeableBlockEntity;
 import cy.jdkdigital.productivelib.registry.LibItems;
@@ -41,8 +40,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements MenuProvider, IUpgradeableBlockEntity
 {
@@ -65,6 +62,11 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements M
 
     public FluidStacksResourceHandler fluidHandler = new FluidStacksResourceHandler(1, 10000)
     {
+        @Override
+        public boolean isValid(int index, FluidResource resource) {
+            return resource.getFluid().is(ModTags.HONEY);
+        }
+
         @Override
         protected void onContentsChanged(int index, FluidStack previousContents) {
             super.onContentsChanged(index, previousContents);
@@ -136,27 +138,25 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements M
 
     public void sendOutPower(int modifier) {
         if (this.level != null) {
-            AtomicInteger capacity = new AtomicInteger(energyHandler.getAmountAsInt());
-            if (capacity.get() > 0) {
-                AtomicBoolean dirty = new AtomicBoolean(false);
+            int capacity = energyHandler.getAmountAsInt();
+            if (capacity > 0) {
+                boolean dirty = false;
                 for (EnergyHandler handler : recipients) {
                     try (Transaction tx = Transaction.openRoot()) {
-                        int sendable = Math.min(capacity.get(), 100 * modifier);
+                        int sendable = Math.min(capacity, 100 * modifier);
                         int received = handler.insert(sendable, tx);
-                        if (received > 0) {
-                            int extracted = energyHandler.extract(received, tx);
-                            if (extracted > 0) {
-                                tx.commit();
-                                capacity.addAndGet(-received);
-                                dirty.set(true);
-                            }
+                        // Commit only a balanced move; a short extract would mint the difference.
+                        if (received > 0 && energyHandler.extract(received, tx) == received) {
+                            tx.commit();
+                            capacity -= received;
+                            dirty = true;
                         }
                     }
-                    if (capacity.get() <= 0) {
+                    if (capacity <= 0) {
                         break;
                     }
                 }
-                if (dirty.get()) {
+                if (dirty) {
                     this.setChanged();
                 }
             }
@@ -203,7 +203,7 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements M
         // Emptied generic fluid container — move it to the output slot.
         if (itemFluidHandler != null && itemFluidHandler.getAmountAsInt(0) == 0 && !isHoneyBucket && !isHoneyBottle && !isHoneyBlock) {
             if (outputInvItem.isEmpty()) {
-                if (!inventoryHandler.insertItem(1, invItem, false).isEmpty()) {
+                if (inventoryHandler.insertItem(1, invItem, false).isEmpty()) {
                     inventoryHandler.setStackInSlot(0, ItemStack.EMPTY);
                 }
             }
@@ -220,7 +220,7 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements M
                 FluidResource itemResource = itemFluidHandler.getResource(0);
                 int extracted = itemFluidHandler.extract(0, itemResource, addAmount, tx);
                 if (extracted > 0) {
-                    int inserted = fluidHandler.insert(honey, extracted, tx);
+                    int inserted = fluidHandler.insert(itemResource, extracted, tx);
                     if (inserted > 0) {
                         tx.commit();
                     }

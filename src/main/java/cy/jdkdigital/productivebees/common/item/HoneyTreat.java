@@ -9,7 +9,6 @@ import cy.jdkdigital.productivebees.util.ColorUtil;
 import cy.jdkdigital.productivebees.util.GeneAttribute;
 import cy.jdkdigital.productivebees.util.GeneGroup;
 import cy.jdkdigital.productivebees.util.GeneValue;
-import cy.jdkdigital.productivelib.util.LangUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;

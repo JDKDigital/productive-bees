@@ -14,7 +14,6 @@ import java.util.concurrent.CompletableFuture;
 import static cy.jdkdigital.productivelib.datagen.recipe.ConditionsHelper.modLoaded;
 import static cy.jdkdigital.productivelib.datagen.recipe.ConditionsHelper.not;
 import static cy.jdkdigital.productivelib.datagen.recipe.ConditionsHelper.tagEmpty;
-import static cy.jdkdigital.productivelib.datagen.recipe.ConditionsHelper.or;
 
 /** Emits {@code productivebees:bee_conversion} JSON recipes directly. */
 public class BeeConversionRecipeProvider implements DataProvider
@@ -79,7 +78,7 @@ public class BeeConversionRecipeProvider implements DataProvider
         emit("productivebees:magmatic", "productivebees:lava", "minecraft:lava_bucket", 1.0f, List.of(beeExists("productivebees:magmatic"), beeExists("productivebees:lava")), "fluids/lava_bee");
         emit("productivebees:leafcutter_bee", "productivebees:fluids/tea", "minecraft:water_bucket", 1.0f, List.of(beeExists("productivebees:fluids/tea")), "fluids/tea_bee");
         emit("productivebees:gems/diamond", "productivebees:forbidden_arcanus/arcane_crystal", "forbidden_arcanus:arcane_crystal_block", 1.0f, List.of(beeExists("productivebees:gems/diamond"), beeExists("productivebees:forbidden_arcanus/arcane_crystal"), modLoaded("forbidden_arcanus")), "forbidden_arcanus/arcane_crystal_bee");
-        emit("productivebees:forbidden_arcanus/arcane_crystal", "productivebees:forbidden_arcanus/rune", "forbidden_arcanus:rune_block", 1.0f, List.of(beeExists("productivebees:gems/diamond"), beeExists("productivebees:forbidden_arcanus/rune"), modLoaded("forbidden_arcanus")), "forbidden_arcanus/rune_bee");
+        emit("productivebees:forbidden_arcanus/arcane_crystal", "productivebees:forbidden_arcanus/rune", "forbidden_arcanus:rune_block", 1.0f, List.of(beeExists("productivebees:forbidden_arcanus/arcane_crystal"), beeExists("productivebees:forbidden_arcanus/rune"), modLoaded("forbidden_arcanus")), "forbidden_arcanus/rune_bee");
         emit("productivebees:gems/diamond", "productivebees:gems/agate", "#productivebees:flowers/agate", 1.0f, List.of(not(tagEmpty("productivebees:flowers/agate")), beeExists("productivebees:gems/diamond"), beeExists("productivebees:gems/agate")), "gems/agate_bee");
         emit("productivebees:gems/diamond", "productivebees:gems/alexandrite", "#productivebees:flowers/alexandrite", 1.0f, List.of(not(tagEmpty("productivebees:flowers/alexandrite")), beeExists("productivebees:gems/diamond"), beeExists("productivebees:gems/alexandrite")), "gems/alexandrite_bee");
         emit("productivebees:gems/diamond", "productivebees:gems/amber_gem", "#productivebees:flowers/amber", 1.0f, List.of(not(tagEmpty("productivebees:flowers/amber")), beeExists("productivebees:gems/diamond"), beeExists("productivebees:gems/amber_gem")), "gems/amber_bee");

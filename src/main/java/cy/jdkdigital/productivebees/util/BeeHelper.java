@@ -30,7 +30,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -81,8 +80,9 @@ public class BeeHelper
 {
     private static final int RECIPE_CACHE_MAX = 512;
 
+    // Insertion-ordered, so get() never restructures the map.
     private static <V> Map<String, V> boundedCache() {
-        return new LinkedHashMap<>(64, 0.75f, true) {
+        return new LinkedHashMap<>(64, 0.75f, false) {
             @Override
             protected boolean removeEldestEntry(Map.Entry<String, V> eldest) {
                 return size() > RECIPE_CACHE_MAX;
@@ -95,7 +95,7 @@ public class BeeHelper
     private static final Map<String, List<RecipeHolder<BeeNBTChangerRecipe>>> nbtChangerRecipeMap = boundedCache();
     private static final Map<String, List<RecipeHolder<BeeConversionRecipe>>> beeConversionRecipeMap = boundedCache();
 
-    /** Test-only — clears all per-server recipe caches. */
+    /** Drops every cached lookup, so a datapack reload can't serve stale recipe holders. */
     public static void clearRecipeCaches() {
         blockConversionRecipeMap.clear();
         itemConversionRecipeMap.clear();
@@ -278,8 +278,9 @@ public class BeeHelper
         List<RecipeHolder<BlockConversionRecipe>> recipes = new ArrayList<>();
         BlockStateInventory beeInv = new BlockStateInventory(beeEntity, flowerBlockState);
         String cacheKey = beeInv.getIdentifier(0) + beeInv.getIdentifier(1);
-        if (blockConversionRecipeMap.containsKey(cacheKey)) {
-            recipes = blockConversionRecipeMap.get(cacheKey);
+        List<RecipeHolder<BlockConversionRecipe>> cached = blockConversionRecipeMap.get(cacheKey);
+        if (cached != null) {
+            recipes = cached;
         } else if (beeEntity.level() instanceof ServerLevel) {
             // Get block conversion recipes
             Collection<RecipeHolder<BlockConversionRecipe>> allRecipes = beeEntity.level().getServer().getRecipeManager().recipeMap().byType(ModRecipeTypes.BLOCK_CONVERSION_TYPE.get());
@@ -306,8 +307,9 @@ public class BeeHelper
         List<RecipeHolder<ItemConversionRecipe>> recipes = new ArrayList<>();
         ItemInventory beeInv = new ItemInventory(beeEntity, item);
         String cacheKey = beeInv.getIdentifier(0) + beeInv.getIdentifier(1);
-        if (itemConversionRecipeMap.containsKey(cacheKey)) {
-            recipes = itemConversionRecipeMap.get(cacheKey);
+        List<RecipeHolder<ItemConversionRecipe>> cached = itemConversionRecipeMap.get(cacheKey);
+        if (cached != null) {
+            recipes = cached;
         } else if (beeEntity.level() instanceof ServerLevel) {
             // Get item conversion recipes
             Collection<RecipeHolder<ItemConversionRecipe>> allRecipes = beeEntity.level().getServer().getRecipeManager().recipeMap().byType(ModRecipeTypes.ITEM_CONVERSION_TYPE.get());
@@ -334,8 +336,9 @@ public class BeeHelper
         List<RecipeHolder<BeeNBTChangerRecipe>> recipes = new ArrayList<>();
         var inv = new ItemInventory(beeEntity, item);
         String cacheKey = inv.getIdentifier(0) + inv.getIdentifier(1);
-        if (nbtChangerRecipeMap.containsKey(cacheKey)) {
-            recipes = nbtChangerRecipeMap.get(cacheKey);
+        List<RecipeHolder<BeeNBTChangerRecipe>> cached = nbtChangerRecipeMap.get(cacheKey);
+        if (cached != null) {
+            recipes = cached;
         } else if (beeEntity.level() instanceof ServerLevel) {
             Collection<RecipeHolder<BeeNBTChangerRecipe>> allRecipes = beeEntity.level().getServer().getRecipeManager().recipeMap().byType(ModRecipeTypes.BEE_NBT_CHANGER_TYPE.get());
             for (RecipeHolder<BeeNBTChangerRecipe> recipe : allRecipes) {

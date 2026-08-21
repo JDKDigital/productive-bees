@@ -69,6 +69,12 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
     }
 
     static Map<String, RecipeHolder<CentrifugeRecipe>> blockRecipeMap = new HashMap<>();
+
+    /** Drops cached recipe lookups so a datapack reload can't serve stale holders. */
+    public static void clearBlockRecipeCache() {
+        blockRecipeMap.clear();
+    }
+
     @Override
     protected RecipeHolder<CentrifugeRecipe> getRecipe(InventoryHandlerHelper.BlockEntityItemStackHandler inputHandler) {
         if (blockRecipeMap.size() > 5000) {

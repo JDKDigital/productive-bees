@@ -48,7 +48,7 @@ public class CentrifugeRecipeBuilder extends AbstractRecipeBuilder {
     }
 
     public static CentrifugeRecipeBuilder configurable(String beeName, List<TagOutputRecipe.ChancedOutput> output, Fluid fluid, int fluidAmount, List<ICondition> conditions) {
-        // 26.1: Item.components()/Fluid.components() aren't bound when datagen providers run, so
+        // Item.components()/Fluid.components() aren't bound while datagen providers run, so
         // constructing ItemStack/FluidStack via `new ItemStack(item)` / `new FluidStack(fluid, n)`
         // throws "Components not bound yet". Build DataComponentPatch directly + store the raw
         // Fluid + amount; defer materialization to inside SizedFluidIngredient.of(...) at save-time.

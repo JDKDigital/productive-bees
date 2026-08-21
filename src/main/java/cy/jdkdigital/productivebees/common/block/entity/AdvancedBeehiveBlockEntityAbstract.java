@@ -36,7 +36,6 @@ import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.component.TypedEntityData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BeehiveBlock;
@@ -50,7 +49,6 @@ import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.attachment.AttachmentHolder;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.items.IItemHandler;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -90,8 +88,8 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
 
     public static void tick(Level level, BlockPos pos, BlockState state, AdvancedBeehiveBlockEntityAbstract blockEntity) {
         if (level instanceof ServerLevel serverLevel) {
+            ++blockEntity.tickCounter;
             tickBees(serverLevel, pos, state, blockEntity);
-            blockEntity.tickCounter = 0;
         }
 
         // Play hive buzz sound
@@ -139,9 +137,10 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                             // Capture the simulated bee's mutated state back into a fresh TypedEntityData
                             entityData = BeehiveBlockEntity.Occupant.of(simulatedBee).entityData();
                         }
-                    } else if (willLeaveHive(pLevel, inhabitant, beeReleaseStatus)){
-                        // only add count if outside is favourable
-                        ticksInHive += blockEntity.tickCounter;
+                    } else if (!willLeaveHive(pLevel, inhabitant, beeReleaseStatus)) {
+                        // Hand back this tick's increment so the timer holds while it's night for a
+                        // diurnal bee, or raining on one without weather tolerance.
+                        --ticksInHive;
                     }
                     var newInhabitant = new BeehiveBlockEntity.Occupant(entityData, ticksInHive, minOccupationTicks);
                     iterator.set(new ProductiveBeeData(newInhabitant));
@@ -274,8 +273,8 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                         pBee.internalSetHasNectar(true);
                         pBee.postPollinate();
                     } else if (!(beeEntity instanceof ProductiveBee)) {
-                        // Vanilla Bee.isFlowerValid was removed in 26.1; the equivalent check is
-                        // the static Bee.attractsBees(BlockState) used by the new pollinate goal.
+                        // Vanilla bees accept any block Bee.attractsBees matches, plus a Feeder stocked
+                        // with a flowering block.
                         BlockState flowerBlock = pLevel.getBlockState(flowerPos);
                         if (Bee.attractsBees(flowerBlock) || (flowerBlock.getBlock() instanceof Feeder && ProductiveBee.isValidFeeder(beeEntity, pLevel.getBlockEntity(flowerPos), blockState -> blockState.is(ModTags.DEFAULT_FLOWERING_BLOCK), null))) {
                             beeState = BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED;

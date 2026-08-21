@@ -42,7 +42,6 @@ import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class BottlerBlockEntity extends FluidTankBlockEntity implements MenuProvider
@@ -55,6 +54,14 @@ public class BottlerBlockEntity extends FluidTankBlockEntity implements MenuProv
         @Override
         public boolean isContainerItem(Item item) {
             return item == Items.GLASS_BOTTLE || item == Items.BUCKET || item == Items.HONEYCOMB;
+        }
+
+        @Override
+        protected void onContentsChanged(int slot, ItemStack previousContents) {
+            super.onContentsChanged(slot, previousContents);
+            if (slot == InventoryHandlerHelper.BOTTLE_SLOT) {
+                BottlerBlockEntity.this.updateBottleState();
+            }
         }
     };
 
@@ -157,15 +164,19 @@ public class BottlerBlockEntity extends FluidTankBlockEntity implements MenuProv
         if (matched != null) {
             BottlerRecipe recipe = matched.value();
             ItemStack resultItem = recipe.getResult().copy();
-            if (existingOutput.isEmpty() || existingOutput.getItem().equals(resultItem.getItem())) {
+            // Simulate first: without room for the result the bottle and fluid would be eaten for nothing.
+            if (inventoryHandler.insertItem(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, resultItem, true).isEmpty()) {
                 int drainAmount = recipe.fluidInput.amount();
+                boolean drained = false;
                 try (Transaction tx = Transaction.openRoot()) {
-                    int drained = fluidHandler.extract(0, tankResource, drainAmount, tx);
-                    if (drained >= drainAmount) {
+                    if (fluidHandler.extract(0, tankResource, drainAmount, tx) == drainAmount) {
                         tx.commit();
-                        inventoryHandler.extractItem(InventoryHandlerHelper.BOTTLE_SLOT, 1, false, false);
-                        inventoryHandler.insertItem(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, resultItem, false);
+                        drained = true;
                     }
+                }
+                if (drained) {
+                    inventoryHandler.extractItem(InventoryHandlerHelper.BOTTLE_SLOT, 1, false, false);
+                    inventoryHandler.insertItem(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, resultItem, false);
                 }
             }
             return;
@@ -174,21 +185,21 @@ public class BottlerBlockEntity extends FluidTankBlockEntity implements MenuProv
         // 2) Generic fluid-container item — fill the item from the tank in place.
         ResourceHandler<FluidResource> itemFluidHandler = ItemAccess.forHandlerIndex(inventoryHandler, InventoryHandlerHelper.BOTTLE_SLOT).getCapability(Capabilities.Fluid.ITEM);
         if (itemFluidHandler != null) {
+            boolean filledItem = false;
             try (Transaction tx = Transaction.openRoot()) {
                 int inserted = itemFluidHandler.insert(tankResource, tankAmount, tx);
-                if (inserted > 0) {
-                    int drained = fluidHandler.extract(0, tankResource, inserted, tx);
-                    if (drained > 0) {
-                        tx.commit();
-                        // If the item ended up at capacity, move it to the output slot.
-                        if (itemFluidHandler.getAmountAsInt(0) >= itemFluidHandler.getCapacityAsInt(0, tankResource)) {
-                            ItemStack filled = inventoryHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
-                            if (!filled.isEmpty() && (existingOutput.isEmpty() || existingOutput.getItem().equals(filled.getItem()))) {
-                                ItemStack toMove = filled.split(1);
-                                inventoryHandler.insertItem(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, toMove, false);
-                            }
-                        }
-                    }
+                // Commit only a balanced move; a short extract would mint the difference.
+                if (inserted > 0 && fluidHandler.extract(0, tankResource, inserted, tx) == inserted) {
+                    tx.commit();
+                    filledItem = true;
+                }
+            }
+            // Once the container is at capacity, hand one of them to the output slot.
+            if (filledItem && itemFluidHandler.getAmountAsInt(0) >= itemFluidHandler.getCapacityAsInt(0, tankResource)) {
+                ItemStack filled = inventoryHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
+                if (!filled.isEmpty() && (existingOutput.isEmpty() || existingOutput.getItem().equals(filled.getItem()))
+                        && inventoryHandler.insertItem(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, filled.copyWithCount(1), false).isEmpty()) {
+                    inventoryHandler.extractItem(InventoryHandlerHelper.BOTTLE_SLOT, 1, false, false);
                 }
             }
         }
@@ -199,8 +210,7 @@ public class BottlerBlockEntity extends FluidTankBlockEntity implements MenuProv
         super.loadPacketNBT(input);
 
         // set fluid ID for screens
-        FluidStack fluidStack = fluidHandler.getResource(0).toStack(fluidHandler.getAmountFrom(fluidHandler.getResource(0).toStack(0)));
-        fluidId = BuiltInRegistries.FLUID.getId(fluidStack.getFluid());
+        fluidId = BuiltInRegistries.FLUID.getId(fluidHandler.getResource(0).getFluid());
     }
 
     @Override

@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.datagen;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.common.crafting.ingredient.ComponentIngredient;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.util.BeeCreator;

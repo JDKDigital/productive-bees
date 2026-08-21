@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import static cy.jdkdigital.productivelib.datagen.recipe.ConditionsHelper.modLoaded;
 import static cy.jdkdigital.productivelib.datagen.recipe.ConditionsHelper.not;
-import static cy.jdkdigital.productivelib.datagen.recipe.ConditionsHelper.tagEmpty;
 
 /** Emits comb_block, bottler, bee_fishing, and nests JSON recipes directly (cross-mod fluid/item refs prevent standard builder usage). */
 public class MiscRecipeProvider implements DataProvider

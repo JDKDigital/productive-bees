@@ -66,7 +66,7 @@ public class BeeBombEntity extends ThrowableItemProjectile
                     }
                 }
 
-                // TODO 1.21 reimplement
+                // TODO: release the bees carried by the bomb
 //                for (Tag bee : bees) {
 //                    Bee beeEntity = BeeCage.getEntityFromStack(bee, level(), true);
 //                    if (beeEntity != null) {

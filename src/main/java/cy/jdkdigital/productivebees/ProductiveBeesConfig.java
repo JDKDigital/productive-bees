@@ -92,7 +92,6 @@ public class ProductiveBeesConfig
         public final ModConfigSpec.IntValue nestSpawnCooldown;
         public final ModConfigSpec.BooleanValue enableJokes;
         public final ModConfigSpec.BooleanValue centrifugeHopperMode;
-        public final ModConfigSpec.BooleanValue centrifugeFluidSharing;
         public final ModConfigSpec.BooleanValue forceEnableFarmerBeeRightClickHarvest;
         public final ModConfigSpec.DoubleValue quantumArmorFailureChance;
         public final ModConfigSpec.IntValue beeBeeArmorDurabilityPercentageRemainder;
@@ -163,10 +162,6 @@ public class ProductiveBeesConfig
             centrifugeHopperMode = builder
                     .comment("Centrifuges will pick up items thrown on it")
                     .define("centrifugeHopperMode", true);
-
-            centrifugeFluidSharing = builder
-                    .comment("Centrifuges will output fluid to any adjacent fluid containers including other centrifuges")
-                    .define("centrifugeFluidSharing", true);
 
             forceEnableFarmerBeeRightClickHarvest = builder
                     .comment("Enable this if you have a right click harvest handler but none of the following mods: right_click_get_crops, croptopia, quark, harvest, simplefarming, reap")

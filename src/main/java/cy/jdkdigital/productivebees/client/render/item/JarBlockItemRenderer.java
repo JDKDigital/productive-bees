@@ -5,7 +5,6 @@ import com.mojang.math.Axis;
 import com.mojang.serialization.MapCodec;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
-import cy.jdkdigital.productivebees.init.ModDataComponents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;

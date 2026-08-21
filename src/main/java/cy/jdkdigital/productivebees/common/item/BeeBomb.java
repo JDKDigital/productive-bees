@@ -23,7 +23,6 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 import java.util.function.Consumer;
 
 public class BeeBomb extends Item
@@ -47,7 +46,7 @@ public class BeeBomb extends Item
     public static void addBee(ItemStack stack, ItemStack cage) {
         ListTag bees = getBees(stack);
 
-        // TODO 1.21 reimplement with data components
+        // TODO: store the caged bee on a data component
 //        bees.add(cage.getTag());
 //
 //        stack.getOrCreateTag().put(BEES_KEY, bees);

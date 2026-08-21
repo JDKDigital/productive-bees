@@ -12,7 +12,7 @@ import snownee.jade.api.config.IPluginConfig;
 
 public class CanvasExpansionBoxProvider implements IBlockComponentProvider
 {
-    public static final Identifier UID = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "canvas_beehive");
+    public static final Identifier UID = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "canvas_expansion_box");
 
     static final CanvasExpansionBoxProvider INSTANCE = new CanvasExpansionBoxProvider();
 

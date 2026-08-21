@@ -5,20 +5,16 @@ import cy.jdkdigital.productivebees.common.block.entity.FeederBlockEntity;
 import cy.jdkdigital.productivebees.init.ModFluids;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -42,7 +38,6 @@ import org.slf4j.Logger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
 
 public class Feeder extends SlabBlock implements EntityBlock
 {
@@ -166,9 +161,11 @@ public class Feeder extends SlabBlock implements EntityBlock
             }
             if (heldBlock instanceof SlabBlock) {
                 final BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
-                if (blockEntity instanceof FeederBlockEntity) {
-                    ((FeederBlockEntity) blockEntity).baseBlock = heldBlock;
-                    blockEntity.setChanged();
+                if (blockEntity instanceof FeederBlockEntity feederBlockEntity) {
+                    feederBlockEntity.baseBlock = heldBlock;
+                    feederBlockEntity.setChanged();
+                    // setChanged only marks the chunk dirty, so push the new base block to clients.
+                    pLevel.sendBlockUpdated(pPos, pState, pState, Block.UPDATE_ALL);
                     return InteractionResult.SUCCESS;
                 }
             }
@@ -189,12 +186,4 @@ public class Feeder extends SlabBlock implements EntityBlock
         return new FeederBlockEntity(pos, state);
     }
 
-    // Tooltip logic lives in SimpleTooltipBlockItem registration for "feeder".
-    /*
-    @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        tooltipComponents.add(Component.translatable(this.getDescriptionId() + ".tooltip").withStyle(ChatFormatting.GOLD));
-        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
-    }
-    */
 }

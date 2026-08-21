@@ -61,7 +61,6 @@ import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.common.NeoForge;
 
 import javax.annotation.Nonnull;
@@ -74,6 +73,8 @@ import java.util.stream.Stream;
 
 public class ProductiveBee extends Bee implements IProductiveBee
 {
+    private static final Identifier PEPTO_BISMOL = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "pepto_bismol");
+
     protected Predicate<Holder<PoiType>> beehiveInterests = (poi) -> poi.is(PoiTypeTags.BEE_HOME);
 
     private boolean renderStatic = false;
@@ -145,18 +146,17 @@ public class ProductiveBee extends Bee implements IProductiveBee
         if (!level().isClientSide() && tickCount % ProductiveBeesConfig.BEE_ATTRIBUTES.effectTicks.get() == 0) {
             BeeEffect effect = getBeeEffect();
             if (effect != null && !effect.getEffects().isEmpty()) {
-                List<LivingEntity> entities;
-                if (getBeeType().equals(Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "pepto_bismol"))) {
-                    entities = level().getEntitiesOfClass(LivingEntity.class, (new AABB(new BlockPos(ProductiveBee.this.blockPosition()))).inflate(8.0D, 6.0D, 8.0D));
+                AABB area = new AABB(blockPosition()).inflate(8.0D, 6.0D, 8.0D);
+                List<? extends LivingEntity> entities;
+                if (getBeeType().equals(PEPTO_BISMOL)) {
+                    entities = level().getEntitiesOfClass(LivingEntity.class, area);
                 } else {
-                    entities = level().getEntitiesOfClass(Player.class, (new AABB(new BlockPos(ProductiveBee.this.blockPosition()))).inflate(8.0D, 6.0D, 8.0D)).stream().map(player -> (LivingEntity) player).collect(Collectors.toList());
+                    entities = level().getEntitiesOfClass(Player.class, area);
                 }
-                if (!entities.isEmpty()) {
-                    entities.forEach(entity -> {
-                        for (Map.Entry<Holder<MobEffect>, Integer> entry : effect.getEffects().entrySet()) {
-                            entity.addEffect(new MobEffectInstance(entry.getKey(), entry.getValue()));
-                        }
-                    });
+                for (LivingEntity entity : entities) {
+                    for (Map.Entry<Holder<MobEffect>, Integer> entry : effect.getEffects().entrySet()) {
+                        entity.addEffect(new MobEffectInstance(entry.getKey(), entry.getValue()));
+                    }
                 }
             }
         }
@@ -526,7 +526,7 @@ public class ProductiveBee extends Bee implements IProductiveBee
                             setHasConverted(!itemRecipe.value().pollinates);
                             return;
                         }
-                        // TODO 1.21 BeeComponentChangerRecipe
+                        // TODO: port BeeNBTChangerRecipe to data components
 //                        BeeNBTChangerRecipe nbtRecipe = BeeHelper.getNBTChangerRecipe(this, stack);
 //                        CompoundTag tag = stack.getTag();
 //                        if (nbtRecipe != null && tag != null) {

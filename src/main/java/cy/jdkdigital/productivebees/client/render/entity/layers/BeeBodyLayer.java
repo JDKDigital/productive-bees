@@ -19,6 +19,7 @@ import java.util.Map;
 public class BeeBodyLayer extends RenderLayer<ProductiveBeeRenderState, ProductiveBeeModel<ProductiveBeeRenderState>>
 {
     private final String modelType;
+    private Map<String, Identifier> textures;
     private final ProductiveBeeModel<ProductiveBeeRenderState> model;
     private final boolean isChristmas;
     private final ProductiveBeeRenderer parent;
@@ -71,6 +72,14 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBeeRenderState, Producti
         this.parent = rendererIn;
     }
 
+    /** Texture set for this layer's model, falling back to the default set for an unknown renderer name. */
+    private Map<String, Identifier> textures() {
+        if (this.textures == null) {
+            this.textures = baseTextures.getOrDefault(this.modelType, baseTextures.get("default"));
+        }
+        return this.textures;
+    }
+
     @Override
     public void submit(@Nonnull PoseStack poseStack, @Nonnull SubmitNodeCollector collector, int packedLight, @Nonnull ProductiveBeeRenderState state, float yRot, float xRot) {
         if (state.renderType.equals(this.modelType) && !state.isInvisible) {
@@ -102,17 +111,17 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBeeRenderState, Producti
     }
 
     private int renderColoredLayers(PoseStack poseStack, SubmitNodeCollector collector, int packedLight, ProductiveBeeRenderState state, int order) {
-        Identifier location = baseTextures.get(this.modelType).get("primary");
+        Identifier location = textures().get("primary");
         renderColoredCutoutModel(this.model, location, poseStack, collector, packedLight, state, state.primaryColor, order++);
 
-        Identifier abdomenLocation = baseTextures.get(this.modelType).get("abdomen");
+        Identifier abdomenLocation = textures().get("abdomen");
         renderColoredCutoutModel(this.model, abdomenLocation, poseStack, collector, packedLight, state, state.secondaryColor, order++);
 
         if (this.modelType.equals("default_crystal")) {
             return renderCrystalLayer(poseStack, collector, packedLight, state, order);
         } else if (this.modelType.equals("default_foliage") || this.modelType.equals("default_shell")) {
             int color = state.isConfigurable ? state.tertiaryColor : state.primaryColor;
-            Identifier foliageLocation = baseTextures.get(this.modelType).get("crystals");
+            Identifier foliageLocation = textures().get("crystals");
             renderColoredCutoutModel(this.model, foliageLocation, poseStack, collector, packedLight, state, color, order++);
         }
         return order;
@@ -121,10 +130,10 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBeeRenderState, Producti
     private int renderCrystalLayer(PoseStack poseStack, SubmitNodeCollector collector, int packedLight, ProductiveBeeRenderState state, int order) {
         int color = state.isConfigurable ? state.tertiaryColor : state.primaryColor;
         boolean useGlowLayer = !state.renderStatic && (!state.isConfigurable || state.useGlowLayer);
-        Identifier crystalsLocation = baseTextures.get(this.modelType).get("crystals_clear");
+        Identifier crystalsLocation = textures().get("crystals_clear");
         renderColoredCutoutModel(this.model, crystalsLocation, poseStack, collector, packedLight, state, color, order++);
         if (useGlowLayer) {
-            Identifier crystalsOverlayLocation = baseTextures.get(this.modelType).get("crystals");
+            Identifier crystalsOverlayLocation = textures().get("crystals");
             collector.order(order++).submitModel(this.model, state, poseStack, RenderTypes.eyes(crystalsOverlayLocation), packedLight, OverlayTexture.NO_OVERLAY, color, null, state.outlineColor, null);
         }
         return order;

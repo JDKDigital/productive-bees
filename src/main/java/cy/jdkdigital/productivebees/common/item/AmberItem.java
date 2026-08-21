@@ -14,7 +14,6 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.component.TypedEntityData;
 import net.minecraft.world.level.block.Block;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 public class AmberItem extends BlockItem

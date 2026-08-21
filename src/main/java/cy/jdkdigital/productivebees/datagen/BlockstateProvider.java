@@ -10,7 +10,6 @@ import cy.jdkdigital.productivebees.client.render.item.property.GeneAttributePro
 import cy.jdkdigital.productivebees.client.render.item.property.HoneyTreatVariantProperty;
 import cy.jdkdigital.productivebees.client.render.item.property.NestAngle;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
-import cy.jdkdigital.productivebees.common.item.Honeycomb;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModItems;

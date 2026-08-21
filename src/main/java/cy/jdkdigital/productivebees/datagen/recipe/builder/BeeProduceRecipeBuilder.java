@@ -49,7 +49,7 @@ public class BeeProduceRecipeBuilder extends AbstractRecipeBuilder {
 
     public static BeeProduceRecipeBuilder configurable(String beeName, List<TagOutputRecipe.ChancedOutput> output, Fluid fluid, int fluidAmount, List<ICondition> conditions) {
         // See CentrifugeRecipeBuilder.configurable — bypass ItemStack/FluidStack construction
-        // because Item/Fluid components aren't bound during 26.1 datagen.
+        // because Item/Fluid components aren't bound while datagen runs.
         DataComponentPatch patch = DataComponentPatch.builder()
                 .set(ModDataComponents.BEE_TYPE.get(), Identifier.fromNamespaceAndPath(ProductiveBees.MODID, beeName))
                 .build();

@@ -186,8 +186,8 @@ public class ClientModEventHandler
         registerWoodNestTint(event, ModBlocks.CHERRY_WOOD_NEST.get());
         registerWoodNestTint(event, ModBlocks.MANGROVE_WOOD_NEST.get());
 
-        // Grass-tinted nests. sugarCane() returns -1 in inventory (matching the pre-26.1
-        // SugarCaneNest behaviour); grass() supplies the default grass colour in inventory.
+        // Grass-tinted nests. sugarCane() returns -1 in inventory; grass() supplies the
+        // default grass colour there.
         event.register(List.of(BlockTintSources.sugarCane()), ModBlocks.SUGAR_CANE_NEST.get());
         event.register(List.of(BlockTintSources.grass()), ModBlocks.BUMBLE_BEE_NEST.get());
 

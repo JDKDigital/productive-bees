@@ -2,16 +2,9 @@ package cy.jdkdigital.productivebees.common.block;
 
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
-import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
@@ -23,10 +16,8 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.hurtingprojectile.WitherSkull;
 import net.minecraft.world.entity.vehicle.minecart.MinecartTNT;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
@@ -66,41 +57,6 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
         }
         return 0;
     }
-
-    // Tooltip logic lives in AdvancedBeehiveBlockItem (26.1 removed Block.appendHoverText).
-    /*
-    @Override
-    public void appendHoverText(ItemStack pStack, Item.TooltipContext pContext, List<Component> pTootipComponents, TooltipFlag pTooltipFlag) {
-        super.appendHoverText(pStack, pContext, pTootipComponents, pTooltipFlag);
-
-        if (pStack.has(DataComponents.BLOCK_ENTITY_DATA)) {
-            CompoundTag stateNBT = pStack.get(DataComponents.BLOCK_ENTITY_DATA).getUnsafe();
-            if (stateNBT != null) {
-                if (stateNBT.contains("honey_level")) {
-                    String honeyLevel = stateNBT.getString("honey_level");
-                    pTootipComponents.add(Component.translatable("productivebees.hive.tooltip.honey_level", honeyLevel).withStyle(ChatFormatting.GOLD));
-                }
-            }
-        }
-
-        if (pStack.has(DataComponents.BEES)) {
-            List<BeehiveBlockEntity.Occupant> occupants = pStack.get(DataComponents.BEES);
-            if (occupants != null && !occupants.isEmpty()) {
-                pTootipComponents.add(Component.translatable("productivebees.hive.tooltip.bees").withStyle(ChatFormatting.BOLD));
-                for (int i = 0; i < occupants.size(); ++i) {
-                    var tag = occupants.get(i).entityData().getUnsafe();
-                    if (tag.contains("type")) {
-                        pTootipComponents.add(Component.translatable("entity.productivebees." + ProductiveBee.getBeeName(Identifier.parse(tag.getString("type"))) + "_bee").withStyle(ChatFormatting.GREEN));
-                    } else {
-                        pTootipComponents.add(Component.translatable(BuiltInRegistries.ENTITY_TYPE.get(Identifier.parse(tag.getString("id"))).getDescriptionId()).withStyle(ChatFormatting.GREEN));
-                    }
-                }
-            } else {
-                pTootipComponents.add(Component.translatable("productivebees.hive.tooltip.empty"));
-            }
-        }
-    }
-    */
 
     @Override
     public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {

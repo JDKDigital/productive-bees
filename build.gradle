@@ -150,7 +150,7 @@ dependencies {
     // Mod-compat dependencies — file IDs resolved against MC 26.1.2 on CurseForge.
     // Mods without a 26.1.2 release yet remain commented; re-check periodically.
     implementation "curse.maven:jei-238222:8014757"
-    implementation "curse.maven:jade-324717:7938398"
+    implementation "curse.maven:jade-324717:8651070"
     implementation "curse.maven:curios-309927:7925547"
 //    implementation "curse.maven:just-enough-archaeology-890755:5518258"  // no 26.1.2
     implementation "curse.maven:cloth-config-348521:7817583"

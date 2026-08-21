@@ -26,7 +26,7 @@ public class DyeBeeRenderer extends ProductiveBeeRenderer
 
     @Nonnull
     @Override
-    public Identifier getTextureLocation(ProductiveBeeRenderState state) {
+    protected Identifier buildTextureLocation(ProductiveBeeRenderState state) {
         int num = state.renderStatic ? 1 : sum(state.entityId, 3);
 
         String beeLocation = ProductiveBees.MODID + ":textures/entity/bee/" + state.beeName + "/" + num + "/bee";
