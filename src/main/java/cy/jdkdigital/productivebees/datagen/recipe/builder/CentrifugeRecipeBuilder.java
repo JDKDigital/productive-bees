@@ -19,6 +19,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.common.conditions.ICondition;
+import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
 import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import org.jetbrains.annotations.Nullable;
 
@@ -103,7 +104,7 @@ public class CentrifugeRecipeBuilder extends AbstractRecipeBuilder {
 
     @Override
     public void save(RecipeOutput consumer, ResourceKey<Recipe<?>> id) {
-        consumer.accept(id, new CentrifugeRecipe(input, output, SizedFluidIngredient.of(fluid, fluidAmount), 0), null, conditions.toArray(new ICondition[0]));
+        consumer.accept(id, new CentrifugeRecipe(input, output, new CentrifugeRecipe.FluidOutput(FluidIngredient.of(fluid), fluidAmount), 0), null, conditions.toArray(new ICondition[0]));
     }
 
     public void save(RecipeOutput consumer, Identifier id) {

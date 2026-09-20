@@ -12,9 +12,7 @@
     "items": "productivebees:spawn_egg_configurable_bee",
     "neoforge:ingredient_type": "productivebees:component"
   },
-  "blood": {
-    "item": "iceandfire:ice_dragon_blood"
-  },
+  "blood": "iceandfire:ice_dragon_blood",
   "result": {
     "components": {
       "minecraft:entity_data": {

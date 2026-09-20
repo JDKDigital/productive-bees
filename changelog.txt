@@ -1,0 +1,120 @@
+26.1.2-15.2.0
+
+- Fixed the Aquaculture neptunium bee spawn egg fished up inside Neptune's Bounty
+- Fixed the BeeBee destroying armor outright instead of leaving the configured durability behind
+- The BeeBee now leaves armor undamaged by default
+
+
+26.1.2-15.1.0
+
+- Fixed the Ice and Fire dragonsteel bees not being craftable in the dragonforge
+- Fixed experience and butcher bee combs producing nothing in a centrifuge
+- Fixed the Aquaculture neptunium bee never dropping from fishing
+- The guide book is available again, updated for Patchouli on 26.1
+
+
+26.1.2-15.0.0
+
+- Added burly and creaking bees (Lego)
+- Added crude steel, crystalline alloy, melodic alloy, stellar alloy and vivid alloy bees for EnderIO Endergy (Lego)
+- Fixed a large batch of mod compat bees
+- Fixed fluid producing bees such as the experience and oily bees
+- Fixed Oritech recipes after their recipe serializers changed
+- Blood Magic bees are now NeoVitae bees
+- Deorum bees are back in the Clibano: melt a bee spawn egg into molten bee, then alloy it with gold
+- Simulated hives now respect bee behaviour and weather tolerance, so production pauses at night for diurnal bees and in the rain for bees without rain tolerance
+- Fixed honey generator turning any fluid into honey
+- Fixed honey generator duplicating emptied fluid containers
+- Fixed bottler duplicating filled buckets and other fluid containers
+- Fixed bottler consuming the bottle and fluid when the output slot had no room for the result
+- Fixed bottler screen not showing the fluid in its tank
+- Fixed bottler's bottle model not updating when the bottle slot changed
+- Fixed feeder slab styling not showing for other players in multiplayer
+- Fixed bee conversion, comb and centrifuge recipes not refreshing after a /reload
+- Fixed fluid and power duplication when a neighbouring tank or machine accepted more than a centrifuge or honey generator could hand over
+- Removed the centrifugeFluidSharing config option, which had no effect; install a stability upgrade to stop a centrifuge sharing its fluid
+- Advanced and draconic hives no longer run their auto-harvest and bee cage handling every tick
+- Performance improvements to bee rendering, bee effects and centrifuge item pickup
+- Probably introduced new and exciting bugs
+
+
+26.1.2-14.7.0
+
+- Fixed Jade tooltip on solitary nests showing "empty" when a bee was inside
+- Restored the "Nx bee name" occupant list on advanced hives in Jade, and made it refresh as bees enter and leave
+- Added a config option for the gene sampler upgrade's max sample purity (default 4)
+- Fixed wood nest entrance overlay being invisible in-world and appearing untinted white on the item
+- Solitary nest and hive item tooltips now list the occupants instead of vanilla's "X/3" line
+- Fixed productivelib loot modifier luck scaling that could push chance past 100% and make replace-modifiers collide (amber bee spawn egg vs productivetrees amber sapling in cold ocean suspicious blocks)
+
+
+26.1.2-14.6.0
+
+- JEI bee ingredient rendering performance improvements
+- Added client config option to render bees in JEI as filled bee cages for even better FPS
+- JEI cheat mode now gives a filled bee cage when clicking on a bee ingredient
+- Beebee now dies after stinging a player
+- Fixed configurable comb blocks reverting to default type when broken
+- Fixed hive upgrades and inventory contents being lost when a hive is broken
+- Fixed honey generator voiding all but one empty bottle
+
+
+26.1.2-14.5.2
+
+- Fixed JEI plugin crash when lumber/quarry tags contain blocks without an item form
+
+
+26.1.2-14.5.1
+
+- Entro bee is now crafted in the ExtendedAE crystal assembler
+
+
+26.1.2-14.5.0
+
+- Fixed bee jar duping the contained cage when mined
+- Wannabees can now produce dragon breath from ender dragons
+- Bee jar rendering glitches are fixed
+- Various performance improvements
+- Changed bee fishing recipes to use biome tags
+- Found the lost vanilla bee comb recipe and brought it home (together with some other ones)
+
+
+26.1.2-14.4.0
+
+- Fixed centrifuge recipes missing bee type component in JEI
+- Fixed spawn-egg incubation recipe not showing the bee-type gene on the treat in JEI
+- Fixed calculated comb-block centrifuge recipes missing in JEI
+- Honey treats with genes now use the correct model variant again
+- Gene and treat tooltips now use the correct bee name translation key for nested bee IDs
+- Default breeding item tag now uses minecraft:bee_food so tall flowers are accepted
+
+
+26.1.2-14.3.0
+
+- Fixed breeding chamber crash
+- Prevent pulling items from input slots in machines
+- Gene items now have their correct colors
+- Fixed bee helmet renderer so the nest shows
+- Fixed incubator not stacking output
+
+
+26.1.2-14.2.0
+
+- Fixed bee nest helmet not spawning kamikaz bees on hit
+- Fixed bee nest helmet causing disconnect on servers
+- Fixed breaking cocoa pods not spawning sugarbag bees
+- Fixed breeding chamber only allows breeding of same type bees, not the ones having a breeding recipe
+- Fixed hives only accepts 3 bees and voids the rest
+- Fixed hives dropping upgrades infinitely when expansion box is broken
+- Fixed crystal bee rendering
+- Some GUI fixes
+
+
+26.1.2-14.1.0
+
+- Fixed bee GUI rendering and lots of other stuff
+
+
+26.1.2-14.0.0
+
+- Port to 26.1.2

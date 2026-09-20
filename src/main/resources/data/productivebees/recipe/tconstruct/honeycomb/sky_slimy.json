@@ -4,7 +4,7 @@
     {
       "neoforge:ingredient_type": "productivebees:component",
       "components": {
-        "productivebees:bee_type": "productivebees:sky_slime"
+        "productivebees:bee_type": "productivebees:tconstruct/sky_slime"
       },
       "items": "productivebees:configurable_honeycomb"
     }

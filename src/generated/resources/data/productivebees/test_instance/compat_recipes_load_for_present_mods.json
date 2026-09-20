@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:function",
+  "environment": "productivebees:compat_recipes_load_for_present_mods_env",
+  "function": "productivebees:compat_recipes_load_for_present_mods",
+  "structure": "productivebees:empty_7x7",
+  "max_ticks": 100,
+  "required": true,
+  "setup_ticks": 0
+}

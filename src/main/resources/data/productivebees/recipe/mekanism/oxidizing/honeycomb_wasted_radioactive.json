@@ -3,7 +3,7 @@
   "input": {
     "neoforge:ingredient_type": "productivebees:component",
     "components": {
-      "productivebees:bee_type": "productivebees:wasted_radioactive"
+      "productivebees:bee_type": "productivebees:mekanism/wasted_radioactive"
     },
     "items": "productivebees:configurable_honeycomb"
   },

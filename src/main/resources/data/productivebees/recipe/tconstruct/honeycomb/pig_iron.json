@@ -4,7 +4,7 @@
     {
       "neoforge:ingredient_type": "productivebees:component",
       "components": {
-        "productivebees:bee_type": "productivebees:pig_iron"
+        "productivebees:bee_type": "productivebees:tconstruct/pig_iron"
       },
       "items": "productivebees:configurable_honeycomb"
     }

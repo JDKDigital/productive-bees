@@ -142,8 +142,9 @@ dependencies {
 
 //    compileOnly "com.almostreliable.mods:almostunified-neoforge:1.21.1-1.0.0:api"
 //
-//    compileOnly "vazkii.patchouli:Patchouli:${patchouli_version}:api"
-//    runtimeOnly "vazkii.patchouli:Patchouli:${patchouli_version}"
+    // Patchouli ships no separate :api artifact, the mod jar serves both
+    compileOnly "curse.maven:patchouli-306770:${patchouli_file}"
+    runtimeOnly "curse.maven:patchouli-306770:${patchouli_file}"
 //
 //    compileOnly(fg.deobf("com.almostreliable.mods:almostunified-forge:${minecraft_version}-${au_version}"))
 
@@ -151,6 +152,9 @@ dependencies {
     // Mods without a 26.1.2 release yet remain commented; re-check periodically.
     implementation "curse.maven:jei-238222:8014757"
     implementation "curse.maven:jade-324717:8651070"
+    implementation "curse.maven:iceandfire-ce-1040076:8699109"  // 2.2-alpha.1
+    localRuntime "curse.maven:jupiter-1072905:8621734"          // iceandfire hard dep
+    localRuntime "curse.maven:uranus-1010827:8689800"           // iceandfire hard dep
     implementation "curse.maven:curios-309927:7925547"
 //    implementation "curse.maven:just-enough-archaeology-890755:5518258"  // no 26.1.2
     implementation "curse.maven:cloth-config-348521:7817583"
@@ -182,7 +186,8 @@ dependencies {
     implementation "curse.maven:cucumber-272335:8433624"
     implementation "curse.maven:evilcraft-74610:8641499"
     // Blood Magic rebranded as Neo Vitae; no 26.1 Blood Magic build exists
-    implementation "curse.maven:neovitae-1404763:8690936"
+    // local jar, same file as curse.maven:neovitae-1404763:8834488
+    implementation "local.libs:neovitae-26.1.2-1.1.21"
     implementation "curse.maven:ftb-industrial-contraptions-forge-539097:8683232"
     implementation "curse.maven:mystical-agriculture-246640:8602813"
     implementation "curse.maven:mystical-agradditions-256247:8516018"

@@ -14,7 +14,7 @@
   ],
   "entityOutput": "productivebees:configurable_bee",
   "outputNbt": {
-    "type": "productivebees:spirit"
+    "type": "productivebees:spirit/spirit"
   },
   "duration": 30,
   "shouldSummonMob": true,

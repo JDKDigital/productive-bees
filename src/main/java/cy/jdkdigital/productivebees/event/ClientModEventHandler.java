@@ -35,6 +35,7 @@ import cy.jdkdigital.productivebees.client.render.entity.model.SmallBeeModel;
 import cy.jdkdigital.productivebees.client.render.entity.model.ThiccBeeModel;
 import cy.jdkdigital.productivebees.client.render.entity.model.TinyBeeModel;
 import cy.jdkdigital.productivebees.common.block.CombBlock;
+import cy.jdkdigital.productivebees.compat.patchouli.ProductiveBeesPatchouli;
 import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
 import cy.jdkdigital.productivebees.setup.HiveType;
 import cy.jdkdigital.productivebees.common.entity.bee.GeckoBee;
@@ -160,6 +161,8 @@ public class ClientModEventHandler
         BeeRegistries.setRegistries(registries);
         BeeRegistries.evaluateRuntimeGates(registries);
         BeeIngredientFactory.invalidate();
+        // Guide entries gate on a per-bee flag, so refresh them once the bee registry is readable.
+        ProductiveBeesPatchouli.setBeeFlags();
     }
 
     @SubscribeEvent

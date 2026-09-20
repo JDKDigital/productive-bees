@@ -50,12 +50,14 @@ import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.clock.WorldClocks;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.HopperBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.saveddata.WeatherData;
 import net.neoforged.neoforge.common.util.FakePlayerFactory;
 import net.minecraft.world.entity.animal.cow.Cow;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
@@ -65,6 +67,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.trading.TradeSet;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.block.Blocks;
@@ -85,6 +88,7 @@ import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.loot.IngredientModifier;
 import cy.jdkdigital.productivelib.registry.LibItems;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -138,6 +142,7 @@ public final class ProductiveBeesGameTests
         register("centrifuge_recipe_lookup", ProductiveBeesGameTests::testCentrifugeRecipeLookup);
         register("comb_and_canvas_tints", ProductiveBeesGameTests::testCombAndCanvasTints);
         register("beekeeper_trade_sets_present", ProductiveBeesGameTests::testBeekeeperTradeSetsPresent);
+        register("compat_recipes_load_for_present_mods", ProductiveBeesGameTests::testCompatRecipesLoad);
 
         // Amber + Wannabee — exercise the entity NBT round-trip and the fake-player loot path,
         // both of which were heavily touched during the port.
@@ -360,6 +365,36 @@ public final class ProductiveBeesGameTests
     }
 
     // ── Centrifuge recipe lookup ─────────────────────────────────────────────────
+    /** Asserts hand-written compat recipes reach the recipe manager when their target mod is present. */
+    private static void testCompatRecipesLoad(GameTestHelper helper) {
+        Map<String, List<String>> expected = new LinkedHashMap<>();
+        expected.put("iceandfire", List.of(
+                "iceandfire:dragonforge/fire_dragonsteel_bee",
+                "iceandfire:dragonforge/ice_dragonsteel_bee",
+                "iceandfire:dragonforge/lightning_dragonsteel_bee"));
+
+        List<String> missing = new ArrayList<>();
+        for (Map.Entry<String, List<String>> entry : expected.entrySet()) {
+            if (!ModList.get().isLoaded(entry.getKey())) {
+                continue;
+            }
+            for (String id : entry.getValue()) {
+                ResourceKey<Recipe<?>> key = ResourceKey.create(Registries.RECIPE, Identifier.parse(id));
+                if (helper.getLevel().recipeAccess().byKey(key).isEmpty()) {
+                    missing.add(id);
+                }
+            }
+        }
+
+        if (!missing.isEmpty()) {
+            helper.fail("Compat recipes did not load even though their target mod is present: " + missing
+                    + " — the host mod's recipe codec or our conditions no longer match.");
+            return;
+        }
+
+        helper.succeed();
+    }
+
     private static void testCentrifugeRecipeLookup(GameTestHelper helper) {
         BlockPos pos = new BlockPos(2, 2, 2);
         helper.setBlock(pos, ModBlocks.CENTRIFUGE.get().defaultBlockState());
@@ -557,9 +592,10 @@ public final class ProductiveBeesGameTests
         bee.setSavedFlowerPos(helper.absolutePos(amberPos));
         bee.snapTo(helper.absolutePos(new BlockPos(4, 2, 4)).getCenter(), 0f, 0f);
 
-        // dragon_breath added at 10% per loot-table roll; 60 attempts gives 1 - 0.9^60 ≈ 99.8% odds.
+        // getBeeProduce returns one item picked at random from the loot roll, so the effective
+        // dragon_breath rate is ~5.4% per attempt rather than the modifier's 10%.
         boolean sawDragonBreath = false;
-        for (int attempt = 0; attempt < 60; attempt++) {
+        for (int attempt = 0; attempt < 400; attempt++) {
             List<ItemStack> produce = BeeHelper.getBeeProduce(helper.getLevel(), bee, false, 1.0);
             if (produce.stream().anyMatch(stack -> stack.is(Items.DRAGON_BREATH))) {
                 sawDragonBreath = true;
@@ -567,7 +603,7 @@ public final class ProductiveBeesGameTests
             }
         }
         if (!sawDragonBreath) {
-            helper.fail("Wannabee never produced dragon_breath from ender_dragon loot over 60 attempts — "
+            helper.fail("Wannabee never produced dragon_breath from ender_dragon loot over 400 attempts — "
                     + "ender_dragon_breath_wannabee loot modifier may be broken or KILLED_BY_UUID mismatch", amberPos);
             return;
         }
@@ -1633,6 +1669,16 @@ public final class ProductiveBeesGameTests
     }
 
     private static void runHiveProductionTest(GameTestHelper helper, boolean useFeeder) {
+        // A diurnal bee's in-hive timer only advances while it would leave the hive, so production
+        // stalls at night and in rain. Pin both to keep the 2000-tick budget viable.
+        ServerLevel level = helper.getLevel();
+        level.registryAccess().get(WorldClocks.OVERWORLD).ifPresent(
+                clock -> level.getServer().clockManager().setTotalTicks(clock, 6000L));
+        WeatherData weather = level.getWeatherData();
+        weather.setRaining(false);
+        weather.setThundering(false);
+        weather.setClearWeatherTime(24000);
+
         BlockPos hivePos = new BlockPos(3, 3, 3);
         BlockPos boxPos = new BlockPos(4, 3, 3);          // east of hive — non-front for NORTH-facing
         BlockPos flowerPos = new BlockPos(3, 2, 2);       // hive.below(1).relative(NORTH)

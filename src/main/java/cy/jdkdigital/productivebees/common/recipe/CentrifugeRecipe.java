@@ -14,7 +14,10 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
 import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
 import javax.annotation.Nonnull;
@@ -28,7 +31,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<RecipeIn
             builder -> builder.group(
                             Ingredient.CODEC.fieldOf("ingredient").forGetter(recipe -> recipe.ingredient),
                             Codec.list(ChancedOutput.CODEC).fieldOf("outputs").forGetter(recipe -> recipe.itemOutput),
-                            SizedFluidIngredient.CODEC.fieldOf("fluid").orElse(SizedFluidIngredient.of(ModFluids.HONEY.get(), 100)).forGetter(recipe -> recipe.fluidOutput),
+                            FluidOutput.CODEC.fieldOf("fluid").orElse(FluidOutput.honey()).forGetter(recipe -> recipe.fluidOutput),
                             Codec.INT.fieldOf("processingTime").orElse(0).forGetter(recipe -> recipe.processingTime)
                     )
                     .apply(builder, CentrifugeRecipe::new)
@@ -41,10 +44,10 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<RecipeIn
     public static final RecipeSerializer<CentrifugeRecipe> SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
 
     public final Ingredient ingredient;
-    public final SizedFluidIngredient fluidOutput;
+    public final FluidOutput fluidOutput;
     private final Integer processingTime;
 
-    public CentrifugeRecipe(Ingredient ingredient, List<ChancedOutput> itemOutput, SizedFluidIngredient fluidOutput, int processingTime) {
+    public CentrifugeRecipe(Ingredient ingredient, List<ChancedOutput> itemOutput, FluidOutput fluidOutput, int processingTime) {
         super(itemOutput);
         this.ingredient = ingredient;
         this.fluidOutput = fluidOutput;
@@ -77,7 +80,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<RecipeIn
     }
 
     public FluidStack getFluidOutputs() {
-        return getPreferredFluidStackByMod(fluidOutput);
+        return fluidOutput.resolve();
     }
 
     @Override
@@ -117,7 +120,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<RecipeIn
             List<ChancedOutput> itemOutput = new ArrayList<>();
             IntStream.range(0, buffer.readInt()).forEach(i -> itemOutput.add(ChancedOutput.read(buffer)));
 
-            return new CentrifugeRecipe(ingredient, itemOutput, SizedFluidIngredient.STREAM_CODEC.decode(buffer), buffer.readInt());
+            return new CentrifugeRecipe(ingredient, itemOutput, FluidOutput.STREAM_CODEC.decode(buffer), buffer.readInt());
         } catch (Exception e) {
             ProductiveBees.LOGGER.error("Error reading centrifuge recipe from packet. ", e);
             throw e;
@@ -133,13 +136,43 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<RecipeIn
                 ChancedOutput.write(buffer, chancedRecipe);
             });
 
-            SizedFluidIngredient.STREAM_CODEC.encode(buffer, recipe.fluidOutput);
+            FluidOutput.STREAM_CODEC.encode(buffer, recipe.fluidOutput);
 
             buffer.writeInt(recipe.getProcessingTime());
 
         } catch (Exception e) {
             ProductiveBees.LOGGER.error("Error writing centrifuge recipe to packet.", e);
             throw e;
+        }
+    }
+
+    /** Fluid side of a centrifuge recipe: {@code {"ingredient": ..., "amount": N}}, where 0 means no fluid. */
+    public record FluidOutput(FluidIngredient ingredient, int amount)
+    {
+        public static final Codec<FluidOutput> CODEC = RecordCodecBuilder.create(
+                builder -> builder.group(
+                        FluidIngredient.CODEC.fieldOf("ingredient").forGetter(FluidOutput::ingredient),
+                        Codec.INT.optionalFieldOf("amount", FluidType.BUCKET_VOLUME).forGetter(FluidOutput::amount)
+                ).apply(builder, FluidOutput::new)
+        );
+
+        public static final StreamCodec<RegistryFriendlyByteBuf, FluidOutput> STREAM_CODEC = StreamCodec.composite(
+                FluidIngredient.STREAM_CODEC, FluidOutput::ingredient,
+                ByteBufCodecs.VAR_INT, FluidOutput::amount,
+                FluidOutput::new
+        );
+
+        public static FluidOutput honey() {
+            return new FluidOutput(FluidIngredient.of(ModFluids.HONEY.get()), 100);
+        }
+
+        /** True when this recipe produces no fluid. */
+        public boolean isNone() {
+            return amount <= 0;
+        }
+
+        public FluidStack resolve() {
+            return isNone() ? FluidStack.EMPTY : getPreferredFluidStackByMod(new SizedFluidIngredient(ingredient, amount));
         }
     }
 }

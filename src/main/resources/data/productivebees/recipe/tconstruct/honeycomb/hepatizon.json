@@ -4,7 +4,7 @@
     {
       "neoforge:ingredient_type": "productivebees:component",
       "components": {
-        "productivebees:bee_type": "productivebees:hepatizon"
+        "productivebees:bee_type": "productivebees:tconstruct/hepatizon"
       },
       "items": "productivebees:configurable_honeycomb"
     }

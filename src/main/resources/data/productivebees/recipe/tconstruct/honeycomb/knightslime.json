@@ -4,7 +4,7 @@
     {
       "neoforge:ingredient_type": "productivebees:component",
       "components": {
-        "productivebees:bee_type": "productivebees:knightslime"
+        "productivebees:bee_type": "productivebees:tconstruct/knightslime"
       },
       "items": "productivebees:configurable_honeycomb"
     }

@@ -4,7 +4,7 @@
     {
       "neoforge:ingredient_type": "productivebees:component",
       "components": {
-        "productivebees:bee_type": "productivebees:manyullyn"
+        "productivebees:bee_type": "productivebees:tconstruct/manyullyn"
       },
       "items": "productivebees:configurable_honeycomb"
     }

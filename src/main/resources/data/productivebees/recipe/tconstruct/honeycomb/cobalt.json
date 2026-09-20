@@ -4,7 +4,7 @@
     {
       "neoforge:ingredient_type": "productivebees:component",
       "components": {
-        "productivebees:bee_type": "productivebees:cobalt"
+        "productivebees:bee_type": "productivebees:tconstruct/cobalt"
       },
       "items": "productivebees:configurable_honeycomb"
     }

@@ -162,7 +162,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
                     recipe.value().itemOutput.forEach((chanceOutput) -> {
                         outputs.add(new TagOutputRecipe.ChancedOutput(chanceOutput.ingredient(), chanceOutput.min() * 4, chanceOutput.max() * 4, chanceOutput.chance()));
                     });
-                    var fluid = new SizedFluidIngredient(recipe.value().fluidOutput.ingredient(), recipe.value().fluidOutput.amount() * 4);
+                    var fluid = new CentrifugeRecipe.FluidOutput(recipe.value().fluidOutput.ingredient(), recipe.value().fluidOutput.amount() * 4);
                     return new CentrifugeRecipe(ComponentIngredient.of(BeeHelper.getCombBlockFromHoneyComb(item)), outputs, fluid, recipe.value().getProcessingTime());
                 }
             }

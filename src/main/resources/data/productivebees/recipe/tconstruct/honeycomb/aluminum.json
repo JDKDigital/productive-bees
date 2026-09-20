@@ -4,7 +4,7 @@
     {
       "neoforge:ingredient_type": "productivebees:component",
       "components": {
-        "productivebees:bee_type": "productivebees:aluminum"
+        "productivebees:bee_type": "productivebees:raw_materials/aluminum"
       },
       "items": "productivebees:configurable_honeycomb"
     }

@@ -5,7 +5,7 @@
     {
       "neoforge:ingredient_type": "productivebees:component",
       "components": {
-        "productivebees:bee_type": "productivebees:super_experience"
+        "productivebees:bee_type": "productivebees:create_enchantment_industry/super_experience"
       },
       "items": "productivebees:configurable_honeycomb"
     }

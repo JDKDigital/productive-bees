@@ -4,7 +4,7 @@
     {
       "neoforge:ingredient_type": "productivebees:component",
       "components": {
-        "productivebees:bee_type": "productivebees:rose_gold"
+        "productivebees:bee_type": "productivebees:tconstruct/rose_gold"
       },
       "items": "productivebees:configurable_honeycomb"
     }

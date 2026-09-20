@@ -3,7 +3,7 @@
   "input": {
     "neoforge:ingredient_type": "productivebees:component",
     "components": {
-      "productivebees:bee_type": "productivebees:lithium"
+      "productivebees:bee_type": "productivebees:mekanism/lithium"
     },
     "items": "productivebees:configurable_comb"
   },

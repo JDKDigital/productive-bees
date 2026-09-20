@@ -50,8 +50,8 @@ public class LootModifierProvider extends GlobalLootModifierProvider
 
         add("frog_eat_bee", new IngredientModifier(frogConditions("entities/bee"), 0, BeeCreator.getSpawnEggIngredient(Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "ribbeet")), 1.0f, true));
 
-        add("undergarden_forgotten_egg", new IngredientModifier(lootTableConditions(false, "undergarden:chests/catacombs"), 0, BeeCreator.getSpawnEggIngredient(Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "forgotten"), true), 0.25f, false), new ModLoadedCondition("undergarden"));
-        add("aquaculture_neptunium_egg", new ContainerContentsModifier(lootTableConditions(false, BuiltInLootTables.FISHING.identifier().toString()), 0, new ItemStackTemplate(BuiltInRegistries.ITEM.get(Identifier.fromNamespaceAndPath("aquaculture", "neptunes_bounty")).map(Holder::value).orElse(Items.AIR)), BeeCreator.getSpawnEggIngredient(Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "neptunium"), true), 0.25f, false), new ModLoadedCondition("aquaculture"));
+        add("undergarden_forgotten_egg", new IngredientModifier(lootTableConditions(false, "undergarden:chests/catacombs"), 0, BeeCreator.getSpawnEggIngredient(Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "undergarden/forgotten"), true), 0.25f, false), new ModLoadedCondition("undergarden"));
+        add("aquaculture_neptunium_egg", new ContainerContentsModifier(lootTableConditions(false, BuiltInLootTables.FISHING.identifier().toString()), 0, new ItemStackTemplate(BuiltInRegistries.ITEM.get(Identifier.fromNamespaceAndPath("aquaculture", "neptunes_bounty")).map(Holder::value).orElse(Items.AIR)), BeeCreator.getSpawnEggIngredient(Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "aquaculture/neptunium"), true), 0.25f, false), new ModLoadedCondition("aquaculture"));
     }
 
     private LootItemCondition[] lootTableConditions(boolean addUUIDCondition, String... rLoc) {
