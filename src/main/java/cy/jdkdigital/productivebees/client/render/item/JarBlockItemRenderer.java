@@ -27,6 +27,10 @@ import java.util.concurrent.ConcurrentHashMap;
 public class JarBlockItemRenderer extends BlockEntityWithoutLevelRenderer {
     public static final ConcurrentHashMap<String, Entity> beeEntities = new ConcurrentHashMap<>();
 
+    public static void clearCache() {
+        beeEntities.clear();
+    }
+
     public JarBlockItemRenderer() {
         super(null, null);
     }

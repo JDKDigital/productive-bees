@@ -176,8 +176,8 @@ public class ProductiveBeesConfig
                     .defineInRange("quantumArmorFailureChance", 0.1, 0, 1);
             
             beeBeeArmorDurabilityPercentageRemainder = builder
-                    .comment("Percentage of the total durability the BeeBee will leave remaining on each piece of armor after dealing damage. Below 50% the armor will always break if not disabled. -1 to disable completely")
-                    .defineInRange("beeBeeArmorDurabilityPercentageRemainder", 5, -1, 100);
+                    .comment("Percentage of the total durability the BeeBee will leave remaining on each piece of armor after dealing damage. A piece already worn past that point is left alone. -1 to leave armor undamaged")
+                    .defineInRange("beeBeeArmorDurabilityPercentageRemainder", -1, -1, 100);
 
             builder.pop();
         }

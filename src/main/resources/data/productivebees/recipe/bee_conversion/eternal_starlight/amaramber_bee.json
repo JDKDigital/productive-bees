@@ -1,0 +1,22 @@
+{
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:coal",
+  "result": "productivebees:amaramber",
+  "item": {
+    "item": "eternal_starlight:raw_amaramber"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "eternal_starlight"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:coal"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:amaramber"
+    }
+  ]
+}

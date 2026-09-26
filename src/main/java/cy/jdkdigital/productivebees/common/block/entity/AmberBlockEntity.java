@@ -23,16 +23,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class AmberBlockEntity extends AbstractBlockEntity
 {
     private int tickCounter = 0;
     private int meltCounter = 0;
 
-    private static final Map<Integer, Entity> cachedEntities = new HashMap<>();
+    private Entity cachedEntity = null;
 
     public CompoundTag entityTag = null;
 
@@ -42,15 +40,13 @@ public class AmberBlockEntity extends AbstractBlockEntity
 
     @Nullable
     public Entity getCachedEntity() {
-        if (entityTag != null) {
-            int key = entityTag.hashCode();
-            if (!cachedEntities.containsKey(key)) {
-                Entity cachedEntity = createEntity(level, entityTag);
-                cachedEntities.put(key, cachedEntity);
-            }
-            return cachedEntities.getOrDefault(key, null);
+        if (entityTag == null) {
+            return null;
         }
-        return null;
+        if (cachedEntity == null) {
+            cachedEntity = createEntity(level, entityTag);
+        }
+        return cachedEntity;
     }
 
     @Nullable
@@ -87,6 +83,7 @@ public class AmberBlockEntity extends AbstractBlockEntity
         super.loadPacketNBT(tag, provider);
         if (tag.contains("EntityData")) {
             this.entityTag = tag.getCompound("EntityData");
+            this.cachedEntity = null;
         }
         this.meltCounter = tag.contains("meltCounter") ? tag.getInt("meltCounter") : 0;
     }
@@ -95,6 +92,7 @@ public class AmberBlockEntity extends AbstractBlockEntity
     protected void applyImplicitComponents(BlockEntity.DataComponentInput pComponentInput) {
         super.applyImplicitComponents(pComponentInput);
         this.entityTag = pComponentInput.getOrDefault(DataComponents.ENTITY_DATA, CustomData.of(new CompoundTag())).copyTag();
+        this.cachedEntity = null;
     }
 
     @Override
@@ -117,6 +115,7 @@ public class AmberBlockEntity extends AbstractBlockEntity
         if (this.entityTag.contains("ActiveEffects")) {
             this.entityTag.remove("ActiveEffects");
         }
+        this.cachedEntity = null;
     }
 
     public static <E extends BlockEntity> void serverTick(Level level, BlockPos blockPos, BlockState blockState, AmberBlockEntity amberBlockEntity) {

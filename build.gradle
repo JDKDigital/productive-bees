@@ -154,6 +154,11 @@ dependencies {
 //
 //    compileOnly(fg.deobf("com.almostreliable.mods:almostunified-forge:${minecraft_version}-${au_version}"))
 
+    implementation "curse.maven:astral-sorcery-241721:8963622"
+    implementation "curse.maven:eternal-starlight-1080592:8931080"
+    implementation "curse.maven:neovitae-1404763:8976888"
+    localRuntime "curse.maven:modonomicon-538392:8970913"
+    localRuntime "curse.maven:observerlib-316833:8726128"
     implementation "curse.maven:jade-324717:5444008"
     implementation "curse.maven:curios-309927:6529130"
     implementation "curse.maven:just-enough-archaeology-890755:5518258"

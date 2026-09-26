@@ -1,0 +1,22 @@
+{
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:lava",
+  "result": "productivebees:starcore",
+  "item": {
+    "item": "eternal_starlight:starcore"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "eternal_starlight"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:lava"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:starcore"
+    }
+  ]
+}

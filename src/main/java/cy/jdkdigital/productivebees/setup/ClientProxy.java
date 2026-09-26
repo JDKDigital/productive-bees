@@ -6,7 +6,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import cy.jdkdigital.productivebees.client.render.item.JarBlockItemRenderer;
 import net.neoforged.neoforge.client.event.RenderLivingEvent;
+import net.neoforged.neoforge.event.level.LevelEvent;
 
 import javax.annotation.Nullable;
 
@@ -24,5 +26,12 @@ public class ClientProxy
     @SubscribeEvent
     public static void postPlayerRender(RenderLivingEvent.Post<? extends LivingEntity, ? extends HumanoidModel<? extends LivingEntity>> event) {
         buffer = null;
+    }
+
+    @SubscribeEvent
+    public static void onClientLevelUnload(LevelEvent.Unload event) {
+        if (event.getLevel().isClientSide()) {
+            JarBlockItemRenderer.clearCache();
+        }
     }
 }

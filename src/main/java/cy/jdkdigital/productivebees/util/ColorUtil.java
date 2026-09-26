@@ -3,27 +3,21 @@ package cy.jdkdigital.productivebees.util;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextColor;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ColorUtil
 {
-    // Color calc cache
-    private static final Map<Integer, float[]> colorCache = new HashMap<>();
-    private static final Map<String, Integer> stringColorCache = new HashMap<>();
+    private static final Map<Integer, float[]> colorCache = new ConcurrentHashMap<>();
+    private static final Map<String, Integer> stringColorCache = new ConcurrentHashMap<>();
 
     public static Integer getCacheColor(String color) {
-        if (!stringColorCache.containsKey(color)) {
-            stringColorCache.put(color, TextColor.parseColor(color).result().get().getValue());
-        }
-        return stringColorCache.get(color);
+        return stringColorCache.computeIfAbsent(color,
+                key -> TextColor.parseColor(key).result().map(TextColor::getValue).orElse(-1));
     }
 
     public static float[] getCacheColor(int color) {
-        if (!colorCache.containsKey(color)) {
-            colorCache.put(color, ColorUtil.getComponents(color));
-        }
-        return colorCache.get(color);
+        return colorCache.computeIfAbsent(color, ColorUtil::getComponents);
     }
 
     public static float[] getComponents(int color) {

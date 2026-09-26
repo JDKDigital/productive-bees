@@ -99,6 +99,6 @@ public class CentrifugeRecipeBuilder extends AbstractRecipeBuilder {
         return this;
     }
 
-    public record RecipeConfig(String name, String folder, String[] mods, String centrifugeOutput, Map<String, String> mixingOutputs) {
+    public record RecipeConfig(String name, String folder, String[] mods, String centrifugeOutput, Map<String, String> mixingOutputs, float chance) {
     }
 }

@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#d29552",
+  "secondaryColor": "#ece3ff",
+  "particleColor": "#b2202f",
+  "flowerBlock": "eternal_starlight:thermal_springstone",
+  "beeTexture": "productivebees:textures/entity/bee/thermal/bee",
+  "size": 0.5,
+  "renderer": "default_shell",
+  "conditions": [
+    {
+      "modid": "eternal_starlight",
+      "type": "neoforge:mod_loaded"
+    }
+  ]
+}

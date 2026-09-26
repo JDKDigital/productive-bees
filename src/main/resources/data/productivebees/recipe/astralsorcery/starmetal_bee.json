@@ -1,15 +1,19 @@
 {
-  "type": "astralsorcery:infuser",
-  "fluidInput": "astralsorcery:liquid_starlight",
-  "input": {
+  "type": "astralsorcery:infusion",
+  "accept_chalice_input": true,
+  "consume_multiple_fluids": false,
+  "duration": 100,
+  "fluid_consumption_chance": 0.1,
+  "fluid_input": "astralsorcery:liquid_starlight",
+  "item_input": {
+    "type": "productivebees:component",
     "components": {
       "minecraft:entity_data": {
         "type": "productivebees:iron",
         "id": "productivebees:configurable_bee"
       }
     },
-    "count": 1,
-    "id": "productivebees:spawn_egg_configurable_bee"
+    "items": "productivebees:spawn_egg_configurable_bee"
   },
   "output": {
     "components": {
@@ -21,11 +25,6 @@
     "count": 1,
     "id": "productivebees:spawn_egg_configurable_bee"
   },
-  "consumptionChance": 0.1,
-  "duration": 100,
-  "consumeMultipleFluids": false,
-  "acceptChaliceInput": true,
-  "copyNBTToOutputs": false,
   "neoforge:conditions": [
     {
       "type": "neoforge:mod_loaded",

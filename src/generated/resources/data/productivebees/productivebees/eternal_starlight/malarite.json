@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#415548",
+  "secondaryColor": "#aa519e",
+  "particleColor": "#7a518a",
+  "flowerBlock": "eternal_starlight:malarite_block",
+  "beeTexture": "productivebees:textures/entity/bee/malarite/bee",
+  "size": 0.4,
+  "conditions": [
+    {
+      "modid": "eternal_starlight",
+      "type": "neoforge:mod_loaded"
+    }
+  ]
+}

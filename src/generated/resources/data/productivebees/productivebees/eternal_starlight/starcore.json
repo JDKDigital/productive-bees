@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#9a5555",
+  "secondaryColor": "#ed8c41",
+  "particleColor": "#ffc94e",
+  "flowerBlock": "eternal_starlight:starcore_block",
+  "beeTexture": "productivebees:textures/entity/bee/starcore/bee",
+  "size": 0.9,
+  "renderer": "default_crystal",
+  "conditions": [
+    {
+      "modid": "eternal_starlight",
+      "type": "neoforge:mod_loaded"
+    }
+  ]
+}

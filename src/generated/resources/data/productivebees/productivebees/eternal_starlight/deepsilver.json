@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#5c5e95",
+  "secondaryColor": "#b6c9db",
+  "particleColor": "#14164a",
+  "flowerBlock": "eternal_starlight:deepsilver_block",
+  "beeTexture": "productivebees:textures/entity/bee/deepsilver/bee",
+  "size": 0.7,
+  "conditions": [
+    {
+      "modid": "eternal_starlight",
+      "type": "neoforge:mod_loaded"
+    }
+  ]
+}

@@ -131,18 +131,18 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
 
         // reactors
         List<CentrifugeRecipeBuilder.RecipeConfig> ingots = new ArrayList<>() {{
-            add(new CentrifugeRecipeBuilder.RecipeConfig("blutonium", "reactors", new String[]{"extremereactors", "biggerreactors"}, "#c:ingots/blutonium", new HashMap<>()));
-            add(new CentrifugeRecipeBuilder.RecipeConfig("cyanite", "reactors", new String[]{"extremereactors", "biggerreactors"}, "#c:ingots/cyanite", new HashMap<>()));
-            add(new CentrifugeRecipeBuilder.RecipeConfig("inanite", "reactors", new String[]{"extremereactors", "biggerreactors"}, "#c:ingots/inanite", new HashMap<>()));
-            add(new CentrifugeRecipeBuilder.RecipeConfig("insanite", "reactors", new String[]{"extremereactors", "biggerreactors"}, "#c:ingots/insanite", new HashMap<>()));
-            add(new CentrifugeRecipeBuilder.RecipeConfig("ludicrite", "reactors", new String[]{"extremereactors", "biggerreactors"}, "#c:ingots/ludicrite", new HashMap<>()));
-            add(new CentrifugeRecipeBuilder.RecipeConfig("magentite", "reactors", new String[]{"extremereactors", "biggerreactors"}, "#c:ingots/magentite", new HashMap<>()));
-            add(new CentrifugeRecipeBuilder.RecipeConfig("ridiculite", "reactors", new String[]{"extremereactors", "biggerreactors"}, "#c:ingots/ridiculite", new HashMap<>()));
-            add(new CentrifugeRecipeBuilder.RecipeConfig("graphite", "reactors", new String[]{"extremereactors", "biggerreactors"}, "#c:ingots/graphite", new HashMap<>()));
+            add(new CentrifugeRecipeBuilder.RecipeConfig("blutonium", "reactors", new String[]{"extremereactors", "biggerreactors"}, "#c:ingots/blutonium", new HashMap<>(), 1f));
+            add(new CentrifugeRecipeBuilder.RecipeConfig("cyanite", "reactors", new String[]{"extremereactors", "biggerreactors"}, "#c:ingots/cyanite", new HashMap<>(), 1f));
+            add(new CentrifugeRecipeBuilder.RecipeConfig("inanite", "reactors", new String[]{"extremereactors", "biggerreactors"}, "#c:ingots/inanite", new HashMap<>(), 0.6f));
+            add(new CentrifugeRecipeBuilder.RecipeConfig("insanite", "reactors", new String[]{"extremereactors", "biggerreactors"}, "#c:ingots/insanite", new HashMap<>(), 0.5f));
+            add(new CentrifugeRecipeBuilder.RecipeConfig("ludicrite", "reactors", new String[]{"extremereactors", "biggerreactors"}, "#c:ingots/ludicrite", new HashMap<>(), 0.8f));
+            add(new CentrifugeRecipeBuilder.RecipeConfig("magentite", "reactors", new String[]{"extremereactors", "biggerreactors"}, "#c:ingots/magentite", new HashMap<>(), 0.9f));
+            add(new CentrifugeRecipeBuilder.RecipeConfig("ridiculite", "reactors", new String[]{"extremereactors", "biggerreactors"}, "#c:ingots/ridiculite", new HashMap<>(), 0.7f));
+            add(new CentrifugeRecipeBuilder.RecipeConfig("graphite", "reactors", new String[]{"extremereactors", "biggerreactors"}, "#c:ingots/graphite", new HashMap<>(), 1f));
         }};
         ingots.forEach((config) -> {
             var recipe = CentrifugeRecipeBuilder.configurable(config.name())
-                    .addOutput(new TagOutputRecipe.ChancedOutput(Ingredient.of(ItemTags.create(ResourceLocation.parse(config.centrifugeOutput().replace("#", "")))), 1, 1, 1f))
+                    .addOutput(new TagOutputRecipe.ChancedOutput(Ingredient.of(ItemTags.create(ResourceLocation.parse(config.centrifugeOutput().replace("#", "")))), 1, 1, config.chance()))
 //                    .addOutput(new TagOutputRecipe.ChancedOutput(DataComponentIngredient.of(false, BeeCreator.getSpawnEgg(ResourceLocation.parse("productivebees:iron"))), 1, 1, 1f))
                     .setFluidOutput(new FluidStack(ModFluids.HONEY, 50));
             if (config.centrifugeOutput().startsWith("#")) {

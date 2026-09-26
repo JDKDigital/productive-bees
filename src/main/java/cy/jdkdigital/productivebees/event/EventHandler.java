@@ -331,17 +331,11 @@ public class EventHandler
                 return;
             }
             
-            event.getArmorMap().forEach((slot, entry) -> { 
+            float remainder = ProductiveBeesConfig.GENERAL.beeBeeArmorDurabilityPercentageRemainder.get() / 100f;
+            event.getArmorMap().forEach((slot, entry) -> {
                 ItemStack armor = entry.armorItemStack;
-                float max = armor.getMaxDamage();
-                float damage = armor.getDamageValue();
-                float remaining = max - damage;
-                
-                if (remaining > (max / 2)) {
-                    event.setNewDamage(slot, Math.max(damage + remaining * ((100 - ProductiveBeesConfig.GENERAL.beeBeeArmorDurabilityPercentageRemainder.get()) / 100f), 1));
-                } else {
-                    event.setNewDamage(slot, max);
-                }
+                float floor = armor.getMaxDamage() * (1 - remainder);
+                event.setNewDamage(slot, Math.max(floor - armor.getDamageValue(), 0));
             });
         }
     }

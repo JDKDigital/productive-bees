@@ -1,0 +1,31 @@
+{
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:glacite",
+  "results": [
+    {
+      "item": {
+        "type": "productivebees:component",
+        "components": {
+          "productivebees:bee_type": "productivebees:glacite"
+        },
+        "items": "productivebees:configurable_honeycomb"
+      }
+    },
+    {
+      "item": {
+        "tag": "c:pollens"
+      },
+      "chance": 0.05
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:glacite"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "eternal_starlight"
+    }
+  ]
+}
