@@ -49,11 +49,6 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
         return super.getProcessingTimeModifier() / 3;
     }
 
-    protected boolean canOperate() {
-        int energy = energyHandler.getEnergyStored();
-        return energy >= ProductiveBeesConfig.GENERAL.centrifugePowerUse.get();
-    }
-
     @Override
     public boolean canProcessItemStack(ItemStack stack) {
         if (super.canProcessItemStack(stack)) {

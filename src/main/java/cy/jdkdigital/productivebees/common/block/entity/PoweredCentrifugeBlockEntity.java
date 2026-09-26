@@ -52,7 +52,7 @@ public class PoweredCentrifugeBlockEntity extends CentrifugeBlockEntity
     }
 
     protected boolean canOperate() {
-        return energyHandler.getEnergyStored() >= ProductiveBeesConfig.GENERAL.centrifugePowerUse.get();
+        return energyHandler.getEnergyStored() >= ProductiveBeesConfig.GENERAL.centrifugePowerUse.get() * getEnergyConsumptionModifier();
     }
 
     @Override
