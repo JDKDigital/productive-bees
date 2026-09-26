@@ -175,6 +175,7 @@ public class ClientModEventHandler
     public static void onClientLevelUnload(LevelEvent.Unload event) {
         if (event.getLevel().isClientSide()) {
             BeeIngredient.clearEntityCache();
+            JarBlockItemRenderer.clearCache();
         }
     }
 

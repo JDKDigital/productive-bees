@@ -2,7 +2,7 @@
 
 - Fixed the Aquaculture neptunium bee spawn egg fished up inside Neptune's Bounty
 - Fixed the BeeBee destroying armor outright instead of leaving the configured durability behind
-- The BeeBee now leaves armor undamaged by default
+- Fixed amber blocks and bee jars holding onto the world in memory after leaving it
 
 
 26.1.2-15.1.0

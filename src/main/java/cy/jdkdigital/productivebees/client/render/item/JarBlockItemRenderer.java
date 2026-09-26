@@ -30,6 +30,10 @@ public class JarBlockItemRenderer implements SpecialModelRenderer<JarBlockItemRe
 {
     private static final ConcurrentHashMap<String, Entity> BEE_CACHE = new ConcurrentHashMap<>();
 
+    public static void clearCache() {
+        BEE_CACHE.clear();
+    }
+
     public record BeeData(String beeTypeOrEntityType, String entityType) {
         public static final BeeData EMPTY = new BeeData("", "");
 
