@@ -63,9 +63,12 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfiguration>
                 blockPos = blockPos.below();
             }
 
-            BlockState state = placeOntop ? level.getBlockState(blockPos.below()) : level.getBlockState(blockPos);
+            BlockPos supportPos = blockPos.below();
+            BlockState state = placeOntop ? level.getBlockState(supportPos) : level.getBlockState(blockPos);
             if (targetBlockState.target.test(state, rand)) {
-                return placeNest(level, blockPos, targetBlockState.state, rand);
+                // Take the place of replaceable blocks like snow layers instead of sitting on top of them
+                BlockPos nestPos = placeOntop && state.canBeReplaced() ? supportPos : blockPos;
+                return placeNest(level, nestPos, targetBlockState.state, rand);
             }
         }
         return false;
