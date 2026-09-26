@@ -59,7 +59,7 @@ public class CentrifugeScreen<T extends CentrifugeContainer<? extends Centrifuge
             int energyAmount = poweredCentrifugeBlockEntity.energyHandler.getEnergyStored();
 
             // Energy level tooltip
-            if (isHovering(-5, 16, 6, 54, mouseX, mouseY)) {
+            if (isHovering(8, 16, 6, 54, mouseX, mouseY)) {
                 List<FormattedCharSequence> tooltipList = new ArrayList<>();
                 tooltipList.add(Component.translatable("productivebees.screen.energy_level", energyAmount + "FE").getVisualOrderText());
 

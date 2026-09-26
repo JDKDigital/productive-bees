@@ -61,7 +61,7 @@ public class AdvancedBeehiveScreen extends AbstractUpgradeableContainerScreen<Ad
         List<FormattedCharSequence> tooltipList = new ArrayList<FormattedCharSequence>();
 
         // Cage slot tooltip
-        if (simulated && isHovering(86 - 13, 53, 16, 16, mouseX, mouseY) && this.menu.getBlockEntity().inventoryHandler.getStackInSlot(AdvancedBeehiveContainer.SLOT_CAGE).isEmpty()) {
+        if (simulated && isHovering(86, 53, 16, 16, mouseX, mouseY) && this.menu.getBlockEntity().inventoryHandler.getStackInSlot(AdvancedBeehiveContainer.SLOT_CAGE).isEmpty()) {
             tooltipList.add(Component.translatable("productivebees.advanced_hive.tooltip.bee_cage").getVisualOrderText());
         }
 

@@ -362,9 +362,9 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
-        registration.addRecipeClickArea(CentrifugeScreen.class, 35, 35, 24, 16, CENTRIFUGE_TYPE);
+        registration.addRecipeClickArea(CentrifugeScreen.class, 48, 35, 24, 16, CENTRIFUGE_TYPE);
         registration.addRecipeClickArea(BottlerScreen.class, 142, 37, 14, 14, BOTTLER_TYPE);
-        registration.addRecipeClickArea(BreedingChamberScreen.class, 72, 14, 45, 22, BEE_BREEDING_TYPE);
-        registration.addRecipeClickArea(IncubatorScreen.class, 64, 35, 14, 16, INCUBATION_TYPE);
+        registration.addRecipeClickArea(BreedingChamberScreen.class, 85, 14, 45, 22, BEE_BREEDING_TYPE);
+        registration.addRecipeClickArea(IncubatorScreen.class, 76, 35, 24, 16, INCUBATION_TYPE);
     }
 }

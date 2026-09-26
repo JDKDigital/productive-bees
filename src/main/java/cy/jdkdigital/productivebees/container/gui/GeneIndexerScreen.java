@@ -18,6 +18,7 @@ public class GeneIndexerScreen extends AbstractContainerScreen<GeneIndexerContai
         super(container, inv, titleIn);
         imageWidth = 256;
         imageHeight = 256;
+        inventoryLabelY = imageHeight - 94;
     }
 
     @Override
