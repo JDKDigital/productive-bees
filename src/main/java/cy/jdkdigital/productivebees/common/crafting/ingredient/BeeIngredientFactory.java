@@ -20,8 +20,9 @@ import java.util.function.Supplier;
 
 public class BeeIngredientFactory
 {
-    private static Map<String, BeeIngredient> ingredientList = new HashMap<>();
-    private static int configurableBeeIngredientCount = 0; // counter to see if list needs to be recalculated
+    private static final Map<String, BeeIngredient> ingredientList = new HashMap<>();
+    private static boolean inhabitantsLoaded = false;
+    private static boolean configurableBeesLoaded = false;
 
     public static String getIngredientKey(Bee bee) {
         String type = bee.getEncodeId();
@@ -60,7 +61,7 @@ public class BeeIngredientFactory
     }
 
     public static Map<String, BeeIngredient> getOrCreateList() {
-        if (ingredientList.isEmpty()) {
+        if (!inhabitantsLoaded) {
             // Add all beehive inhabitors, entity type check must be done before using the entry
             try {
                 for (EntityType<?> registryObject : BuiltInRegistries.ENTITY_TYPE) {
@@ -72,6 +73,7 @@ public class BeeIngredientFactory
                         addBee(BuiltInRegistries.ENTITY_TYPE.getKey(bee).toString(), new BeeIngredient(bee));
                     }
                 }
+                inhabitantsLoaded = true;
             } catch (IllegalStateException e) {
                 // Tag not ready
                 ProductiveBees.LOGGER.warn("Failed to create bee ingredient list for beehive inhabitors");
@@ -79,17 +81,21 @@ public class BeeIngredientFactory
         }
 
         // Add configured bees
-        if (configurableBeeIngredientCount != BeeReloadListener.INSTANCE.getData().size()) {
-            configurableBeeIngredientCount = 0;
+        if (!configurableBeesLoaded) {
+            configurableBeesLoaded = true;
             for (Map.Entry<ResourceLocation, CompoundTag> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
                 ResourceLocation beeType = entry.getKey();
                 EntityType<ConfigurableBee> bee = ModEntities.CONFIGURABLE_BEE.get();
                 addBee(beeType.toString(), new BeeIngredient(bee, beeType, true));
-                configurableBeeIngredientCount++;
             }
         }
 
         return ingredientList;
+    }
+
+    public static void invalidate() {
+        ingredientList.values().removeIf(BeeIngredient::isConfigurable);
+        configurableBeesLoaded = false;
     }
 
     public static void addBee(String name, BeeIngredient bee) {
