@@ -1,0 +1,6 @@
+{
+  "name": "独居蜜蜂",
+  "description": "你可以在主世界中发现从独居蜜蜂蜂巢生成的独居蜜蜂。$(br2)$(l:hives/nests)在这里了解巢穴$(/l)",
+  "icon": "productivebees:oak_wood_nest",
+  "parent": "productivebees:bees"
+}

@@ -1,0 +1,18 @@
+{
+  "name": "发光蜜蜂",
+  "icon": "minecraft:glowstone_dust",
+  "read_by_default": true,
+  "category": "productivebees:bees_wild",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "发光蜜蜂",
+      "text": "栖息在下界的发光蜂巢中。发光蜜蜂更喜欢为荧石或灯这类发光方块授粉。",
+      "anchor": "glowing"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "productivebees:configurable_bee{type:'productivebees:glowing'}"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "捕手",
+  "icon": "productivebees:catcher",
+  "category": "productivebees:blocks",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "productivebees:catcher",
+      "text": "给它装满蜂笼后，它就会捕捉任何从上方飞过的蜜蜂。你还可以在上面放一朵花或$(l:blocks/feeder)喂食台$(/l)来吸引蜜蜂。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "捕手可接受三种升级：$(l:items/upgrades#babee)升级：繁殖$(/l)会过滤掉成年蜜蜂，只捕捉 BaBee；$(l:items/upgrades#filter)过滤升级$(/l)只会捕捉过滤器中指定的蜜蜂；$(l:items/upgrades#range)范围升级$(/l)会提升作用范围。可以安装多个范围升级。"
+    }
+  ]
+}

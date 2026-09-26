@@ -1,0 +1,16 @@
+{
+  "name": "蜂巢定位器",
+  "icon": "productivebees:nest_locator",
+  "category": "productivebees:items",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "productivebees:nest_locator",
+      "text": "能够锁定附近蜂巢发出的微弱嗡嗡声。对着一个蜂巢或你想寻找的那种蜂巢对应的方块潜行右键定位器即可。例如你想找沙子蜂巢，可以右键沙子蜂巢，也可以右键沙子方块。再次右键后，它就会定位附近同类型的蜂巢。"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "productivebees:nest_locator"
+    }
+  ]
+}

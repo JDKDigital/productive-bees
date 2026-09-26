@@ -1,0 +1,27 @@
+{
+  "name": "开始",
+  "icon": "minecraft:writable_book",
+  "category": "productivebees:guide",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "资源蜜蜂建立在原版蜜蜂机制之上。本指南默认你已经对原版系统有一定了解。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "除了原版蜜蜂外，你还会在主世界各个群系中发现许多栖息在隐蔽$(l:hives/nests)蜂巢$(/l)中的新蜜蜂。这些蜜蜂都是独居的，也就是说它们不会住进蜂箱里。不过，它们的遗传特性允许你繁殖出不同类型的蜜蜂，而且它们看起来也很酷。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "你首先需要找到一个原版蜂巢，以获取一些蜂蜜瓶和蜜脾。蜂蜜瓶是合成$(l:items/bee_cage)蜜蜂笼$(/l)所必需的，这能让你更轻松地把蜜蜂运回家。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "收集到足够多的蜜脾后，给自己建造一个$(l:hives/advanced_hives)高级蜂箱$(/l)和一个$(l:hives/expansion_boxes)扩容盒$(/l)。$(l:hives/advanced_hives)高级蜂箱$(/l)可以让你查看内部情况，随时留意你的蜜蜂以及它们产出的东西。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "有些蜜蜂只能在其他维度中找到，或通过繁殖获得。使用 JEI 查阅繁殖配方，这样你就能知道需要先找到哪些蜜蜂。"
+    }
+  ]
+}

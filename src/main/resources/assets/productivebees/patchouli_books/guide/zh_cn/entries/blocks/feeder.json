@@ -1,0 +1,20 @@
+{
+  "name": "喂食台阶",
+  "icon": "productivebees:feeder",
+  "category": "productivebees:blocks",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "productivebees:feeder",
+      "text": "可作为喂食蜜蜂的集中供料点。它可容纳 3 个物品方块。当伐木或采石蜜蜂从这里取食时，会从喂食器中的随机物品产出对应资源。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "喂食台可以注入蜂蜜，为蜜蜂提供一个绝佳的歇脚之处，让它们在辛苦工作一天后恢复状态——也就是给予它们生命恢复效果。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "由于$(l:items/upgrades#simulator)模拟蜂箱$(/l)只有 1 个花朵方块位置，喂食台与它非常搭配，让你最多可以让 3 种不同的蜜蜂在同一个蜂箱中工作。"
+    }
+  ]
+}

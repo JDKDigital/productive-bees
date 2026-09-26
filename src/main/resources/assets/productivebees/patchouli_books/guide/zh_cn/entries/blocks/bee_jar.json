@@ -1,0 +1,12 @@
+{
+  "name": "蜂罐",
+  "icon": "productivebees:jar_oak",
+  "category": "productivebees:blocks",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "productivebees:jar_oak",
+      "text": "用这个漂亮的玻璃容器向世界展示你的蜜蜂收藏吧，它非常适合容纳一只蜜蜂。使用漏斗或管道插入一个装有你所选蜜蜂的$(l:items/bee_cage)蜜蜂笼$(/l)。"
+    }
+  ]
+}

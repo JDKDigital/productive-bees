@@ -1,0 +1,12 @@
+{
+  "name": "蜂蜜大餐",
+  "icon": "productivebees:honey_treat",
+  "category": "productivebees:items",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "productivebees:honey_treat",
+      "text": "蜜蜂小食可以喂给愤怒的蜜蜂，让它们冷静下来。喂给幼蜂则能让它们更快长大。$(br2)蜜蜂小食还可以与基因结合，用于在蜜蜂之间转移遗传特性。更多内容请阅读$(l:genetics/transferring)基因工程页面$(/l)"
+    }
+  ]
+}

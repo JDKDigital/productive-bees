@@ -1,0 +1,22 @@
+{
+  "name": "龙蛋蜂巢",
+  "icon": "productivebees:dragon_egg_hive",
+  "category": "productivebees:hives",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "productivebees:dragon_egg_hive",
+      "text": "这是一种专为末影龙蜜蜂打造的特殊蜂巢，能让玩家收获原本很难获得的龙蜜脾。正常情况下，末影龙蜜蜂栖息在黑曜石蜂巢中，但它们也会住进被掏空的龙蛋里。你也可以说服它们住进高级蜂箱，不过在那里它们不会产出龙息。"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "productivebees:nests/dragon_egg_hive",
+      "text": "剩下的材料还能做一份丰盛的煎蛋卷"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "居住在末地中龙蛋蜂巢里的末影龙蜜蜂不需要任何开花方块，因为它们会直接从空气中吸收龙之精华。而在其他地点工作时，末影龙蜜蜂必须有其他授粉来源。$(br2)龙蛋蜂巢不支持升级"
+    }
+  ]
+}

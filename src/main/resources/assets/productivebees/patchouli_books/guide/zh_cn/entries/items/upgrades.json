@@ -1,0 +1,162 @@
+{
+  "name": "升级",
+  "icon": "productivelib:upgrade_base",
+  "category": "productivebees:items",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "productivelib:upgrade_base",
+      "text": "升级可以安装到机器和蜂箱中，以增强它们的功能或提升性能。"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "productivelib:upgrades/base_pb",
+      "text": "所有其他升级的基础。"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "productivelib:upgrades/child",
+      "text": "",
+      "anchor": "babee"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "安装在蜂箱中时，升级：繁殖会让居住在蜂箱内的蜜蜂有小概率自行繁殖并产生新的后代，无需你的参与。请注意，原本无法正常繁殖的蜜蜂无法使用此升级。$(br)安装在$(l:blocks/catcher)捕手$(/l)中时，则只会捕捉 BaBee 并将其装入蜂笼。"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "productivelib:upgrades/productivity",
+      "text": "",
+      "anchor": "productivity"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "安装在蜂箱中后，产量升级会提高蜜蜂每次外出产出的蜜脾数量。可以安装多个产量升级。"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "productivelib:upgrades/time",
+      "text": "",
+      "anchor": "speed"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "安装在蜂箱中时，速度升级会减少蜜蜂待在蜂箱内的时间。$(br)安装在$(l:blocks/centrifuge)离心机$(/l)或$(l:blocks/incubator)孵化器$(/l)中时，则会提高运行速度"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "productivelib:upgrades/filter",
+      "text": "",
+      "anchor": "filter"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "对一只蜜蜂右键即可将其添加到过滤器中。将过滤器放入合成网格即可清空。安装在蜂箱中时，只允许过滤器中指定的蜜蜂进入。$(br)安装在捕手中时，则只会拾取过滤器中指定的蜜蜂。"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "productivelib:upgrades/range",
+      "text": "",
+      "anchor": "range"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "安装在蜂箱中时，农夫蜜蜂和收集者/囤积者蜜蜂的工作范围每个升级增加 1 格，默认范围为 4 格。安装在捕手中时，范围升级会将工作区域向所有方向各扩大 1 格。可以安装多个范围升级。"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "productivelib:upgrades/anti_teleport",
+      "text": "",
+      "anchor": "anti_teleport"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "安装在蜂箱中时，原本能够瞬移的蜜蜂在带有该升级的蜂箱里生活时，将不再进行瞬移。"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "productivelib:upgrades/gene_sampler",
+      "text": "",
+      "anchor": "sampler"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "安装在蜂箱中时，每次授粉中的蜜蜂造访时都会提取少量样本，完全不会伤害它们。可以在同一个蜂箱中安装多个，以提高提取效率。"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "productivelib:upgrades/block",
+      "text": "",
+      "anchor": "comb_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "安装在蜂箱中后，蜜蜂产出的将是完整的蜜脾块，而不是蜜脾。"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "productivelib:upgrades/simulator",
+      "text": "",
+      "anchor": "simulator"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "安装在蜂箱中时，蜜蜂将不再从蜂箱中飞出，而是会模拟其外出采花的过程，以获得更好的服务器性能。蜜蜂的花朵方块，或带花朵方块的喂食台，必须放在蜂箱底部，也就是正下方，且不能挡住前面。"
+    },
+    {
+      "type": "multiblock",
+      "name": "模拟蜂箱",
+      "multiblock": {
+        "mapping": {
+          "H": "productivebees:advanced_oak_beehive[expanded=up]",
+          "E": "productivebees:expansion_box_oak[expanded=up]",
+          "F": "productivebees:feeder[type=top]"
+        },
+        "pattern": [
+          [
+            " E"
+          ],
+          [
+            " H"
+          ],
+          [
+            "F0"
+          ]
+        ],
+        "offset": [
+          0,
+          1,
+          0
+        ]
+      },
+      "enable_visualize": false
+    },
+    {
+      "type": "multiblock",
+      "name": "模拟蜂箱",
+      "multiblock": {
+        "mapping": {
+          "H": "productivebees:advanced_oak_beehive[expanded=left,facing=east]",
+          "E": "productivebees:expansion_box_oak[expanded=left,facing=east]",
+          "F": "minecraft:iron_block"
+        },
+        "pattern": [
+          [
+            "HE",
+            "  "
+          ],
+          [
+            "0 ",
+            "F "
+          ]
+        ],
+        "offset": [
+          0,
+          1,
+          0
+        ]
+      },
+      "enable_visualize": false
+    }
+  ]
+}

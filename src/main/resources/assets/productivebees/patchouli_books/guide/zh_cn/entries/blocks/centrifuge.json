@@ -1,0 +1,12 @@
+{
+  "name": "离心机",
+  "icon": "productivebees:centrifuge",
+  "category": "productivebees:blocks",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "productivebees:centrifuge",
+      "text": "将资源蜜脾加工成资源和蜂蜜。可储存 10 桶液体，并可将其泵出。离心机还会自动将流体输出到放置在旁边的任意流体存储方块中。动力离心机会消耗 FE，以更快的速度运行。离心机还可用于将瓶装蜜蜂材料中的遗传物质分离为$(l:genetics/transferring)基因$(/l)。"
+    }
+  ]
+}

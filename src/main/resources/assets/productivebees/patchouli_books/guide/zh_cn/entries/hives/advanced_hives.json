@@ -1,0 +1,26 @@
+{
+  "name": "高级蜂箱",
+  "icon": "productivebees:advanced_oak_beehive",
+  "category": "productivebees:hives",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "productivebees:advanced_oak_beehive",
+      "text": "资源蜜蜂在原版蜂巢的基础上扩展出了高级蜂箱。与原版蜂巢不同，高级蜂箱不需要附近有营火才能安全采集；即使没有精准采集，你也可以在蜜蜂仍留在里面时直接将其破坏并搬走。"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "productivebees:hives/advanced_oak_beehive",
+      "text": "根据你的整合包中可用的其他木材种类，还有许多不同变种的高级蜂箱可供使用。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "高级蜂箱带有一个 GUI，你可以在其中查看当前在蜂箱内的蜜蜂，并取出已产出的资源。高级蜂箱还可以通过$(l:hives/expansion_boxes)扩容盒$(/l)进一步升级。连接一个$(l:hives/expansion_boxes)扩容盒$(/l)后，蜜蜂容量会从 3 提升到 5，并允许安装$(l:items/upgrades)升级$(/l)。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "如果你不想再等蜜蜂干完活从蜂箱里出来，可以用木棍敲打蜂箱或蜂巢，强制把它们赶出来，但会损失所有当前的生产进度。只有在蜜蜂能够安全离开时，这种方法才有效。"
+    }
+  ]
+}
