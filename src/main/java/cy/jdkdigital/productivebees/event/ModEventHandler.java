@@ -141,7 +141,7 @@ public class ModEventHandler
         event.enqueueWork(() -> {
             DispenserBlock.registerBehavior(ModItems.BEE_CAGE.get(), new CageDispenseBehavior());
             DispenserBlock.registerBehavior(ModItems.STURDY_BEE_CAGE.get(), new CageDispenseBehavior());
-            DispenserBlock.registerBehavior(Items.SHEARS.asItem(), new ShearsDispenseItemBehavior());
+            DispenserBlock.registerBehavior(Items.SHEARS, new ShearsDispenseItemBehavior(DispenserBlock.DISPENSER_REGISTRY.get(Items.SHEARS)));
         });
     }
 
