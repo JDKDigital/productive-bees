@@ -71,12 +71,19 @@ public class AdvancedBeehiveContainer extends AbstractContainer<AdvancedBeehiveB
         }});
     }};
 
+    private final boolean expanded;
+
     public AdvancedBeehiveContainer(final int windowId, final Inventory playerInventory, final FriendlyByteBuf data) {
-        this(windowId, playerInventory, getTileEntity(playerInventory, data));
+        this(windowId, playerInventory, getTileEntity(playerInventory, data), data.readBoolean());
     }
 
     public AdvancedBeehiveContainer(final int windowId, final Inventory playerInventory, final AdvancedBeehiveBlockEntity blockEntity) {
+        this(windowId, playerInventory, blockEntity, blockEntity.acceptsUpgrades());
+    }
+
+    public AdvancedBeehiveContainer(final int windowId, final Inventory playerInventory, final AdvancedBeehiveBlockEntity blockEntity, final boolean expanded) {
         super(ModContainerTypes.ADVANCED_BEEHIVE.get(), blockEntity, windowId);
+        this.expanded = expanded;
 
         // Inventory slots
         // Bottle slot
@@ -85,11 +92,15 @@ public class AdvancedBeehiveContainer extends AbstractContainer<AdvancedBeehiveB
         addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) blockEntity.inventoryHandler, SLOT_CAGE, 86, 53));
         addSlotBox(blockEntity.inventoryHandler, InventoryHandlerHelper.OUTPUT_SLOTS[0], 116, 17, 3, 18, 3, 18);
 
-        if (blockEntity.acceptsUpgrades()) {
+        if (expanded) {
             addSlotBox(blockEntity.getUpgradeHandler(), 0, 178, 8, 1, 18, 4, 18);
         }
 
         layoutPlayerInventorySlots(playerInventory, 0, 8, 84);
+    }
+
+    public boolean isExpanded() {
+        return expanded;
     }
 
     private static AdvancedBeehiveBlockEntity getTileEntity(final Inventory playerInventory, final FriendlyByteBuf data) {

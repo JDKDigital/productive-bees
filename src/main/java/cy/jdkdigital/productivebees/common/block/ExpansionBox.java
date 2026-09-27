@@ -156,9 +156,10 @@ public class ExpansionBox extends Block implements EntityBlock
             var dir = pState.getValue(AdvancedBeehive.EXPANDED).getExpandedCardinalDirection(pState.getValue(BeehiveBlock.FACING)).getOpposite();
             if (pLevel.getBlockEntity(pPos.relative(dir)) instanceof AdvancedBeehiveBlockEntity hiveBlockEntity) {
                 if (!pLevel.isClientSide()) {
-                    var hiveState = pLevel.getBlockState(pPos.relative(dir));
-                    pLevel.sendBlockUpdated(pPos.relative(dir), hiveState, hiveState, 3);
-                    pPlayer.openMenu(hiveBlockEntity, pPos.relative(dir));
+                    pPlayer.openMenu(hiveBlockEntity, buffer -> {
+                        buffer.writeBlockPos(pPos.relative(dir));
+                        buffer.writeBoolean(hiveBlockEntity.acceptsUpgrades());
+                    });
                 }
                 return InteractionResult.SUCCESS_NO_ITEM_USED;
             }

@@ -2,13 +2,11 @@ package cy.jdkdigital.productivebees.container.gui;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.ingredient.BeeRenderer;
-import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.block.entity.DragonEggHiveBlockEntity;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
-import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import cy.jdkdigital.productivelib.client.screen.AbstractUpgradeableContainerScreen;
 import net.minecraft.ChatFormatting;
@@ -38,7 +36,7 @@ public class AdvancedBeehiveScreen extends AbstractUpgradeableContainerScreen<Ad
 
     public AdvancedBeehiveScreen(AdvancedBeehiveContainer screenContainer, Inventory inv, Component titleIn) {
         super(screenContainer, inv, titleIn);
-        this.expanded = this.menu.getBlockEntity().getBlockState().getValue(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
+        this.expanded = screenContainer.isExpanded();
         if (!this.expanded) {
             this.imageWidth = 179;
         }
@@ -53,11 +51,10 @@ public class AdvancedBeehiveScreen extends AbstractUpgradeableContainerScreen<Ad
     @Override
     protected void renderLabels(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY) {
         super.renderLabels(guiGraphics, mouseX, mouseY);
-        boolean expanded = this.menu.getBlockEntity().getBlockState().getValue(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
-        boolean simulated = expanded && this.menu.getBlockEntity().isSim();
+        boolean simulated = this.expanded && this.menu.getBlockEntity().isSim();
 
         assert minecraft != null;
-        HashMap<Integer, List<Integer>> positions = expanded ? AdvancedBeehiveContainer.BEE_POSITIONS_EXPANDED : AdvancedBeehiveContainer.BEE_POSITIONS;
+        HashMap<Integer, List<Integer>> positions = this.expanded ? AdvancedBeehiveContainer.BEE_POSITIONS_EXPANDED : AdvancedBeehiveContainer.BEE_POSITIONS;
         List<FormattedCharSequence> tooltipList = new ArrayList<FormattedCharSequence>();
 
         // Cage slot tooltip
