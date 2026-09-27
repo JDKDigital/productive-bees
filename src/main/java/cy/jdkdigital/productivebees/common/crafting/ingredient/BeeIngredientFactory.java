@@ -16,13 +16,14 @@ import net.minecraft.world.entity.animal.Bee;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
 public class BeeIngredientFactory
 {
-    private static final Map<String, BeeIngredient> ingredientList = new HashMap<>();
-    private static boolean inhabitantsLoaded = false;
-    private static boolean configurableBeesLoaded = false;
+    private static final Map<String, BeeIngredient> ingredientList = new ConcurrentHashMap<>();
+    private static volatile boolean inhabitantsLoaded = false;
+    private static volatile boolean configurableBeesStale = true;
 
     public static String getIngredientKey(Bee bee) {
         String type = bee.getEncodeId();
@@ -64,6 +65,7 @@ public class BeeIngredientFactory
         if (!inhabitantsLoaded) {
             // Add all beehive inhabitors, entity type check must be done before using the entry
             try {
+                boolean foundInhabitants = false;
                 for (EntityType<?> registryObject : BuiltInRegistries.ENTITY_TYPE) {
                     if (registryObject.is(EntityTypeTags.BEEHIVE_INHABITORS)) {
                         if (registryObject.equals(ModEntities.CONFIGURABLE_BEE.get())) {
@@ -71,31 +73,34 @@ public class BeeIngredientFactory
                         }
                         EntityType<? extends Bee> bee = (EntityType<? extends Bee>) registryObject;
                         addBee(BuiltInRegistries.ENTITY_TYPE.getKey(bee).toString(), new BeeIngredient(bee));
+                        foundInhabitants = true;
                     }
                 }
-                inhabitantsLoaded = true;
+                // The tag is datapack driven, keep retrying until it is bound
+                inhabitantsLoaded = foundInhabitants;
             } catch (IllegalStateException e) {
                 // Tag not ready
                 ProductiveBees.LOGGER.warn("Failed to create bee ingredient list for beehive inhabitors");
             }
         }
 
-        // Add configured bees
-        if (!configurableBeesLoaded) {
-            configurableBeesLoaded = true;
-            for (Map.Entry<ResourceLocation, CompoundTag> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
+        // Add configured bees, replacing entries in place so readers never see a bee go missing
+        if (configurableBeesStale) {
+            configurableBeesStale = false;
+            Map<ResourceLocation, CompoundTag> beeData = BeeReloadListener.INSTANCE.getData();
+            for (Map.Entry<ResourceLocation, CompoundTag> entry : beeData.entrySet()) {
                 ResourceLocation beeType = entry.getKey();
                 EntityType<ConfigurableBee> bee = ModEntities.CONFIGURABLE_BEE.get();
                 addBee(beeType.toString(), new BeeIngredient(bee, beeType, true));
             }
+            ingredientList.values().removeIf(ingredient -> ingredient.isConfigurable() && !beeData.containsKey(ingredient.getBeeType()));
         }
 
         return ingredientList;
     }
 
     public static void invalidate() {
-        ingredientList.values().removeIf(BeeIngredient::isConfigurable);
-        configurableBeesLoaded = false;
+        configurableBeesStale = true;
     }
 
     public static void addBee(String name, BeeIngredient bee) {

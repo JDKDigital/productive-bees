@@ -1,3 +1,28 @@
+1.21.1-13.14.0
+
+- Added Eternal Starlight bees: amaramber, deepsilver, glacite, malarite, starcore, starlit diamond and thermal (Lego)
+- Blood Magic bees are now Neo Vitae bees
+- Fixed the Astral Sorcery bee spawn egg recipes after Astral Sorcery 2.0 changed its recipe format
+- Fixed the BeeBee destroying armor outright instead of leaving the configured durability behind
+- Fixed amber blocks and bee jars holding onto the world in memory after leaving it
+- Fixed a client crash while rendering hives when using Sodium
+- Fixed the reactor bee combs all giving their ingot at full chance instead of their intended per-metal chance
+- Fixed the bottler producing an invalid potion instead of a water bottle (Kim Jinsu)
+- Fixed disconnecting when opening a hive that shares an expansion box with another hive
+- Fixed advanced hives deleting bottles and upgrades inserted by hoppers or pipes
+- Fixed powered and heated centrifuges working with less energy than they consume
+- Fixed snow nests generating floating above snow layers
+- Fixed the nether_bee_nest config not controlling warped and crimson nest generation
+- Fixed the Inventory label sitting on top of the gene slots in the Gene Indexer
+- Fixed misplaced tooltips and recipe click areas in the Breeding Chamber, Centrifuge, BaBee Incubator and Advanced Hive
+- Fixed shears in a dispenser overriding shear behavior added by other mods
+- Fixed the bee list not being rebuilt after a datapack reload
+- Fixed bee cage names being stored in English, so they now follow the client language (HowXu)
+- Added Simplified Chinese (Hoshino Yumeka), French (Julien Marcon) and Japanese (Twister716) translations
+- Updated Russian translation (GordonHollow)
+- Removed stale entries from the Spanish, Italian, Polish, Russian and Turkish translations
+
+
 1.21.1-13.13.5
 
 - Fixed conductive alloy bee recipe

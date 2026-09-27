@@ -261,13 +261,7 @@ public class BeeCage extends Item
         if (splits.length < 2) {
             return Component.literal(id);
         }
-        // gen an entity.productivebee.xxx_bee name from lang.json
-        Component translatable = Component.translatable("entity." + ProductiveBees.MODID + "." + (id.split(":"))[1] + (should_add_prefix ? "_bee" : ""));
-        // equal return or base return
-        if (translatable.getString().equals(id)) {
-            return Component.literal(id);
-        } else {
-            return translatable;
-        }
+        // entity.<namespace>.<name> as the bee's own mod declares it, falling back to the raw id when untranslated
+        return Component.translatableWithFallback("entity." + splits[0] + "." + splits[1] + (should_add_prefix ? "_bee" : ""), id);
     }
 }
