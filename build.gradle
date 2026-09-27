@@ -185,14 +185,11 @@ dependencies {
     implementation "curse.maven:modonomicon-538392:8594747"
     implementation "curse.maven:cucumber-272335:8433624"
     implementation "curse.maven:evilcraft-74610:8641499"
-    // Blood Magic rebranded as Neo Vitae; no 26.1 Blood Magic build exists
-    // local jar, same file as curse.maven:neovitae-1404763:8834488
-    implementation "local.libs:neovitae-26.1.2-1.1.21"
     implementation "curse.maven:ftb-industrial-contraptions-forge-539097:8683232"
-    implementation "curse.maven:mystical-agriculture-246640:8602813"
-    implementation "curse.maven:mystical-agradditions-256247:8516018"
+    implementation "curse.maven:neovitae-1404763:8970064"
+    implementation "curse.maven:mystical-agriculture-246640:8797046"
+    implementation "curse.maven:mystical-agradditions-256247:8796956"
     implementation "curse.maven:occultism-361026:8615441"
-    // Powah's 26.1 line is a separate CurseForge project from the original "powah"
     implementation "curse.maven:powah-rearchitected-633483:8025339"
 //    implementation "curse.maven:dyenamics-509276:5788247"  // no 26.1.2
     implementation "curse.maven:forbidden-arcanus-309858:8521347"

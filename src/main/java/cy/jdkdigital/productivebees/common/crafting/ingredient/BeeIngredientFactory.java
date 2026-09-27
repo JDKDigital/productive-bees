@@ -14,15 +14,19 @@ import net.minecraft.world.entity.animal.bee.Bee;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class BeeIngredientFactory
 {
-    private static Map<String, BeeIngredient> ingredientList = new HashMap<>();
-    private static int configurableBeeIngredientCount = 0; // counter to see if list needs to be recalculated
+    private static final Map<String, BeeIngredient> ingredientList = new ConcurrentHashMap<>();
+    private static volatile boolean inhabitantsLoaded = false;
+    private static volatile boolean configurableBeesStale = false;
+    private static volatile int configurableBeeIngredientCount = 0; // counter to see if list needs to be recalculated
 
     public static String getIngredientKey(Bee bee) {
         String type = bee.getEncodeId();
@@ -72,9 +76,10 @@ public class BeeIngredientFactory
     }
 
     public static Map<String, BeeIngredient> getOrCreateList() {
-        if (ingredientList.isEmpty()) {
+        if (!inhabitantsLoaded) {
             // Add all beehive inhabitors, entity type check must be done before using the entry
             try {
+                boolean foundInhabitants = false;
                 for (EntityType<?> registryObject : BuiltInRegistries.ENTITY_TYPE) {
                     if (BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(registryObject).is(EntityTypeTags.BEEHIVE_INHABITORS)) {
                         if (registryObject.equals(ModEntities.CONFIGURABLE_BEE.get())) {
@@ -82,8 +87,10 @@ public class BeeIngredientFactory
                         }
                         EntityType<? extends Bee> bee = (EntityType<? extends Bee>) registryObject;
                         addBee(BuiltInRegistries.ENTITY_TYPE.getKey(bee).toString(), new BeeIngredient(bee));
+                        foundInhabitants = true;
                     }
                 }
+                inhabitantsLoaded = foundInhabitants;
             } catch (IllegalStateException e) {
                 // Tag not ready
                 ProductiveBees.LOGGER.warn("Failed to create bee ingredient list for beehive inhabitors");
@@ -92,21 +99,28 @@ public class BeeIngredientFactory
 
         // allRegistered ignores hidden bees so recipe ingredients still resolve.
         int registrySize = BeeRegistries.registeredSize();
-        if (configurableBeeIngredientCount != registrySize) {
-            configurableBeeIngredientCount = 0;
+        if ((configurableBeesStale || configurableBeeIngredientCount != registrySize) && ModEntities.CONFIGURABLE_BEE.isBound()) {
             EntityType<ConfigurableBee> bee = ModEntities.CONFIGURABLE_BEE.get();
+            Set<String> present = new HashSet<>();
             BeeRegistries.allRegistered().forEach(holder -> {
                 Identifier beeType = holder.unwrapKey().orElseThrow().identifier();
                 BeeIngredient ingredient = new BeeIngredient(bee, beeType, true);
                 addBee(beeType.toString(), ingredient);
+                present.add(beeType.toString());
                 // Alias under the path's last segment so simple-name recipe references resolve.
                 String path = beeType.getPath();
                 int slash = path.lastIndexOf('/');
                 if (slash >= 0) {
-                    addBee(beeType.getNamespace() + ":" + path.substring(slash + 1), ingredient);
+                    String alias = beeType.getNamespace() + ":" + path.substring(slash + 1);
+                    addBee(alias, ingredient);
+                    present.add(alias);
                 }
             });
-            configurableBeeIngredientCount = registrySize;
+            if (!present.isEmpty()) {
+                ingredientList.entrySet().removeIf(entry -> entry.getValue().isConfigurable() && !present.contains(entry.getKey()));
+                configurableBeesStale = false;
+                configurableBeeIngredientCount = registrySize;
+            }
         }
 
         return ingredientList;
@@ -117,7 +131,8 @@ public class BeeIngredientFactory
     }
 
     public static void invalidate() {
-        ingredientList.clear();
+        inhabitantsLoaded = false;
+        configurableBeesStale = true;
         configurableBeeIngredientCount = 0;
         BeeIngredient.clearEntityCache();
     }

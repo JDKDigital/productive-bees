@@ -3,7 +3,6 @@ package cy.jdkdigital.productivebees.container.gui;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.container.IncubatorContainer;
 import cy.jdkdigital.productivelib.client.screen.AbstractUpgradeableContainerScreen;
-import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -32,8 +31,8 @@ public class IncubatorScreen extends AbstractUpgradeableContainerScreen<Incubato
                     mouseX, mouseY);
         }
 
-        if (this.menu.getBlockEntity().inventoryHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT).isEmpty()
-                && isHovering(80, 17, 18, 18, mouseX, mouseY)) {
+        if (this.menu.getBlockEntity().inventoryHandler.getStackInSlot(IncubatorContainer.SLOT_CATALYST).isEmpty()
+                && isHovering(80, 53, 18, 18, mouseX, mouseY)) {
             graphics.setTooltipForNextFrame(
                     List.of(Component.translatable("productivebees.incubator.tooltip.treat_item").getVisualOrderText()),
                     mouseX, mouseY);

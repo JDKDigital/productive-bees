@@ -43,7 +43,7 @@ public class CentrifugeScreen<T extends CentrifugeContainer<? extends Centrifuge
 
         if (this.menu.getBlockEntity() instanceof PoweredCentrifugeBlockEntity poweredCentrifugeBlockEntity) {
             int energyAmount = poweredCentrifugeBlockEntity.energyHandler.getAmountAsInt();
-            if (isHovering(-5, 16, 6, 54, mouseX, mouseY)) {
+            if (isHovering(8, 16, 6, 54, mouseX, mouseY)) {
                 graphics.setTooltipForNextFrame(List.of(Component.translatable("productivebees.screen.energy_level", energyAmount + "FE").getVisualOrderText()), mouseX, mouseY);
             }
         }

@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.item;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
@@ -231,8 +232,22 @@ public class BeeCage extends Item
             return Component.translatable(this.getDescriptionId());
         }
 
-        String entityId = stack.get(DataComponents.CUSTOM_DATA).copyTag().getString("name").orElse("");
-        return Component.translatable(this.getDescriptionId()).append(Component.literal(" (" + entityId + ")"));
+        CompoundTag tag = stack.get(DataComponents.CUSTOM_DATA).copyTag();
+        return Component.translatable(this.getDescriptionId())
+                .append(Component.literal(" ("))
+                .append(getBeeName(tag.getString("type").orElse(""), tag.getString("entity").orElse("")))
+                .append(Component.literal(")"));
+    }
+
+    private static Component getBeeName(String typeId, String entityId) {
+        boolean configurable = entityId.equals(ProductiveBees.MODID + ":configurable_bee");
+        String id = configurable ? typeId : entityId;
+        String[] splits = id.split(":");
+        if (splits.length < 2) {
+            return Component.literal(id);
+        }
+        String name = splits[1].substring(splits[1].lastIndexOf('/') + 1);
+        return Component.translatableWithFallback("entity." + splits[0] + "." + name + (configurable ? "_bee" : ""), id);
     }
 
     @Override

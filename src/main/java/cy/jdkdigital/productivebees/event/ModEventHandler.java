@@ -18,6 +18,7 @@ import cy.jdkdigital.productivelib.ProductiveLib;
 import cy.jdkdigital.productivelib.common.item.AbstractUpgradeItem;
 import cy.jdkdigital.productivelib.registry.LibItems;
 import net.minecraft.core.Direction;
+import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
@@ -135,7 +136,8 @@ public class ModEventHandler
         event.enqueueWork(() -> {
             DispenserBlock.registerBehavior(ModItems.BEE_CAGE.get(), new CageDispenseBehavior());
             DispenserBlock.registerBehavior(ModItems.STURDY_BEE_CAGE.get(), new CageDispenseBehavior());
-            DispenserBlock.registerBehavior(Items.SHEARS.asItem(), new ShearsDispenseItemBehavior());
+            DispenserBlock.registerBehavior(Items.SHEARS, new ShearsDispenseItemBehavior(
+                    DispenserBlock.DISPENSER_REGISTRY.getOrDefault(Items.SHEARS, new DefaultDispenseItemBehavior())));
         });
     }
 

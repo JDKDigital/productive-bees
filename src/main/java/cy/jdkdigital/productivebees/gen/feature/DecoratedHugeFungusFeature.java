@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.gen.feature;
 
 import com.google.common.collect.Sets;
 import com.mojang.serialization.Codec;
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
@@ -23,6 +24,8 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 
 public class DecoratedHugeFungusFeature extends Feature<DecoratedHugeFungusConfiguration> {
+    private static final String NEST_CONFIG_KEY = "nether_bee_nest";
+
     public DecoratedHugeFungusFeature(Codec<DecoratedHugeFungusConfiguration> codec) {
         super(codec);
     }
@@ -33,6 +36,10 @@ public class DecoratedHugeFungusFeature extends Feature<DecoratedHugeFungusConfi
         RandomSource random = pContext.random();
         ChunkGenerator chunkgenerator = pContext.chunkGenerator();
         DecoratedHugeFungusConfiguration configuration = pContext.config();
+
+        if (!configuration.planted && ProductiveBeesConfig.WORLD_GEN.nestConfigs.containsKey(NEST_CONFIG_KEY) && random.nextFloat() > ProductiveBeesConfig.WORLD_GEN.nestConfigs.get(NEST_CONFIG_KEY).get().floatValue()) {
+            return false;
+        }
 
         Block block = configuration.validBaseState.getBlock();
         BlockPos blockpos1 = null;

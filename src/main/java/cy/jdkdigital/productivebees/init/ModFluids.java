@@ -24,5 +24,5 @@ public final class ModFluids
         return FLUIDS.register(name, supplier);
     }
 
-    public static DeferredHolder<FluidType, FluidType> HONEY_FLUID_TYPE = FLUID_TYPES.register("honey", () -> new FluidType(FluidType.Properties.create().canExtinguish(true).supportsBoating(true).motionScale(0.007D)));
+    public static DeferredHolder<FluidType, FluidType> HONEY_FLUID_TYPE = FLUID_TYPES.register("honey", () -> new FluidType(FluidType.Properties.create().canExtinguish(true).supportsBoating(true).motionScale(0.007D).isWaterLike(true)));
 }

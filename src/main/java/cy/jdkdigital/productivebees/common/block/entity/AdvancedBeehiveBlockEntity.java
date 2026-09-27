@@ -473,6 +473,11 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
     }
 
     @Override
+    public boolean canPlaceItem(int pSlot, ItemStack pStack) {
+        return inventoryHandler.isItemValid(pSlot, pStack, true);
+    }
+
+    @Override
     public boolean stillValid(Player pPlayer) {
         return Container.stillValidBlockEntity(this, pPlayer);
     }

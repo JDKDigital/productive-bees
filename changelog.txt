@@ -3,6 +3,19 @@
 - Fixed the Aquaculture neptunium bee spawn egg fished up inside Neptune's Bounty
 - Fixed the BeeBee destroying armor outright instead of leaving the configured durability behind
 - Fixed amber blocks and bee jars holding onto the world in memory after leaving it
+- Fixed disconnecting when opening a hive that shares an expansion box with another hive
+- Fixed advanced hives deleting bottles and upgrades inserted by hoppers or pipes
+- Fixed heated centrifuges running on less energy than they consume
+- Fixed snow nests generating floating above snow layers
+- Fixed the nether_bee_nest config not controlling warped and crimson nest generation
+- Fixed misplaced tooltips and recipe click areas in the Breeding Chamber, Centrifuge, BaBee Incubator and Advanced Hive
+- Fixed shears in a dispenser overriding shear behavior added by other mods
+- Fixed the bee list not being rebuilt after a datapack reload
+- Fixed being unable to move while standing in honey
+- Fixed the bottler producing an invalid potion instead of a water bottle (Kim Jinsu)
+- Fixed bee cage names being stored in English, so they now follow the client language (HowXu)
+- Added Simplified Chinese (Hoshino Yumeka), French (Julien Marcon) and Japanese (Twister716) translations
+- Updated Russian translation (GordonHollow)
 
 
 26.1.2-15.1.0

@@ -37,23 +37,23 @@ public class BreedingChamberScreen extends AbstractUpgradeableContainerScreen<Br
         List<FormattedCharSequence> tooltipList = new ArrayList<>();
         int energyAmount = this.menu.getBlockEntity().energyHandler.getAmountAsInt();
 
-        if (isHovering(-5, 16, 6, 54, mouseX, mouseY)) {
+        if (isHovering(8, 16, 6, 54, mouseX, mouseY)) {
             tooltipList.add(Component.translatable("productivebees.screen.energy_level", energyAmount + "FE").getVisualOrderText());
         }
 
         if (this.menu.getBlockEntity().chosenRecipe != null && minecraft != null) {
             BeeIngredient beeIngredient = this.menu.getBlockEntity().chosenRecipe.value().offspring.get();
             Entity bee = beeIngredient != null ? beeIngredient.getCachedEntity(minecraft.level) : null;
-            if (bee != null && isHovering(134 - 13, 17, 16, 16, mouseX, mouseY)) {
+            if (bee != null && isHovering(134, 17, 16, 16, mouseX, mouseY)) {
                 tooltipList.add(bee.getName().getVisualOrderText());
             }
         }
 
-        if (isHovering(159 - 13, 14, 10, 10, mouseX, mouseY)) {
+        if (isHovering(159, 14, 10, 10, mouseX, mouseY)) {
             tooltipList.add(Component.translatable("productivebees.breeding_chamber.tooltip.next_bee").getVisualOrderText());
         }
 
-        if (isHovering(85 - 13, 14, 18, 18, mouseX, mouseY)
+        if (isHovering(134, 41, 18, 18, mouseX, mouseY)
                 && this.menu.getBlockEntity().inventoryHandler.getStackInSlot(BreedingChamberContainer.SLOT_CAGE).isEmpty()) {
             tooltipList.add(Component.translatable("productivebees.breeding_chamber.tooltip.cage").getVisualOrderText());
         }

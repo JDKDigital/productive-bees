@@ -54,7 +54,10 @@ public sealed interface NestSearch permits NestSearch.Surface, NestSearch.Tree, 
                 pos = pos.below();
             }
             BlockState matched = placeOntop ? level.getBlockState(pos.below()) : level.getBlockState(pos);
-            return target.target.test(matched, rand) ? pos : null;
+            if (!target.target.test(matched, rand)) {
+                return null;
+            }
+            return placeOntop && matched.canBeReplaced() ? pos.below() : pos;
         }
     }
 

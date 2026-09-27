@@ -6,6 +6,11 @@
   },
   "ingredient": "minecraft:glass_bottle",
   "result": {
+    "components": {
+      "minecraft:potion_contents": {
+        "potion": "minecraft:water"
+      }
+    },
     "id": "minecraft:potion"
   }
 }

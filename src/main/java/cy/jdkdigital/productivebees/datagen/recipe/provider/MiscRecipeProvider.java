@@ -56,7 +56,7 @@ public class MiscRecipeProvider implements DataProvider
         bottler("productivebees:honey", 250, "minecraft:honeycomb", "productivebees:honey_treat", 1, List.of(), "honey_treat");
         bottler("minecraft:milk", 250, "minecraft:glass_bottle", "productivebees:milk_bottle", 1, List.of(), "milk_bottle");
         bottler("create:tea", 250, "minecraft:glass_bottle", "create:builders_tea", 1, List.of(modLoaded("create")), "miners_tea");
-        bottler("minecraft:water", 250, "minecraft:glass_bottle", "minecraft:potion", 1, List.of(), "water_bottle");
+        bottler("minecraft:water", 250, "minecraft:glass_bottle", "minecraft:potion", 1, potionContents("minecraft:water"), List.of(), "water_bottle");
 
         beeFishing("productivebees:prismarine", "#minecraft:is_deep_ocean", 0.05f, List.of(beeExists("productivebees:prismarine")), "prismarine_bee");
         beeFishing("productivebees:sponge", "#minecraft:is_deep_ocean", 0.03f, List.of(beeExists("productivebees:sponge")), "sponge_bee");
@@ -174,6 +174,10 @@ public class MiscRecipeProvider implements DataProvider
     }
 
     private void bottler(String fluidIngredient, int fluidAmount, String itemIngredient, String resultId, int resultCount, List<JsonObject> conditions, String recipePath) {
+        bottler(fluidIngredient, fluidAmount, itemIngredient, resultId, resultCount, new JsonObject(), conditions, recipePath);
+    }
+
+    private void bottler(String fluidIngredient, int fluidAmount, String itemIngredient, String resultId, int resultCount, JsonObject resultComponents, List<JsonObject> conditions, String recipePath) {
         JsonObject obj = new JsonObject();
         obj.addProperty("type", "productivebees:bottler");
         JsonObject fluid = new JsonObject();
@@ -181,9 +185,21 @@ public class MiscRecipeProvider implements DataProvider
         fluid.addProperty("amount", fluidAmount);
         obj.add("fluid", fluid);
         obj.addProperty("ingredient", itemIngredient);
-        obj.add("result", result(resultId, resultCount));
+        JsonObject res = result(resultId, resultCount);
+        if (!resultComponents.isEmpty()) {
+            res.add("components", resultComponents);
+        }
+        obj.add("result", res);
         appendConditions(obj, conditions);
         entries.add(new Entry("bottler/" + recipePath, obj));
+    }
+
+    private static JsonObject potionContents(String potion) {
+        JsonObject contents = new JsonObject();
+        contents.addProperty("potion", potion);
+        JsonObject components = new JsonObject();
+        components.add("minecraft:potion_contents", contents);
+        return components;
     }
 
     private void beeFishing(String beeFullId, Object biomes, float chance, List<JsonObject> conditions, String recipePath) {

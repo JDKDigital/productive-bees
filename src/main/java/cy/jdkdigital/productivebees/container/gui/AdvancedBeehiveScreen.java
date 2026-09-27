@@ -2,13 +2,11 @@ package cy.jdkdigital.productivebees.container.gui;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.ingredient.BeeRenderer;
-import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.block.entity.DragonEggHiveBlockEntity;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredient;
 import cy.jdkdigital.productivebees.common.crafting.ingredient.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
-import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import cy.jdkdigital.productivelib.client.screen.AbstractUpgradeableContainerScreen;
 import com.mojang.blaze3d.platform.InputConstants;
@@ -41,7 +39,7 @@ public class AdvancedBeehiveScreen extends AbstractUpgradeableContainerScreen<Ad
 
     public AdvancedBeehiveScreen(AdvancedBeehiveContainer screenContainer, Inventory inv, Component titleIn) {
         super(screenContainer, inv, titleIn);
-        this.expanded = this.menu.getBlockEntity().getBlockState().getValue(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
+        this.expanded = screenContainer.isExpanded();
         if (!this.expanded) {
             this.imageWidth = 179;
         }
@@ -56,7 +54,7 @@ public class AdvancedBeehiveScreen extends AbstractUpgradeableContainerScreen<Ad
 
         List<FormattedCharSequence> tooltipList = new ArrayList<>();
 
-        if (simulated && isHovering(86 - 13, 53, 16, 16, mouseX, mouseY)
+        if (simulated && isHovering(86, 53, 16, 16, mouseX, mouseY)
                 && this.menu.getBlockEntity().inventoryHandler.getStackInSlot(AdvancedBeehiveContainer.SLOT_CAGE).isEmpty()) {
             tooltipList.add(Component.translatable("productivebees.advanced_hive.tooltip.bee_cage").getVisualOrderText());
         }
