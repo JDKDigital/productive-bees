@@ -7,7 +7,7 @@
   ],
   "attack": 1.0,
   "beeTexture": "productivebees:textures/entity/bee/hellfire/bee",
-  "flowerBlock": "neovitae:dungeon_metal",
+  "flowerBlock": "neovitae:hellforged_block",
   "particleColor": "#e1f9f9",
   "primaryColor": "#b9f3e9",
   "secondaryColor": "#386058",
