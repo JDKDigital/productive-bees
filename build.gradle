@@ -199,7 +199,7 @@ dependencies {
     implementation "curse.maven:cobblemon-687131:6125026"
     implementation "curse.maven:kotlin-for-forge-351264:6994056"
     // Optional integration, only compiled against so Create does not have to be present at runtime
-    compileOnly "curse.maven:create-328085:${create_version}"
+    compileOnly "curse.maven:create-328085:7963363"
 }
 
 tasks.withType(ProcessResources).configureEach {
@@ -220,7 +220,6 @@ tasks.withType(ProcessResources).configureEach {
             jei_version            : jei_version,
             emi_version            : emi_version,
             geckolib_version       : geckolib_version,
-            create_version_range   : create_version_range,
             patchouli_version      : patchouli_version
     ]
     inputs.properties replaceProperties
