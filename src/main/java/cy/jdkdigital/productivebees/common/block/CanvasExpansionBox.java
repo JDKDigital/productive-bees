@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.block;
 
 import cy.jdkdigital.productivebees.common.block.entity.CanvasExpansionBoxBlockEntity;
+import cy.jdkdigital.productivebees.compat.dyenamics.DyenamicsCompat;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -12,6 +13,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.Nullable;
 
 
@@ -31,7 +33,9 @@ public class CanvasExpansionBox extends ExpansionBox
     protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
         if (pLevel.getBlockEntity(pPos) instanceof CanvasExpansionBoxBlockEntity canvasExpansionBoxBlockEntity) {
             int color = 0;
-            if (stack.getItem() instanceof DyeItem) {
+            if (ModList.get().isLoaded("dyenamics") && DyenamicsCompat.isDye(stack)) {
+                color = DyenamicsCompat.getColor(stack);
+            } else if (stack.getItem() instanceof DyeItem) {
                 DyeColor dyeColor = DyeColor.getColor(stack);
                 if (dyeColor != null) {
                     color = dyeColor.getTextureDiffuseColor();

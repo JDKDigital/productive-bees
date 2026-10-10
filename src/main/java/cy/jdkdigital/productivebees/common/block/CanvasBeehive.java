@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.common.block;
 
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.CanvasBeehiveBlockEntity;
+import cy.jdkdigital.productivebees.compat.dyenamics.DyenamicsCompat;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -16,6 +17,7 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.Nullable;
 
 
@@ -41,7 +43,9 @@ public class CanvasBeehive extends AdvancedBeehive
     public InteractionResult useItemOn(ItemStack stack, BlockState state, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
         if (pLevel.getBlockEntity(pPos) instanceof CanvasBeehiveBlockEntity canvasBeehiveBlockEntity) {
             int color = 0;
-            if (stack.getItem() instanceof DyeItem) {
+            if (ModList.get().isLoaded("dyenamics") && DyenamicsCompat.isDye(stack)) {
+                color = DyenamicsCompat.getColor(stack);
+            } else if (stack.getItem() instanceof DyeItem) {
                 DyeColor dyeColor = DyeColor.getColor(stack);
                 if (dyeColor != null) {
                     color = dyeColor.getTextureDiffuseColor();
