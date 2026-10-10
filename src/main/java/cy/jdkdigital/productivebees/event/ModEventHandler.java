@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.entity.bee.solitary.BlueBandedBee;
 import cy.jdkdigital.productivebees.common.item.Gene;
+import cy.jdkdigital.productivebees.compat.create.CreateCompat;
 import cy.jdkdigital.productivebees.dispenser.CageDispenseBehavior;
 import cy.jdkdigital.productivebees.dispenser.ShearsDispenseItemBehavior;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
@@ -142,6 +143,10 @@ public class ModEventHandler
             DispenserBlock.registerBehavior(ModItems.BEE_CAGE.get(), new CageDispenseBehavior());
             DispenserBlock.registerBehavior(ModItems.STURDY_BEE_CAGE.get(), new CageDispenseBehavior());
             DispenserBlock.registerBehavior(Items.SHEARS, new ShearsDispenseItemBehavior(DispenserBlock.DISPENSER_REGISTRY.get(Items.SHEARS)));
+
+            if (ProductiveBees.includeMod("create")) {
+                CreateCompat.registerSchematicRequirements();
+            }
         });
     }
 
