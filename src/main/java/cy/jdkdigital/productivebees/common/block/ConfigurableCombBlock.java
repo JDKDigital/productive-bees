@@ -52,8 +52,16 @@ public class ConfigurableCombBlock extends CombBlock implements EntityBlock
 
     @Override
     public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
+        return getCombBlockStack(level.getBlockEntity(pos));
+    }
+
+    /**
+     * Builds the comb block item for the bee type stored in the given block entity, so the block can be picked and
+     * requested with the variant it actually holds instead of as a plain comb block.
+     */
+    public static ItemStack getCombBlockStack(@Nullable BlockEntity blockEntity) {
         ItemStack stack = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
-        if (level.getBlockEntity(pos) instanceof CombBlockBlockEntity combBlockBlockEntity) {
+        if (blockEntity instanceof CombBlockBlockEntity combBlockBlockEntity) {
             ResourceLocation type = combBlockBlockEntity.getCombType();
             if (type != null) {
                 BeeCreator.setType(type, stack);
