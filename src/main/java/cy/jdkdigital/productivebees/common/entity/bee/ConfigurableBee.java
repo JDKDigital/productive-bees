@@ -48,6 +48,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.entity.BrushableBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluid;
@@ -782,10 +783,11 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                     }
                     break;
                 case "sus":
-                    if (level() instanceof ServerLevel sl && this.hasSavedFlowerPos()) {
+                    if (level() instanceof ServerLevel sl && this.hasSavedFlowerPos() && sl.getBlockEntity(this.getSavedFlowerPos()) instanceof BrushableBlockEntity brushableBlockEntity) {
                         var lootTables = SussyCompatHandler.getLootTables(sl, this.getSavedFlowerPos());
                         if (!lootTables.isEmpty()) {
-                            ProductiveBees.LOGGER.debug("Sussy bee found {} loot tables at {}", lootTables.size(), this.getSavedFlowerPos());
+                            brushableBlockEntity.setLootTable(lootTables.get(sl.getRandom().nextInt(lootTables.size())), sl.getRandom().nextLong());
+                            savedFlowerPos = null;
                         }
                     }
                     break;
