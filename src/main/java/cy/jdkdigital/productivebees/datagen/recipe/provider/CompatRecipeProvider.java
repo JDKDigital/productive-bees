@@ -2,9 +2,7 @@ package cy.jdkdigital.productivebees.datagen.recipe.provider;
 
 import appeng.recipes.transform.TransformCircumstance;
 import appeng.recipes.transform.TransformRecipe;
-import com.blakebr0.mysticalagriculture.crafting.recipe.InfusionRecipe;
 import com.enderio.enderio.content.machines.alloy.AlloySmeltingRecipe;
-import com.glodblock.github.extendedae.recipe.CrystalAssemblerRecipeBuilder;
 import com.klikli_dev.occultism.datagen.recipe.builders.SpiritFireRecipeBuilder;
 import com.breakinblocks.neovitae.common.recipe.aravitae.AraVitaeRecipe;
 import com.breakinblocks.neovitae.common.recipe.forge.ForgeRecipe;
@@ -71,8 +69,6 @@ public class CompatRecipeProvider extends RecipeProvider
         ae2Transform();
         enderIoAlloySmelting();
         enderIoEndergyAlloySmelting();
-        extendedAeCrystalAssembler();
-        mysticalAgricultureInfusion();
         powahEnergizing();
         occultismSpiritFire();
         neoVitaeAltarAndForge();
@@ -165,46 +161,6 @@ public class CompatRecipeProvider extends RecipeProvider
         List<SizedIngredient> sized = inputs.stream().map(i -> new SizedIngredient(i, 1)).toList();
         save(modid + "/" + name, new AlloySmeltingRecipe(sized, beeResult(resultBee), energy, 0.3f),
                 conditions(modid, resultBee, inputBees));
-    }
-
-    // -- extendedae -----------------------------------------------------------------------------
-
-    private void extendedAeCrystalAssembler() {
-        RecipeOutput output = this.output.withConditions(
-                new ModLoadedCondition("extendedae"), beeExists("ae2/fluix"), beeExists("ae2/entro"));
-        CrystalAssemblerRecipeBuilder.assemble(beeResult("ae2/entro"), this.items, this.fluids)
-                .input(beeIngredient("ae2/fluix"))
-                .input(itemTag("c:dusts/entro"), 16)
-                .fluid(Fluids.WATER, 1000)
-                .power(8000)
-                .save(output, Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "extendedae/crystal_assembler/entro_bee"));
-    }
-
-    // -- mysticalagriculture --------------------------------------------------------------------
-
-    private void mysticalAgricultureInfusion() {
-        infusion("inferium_bee", "mysticalagriculture/prosperity", "mysticalagriculture/inferium",
-                "mysticalagriculture:inferium_block", "mysticalagriculture:inferium_essence", "mysticalagriculture");
-        infusion("prudentium_bee", "mysticalagriculture/inferium", "mysticalagriculture/prudentium",
-                "mysticalagriculture:prudentium_block", "mysticalagriculture:prudentium_essence", "mysticalagriculture");
-        infusion("tertium_bee", "mysticalagriculture/prudentium", "mysticalagriculture/tertium",
-                "mysticalagriculture:tertium_block", "mysticalagriculture:tertium_essence", "mysticalagriculture");
-        infusion("imperium_bee", "mysticalagriculture/tertium", "mysticalagriculture/imperium",
-                "mysticalagriculture:imperium_block", "mysticalagriculture:imperium_essence", "mysticalagriculture");
-        infusion("supremium_bee", "mysticalagriculture/imperium", "mysticalagriculture/supremium",
-                "mysticalagriculture:supremium_block", "mysticalagriculture:supremium_essence", "mysticalagriculture");
-        infusion("insanium_bee", "mysticalagriculture/supremium", "mysticalagriculture/insanium",
-                "mysticalagradditions:insanium_block", "mysticalagradditions:insanium_essence", "mysticalagradditions");
-    }
-
-    /** The altar takes the bee; the eight pedestals alternate storage block and essence. */
-    private void infusion(String name, String inputBee, String resultBee, String block, String essence, String modid) {
-        List<Ingredient> pedestals = List.of(
-                item(block), item(essence), item(block), item(essence),
-                item(block), item(essence), item(block), item(essence));
-        save("mysticalagriculture/" + name,
-                new InfusionRecipe(beeIngredient(inputBee), pedestals, beeResult(resultBee), false),
-                new ModLoadedCondition(modid), beeExists(inputBee), beeExists(resultBee));
     }
 
     // -- powah ----------------------------------------------------------------------------------

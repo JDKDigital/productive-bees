@@ -46,6 +46,19 @@ public class CompatJsonRecipeProvider implements DataProvider
     private void buildRecipes() {
         awakening("mysticalagriculture/awakened_supremium_bee", "mysticalagriculture/supremium",
                 "mysticalagriculture/awakened_supremium", "mysticalagriculture:awakened_supremium_block", 20);
+        mysticalAgricultureInfusion("inferium_bee", "mysticalagriculture/prosperity", "mysticalagriculture/inferium",
+                "mysticalagriculture:inferium_block", "mysticalagriculture:inferium_essence", "mysticalagriculture");
+        mysticalAgricultureInfusion("prudentium_bee", "mysticalagriculture/inferium", "mysticalagriculture/prudentium",
+                "mysticalagriculture:prudentium_block", "mysticalagriculture:prudentium_essence", "mysticalagriculture");
+        mysticalAgricultureInfusion("tertium_bee", "mysticalagriculture/prudentium", "mysticalagriculture/tertium",
+                "mysticalagriculture:tertium_block", "mysticalagriculture:tertium_essence", "mysticalagriculture");
+        mysticalAgricultureInfusion("imperium_bee", "mysticalagriculture/tertium", "mysticalagriculture/imperium",
+                "mysticalagriculture:imperium_block", "mysticalagriculture:imperium_essence", "mysticalagriculture");
+        mysticalAgricultureInfusion("supremium_bee", "mysticalagriculture/imperium", "mysticalagriculture/supremium",
+                "mysticalagriculture:supremium_block", "mysticalagriculture:supremium_essence", "mysticalagriculture");
+        mysticalAgricultureInfusion("insanium_bee", "mysticalagriculture/supremium", "mysticalagriculture/insanium",
+                "mysticalagradditions:insanium_block", "mysticalagradditions:insanium_essence", "mysticalagradditions");
+        crystalAssembler("extendedae/crystal_assembler/entro_bee", "ae2/fluix", "ae2/entro", "#c:dusts/entro", 16, 8000);
         crucible("thaumaturge/crucible/thaumium_bee", "raw_materials/iron", "thaumaturge/thaumium",
                 List.of(aspect("praecantatio", 20), aspect("terra", 20), aspect("metallum", 10), aspect("bestia", 15)),
                 ThaumaturgeResearchProvider.THAUMIUM_BEE, 1);
@@ -62,6 +75,63 @@ public class CompatJsonRecipeProvider implements DataProvider
                 List.of("thaumaturge:bottle_taint", "thaumaturge:crystal_vitium", "thaumaturge:void_seed",
                         "thaumaturge:bottle_taint", "thaumaturge:crystal_vitium", "thaumaturge:void_seed"),
                 10, ThaumaturgeResearchProvider.ELDRITCH_BEE, 1);
+    }
+
+    private void crystalAssembler(String recipePath, String inputBee, String resultBee, String dustTag, int dustCount, int energy) {
+        JsonObject obj = new JsonObject();
+        obj.addProperty("type", "extendedae:crystal_assembler");
+        obj.addProperty("energy", energy);
+
+        JsonObject fluid = new JsonObject();
+        fluid.addProperty("amount", 1000);
+        fluid.addProperty("ingredient", "minecraft:water");
+        obj.add("input_fluid", fluid);
+
+        JsonObject beeInput = new JsonObject();
+        beeInput.add("ingredient", spawnEggIng(ProductiveBees.MODID + ":" + inputBee));
+        JsonObject dustInput = new JsonObject();
+        dustInput.addProperty("amount", dustCount);
+        dustInput.addProperty("ingredient", dustTag);
+        JsonArray inputs = new JsonArray();
+        inputs.add(beeInput);
+        inputs.add(dustInput);
+        obj.add("input_items", inputs);
+
+        JsonObject result = spawnEggResult(ProductiveBees.MODID + ":" + resultBee);
+        result.remove("count");
+        obj.add("output", result);
+
+        JsonArray conditions = new JsonArray();
+        conditions.add(modLoaded("extendedae"));
+        conditions.add(beeExists(ProductiveBees.MODID + ":" + inputBee));
+        conditions.add(beeExists(ProductiveBees.MODID + ":" + resultBee));
+        obj.add("neoforge:conditions", conditions);
+
+        entries.add(new Entry(recipePath, obj));
+    }
+
+    /** The altar takes the bee; the eight pedestals alternate storage block and essence. */
+    private void mysticalAgricultureInfusion(String name, String inputBee, String resultBee, String block, String essence, String modid) {
+        JsonObject obj = new JsonObject();
+        obj.addProperty("type", "mysticalagriculture:infusion");
+
+        JsonArray pedestals = new JsonArray();
+        for (int i = 0; i < 4; i++) {
+            pedestals.add(new JsonPrimitive(block));
+            pedestals.add(new JsonPrimitive(essence));
+        }
+        obj.add("ingredients", pedestals);
+
+        obj.add("input", spawnEggIng(ProductiveBees.MODID + ":" + inputBee));
+        obj.add("result", spawnEggResult(ProductiveBees.MODID + ":" + resultBee));
+
+        JsonArray conditions = new JsonArray();
+        conditions.add(modLoaded(modid));
+        conditions.add(beeExists(ProductiveBees.MODID + ":" + inputBee));
+        conditions.add(beeExists(ProductiveBees.MODID + ":" + resultBee));
+        obj.add("neoforge:conditions", conditions);
+
+        entries.add(new Entry("mysticalagriculture/" + name, obj));
     }
 
     private void thaumaturgeInfusion(String recipePath, String inputBee, String resultBee, List<JsonObject> aspects, List<String> components, int instability, String researchEntry, int researchStage) {

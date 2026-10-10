@@ -22,7 +22,6 @@ public class BeeProvider
 {
     private BeeProvider() {}
 
-    /** {@code DatapackBuiltinEntriesProvider} bootstrap — registers every {@link #getBeeConfigs()} entry. */
     public static void bootstrap(BootstrapContext<BeeData> ctx) {
         for (BeeConfig config : uniqueConfigs()) {
             Identifier id = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, config.name);
@@ -31,7 +30,6 @@ public class BeeProvider
         }
     }
 
-    /** Deduplicates {@link #getBeeConfigs()} by full path (a few entries are listed twice). */
     public static List<BeeConfig> uniqueConfigs() {
         LinkedHashMap<String, BeeConfig> byPath = new LinkedHashMap<>();
         for (BeeConfig config : getBeeConfigs()) {
@@ -40,7 +38,6 @@ public class BeeProvider
         return new ArrayList<>(byPath.values());
     }
 
-    /** Emits each bee's mod-load conditions into the registry-builder's {@code neoforge:conditions} array. */
     public static void appendConditions(BiConsumer<ResourceKey<?>, ICondition> consumer) {
         for (BeeConfig config : uniqueConfigs()) {
             if (config.conditions.isEmpty()) {
