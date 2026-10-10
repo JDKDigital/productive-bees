@@ -407,15 +407,16 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
 
         // Deliver honey on the way out
         if (beeState == BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED) {
-            if (state.hasProperty(BeehiveBlock.HONEY_LEVEL)) {
-                int honeyLevel = getHoneyLevel(state);
-                int maxHoneyLevel = getMaxHoneyLevel(state);
+            BlockState currentState = level.getBlockState(worldPosition);
+            if (currentState.hasProperty(BeehiveBlock.HONEY_LEVEL)) {
+                int honeyLevel = getHoneyLevel(currentState);
+                int maxHoneyLevel = getMaxHoneyLevel(currentState);
                 if (honeyLevel < maxHoneyLevel) {
                     int levelIncrease = level.getRandom().nextInt(100) == 0 ? 2 : 1;
                     if (honeyLevel + levelIncrease > maxHoneyLevel) {
                         --levelIncrease;
                     }
-                    level.setBlockAndUpdate(worldPosition, state.setValue(BeehiveBlock.HONEY_LEVEL, honeyLevel + levelIncrease));
+                    level.setBlockAndUpdate(worldPosition, currentState.setValue(BeehiveBlock.HONEY_LEVEL, honeyLevel + levelIncrease));
                 }
             }
         }
