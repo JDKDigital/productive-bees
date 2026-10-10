@@ -29,7 +29,6 @@ import net.minecraft.core.component.TypedDataComponent;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -670,8 +669,8 @@ public class BeeHelper
                     }
                 }
 
-                if (tag.contains("HivePos")) {
-                    BlockPos hivePos = tag.getCompound("HivePos").flatMap(c -> BlockPos.CODEC.parse(NbtOps.INSTANCE, c).result()).orElse(BlockPos.ZERO);
+                if (tag.contains("hive_pos")) {
+                    BlockPos hivePos = tag.read("hive_pos", BlockPos.CODEC).orElse(BlockPos.ZERO);
                     list.add(Component.translatable("productivebees.information.home_position", hivePos.getX(), hivePos.getY(), hivePos.getZ()));
                 }
             }

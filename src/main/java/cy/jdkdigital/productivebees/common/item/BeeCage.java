@@ -180,7 +180,7 @@ public class BeeCage extends Item
 
         AdvancedBeehiveBlockEntityAbstract.removeIgnoredTags(nbt);
         if (target.hasHive()) {
-            nbt.put("HivePos", BlockPos.CODEC.encodeStart(NbtOps.INSTANCE, target.getHivePos()).getOrThrow());
+            nbt.put("hive_pos", BlockPos.CODEC.encodeStart(NbtOps.INSTANCE, target.getHivePos()).getOrThrow());
         }
 
         nbt.putBoolean("isProductiveBee", target instanceof ProductiveBee);
@@ -214,11 +214,11 @@ public class BeeCage extends Item
                     }
                 }
 
-                if (entity instanceof Bee) {
-                    if (entity instanceof ConfigurableBee && !withInfo) {
-                        ((ConfigurableBee) entity).setBeeType(tag.getString("type").orElse(""));
+                if (entity instanceof Bee bee) {
+                    if (bee instanceof ConfigurableBee configurableBee && !withInfo) {
+                        configurableBee.setBeeType(tag.getString("type").orElse(""));
                     }
-                    return (Bee) entity;
+                    return bee;
                 }
             }
         }
@@ -265,7 +265,7 @@ public class BeeCage extends Item
                 }
                 BeeHelper.populateBeeInfoFromTag(tag, pTooltipComponents);
 
-                if (tag.contains("HivePos")) {
+                if (tag.contains("hive_pos")) {
                     pTooltipComponents.accept(Component.translatable("productivebees.information.cage_release"));
                 }
             } else {
