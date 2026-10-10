@@ -549,15 +549,15 @@ public class BeeProvider
 
             add(new BeeConfig("tconstruct/amethyst_bronze").primaryColor("#C687BD").secondaryColor("#7a5800").particleColor("#C687BD").onlySpawnegg().flowerTag("c:storage_blocks/amethyst_bronze"));
             add(new BeeConfig("tconstruct/cobalt").primaryColor("#1d77eb").secondaryColor("#0c5abe").particleColor("#1d77eb").onlySpawnegg().flowerTag("c:storage_blocks/cobalt"));
-            add(new BeeConfig("tconstruct/ender_slimy").primaryColor("#d17bfc").secondaryColor("#6200ae").particleColor("#d17bfc").beeTexture("ender_slimy").onlySpawnegg().renderer("translucent_with_center"));
+            add(new BeeConfig("tconstruct/ender_slimy").primaryColor("#d17bfc").secondaryColor("#6200ae").particleColor("#d17bfc").beeTexture("ender_slimy").onlySpawnegg().renderer("translucent_with_center").requireMod("tconstruct"));
             add(new BeeConfig("tconstruct/hepatizon").primaryColor("#675072").secondaryColor("#1b0426").particleColor("#675072").onlySpawnegg().flowerTag("c:storage_blocks/hepatizon"));
-            add(new BeeConfig("tconstruct/ichor_slimy").primaryColor("#fcb77b").secondaryColor("#ae3f00").particleColor("#fcb77b").beeTexture("ichor_slimy").onlySpawnegg().renderer("translucent_with_center"));
+            add(new BeeConfig("tconstruct/ichor_slimy").primaryColor("#fcb77b").secondaryColor("#ae3f00").particleColor("#fcb77b").beeTexture("ichor_slimy").onlySpawnegg().renderer("translucent_with_center").requireMod("tconstruct"));
             add(new BeeConfig("tconstruct/knightslime").primaryColor("#c882f5").secondaryColor("#804f40").particleColor("#c882f5").onlySpawnegg().flowerTag("c:storage_blocks/knightslime"));
             add(new BeeConfig("tconstruct/manyullyn").primaryColor("#ab6cd7").secondaryColor("#652e87").particleColor("#ab6cd7").onlySpawnegg().flowerTag("c:storage_blocks/manyullyn"));
             add(new BeeConfig("tconstruct/pig_iron").primaryColor("#dbaaa9").secondaryColor("#804f40").particleColor("#dbaaa9").onlySpawnegg().flowerTag("c:storage_blocks/pig_iron"));
-            add(new BeeConfig("tconstruct/queens_slime").primaryColor("#267049").secondaryColor("#204c49").particleColor("#267049").onlySpawnegg().flowerTag("c:storage_blocks/queens_slime"));
+            add(new BeeConfig("tconstruct/queens_slime").primaryColor("#267049").secondaryColor("#204c49").particleColor("#267049").onlySpawnegg().flowerTag("c:storage_blocks/queens_slime").requireMod("tconstruct"));
             add(new BeeConfig("tconstruct/rose_gold").primaryColor("#eeb9a0").secondaryColor("#804f40").particleColor("#eeb9a0").onlySpawnegg().flowerTag("c:storage_blocks/rose_gold"));
-            add(new BeeConfig("tconstruct/sky_slime").primaryColor("#80d4d2").secondaryColor("#2e5250").particleColor("#80d4d2").beeTexture("sky_slimy").onlySpawnegg().renderer("translucent_with_center"));
+            add(new BeeConfig("tconstruct/sky_slime").primaryColor("#80d4d2").secondaryColor("#2e5250").particleColor("#80d4d2").beeTexture("sky_slimy").onlySpawnegg().renderer("translucent_with_center").requireMod("tconstruct"));
             add(new BeeConfig("tconstruct/slimesteel").primaryColor("#7ae7e0").secondaryColor("#73d2dc").particleColor("#7ae7e0").onlySpawnegg().flowerTag("c:storage_blocks/slimesteel"));
             add(new BeeConfig("tconstruct/soulsteel").primaryColor("#5c4436").secondaryColor("#1f0700").particleColor("#5c4436").onlySpawnegg().flowerTag("c:storage_blocks/soulsteel"));
 

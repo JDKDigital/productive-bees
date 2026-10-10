@@ -1,4 +1,10 @@
 {
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "tconstruct"
+    }
+  ],
   "attack": 1.0,
   "beeTexture": "productivebees:textures/entity/bee/ichor_slimy/bee",
   "description": "productivebees.ingredient.description.only_spawnegg",
