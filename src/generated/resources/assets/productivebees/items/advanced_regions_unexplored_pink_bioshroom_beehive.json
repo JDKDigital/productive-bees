@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productivebees:item/advanced_regions_unexplored_pink_bioshroom_beehive",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -2257447
+      },
+      {
+        "type": "minecraft:constant",
+        "value": -1
+      }
+    ]
+  }
+}

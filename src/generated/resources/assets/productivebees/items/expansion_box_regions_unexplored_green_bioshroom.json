@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productivebees:item/expansion_box_regions_unexplored_green_bioshroom",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -6364025
+      },
+      {
+        "type": "minecraft:constant",
+        "value": -1
+      }
+    ]
+  }
+}

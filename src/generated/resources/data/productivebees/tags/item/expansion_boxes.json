@@ -197,6 +197,10 @@
       "required": false
     },
     {
+      "id": "productivebees:expansion_box_regions_unexplored_wisteria",
+      "required": false
+    },
+    {
       "id": "productivebees:expansion_box_regions_unexplored_yellow_bioshroom",
       "required": false
     },
@@ -229,7 +233,7 @@
       "required": false
     },
     {
-      "id": "productivebees:expansion_box_regions_unexplored_mauve",
+      "id": "productivebees:expansion_box_regions_unexplored_brimwood",
       "required": false
     },
     "#productivebees:canvas_expansion_boxes",

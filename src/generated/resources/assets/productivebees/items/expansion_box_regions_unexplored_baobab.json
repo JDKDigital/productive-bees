@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productivebees:item/expansion_box_regions_unexplored_baobab",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -471116
+      },
+      {
+        "type": "minecraft:constant",
+        "value": -1
+      }
+    ]
+  }
+}

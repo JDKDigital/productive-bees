@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "regions_unexplored"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "expansion_boxes",
+  "key": {
+    "C": "#c:honeycombs",
+    "W": "regions_unexplored:wisteria_planks"
+  },
+  "pattern": [
+    "WWW",
+    "WCW",
+    "WWW"
+  ],
+  "result": {
+    "id": "productivebees:expansion_box_regions_unexplored_wisteria"
+  }
+}

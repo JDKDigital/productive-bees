@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productivebees:item/expansion_box_regions_unexplored_wisteria",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -7373920
+      },
+      {
+        "type": "minecraft:constant",
+        "value": -1
+      }
+    ]
+  }
+}

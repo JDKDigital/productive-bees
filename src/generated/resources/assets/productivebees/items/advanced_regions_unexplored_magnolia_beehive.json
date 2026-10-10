@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productivebees:item/advanced_regions_unexplored_magnolia_beehive",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -4766136
+      },
+      {
+        "type": "minecraft:constant",
+        "value": -1
+      }
+    ]
+  }
+}

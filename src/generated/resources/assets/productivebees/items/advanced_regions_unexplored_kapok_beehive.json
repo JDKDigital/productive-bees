@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productivebees:item/advanced_regions_unexplored_kapok_beehive",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -4617093
+      },
+      {
+        "type": "minecraft:constant",
+        "value": -1
+      }
+    ]
+  }
+}

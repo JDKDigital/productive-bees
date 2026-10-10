@@ -1,0 +1,72 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "productivelib:optional_loot_item",
+              "conditions": [
+                {
+                  "condition": "minecraft:match_tool",
+                  "predicate": {
+                    "predicates": {
+                      "minecraft:enchantments": [
+                        {
+                          "enchantments": "minecraft:silk_touch",
+                          "levels": {
+                            "min": 1
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "functions": [
+                {
+                  "function": "minecraft:copy_components",
+                  "include": [
+                    "minecraft:bees"
+                  ],
+                  "source": "block_entity"
+                },
+                {
+                  "block": "productivebees:advanced_regions_unexplored_maple_beehive",
+                  "function": "productivelib:optional_copy_block_state",
+                  "properties": [
+                    "honey_level"
+                  ]
+                }
+              ],
+              "name": "productivebees:advanced_regions_unexplored_maple_beehive"
+            },
+            {
+              "type": "productivelib:optional_loot_item",
+              "conditions": [
+                {
+                  "condition": "minecraft:survives_explosion"
+                }
+              ],
+              "functions": [
+                {
+                  "function": "minecraft:copy_components",
+                  "include": [
+                    "minecraft:bees"
+                  ],
+                  "source": "block_entity"
+                }
+              ],
+              "name": "productivebees:advanced_regions_unexplored_maple_beehive"
+            }
+          ]
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "productivebees:blocks/advanced_regions_unexplored_maple_beehive"
+}

@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productivebees:item/expansion_box_regions_unexplored_socotra",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -4943524
+      },
+      {
+        "type": "minecraft:constant",
+        "value": -1
+      }
+    ]
+  }
+}

@@ -216,9 +216,10 @@ public final class ModBlocks
             put("redwood", new HiveType(false, "#b75d45", "redwood", null,  new FakeIngredient("regions_unexplored:redwood_planks")));
             put("socotra", new HiveType(false, "#b4915c", "magic", null,  new FakeIngredient("regions_unexplored:socotra_planks")));
             put("magnolia", new HiveType(false, "#b74648", "umbran", null,  new FakeIngredient("regions_unexplored:magnolia_planks")));
-            put("mauve", new HiveType(false, "#8e6e97", "hellbark", null,  new FakeIngredient("regions_unexplored:mauve_planks")));
+            put("brimwood", new HiveType(false, "#3a2a22", "hellbark", null,  new FakeIngredient("regions_unexplored:brimwood_planks")));
             put("pine", new HiveType(false, "#dabb8f", "river", null,  new FakeIngredient("regions_unexplored:pine_planks")));
             put("willow", new HiveType(false, "#c5bda6", "willow", null,  new FakeIngredient("regions_unexplored:willow_planks")));
+            put("wisteria", new HiveType(false, "#8f7ba0", "umbran", null,  new FakeIngredient("regions_unexplored:wisteria_planks")));
             put("pink_bioshroom", new HiveType(false, "#dd8dd9", "mahogany", null,  new FakeIngredient("regions_unexplored:pink_bioshroom_planks")));
             put("yellow_bioshroom", new HiveType(false, "#e2cd89", "mahogany", null,  new FakeIngredient("regions_unexplored:yellow_bioshroom_planks")));
         }});

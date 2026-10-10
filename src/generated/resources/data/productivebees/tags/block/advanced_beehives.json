@@ -197,6 +197,10 @@
       "required": false
     },
     {
+      "id": "productivebees:advanced_regions_unexplored_wisteria_beehive",
+      "required": false
+    },
+    {
       "id": "productivebees:advanced_regions_unexplored_yellow_bioshroom_beehive",
       "required": false
     },
@@ -229,7 +233,7 @@
       "required": false
     },
     {
-      "id": "productivebees:advanced_regions_unexplored_mauve_beehive",
+      "id": "productivebees:advanced_regions_unexplored_brimwood_beehive",
       "required": false
     },
     "#productivebees:canvas_beehives",

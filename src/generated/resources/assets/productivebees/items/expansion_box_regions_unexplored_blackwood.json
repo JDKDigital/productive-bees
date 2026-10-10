@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productivebees:item/expansion_box_regions_unexplored_blackwood",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -12766420
+      },
+      {
+        "type": "minecraft:constant",
+        "value": -1
+      }
+    ]
+  }
+}
