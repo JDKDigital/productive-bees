@@ -140,6 +140,10 @@ public class RecipeHelper
             for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()) {
                 if (!entry.getKey().equals(entry.getValue().getBeeType().toString())) continue;
                 ItemStack spawnEgg = BeeCreator.getSpawnEgg(Identifier.parse(entry.getKey()));
+                if (spawnEgg.isEmpty()) {
+                    ProductiveBees.LOGGER.warn("No spawn egg for bee {}, skipping its incubation recipe", entry.getKey());
+                    continue;
+                }
                 Ingredient treat = DataComponentIngredient.of(false, HoneyTreat.getTypeStack(entry.getKey(), 100));
                 recipes.add(new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, Identifier.parse(entry.getKey()).withPath(p -> "/" + p + "_incubation")), new IncubationRecipe(Ingredient.of(BuiltInRegistries.ITEM.get(Tags.Items.EGGS).orElseThrow()), treat, ItemStackTemplate.fromNonEmptyStack(spawnEgg), 300)));
             }
