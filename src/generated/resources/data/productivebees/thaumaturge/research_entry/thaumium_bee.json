@@ -1,0 +1,51 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thaumaturge"
+    }
+  ],
+  "category": "thaumaturge:alchemy",
+  "column": 1,
+  "complexity": 2,
+  "icons": [
+    "thaumaturge:ingot_thaumium"
+  ],
+  "name": "research.productivebees.thaumium_bee.title",
+  "note_aspects": [
+    {
+      "amount": 4,
+      "aspect": "thaumaturge:metallum"
+    },
+    {
+      "amount": 3,
+      "aspect": "thaumaturge:bestia"
+    },
+    {
+      "amount": 3,
+      "aspect": "thaumaturge:praecantatio"
+    }
+  ],
+  "parents": [
+    "thaumaturge:metallurgy"
+  ],
+  "row": 4,
+  "stages": [
+    {
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumaturge:alchemy"
+        }
+      ],
+      "text": "research.productivebees.thaumium_bee.stage_0"
+    },
+    {
+      "recipes": [
+        "productivebees:thaumaturge/crucible/thaumium_bee"
+      ],
+      "text": "research.productivebees.thaumium_bee.stage_1"
+    }
+  ]
+}

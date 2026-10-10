@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thaumaturge"
+    }
+  ],
+  "attack": 1.0,
+  "createComb": false,
+  "description": "productivebees.ingredient.description.vis_bee",
+  "flowerBlock": "thaumaturge:node",
+  "particleColor": "#c77dff",
+  "postPollination": "restore_vis",
+  "primaryColor": "#6a2f9e",
+  "renderer": "default_crystal",
+  "secondaryColor": "#2b1040",
+  "selfbreed": false,
+  "size": 0.7,
+  "tertiaryColor": "#c77dff"
+}

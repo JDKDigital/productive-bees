@@ -1,0 +1,51 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thaumaturge"
+    }
+  ],
+  "category": "thaumaturge:eldritch",
+  "column": 3,
+  "complexity": 3,
+  "icons": [
+    "thaumaturge:ingot_void"
+  ],
+  "name": "research.productivebees.void_bee.title",
+  "note_aspects": [
+    {
+      "amount": 4,
+      "aspect": "thaumaturge:metallum"
+    },
+    {
+      "amount": 4,
+      "aspect": "thaumaturge:vitium"
+    },
+    {
+      "amount": 3,
+      "aspect": "thaumaturge:bestia"
+    }
+  ],
+  "parents": [
+    "thaumaturge:base_eldritch"
+  ],
+  "row": 3,
+  "stages": [
+    {
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumaturge:eldritch"
+        }
+      ],
+      "text": "research.productivebees.void_bee.stage_0"
+    },
+    {
+      "recipes": [
+        "productivebees:thaumaturge/crucible/void_bee"
+      ],
+      "text": "research.productivebees.void_bee.stage_1"
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thaumaturge"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ghostly"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:thaumaturge/vis"
+    }
+  ],
+  "type": "thaumaturge:infusion",
+  "aspects": [
+    {
+      "amount": 32,
+      "aspect": "thaumaturge:auram"
+    },
+    {
+      "amount": 16,
+      "aspect": "thaumaturge:praecantatio"
+    },
+    {
+      "amount": 16,
+      "aspect": "thaumaturge:bestia"
+    },
+    {
+      "amount": 12,
+      "aspect": "thaumaturge:victus"
+    }
+  ],
+  "catalyst": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:ghostly",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "items": "productivebees:spawn_egg_configurable_bee"
+  },
+  "components": [
+    "thaumaturge:salis_mundus",
+    "thaumaturge:vishroom",
+    "minecraft:honeycomb",
+    "thaumaturge:salis_mundus",
+    "thaumaturge:vishroom",
+    "minecraft:honeycomb"
+  ],
+  "instability": 8,
+  "research": {
+    "entry": "productivebees:vis_bee",
+    "stage": 1
+  },
+  "result": {
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:thaumaturge/vis",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "count": 1,
+    "id": "productivebees:spawn_egg_configurable_bee"
+  }
+}

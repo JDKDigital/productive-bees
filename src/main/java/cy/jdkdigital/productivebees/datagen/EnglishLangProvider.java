@@ -179,6 +179,30 @@ public class EnglishLangProvider extends LanguageProvider
         // Non-config PB bee entities + special-case keys (configurable, bee).
         add("entity.productivebees.bee_bee", "Bee");
 
+        add("productivebees.ingredient.description.vis_bee", "Treats an Aura Node as its flower, regenerating a little of each aspect the node has lost on every visit. It makes no comb. An Aura Node has no item of its own, so the flowering tab shows the Creative Node Placer in its place.");
+        add("productivebees.ingredient.description.eldritch_bee", "Feeds on flux and taint, drawing flux out of the surrounding chunk on every visit. It will settle on Flux Goo and Flux Gas as readily as on tainted ground, though neither gas has an item to show here. It makes no comb and will not breed.");
+
+        add(ThaumaturgeResearchProvider.titleKey(ThaumaturgeResearchProvider.THAUMIUM_BEE), "Thaumium Bees");
+        add(ThaumaturgeResearchProvider.stageKey(ThaumaturgeResearchProvider.THAUMIUM_BEE, 0),
+                "The hives I keep have a way of taking after whatever they feed on, and thaumium is only iron that has been taught something.<BR>If the crucible can teach an ingot, it should be able to teach a bee.");
+        add(ThaumaturgeResearchProvider.stageKey(ThaumaturgeResearchProvider.THAUMIUM_BEE, 1),
+                "An iron bee dropped into a working crucible comes back out humming in a lower key. Its comb now yields thaumium nuggets, and it will seek out blocks of thaumium to forage from.");
+        add(ThaumaturgeResearchProvider.titleKey(ThaumaturgeResearchProvider.ELDRITCH_BEE), "Eldritch Bees");
+        add(ThaumaturgeResearchProvider.stageKey(ThaumaturgeResearchProvider.ELDRITCH_BEE, 0),
+                "Every cure I have built for flux sits still and waits for the taint to come to it. The bloom, the scrubber, the condenser: none of them go looking.<BR>A vis bee already drinks from the aura. I wonder what happens if I let one drink the wrong half.");
+        add(ThaumaturgeResearchProvider.stageKey(ThaumaturgeResearchProvider.ELDRITCH_BEE, 1),
+                "It came out of the matrix wrong, and it has not stopped being wrong since. The eldritch bee makes no comb and wants nothing from flowers. It hunts flux goo, and every visit draws the taint out of the air around it.<BR>It will not breed. I am not sure I want it to.");
+        add(ThaumaturgeResearchProvider.titleKey(ThaumaturgeResearchProvider.VOID_BEE), "Void Metal Bees");
+        add(ThaumaturgeResearchProvider.stageKey(ThaumaturgeResearchProvider.VOID_BEE, 0),
+                "A void seed dropped into a crucible comes back as metal. A thaumium bee is already half-taught, and the void does not much care what shape a thing was before it fell in.<BR>I should be ready to lose the bee.");
+        add(ThaumaturgeResearchProvider.stageKey(ThaumaturgeResearchProvider.VOID_BEE, 1),
+                "What crawls back out of the crucible is quieter than what went in, and its comb renders down to void metal. It forages from blocks of the stuff, and seems happiest where nothing else will live.");
+        add(ThaumaturgeResearchProvider.titleKey(ThaumaturgeResearchProvider.VIS_BEE), "Vis Bees");
+        add(ThaumaturgeResearchProvider.stageKey(ThaumaturgeResearchProvider.VIS_BEE, 0),
+                "Preserving a node keeps it from fading, but nothing I have built gives back what has already been drained.<BR>A bee carries pollen from flower to hive without ever understanding why. Perhaps one could be taught to carry vis the same way.");
+        add(ThaumaturgeResearchProvider.stageKey(ThaumaturgeResearchProvider.VIS_BEE, 1),
+                "The vis bee makes no comb at all. It treats an aura node as its flower, and every visit returns a little of each aspect the node once held. It cannot give a node an aspect that was never there.");
+
         add("advancements.husbandry.advanced_beehive.description", "Craft an advanced beehive");
         add("advancements.husbandry.advanced_beehive.title", "Gotta work, bees!");
         add("advancements.husbandry.bee_cage.description", "Craft a Bee Cage");

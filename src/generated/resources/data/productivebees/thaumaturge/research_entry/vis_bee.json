@@ -1,0 +1,51 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thaumaturge"
+    }
+  ],
+  "category": "thaumaturge:auromancy",
+  "column": -4,
+  "complexity": 3,
+  "icons": [
+    "thaumaturge:textures/aspects/auram.png"
+  ],
+  "name": "research.productivebees.vis_bee.title",
+  "note_aspects": [
+    {
+      "amount": 4,
+      "aspect": "thaumaturge:auram"
+    },
+    {
+      "amount": 3,
+      "aspect": "thaumaturge:bestia"
+    },
+    {
+      "amount": 3,
+      "aspect": "thaumaturge:victus"
+    }
+  ],
+  "parents": [
+    "thaumaturge:node_preserve"
+  ],
+  "row": 5,
+  "stages": [
+    {
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumaturge:auromancy"
+        }
+      ],
+      "text": "research.productivebees.vis_bee.stage_0"
+    },
+    {
+      "recipes": [
+        "productivebees:thaumaturge/infusion/vis_bee"
+      ],
+      "text": "research.productivebees.vis_bee.stage_1"
+    }
+  ]
+}

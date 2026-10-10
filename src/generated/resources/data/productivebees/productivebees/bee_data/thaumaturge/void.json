@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thaumaturge"
+    }
+  ],
+  "attack": 1.0,
+  "flowerTag": "c:storage_blocks/void_metal",
+  "particleColor": "#6b538c",
+  "primaryColor": "#2a1f3a",
+  "secondaryColor": "#120c1c",
+  "selfbreed": false,
+  "size": 0.8,
+  "tertiaryColor": "#6b538c",
+  "useGlowLayer": true
+}

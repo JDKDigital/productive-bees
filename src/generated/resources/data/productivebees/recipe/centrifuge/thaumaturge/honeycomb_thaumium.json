@@ -1,0 +1,30 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:thaumaturge/thaumium"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thaumaturge"
+    }
+  ],
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "productivebees:bee_type": "productivebees:thaumaturge/thaumium"
+    },
+    "items": "productivebees:configurable_honeycomb"
+  },
+  "outputs": [
+    {
+      "item": "thaumaturge:nugget_thaumium",
+      "max": 5,
+      "min": 2
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ]
+}

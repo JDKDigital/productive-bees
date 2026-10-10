@@ -60,6 +60,7 @@ public class ProductiveBeeDataProvider
         gen.addProvider(true, new OritechRecipeProvider.Runner(output, provider));
         gen.addProvider(true, new CompatRecipeProvider.Runner(output, provider));
         gen.addProvider(true, new CompatJsonRecipeProvider(output));
+        gen.addProvider(true, new ThaumaturgeResearchProvider(output));
         gen.addProvider(true, new LootModifierProvider(output, provider));
         BlockTagProvider blockTags = new BlockTagProvider(output, provider);
         gen.addProvider(true, blockTags);

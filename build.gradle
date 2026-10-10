@@ -109,9 +109,8 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 // Mod-compat layer: enable per-module as the upstream mod publishes a 26.1.2 build.
 sourceSets.main.java {
-    // No 26.1.2 release: minecolonies, dyenamics
+    // No 26.1.2 release: minecolonies
     exclude 'cy/jdkdigital/productivebees/compat/minecolonies/**'
-    exclude 'cy/jdkdigital/productivebees/compat/dyenamics/**'
 }
 
 // Sets up a dependency configuration called 'localRuntime'.
@@ -127,8 +126,8 @@ dependencies {
     implementation "local.libs:geckolib-neoforge-${minecraft_version}-${geckolib_version}"
     implementation "local.libs:productivemetalworks-26.1.2-1.16.4"
     implementation "curse.maven:glodium-957920:8196173"
-    implementation "curse.maven:ex-pattern-provider-892005:8237330"
-    implementation "curse.maven:applied-flux-965012:8246560"
+//    implementation "curse.maven:ex-pattern-provider-892005:8698967"
+//    implementation "curse.maven:applied-flux-965012:9025081"
 
     jarJar(group: 'cy.jdkdigital.productivelib', name: 'productivelib', version: "${lib_version_range}") {
         transitive(false)
@@ -148,23 +147,25 @@ dependencies {
 //
 //    compileOnly(fg.deobf("com.almostreliable.mods:almostunified-forge:${minecraft_version}-${au_version}"))
 
-    // Mod-compat dependencies — file IDs resolved against MC 26.1.2 on CurseForge.
+    // Mod-compat dependencies, file IDs resolved against MC 26.1.2 on CurseForge.
     // Mods without a 26.1.2 release yet remain commented; re-check periodically.
-    implementation "curse.maven:jei-238222:8014757"
-    implementation "curse.maven:jade-324717:8651070"
-    implementation "curse.maven:iceandfire-ce-1040076:8699109"  // 2.2-alpha.1
+    implementation "curse.maven:jei-238222:9068105"
+    implementation "curse.maven:jade-324717:8857417"
+    implementation "curse.maven:iceandfire-ce-1040076:8929527"  // 2.2-alpha.1
     localRuntime "curse.maven:jupiter-1072905:8621734"          // iceandfire hard dep
     localRuntime "curse.maven:uranus-1010827:8689800"           // iceandfire hard dep
-    implementation "curse.maven:curios-309927:7925547"
+    implementation "curse.maven:curios-309927:8463519"
 //    implementation "curse.maven:just-enough-archaeology-890755:5518258"  // no 26.1.2
     implementation "curse.maven:cloth-config-348521:7817583"
 //    implementation "curse.maven:modern-industrialization-405388:5663677"  // no 26.1.2
-    implementation "curse.maven:biomes-o-plenty-220318:7986475"
-    implementation "curse.maven:glitchcore-955399:7975606"
-    implementation "curse.maven:terrablender-neoforge-940057:8046313"
-    implementation "curse.maven:allthemodium-364466:8157737"
+    implementation "curse.maven:biomes-o-plenty-220318:8239932"
+    implementation "curse.maven:glitchcore-955399:8109770"
+    implementation "curse.maven:terrablender-neoforge-940057:8384529"
+    implementation "curse.maven:allthemodium-364466:9120636"
     implementation "curse.maven:ato-405593:8023670"
-//    implementation "curse.maven:regions-unexplored-659110:5579932"  // no 26.1.2
+    implementation "curse.maven:thaumaturge-1628024:9095192"
+    implementation "curse.maven:lithostitched-936015:8944658"
+    implementation "curse.maven:regions-unexplored-659110:8586981"
 //    implementation "curse.maven:blueprint-382216:6965808"  // no 26.1.2
 //    implementation "curse.maven:gallery-1173553:6449910"  // no 26.1.2
 //    implementation "curse.maven:woodworks-543610:6499291"  // no 26.1.2
@@ -173,25 +174,25 @@ dependencies {
 //    implementation "curse.maven:atmospheric-362393:6969589"  // no 26.1.2
 //    implementation "curse.maven:extreme-reactors-250277:5538095"  // no 26.1.2
 //    implementation "curse.maven:zerocore-247921:5464103"  // no 26.1.2
-    implementation "curse.maven:ender-io-64578:8192909"
+    implementation "curse.maven:ender-io-64578:8832914"
     implementation "curse.maven:ender-io-endergy-304346:8017163"
-    implementation "curse.maven:guideme-1173950:8204880"
-    implementation "curse.maven:applied-energistics-2-223794:8129795"
-    implementation "curse.maven:aquaculture-60028:7901645"
-    implementation "curse.maven:oritech-1030830:8678136"
+    implementation "curse.maven:guideme-1173950:9022838"
+    implementation "curse.maven:applied-energistics-2-223794:9022271"
+    implementation "curse.maven:aquaculture-60028:8192770"
+    implementation "curse.maven:oritech-1030830:9117978"
     implementation "curse.maven:athena-841890:7970442"
     // library deps required by the compat mods below
-    implementation "curse.maven:cyclops-core-232758:8527468"
-    implementation "curse.maven:modonomicon-538392:8594747"
-    implementation "curse.maven:cucumber-272335:8433624"
-    implementation "curse.maven:evilcraft-74610:8641499"
-    implementation "curse.maven:ftb-industrial-contraptions-forge-539097:8683232"
-    implementation "curse.maven:neovitae-1404763:8970064"
-    implementation "curse.maven:mystical-agriculture-246640:8797046"
-    implementation "curse.maven:mystical-agradditions-256247:8796956"
-    implementation "curse.maven:occultism-361026:8615441"
+    implementation "curse.maven:cyclops-core-232758:9115573"
+    implementation "curse.maven:modonomicon-538392:9111355"
+    implementation "curse.maven:cucumber-272335:8796937"
+    implementation "curse.maven:evilcraft-74610:9047082"
+    implementation "curse.maven:ftb-industrial-contraptions-forge-539097:9082294"
+    implementation "curse.maven:neovitae-1404763:9115642"
+//    implementation "curse.maven:mystical-agriculture-246640:9042809"  // crashes the dev creative inventory
+//    implementation "curse.maven:mystical-agradditions-256247:9041273"
+    implementation "curse.maven:occultism-361026:9080439"
     implementation "curse.maven:powah-rearchitected-633483:8025339"
-//    implementation "curse.maven:dyenamics-509276:5788247"  // no 26.1.2
+    implementation "curse.maven:dyenamics-509276:9012945"
     implementation "curse.maven:forbidden-arcanus-309858:8521347"
     implementation "curse.maven:valhelsia-core-416935:7916512"
 //    implementation "curse.maven:immersive-engineering-231951:5828000"  // no 26.1.2
@@ -207,7 +208,7 @@ dependencies {
 //    }
 //    implementation "curse.maven:modular-bees-1350380:7273528"  // no 26.1.2
 //    implementation "curse.maven:glodium-957920:5821676"  // no 26.1.2
-    implementation "curse.maven:kotlin-for-forge-351264:7736203"
+    implementation "curse.maven:kotlin-for-forge-351264:8335648"
 }
 
 tasks.withType(ProcessResources).configureEach {

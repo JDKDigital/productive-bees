@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.datagen.ThaumaturgeResearchProvider;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
@@ -45,6 +46,82 @@ public class CompatJsonRecipeProvider implements DataProvider
     private void buildRecipes() {
         awakening("mysticalagriculture/awakened_supremium_bee", "mysticalagriculture/supremium",
                 "mysticalagriculture/awakened_supremium", "mysticalagriculture:awakened_supremium_block", 20);
+        crucible("thaumaturge/crucible/thaumium_bee", "raw_materials/iron", "thaumaturge/thaumium",
+                List.of(aspect("praecantatio", 20), aspect("terra", 20), aspect("metallum", 10), aspect("bestia", 15)),
+                ThaumaturgeResearchProvider.THAUMIUM_BEE, 1);
+        crucible("thaumaturge/crucible/void_bee", "thaumaturge/thaumium", "thaumaturge/void",
+                List.of(aspect("metallum", 40), aspect("vitium", 20), aspect("bestia", 15)),
+                ThaumaturgeResearchProvider.VOID_BEE, 1);
+        thaumaturgeInfusion("thaumaturge/infusion/vis_bee", "ghostly", "thaumaturge/vis",
+                List.of(aspect("auram", 32), aspect("praecantatio", 16), aspect("bestia", 16), aspect("victus", 12)),
+                List.of("thaumaturge:salis_mundus", "thaumaturge:vishroom", "minecraft:honeycomb",
+                        "thaumaturge:salis_mundus", "thaumaturge:vishroom", "minecraft:honeycomb"),
+                8, ThaumaturgeResearchProvider.VIS_BEE, 1);
+        thaumaturgeInfusion("thaumaturge/infusion/eldritch_bee", "thaumaturge/vis", "thaumaturge/eldritch",
+                List.of(aspect("vitium", 48), aspect("alienis", 24), aspect("tenebrae", 24), aspect("bestia", 16)),
+                List.of("thaumaturge:bottle_taint", "thaumaturge:crystal_vitium", "thaumaturge:void_seed",
+                        "thaumaturge:bottle_taint", "thaumaturge:crystal_vitium", "thaumaturge:void_seed"),
+                10, ThaumaturgeResearchProvider.ELDRITCH_BEE, 1);
+    }
+
+    private void thaumaturgeInfusion(String recipePath, String inputBee, String resultBee, List<JsonObject> aspects, List<String> components, int instability, String researchEntry, int researchStage) {
+        JsonObject obj = new JsonObject();
+        obj.addProperty("type", "thaumaturge:infusion");
+
+        JsonArray aspectArray = new JsonArray();
+        aspects.forEach(aspectArray::add);
+        obj.add("aspects", aspectArray);
+
+        obj.add("catalyst", spawnEggIng(ProductiveBees.MODID + ":" + inputBee));
+
+        JsonArray componentArray = new JsonArray();
+        components.forEach(componentArray::add);
+        obj.add("components", componentArray);
+
+        obj.addProperty("instability", instability);
+        obj.add("research", research(researchEntry, researchStage));
+        obj.add("result", spawnEggResult(ProductiveBees.MODID + ":" + resultBee));
+        obj.add("neoforge:conditions", thaumaturgeConditions(inputBee, resultBee));
+
+        entries.add(new Entry(recipePath, obj));
+    }
+
+    private void crucible(String recipePath, String inputBee, String resultBee, List<JsonObject> aspects, String researchEntry, int researchStage) {
+        JsonObject obj = new JsonObject();
+        obj.addProperty("type", "thaumaturge:crucible");
+
+        JsonArray aspectArray = new JsonArray();
+        aspects.forEach(aspectArray::add);
+        obj.add("aspects", aspectArray);
+
+        obj.add("catalyst", spawnEggIng(ProductiveBees.MODID + ":" + inputBee));
+        obj.add("research", research(researchEntry, researchStage));
+        obj.add("result", spawnEggResult(ProductiveBees.MODID + ":" + resultBee));
+        obj.add("neoforge:conditions", thaumaturgeConditions(inputBee, resultBee));
+
+        entries.add(new Entry(recipePath, obj));
+    }
+
+    private static JsonObject research(String entry, int stage) {
+        JsonObject research = new JsonObject();
+        research.addProperty("entry", entry);
+        research.addProperty("stage", stage);
+        return research;
+    }
+
+    private static JsonArray thaumaturgeConditions(String inputBee, String resultBee) {
+        JsonArray conditions = new JsonArray();
+        conditions.add(modLoaded("thaumaturge"));
+        conditions.add(beeExists(ProductiveBees.MODID + ":" + inputBee));
+        conditions.add(beeExists(ProductiveBees.MODID + ":" + resultBee));
+        return conditions;
+    }
+
+    private static JsonObject aspect(String name, int amount) {
+        JsonObject a = new JsonObject();
+        a.addProperty("aspect", "thaumaturge:" + name);
+        a.addProperty("amount", amount);
+        return a;
     }
 
     private void awakening(String recipePath, String inputBee, String resultBee, String pedestalItem, int essenceCount) {

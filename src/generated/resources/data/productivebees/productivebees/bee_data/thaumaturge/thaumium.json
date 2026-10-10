@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thaumaturge"
+    }
+  ],
+  "attack": 1.0,
+  "flowerTag": "c:storage_blocks/thaumium",
+  "particleColor": "#a98fd4",
+  "primaryColor": "#6b4a96",
+  "secondaryColor": "#2e1f42",
+  "selfbreed": false,
+  "tertiaryColor": "#a98fd4",
+  "useGlowLayer": true
+}

@@ -1,0 +1,55 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thaumaturge"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:thaumaturge/thaumium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:thaumaturge/void"
+    }
+  ],
+  "type": "thaumaturge:crucible",
+  "aspects": [
+    {
+      "amount": 40,
+      "aspect": "thaumaturge:metallum"
+    },
+    {
+      "amount": 20,
+      "aspect": "thaumaturge:vitium"
+    },
+    {
+      "amount": 15,
+      "aspect": "thaumaturge:bestia"
+    }
+  ],
+  "catalyst": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:thaumaturge/thaumium",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "items": "productivebees:spawn_egg_configurable_bee"
+  },
+  "research": {
+    "entry": "productivebees:void_bee",
+    "stage": 1
+  },
+  "result": {
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:thaumaturge/void",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "count": 1,
+    "id": "productivebees:spawn_egg_configurable_bee"
+  }
+}

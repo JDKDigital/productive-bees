@@ -1,0 +1,59 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thaumaturge"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/iron"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:thaumaturge/thaumium"
+    }
+  ],
+  "type": "thaumaturge:crucible",
+  "aspects": [
+    {
+      "amount": 20,
+      "aspect": "thaumaturge:praecantatio"
+    },
+    {
+      "amount": 20,
+      "aspect": "thaumaturge:terra"
+    },
+    {
+      "amount": 10,
+      "aspect": "thaumaturge:metallum"
+    },
+    {
+      "amount": 15,
+      "aspect": "thaumaturge:bestia"
+    }
+  ],
+  "catalyst": {
+    "neoforge:ingredient_type": "productivebees:component",
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:raw_materials/iron",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "items": "productivebees:spawn_egg_configurable_bee"
+  },
+  "research": {
+    "entry": "productivebees:thaumium_bee",
+    "stage": 1
+  },
+  "result": {
+    "components": {
+      "minecraft:entity_data": {
+        "type": "productivebees:thaumaturge/thaumium",
+        "id": "productivebees:configurable_bee"
+      }
+    },
+    "count": 1,
+    "id": "productivebees:spawn_egg_configurable_bee"
+  }
+}

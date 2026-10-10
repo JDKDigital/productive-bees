@@ -1,0 +1,44 @@
+{
+  "values": [
+    {
+      "id": "thaumaturge:flux_goo",
+      "required": false
+    },
+    {
+      "id": "thaumaturge:flux_gas",
+      "required": false
+    },
+    {
+      "id": "thaumaturge:crystal_vitium",
+      "required": false
+    },
+    {
+      "id": "thaumaturge:taint_crust",
+      "required": false
+    },
+    {
+      "id": "thaumaturge:taint_soil",
+      "required": false
+    },
+    {
+      "id": "thaumaturge:taint_rock",
+      "required": false
+    },
+    {
+      "id": "thaumaturge:taint_fibre",
+      "required": false
+    },
+    {
+      "id": "thaumaturge:taint_geyser",
+      "required": false
+    },
+    {
+      "id": "thaumaturge:taint_log",
+      "required": false
+    },
+    {
+      "id": "thaumaturge:taint_spore_stalk",
+      "required": false
+    }
+  ]
+}

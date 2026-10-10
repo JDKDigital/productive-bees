@@ -347,6 +347,8 @@ public class CentrifugeRecipeProvider implements DataProvider
         bee("tconstruct/slimesteel", List.of(tag("c:nuggets/slimesteel", 2, 3, 1.0f), item("productivebees:wax", 1, 1, 1.0f)), null, List.of(not(tagEmpty("c:nuggets/slimesteel"))), "tconstruct/honeycomb_slimesteel");
         bee("tconstruct/soulsteel", List.of(tag("c:nuggets/soulsteel", 2, 3, 1.0f), item("productivebees:wax", 1, 1, 1.0f)), null, List.of(not(tagEmpty("c:nuggets/soulsteel"))), "tconstruct/honeycomb_soulsteel");
         bee("tetra/scrapped", List.of(item("tetra:metal_scrap", 1, 1, 0.1f), item("productivebees:wax", 1, 1, 1.0f)), null, List.of(modLoaded("tetra")), "tetra/honeycomb_scrapped");
+        bee("thaumaturge/thaumium", List.of(item("thaumaturge:nugget_thaumium", 2, 5, 1.0f), item("productivebees:wax", 1, 1, 1.0f)), null, List.of(beeExists("thaumaturge/thaumium"), modLoaded("thaumaturge")), "thaumaturge/honeycomb_thaumium");
+        bee("thaumaturge/void", List.of(item("thaumaturge:nugget_void", 2, 5, 1.0f), item("productivebees:wax", 1, 1, 1.0f)), null, List.of(beeExists("thaumaturge/void"), modLoaded("thaumaturge")), "thaumaturge/honeycomb_void");
         bee("thermal/basalz", List.of(item("thermal:basalz_powder", 1, 1, 0.5f), item("productivebees:wax", 1, 1, 1.0f)), null, List.of(modLoaded("thermal")), "thermal/honeycomb_basalz");
         bee("thermal/blitz", List.of(item("thermal:blitz_powder", 1, 1, 0.5f), item("productivebees:wax", 1, 1, 1.0f)), null, List.of(modLoaded("thermal")), "thermal/honeycomb_blitz");
         bee("thermal/blizz", List.of(item("thermal:blizz_powder", 1, 1, 0.5f), item("productivebees:wax", 1, 1, 1.0f)), null, List.of(modLoaded("thermal")), "thermal/honeycomb_blizz");

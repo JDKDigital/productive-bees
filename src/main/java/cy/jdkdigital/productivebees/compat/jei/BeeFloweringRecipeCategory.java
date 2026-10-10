@@ -26,6 +26,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringRecipe>
 {
@@ -34,6 +35,15 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
     private static final int BACKGROUND_HEIGHT = 82;
     private final IDrawable icon;
     private final IDrawable background;
+
+    private static final Map<Identifier, Identifier> FLOWER_STAND_INS = Map.of(
+            Identifier.parse("thaumaturge:node"), Identifier.parse("thaumaturge:creative_node_placer")
+    );
+
+    private static ItemStack standInFor(Block block) {
+        Identifier standIn = FLOWER_STAND_INS.get(BuiltInRegistries.BLOCK.getKey(block));
+        return standIn == null ? ItemStack.EMPTY : BuiltInRegistries.ITEM.get(standIn).map(holder -> new ItemStack(holder.value())).orElse(ItemStack.EMPTY);
+    }
 
     public BeeFloweringRecipeCategory(IGuiHelper guiHelper) {
         Identifier location = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "textures/gui/jei/bee_flowering_recipe.png");
@@ -102,6 +112,11 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
                     itemStacks.add(item);
                 } else if (block instanceof CocoaBlock) {
                     itemStacks.add(new ItemStack(Items.COCOA_BEANS));
+                } else {
+                    ItemStack standIn = standInFor(block);
+                    if (!standIn.isEmpty() && !itemStacks.contains(standIn)) {
+                        itemStacks.add(standIn);
+                    }
                 }
             }
         } catch (Exception e) {

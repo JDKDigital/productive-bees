@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.particle.NectarParticleType;
 import cy.jdkdigital.productivebees.common.block.entity.AmberBlockEntity;
 import cy.jdkdigital.productivebees.compat.sussy.SussyCompatHandler;
+import cy.jdkdigital.productivebees.compat.thaumaturge.ThaumaturgeCompatHandler;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModParticles;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
@@ -780,6 +781,16 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                                 CommonHooks.fireCropGrowPost(serverLevel, pos, flower);
                             }
                         }
+                    }
+                    break;
+                case "cleanse_flux":
+                    if (level() instanceof ServerLevel serverLevel && this.hasSavedFlowerPos()) {
+                        ThaumaturgeCompatHandler.cleanseFlux(serverLevel, this.getSavedFlowerPos(), 10.0f);
+                    }
+                    break;
+                case "restore_vis":
+                    if (level() instanceof ServerLevel serverLevel && this.hasSavedFlowerPos()) {
+                        ThaumaturgeCompatHandler.restoreNode(serverLevel, this.getSavedFlowerPos(), 2);
                     }
                     break;
                 case "sus":

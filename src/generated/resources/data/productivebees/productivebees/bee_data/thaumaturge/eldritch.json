@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thaumaturge"
+    }
+  ],
+  "attack": 1.0,
+  "createComb": false,
+  "description": "productivebees.ingredient.description.eldritch_bee",
+  "flowerTag": "productivebees:flowers/flux",
+  "particleColor": "#cfe04f",
+  "postPollination": "cleanse_flux",
+  "primaryColor": "#5a6b3a",
+  "renderer": "thicc",
+  "secondaryColor": "#1d2015",
+  "selfbreed": false,
+  "size": 0.6,
+  "tertiaryColor": "#3fc9a8",
+  "useGlowLayer": true
+}

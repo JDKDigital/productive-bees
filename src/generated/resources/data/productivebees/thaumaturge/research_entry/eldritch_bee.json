@@ -1,0 +1,57 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thaumaturge"
+    }
+  ],
+  "category": "thaumaturge:eldritch",
+  "column": -3,
+  "complexity": 3,
+  "icons": [
+    "thaumaturge:textures/aspects/vitium.png"
+  ],
+  "name": "research.productivebees.eldritch_bee.title",
+  "note_aspects": [
+    {
+      "amount": 5,
+      "aspect": "thaumaturge:vitium"
+    },
+    {
+      "amount": 4,
+      "aspect": "thaumaturge:alienis"
+    },
+    {
+      "amount": 3,
+      "aspect": "thaumaturge:bestia"
+    }
+  ],
+  "parents": [
+    "productivebees:vis_bee",
+    "thaumaturge:base_eldritch"
+  ],
+  "row": -3,
+  "stages": [
+    {
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumaturge:eldritch"
+        },
+        {
+          "type": "theory",
+          "amount": 2,
+          "category": "thaumaturge:eldritch"
+        }
+      ],
+      "text": "research.productivebees.eldritch_bee.stage_0"
+    },
+    {
+      "recipes": [
+        "productivebees:thaumaturge/infusion/eldritch_bee"
+      ],
+      "text": "research.productivebees.eldritch_bee.stage_1"
+    }
+  ]
+}

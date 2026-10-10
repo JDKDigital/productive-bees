@@ -566,6 +566,11 @@ public class BeeProvider
 
             add(new BeeConfig("the_bumblezone/royal").primaryColor("#472182").secondaryColor("#da6ad9").model("productivebees:entity/royal").beeTexture("royal").noSelfBreed().breedingItem("the_bumblezone:royal_jelly_bottle").flowerBlock("the_bumblezone:royal_jelly_block").requireMod("the_bumblezone"));
 
+            add(new BeeConfig("thaumaturge/thaumium").primaryColor("#6b4a96").secondaryColor("#2e1f42").tertiaryColor("#a98fd4").particleColor("#a98fd4").flowerTag("c:storage_blocks/thaumium").noSelfBreed().requireMod("thaumaturge"));
+            add(new BeeConfig("thaumaturge/vis").primaryColor("#6a2f9e").secondaryColor("#2b1040").tertiaryColor("#c77dff").particleColor("#c77dff").renderer("default_crystal").size(0.7).noComb().flowerBlock("thaumaturge:node").postPollination("restore_vis").noSelfBreed().description("productivebees.ingredient.description.vis_bee").requireMod("thaumaturge"));
+            add(new BeeConfig("thaumaturge/eldritch").primaryColor("#5a6b3a").secondaryColor("#1d2015").tertiaryColor("#3fc9a8").particleColor("#cfe04f").renderer("thicc").size(0.6).noComb().noSelfBreed().flowerTag("productivebees:flowers/flux").postPollination("cleanse_flux").description("productivebees.ingredient.description.eldritch_bee").requireMod("thaumaturge"));
+            add(new BeeConfig("thaumaturge/void").primaryColor("#2a1f3a").secondaryColor("#120c1c").tertiaryColor("#6b538c").particleColor("#6b538c").size(0.8).flowerTag("c:storage_blocks/void_metal").noSelfBreed().requireMod("thaumaturge"));
+
             add(new BeeConfig("thermal/basalz").primaryColor("#2b2b2f").secondaryColor("#ff8219").particleColor("#0e080a").onlySpawnegg().flowerTag("productivebees:flowers/burning").beeTexture("basalz").fireproof().requireMod("thermal"));
             add(new BeeConfig("thermal/blitz").primaryColor("#e9edf3").secondaryColor("#bdccd9").particleColor("#ffd86f").onlySpawnegg().beeTexture("blitz").flowerBlock("thermal:niter_block").attributes(new HashMap<>(){{ put("weather_tolerance", GeneValue.WEATHER_TOLERANCE_ANY.getSerializedName()); }}).requireMod("thermal"));
             add(new BeeConfig("thermal/blizz").primaryColor("#1d7cf1").secondaryColor("#ffffff").particleColor("#8cdeff").onlySpawnegg().beeTexture("blizz").renderer("elvis").flowerTag("productivebees:flowers/frozen").requireMod("thermal"));
