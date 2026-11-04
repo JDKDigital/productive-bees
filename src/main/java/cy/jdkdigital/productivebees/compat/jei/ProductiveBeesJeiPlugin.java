@@ -49,6 +49,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.util.Lazy;
+import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
 import javax.annotation.Nonnull;
@@ -148,14 +149,14 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
 
         // Map out all combs that have a direct block centrifuge recipe
         List<Identifier> beesWithCombRecipes = centrifugeRecipesMap.stream().filter(recipe -> {
-            ItemStack first = CentrifugeRecipeCategory.stacksWithComponents(recipe.value().ingredient).stream().findFirst().orElse(ItemStack.EMPTY);
+            ItemStack first = stacksWithComponents(recipe.value().ingredient).stream().findFirst().orElse(ItemStack.EMPTY);
             return first.is(ModTags.Common.STORAGE_BLOCK_HONEYCOMBS);
         }).map(r -> {
-            ItemStack first = CentrifugeRecipeCategory.stacksWithComponents(r.value().ingredient).stream().findFirst().orElse(ItemStack.EMPTY);
+            ItemStack first = stacksWithComponents(r.value().ingredient).stream().findFirst().orElse(ItemStack.EMPTY);
             return first.get(ModDataComponents.BEE_TYPE);
         }).toList();
         List<CentrifugeRecipe> blockCentrifugeRecipesMap = centrifugeRecipesMap.stream().map(recipe -> {
-            ItemStack item = CentrifugeRecipeCategory.stacksWithComponents(recipe.value().ingredient).stream().findFirst().orElse(ItemStack.EMPTY);
+            ItemStack item = stacksWithComponents(recipe.value().ingredient).stream().findFirst().orElse(ItemStack.EMPTY);
             if (!beesWithCombRecipes.contains(item.get(ModDataComponents.BEE_TYPE))) {
                 if (item.getItem() instanceof HoneycombItem) {
                     List<TagOutputRecipe.ChancedOutput> outputs = new ArrayList<>();
@@ -344,5 +345,19 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         registration.addRecipeClickArea(BottlerScreen.class, 152, 37, 14, 14, BOTTLER_TYPE);
         registration.addRecipeClickArea(BreedingChamberScreen.class, 85, 14, 45, 22, BEE_BREEDING_TYPE);
         registration.addRecipeClickArea(IncubatorScreen.class, 76, 35, 24, 16, INCUBATION_TYPE);
+    }
+
+    /** Rebuilds the display stacks for a component-bound ingredient, which {@code items()} strips. */
+    public static List<ItemStack> stacksWithComponents(Ingredient ingredient) {
+        DataComponentIngredient componentBound = ingredient.getCustomIngredient() instanceof DataComponentIngredient dci ? dci : null;
+        List<ItemStack> stacks = new ArrayList<>();
+        ingredient.items().forEach(holder -> {
+            ItemStack stack = new ItemStack(holder);
+            if (componentBound != null) {
+                stack.applyComponents(componentBound.components());
+            }
+            stacks.add(stack);
+        });
+        return stacks;
     }
 }

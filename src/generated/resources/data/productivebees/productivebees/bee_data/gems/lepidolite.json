@@ -4,6 +4,10 @@
   "particleColor": "#510046",
   "primaryColor": "#510046",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/lepidolite",
+    "productivebees:flowers/lepidolite"
+  ],
   "secondaryColor": "#2e0b17",
   "size": 0.6,
   "tertiaryColor": "#c812aa"

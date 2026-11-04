@@ -5,6 +5,9 @@
   },
   "flowerTag": "c:storage_blocks/platinum",
   "primaryColor": "#6feaef",
+  "requiredTags": [
+    "c:storage_blocks/platinum"
+  ],
   "secondaryColor": "#804f40",
   "useGlowLayer": true
 }

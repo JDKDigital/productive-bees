@@ -4,6 +4,10 @@
   "particleColor": "#978574",
   "primaryColor": "#978574",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/tektite",
+    "productivebees:flowers/tektite"
+  ],
   "secondaryColor": "#3e5b68",
   "size": 0.6,
   "tertiaryColor": "#725e4c"

@@ -4,6 +4,10 @@
   "particleColor": "#b5bb05",
   "primaryColor": "#b5bb05",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/moldavite",
+    "productivebees:flowers/moldavite"
+  ],
   "secondaryColor": "#2e0b17",
   "size": 0.6,
   "tertiaryColor": "#636e00"

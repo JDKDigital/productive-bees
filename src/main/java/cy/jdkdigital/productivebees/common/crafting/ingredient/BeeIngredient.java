@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.crafting.ingredient;
 
 import com.mojang.serialization.Codec;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -15,12 +16,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
 public class BeeIngredient
 {
     public static final Codec<Supplier<BeeIngredient>> CODEC = Codec.STRING.comapFlatMap(BeeIngredientFactory::read, BeeIngredient::write).stable();
     public static final Codec<List<Supplier<BeeIngredient>>> LIST_CODEC = Codec.list(CODEC);
+
+    private static final Set<Identifier> creationFailures = ConcurrentHashMap.newKeySet();
 
     private static final int CACHE_CAPACITY = 512;
     private static final Map<BeeIngredient, Entity> cache = new LinkedHashMap<>(64, 0.75f, true)
@@ -66,7 +71,11 @@ public class BeeIngredient
                 cache.put(this, entity);
             }
         } catch (IllegalStateException ise) {
-            // no op
+            // A bee with no display entity renders as a blank slot in hive screens and JEI, so say
+            // which one, once per bee, rather than leaving an empty square with nothing in the log.
+            if (creationFailures.add(getBeeType())) {
+                ProductiveBees.LOGGER.warn("No display entity for bee {}; it will not render in hive screens or JEI", getBeeType(), ise);
+            }
         }
         return entity;
     }

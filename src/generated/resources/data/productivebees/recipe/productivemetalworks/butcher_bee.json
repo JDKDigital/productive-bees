@@ -19,7 +19,7 @@
   "result": {
     "components": {
       "minecraft:entity_data": {
-        "type": "productivebees:butcher",
+        "type": "productivebees:productivemetalworks/butcher",
         "id": "productivebees:configurable_bee"
       }
     },

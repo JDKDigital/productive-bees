@@ -65,16 +65,6 @@
     },
     {
       "type": "patchouli:crafting",
-      "recipe": "productivelib:upgrades/anti_teleport",
-      "text": "",
-      "anchor": "anti_teleport"
-    },
-    {
-      "type": "patchouli:text",
-      "text": "When installed in a hive, bees that can teleport will no longer teleport when living in the hive with the upgrade."
-    },
-    {
-      "type": "patchouli:crafting",
       "recipe": "productivelib:upgrades/gene_sampler",
       "text": "",
       "anchor": "sampler"

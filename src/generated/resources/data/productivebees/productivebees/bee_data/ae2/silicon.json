@@ -2,6 +2,9 @@
   "attack": 1.0,
   "flowerTag": "productivebees:flowers/crystalline",
   "primaryColor": "#918d96",
+  "requiredTags": [
+    "c:silicon"
+  ],
   "secondaryColor": "#6b5873",
   "size": 0.7,
   "useGlowLayer": true

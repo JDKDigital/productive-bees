@@ -432,7 +432,9 @@ public class BeeHelper
                     ItemStack amberItem = feederBlockEntity.getSpecificItemFromInventory(ModBlocks.AMBER.get().asItem(), level.getRandom());
                     var tag = amberItem.get(DataComponents.ENTITY_DATA);
                     if(tag != null) {
-                        entity = AmberBlockEntity.createEntity(serverLevel, tag.copyTagWithoutId());
+                        CompoundTag entityTag = tag.copyTagWithoutId();
+                        entityTag.putString("id", BuiltInRegistries.ENTITY_TYPE.getKey(tag.type()).toString());
+                        entity = AmberBlockEntity.createEntity(serverLevel, entityTag);
                     }
                 }
 

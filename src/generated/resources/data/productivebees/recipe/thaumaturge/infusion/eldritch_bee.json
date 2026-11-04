@@ -44,10 +44,10 @@
   },
   "components": [
     "thaumaturge:bottle_taint",
-    "thaumaturge:crystal_vitium",
+    "thaumaturge:ethereal_bloom",
     "thaumaturge:void_seed",
     "thaumaturge:bottle_taint",
-    "thaumaturge:crystal_vitium",
+    "thaumaturge:ethereal_bloom",
     "thaumaturge:void_seed"
   ],
   "instability": 10,

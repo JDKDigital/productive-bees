@@ -4,11 +4,16 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.setup.BeeData;
 import cy.jdkdigital.productivebees.setup.BeeRegistries;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.TagKey;
 import net.neoforged.neoforge.common.conditions.ICondition;
+
+import java.util.Optional;
 
 /** Recipe / advancement condition that succeeds if a bee with the given id is loaded. */
 public record BeeExistsCondition(Identifier beeName, HolderLookup.RegistryLookup<BeeData> lookup) implements ICondition
@@ -33,8 +38,9 @@ public record BeeExistsCondition(Identifier beeName, HolderLookup.RegistryLookup
 
     @Override
     public boolean test(ICondition.IContext context) {
-        if (lookup.get(ResourceKey.create(BeeRegistries.BEE_DATA, beeName)).isPresent()) {
-            return true;
+        Optional<Holder.Reference<BeeData>> direct = lookup.get(ResourceKey.create(BeeRegistries.BEE_DATA, beeName));
+        if (direct.isPresent()) {
+            return gatesPass(context, direct.get().value());
         }
         // Fall back to matching the path's last segment
         String targetPath = beeName.getPath();
@@ -44,8 +50,28 @@ public record BeeExistsCondition(Identifier beeName, HolderLookup.RegistryLookup
             if (!id.getNamespace().equals(targetNs)) return false;
             String path = id.getPath();
             int slash = path.lastIndexOf('/');
-            return slash >= 0 && path.substring(slash + 1).equals(targetPath);
+            return slash >= 0 && path.substring(slash + 1).equals(targetPath) && gatesPass(context, holder.value());
         });
+    }
+
+    /** Mirrors {@link BeeRegistries#gatesPass} against the reload's condition context. */
+    private static boolean gatesPass(ICondition.IContext context, BeeData data) {
+        for (String tag : data.requiredTags()) {
+            if (itemOrBlockTagEmpty(context, tag)) return false;
+        }
+        for (String tag : data.forbiddenTags()) {
+            if (!itemOrBlockTagEmpty(context, tag)) return false;
+        }
+        for (String tag : data.requiredFluidTags()) {
+            if (context.getTag(TagKey.create(Registries.FLUID, Identifier.parse(tag))).isEmpty()) return false;
+        }
+        return true;
+    }
+
+    private static boolean itemOrBlockTagEmpty(ICondition.IContext context, String tag) {
+        Identifier id = Identifier.parse(tag);
+        return context.getTag(TagKey.create(Registries.ITEM, id)).isEmpty()
+                && context.getTag(TagKey.create(Registries.BLOCK, id)).isEmpty();
     }
 
     @Override

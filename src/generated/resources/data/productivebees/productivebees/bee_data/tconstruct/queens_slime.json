@@ -10,6 +10,9 @@
   "flowerTag": "c:storage_blocks/queens_slime",
   "particleColor": "#267049",
   "primaryColor": "#267049",
+  "requiredTags": [
+    "c:storage_blocks/queens_slime"
+  ],
   "secondaryColor": "#204c49",
   "useGlowLayer": true
 }

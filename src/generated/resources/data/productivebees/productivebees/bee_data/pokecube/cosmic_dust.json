@@ -9,6 +9,10 @@
   "flowerTag": "c:ores/cosmic",
   "particleColor": "#2394cc",
   "primaryColor": "#2394cc",
+  "requiredTags": [
+    "c:gems/cosmicdust",
+    "c:ores/cosmic"
+  ],
   "secondaryColor": "#0f0f66",
   "useGlowLayer": true
 }

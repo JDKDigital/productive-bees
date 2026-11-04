@@ -11,6 +11,9 @@
   "flowerTag": "c:storage_blocks/molybdenum",
   "particleColor": "#a7a8c3",
   "primaryColor": "#7e80a5",
+  "requiredTags": [
+    "c:raw_materials/molybdenum"
+  ],
   "selfbreed": false,
   "size": 0.8,
   "useGlowLayer": true

@@ -4,6 +4,10 @@
   "particleColor": "#fa9310",
   "primaryColor": "#fa9310",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/amber",
+    "productivebees:flowers/amber"
+  ],
   "secondaryColor": "#064f2c",
   "size": 0.7,
   "tertiaryColor": "#d4700e"

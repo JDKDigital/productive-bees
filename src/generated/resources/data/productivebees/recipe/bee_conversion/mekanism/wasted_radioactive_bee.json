@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "mekanism"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:raw_materials/radioactive"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:mekanism/wasted_radioactive"
+    }
+  ],
+  "type": "productivebees:bee_conversion",
+  "chance": 0.05,
+  "item": "mekanism:pellet_polonium",
+  "result": "productivebees:mekanism/wasted_radioactive",
+  "source": "productivebees:raw_materials/radioactive"
+}

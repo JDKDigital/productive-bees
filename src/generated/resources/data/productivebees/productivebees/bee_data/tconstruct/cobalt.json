@@ -4,6 +4,9 @@
   "flowerTag": "c:storage_blocks/cobalt",
   "particleColor": "#1d77eb",
   "primaryColor": "#1d77eb",
+  "requiredTags": [
+    "c:storage_blocks/cobalt"
+  ],
   "secondaryColor": "#0c5abe",
   "useGlowLayer": true
 }

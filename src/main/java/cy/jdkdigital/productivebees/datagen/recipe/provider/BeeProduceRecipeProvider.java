@@ -50,15 +50,34 @@ public class BeeProduceRecipeProvider extends RecipeProvider
             "neovitae/hellfire",
             "forbidden_arcanus/stellarite",
             "irons_spellbooks/arcane_essence",
-            "tombstone/grave"
+            "tombstone/grave",
+            "ender",
+            "prismarine",
+            "silky",
+            "skeletal"
     );
 
     // Bees whose comb roll isn't guaranteed. Anything absent rolls at 1.0.
-    private static final Map<String, Float> COMB_CHANCE = Map.of(
-            "enderio_endergy/crystalline_alloy", 0.8f,
-            "enderio_endergy/melodic_alloy", 0.4f,
-            "enderio_endergy/stellar_alloy", 0.2f,
-            "enderio_endergy/vivid_alloy", 0.6f
+    private static final Map<String, Float> COMB_CHANCE = Map.ofEntries(
+            Map.entry("enderio_endergy/crystalline_alloy", 0.8f),
+            Map.entry("enderio_endergy/melodic_alloy", 0.4f),
+            Map.entry("enderio_endergy/stellar_alloy", 0.2f),
+            Map.entry("enderio_endergy/vivid_alloy", 0.6f),
+            Map.entry("botanicadds/gaiasteel", 0.7f),
+            Map.entry("draconic", 0.4f),
+            Map.entry("dusts/blazing", 0.4f),
+            Map.entry("dusts/glowing", 0.4f),
+            Map.entry("dusts/niter", 0.4f),
+            Map.entry("dusts/sulfur", 0.4f),
+            Map.entry("ender", 0.4f),
+            Map.entry("experience", 0.4f),
+            Map.entry("fluids/chocolate", 0.4f),
+            Map.entry("mysticalagriculture/awakened_supremium", 0.4f),
+            Map.entry("mysticalagriculture/imperium", 0.7f),
+            Map.entry("mysticalagriculture/insanium", 0.4f),
+            Map.entry("mysticalagriculture/supremium", 0.6f),
+            Map.entry("mythicbotany/alfsteel", 0.7f),
+            Map.entry("zombie", 0.5f)
     );
 
     @Override
@@ -75,6 +94,10 @@ public class BeeProduceRecipeProvider extends RecipeProvider
         // Bonus items resolvable now that neovitae and forbidden_arcanus are on the datagen classpath.
         emitWithBonus("neovitae/hellfire", "neovitae:hellforged_parts", 0.01f);
         emitWithBonus("forbidden_arcanus/stellarite", "forbidden_arcanus:eternal_stella", 0.01f);
+        emitWithBonus("ender", List.of(Map.entry("minecraft:chorus_fruit", 0.1f), Map.entry("minecraft:chorus_flower", 0.01f)));
+        emitWithBonus("prismarine", "minecraft:nautilus_shell", 0.01f);
+        emitWithBonus("silky", "minecraft:spider_eye", 0.05f);
+        emitWithBonus("skeletal", "minecraft:bone", 0.05f);
         emitVanillaBee();
         emitSpecialBees();
     }
@@ -96,14 +119,20 @@ public class BeeProduceRecipeProvider extends RecipeProvider
      * and configurable bees with noComb() but custom outputs. */
     /** Same as {@link #emit} but with a mod item slotted between the comb and the pollen roll. */
     private void emitWithBonus(String beeName, String bonusItemId, float chance) {
+        emitWithBonus(beeName, List.of(Map.entry(bonusItemId, chance)));
+    }
+
+    private void emitWithBonus(String beeName, List<Map.Entry<String, Float>> bonuses) {
         Identifier beeId = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, beeName);
         DataComponentPatch patch = DataComponentPatch.builder().set(ModDataComponents.BEE_TYPE.get(), beeId).build();
         var items = this.registries.lookupOrThrow(Registries.ITEM);
 
         List<TagOutputRecipe.ChancedOutput> outputs = new ArrayList<>();
-        outputs.add(new TagOutputRecipe.ChancedOutput(ComponentIngredient.of(patch, ModItems.CONFIGURABLE_HONEYCOMB.get()), 1, 1, 1f));
-        outputs.add(new TagOutputRecipe.ChancedOutput(Ingredient.of(items.getOrThrow(
-                ResourceKey.create(Registries.ITEM, Identifier.parse(bonusItemId))).value()), 1, 1, chance));
+        outputs.add(new TagOutputRecipe.ChancedOutput(ComponentIngredient.of(patch, ModItems.CONFIGURABLE_HONEYCOMB.get()), 1, 1, COMB_CHANCE.getOrDefault(beeName, 1f)));
+        for (Map.Entry<String, Float> bonus : bonuses) {
+            outputs.add(new TagOutputRecipe.ChancedOutput(Ingredient.of(items.getOrThrow(
+                    ResourceKey.create(Registries.ITEM, Identifier.parse(bonus.getKey()))).value()), 1, 1, bonus.getValue()));
+        }
         outputs.add(new TagOutputRecipe.ChancedOutput(Ingredient.of(items.getOrThrow(POLLENS)), 1, 1, 0.05f));
 
         this.output.accept(ResourceKey.create(Registries.RECIPE, Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "bee_produce/" + beeName + "_bee")),

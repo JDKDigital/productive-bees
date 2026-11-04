@@ -1,6 +1,6 @@
 {
   "type": "minecraft:function",
-  "environment": "productivebees:hopper_into_advanced_hive_preserves_omega_upgrade_env",
+  "environment": "minecraft:default",
   "function": "productivebees:hopper_into_advanced_hive_preserves_omega_upgrade",
   "structure": "productivebees:empty_7x7",
   "max_ticks": 200,

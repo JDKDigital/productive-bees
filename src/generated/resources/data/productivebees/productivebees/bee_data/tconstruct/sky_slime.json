@@ -12,6 +12,9 @@
   "particleColor": "#80d4d2",
   "primaryColor": "#80d4d2",
   "renderer": "translucent_with_center",
+  "requiredTags": [
+    "c:slimeball/sky"
+  ],
   "secondaryColor": "#2e5250",
   "useGlowLayer": true
 }

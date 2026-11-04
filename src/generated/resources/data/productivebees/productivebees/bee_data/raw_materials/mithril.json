@@ -4,6 +4,9 @@
   "flowerTag": "productivebees:flowers/mithril",
   "particleColor": "#92e7ae",
   "primaryColor": "#0b2638",
+  "requiredTags": [
+    "productivebees:flowers/mithril"
+  ],
   "secondaryColor": "#0e6a61",
   "useGlowLayer": true
 }

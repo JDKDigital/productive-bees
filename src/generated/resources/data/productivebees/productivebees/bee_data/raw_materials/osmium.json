@@ -2,6 +2,9 @@
   "attack": 1.0,
   "flowerTag": "c:storage_blocks/osmium",
   "primaryColor": "#4c9db6",
+  "requiredTags": [
+    "c:storage_blocks/osmium"
+  ],
   "secondaryColor": "#804f40",
   "useGlowLayer": true
 }

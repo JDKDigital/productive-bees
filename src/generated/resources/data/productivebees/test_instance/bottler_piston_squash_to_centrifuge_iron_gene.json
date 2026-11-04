@@ -1,6 +1,6 @@
 {
   "type": "minecraft:function",
-  "environment": "productivebees:bottler_piston_squash_to_centrifuge_iron_gene_env",
+  "environment": "minecraft:default",
   "function": "productivebees:bottler_piston_squash_to_centrifuge_iron_gene",
   "structure": "productivebees:empty_7x7",
   "max_ticks": 400,

@@ -4,5 +4,8 @@
   "particleColor": "#e9edf3",
   "primaryColor": "#e9edf3",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:storage_blocks/niter"
+  ],
   "secondaryColor": "#836e73"
 }

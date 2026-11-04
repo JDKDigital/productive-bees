@@ -3,6 +3,9 @@
   "flowerTag": "c:storage_blocks/bismuth",
   "particleColor": "#b598db",
   "primaryColor": "#ece386",
+  "requiredTags": [
+    "c:storage_blocks/bismuth"
+  ],
   "secondaryColor": "#586bb7",
   "useGlowLayer": true
 }

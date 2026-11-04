@@ -40,3 +40,7 @@ logs/debug.log
 
 periodic_bees_data
 periodic_bees_resource
+
+bookgen
+docs
+scripts

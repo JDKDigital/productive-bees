@@ -4,5 +4,8 @@
   "particleColor": "#f1f372",
   "primaryColor": "#e4ff95",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:dusts/sulfur"
+  ],
   "secondaryColor": "#c9ab4b"
 }

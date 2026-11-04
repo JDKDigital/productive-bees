@@ -316,6 +316,17 @@ public class ModEventHandler
                 ModBlockEntityTypes.INCUBATOR.get(),
                 (myBlockEntity, side) -> myBlockEntity.getEnergyHandler()
         );
+        // Bee extractor
+        event.registerBlockEntity(
+                Capabilities.Item.BLOCK,
+                ModBlockEntityTypes.BEE_SQUISHER.get(),
+                (myBlockEntity, side) -> myBlockEntity.getItemHandler()
+        );
+        event.registerBlockEntity(
+                Capabilities.Energy.BLOCK,
+                ModBlockEntityTypes.BEE_SQUISHER.get(),
+                (myBlockEntity, side) -> myBlockEntity.getEnergyHandler()
+        );
         // Gene indexer
         event.registerBlockEntity(
                 Capabilities.Item.BLOCK,

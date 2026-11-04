@@ -2,6 +2,10 @@ package cy.jdkdigital.productivebees.common.recipe;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.RecordBuilder;
+import com.mojang.serialization.MapLike;
+import com.mojang.serialization.DynamicOps;
+import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
@@ -24,6 +28,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<RecipeInput>, TimedRecipeInterface
 {
@@ -31,7 +36,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<RecipeIn
             builder -> builder.group(
                             Ingredient.CODEC.fieldOf("ingredient").forGetter(recipe -> recipe.ingredient),
                             Codec.list(ChancedOutput.CODEC).fieldOf("outputs").forGetter(recipe -> recipe.itemOutput),
-                            FluidOutput.CODEC.fieldOf("fluid").orElse(FluidOutput.honey()).forGetter(recipe -> recipe.fluidOutput),
+                            FluidOutput.FIELD_CODEC.forGetter(recipe -> recipe.fluidOutput),
                             Codec.INT.fieldOf("processingTime").orElse(0).forGetter(recipe -> recipe.processingTime)
                     )
                     .apply(builder, CentrifugeRecipe::new)
@@ -161,6 +166,30 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<RecipeIn
                 ByteBufCodecs.VAR_INT, FluidOutput::amount,
                 FluidOutput::new
         );
+
+        /**
+         * A recipe with no {@code fluid} key yields honey, the default for a comb. A key that is
+         * present but will not decode is a broken recipe and reports as one, rather than quietly
+         * becoming honey and shipping the wrong fluid to every client.
+         */
+        public static final MapCodec<FluidOutput> FIELD_CODEC = new MapCodec<>()
+        {
+            @Override
+            public <T> Stream<T> keys(DynamicOps<T> ops) {
+                return Stream.of(ops.createString("fluid"));
+            }
+
+            @Override
+            public <T> DataResult<FluidOutput> decode(DynamicOps<T> ops, MapLike<T> input) {
+                T value = input.get("fluid");
+                return value == null ? DataResult.success(honey()) : CODEC.parse(ops, value);
+            }
+
+            @Override
+            public <T> RecordBuilder<T> encode(FluidOutput value, DynamicOps<T> ops, RecordBuilder<T> prefix) {
+                return prefix.add("fluid", CODEC.encodeStart(ops, value));
+            }
+        };
 
         public static FluidOutput honey() {
             return new FluidOutput(FluidIngredient.of(ModFluids.HONEY.get()), 100);

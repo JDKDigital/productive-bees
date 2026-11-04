@@ -4,6 +4,10 @@
   "particleColor": "#e4e4e4",
   "primaryColor": "#e4e4e4",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/moonstone",
+    "productivebees:flowers/moonstone"
+  ],
   "secondaryColor": "#2e0b17",
   "size": 0.6,
   "tertiaryColor": "#b6b6b6"

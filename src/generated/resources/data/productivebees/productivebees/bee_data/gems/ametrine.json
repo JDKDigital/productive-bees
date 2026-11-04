@@ -4,6 +4,10 @@
   "particleColor": "#98004c",
   "primaryColor": "#98004c",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/ametrine",
+    "productivebees:flowers/ametrine"
+  ],
   "secondaryColor": "#2e0b17",
   "size": 0.6,
   "tertiaryColor": "#3d001f"

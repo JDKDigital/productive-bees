@@ -112,20 +112,20 @@ public class CompatRecipeProvider extends RecipeProvider
                 List.of(tag("c:end_stones"), beeIngredient("enderio/dark_steel"), beeIngredient("obsidian")),
                 "enderio/dark_steel", "obsidian");
         alloy("energetic_alloy_bee", "enderio/energetic_alloy", 10000,
-                List.of(beeIngredient("dusts/redstone"), beeIngredient("raw_materials/gold"), beeIngredient("dusts/glowing")),
-                "dusts/redstone", "raw_materials/gold", "dusts/glowing");
+                List.of(beeIngredient("dusts/redstone"), beeIngredient("enderio/conductive_alloy"), beeIngredient("raw_materials/gold")),
+                "dusts/redstone", "enderio/conductive_alloy", "raw_materials/gold");
         alloy("pulsating_alloy_bee", "enderio/pulsating_alloy", 10000,
                 List.of(beeIngredient("raw_materials/iron"), beeIngredient("ender")),
                 "raw_materials/iron", "ender");
         alloy("redstone_alloy_bee", "enderio/redstone_alloy", 10000,
-                List.of(beeIngredient("dusts/redstone"), beeIngredient("ae2/silicon")),
-                "dusts/redstone", "ae2/silicon");
+                List.of(beeIngredient("dusts/redstone"), beeIngredient("raw_materials/copper")),
+                "dusts/redstone", "raw_materials/copper");
         alloy("soularium_bee", "enderio/soularium", 10000,
                 List.of(beeIngredient("ghostly"), beeIngredient("raw_materials/gold")),
                 "ghostly", "raw_materials/gold");
         alloy("vibrant_alloy_bee", "enderio/vibrant_alloy", 10000,
-                List.of(beeIngredient("enderio/energetic_alloy"), beeIngredient("ender")),
-                "enderio/energetic_alloy", "ender");
+                List.of(beeIngredient("enderio/energetic_alloy"), beeIngredient("ender"), beeIngredient("dusts/glowing")),
+                "enderio/energetic_alloy", "ender", "dusts/glowing");
     }
 
     // -- enderio_endergy ------------------------------------------------------------------------
@@ -283,7 +283,7 @@ public class CompatRecipeProvider extends RecipeProvider
         ItemCastingRecipeBuilder.of(
                         item("productivebees:spawn_egg_bumble_bee"),
                         fluidTagIngredient("c:meat", 1000),
-                        beeResult("butcher"),
+                        beeResult("productivemetalworks/butcher"),
                         true)
                 .save(output, Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "productivemetalworks/butcher_bee"));
     }

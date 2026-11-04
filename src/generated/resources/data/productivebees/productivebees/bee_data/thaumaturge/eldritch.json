@@ -9,6 +9,9 @@
   "createComb": false,
   "description": "productivebees.ingredient.description.eldritch_bee",
   "flowerTag": "productivebees:flowers/flux",
+  "invulnerability": [
+    "thaumaturge.taint"
+  ],
   "particleColor": "#cfe04f",
   "postPollination": "cleanse_flux",
   "primaryColor": "#5a6b3a",

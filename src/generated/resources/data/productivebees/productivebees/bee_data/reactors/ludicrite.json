@@ -4,6 +4,9 @@
   "flowerTag": "c:storage_blocks/ludicrite",
   "particleColor": "#ad5bd4",
   "primaryColor": "#7d10b0",
+  "requiredTags": [
+    "c:storage_blocks/ludicrite"
+  ],
   "secondaryColor": "#8f21c2",
   "selfbreed": false,
   "size": 0.8,

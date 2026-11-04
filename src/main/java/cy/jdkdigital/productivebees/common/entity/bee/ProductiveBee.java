@@ -471,6 +471,11 @@ public class ProductiveBee extends Bee implements IProductiveBee
         }
     }
 
+    /** Takes one item out of a feeder slot. Input slots reject automation extraction, so this bypasses that check. */
+    private static void consumeFeederItem(FeederBlockEntity feeder, int slot) {
+        feeder.inventoryHandler.extractItem(slot, 1, false, false);
+    }
+
     public void postPollinate() {
         if (hasNectar() && savedFlowerPos != null) {
             BlockState flowerBlockState = level().getBlockState(savedFlowerPos);
@@ -488,7 +493,12 @@ public class ProductiveBee extends Bee implements IProductiveBee
                 BlockEntity blockEntity = level().getBlockEntity(savedFlowerPos);
                 if (blockEntity instanceof FeederBlockEntity feederBlockEntity) {
                     BlockEntity hiveBlockEntity = hivePos != null ? level().getBlockEntity(hivePos) : null;
-                    for (ItemStack stack : feederBlockEntity.getInventoryItems()) {
+                    // getStackInSlot builds a fresh stack, so the slot index is what consumes the input
+                    for (int slot = 0; slot < feederBlockEntity.inventoryHandler.size(); slot++) {
+                        ItemStack stack = feederBlockEntity.inventoryHandler.getStackInSlot(slot);
+                        if (stack.isEmpty()) {
+                            continue;
+                        }
                         if (stack.getItem() instanceof BlockItem blockItem) {
                             RecipeHolder<BlockConversionRecipe> blockRecipe = BeeHelper.getBlockConversionRecipe(this, blockItem.getBlock().defaultBlockState());
                             if (blockRecipe != null && hiveBlockEntity instanceof AdvancedBeehiveBlockEntity beehiveBlockEntity) {
@@ -498,13 +508,12 @@ public class ProductiveBee extends Bee implements IProductiveBee
                                         if (!output.equals(ItemStack.EMPTY) &&
                                                 beehiveBlockEntity.inventoryHandler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler itemHandler
                                                 && itemHandler.addOutput(output).getCount() == 0) {
-                                            stack.shrink(1);
+                                            consumeFeederItem(feederBlockEntity, slot);
                                         }
                                     } else {
                                         Block.popResourceFromFace(level(), feederBlockEntity.getBlockPos(), Direction.UP, output);
-                                        stack.shrink(1);
+                                        consumeFeederItem(feederBlockEntity, slot);
                                     }
-                                    // TODO update feeding slab on client
                                 }
                                 setHasConverted(!blockRecipe.value().pollinates);
                                 return;
@@ -516,11 +525,11 @@ public class ProductiveBee extends Bee implements IProductiveBee
                                 if (beehiveBlockEntity.isSim()) {
                                     if (beehiveBlockEntity.inventoryHandler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler itemHandler
                                             && itemHandler.addOutput(itemRecipe.value().getResult().copy()).getCount() == 0) {
-                                        stack.shrink(1);
+                                        consumeFeederItem(feederBlockEntity, slot);
                                     }
                                 } else {
                                     Block.popResourceFromFace(level(), feederBlockEntity.getBlockPos(), Direction.UP, itemRecipe.value().getResult().copy());
-                                    stack.shrink(1);
+                                    consumeFeederItem(feederBlockEntity, slot);
                                 }
                             }
                             setHasConverted(!itemRecipe.value().pollinates);

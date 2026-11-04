@@ -4,6 +4,10 @@
   "particleColor": "#342b00",
   "primaryColor": "#342b00",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/jasper",
+    "productivebees:flowers/jasper"
+  ],
   "secondaryColor": "#2e0b17",
   "size": 0.6,
   "tertiaryColor": "#85794c"

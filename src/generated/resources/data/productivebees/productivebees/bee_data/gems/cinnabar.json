@@ -3,6 +3,10 @@
   "flowerTag": "c:storage_blocks/cinnabar",
   "particleColor": "#ff7883",
   "primaryColor": "#d73e4a",
+  "requiredTags": [
+    "c:gems/cinnabar",
+    "c:storage_blocks/cinnabar"
+  ],
   "secondaryColor": "#710626",
   "size": 0.6,
   "useGlowLayer": true

@@ -65,7 +65,7 @@ public class ThaumaturgeResearchProvider implements DataProvider
                 stage(VOID_BEE, 1, "recipes", strings(ProductiveBees.MODID + ":thaumaturge/crucible/void_bee")));
 
         entry("eldritch_bee", ELDRITCH_BEE, "thaumaturge:eldritch", -3, -3,
-                List.of(VIS_BEE, "thaumaturge:base_eldritch"),
+                List.of(VIS_BEE, "thaumaturge:base_eldritch", "~thaumaturge:ethereal_bloom"),
                 List.of("thaumaturge:textures/aspects/vitium.png"),
                 List.of(aspect("vitium", 5), aspect("alienis", 4), aspect("bestia", 3)), 3,
                 stage(ELDRITCH_BEE, 0, "required_knowledge", knowledge(

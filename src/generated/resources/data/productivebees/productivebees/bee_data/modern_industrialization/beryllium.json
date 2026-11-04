@@ -1,9 +1,18 @@
 {
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "modern_industrialization"
+    }
+  ],
   "attack": 1.0,
   "beeTexture": "productivebees:textures/entity/bee/beryllium/bee",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "flowerTag": "c:storage_blocks/beryllium",
   "particleColor": "#b1e6be",
   "primaryColor": "#a7dbb4",
+  "requiredTags": [
+    "c:storage_blocks/beryllium"
+  ],
   "useGlowLayer": true
 }

@@ -4,6 +4,10 @@
   "particleColor": "#e4481f",
   "primaryColor": "#e4481f",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/ammolite",
+    "productivebees:flowers/ammolite"
+  ],
   "secondaryColor": "#3e5b68",
   "size": 0.6,
   "tertiaryColor": "#0900c9"

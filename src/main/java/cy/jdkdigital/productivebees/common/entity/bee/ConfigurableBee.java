@@ -785,7 +785,8 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                     break;
                 case "cleanse_flux":
                     if (level() instanceof ServerLevel serverLevel && this.hasSavedFlowerPos()) {
-                        ThaumaturgeCompatHandler.cleanseFlux(serverLevel, this.getSavedFlowerPos(), 10.0f);
+                        ThaumaturgeCompatHandler.cleanseFlux(serverLevel, this.getSavedFlowerPos(), 50.0f);
+                        ThaumaturgeCompatHandler.cleanseTaint(serverLevel, this.getSavedFlowerPos(), 0.05f);
                     }
                     break;
                 case "restore_vis":

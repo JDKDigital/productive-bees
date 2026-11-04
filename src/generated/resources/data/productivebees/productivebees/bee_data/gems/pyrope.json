@@ -4,6 +4,10 @@
   "particleColor": "#bc1100",
   "primaryColor": "#bc1100",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/pyrope",
+    "productivebees:flowers/pyrope"
+  ],
   "secondaryColor": "#3e5b68",
   "size": 0.6,
   "tertiaryColor": "#620000"

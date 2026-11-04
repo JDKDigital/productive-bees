@@ -83,7 +83,11 @@ public record BeeData(
 
         BeeAttributes attributes,
 
-        boolean createComb
+        boolean createComb,
+
+        List<String> requiredTags,
+        List<String> forbiddenTags,
+        List<String> requiredFluidTags
 ) {
     public static final BeeAttributes EMPTY_ATTRIBUTES = new BeeAttributes(
             Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
@@ -107,6 +111,9 @@ public record BeeData(
     }
 
     /** Hex-string codec ({@code "#RRGGBB"}) ↔ ARGB int, matching {@code BeeCreator.getColor()}. */
+    /** Tag ids a bee is gated on, evaluated once tags bind rather than as load-time conditions. */
+    public static final Codec<List<String>> STRING_LIST_CODEC = Codec.STRING.listOf();
+
     public static final Codec<Integer> HEX_COLOR_CODEC = Codec.STRING.comapFlatMap(
             s -> {
                 String hex = s.startsWith("#") ? s.substring(1) : s;
@@ -138,7 +145,8 @@ public record BeeData(
                 "teleporting", "munchies", "redstoned", "stringy", "stingless", "waterproof",
                 "coldResistant", "irradiated",
                 "attributes",
-                "createComb"
+                "createComb",
+                "requiredTags", "forbiddenTags", "requiredFluidTags"
         );
 
         @Override
@@ -221,6 +229,10 @@ public record BeeData(
 
                 boolean createComb = optional(ops, input, "createComb", Codec.BOOL).orElse(true);
 
+                List<String> requiredTags = optional(ops, input, "requiredTags", STRING_LIST_CODEC).orElse(List.of());
+                List<String> forbiddenTags = optional(ops, input, "forbiddenTags", STRING_LIST_CODEC).orElse(List.of());
+                List<String> requiredFluidTags = optional(ops, input, "requiredFluidTags", STRING_LIST_CODEC).orElse(List.of());
+
                 return DataResult.success(new BeeData(
                         primaryColor, secondaryColor, tertiaryColor, particleColor, colorCycle,
                         description,
@@ -233,7 +245,8 @@ public record BeeData(
                         teleporting, munchies, redstoned, stringy, stingless, waterproof,
                         coldResistant, irradiated,
                         attributes,
-                        createComb
+                        createComb,
+                        requiredTags, forbiddenTags, requiredFluidTags
                 ));
             } catch (DecodeError e) {
                 return DataResult.error(e::getMessage);
@@ -314,6 +327,16 @@ public record BeeData(
             }
 
             if (!value.createComb) prefix.add("createComb", ops.createBoolean(false));
+
+            if (!value.requiredTags.isEmpty()) {
+                prefix.add("requiredTags", STRING_LIST_CODEC.encodeStart(ops, value.requiredTags));
+            }
+            if (!value.forbiddenTags.isEmpty()) {
+                prefix.add("forbiddenTags", STRING_LIST_CODEC.encodeStart(ops, value.forbiddenTags));
+            }
+            if (!value.requiredFluidTags.isEmpty()) {
+                prefix.add("requiredFluidTags", STRING_LIST_CODEC.encodeStart(ops, value.requiredFluidTags));
+            }
 
             return prefix;
         }

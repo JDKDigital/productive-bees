@@ -4,6 +4,10 @@
   "particleColor": "#a66ef4",
   "primaryColor": "#a66ef4",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/tanzanite",
+    "productivebees:flowers/tanzanite"
+  ],
   "secondaryColor": "#064f2c",
   "size": 0.6,
   "tertiaryColor": "#3500aa"

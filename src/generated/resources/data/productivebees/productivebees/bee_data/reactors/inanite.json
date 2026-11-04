@@ -4,6 +4,9 @@
   "flowerTag": "c:storage_blocks/inanite",
   "particleColor": "#ed2b89",
   "primaryColor": "#bd0d62",
+  "requiredTags": [
+    "c:storage_blocks/inanite"
+  ],
   "secondaryColor": "#db046c",
   "selfbreed": false,
   "size": 0.8,

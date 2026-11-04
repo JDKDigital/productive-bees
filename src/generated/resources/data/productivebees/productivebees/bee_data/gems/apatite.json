@@ -4,6 +4,10 @@
   "particleColor": "#69ffff",
   "primaryColor": "#69ffff",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/apatite",
+    "productivebees:flowers/apatite"
+  ],
   "secondaryColor": "#3e5b68",
   "size": 0.6,
   "tertiaryColor": "#20afce"

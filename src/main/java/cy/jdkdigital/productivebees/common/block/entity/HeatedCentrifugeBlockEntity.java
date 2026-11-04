@@ -103,17 +103,18 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
     protected void completeRecipeProcessing(RecipeHolder<CentrifugeRecipe> recipe, InventoryHandlerHelper.BlockEntityItemStackHandler invHandler, RandomSource random) {
         ItemStack input = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).copy();
         int productivityModifier = Math.min(input.getCount(), Math.min(64, getProductivityModifier()));
+        boolean stripWax = getUpgradeCount(LibItems.UPGRADE_STABILITY.get()) == 0;
         if (input.is(ModTags.Common.STORAGE_BLOCK_HONEYCOMBS) && !recipe.value().ingredient.test(input)) {
             ItemStack singleComb = BeeHelper.getSingleComb(input);
             singleComb.setCount(productivityModifier);
             invHandler.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, singleComb);
             for (int i = 0; i < 4; i++) {
-                super.completeRecipeProcessing(recipe, invHandler, random, true, productivityModifier);
+                super.completeRecipeProcessing(recipe, invHandler, random, stripWax, productivityModifier);
             }
             input.shrink(productivityModifier);
             invHandler.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, input);
         } else {
-            super.completeRecipeProcessing(recipe, invHandler, random, true, productivityModifier);
+            super.completeRecipeProcessing(recipe, invHandler, random, stripWax, productivityModifier);
         }
     }
 

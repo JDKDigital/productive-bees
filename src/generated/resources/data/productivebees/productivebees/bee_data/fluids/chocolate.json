@@ -3,6 +3,9 @@
   "flowerBlock": "minecraft:cocoa",
   "particleColor": "#914139",
   "primaryColor": "#914139",
+  "requiredFluidTags": [
+    "c:chocolate"
+  ],
   "secondaryColor": "#804f40",
   "useGlowLayer": true
 }

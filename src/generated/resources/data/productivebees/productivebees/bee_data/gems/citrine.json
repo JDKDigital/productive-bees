@@ -4,6 +4,10 @@
   "particleColor": "#995500",
   "primaryColor": "#995500",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/citrine",
+    "productivebees:flowers/citrine"
+  ],
   "secondaryColor": "#2e0b17",
   "size": 0.6,
   "tertiaryColor": "#838f00"

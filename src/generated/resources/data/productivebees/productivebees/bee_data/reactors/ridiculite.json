@@ -4,6 +4,9 @@
   "flowerTag": "c:storage_blocks/ridiculite",
   "particleColor": "#dcb4e0",
   "primaryColor": "#e2ace8",
+  "requiredTags": [
+    "c:storage_blocks/ridiculite"
+  ],
   "secondaryColor": "#ba8abf",
   "selfbreed": false,
   "size": 0.8,

@@ -4,6 +4,10 @@
   "particleColor": "#c62415",
   "primaryColor": "#c62415",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/ruby",
+    "productivebees:flowers/ruby"
+  ],
   "secondaryColor": "#064f2c",
   "size": 0.6,
   "tertiaryColor": "#7b000b"

@@ -4,6 +4,10 @@
   "particleColor": "#fe48ef",
   "primaryColor": "#fe48ef",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/kunzite",
+    "productivebees:flowers/kunzite"
+  ],
   "secondaryColor": "#3e5b68",
   "size": 0.6,
   "tertiaryColor": "#93239e"

@@ -4,6 +4,9 @@
   "particleColor": "#3b2754",
   "primaryColor": "#010000",
   "renderer": "thicc",
+  "requiredFluidTags": [
+    "c:crude_oil"
+  ],
   "secondaryColor": "#804f40",
   "useGlowLayer": true,
   "waterproof": true

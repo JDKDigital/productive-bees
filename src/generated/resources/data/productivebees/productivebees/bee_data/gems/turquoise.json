@@ -4,6 +4,10 @@
   "particleColor": "#24daac",
   "primaryColor": "#24daac",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/turquoise",
+    "productivebees:flowers/turquoise"
+  ],
   "secondaryColor": "#2e0b17",
   "size": 0.6,
   "tertiaryColor": "#19ac80"

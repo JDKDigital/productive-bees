@@ -3,6 +3,9 @@
   "flowerTag": "c:storage_blocks/desh",
   "particleColor": "#e9ba5d",
   "primaryColor": "#e9ba5d",
+  "requiredTags": [
+    "c:storage_blocks/desh"
+  ],
   "secondaryColor": "#9e4539",
   "useGlowLayer": true
 }

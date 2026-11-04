@@ -86,10 +86,10 @@ public class BeeSpawningRecipeCategory implements IRecipeCategory<BeeSpawningRec
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, BeeSpawningRecipe recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 36, 27)
-                .addItemStacks(recipe.ingredient.items().<ItemStack>map(h -> new ItemStack(h.value())).toList())
+                .addItemStacks(ProductiveBeesJeiPlugin.stacksWithComponents(recipe.ingredient))
                 .setSlotName("nestBlock");
         builder.addSlot(RecipeIngredientRole.INPUT, 11, 27)
-                .addItemStacks(recipe.spawnItem.items().<ItemStack>map(h -> new ItemStack(h.value())).toList())
+                .addItemStacks(ProductiveBeesJeiPlugin.stacksWithComponents(recipe.spawnItem))
                 .setSlotName("spawnItem");
 
         builder.addSlot(RecipeIngredientRole.OUTPUT, 95, 27)

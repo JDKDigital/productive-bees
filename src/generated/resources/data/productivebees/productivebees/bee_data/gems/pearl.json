@@ -4,6 +4,10 @@
   "particleColor": "#a4b6d2",
   "primaryColor": "#a4b6d2",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/pearl",
+    "productivebees:flowers/pearl"
+  ],
   "secondaryColor": "#3e5b68",
   "size": 0.6,
   "tertiaryColor": "#7c95be"

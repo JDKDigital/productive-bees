@@ -53,6 +53,7 @@ import cy.jdkdigital.productivebees.container.gui.CryoStasisScreen;
 import cy.jdkdigital.productivebees.container.gui.FeederScreen;
 import cy.jdkdigital.productivebees.container.gui.GeneIndexerScreen;
 import cy.jdkdigital.productivebees.container.gui.HoneyGeneratorScreen;
+import cy.jdkdigital.productivebees.container.gui.BeeSquisherScreen;
 import cy.jdkdigital.productivebees.container.gui.IncubatorScreen;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
@@ -118,6 +119,7 @@ public class ClientModEventHandler
         event.register(ModContainerTypes.BOTTLER.get(), BottlerScreen::new);
         event.register(ModContainerTypes.FEEDER.get(), FeederScreen::new);
         event.register(ModContainerTypes.INCUBATOR.get(), IncubatorScreen::new);
+        event.register(ModContainerTypes.BEE_SQUISHER.get(), BeeSquisherScreen::new);
         event.register(ModContainerTypes.CATCHER.get(), CatcherScreen::new);
         event.register(ModContainerTypes.HONEY_GENERATOR.get(), HoneyGeneratorScreen::new);
         event.register(ModContainerTypes.GENE_INDEXER.get(), GeneIndexerScreen::new);

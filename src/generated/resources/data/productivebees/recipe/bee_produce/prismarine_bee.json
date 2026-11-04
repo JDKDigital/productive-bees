@@ -21,6 +21,12 @@
       "min": 1
     },
     {
+      "chance": 0.01,
+      "item": "minecraft:nautilus_shell",
+      "max": 1,
+      "min": 1
+    },
+    {
       "chance": 0.05,
       "item": "#c:pollens",
       "max": 1,

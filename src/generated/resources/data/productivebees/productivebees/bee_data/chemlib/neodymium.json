@@ -16,6 +16,9 @@
   "beeTexture": "productivebees:textures/entity/bee/neodymium/bee",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "flowerBlock": "chemlib:neodymium_metal_block",
+  "forbiddenTags": [
+    "c:raw_materials/neodymium"
+  ],
   "particleColor": "#ab9d9a",
   "primaryColor": "#998784",
   "useGlowLayer": true

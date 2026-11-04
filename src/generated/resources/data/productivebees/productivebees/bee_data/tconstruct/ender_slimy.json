@@ -12,6 +12,9 @@
   "particleColor": "#d17bfc",
   "primaryColor": "#d17bfc",
   "renderer": "translucent_with_center",
+  "requiredTags": [
+    "c:slimeball/ender"
+  ],
   "secondaryColor": "#6200ae",
   "useGlowLayer": true
 }

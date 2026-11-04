@@ -9,7 +9,7 @@
   "ingredient": "productivebees:mysticalagriculture/awakened_supremium",
   "results": [
     {
-      "chance": 1.0,
+      "chance": 0.4,
       "item": {
         "neoforge:ingredient_type": "productivebees:component",
         "components": {

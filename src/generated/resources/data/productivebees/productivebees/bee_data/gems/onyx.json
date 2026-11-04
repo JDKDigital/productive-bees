@@ -4,6 +4,10 @@
   "particleColor": "#383838",
   "primaryColor": "#383838",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/onyx",
+    "productivebees:flowers/onyx"
+  ],
   "secondaryColor": "#064f2c",
   "size": 0.6,
   "tertiaryColor": "#1f1f1f"

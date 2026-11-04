@@ -4,6 +4,10 @@
   "particleColor": "#001bb6",
   "primaryColor": "#001bb6",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/benitoite",
+    "productivebees:flowers/benitoite"
+  ],
   "secondaryColor": "#2e0b17",
   "size": 0.6,
   "tertiaryColor": "#000c46"

@@ -180,7 +180,7 @@ public class EnglishLangProvider extends LanguageProvider
         add("entity.productivebees.bee_bee", "Bee");
 
         add("productivebees.ingredient.description.vis_bee", "Treats an Aura Node as its flower, regenerating a little of each aspect the node has lost on every visit. It makes no comb. An Aura Node has no item of its own, so the flowering tab shows the Creative Node Placer in its place.");
-        add("productivebees.ingredient.description.eldritch_bee", "Feeds on flux and taint, drawing flux out of the surrounding chunk on every visit. It will settle on Flux Goo and Flux Gas as readily as on tainted ground, though neither gas has an item to show here. It makes no comb and will not breed.");
+        add("productivebees.ingredient.description.eldritch_bee", "Feeds on flux and taint, drawing flux out of the surrounding chunk and withering the taint around its flower on every visit. Where the ground has turned to Tainted Lands it gives back the biome that was there before, the way an Ethereal Bloom does. It will settle on Flux Goo and Flux Gas as readily as on tainted ground, though neither gas has an item to show here. It makes no comb and will not breed.");
 
         add(ThaumaturgeResearchProvider.titleKey(ThaumaturgeResearchProvider.THAUMIUM_BEE), "Thaumium Bees");
         add(ThaumaturgeResearchProvider.stageKey(ThaumaturgeResearchProvider.THAUMIUM_BEE, 0),
@@ -189,9 +189,9 @@ public class EnglishLangProvider extends LanguageProvider
                 "An iron bee dropped into a working crucible comes back out humming in a lower key. Its comb now yields thaumium nuggets, and it will seek out blocks of thaumium to forage from.");
         add(ThaumaturgeResearchProvider.titleKey(ThaumaturgeResearchProvider.ELDRITCH_BEE), "Eldritch Bees");
         add(ThaumaturgeResearchProvider.stageKey(ThaumaturgeResearchProvider.ELDRITCH_BEE, 0),
-                "Every cure I have built for flux sits still and waits for the taint to come to it. The bloom, the scrubber, the condenser: none of them go looking.<BR>A vis bee already drinks from the aura. I wonder what happens if I let one drink the wrong half.");
+                "Every cure I have built for flux sits still and waits for the taint to come to it. The bloom, the scrubber, the condenser: none of them go looking.<BR>A vis bee already drinks from the aura. I wonder what happens if I let one drink the wrong half, and whether a bloom folded into the matrix would teach it to mend the ground it lands on.");
         add(ThaumaturgeResearchProvider.stageKey(ThaumaturgeResearchProvider.ELDRITCH_BEE, 1),
-                "It came out of the matrix wrong, and it has not stopped being wrong since. The eldritch bee makes no comb and wants nothing from flowers. It hunts flux goo, and every visit draws the taint out of the air around it.<BR>It will not breed. I am not sure I want it to.");
+                "It came out of the matrix wrong, and it has not stopped being wrong since. The eldritch bee makes no comb and wants nothing from flowers. It hunts flux goo, and every visit pulls the taint out of the air, withers what it settles on, and hands the ground back the biome it was born with.<BR>It will not breed. I am not sure I want it to.");
         add(ThaumaturgeResearchProvider.titleKey(ThaumaturgeResearchProvider.VOID_BEE), "Void Metal Bees");
         add(ThaumaturgeResearchProvider.stageKey(ThaumaturgeResearchProvider.VOID_BEE, 0),
                 "A void seed dropped into a crucible comes back as metal. A thaumium bee is already half-taught, and the void does not much care what shape a thing was before it fell in.<BR>I should be ready to lose the bee.");
@@ -323,6 +323,8 @@ public class EnglishLangProvider extends LanguageProvider
         add("productivebees.centrifuge.tooltip.amount", "Amount: %s");
         add("productivebees.centrifuge.tooltip.chance", "Chance: %s");
         add("productivebees.incubator.tooltip.treat_item", "Here goes honey treats");
+        add("productivebees.bee_squisher.tooltip.cage_item", "Here goes a bee cage with a bee in it");
+        add("productivebees.bee_squisher.tooltip.bottle_item", "Here goes an empty glass bottle");
         add("productivebees.advanced_hive.tooltip.bee_cage", "Put empty bee cages to pull out bees or filled bee cages to insert bees");
         add("productivebees.heated_centrifuge.tooltip", "\"It's ruining the honey\" - some vegan");
         add("productivebees.heated_centrifuge.tooltip2", "Too hot for wax");
@@ -405,6 +407,14 @@ public class EnglishLangProvider extends LanguageProvider
         add("productivebees.information.upgrade.upgrade_time_2.honey_generator", "It's twice as good as the other one.");
         add("productivebees.information.upgrade.upgrade_simulator.advanced_beehive", "Bees will no longer physically exit the hive. A trip to its flower block will instead be simulated.\n   Make sure to put the required flower block or a feeding slab in front of the hive containing the required flower blocks for the bee in the hive.");
         add("productivebees.information.upgrade.upgrade_stability.centrifuge", "Increases the success rate for combs that have a non-guaranteed output by %s%%.");
+        add("productivebees.information.upgrade.upgrade_stability.heated_centrifuge", "Increases the success rate for combs that have a non-guaranteed output by %s%%.\n   Also stops the heat burning off the wax, so comb blocks keep yielding it.");
+        add("productivebees.information.upgrade.upgrade_stability.bee_squisher", "Throws away everything but the bee type gene, and makes that one a lot purer.");
+        add("productivebees.information.upgrade.upgrade_time.bee_squisher", "Squishes bees faster, at the cost of more power.\n   Multiple upgrades can be installed.");
+        add("productivebees.information.upgrade.upgrade_time_2.bee_squisher", "It's twice as good as the other one.");
+        add("productivebees.information.upgrade.upgrade_productivity.bee_squisher", "Increases the purity of every gene extracted by 4, at the cost of more power.\n   Multiple upgrades can be installed for a greater increase.");
+        add("productivebees.information.upgrade.upgrade_productivity_2.bee_squisher", "Increases the purity of every gene extracted by 8, at the cost of more power.\n   Multiple upgrades can be installed for a greater increase.");
+        add("productivebees.information.upgrade.upgrade_productivity_3.bee_squisher", "Increases the purity of every gene extracted by 16, at the cost of more power.\n   Multiple upgrades can be installed for a greater increase.");
+        add("productivebees.information.upgrade.upgrade_productivity_4.bee_squisher", "Increases the purity of every gene extracted by 32, at the cost of more power.\n   Multiple upgrades can be installed for a greater increase.");
         add("productivebees.information.upgrade.upgrade_entity_filter.advanced_beehive", "Filter which bees are allowed to enter the hive.");
         add("productivebees.information.upgrade.upgrade_entity_filter.catcher", "Filter which bees the catcher can catch.");
         add("productivebees.information.upgrade.upgrade_entity_filter.centrifuge", "Only allow combs produced by the bees in the filter.");
@@ -528,7 +538,9 @@ public class EnglishLangProvider extends LanguageProvider
         add("productivebees.devices.breeding_chamber", "Breeding Chamber");
         add("productivebees.devices.catcher", "Catcher");
         add("productivebees.devices.centrifuge", "Centrifuge");
+        add("productivebees.devices.heated_centrifuge", "Heated Centrifuge");
         add("productivebees.devices.honey_generator", "Honey Generator");
         add("productivebees.devices.incubator", "Incubator");
+        add("productivebees.devices.bee_squisher", "Bee Squisher");
     }
 }

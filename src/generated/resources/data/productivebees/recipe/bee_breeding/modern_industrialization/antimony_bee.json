@@ -10,11 +10,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:chemlib/antimony"
+      "bee": "productivebees:modern_industrialization/antimony"
     }
   ],
   "type": "productivebees:bee_breeding",
-  "offspring": "productivebees:chemlib/antimony",
+  "offspring": "productivebees:modern_industrialization/antimony",
   "parent1": "productivebees:raw_materials/lead",
   "parent2": "productivebees:raw_materials/silver"
 }

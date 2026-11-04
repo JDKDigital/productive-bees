@@ -361,13 +361,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements MenuP
                 outputList.add(item);
             });
 
-            // Allow overfilling of fluid but don't process if the tank has a different fluid
-//            FluidStack fluidOutput = recipe.value().getFluidOutputs();
-//            boolean fluidFlag = true;
-//            if (!fluidOutput.isEmpty()) {
-//                fluidFlag = fluidHandler.getFluidInTank(0).isEmpty() || fluidHandler.getFluidInTank(0).getFluid().equals(fluidOutput.getFluid());
-//            }
-
+            // Fluid the tank cannot take is lost rather than stalling the machine.
             return invHandler.canFitStacks(outputList);
         }
         return false;

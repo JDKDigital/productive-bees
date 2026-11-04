@@ -4,6 +4,9 @@
   "flowerTag": "c:storage_blocks/slimesteel",
   "particleColor": "#7ae7e0",
   "primaryColor": "#7ae7e0",
+  "requiredTags": [
+    "c:storage_blocks/slimesteel"
+  ],
   "secondaryColor": "#73d2dc",
   "useGlowLayer": true
 }

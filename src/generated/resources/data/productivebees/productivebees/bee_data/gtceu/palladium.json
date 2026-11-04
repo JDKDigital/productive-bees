@@ -11,6 +11,9 @@
   "flowerTag": "c:storage_blocks/palladium",
   "particleColor": "#c3989a",
   "primaryColor": "#b78187",
+  "requiredTags": [
+    "c:raw_materials/palladium"
+  ],
   "selfbreed": false,
   "size": 0.8,
   "useGlowLayer": true

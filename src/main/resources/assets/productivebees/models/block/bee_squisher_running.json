@@ -1,0 +1,6 @@
+{
+    "parent": "productivebees:block/bee_squisher",
+    "textures": {
+        "side": "productivebees:block/bee_squisher/side"
+    }
+}

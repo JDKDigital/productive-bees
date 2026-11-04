@@ -11,6 +11,9 @@
   "flowerTag": "c:storage_blocks/neodymium",
   "particleColor": "#ab9d9a",
   "primaryColor": "#998784",
+  "requiredTags": [
+    "c:raw_materials/neodymium"
+  ],
   "selfbreed": false,
   "size": 0.8,
   "useGlowLayer": true

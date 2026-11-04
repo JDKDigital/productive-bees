@@ -22,6 +22,12 @@
     },
     {
       "chance": 0.05,
+      "item": "minecraft:spider_eye",
+      "max": 1,
+      "min": 1
+    },
+    {
+      "chance": 0.05,
       "item": "#c:pollens",
       "max": 1,
       "min": 1

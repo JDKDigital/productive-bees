@@ -4,6 +4,9 @@
   "flowerTag": "c:storage_blocks/insanite",
   "particleColor": "#37de99",
   "primaryColor": "#1eeb96",
+  "requiredTags": [
+    "c:storage_blocks/insanite"
+  ],
   "secondaryColor": "#16c97f",
   "selfbreed": false,
   "size": 0.8,

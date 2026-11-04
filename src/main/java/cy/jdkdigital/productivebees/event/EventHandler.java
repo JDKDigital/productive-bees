@@ -140,6 +140,7 @@ public class EventHandler
                 case "upgrade_productivity_2", "upgrade_productivity_3", "upgrade_productivity_4" -> {
                     event.addValidBlock(Component.translatable("productivebees.devices.advanced_beehive"), tPrefix + "advanced_beehive", value);
                     event.addValidBlock(Component.translatable("productivebees.devices.centrifuge"), tPrefix + "centrifuge", value);
+                    event.addValidBlock(Component.translatable("productivebees.devices.bee_squisher"), tPrefix + "bee_squisher", value);
                 }
                 case "upgrade_gene_sampler", "upgrade_anti_teleport", "upgrade_block", "upgrade_simulator" -> {
                     event.addValidBlock(Component.translatable("productivebees.devices.advanced_beehive"), tPrefix + "advanced_beehive", value);
@@ -150,20 +151,25 @@ public class EventHandler
                     event.addValidBlock(Component.translatable("productivebees.devices.breeding_chamber"), tPrefix + "breeding_chamber", value);
                     event.addValidBlock(Component.translatable("productivebees.devices.incubator"), tPrefix + "incubator", value);
                     event.addValidBlock(Component.translatable("productivebees.devices.honey_generator"), tPrefix + "honey_generator", value);
+                    event.addValidBlock(Component.translatable("productivebees.devices.bee_squisher"), tPrefix + "bee_squisher", value);
                 }
                 case "upgrade_time_2" -> {
                     event.addValidBlock(Component.translatable("productivebees.devices.centrifuge"), tPrefix + "centrifuge", value);
                     event.addValidBlock(Component.translatable("productivebees.devices.breeding_chamber"), tPrefix + "breeding_chamber", value);
                     event.addValidBlock(Component.translatable("productivebees.devices.incubator"), tPrefix + "incubator", value);
                     event.addValidBlock(Component.translatable("productivebees.devices.honey_generator"), tPrefix + "honey_generator", value);
+                    event.addValidBlock(Component.translatable("productivebees.devices.bee_squisher"), tPrefix + "bee_squisher", value);
                 }
                 case "upgrade_productivity" -> {
                     event.addValidBlock(Component.translatable("productivebees.devices.advanced_beehive"), tPrefix + "advanced_beehive", value);
                     event.addValidBlock(Component.translatable("productivebees.devices.honey_generator"), tPrefix + "honey_generator", value);
                     event.addValidBlock(Component.translatable("productivebees.devices.centrifuge"), tPrefix + "centrifuge", value);
+                    event.addValidBlock(Component.translatable("productivebees.devices.bee_squisher"), tPrefix + "bee_squisher", value);
                 }
                 case "upgrade_stability" -> {
                     event.addValidBlock(Component.translatable("productivebees.devices.centrifuge"), tPrefix + "centrifuge", value);
+                    event.addValidBlock(Component.translatable("productivebees.devices.heated_centrifuge"), tPrefix + "heated_centrifuge", value);
+                    event.addValidBlock(Component.translatable("productivebees.devices.bee_squisher"), tPrefix + "bee_squisher", value);
                 }
             }
         }
@@ -259,15 +265,17 @@ public class EventHandler
     @SubscribeEvent
     public static void onEntityDeath(LivingDeathEvent event) {
         if (event.getEntity() instanceof ConfigurableBee bee) {
+            // resolveId maps the short name onto the bee's real path, which carries a folder.
+            Identifier radioactive = BeeRegistries.resolveId(Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "radioactive"));
             if (
                     event.getSource().getMsgId().equals("mekanism.radiation") &&
-                            bee.getBeeType().equals(Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "radioactive")) &&
+                            bee.getBeeType().equals(radioactive) &&
                             ProductiveBeesConfig.BEES.deadBeeConvertChance.get() > event.getEntity().level().getRandom().nextDouble() &&
                             BeeIngredientFactory.getIngredient("productivebees:wasted_radioactive").get() != null
             ) {
                 event.setCanceled(true);
                 bee.setHealth(bee.getMaxHealth());
-                bee.setBeeType("productivebees:wasted_radioactive");
+                bee.setBeeType(BeeRegistries.resolveId(Identifier.fromNamespaceAndPath(ProductiveBees.MODID, "wasted_radioactive")).toString());
             }
         } else if (event.getEntity() instanceof Bee bee) {
             if (bee.level().getBlockState(bee.blockPosition()).is(Blocks.WHITE_CONCRETE_POWDER)) {
@@ -458,6 +466,9 @@ public class EventHandler
 
     @SubscribeEvent
     public static void blockBreakSpawn(BreakBlockEvent event) {
+        if (event.isCanceled()) {
+            return;
+        }
         String beeType = "";
         int beeCount = 1;
         boolean angry = false;
@@ -471,7 +482,7 @@ public class EventHandler
         if (!beeType.isEmpty()) {
             Player player = event.getPlayer();
             Level level = player.level();
-            if (level instanceof ServerLevel && player instanceof ServerPlayer && level.getRandom().nextFloat() < ProductiveBeesConfig.BEES.sugarbagBeeChance.get()) {
+            if (level instanceof ServerLevel serverLevel && player instanceof ServerPlayer && level.getRandom().nextFloat() < ProductiveBeesConfig.BEES.sugarbagBeeChance.get()) {
                 for (var i = 0; i < beeCount; i++) {
                     ConfigurableBee bee = ModEntities.CONFIGURABLE_BEE.get().create(level, EntitySpawnReason.NATURAL);
                     BlockPos pos = event.getPos();
@@ -481,8 +492,8 @@ public class EventHandler
 
                         bee.snapTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, bee.getYRot(), bee.getXRot());
 
-                        level.addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
-                        level.playSound(player, pos, SoundEvents.BEEHIVE_WORK, SoundSource.NEUTRAL, 1.0F, 1.0F);
+                        serverLevel.sendParticles(ParticleTypes.POOF, pos.getX() + 0.5D, pos.getY() + 1, pos.getZ() + 0.5D, 5, 0.2D, 0.1D, 0.2D, 0.0D);
+                        serverLevel.playSound(null, pos, SoundEvents.BEEHIVE_WORK, SoundSource.NEUTRAL, 1.0F, 1.0F);
 
                         level.addFreshEntity(bee);
                         if (angry) {

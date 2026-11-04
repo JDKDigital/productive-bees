@@ -4,6 +4,9 @@
   "flowerTag": "c:storage_blocks/manyullyn",
   "particleColor": "#ab6cd7",
   "primaryColor": "#ab6cd7",
+  "requiredTags": [
+    "c:storage_blocks/manyullyn"
+  ],
   "secondaryColor": "#652e87",
   "useGlowLayer": true
 }

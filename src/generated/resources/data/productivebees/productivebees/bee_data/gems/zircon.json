@@ -4,6 +4,10 @@
   "particleColor": "#787800",
   "primaryColor": "#787800",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/zircon",
+    "productivebees:flowers/zircon"
+  ],
   "secondaryColor": "#2e0b17",
   "size": 0.6,
   "tertiaryColor": "#b3b600"

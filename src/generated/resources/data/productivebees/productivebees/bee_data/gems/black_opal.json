@@ -4,6 +4,10 @@
   "particleColor": "#636363",
   "primaryColor": "#636363",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/black_opal",
+    "productivebees:flowers/black_opal"
+  ],
   "secondaryColor": "#064f2c",
   "size": 0.6,
   "tertiaryColor": "#141414"

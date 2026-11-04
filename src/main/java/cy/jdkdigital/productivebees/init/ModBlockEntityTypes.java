@@ -76,6 +76,7 @@ public class ModBlockEntityTypes
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<HoneyGeneratorBlockEntity>> HONEY_GENERATOR = registerBlockEntity("honey_generator", HoneyGeneratorBlockEntity::new, ModBlocks.HONEY_GENERATOR);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CatcherBlockEntity>> CATCHER = registerBlockEntity("catcher", CatcherBlockEntity::new, ModBlocks.CATCHER);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<IncubatorBlockEntity>> INCUBATOR = registerBlockEntity("incubator", IncubatorBlockEntity::new, ModBlocks.INCUBATOR);
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BeeSquisherBlockEntity>> BEE_SQUISHER = registerBlockEntity("bee_squisher", BeeSquisherBlockEntity::new, ModBlocks.BEE_SQUISHER);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GeneIndexerBlockEntity>> GENE_INDEXER = registerBlockEntity("gene_indexer", GeneIndexerBlockEntity::new, ModBlocks.GENE_INDEXER);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CryoStasisBlockEntity>> CRYO_STASIS = registerBlockEntity("cryo_stasis", CryoStasisBlockEntity::new, ModBlocks.CRYO_STASIS);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BreedingChamberBlockEntity>> BREEDING_CHAMBER = registerBlockEntity("breeding_chamber", BreedingChamberBlockEntity::new, ModBlocks.BREEDING_CHAMBER);

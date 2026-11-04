@@ -1,3 +1,41 @@
+26.1.2-15.5.0
+
+- Fixed bees for gated materials going missing on a dedicated server
+- Fixed bees converting items and blocks in a feeding slab without using up the input
+- The energetic alloy, redstone alloy and vibrant alloy bees now alloy from the same bees EnderIO alloys their ingots from
+
+
+26.1.2-15.4.0
+
+- Added the Bee Squisher, a machine that squeezes a caged bee into a bottle to extract its genes
+- Added a recipe for the stability upgrade
+- Putting a stability upgrade in the heated centrifuge keeps the wax
+- Fixed wannabees producing no loot from an ambered mob placed in a feeding slab
+- Fixed the ender, prismarine, silky and skeletal bees having lost their extra drops
+- Fixed the butcher bee recipe not showing up in JEI when clicking its spawn egg
+- Fixed the butcher bee's comb no longer centrifuging into liquid meat when Productive Metalworks is installed
+- Fixed input bee spawn eggs and combs showing as a blank, typeless item in the JEI conversion, spawning and bottler categories
+- Fixed a bunch of bees showing up for materials not present
+- Fixed the draconic, ender, experience, zombie and Mystical Agriculture bees, among others, dropping a comb every trip instead of at their intended chance
+
+
+26.1.2-15.3.0
+
+- Fixed the sussy bee's suspicious blocks containing no loot when brushed
+- Fixed caged bees losing their hive location
+- Added the Thaumaturge vis bee, thaumium bee, void metal bee and eldritch bee
+- Fixed the Big Book of Bees having no texture
+- Fixed the hellfire bee foraging from dungeon metal instead of hellforged blocks
+- Fixed the Tinkers' slime bees showing up without Tinkers' Construct installed
+- Re-enabled Dyenamics support, so its dyes colour canvas hives and expansion boxes again
+- Fixed every Regions Unexplored beehive and expansion box having no texture, no recipe and no drops
+- Swapped the Regions Unexplored mauve hive for brimwood and wisteria, matching the wood that mod ships now
+- Fixed thicc bees rendering behind and above their hitbox
+- Fixed bees whose flower has no item showing an empty slot in JEI
+- Fixed a simulated hive only gaining one honey level when several bees deliver on the same tick
+- Fixed a bee without a spawn egg breaking every Productive Bees category in JEI
+
+
 26.1.2-15.2.0
 
 - Fixed the Aquaculture neptunium bee spawn egg fished up inside Neptune's Bounty

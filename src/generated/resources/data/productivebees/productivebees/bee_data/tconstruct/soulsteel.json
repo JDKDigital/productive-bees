@@ -4,6 +4,9 @@
   "flowerTag": "c:storage_blocks/soulsteel",
   "particleColor": "#5c4436",
   "primaryColor": "#5c4436",
+  "requiredTags": [
+    "c:storage_blocks/soulsteel"
+  ],
   "secondaryColor": "#1f0700",
   "useGlowLayer": true
 }

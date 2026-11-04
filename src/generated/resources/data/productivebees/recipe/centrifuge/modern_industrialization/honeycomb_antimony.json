@@ -2,7 +2,7 @@
   "neoforge:conditions": [
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:chemlib/antimony"
+      "bee": "productivebees:modern_industrialization/antimony"
     },
     {
       "type": "neoforge:mod_loaded",
@@ -13,7 +13,7 @@
   "ingredient": {
     "neoforge:ingredient_type": "productivebees:component",
     "components": {
-      "productivebees:bee_type": "productivebees:chemlib/antimony"
+      "productivebees:bee_type": "productivebees:modern_industrialization/antimony"
     },
     "items": "productivebees:configurable_honeycomb"
   },

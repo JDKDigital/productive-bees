@@ -4,6 +4,9 @@
   "flowerTag": "c:storage_blocks/iesnium",
   "particleColor": "#3c8794",
   "primaryColor": "#52a0ae",
+  "requiredTags": [
+    "c:storage_blocks/iesnium"
+  ],
   "secondaryColor": "#8ecbce",
   "useGlowLayer": true
 }

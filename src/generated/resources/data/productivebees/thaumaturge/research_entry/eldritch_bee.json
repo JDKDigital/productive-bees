@@ -28,7 +28,8 @@
   ],
   "parents": [
     "productivebees:vis_bee",
-    "thaumaturge:base_eldritch"
+    "thaumaturge:base_eldritch",
+    "~thaumaturge:ethereal_bloom"
   ],
   "row": -3,
   "stages": [

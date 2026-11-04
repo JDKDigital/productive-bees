@@ -43,6 +43,7 @@ public final class ModBlocks
     public static final DeferredHolder<Block, ? extends Block> HONEY_GENERATOR = createBlock("honey_generator", HoneyGenerator::new, () -> Block.Properties.ofFullCopy(Blocks.CAULDRON));
     public static final DeferredHolder<Block, ? extends Block> CATCHER = createBlock("catcher", Catcher::new, () -> Block.Properties.ofFullCopy(Blocks.CAULDRON));
     public static final DeferredHolder<Block, ? extends Block> INCUBATOR = createBlock("incubator", Incubator::new, () -> Block.Properties.ofFullCopy(Blocks.CAULDRON));
+    public static final DeferredHolder<Block, ? extends Block> BEE_SQUISHER = createBlock("bee_squisher", BeeSquisher::new, () -> Block.Properties.ofFullCopy(Blocks.CAULDRON));
     public static final DeferredHolder<Block, ? extends Block> INACTIVE_DRAGON_EGG = createBlock("inactive_dragon_egg", InactiveDragonEgg::new, () -> Block.Properties.ofFullCopy(Blocks.DRAGON_EGG));
     public static final DeferredHolder<Block, ? extends Block> INVISIBLE_REDSTONE_BLOCK = createBlock("invisible_redstone_block", InvisibleRedstone::new, () -> Block.Properties.ofFullCopy(Blocks.REDSTONE_BLOCK).noOcclusion().noCollision());
     public static final DeferredHolder<Block, ? extends Block> FEEDER = createBlock("feeder", Feeder::new, () -> Block.Properties.ofFullCopy(Blocks.STONE_SLAB).noOcclusion());

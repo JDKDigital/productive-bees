@@ -4,6 +4,10 @@
   "particleColor": "#636363",
   "primaryColor": "#636363",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/black_diamond",
+    "productivebees:flowers/black_diamond"
+  ],
   "secondaryColor": "#2e0b17",
   "size": 0.6,
   "tertiaryColor": "#141414"

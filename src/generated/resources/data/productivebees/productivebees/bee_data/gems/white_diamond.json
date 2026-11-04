@@ -4,6 +4,10 @@
   "particleColor": "#fff9e4",
   "primaryColor": "#fff9e4",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/white_diamond",
+    "productivebees:flowers/white_diamond"
+  ],
   "secondaryColor": "#f7ed91",
   "size": 0.6,
   "tertiaryColor": "#c5b520"

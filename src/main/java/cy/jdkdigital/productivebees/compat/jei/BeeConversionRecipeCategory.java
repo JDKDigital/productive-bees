@@ -75,7 +75,7 @@ public class BeeConversionRecipeCategory implements IRecipeCategory<BeeConversio
                 .setSlotName("result");
 
         builder.addSlot(RecipeIngredientRole.INPUT, 10, 26)
-                .addItemStacks(recipe.item.items().<ItemStack>map(h -> new ItemStack(h.value())).toList())
+                .addItemStacks(ProductiveBeesJeiPlugin.stacksWithComponents(recipe.item))
                 .setSlotName("conversionItems");
     }
 

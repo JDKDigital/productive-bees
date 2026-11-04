@@ -4,6 +4,10 @@
   "particleColor": "#3b67ec",
   "primaryColor": "#3b67ec",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/kyanite",
+    "productivebees:flowers/kyanite"
+  ],
   "secondaryColor": "#3e5b68",
   "size": 0.6,
   "tertiaryColor": "#0f4362"

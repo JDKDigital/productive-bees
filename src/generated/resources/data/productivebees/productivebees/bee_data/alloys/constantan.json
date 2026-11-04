@@ -2,6 +2,9 @@
   "attack": 1.0,
   "flowerTag": "c:storage_blocks/constantan",
   "primaryColor": "#fc8669",
+  "requiredTags": [
+    "c:storage_blocks/constantan"
+  ],
   "secondaryColor": "#884739",
   "useGlowLayer": true
 }

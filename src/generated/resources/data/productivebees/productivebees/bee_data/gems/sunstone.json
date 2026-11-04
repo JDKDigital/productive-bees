@@ -4,6 +4,10 @@
   "particleColor": "#ffcab0",
   "primaryColor": "#ffcab0",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/sunstone",
+    "productivebees:flowers/sunstone"
+  ],
   "secondaryColor": "#3e5b68",
   "size": 0.6,
   "tertiaryColor": "#d45241"

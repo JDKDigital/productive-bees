@@ -9,7 +9,7 @@
   "ingredient": "productivebees:botanicadds/gaiasteel",
   "results": [
     {
-      "chance": 1.0,
+      "chance": 0.7,
       "item": {
         "neoforge:ingredient_type": "productivebees:component",
         "components": {

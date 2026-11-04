@@ -4,6 +4,10 @@
   "particleColor": "#d84e02",
   "primaryColor": "#d84e02",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/carnelian",
+    "productivebees:flowers/carnelian"
+  ],
   "secondaryColor": "#2e0b17",
   "size": 0.6,
   "tertiaryColor": "#340400"

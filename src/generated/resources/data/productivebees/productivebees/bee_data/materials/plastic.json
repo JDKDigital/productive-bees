@@ -5,6 +5,9 @@
   },
   "flowerTag": "c:plastics",
   "primaryColor": "#d3d3d3",
+  "requiredTags": [
+    "c:plastics"
+  ],
   "secondaryColor": "#535353",
   "size": 0.7,
   "useGlowLayer": true

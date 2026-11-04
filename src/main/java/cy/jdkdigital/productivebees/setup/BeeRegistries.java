@@ -10,6 +10,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Fluid;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -32,7 +33,7 @@ public final class BeeRegistries
     /** Read by datagen providers that run before {@code DatapackBuiltinEntriesProvider} materialises the registry. */
     private static Map<Identifier, BeeData> datagenFallback = Map.of();
 
-    /** Bees whose flowerTag is empty on this server — hidden from discovery, still resolvable by id. */
+    /** Bees whose tag gates fail on this server — hidden from discovery, still resolvable by id. */
     private static Set<Identifier> hiddenIds = Set.of();
 
     /** {@code <ns>:<last-segment>} → canonical full id, for legacy simple-name lookups. */
@@ -50,14 +51,7 @@ public final class BeeRegistries
 
     /** Rebuilds {@link #hiddenIds} and {@link #simpleNameIndex}. Call after tags bind. */
     public static void evaluateRuntimeGates(@Nullable RegistryAccess registries) {
-        if (registries == null) {
-            hiddenIds = Set.of();
-            simpleNameIndex = Map.of();
-            return;
-        }
-        Optional<Registry<BeeData>> beeLookup = registries.lookup(BEE_DATA);
-        Optional<Registry<Item>> itemLookup = registries.lookup(Registries.ITEM);
-        Optional<Registry<Block>> blockLookup = registries.lookup(Registries.BLOCK);
+        Optional<Registry<BeeData>> beeLookup = registries == null ? Optional.empty() : registries.lookup(BEE_DATA);
         if (beeLookup.isEmpty()) {
             hiddenIds = Set.of();
             simpleNameIndex = Map.of();
@@ -74,17 +68,70 @@ public final class BeeRegistries
                 simpleIndex.putIfAbsent(simpleId, fullId);
             }
             BeeData data = holder.value();
+            if (!gatesPass(registries, data)) {
+                hidden.add(fullId);
+                return;
+            }
+            // A bee whose only flower is a block tag nothing fills has nothing to pollinate.
             // entity_types flowerType reads the tag against the entity registry, not item/block.
-            if (data.flowerTag().isEmpty() || !"blocks".equals(data.flowerType())) {
+            if (data.flowerTag().isEmpty() || data.inverseFlower() || !"blocks".equals(data.flowerType())) {
                 return;
             }
             Identifier tagId = Identifier.parse(data.flowerTag().get());
-            if (itemTagEmpty(itemLookup, tagId) && blockTagEmpty(blockLookup, tagId)) {
+            if (itemTagEmpty(registries.lookup(Registries.ITEM), tagId)
+                    && blockTagEmpty(registries.lookup(Registries.BLOCK), tagId)) {
                 hidden.add(fullId);
             }
         });
         hiddenIds = Set.copyOf(hidden);
         simpleNameIndex = Map.copyOf(simpleIndex);
+    }
+
+    /**
+     * Tag gates declared on the bee itself, evaluated once tags bind. They are not
+     * {@code neoforge:conditions} because a client loading bee data from its own jar gets
+     * {@link net.neoforged.neoforge.common.conditions.ICondition.IContext#EMPTY}, where every tag
+     * reads as empty and the entry is dropped client-side while the server keeps it.
+     */
+    public static boolean gatesPass(RegistryAccess registries, BeeData data) {
+        Optional<Registry<Item>> items = registries.lookup(Registries.ITEM);
+        Optional<Registry<Block>> blocks = registries.lookup(Registries.BLOCK);
+        for (String tag : data.requiredTags()) {
+            Identifier id = Identifier.parse(tag);
+            if (itemTagEmpty(items, id) && blockTagEmpty(blocks, id)) {
+                return false;
+            }
+        }
+        for (String tag : data.forbiddenTags()) {
+            Identifier id = Identifier.parse(tag);
+            if (!itemTagEmpty(items, id) || !blockTagEmpty(blocks, id)) {
+                return false;
+            }
+        }
+        if (!data.requiredFluidTags().isEmpty()) {
+            Optional<Registry<Fluid>> fluids = registries.lookup(Registries.FLUID);
+            for (String tag : data.requiredFluidTags()) {
+                if (fluidTagEmpty(fluids, Identifier.parse(tag))) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private static boolean fluidTagEmpty(Optional<Registry<Fluid>> lookup, Identifier tagId) {
+        if (lookup.isEmpty()) return true;
+        return lookup.get().get(TagKey.create(Registries.FLUID, tagId)).map(named -> named.size() == 0).orElse(true);
+    }
+
+    private static boolean itemTagEmpty(Optional<Registry<Item>> lookup, Identifier tagId) {
+        if (lookup.isEmpty()) return true;
+        return lookup.get().get(TagKey.create(Registries.ITEM, tagId)).map(named -> named.size() == 0).orElse(true);
+    }
+
+    private static boolean blockTagEmpty(Optional<Registry<Block>> lookup, Identifier tagId) {
+        if (lookup.isEmpty()) return true;
+        return lookup.get().get(TagKey.create(Registries.BLOCK, tagId)).map(named -> named.size() == 0).orElse(true);
     }
 
     /** Maps a simple-name id to its full path; returns the input unchanged when no mapping exists. */
@@ -94,17 +141,7 @@ public final class BeeRegistries
         return mapped != null ? mapped : beeId;
     }
 
-    private static boolean itemTagEmpty(Optional<Registry<Item>> lookup, Identifier tagId) {
-        if (lookup.isEmpty()) return true;
-        TagKey<Item> key = TagKey.create(Registries.ITEM, tagId);
-        return lookup.get().get(key).map(named -> named.size() == 0).orElse(true);
-    }
 
-    private static boolean blockTagEmpty(Optional<Registry<Block>> lookup, Identifier tagId) {
-        if (lookup.isEmpty()) return true;
-        TagKey<Block> key = TagKey.create(Registries.BLOCK, tagId);
-        return lookup.get().get(key).map(named -> named.size() == 0).orElse(true);
-    }
 
     /** Returns the bee data by id, ignoring the hidden set. */
     @Nullable
@@ -151,7 +188,7 @@ public final class BeeRegistries
         return Stream.empty();
     }
 
-    /** Every registered bee, ignoring {@link #hiddenIds} — for recipe-ingredient resolution. */
+    /** Every registered bee — for recipe-ingredient resolution. */
     public static Stream<Holder.Reference<BeeData>> allRegistered() {
         if (cachedAccess != null) {
             return cachedAccess.lookup(BEE_DATA).map(Registry::listElements).orElseGet(Stream::empty);

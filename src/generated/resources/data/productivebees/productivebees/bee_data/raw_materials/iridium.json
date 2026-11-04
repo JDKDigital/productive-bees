@@ -3,6 +3,9 @@
   "flowerTag": "c:storage_blocks/iridium",
   "particleColor": "#8c9fac",
   "primaryColor": "#ffccff",
+  "requiredTags": [
+    "c:storage_blocks/iridium"
+  ],
   "secondaryColor": "#d4e4fc",
   "size": 0.8,
   "useGlowLayer": true

@@ -4,6 +4,9 @@
   "flowerTag": "c:storage_blocks/pig_iron",
   "particleColor": "#dbaaa9",
   "primaryColor": "#dbaaa9",
+  "requiredTags": [
+    "c:storage_blocks/pig_iron"
+  ],
   "secondaryColor": "#804f40",
   "useGlowLayer": true
 }

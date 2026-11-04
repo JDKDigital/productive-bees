@@ -4,6 +4,9 @@
   "flowerTag": "c:storage_blocks/rose_gold",
   "particleColor": "#eeb9a0",
   "primaryColor": "#eeb9a0",
+  "requiredTags": [
+    "c:storage_blocks/rose_gold"
+  ],
   "secondaryColor": "#804f40",
   "useGlowLayer": true
 }

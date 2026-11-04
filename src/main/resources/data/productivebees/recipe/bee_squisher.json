@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "D D",
+    "PBP",
+    "DRD"
+  ],
+  "key": {
+    "D": "productivebees:draconic_chunk",
+    "P": "minecraft:piston",
+    "B": "productivebees:bottler",
+    "R": "minecraft:redstone_block"
+  },
+  "result": {
+    "id": "productivebees:bee_squisher"
+  }
+}

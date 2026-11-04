@@ -9,7 +9,7 @@
   "ingredient": "productivebees:ender",
   "results": [
     {
-      "chance": 1.0,
+      "chance": 0.4,
       "item": {
         "neoforge:ingredient_type": "productivebees:component",
         "components": {
@@ -17,6 +17,18 @@
         },
         "items": "productivebees:configurable_honeycomb"
       },
+      "max": 1,
+      "min": 1
+    },
+    {
+      "chance": 0.1,
+      "item": "minecraft:chorus_fruit",
+      "max": 1,
+      "min": 1
+    },
+    {
+      "chance": 0.01,
+      "item": "minecraft:chorus_flower",
       "max": 1,
       "min": 1
     },

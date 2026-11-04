@@ -8,7 +8,6 @@ import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.util.GeneAttribute;
 import cy.jdkdigital.productivebees.util.GeneGroup;
 import net.minecraft.ChatFormatting;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
@@ -38,7 +37,11 @@ public class GeneBottle extends Item
     }
 
     public static void setGenes(ItemStack stack, Entity target) {
-        CompoundTag nbt = new CompoundTag();
+        setGenes(stack, target, 0, false, -1, 0);
+    }
+
+    /** A {@code typeBaseRoll} below zero rolls the type gene from the typeGenePurity config instead. */
+    public static void setGenes(ItemStack stack, Entity target, int purityBonus, boolean typeOnly, int typeBaseRoll, int typeBonus) {
         var name = target.getName().getString();
         if (target.hasCustomName()) {
             name = target.getCustomName().getString();
@@ -51,16 +54,23 @@ public class GeneBottle extends Item
 
         var geneList = new ArrayList<GeneGroup>();
         var data = target.getData(ProductiveBees.ATTRIBUTE_HANDLER);
-        for (GeneAttribute attribute: GeneAttribute.values()) {
-            if (!attribute.equals(GeneAttribute.TYPE)) {
-                geneList.add(new GeneGroup(attribute, data.getAttributeValue(attribute).getSerializedName(), target.level().getRandom().nextInt(40) + 15));
+        if (!typeOnly) {
+            for (GeneAttribute attribute: GeneAttribute.values()) {
+                if (!attribute.equals(GeneAttribute.TYPE)) {
+                    geneList.add(new GeneGroup(attribute, data.getAttributeValue(attribute).getSerializedName(), boostPurity(target.level().getRandom().nextInt(40) + 15, purityBonus)));
+                }
             }
         }
 
         int typePurity = ProductiveBeesConfig.BEE_ATTRIBUTES.typeGenePurity.get();
-        geneList.add(new GeneGroup(GeneAttribute.TYPE, type, target.level().getRandom().nextInt(Math.max(0, typePurity - 5)) + 10));
+        int typeRoll = typeBaseRoll >= 0 ? typeBaseRoll : target.level().getRandom().nextInt(Math.max(0, typePurity - 5)) + 10;
+        geneList.add(new GeneGroup(GeneAttribute.TYPE, type, boostPurity(typeRoll, typeBaseRoll >= 0 ? typeBonus : purityBonus)));
         stack.set(ModDataComponents.GENE_GROUP_LIST, geneList);
         stack.set(ModDataComponents.BEE_NAME, name);
+    }
+
+    private static int boostPurity(int purity, int bonus) {
+        return Math.max(1, Math.min(100, purity + bonus));
     }
 
     @Nullable

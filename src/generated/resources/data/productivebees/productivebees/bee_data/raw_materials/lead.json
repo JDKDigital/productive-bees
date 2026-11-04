@@ -2,6 +2,9 @@
   "attack": 1.0,
   "flowerTag": "c:storage_blocks/lead",
   "primaryColor": "#677193",
+  "requiredTags": [
+    "c:storage_blocks/lead"
+  ],
   "secondaryColor": "#804f40",
   "useGlowLayer": true
 }

@@ -36,6 +36,9 @@ public class ModContainerTypes
     public static final DeferredHolder<MenuType<?>, MenuType<IncubatorContainer>> INCUBATOR = CONTAINER_TYPES.register("incubator", () ->
             IMenuTypeExtension.create(IncubatorContainer::new)
     );
+    public static final DeferredHolder<MenuType<?>, MenuType<BeeSquisherContainer>> BEE_SQUISHER = CONTAINER_TYPES.register("bee_squisher", () ->
+            IMenuTypeExtension.create(BeeSquisherContainer::new)
+    );
     public static final DeferredHolder<MenuType<?>, MenuType<CatcherContainer>> CATCHER = CONTAINER_TYPES.register("catcher", () ->
             IMenuTypeExtension.create(CatcherContainer::new)
     );

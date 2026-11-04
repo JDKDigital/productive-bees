@@ -68,10 +68,10 @@ public class IncubationRecipeCategory implements IRecipeCategory<IncubationRecip
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, IncubationRecipe recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 9, 9)
-                .addItemStacks(CentrifugeRecipeCategory.stacksWithComponents(recipe.input))
+                .addItemStacks(ProductiveBeesJeiPlugin.stacksWithComponents(recipe.input))
                 .setSlotName("input");
         builder.addSlot(RecipeIngredientRole.INPUT, 37, 27)
-                .addItemStacks(CentrifugeRecipeCategory.stacksWithComponents(recipe.catalyst))
+                .addItemStacks(ProductiveBeesJeiPlugin.stacksWithComponents(recipe.catalyst))
                 .setSlotName("catalyst");
         builder.addSlot(RecipeIngredientRole.OUTPUT, 65, 9)
                 .addItemStack(recipe.getResult())

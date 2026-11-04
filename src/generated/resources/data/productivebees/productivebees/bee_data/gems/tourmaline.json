@@ -4,6 +4,10 @@
   "particleColor": "#ee2386",
   "primaryColor": "#ee2386",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/tourmaline",
+    "productivebees:flowers/tourmaline"
+  ],
   "secondaryColor": "#3e5b68",
   "size": 0.6,
   "tertiaryColor": "#8a2457"

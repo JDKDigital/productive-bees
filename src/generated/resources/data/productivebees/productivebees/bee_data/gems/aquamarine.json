@@ -4,6 +4,10 @@
   "particleColor": "#17cadd",
   "primaryColor": "#17cadd",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/aquamarine",
+    "productivebees:flowers/aquamarine"
+  ],
   "secondaryColor": "#064f2c",
   "size": 0.6,
   "tertiaryColor": "#007b70"

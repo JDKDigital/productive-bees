@@ -1,9 +1,18 @@
 {
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thermalendergy"
+    }
+  ],
   "attack": 1.0,
   "beeTexture": "productivebees:textures/entity/bee/prismalium/bee",
   "flowerTag": "c:storage_blocks/prismalium",
   "particleColor": "#f7fdfd",
   "primaryColor": "#43806e",
+  "requiredTags": [
+    "c:storage_blocks/prismalium"
+  ],
   "secondaryColor": "#9fe1cb",
   "size": 0.7,
   "useGlowLayer": true

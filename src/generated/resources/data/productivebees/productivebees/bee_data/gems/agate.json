@@ -4,6 +4,10 @@
   "particleColor": "#9f01b8",
   "primaryColor": "#9f01b8",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "productivebees:flowers/agate",
+    "c:gems/agate"
+  ],
   "secondaryColor": "#064f2c",
   "size": 0.6,
   "tertiaryColor": "#c0138a"

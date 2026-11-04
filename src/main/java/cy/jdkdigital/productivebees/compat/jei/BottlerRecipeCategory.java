@@ -72,7 +72,7 @@ public class BottlerRecipeCategory implements IRecipeCategory<BottlerRecipe>
                 .addIngredients(NeoForgeTypes.FLUID_STACK, recipe.fluidInput.ingredient().fluids().stream().map(h -> new FluidStack(h, recipe.fluidInput.amount())).toList())
                 .setSlotName("inputFluid");
         builder.addSlot(RecipeIngredientRole.INPUT, 43, 27)
-                .addItemStacks(recipe.itemInput.items().<ItemStack>map(h -> new ItemStack(h.value())).toList())
+                .addItemStacks(ProductiveBeesJeiPlugin.stacksWithComponents(recipe.itemInput))
                 .setSlotName("inputItem");
         builder.addSlot(RecipeIngredientRole.OUTPUT, 99, 27)
                 .addItemStack(recipe.getResult())

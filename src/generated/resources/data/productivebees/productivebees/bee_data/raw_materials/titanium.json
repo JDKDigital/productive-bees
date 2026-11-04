@@ -2,6 +2,9 @@
   "attack": 1.0,
   "flowerTag": "c:storage_blocks/titanium",
   "primaryColor": "#d0d1da",
+  "requiredTags": [
+    "c:storage_blocks/titanium"
+  ],
   "secondaryColor": "#804f40",
   "useGlowLayer": true
 }

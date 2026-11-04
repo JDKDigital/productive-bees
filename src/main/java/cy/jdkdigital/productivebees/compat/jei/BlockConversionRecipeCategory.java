@@ -79,12 +79,12 @@ public class BlockConversionRecipeCategory implements IRecipeCategory<BlockConve
 
         if (recipe.input.isPresent()) {
             builder.addSlot(RecipeIngredientRole.INPUT, 5, 26)
-                    .addItemStacks(recipe.input.get().items().<ItemStack>map(h -> new ItemStack(h.value())).toList())
+                    .addItemStacks(ProductiveBeesJeiPlugin.stacksWithComponents(recipe.input.get()))
                     .setSlotName("sourceBlocks");
         } else if (recipe.stateFrom.getFluidState().getType().equals(Fluids.EMPTY)) {
             if (recipe.fromDisplay.isPresent() && !recipe.fromDisplay.get().isEmpty()) {
                 builder.addSlot(RecipeIngredientRole.INPUT, 5, 25)
-                        .addItemStacks(recipe.fromDisplay.get().items().<ItemStack>map(h -> new ItemStack(h.value())).toList())
+                        .addItemStacks(ProductiveBeesJeiPlugin.stacksWithComponents(recipe.fromDisplay.get()))
                         .setSlotName("sourceBlock");
             } else {
                 builder.addSlot(RecipeIngredientRole.INPUT, 5, 25)
@@ -100,7 +100,7 @@ public class BlockConversionRecipeCategory implements IRecipeCategory<BlockConve
         if (recipe.stateTo.getFluidState().getType().equals(Fluids.EMPTY)) {
             if (recipe.toDisplay.isPresent() && !recipe.toDisplay.get().isEmpty()) {
                 builder.addSlot(RecipeIngredientRole.OUTPUT, 65, 25)
-                        .addItemStacks(recipe.toDisplay.get().items().<ItemStack>map(h -> new ItemStack(h.value())).toList())
+                        .addItemStacks(ProductiveBeesJeiPlugin.stacksWithComponents(recipe.toDisplay.get()))
                         .setSlotName("resultBlock");
             } else {
                 builder.addSlot(RecipeIngredientRole.OUTPUT, 65, 25)

@@ -4,6 +4,10 @@
   "particleColor": "#cc3516",
   "primaryColor": "#cc3516",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/garnet",
+    "productivebees:flowers/garnet"
+  ],
   "secondaryColor": "#064f2c",
   "size": 0.6,
   "tertiaryColor": "#dd3b17"

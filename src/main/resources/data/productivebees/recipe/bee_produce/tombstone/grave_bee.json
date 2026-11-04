@@ -22,7 +22,7 @@
     },
     {
       "chance": 0.01,
-      "item": "#tombstone:essence_of_undeath",
+      "item": "tombstone:essence_of_undeath",
       "min": 1,
       "max": 1
     },

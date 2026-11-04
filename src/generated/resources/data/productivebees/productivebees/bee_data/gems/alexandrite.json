@@ -4,6 +4,10 @@
   "particleColor": "#8d009a",
   "primaryColor": "#8d009a",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/alexandrite",
+    "productivebees:flowers/alexandrite"
+  ],
   "secondaryColor": "#2e0b17",
   "size": 0.6,
   "tertiaryColor": "#250028"

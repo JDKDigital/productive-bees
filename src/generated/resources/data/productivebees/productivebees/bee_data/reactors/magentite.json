@@ -3,6 +3,9 @@
   "flowerTag": "c:storage_blocks/magentite",
   "particleColor": "#da6fde",
   "primaryColor": "#c418c9",
+  "requiredTags": [
+    "c:storage_blocks/magentite"
+  ],
   "secondaryColor": "#970c9c",
   "size": 0.8,
   "useGlowLayer": true

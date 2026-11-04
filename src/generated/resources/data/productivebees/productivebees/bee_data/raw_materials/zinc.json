@@ -2,6 +2,9 @@
   "attack": 1.0,
   "flowerTag": "c:storage_blocks/zinc",
   "primaryColor": "#e9ebe7",
+  "requiredTags": [
+    "c:storage_blocks/zinc"
+  ],
   "secondaryColor": "#804f40",
   "useGlowLayer": true
 }

@@ -3,6 +3,9 @@
   "flowerTag": "c:storage_blocks/enderium",
   "particleColor": "#437f6c",
   "primaryColor": "#58a28b",
+  "requiredTags": [
+    "c:storage_blocks/enderium"
+  ],
   "secondaryColor": "#804f40",
   "useGlowLayer": true
 }

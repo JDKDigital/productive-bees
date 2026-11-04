@@ -4,6 +4,9 @@
   "flowerTag": "c:storage_blocks/knightslime",
   "particleColor": "#c882f5",
   "primaryColor": "#c882f5",
+  "requiredTags": [
+    "c:storage_blocks/knightslime"
+  ],
   "secondaryColor": "#804f40",
   "useGlowLayer": true
 }

@@ -1,6 +1,6 @@
 {
   "type": "minecraft:function",
-  "environment": "productivebees:hive_does_not_expand_when_box_on_front_env",
+  "environment": "minecraft:default",
   "function": "productivebees:hive_does_not_expand_when_box_on_front",
   "structure": "productivebees:empty_7x7",
   "max_ticks": 100,

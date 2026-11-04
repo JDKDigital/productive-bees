@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees.gametest;
 
 import com.google.common.hash.Hashing;
 import com.google.common.hash.HashingOutputStream;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import cy.jdkdigital.productivebees.ProductiveBees;
@@ -23,28 +22,24 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Emits the datapack JSON files that back each gametest:
- * <ul>
- *   <li>{@code data/productivebees/test_environment/<test>_env.json} — a vanilla empty
- *       {@code all_of} environment. Required because every {@code FunctionGameTestInstance}
- *       must reference an environment Holder.</li>
- *   <li>{@code data/productivebees/test_instance/<test>.json} — a vanilla
- *       {@code minecraft:function} test pointing at a {@code productivebees:<test>}
- *       function key (registered by {@link TestFunctions}).</li>
- * </ul>
+ * Emits {@code data/productivebees/test_instance/<test>.json}, a vanilla
+ * {@code minecraft:function} test pointing at a {@code productivebees:<test>} function key
+ * (registered by {@link TestFunctions}).
  *
- * <p>The JSON files exist so that <i>both</i> sides of dev singleplayer can load them: the
- * server during datapack reload, and the client during {@code NetworkRegistryLoadTask} after
- * the server's KnownPack-matched sync skips encoding the content. Without these files the
- * client aborts world load with {@code Failed to find resource ...test_environment/...json}.
+ * <p>Every {@code FunctionGameTestInstance} must reference an environment Holder. These all
+ * reference {@code minecraft:default}, an empty {@code all_of} that ships inside the vanilla
+ * jar, so it resolves on both sides of dev singleplayer: the server during datapack reload and
+ * the client during {@code NetworkRegistryLoadTask}, where the server's KnownPack-matched sync
+ * skips encoding the content. Sharing one environment also lets the runner batch the tests
+ * together instead of giving each its own batch.
  */
 public class TestEntriesProvider implements DataProvider
 {
-    private final PackOutput.PathProvider envPath;
+    private static final Identifier DEFAULT_ENVIRONMENT = Identifier.fromNamespaceAndPath("minecraft", "default");
+
     private final PackOutput.PathProvider instancePath;
 
     public TestEntriesProvider(PackOutput output) {
-        this.envPath = output.createPathProvider(PackOutput.Target.DATA_PACK, "test_environment");
         this.instancePath = output.createPathProvider(PackOutput.Target.DATA_PACK, "test_instance");
     }
 
@@ -60,11 +55,9 @@ public class TestEntriesProvider implements DataProvider
         for (Map.Entry<String, Integer> entry : ProductiveBeesGameTests.MAX_TICKS.entrySet()) {
             String name = entry.getKey();
             int maxTicks = entry.getValue();
-            Identifier envId = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, name + "_env");
             Identifier instanceId = Identifier.fromNamespaceAndPath(ProductiveBees.MODID, name);
 
-            futures.add(writeJson(cache, envPath.json(envId), environmentJson()));
-            futures.add(writeJson(cache, instancePath.json(instanceId), instanceJson(name, envId, maxTicks)));
+            futures.add(writeJson(cache, instancePath.json(instanceId), instanceJson(name, DEFAULT_ENVIRONMENT, maxTicks)));
         }
 
         return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
@@ -89,12 +82,6 @@ public class TestEntriesProvider implements DataProvider
         });
     }
 
-    private static JsonObject environmentJson() {
-        JsonObject obj = new JsonObject();
-        obj.addProperty("type", "minecraft:all_of");
-        obj.add("definitions", new JsonArray());
-        return obj;
-    }
 
     private static JsonObject instanceJson(String name, Identifier envId, int maxTicks) {
         JsonObject obj = new JsonObject();

@@ -79,7 +79,7 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
 
     protected void setRecipe(IRecipeLayoutBuilder builder, CentrifugeRecipe recipe, IFocusGroup focuses, boolean stripWax) {
         builder.addSlot(RecipeIngredientRole.INPUT, 5, 27)
-                .addItemStacks(stacksWithComponents(recipe.ingredient))
+                .addItemStacks(ProductiveBeesJeiPlugin.stacksWithComponents(recipe.ingredient))
                 .setSlotName("ingredient");
 
         int startX = 68;
@@ -131,16 +131,4 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
         this.background.draw(guiGraphics);
     }
 
-    static List<ItemStack> stacksWithComponents(Ingredient ingredient) {
-        DataComponentIngredient componentBound = ingredient.getCustomIngredient() instanceof DataComponentIngredient dci ? dci : null;
-        List<ItemStack> stacks = new ArrayList<>();
-        ingredient.items().forEach(holder -> {
-            ItemStack stack = new ItemStack(holder);
-            if (componentBound != null) {
-                stack.applyComponents(componentBound.components());
-            }
-            stacks.add(stack);
-        });
-        return stacks;
-    }
 }

@@ -4,6 +4,9 @@
   "flowerTag": "c:storage_blocks/amethyst_bronze",
   "particleColor": "#c687bd",
   "primaryColor": "#c687bd",
+  "requiredTags": [
+    "c:storage_blocks/amethyst_bronze"
+  ],
   "secondaryColor": "#7a5800",
   "useGlowLayer": true
 }

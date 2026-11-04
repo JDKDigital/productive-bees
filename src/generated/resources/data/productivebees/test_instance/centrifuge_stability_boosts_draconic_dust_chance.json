@@ -1,6 +1,6 @@
 {
   "type": "minecraft:function",
-  "environment": "productivebees:centrifuge_stability_boosts_draconic_dust_chance_env",
+  "environment": "minecraft:default",
   "function": "productivebees:centrifuge_stability_boosts_draconic_dust_chance",
   "structure": "productivebees:empty_7x7",
   "max_ticks": 600,

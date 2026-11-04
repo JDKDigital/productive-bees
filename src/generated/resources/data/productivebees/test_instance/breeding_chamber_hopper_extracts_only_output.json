@@ -1,6 +1,6 @@
 {
   "type": "minecraft:function",
-  "environment": "productivebees:breeding_chamber_hopper_extracts_only_output_env",
+  "environment": "minecraft:default",
   "function": "productivebees:breeding_chamber_hopper_extracts_only_output",
   "structure": "productivebees:empty_7x7",
   "max_ticks": 80,

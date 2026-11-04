@@ -10,11 +10,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:chemlib/lithium"
+      "bee": "productivebees:mekanism/lithium"
     }
   ],
   "type": "productivebees:bee_conversion",
   "item": "mekanism:lithium_bucket",
-  "result": "productivebees:chemlib/lithium",
+  "result": "productivebees:mekanism/lithium",
   "source": "productivebees:fluids/water"
 }

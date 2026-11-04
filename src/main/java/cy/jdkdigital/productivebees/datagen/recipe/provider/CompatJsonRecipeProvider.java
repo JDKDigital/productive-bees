@@ -72,8 +72,8 @@ public class CompatJsonRecipeProvider implements DataProvider
                 8, ThaumaturgeResearchProvider.VIS_BEE, 1);
         thaumaturgeInfusion("thaumaturge/infusion/eldritch_bee", "thaumaturge/vis", "thaumaturge/eldritch",
                 List.of(aspect("vitium", 48), aspect("alienis", 24), aspect("tenebrae", 24), aspect("bestia", 16)),
-                List.of("thaumaturge:bottle_taint", "thaumaturge:crystal_vitium", "thaumaturge:void_seed",
-                        "thaumaturge:bottle_taint", "thaumaturge:crystal_vitium", "thaumaturge:void_seed"),
+                List.of("thaumaturge:bottle_taint", "thaumaturge:ethereal_bloom", "thaumaturge:void_seed",
+                        "thaumaturge:bottle_taint", "thaumaturge:ethereal_bloom", "thaumaturge:void_seed"),
                 10, ThaumaturgeResearchProvider.ELDRITCH_BEE, 1);
     }
 

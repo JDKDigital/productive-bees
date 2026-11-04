@@ -4,6 +4,9 @@
   "flowerTag": "c:storage_blocks/hepatizon",
   "particleColor": "#675072",
   "primaryColor": "#675072",
+  "requiredTags": [
+    "c:storage_blocks/hepatizon"
+  ],
   "secondaryColor": "#1b0426",
   "useGlowLayer": true
 }

@@ -2,6 +2,9 @@
   "attack": 1.0,
   "flowerTag": "c:storage_blocks/aluminum",
   "primaryColor": "#a4a6b1",
+  "requiredTags": [
+    "c:storage_blocks/aluminum"
+  ],
   "secondaryColor": "#804f40",
   "useGlowLayer": true
 }

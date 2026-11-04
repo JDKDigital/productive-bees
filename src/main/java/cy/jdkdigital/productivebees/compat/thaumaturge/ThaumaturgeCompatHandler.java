@@ -15,4 +15,8 @@ public class ThaumaturgeCompatHandler
     public static float cleanseFlux(ServerLevel level, BlockPos pos, float amount) {
         return ModList.get().isLoaded(MODID) ? ThaumaturgeAura.cleanseFlux(level, pos, amount) : 0f;
     }
+
+    public static boolean cleanseTaint(ServerLevel level, BlockPos pos, float pressure) {
+        return ModList.get().isLoaded(MODID) && ThaumaturgeTaint.cleanseTaint(level, pos, pressure);
+    }
 }

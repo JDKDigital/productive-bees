@@ -4,6 +4,10 @@
   "particleColor": "#ffe59e",
   "primaryColor": "#ffe59e",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/cats_eye",
+    "productivebees:flowers/cats_eye"
+  ],
   "secondaryColor": "#3e5b68",
   "size": 0.6,
   "tertiaryColor": "#d59042"

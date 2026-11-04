@@ -9,7 +9,7 @@
   "ingredient": "productivebees:zombie",
   "results": [
     {
-      "chance": 1.0,
+      "chance": 0.5,
       "item": {
         "neoforge:ingredient_type": "productivebees:component",
         "components": {

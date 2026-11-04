@@ -1,0 +1,10 @@
+{
+    "variants": {
+        "running=false": {
+            "model": "productivebees:block/bee_squisher"
+        },
+        "running=true": {
+            "model": "productivebees:block/bee_squisher_running"
+        }
+    }
+}

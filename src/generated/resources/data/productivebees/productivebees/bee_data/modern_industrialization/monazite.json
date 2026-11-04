@@ -1,9 +1,18 @@
 {
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "modern_industrialization"
+    }
+  ],
   "attack": 1.0,
   "beeTexture": "productivebees:textures/entity/bee/monazite/bee",
   "flowerTag": "c:storage_blocks/monazite",
   "particleColor": "#f17ce7",
   "primaryColor": "#471143",
+  "requiredTags": [
+    "c:storage_blocks/monazite"
+  ],
   "secondaryColor": "#9f3197",
   "tertiaryColor": "#d66dce",
   "useGlowLayer": true

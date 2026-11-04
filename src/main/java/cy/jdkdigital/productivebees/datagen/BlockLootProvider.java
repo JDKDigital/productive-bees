@@ -150,7 +150,7 @@ public class BlockLootProvider implements DataProvider
                     ModBlocks.BOTTLER.get(), ModBlocks.BREEDING_CHAMBER.get(), ModBlocks.CATCHER.get(),
                     ModBlocks.CENTRIFUGE.get(), ModBlocks.HEATED_CENTRIFUGE.get(), ModBlocks.POWERED_CENTRIFUGE.get(),
                     ModBlocks.GENE_INDEXER.get(), ModBlocks.HONEY_GENERATOR.get(),
-                    ModBlocks.INACTIVE_DRAGON_EGG.get(), ModBlocks.INCUBATOR.get(),
+                    ModBlocks.INACTIVE_DRAGON_EGG.get(), ModBlocks.INCUBATOR.get(), ModBlocks.BEE_SQUISHER.get(),
                     ModBlocks.COMB_GHOSTLY.get(), ModBlocks.COMB_MILKY.get(), ModBlocks.COMB_POWDERY.get(),
                     ModBlocks.QUARTZ_NETHERRACK.get(), ModBlocks.WAX_BLOCK.get())) {
                 this.add(block, this.genBlockDrop(block));

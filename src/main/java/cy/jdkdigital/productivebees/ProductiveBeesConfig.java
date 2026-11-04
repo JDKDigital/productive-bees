@@ -83,6 +83,12 @@ public class ProductiveBeesConfig
         public final ModConfigSpec.IntValue incubatorProcessingTime;
         public final ModConfigSpec.IntValue incubatorPowerUse;
         public final ModConfigSpec.IntValue incubatorTreatUse;
+        public final ModConfigSpec.IntValue beeSquisherProcessingTime;
+        public final ModConfigSpec.IntValue beeSquisherPowerUse;
+        public final ModConfigSpec.IntValue beeSquisherSoundInterval;
+        public final ModConfigSpec.IntValue beeSquisherPurityPenalty;
+        public final ModConfigSpec.IntValue beeSquisherStabilityPurity;
+        public final ModConfigSpec.DoubleValue beeSquisherPowerPerUpgrade;
         public final ModConfigSpec.IntValue breedingChamberProcessingTime;
         public final ModConfigSpec.IntValue breedingChamberPowerUse;
         public final ModConfigSpec.IntValue generatorPowerGen;
@@ -130,6 +136,30 @@ public class ProductiveBeesConfig
             incubatorTreatUse = builder
                     .comment("How many treats to use when incubating a bee. Default 20.")
                     .defineInRange("incubatorTreatUse", 20, 1, 64);
+
+            beeSquisherProcessingTime = builder
+                    .comment("How many ticks it takes to extract genes from a bee in the bee squisher. Default 300.")
+                    .defineInRange("beeSquisherProcessingTime", 300, 20, Integer.MAX_VALUE);
+
+            beeSquisherPowerUse = builder
+                    .comment("How much FE to use per tick for a bee squisher when processing a bee. Default 10.")
+                    .defineInRange("beeSquisherPowerUse", 10, 1, Integer.MAX_VALUE);
+
+            beeSquisherSoundInterval = builder
+                    .comment("Minimum ticks between bee death sounds in a bee squisher. The sound plays when a bee is squished, but no more often than this. Default 140.")
+                    .defineInRange("beeSquisherSoundInterval", 140, 0, Integer.MAX_VALUE);
+
+            beeSquisherPurityPenalty = builder
+                    .comment("Purity subtracted from every gene a bee squisher produces, before productivity upgrades are added. Default 20.")
+                    .defineInRange("beeSquisherPurityPenalty", 20, 0, 100);
+
+            beeSquisherStabilityPurity = builder
+                    .comment("Type gene purity added per stability upgrade in a bee squisher. Default 25.")
+                    .defineInRange("beeSquisherStabilityPurity", 25, 0, 100);
+
+            beeSquisherPowerPerUpgrade = builder
+                    .comment("Extra power a bee squisher draws per installed speed or productivity upgrade, as a fraction of its base use. Higher tiers count for more. Default 0.15.")
+                    .defineInRange("beeSquisherPowerPerUpgrade", 0.15, 0, 10);
 
             breedingChamberProcessingTime = builder
                     .comment("How many ticks it takes for process a recipe in the breeding chamber. Default 6000.")

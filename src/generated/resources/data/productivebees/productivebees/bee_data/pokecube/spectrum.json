@@ -9,6 +9,10 @@
   "flowerTag": "c:storage_blocks/spectrum",
   "particleColor": "#ffc9a7",
   "primaryColor": "#ffc9a7",
+  "requiredTags": [
+    "c:gems/spectrum",
+    "c:storage_blocks/spectrum"
+  ],
   "secondaryColor": "#ff762c",
   "useGlowLayer": true
 }

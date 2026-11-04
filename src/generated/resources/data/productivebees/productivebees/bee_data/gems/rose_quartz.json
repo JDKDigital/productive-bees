@@ -4,6 +4,9 @@
   "particleColor": "#ffbffb",
   "primaryColor": "#ffbffb",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "productivebees:flowers/rose_quartz"
+  ],
   "secondaryColor": "#3e5b68",
   "size": 0.6,
   "tertiaryColor": "#a63367"

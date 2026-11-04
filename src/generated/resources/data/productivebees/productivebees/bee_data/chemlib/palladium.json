@@ -15,6 +15,9 @@
   "attack": 1.0,
   "beeTexture": "productivebees:textures/entity/bee/palladium/bee",
   "flowerBlock": "chemlib:palladium_metal_block",
+  "forbiddenTags": [
+    "c:raw_materials/palladium"
+  ],
   "particleColor": "#c3989a",
   "primaryColor": "#b78187",
   "useGlowLayer": true

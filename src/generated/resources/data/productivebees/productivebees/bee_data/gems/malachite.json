@@ -4,6 +4,10 @@
   "particleColor": "#22d946",
   "primaryColor": "#22d946",
   "renderer": "default_crystal",
+  "requiredTags": [
+    "c:gems/malachite",
+    "productivebees:flowers/malachite"
+  ],
   "secondaryColor": "#2e0b17",
   "size": 0.6,
   "tertiaryColor": "#127625"
